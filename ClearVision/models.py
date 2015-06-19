@@ -17,10 +17,10 @@ class Patient(models.Model):
 
 class Doctor(models.Model):
     Doctor = models.ForeignKey(Appointment)
-    name = models.CharField(50)
-    phoneModel = models.CharField(50)
-    calDavAccount = models.CharField(50)
+    name = models.CharField(max_length=50)
+    phoneModel = models.CharField(max_length=50)
+    calDavAccount = models.CharField(max_length=50)
 
 class Nurse(models.Model):
-    id = models.CharField(50)
-    name = models.CharField(50)
+    number = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
