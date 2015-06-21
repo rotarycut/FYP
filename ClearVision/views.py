@@ -7,7 +7,7 @@ from django.template import Context
 
 @login_required
 def success(request):
-    response = "Hello, world. You're at the Clearvision home page and successfully logged in."
+    response = "Hello " + request.user.username + ". You're at the Clearvision home page and successfully logged in."
     context = Context({
         'message': response,
     })
