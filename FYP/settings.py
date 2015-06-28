@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'ClearVision',
     'FYP',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,3 +106,10 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'success'
 LOGIN_URL = 'login'
+
+"""
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGE_SIZE': 10
+}
+"""
