@@ -3,6 +3,7 @@ from django.contrib.auth.views import logout_then_login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import Context
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from .forms import CreateForm
 from ClearVision.models import Appointment, Patient, Doctor
@@ -44,19 +45,17 @@ def create(request):
         form = CreateForm()
         return render(request, 'create.html', {'form':form})
 
-
 class AppointmentViewSet(viewsets.ModelViewSet):
+    #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
 
-
 class PatientViewSet(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
 class DoctorViewSet(viewsets.ModelViewSet):
-
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
