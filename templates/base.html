@@ -1,14 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="calendarDemoApp" id="top">
 <head>
-    <link rel="stylesheet" href="style.css" />
+
+    <!-- STYLE REFERENCES -->
+    <link rel="stylesheet" type="text/css"
+          href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.2/fullcalendar.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- JAVASCRIPT REFERENCES -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js"></script>
+    {% load staticfiles %}
+    <script src="{% static "/static/ClearVision/js/angularCalendar.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/app.js" %}"></script>
+
     <title>{% block title %}Schedule{% endblock %}</title>
 </head>
 
 <body>
 
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+
+
 </body>
 </html>

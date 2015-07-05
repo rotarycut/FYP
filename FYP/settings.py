@@ -116,3 +116,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ),
 }
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    '/ClearVision/js/app.js',
+)
