@@ -15,21 +15,21 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<img id="login-logo" src="/static/ClearVision/img/ClearVision_logo.png">
+<form class="login-form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+    {% load widget_tweaks %}
+<div class="login-wrap">
+            <p class="login-img"><i class="icon_lock_alt"></i></p>
+            {{ form.as_p }}
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> Remember me
+                <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
+            </label>
+            <button class="btn btn-info btn-lg btn-block" type="submit">Login</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+</div>
 
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {% endblock %}

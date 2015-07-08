@@ -5,7 +5,66 @@
     <a>{{ message }}</a></br>
     <a href="create.html">Create new appointment</a></br>
     <a href="logout.html">logout</a>
+    <!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">New Appointment</button>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Creating New Appointment</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+                <label>Patient Name:</label>
+                <input type="text" class="form-control" ng-model="ApptPatientName">
+                <label>Contact No.:</label>
+                <input type="text" class="form-control" ng-model="ApptPatientContact">
+              <div style="min-height:290px;min-width:550px;">
+                  <label>Appointment Date:</label>
+                <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
+              </div>
+            <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        Appointment Type <span class="caret"></span>
+      </button>
+        <ul class="dropdown-menu" role="menu">
+        <li><a href="#">General Eye Checkup</a></li>
+        <li><a href="#">Lasik Follow-up</a></li>
+        <li><a href="#">Pre-eval Consultation</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Screening</a></li>
+          <li><a href="#">Pre-evaluation</a></li>
+          <li><a href="#">Lasik Surgery</a></li>
+      </ul>
+    </div>
+            <div style="display:inline-block;min-width: 560px">
+                  <label>Appointment Time:</label>
+            <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                </div>
+            <div class="radio">
+  <label><input type="radio" name="optradio">Dr. Ho</label>
+</div>
+<div class="radio">
+  <label><input type="radio" name="optradio">Dr. Goh</label>
+</div>
+            <div class="form-group">
+  <label for="comment">Remarks:</label>
+  <textarea class="form-control" rows="5" id="comment"></textarea>
+</div>
+      </form>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-default" ng-click="">Create</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
     <!-- CALENDAR COMES IN HERE -->
     <div class="container">
         <section id="directives-calendar" data-ng-controller="CalendarCtrl">

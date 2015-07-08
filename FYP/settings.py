@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'ClearVision',
     'FYP',
     'rest_framework',
+    'widget_tweaks',
 )
 
 MIDDLEWARE_CLASSES = (
