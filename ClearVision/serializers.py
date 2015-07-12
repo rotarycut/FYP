@@ -1,18 +1,7 @@
 __author__ = 'sherman'
 from rest_framework import serializers
-from ClearVision.models import Appointment, Patient, Doctor
+from ClearVision.models import *
 
-
-class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Appointment
-
-
-class PatientSerializer(serializers.HyperlinkedModelSerializer):
+class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-
-
-class DoctorSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Doctor
