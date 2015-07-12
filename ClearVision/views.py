@@ -19,7 +19,6 @@ def success(request):
 def logout(request):
     return logout_then_login(request, 'login')
 
-
 class PatientList(viewsets.ModelViewSet):
     #renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
