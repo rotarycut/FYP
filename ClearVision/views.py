@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from .serializers import *
 from rest_framework import filters
-from rest_framework import generics
+from rest_framework import generics, viewsets
 
 @login_required
 def success(request):
@@ -20,9 +20,9 @@ def logout(request):
     return logout_then_login(request, 'login')
 
 
-class PatientList(generics.ListAPIView):
+class PatientList(viewsets.ModelViewSet):
     #renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('marketingChannelId', 'gender')
+    filter_fields = ('marketingChannelId', 'gender', )
