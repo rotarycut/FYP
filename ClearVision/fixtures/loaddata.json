@@ -1,0 +1,39 @@
+[
+  {
+    "model": "ClearVision.Patient",
+    "pk": 1,
+    "fields": {
+        "id": 1,
+        "nric": "S9999999D",
+        "name": "Sherman",
+        "gender": "Male",
+        "contact": "999999999",
+        "dob": "21/21/21",
+        "marketingChannelId": 10
+    }
+  },
+
+  {
+    "model": "ClearVision.Patient",
+    "pk": 2,
+    "fields": {
+        "id": 2,
+        "nric": "S8888888D",
+        "name": "Claire",
+        "gender": "Female",
+        "contact": "88888888",
+        "dob": "18/18/18",
+        "marketingChannelId": 11
+    }
+  },
+
+  {
+    "model": "ClearVision.Clinic",
+    "pk": 1,
+    "fields": {
+        "name": "Mount E",
+        "startHr": "08:00:00",
+        "endHr": "20:00:00"
+    }
+  }
+]
