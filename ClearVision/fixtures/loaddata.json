@@ -3,7 +3,6 @@
     "model": "ClearVision.Patient",
     "pk": 1,
     "fields": {
-        "id": 1,
         "nric": "S9999999D",
         "name": "Sherman",
         "gender": "Male",
@@ -17,7 +16,6 @@
     "model": "ClearVision.Patient",
     "pk": 2,
     "fields": {
-        "id": 2,
         "nric": "S8888888D",
         "name": "Claire",
         "gender": "Female",
