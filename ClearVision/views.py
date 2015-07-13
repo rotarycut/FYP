@@ -3,6 +3,7 @@ from django.contrib.auth.views import logout_then_login
 from django.shortcuts import render
 from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
+import django_filters
 from rest_framework.renderers import JSONRenderer
 from .serializers import *
 from rest_framework import filters
@@ -19,9 +20,35 @@ def success(request):
 def logout(request):
     return logout_then_login(request, 'login')
 
+
+class PatientFilter(django_filters.FilterSet):
+    min_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='gte')
+    max_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='lte')
+
+    class Meta:
+        model = Patient
+        fields = ['gender', 'min_id', 'max_id']
+
 class PatientList(viewsets.ModelViewSet):
     #renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('marketingChannelId', 'gender', )
+    filter_class = PatientFilter
+    #filter_fields = ('marketingChannelId', 'gender', )
+
+class ClinicFilter(django_filters.FilterSet):
+    start_time = django_filters.TimeFilter(name="startHr", lookup_type='gte')
+    end_time = django_filters.TimeFilter(name="endHr", lookup_type='lte')
+
+    class Meta:
+        model = Clinic
+        fields = ['start_time', 'end_time']
+
+class ClinicList(viewsets.ModelViewSet):
+    #renderer_classes = (JSONRenderer,)
+    queryset = Clinic.objects.all()
+    serializer_class = ClinicSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
+    search_fields = ('name', )
+    filter_class = ClinicFilter

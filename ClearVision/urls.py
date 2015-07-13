@@ -4,6 +4,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'_api/patients', views.PatientList)
+router.register(r'_api/clinics', views.ClinicList)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

@@ -6,15 +6,15 @@ class Patient(models.Model):
     gender = models.CharField(max_length=10)
     contact = models.CharField(max_length=50)
     dob = models.CharField(max_length=50)
-    marketingChannelId = models.CharField(max_length=50)
+    marketingChannelId = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.nric
 
 class Clinic(models.Model):
     name = models.CharField(max_length=50)
-    startHr = models.DateTimeField("Clinic Opening")
-    endHr = models.DateTimeField("Clinic Closing")
+    startHr = models.TimeField("Clinic Opening")
+    endHr = models.TimeField("Clinic Closing")
 
 class Staff(models.Model):
     number = models.CharField(max_length=50)
