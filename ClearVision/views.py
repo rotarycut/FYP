@@ -20,7 +20,7 @@ def success(request):
 def logout(request):
     return logout_then_login(request, 'login')
 
-
+# API for Patients
 class PatientFilter(django_filters.FilterSet):
     min_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='gte')
     max_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='lte')
@@ -35,20 +35,30 @@ class PatientList(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = PatientFilter
-    #filter_fields = ('marketingChannelId', 'gender', )
 
+
+# API for Clinics
 class ClinicFilter(django_filters.FilterSet):
-    start_time = django_filters.TimeFilter(name="startHr", lookup_type='gte')
-    end_time = django_filters.TimeFilter(name="endHr", lookup_type='lte')
+    start_time = django_filters.TimeFilter(name="startHr", lookup_type='lte')
+    end_time = django_filters.TimeFilter(name="endHr", lookup_type='gte')
 
     class Meta:
         model = Clinic
         fields = ['start_time', 'end_time']
 
 class ClinicList(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    # renderer_classes = (JSONRenderer,)
     queryset = Clinic.objects.all()
     serializer_class = ClinicSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
     search_fields = ('name', )
     filter_class = ClinicFilter
+
+# API for Staff
+
+
+# API for Doctor
+
+
+# API for Appointment
+
