@@ -39,12 +39,14 @@ class Doctor(models.Model):
 
 
 class Appointment(models.Model):
+
     type = models.CharField(max_length=200)
-    startTime = models.DateTimeField('Appointment date and time')
+    start = models.DateTimeField('Appointment start date and time')
+    end = models.DateTimeField("Appointment end date and time")
     creation_time = models.DateTimeField('Creation Time')
     patient = models.ForeignKey(Patient)
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
 
     def __str__(self):
-        return self.type
+        return self.title

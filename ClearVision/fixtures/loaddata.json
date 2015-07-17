@@ -103,7 +103,8 @@
     "fields": {
 
         "type": "cut eye ball",
-        "startTime": "2015-07-17T07:16:35Z",
+        "start": "2015-07-17T07:16:35Z",
+        "end": "2015-07-17T07:50:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
         "patient": 1,
         "doctor": 1,
@@ -118,7 +119,8 @@
     "fields": {
 
         "type": "Checkup",
-        "startTime": "2015-07-20T07:16:35Z",
+        "start": "2015-07-20T07:16:35Z",
+        "end": "2015-07-20T07:45:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
         "patient": 2,
         "doctor": 2,
@@ -133,7 +135,8 @@
     "fields": {
 
         "type": "Checkup type 2",
-        "startTime": "2015-07-25T07:16:35Z",
+        "start": "2015-07-25T07:16:35Z",
+        "end": "2015-07-25T07:30:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
         "patient": 1,
         "doctor": 2,

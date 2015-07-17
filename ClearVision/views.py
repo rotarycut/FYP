@@ -90,8 +90,8 @@ class DoctorList(viewsets.ModelViewSet):
 # API for Appointment
 
 class AppointmentFilter(django_filters.FilterSet):
-    appt_time_range_start = django_filters.TimeFilter(name="startTime", lookup_type='lte')
-    appt_time_range_end = django_filters.TimeFilter(name="startTime", lookup_type='gte')
+    appt_time_range_start = django_filters.TimeFilter(name="start", lookup_type='lte')
+    appt_time_range_end = django_filters.TimeFilter(name="start", lookup_type='gte')
 
     class Meta:
         model = Appointment
