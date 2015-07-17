@@ -70,7 +70,7 @@
     "pk": 1,
 
     "fields": {
-      "name": "Dr Tan",
+      "name": "Dr Goh",
       "phoneModel": "Apple",
       "calDavAccount": "example@abc.com",
       "contact": "12345",
@@ -86,7 +86,7 @@
     "pk": 2,
 
     "fields": {
-      "name": "Dr Lim",
+      "name": "Dr Ho",
       "phoneModel": "Samsung",
       "calDavAccount": "example2@abc.com",
       "contact": "54321",
