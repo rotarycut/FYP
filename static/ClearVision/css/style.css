@@ -9,6 +9,34 @@ body {
     margin: 0px !important;
     font-size:14px !important;
 }
+.btn-toolbar.cal-btn-group{
+    margin-left:-0.3em;
+    margin-top:0.5em;
+}
+.fa.fa-calendar.tab-head-icon{
+    display:inline-block;
+    width:15px;
+}
+.tab-head-text{
+    display: inline-block;
+    clear:left;
+}
+.btn.btn-success.cal-view-btn{
+    background: #1859a8;
+    border-color: #FFFFFF;
+    width:5em;
+    height:2.5em;
+    text-align: center;
+    outline: none;
+}
+.btn.btn-primary.sidebar-btn{
+    width:6.2em;
+    height:2.5em;
+    outline: none;
+}
+.fa.fa-plus-circle.sidebar-btn-icon{
+    margin-left: -0.5em;
+}
 h1,h2,h3,h4,h5{
     font-weight: 300;
 }
@@ -36,9 +64,11 @@ table tr th { color: #688a7e;}
     color: #fff;
 }
 
-#container {
+.container-wrapper {
     width: 100%;
-    height: 100%;
+    height: 1024px;
+    background: #009da7;
+    background: url('../img/bg_main.png') repeat;
 }
 
 .Creative-pro, .Creative-pro h3{
@@ -54,6 +84,22 @@ table tr th { color: #688a7e;}
 .Creative-pro h3{
     padding-bottom: 10px;
     padding-top: 10px;
+}
+.form-group.remarks-tb{
+    width: 339px;
+    margin-right:0.5em;
+    margin-left: 0.3em;
+}
+.radio.radio-doc{
+    display: inline-block;
+    text-align: center;
+    margin-right: 1em;
+    margin-left: 0.3em;
+    margin-bottom: 0.5em;
+}
+.timepicker-appt{
+    margin-top: 1em;
+    margin-left: 0.3em;
 }
 .lite{
     color: #00a0df !important;
@@ -90,8 +136,8 @@ table tr th { color: #688a7e;}
     max-height: 63px;
     margin-top: 10%;
     margin-bottom: 3%;
-    margin-left: 41%;
-    margin-right: 30%;
+    margin-left: 42%;
+    margin-right: 50%;
     /*background: url('../img/ClearVision_logo.png')*/
 }
 #navbar-logo {
@@ -99,6 +145,10 @@ table tr th { color: #688a7e;}
     max-height: 48px;
     margin-top: 0.5%;
     margin-bottom: 0.5%;
+}
+
+.tab-head {
+    max-height: ;
 }
 
 .login-form {
@@ -189,13 +239,17 @@ table tr th { color: #688a7e;}
 .login-form .btn{
     border-radius: 3px;
 }
-.btn.btn-info.btn-lg.btn-block {
+.btn.btn-primary.btn-lg.btn-block {
     background: #1859A8;
     border-color:#1859A8;
     font-weight: 350;
     font-family: 'Lato', sans-serif;
     margin-top: 3em;
+}
 
+.btn.btn-primary.btn-lg.btn-block:hover {
+    background-color: transparent;
+    color:#1859A8;
 }
 
 .login-form p {

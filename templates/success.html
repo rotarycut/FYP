@@ -1,111 +1,109 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="container-wrapper">
+        <a>{{ message }}</a></br>
+        <a href="create.html">Create new appointment</a></br>
+        <a href="logout.html" style="display: inline-block">logout</a>
 
-    <a>{{ message }}</a></br>
-    <a href="create.html">Create new appointment</a></br>
-    <a href="logout.html">logout</a>
-    <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">New Appointment</button>
+        <div class="pull-right" style="display: inline-block" data-ng-controller="sidebarCtrl">
+            <script type="text/ng-template" id="aside.html">
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Creating New Appointment</h4>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal">
-                <label>Patient Name:</label>
-                <input type="text" class="form-control" ng-model="ApptPatientName">
-                <label>Contact No.:</label>
-                <input type="text" class="form-control" ng-model="ApptPatientContact">
-              <div style="min-height:290px;min-width:550px;">
-                  <label>Appointment Date:</label>
-                <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker>
-              </div>
-            <div class="btn-group" dropdown is-open="status.isopen">
-      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-        Appointment Type <span class="caret"></span>
-      </button>
-        <ul class="dropdown-menu" role="menu">
-        <li><a href="#">General Eye Checkup</a></li>
-        <li><a href="#">Lasik Follow-up</a></li>
-        <li><a href="#">Pre-eval Consultation</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Screening</a></li>
-          <li><a href="#">Pre-evaluation</a></li>
-          <li><a href="#">Lasik Surgery</a></li>
-      </ul>
-    </div>
-            <div style="display:inline-block;min-width: 560px">
-                  <label>Appointment Time:</label>
-            <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                <div class="modal-header">
+                    <h3 class="modal-title">Create New Appointment</h3>
                 </div>
-            <div class="radio">
-  <label><input type="radio" name="optradio">Dr. Ho</label>
-</div>
-<div class="radio">
-  <label><input type="radio" name="optradio">Dr. Goh</label>
-</div>
-            <div class="form-group">
-  <label for="comment">Remarks:</label>
-  <textarea class="form-control" rows="5" id="comment"></textarea>
-</div>
-      </form>
-      </div>
-      <div class="modal-footer">
-          <button class="btn btn-default" ng-click="">Create</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
 
-  </div>
-</div>
-    <!-- CALENDAR COMES IN HERE -->
-    <div class="container">
-        <section id="directives-calendar" data-ng-controller="CalendarCtrl">
-            <div class="page-header">
-                <h1>ClearVision Calendar</h1>
-            </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <label>Patient Name:</label>
+                        <input type="text" class="form-control" ng-model="ApptPatientName">
+                        <label>Contact No.:</label>
+                        <input type="text" class="form-control" ng-model="ApptPatientContact">
 
-            <div class="well">
-                <div class="row-fluid">
-                    <div class="span4">
-                        <div class="btn-group calTools">
-                            <button class="btn" ng-click="changeLang()">
-                                [[ changeTo ]]
-                            </button>
-
-                            <button class="btn" ng-click="addRemoveEventSource(eventSources,eventSource)">
-                                Toggle Source
-                            </button>
-
-                            <button type="button" class="btn btn-primary" ng-click="addEvent()">
-                                Add Event
-                            </button>
+                        <div>
+                            <label>Appointment Date:</label>
+                            <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"
+                                        custom-class="getDayClass(date, mode)"></datepicker>
                         </div>
+                        <div class="btn-group" dropdown is-open="status.isopen">
+                            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle
+                                    ng-disabled="disabled">
+                                Appointment Type <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">General Eye Checkup</a></li>
+                                <li><a href="#">Lasik Follow-up</a></li>
+                                <li><a href="#">Pre-eval Consultation</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Screening</a></li>
+                                <li><a href="#">Pre-evaluation</a></li>
+                                <li><a href="#">Lasik Surgery</a></li>
+                            </ul>
+                        </div>
+                        <div class="timepicker-appt">
+                            <label>Appointment Time:</label>
+                            <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep"
+                                        show-meridian="ismeridian"></timepicker>
+                        </div>
+                        <div class="radio radio-doc" style="display: inline-block">
+                            <label><input type="radio" name="optradio">Dr. Ho</label>
+                        </div>
+                        <div class="radio radio-doc" style="display: inline-block">
+                            <label><input type="radio" name="optradio">Dr. Goh</label>
+                        </div>
+                        <div class="form-group remarks-tb">
+                            <label for="comment">Remarks:</label>
+                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok($event)">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel($event)">Cancel</button>
+                </div>
+            </script>
+            <button type="button" class="btn btn-primary sidebar-btn" ng-click="openAside('right')"><i
+                    class="fa fa-plus-circle sidebar-btn-icon"></i>&nbsp;New Appt
+            </button>
+        </div>
+        <!-- CALENDAR COMES IN HERE -->
+        <div class="container" id="directives-calendar" data-ng-controller="CalendarCtrl" style="display: inline-block">
+            <section>
+                <div class="well" style="background: #F4F4F4">
+                    <!-- <div class="row-fluid">
+                         <div class="span4">
+                             <div class="btn-group calTools">
+                                 <button class="btn" ng-click="changeLang()">
+                                     [[ changeTo ]]
+                                 </button>
 
-                        <ul class="unstyled">
-                            <li ng-repeat="e in events">
-                                <div class="alert alert-info">
-                                    <a class="close" ng-click="remove($index)"><i class="fa fa-trash"></i></a>
-                                    <b><input ng-model="e.title"></b>
-                                    [[ e.start | date:"MMM dd" ]] - [[ e.end | date:"MMM dd" ]]
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                                 <button class="btn" ng-click="addRemoveEventSource(eventSources,eventSource)">
+                                     Toggle Source
+                                 </button>
 
-                    <div class="span8">
+                                 <button type="button" class="btn btn-primary" ng-click="addEvent()">
+                                     Add Event
+                                 </button>
+                             </div>
+
+                             <ul class="unstyled">
+                                 <li ng-repeat="e in events">
+                                     <div class="alert alert-info">
+                                         <a class="close" ng-click="remove($index)"><i class="fa fa-trash"></i></a>
+                                         <b><input ng-model="e.title"></b>
+                                         [[ e.start | date:"MMM dd" ]] - [[ e.end | date:"MMM dd" ]]
+                                     </div>
+                                 </li>
+                             </ul>
+                         </div> -->
+
+                    <div>
                         <tabset>
                             <tab select="renderCalendar('myCalendar1');">
-
                                 <tab-heading>
-                                    <i class="fa fa-calendar"></i>Doctor Ho
+                                    <i class="fa fa-calendar tab-head-icon"></i>
+
+                                    <div class="tab-head-text">Doctor Ho</div>
                                 </tab-heading>
 
                                 <div class="alert-success calAlert"
@@ -113,24 +111,23 @@
                                     <h4>[[ alertMessage ]]</h4>
                                 </div>
 
-                                <div class="btn-toolbar">
-                                    <p class="pull-right lead">Calendar One View Options</p>
+                                <div class="btn-toolbar cal-btn-group">
 
                                     <div class="btn-group">
-                                        <button class="btn btn-success"
+                                        <button class="btn btn-success cal-view-btn"
                                                 ng-click="changeView('agendaDay', 'myCalendar1')">
                                             Day
                                         </button>
-                                        <button class="btn btn-success"
+                                        <button class="btn btn-success cal-view-btn"
                                                 ng-click="changeView('agendaWeek', 'myCalendar1')">
                                             Week
                                         </button>
-                                        <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">
+                                        <button class="btn btn-success cal-view-btn"
+                                                ng-click="changeView('month', 'myCalendar1')">
                                             Month
                                         </button>
                                     </div>
                                 </div>
-
                                 <div class="calendar" ng-model="eventSources" calendar="myCalendar1"
                                      ui-calendar="uiConfig.calendar"></div>
 
@@ -139,7 +136,9 @@
                             <tab>
 
                                 <tab-heading>
-                                    <i class="fa fa-calendar"></i>Doctor Goh
+                                    <i class="fa fa-calendar tab-head-icon"></i>
+
+                                    <div class="tab-head-text">Doctor Goh</div>
                                 </tab-heading>
 
                                 <div class="alert-success calAlert"
@@ -147,19 +146,19 @@
                                     <h4>[[ alertMessage ]]</h4>
                                 </div>
 
-                                <div class="btn-toolbar">
-                                    <p class="pull-right lead">Calendar Two View Options</p>
+                                <div class="btn-toolbar cal-btn-group">
 
                                     <div class="btn-group">
-                                        <button class="btn btn-success"
+                                        <button class="btn btn-success cal-view-btn"
                                                 ng-click="changeView('agendaDay', 'myCalendar2')">
                                             Day
                                         </button>
-                                        <button class="btn btn-success"
+                                        <button class="btn btn-success cal-view-btn"
                                                 ng-click="changeView('agendaWeek', 'myCalendar2')">
                                             Week
                                         </button>
-                                        <button class="btn btn-success" ng-click="changeView('month', 'myCalendar2')">
+                                        <button class="btn btn-success cal-view-btn"
+                                                ng-click="changeView('month', 'myCalendar2')">
                                             Month
                                         </button>
                                     </div>
@@ -173,9 +172,8 @@
                     </div>
 
                 </div>
-            </div>
-        </section>
+            </section>
 
+        </div>
     </div>
-
 {% endblock %}
