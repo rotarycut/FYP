@@ -30,7 +30,7 @@ class PatientFilter(django_filters.FilterSet):
         fields = ['gender', 'min_id', 'max_id']
 
 class PatientList(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -47,7 +47,7 @@ class ClinicFilter(django_filters.FilterSet):
         fields = ['start_time', 'end_time']
 
 class ClinicList(viewsets.ModelViewSet):
-    # renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Clinic.objects.all()
     serializer_class = ClinicSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
@@ -62,7 +62,7 @@ class StaffFilter(django_filters.FilterSet):
         model = Staff
 
 class StaffList(viewsets.ModelViewSet):
-    # renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
@@ -79,7 +79,7 @@ class DoctorFilter(django_filters.FilterSet):
         fields = ['contact', 'phoneModel', 'clinic']
 
 class DoctorList(viewsets.ModelViewSet):
-    # renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
@@ -98,7 +98,7 @@ class AppointmentFilter(django_filters.FilterSet):
         fields = ['patient', 'doctor', 'clinic', 'appt_time_range_start', 'appt_time_range_end']
 
 class AppointmentList(viewsets.ModelViewSet):
-    # renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
