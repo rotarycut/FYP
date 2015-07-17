@@ -16,6 +16,9 @@ class Clinic(models.Model):
     startHr = models.TimeField("Clinic Opening")
     endHr = models.TimeField("Clinic Closing")
 
+    def __str__(self):
+        return self.name
+
 class Staff(models.Model):
     number = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
@@ -44,4 +47,4 @@ class Appointment(models.Model):
     clinic = models.ForeignKey(Clinic)
 
     def __str__(self):
-        return self.date
+        return self.type

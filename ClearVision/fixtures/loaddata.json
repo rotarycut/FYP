@@ -33,5 +33,112 @@
         "startHr": "08:00:00",
         "endHr": "20:00:00"
     }
+  },
+
+  {
+    "model": "ClearVision.Clinic",
+    "pk": 2,
+    "fields": {
+        "name": "Clearvision Clinic",
+        "startHr": "07:00:00",
+        "endHr": "19:00:00"
+    }
+  },
+
+  {
+    "model": "ClearVision.Staff",
+    "pk": 1,
+    "fields": {
+        "number": "999",
+        "name": "Carina",
+        "clinic": "1"
+    }
+  },
+
+  {
+    "model": "ClearVision.Staff",
+    "pk": 2,
+    "fields": {
+        "number": "666",
+        "name": "Amabel",
+        "clinic": "1"
+    }
+  },
+
+  {
+    "model": "ClearVision.Doctor",
+    "pk": 1,
+
+    "fields": {
+      "name": "Dr Tan",
+      "phoneModel": "Apple",
+      "calDavAccount": "example@abc.com",
+      "contact": "12345",
+      "clinic": [
+        1,
+        2
+      ]
+    }
+  },
+
+  {
+    "model": "ClearVision.Doctor",
+    "pk": 2,
+
+    "fields": {
+      "name": "Dr Lim",
+      "phoneModel": "Samsung",
+      "calDavAccount": "example2@abc.com",
+      "contact": "54321",
+      "clinic": [
+        1
+      ]
+    }
+  },
+
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 1,
+
+    "fields": {
+
+        "type": "cut eye ball",
+        "startTime": "2015-07-17T07:16:35Z",
+        "creation_time": "2015-07-17T07:16:36Z",
+        "patient": 1,
+        "doctor": 1,
+        "clinic": 2
+    }
+  },
+
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 2,
+
+    "fields": {
+
+        "type": "Checkup",
+        "startTime": "2015-07-20T07:16:35Z",
+        "creation_time": "2015-07-17T07:16:36Z",
+        "patient": 2,
+        "doctor": 2,
+        "clinic": 1
+    }
+  },
+
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 3,
+
+    "fields": {
+
+        "type": "Checkup type 2",
+        "startTime": "2015-07-25T07:16:35Z",
+        "creation_time": "2015-07-17T07:16:36Z",
+        "patient": 1,
+        "doctor": 2,
+        "clinic": 2
+    }
   }
+
 ]

@@ -56,9 +56,51 @@ class ClinicList(viewsets.ModelViewSet):
 
 # API for Staff
 
+class StaffFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Staff
+
+class StaffList(viewsets.ModelViewSet):
+    # renderer_classes = (JSONRenderer,)
+    queryset = Staff.objects.all()
+    serializer_class = StaffSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
+    search_fields = ('name', )
+    filter_class = StaffFilter
+
 
 # API for Doctor
+
+class DoctorFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Doctor
+        fields = ['contact', 'phoneModel', 'clinic']
+
+class DoctorList(viewsets.ModelViewSet):
+    # renderer_classes = (JSONRenderer,)
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
+    search_fields = ('name', )
+    filter_class = DoctorFilter
 
 
 # API for Appointment
 
+class AppointmentFilter(django_filters.FilterSet):
+    appt_time_range_start = django_filters.TimeFilter(name="startTime", lookup_type='lte')
+    appt_time_range_end = django_filters.TimeFilter(name="startTime", lookup_type='gte')
+
+    class Meta:
+        model = Appointment
+        fields = ['patient', 'doctor', 'clinic', 'appt_time_range_start', 'appt_time_range_end']
+
+class AppointmentList(viewsets.ModelViewSet):
+    # renderer_classes = (JSONRenderer,)
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
+    search_fields = ('type', )
+    filter_class = AppointmentFilter
