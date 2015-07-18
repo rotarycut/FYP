@@ -1,11 +1,7 @@
-var app = angular.module('calendarDemoApp', ['ui.calendar','ui.bootstrap','ngAside']);
+var appCalendar = angular.module('app.calendar', []);
 
-app.config(function ($interpolateProvider) {
-    $interpolateProvider.startSymbol('[[');
-    $interpolateProvider.endSymbol(']]');
-});
 
-app.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout) {
 
     var date = new Date();
     var d = date.getDate();
@@ -21,24 +17,6 @@ app.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $ti
     };
     /* event source that contains custom events on the scope */
     $scope.events = [
-        {
-            id: 1,
-            title: 'Mabel Appt',
-            start: new Date("July 13, 2015 11:15:00"),
-            end: new Date("July 13, 2015 11:30:00")
-        },
-        {
-            id: 2,
-            title: 'Sherman Appt',
-            start: new Date("July 13, 2015 11:30:00"),
-            end: new Date("July 13, 2015 11:45:00")
-        },
-        {
-            id: 3,
-            title: 'Carina Appt',
-            start: new Date("July 13, 2015 12:30:00"),
-            end: new Date("July 13, 2015 12:45:00")
-        },
         {
             id: 1,
             title: 'Mabel Appt',
@@ -213,6 +191,7 @@ app.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $ti
     $scope.changeView = function (view, calendar) {
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
+
     /* Change View */
     $scope.renderCalender = function (calendar) {
         if (uiCalendarConfig.calendars[calendar]) {
@@ -261,24 +240,3 @@ app.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $ti
 
 
 });
-
-app.controller('sidebarCtrl', function($scope, $aside) {
-          $scope.openAside = function(position) {
-            $aside.open({
-              animation: $scope.animationsEnabled = true,
-              templateUrl: 'aside.html',
-              placement: position,
-              backdrop: true,
-              controller: function($scope, $modalInstance) {
-                $scope.ok = function(e) {
-                  $modalInstance.close();
-                  e.stopPropagation();
-                };
-                $scope.cancel = function(e) {
-                  $modalInstance.dismiss();
-                  e.stopPropagation();
-                };
-              }
-            })
-          }
-        });
