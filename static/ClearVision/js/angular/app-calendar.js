@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', []);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http) {
 
     var date = new Date();
     var d = date.getDate();
@@ -16,50 +16,53 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         currentTimezone: 'America/Chicago' // an option!
     };
     /* event source that contains custom events on the scope */
-    $scope.events = [
-        {
-            id: 1,
-            title: 'Mabel Appt',
-            start: new Date("July 13, 2015 11:15:00"),
-            end: new Date("July 13, 2015 11:30:00")
-        },
-        {
-            id: 2,
-            title: 'Sherman Appt',
-            start: new Date("July 13, 2015 11:30:00"),
-            end: new Date("July 13, 2015 11:45:00")
-        },
-        {
-            id: 3,
-            title: 'Carina Appt',
-            start: new Date("July 13, 2015 12:30:00"),
-            end: new Date("July 13, 2015 12:45:00")
-        },
-        {
-            id: 4,
-            title: 'Sim Appt',
-            start: new Date("July 21, 2015 12:30:00"),
-            end: new Date("July 21, 2015 12:45:00")
-        },
-        {
-            id: 5,
-            title: 'Jane Appt',
-            start: new Date("July 17, 2015 11:30:00"),
-            end: new Date("July 17, 2015 11:45:00")
-        },
-        {
-            id: 6,
-            title: 'Apple Appt',
-            start: new Date("July 17, 2015 12:00:00"),
-            end: new Date("July 17, 2015 12:30:00")
-        },
-        {
-            id: 7,
-            title: 'Bob Appt',
-            start: new Date("July 26, 2015 16:30:00"),
-            end: new Date("July 26, 2015 16:45:00")
-        }
-    ];
+
+    /*$scope.events = [
+     {
+     id: 1,
+     title: 'Mabel Appt',
+     start: new Date("July 13, 2015 11:15:00"),
+     end: new Date("July 13, 2015 11:30:00")
+     },
+     {
+     id: 2,
+     title: 'Sherman Appt',
+     start: new Date("July 13, 2015 11:30:00"),
+     end: new Date("July 13, 2015 11:45:00")
+     },
+     {
+     id: 3,
+     title: 'Carina Appt',
+     start: new Date("July 13, 2015 12:30:00"),
+     end: new Date("July 13, 2015 12:45:00")
+     },
+     {
+     id: 4,
+     title: 'Sim Appt',
+     start: new Date("July 21, 2015 12:30:00"),
+     end: new Date("July 21, 2015 12:45:00")
+     },
+     {
+     id: 5,
+     title: 'Jane Appt',
+     start: new Date("July 17, 2015 11:30:00"),
+     end: new Date("July 17, 2015 11:45:00")
+     },
+     {
+     id: 6,
+     title: 'Apple Appt',
+     start: new Date("July 17, 2015 12:00:00"),
+     end: new Date("July 17, 2015 12:30:00")
+     },
+     {
+     id: 7,
+     title: 'Bob Appt',
+     start: new Date("July 26, 2015 16:30:00"),
+     end: new Date("July 26, 2015 16:45:00")
+     }
+     ];*/
+
+    $scope.events = [];
 
     $scope.surgeries = {
         color: '#CC3333',
@@ -239,4 +242,36 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF];
 
 
+    //Asynchronous HTTP Get will be called when the app starts
+    $http.get('/Clearvision/_api/appointments/')
+        .success(function (data) {
+
+            $scope.events = data;
+            //In the web console, $scope.events now contains all the objects from the HTTP Get Request
+            console.log($scope.events);
+
+            $scope.eventSources = [$scope.events, $scope.surgeries, $scope.eventsF];
+            //In the web console, $scope.eventSources now contains all the objects from the HTTP Get Request
+            console.log($scope.eventSources);
+
+            //However, in the view, the $scope.eventSources is not updated with the new objects
+
+            //For Testing: Even if I run this line of code below, the $scope.eventSources still show $scope.surgeries and $scope.eventsF
+            $scope.eventSources = [];
+
+            //For Testing: Even forcing a digest loop does not update the $scope.eventSources
+            $timeout(function () {
+
+                $scope.$apply(function () {
+                    $scope.eventSources = [];
+                });
+            }, 2000)
+
+        }).error(function (data) {
+
+        });
+
+
+    //For Testing: However, when I run this line of code below, the $scope.eventSources now do not show $scope.surgeries and $scope.eventsF
+    //$scope.eventSources = [];
 });
