@@ -2,13 +2,266 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 
 body {
-    color: #797979;
-    background: #BEE2E7;
     font-family: 'Lato', sans-serif;
     padding: 0px !important;
     margin: 0px !important;
-    font-size:14px !important;
+    height: 100vh;
+    width:100vw;
 }
+
+.app-container{
+    height: 100vh;
+    width: 100vw;
+    background: url('../img/bg_main.png') repeat;
+}
+
+.app-content{
+    padding-top: 7%;
+    margin-left: 2em;
+    margin-right: 0;
+    height: 100vh;
+}
+
+/*login page css begins here*/
+
+#login-container{
+    background: #BEE2E7;
+    height: 100vh;
+    width: 100vw;
+}
+#login-form-div{
+    width: 50%;
+    height: 100%;
+    margin:0 auto;
+    padding-top: 10%;
+}
+#login-container-logo{
+    margin-left: 25%;
+    margin-right: 25%;
+    padding-left: 9%;
+    padding-right: 9%;
+    padding-bottom: 2%;
+    content: url(../img/ClearVision_logo.png);
+    clear: both;
+}
+.login-form {
+    margin-left: 20%;
+    margin-right: 20%;
+    background: #eeeeee;
+    border-radius:5px;
+}
+.btn.btn-primary.btn-lg.btn-block {
+    background: #1859A8;
+    border-color:#1859A8;
+    font-weight: 500pt;
+    font-family: 'Lato', sans-serif;
+    margin-top: 3em;
+    margin-bottom: auto;
+}
+.login-form .checkbox {
+    margin-bottom: 14px;
+}
+.login-form .checkbox {
+    font-weight: normal;
+    font-weight: 300;
+    font-family: 'Lato', sans-serif;
+}
+.login-wrap {
+    padding: 20px;
+}
+.login-form .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.login-form .form-control:focus {
+    z-index: 2;
+}
+.login-form .login-img{
+    font-size: 50px;
+    font-weight: 300;
+}
+.login-form .input-group{
+    padding-bottom: 15px;
+}
+.login-form .input-group-addon{
+    padding: 6px 12px;
+    font-size: 16px;
+    color: #8b9199;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 0;
+}
+.login-form input[type="text"], .login-form input[type="password"] {
+    border: none;
+    box-shadow: none;
+    font-size: 16px;
+    border-radius: 0;
+}
+.login-form .btn{
+    border-radius: 3px;
+}
+.btn.btn-primary.btn-lg.btn-block:hover {
+    background-color: transparent;
+    color:#1859A8;
+}
+.login-form p {
+    text-align: center;
+    color: #b6b6b6;
+    font-size: 16px;
+    font-weight: 300;
+}
+.login-form {
+    padding: 20px;
+}
+
+/*login page css ends here*/
+
+
+/*header css begins here*/
+
+header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width:100%;
+    background: #BEE2E7;
+    border-bottom: 2px solid #1859a8;
+    min-height: 70px;
+    padding: 0 15px;
+    z-index: 1002;
+}
+#header-container{
+    height: 50%;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+    margin-top: 1.1em;
+    margin-bottom: 1.1em;
+}
+#header-logo{
+    content: url('../img/app-header-logo.png');
+    display:inline-block;
+}
+
+#header-navbar{
+    display: inline-block;
+    position: absolute;
+    padding-left:5em;
+    margin-left:10em;
+    margin-top: auto;
+    width:50%;
+
+}
+#navbar-ul{
+    list-style-type: none;
+    margin-bottom: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+    font-size: 13.5pt;
+    width: 100em;
+}
+li.navbar-li {
+    float: left;
+    padding-left:1.5em;
+    padding-right: 1.5em;
+    text-align: center;
+    width: 10em;
+    /*border-right: 1px solid #1859a8;*/
+}
+a.navbar-a {
+    display: block;
+    width: 80%;
+    padding-left: 0.1em;
+    display: inline-block;
+    text-align: left;
+}
+#navbar-ul li.navbar-li:hover {
+    border-bottom: 2px solid #F4F4F4;
+}
+.fa.fa-home.tab-head-icon{
+    display:inline-block;
+    width: 14px;
+    height: 14px;
+    color: #1859a8;
+
+}
+.fa.fa-user-times.tab-head-icon{
+    display:inline-block;
+    width: 14px;
+    height: 14px;
+    color: #1859a8;
+}
+.fa.fa-area-chart.tab-head-icon{
+    display:inline-block;
+    width: 14px;
+    height: 14px;
+    color: #1859a8;
+}
+.fa.fa-wrench.tab-head-icon{
+    display:inline-block;
+    width: 14px;
+    height: 14px;
+    color: #1859a8;
+}
+
+/* header css ends here*/
+
+/* succcess page css begins here*/
+
+.cal-container{
+    width: 90vw;
+    max-height: 380px;
+    display: inline-block;
+    margin-right: 1em;
+
+}
+.form-container{
+    width: 0vw;
+    max-height: 380px;
+    display: inline-block;
+    padding-left: 0;
+
+}
+.form-div{
+    width:18vw;
+    max-height: 380px;
+}
+.side-container{
+    width: 5vw;
+    height: 40vh;
+    display: inline-block;
+    margin-right: 0.1em;
+}
+.menu-show-setup, .menu-hide-setup {
+  transition:all 0.5s ease-out;
+  overflow:hidden
+}
+
+.well.cal-well {
+    padding:0;
+    height: 80vh;
+}
+
+#form-title{
+    padding-left: 2em;
+}
+
+#hide-form-btn{
+    display: inline;
+}
+
+a #show-form-btn:hover{
+    animation-direction: ;
+}
+
 .btn-toolbar.cal-btn-group{
     margin-left:-0.3em;
     margin-top:0.5em;
@@ -16,6 +269,7 @@ body {
 .fa.fa-calendar.tab-head-icon{
     display:inline-block;
     width:15px;
+    color: #1859a8;
 }
 .tab-head-text{
     display: inline-block;
@@ -64,12 +318,7 @@ table tr th { color: #688a7e;}
     color: #fff;
 }
 
-.container-wrapper {
-    width: 100%;
-    height: 1024px;
-    background: #009da7;
-    background: url('../img/bg_main.png') repeat;
-}
+
 
 .Creative-pro, .Creative-pro h3{
     display: block;
@@ -105,211 +354,7 @@ table tr th { color: #688a7e;}
     color: #00a0df !important;
 }
 
-/*login page*/
 
-.login-body {
-
-    background-color:#eeeeee;
-}
-
-.bg-main {
-    background: url('../img/background_main.png') repeat;
-}
-
-.login-img-body{
-  background: url('../img/bg-1.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-.login-img2-body{
-  background: url('../img/bg-1.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-#login-logo {
-    max-width: 200px;
-    max-height: 63px;
-    margin-top: 10%;
-    margin-bottom: 3%;
-    margin-left: 42%;
-    margin-right: 50%;
-    /*background: url('../img/ClearVision_logo.png')*/
-}
-#navbar-logo {
-    max-width: 150px;
-    max-height: 48px;
-    margin-top: 0.5%;
-    margin-bottom: 0.5%;
-}
-
-.tab-head {
-    max-height: ;
-}
-
-.login-form {
-    max-height: 350px;
-    max-width: 350px;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    background: #eeeeee;
-    border-radius:5px;
-}
-.login-img-body .login-form{
-    max-width: 350px;
-    margin: 200px auto 0;
-    background: rgba(213,215,222,0.4);
-    border: 1px solid #B0B6BE;
-}
-.login-img2-body .login-form{
-    border: 1px solid #B0B6BE;
-    background: rgba(213,215,222,0.7);
-}
-.login-img3-body .login-form{
-    border: 1px solid #B0B6BE;
-    background: rgba(213,215,222,0.9);
-}
-.login-form a{
-    color: #688a7e !important;
-}
-.login-form h2.login-form-heading {
-    margin: 0;
-    padding:20px 15px;
-    text-align: center;
-    background: #34aadc;
-    border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
-    color: #fff;
-    font-size: 18px;
-    text-transform: uppercase;
-    font-weight: 300;
-    font-family: 'Lato', sans-serif;
-}
-
-.login-form .checkbox {
-    margin-bottom: 14px;
-}
-.login-form .checkbox {
-    font-weight: normal;
-    font-weight: 300;
-    font-family: 'Lato', sans-serif;
-}
-.login-form .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.login-form .form-control:focus {
-    z-index: 2;
-}
-.login-form .login-img{
-    font-size: 50px;
-    font-weight: 300;
-}
-.login-form .input-group{
-    padding-bottom: 15px;
-}
-.login-form .input-group-addon{
-    padding: 6px 12px;
-    font-size: 16px;
-    color: #8b9199;
-    font-weight: normal;
-    line-height: 1;
-    text-align: center;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 0;
-}
-.login-form input[type="text"], .login-form input[type="password"] {
-    border: none;
-    box-shadow: none;
-    font-size: 16px;
-    border-radius: 0;
-}
-.login-form .btn{
-    border-radius: 3px;
-}
-.btn.btn-primary.btn-lg.btn-block {
-    background: #1859A8;
-    border-color:#1859A8;
-    font-weight: 350;
-    font-family: 'Lato', sans-serif;
-    margin-top: 3em;
-}
-
-.btn.btn-primary.btn-lg.btn-block:hover {
-    background-color: transparent;
-    color:#1859A8;
-}
-
-.login-form p {
-    text-align: center;
-    color: #b6b6b6;
-    font-size: 16px;
-    font-weight: 300;
-}
-.login-img3-body .login-form p,.login-img2-body .login-form p {
-    color: #34aadc;
-}
-.login-form a {
-    color: #b6b6b6;
-}
-
-.login-form a:hover {
-    color: #34aadc;
-}
-.form .required{
-    font-size: 16px;
-    color: #00a0df;
-}
-
-.login-form {
-    padding: 20px;
-}
-
-.login-social-link  {
-    display: inline-block;
-    margin-top: 20px;
-    margin-bottom: 15px;
-}
-
-.login-social-link a {
-    color: #fff;
-    padding: 15px 28px;
-    border-radius: 4px;
-}
-
-.login-social-link a:hover {
-    color: #fff;
-}
-
-.login-social-link a i {
-    font-size: 20px;
-    padding-right: 10px;
-}
-
-.login-social-link a.facebook {
-    background: #5193ea;
-    margin-right: 22px;
-    box-shadow: 0 4px #2775e2;
-	float:left;
-}
-
-.login-social-link a.twitter {
-    background: #44ccfe;
-    box-shadow: 0 4px #2bb4e8;
-	float:left;
-}
 /*Modal Content*/
 .modal-content{
     border-radius:0px;
@@ -567,21 +612,13 @@ ul.sidebar-menu li.active a i {
     padding: .25em .5em;
     margin: 20px 10px 0 0;
 }
-.header {
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 1002;
-}
+
 
 .white-bg {
     background: rgba(255,255,255,0.9);
     border-bottom: 1px solid #f1f2f7;
 }
-.dark-bg {
-    background: rgba(54,66,74,1);
-    border-bottom: 1px solid #f1f2f7;
-}
+
 .panel-content{
     padding: 10px;
 }
@@ -1104,11 +1141,7 @@ div[data-role="editor-toolbar"] {
   background : #e4e9eb;
   background-color : #e4e9eb;
 }
-.dark-bg {
-  color : #fff;
-  background : #1a2732;
-  background-color : #1a2732;
-}
+
 .facebook-bg {
   color: #fff;
   background: #3b5998;

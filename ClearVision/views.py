@@ -16,7 +16,8 @@ def success(request):
         'message': response,
     })
     return render(request, 'success.html', context)
-
+def header(request):
+    return render(request, 'header.html')
 def logout(request):
     return logout_then_login(request, 'login')
 

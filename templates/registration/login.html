@@ -1,40 +1,38 @@
 {% extends "base.html" %}
-
 {% block content %}
+    <section id="login-container">
+        <div id="login-form-div">
+            <img id="login-container-logo">
+            <form class="login-form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+                {% csrf_token %}
+                {% load widget_tweaks %}
+                <div class="login-wrap">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        {{ form.username|add_class:"form-control"|attr:"placeholder:Username" }}<br/>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        {{ form.password|add_class:"form-control"|attr:"placeholder:Password" }}
+                    </div>
+                    <label class="checkbox">
+                        {% if form.errors %}
+                            <p>Your username and password didn't match. Please try again.</p>
+                        {% endif %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-
-<img id="login-logo" src="/static/ClearVision/img/ClearVision_logo.png">
-<form class="login-form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
-{% csrf_token %}
-    {% load widget_tweaks %}
-<div class="login-wrap">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                {{ form.username|add_class:"form-control"|attr:"placeholder:Username"}}<br/>
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-                {{ form.password|add_class:"form-control"|attr:"placeholder:Password" }}
-            </div>
-            <label class="checkbox">
-                <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
-            </label>
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-            <input type="hidden" name="next" value="{{ next }}" />
-</div>
-
-</form>
-
+                        {% if next %}
+                            {% if user.is_authenticated %}
+                                <p>Your account doesn't have access to this page. To proceed,
+                                    please login with an account that has access.</p>
+                            {% else %}
+                                <p>Please login to see this page.</p>
+                            {% endif %}
+                        {% endif %}
+                    </label>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                </div>
+            </form>
+        </div>
+    </section>
 {% endblock %}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="calendarDemoApp" id="top">
+<html lang="en" ng-app="calendarDemoApp">
 <head>
 
     <!-- STYLE REFERENCES -->
@@ -8,8 +8,6 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/ClearVision/css/animate.css">
-    <link rel="stylesheet" href="/static/ClearVision/css/aside.css">
     <link rel="stylesheet" href="/static/ClearVision/css/style.css">
 
     <!-- JAVASCRIPT REFERENCES -->
@@ -23,23 +21,18 @@
     {% load staticfiles %}
 
     <script src="{% static "/static/ClearVision/js/angularCalendar.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular-aside.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/respond.js" %}"></script>
 
     <!-- ANGULAR SCRIPTS -->
     <script src="{% static "/static/ClearVision/js/angular/app.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/angular/app-calendar.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/app-sidebar.js" %}"></script>
+
 
     <title>{% block title %}Schedule{% endblock %}</title>
 </head>
 
 <body>
 
-<div class="content">
-    {% block content %}{% endblock %}
-</div>
-
-
+        {% block content %}{% endblock %}
 </body>
 </html>
