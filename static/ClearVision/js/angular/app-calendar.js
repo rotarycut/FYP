@@ -219,6 +219,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 center: '',
                 right: 'today prev,next'
             },
+            minTime: "08:00",
+            maxTime: "21:00",
+            fixedWeekCount: false,
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.alertOnDrop,
             eventResize: $scope.alertOnResize,
