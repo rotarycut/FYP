@@ -20,3 +20,6 @@ urlpatterns = [
     url(r'^Clearvision/', include('ClearVision.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
+
+#Site Header
+admin.site.site_header = 'Clearvision Admin'
