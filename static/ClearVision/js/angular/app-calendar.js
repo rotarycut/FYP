@@ -62,60 +62,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      }
      ];*/
 
-    $scope.screenings = [];
+    $scope.screenings = {
+        color: '#303030',
+        textColor: 'White',
+        events: []
+    };
 
-    $scope.preEvaluations = [];
+    $scope.preEvaluations = {
+        color: '#CC6600',
+        textColor: 'White',
+        events: []
+    };
 
     $scope.surgeries = {
         color: '#CC3333',
         textColor: 'White',
-        events: [
-            {
-                type: 'Surgery',
-                title: 'Surgery (John)',
-                start: new Date("July 8, 2015 9:30:00"),
-                end: new Date("July 8, 2015 10:00:00"),
-                allDay: false,
-                patients: [
-                    {name: "john", handphone: "123"},
-                    {name: "jasmine", handphone: "321"}
-                ]
-            },
-            {
-                type: 'Surgery',
-                title: 'Surgery (Jas)',
-                start: new Date("July 17, 2015 10:30:00"),
-                end: new Date("July 17, 2015 11:00:00"),
-                allDay: false,
-                patients: [
-                    {name: "Tom", handphone: "123"},
-                    {name: "jane", handphone: "321"}
-                ]
-            },
-            {
-                type: 'Surgery',
-                title: 'Surgery (Jimmy)',
-                start: new Date("July 30, 2015 15:30:00"),
-                end: new Date("July 17, 2015 16:00:00"),
-                allDay: false,
-                patients: [
-                    {name: "Darren", handphone: "123"},
-                    {name: "Pinky", handphone: "321"}
-                ]
-            },
-            {
-                type: 'Surgery',
-                title: 'Surgery (Yash)',
-                start: new Date("July 22, 2015 15:30:00"),
-                end: new Date("July 17, 2015 16:00:00"),
-                allDay: false,
-                patients: [
-                    {name: "jack", handphone: "123"},
-                    {name: "Bob", handphone: "321"}
-                ]
-            },
-        ]
+        events: []
     };
+
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
         var s = new Date(start).getTime() / 1000;
@@ -286,7 +250,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* event sources array*/
     $scope.doctorHoAppointments = [$scope.screenings, $scope.preEvaluations, $scope.surgeries];
     $scope.doctorGohAppointments = [$scope.calEventsExt, $scope.eventsF];
-    
+
     //Asynchronous HTTP Get will be called when the app starts
     $http.get('/Clearvision/_api/appointments/')
         .success(function (data) {
@@ -320,29 +284,55 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     //For Testing: However, when I run this line of code below, the $scope.eventSources now do not show $scope.surgeries and $scope.eventsF
     //$scope.eventSources = [];
 
+    //Async http get request to retrieve Dr Ho's screening appointments
+    $scope.getDrHoScreenings = function () {
 
-    $scope.getAppointments = function () {
-        /*
-         Clearing in this manner maintains the two-way data bind.
-         This can be called over and over, with old events cleared,
-         and new random events displayed. This no longer works
-         if getEventsEmptyArray is ever called, due to two-way
-         data bind being broken within that function.
-         */
-        $scope.events.splice(0);
+        $http.get('http://demo4552602.mockable.io/drHoScreenings')
 
-        $scope.getJulyData = function () {
-            $http.get('http://demo4552602.mockable.io/appointments')
-                .success(function (eventdata) {
-                    var events = eventdata;
-                    console.log(events);
-                    angular.forEach(events, function (event) {
-                        $scope.events.push(event);
-                    });
-                });
+            .success(function (listOfAppointments) {
+                var drHoScreenings = listOfAppointments;
+                angular.forEach(drHoScreenings, function (screeningAppointment) {
+                    $scope.screenings.events.push(screeningAppointment);
+                })
+            })
 
-        };
-
-        $scope.getJulyData();
+            .error(function () {
+                console.log("Error getting Dr Ho's screening appointments");
+            });
     };
+
+    //Async http get request to retrieve Dr Ho's pre-evaluation appointments
+    $scope.getDrHoPreEvaluations = function () {
+
+        $http.get('http://demo4552602.mockable.io/drHoPreEvaluations')
+
+            .success(function (listOfAppointments) {
+                var drHoPreEvaluations = listOfAppointments;
+                angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
+                    $scope.preEvaluations.events.push(preEvaluationAppointment);
+                })
+            })
+
+            .error(function () {
+                console.log("Error getting Dr Ho's pre-evaluation appointments");
+            });
+    };
+
+    //Async http get request to retrieve Dr Ho's surgery appointments
+    $scope.getDrHoSurgeries = function () {
+
+        $http.get('http://demo4552602.mockable.io/drHoSurgeries')
+
+            .success(function (listOfAppointments) {
+                var drHoSurgeries = listOfAppointments;
+                angular.forEach(drHoSurgeries, function (surgeryAppointment) {
+                    $scope.surgeries.events.push(surgeryAppointment);
+                })
+            })
+
+            .error(function () {
+                console.log("Error getting Dr Ho's surgery appointments");
+            });
+    };
+
 });
