@@ -62,7 +62,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      }
      ];*/
 
-    $scope.events = [];
+    $scope.screenings = [];
+
+    $scope.preEvaluations = [];
 
     $scope.surgeries = {
         color: '#CC3333',
@@ -73,28 +75,44 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 title: 'Surgery (John)',
                 start: new Date("July 8, 2015 9:30:00"),
                 end: new Date("July 8, 2015 10:00:00"),
-                allDay: false
+                allDay: false,
+                patients: [
+                    {name: "john", handphone: "123"},
+                    {name: "jasmine", handphone: "321"}
+                ]
             },
             {
                 type: 'Surgery',
                 title: 'Surgery (Jas)',
                 start: new Date("July 17, 2015 10:30:00"),
                 end: new Date("July 17, 2015 11:00:00"),
-                allDay: false
+                allDay: false,
+                patients: [
+                    {name: "Tom", handphone: "123"},
+                    {name: "jane", handphone: "321"}
+                ]
             },
             {
                 type: 'Surgery',
                 title: 'Surgery (Jimmy)',
                 start: new Date("July 30, 2015 15:30:00"),
                 end: new Date("July 17, 2015 16:00:00"),
-                allDay: false
+                allDay: false,
+                patients: [
+                    {name: "Darren", handphone: "123"},
+                    {name: "Pinky", handphone: "321"}
+                ]
             },
             {
                 type: 'Surgery',
                 title: 'Surgery (Yash)',
                 start: new Date("July 22, 2015 15:30:00"),
                 end: new Date("July 17, 2015 16:00:00"),
-                allDay: false
+                allDay: false,
+                patients: [
+                    {name: "jack", handphone: "123"},
+                    {name: "Bob", handphone: "321"}
+                ]
             },
         ]
     };
@@ -140,10 +158,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
         ]
     };
+
     /* alert on eventClick */
     $scope.alertOnEventClick = function (date, jsEvent, view) {
         $scope.alertMessage = (date.title + ' was clicked ');
     };
+
     /* alert on Drop */
     $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
         //$scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
@@ -154,6 +174,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }, 1000);
 
     };
+
     /* alert on Resize */
     $scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
         //$scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
@@ -164,6 +185,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.alertMessage = ("");
         }, 1000);
     };
+
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function (sources, source) {
         var canAdd = 0;
@@ -177,6 +199,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             sources.push(source);
         }
     };
+
     /* add custom event*/
     $scope.addEvent = function () {
         $scope.events.push({
@@ -186,10 +209,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             className: ['openSesame']
         });
     };
+
     /* remove event */
     $scope.remove = function (index) {
         $scope.events.splice(index, 1);
     };
+
     /* Change View */
     $scope.changeView = function (view, calendar) {
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
@@ -201,14 +226,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             uiCalendarConfig.calendars[calendar].fullCalendar('render');
         }
     };
+
     /* Render Tooltip */
     $scope.eventRender = function (event, element, view) {
+        var strOfPatientNames = $scope.getAllPatientsName(event);
         element.attr({
-            'tooltip': event.title,
+            'tooltip': strOfPatientNames,
             'tooltip-append-to-body': true
         });
         $compile(element)($scope);
     };
+
+    /* Returns a string of patient names for a particular appointment time slot */
+    $scope.getAllPatientsName = function (event, element) {
+
+        var listOfPatients = event.patients;
+        var strOfPatientNames = "";
+
+        listOfPatients.forEach(function (patient) {
+            strOfPatientNames += patient.name;
+            strOfPatientNames += '\r\n';
+        });
+
+        return strOfPatientNames;
+    };
+
     /* config object */
     $scope.uiConfig = {
         calendar: {
@@ -240,11 +282,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.changeTo = 'Hungarian';
         }
     };
+
     /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.surgeries, $scope.eventsF];
-    $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF];
-
-
+    $scope.doctorHoAppointments = [$scope.screenings, $scope.preEvaluations, $scope.surgeries];
+    $scope.doctorGohAppointments = [$scope.calEventsExt, $scope.eventsF];
+    
     //Asynchronous HTTP Get will be called when the app starts
     $http.get('/Clearvision/_api/appointments/')
         .success(function (data) {
@@ -277,4 +319,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     //For Testing: However, when I run this line of code below, the $scope.eventSources now do not show $scope.surgeries and $scope.eventsF
     //$scope.eventSources = [];
+
+
+    $scope.getAppointments = function () {
+        /*
+         Clearing in this manner maintains the two-way data bind.
+         This can be called over and over, with old events cleared,
+         and new random events displayed. This no longer works
+         if getEventsEmptyArray is ever called, due to two-way
+         data bind being broken within that function.
+         */
+        $scope.events.splice(0);
+
+        $scope.getJulyData = function () {
+            $http.get('http://demo4552602.mockable.io/appointments')
+                .success(function (eventdata) {
+                    var events = eventdata;
+                    console.log(events);
+                    angular.forEach(events, function (event) {
+                        $scope.events.push(event);
+                    });
+                });
+
+        };
+
+        $scope.getJulyData();
+    };
 });
