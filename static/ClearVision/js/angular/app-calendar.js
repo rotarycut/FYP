@@ -62,19 +62,37 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      }
      ];*/
 
-    $scope.screenings = {
+    $scope.drHoScreenings = {
         color: '#303030',
         textColor: 'White',
         events: []
     };
 
-    $scope.preEvaluations = {
+    $scope.drHoPreEvaluations = {
         color: '#CC6600',
         textColor: 'White',
         events: []
     };
 
-    $scope.surgeries = {
+    $scope.drHoSurgeries = {
+        color: '#CC3333',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.drGohScreenings = {
+        color: '#303030',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.drGohPreEvaluations = {
+        color: '#CC6600',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.drGohSurgeries = {
         color: '#CC3333',
         textColor: 'White',
         events: []
@@ -185,10 +203,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* Change View */
-    $scope.renderCalender = function (calendar) {
-        if (uiCalendarConfig.calendars[calendar]) {
-            uiCalendarConfig.calendars[calendar].fullCalendar('render');
-        }
+    $scope.renderCalendar = function (calendarId) {
+        $timeout(function () {
+            calendarTag = $('#' + calendarId);
+            calendarTag.fullCalendar('render');
+            //$('#calendar').fullCalendar('rerenderEvents');
+        }, 0);
     };
 
     /* Render Tooltip */
@@ -248,41 +268,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* event sources array*/
-    $scope.doctorHoAppointments = [$scope.screenings, $scope.preEvaluations, $scope.surgeries];
-    $scope.doctorGohAppointments = [$scope.calEventsExt, $scope.eventsF];
-
-    //Asynchronous HTTP Get will be called when the app starts
-    $http.get('/Clearvision/_api/appointments/')
-        .success(function (data) {
-
-            $scope.events = data;
-            //In the web console, $scope.events now contains all the objects from the HTTP Get Request
-            console.log($scope.events);
-
-            $scope.eventSources = [$scope.events, $scope.surgeries, $scope.eventsF];
-            //In the web console, $scope.eventSources now contains all the objects from the HTTP Get Request
-            console.log($scope.eventSources);
-
-            //However, in the view, the $scope.eventSources is not updated with the new objects
-
-            //For Testing: Even if I run this line of code below, the $scope.eventSources still show $scope.surgeries and $scope.eventsF
-            $scope.eventSources = [];
-
-            //For Testing: Even forcing a digest loop does not update the $scope.eventSources
-            $timeout(function () {
-
-                $scope.$apply(function () {
-                    $scope.eventSources = [];
-                });
-            }, 2000)
-
-        }).error(function (data) {
-
-        });
-
-
-    //For Testing: However, when I run this line of code below, the $scope.eventSources now do not show $scope.surgeries and $scope.eventsF
-    //$scope.eventSources = [];
+    $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries];
+    $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
 
     //Async http get request to retrieve Dr Ho's screening appointments
     $scope.getDrHoScreenings = function () {
@@ -292,7 +279,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .success(function (listOfAppointments) {
                 var drHoScreenings = listOfAppointments;
                 angular.forEach(drHoScreenings, function (screeningAppointment) {
-                    $scope.screenings.events.push(screeningAppointment);
+                    $scope.drHoScreenings.events.push(screeningAppointment);
                 })
             })
 
@@ -309,7 +296,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .success(function (listOfAppointments) {
                 var drHoPreEvaluations = listOfAppointments;
                 angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
-                    $scope.preEvaluations.events.push(preEvaluationAppointment);
+                    $scope.drHoPreEvaluations.events.push(preEvaluationAppointment);
                 })
             })
 
@@ -326,12 +313,63 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .success(function (listOfAppointments) {
                 var drHoSurgeries = listOfAppointments;
                 angular.forEach(drHoSurgeries, function (surgeryAppointment) {
-                    $scope.surgeries.events.push(surgeryAppointment);
+                    $scope.drHoSurgeries.events.push(surgeryAppointment);
                 })
             })
 
             .error(function () {
                 console.log("Error getting Dr Ho's surgery appointments");
+            });
+    };
+
+    //Async http get request to retrieve Dr Goh's screening appointments
+    $scope.getDrGohScreenings = function () {
+        $scope.drGohScreenings.events.splice(0);
+        $http.get('http://demo4552602.mockable.io/drGohScreenings')
+
+            .success(function (listOfAppointments) {
+                var drGohScreenings = listOfAppointments;
+                angular.forEach(drGohScreenings, function (screeningAppointment) {
+                    $scope.drGohScreenings.events.push(screeningAppointment);
+                })
+            })
+
+            .error(function () {
+                console.log("Error getting Dr Goh's screening appointments");
+            });
+    };
+
+    //Async http get request to retrieve Dr Goh's pre-evaluation appointments
+    $scope.getDrGohPreEvaluations = function () {
+        $scope.drGohPreEvaluations.events.splice(0);
+        $http.get('http://demo4552602.mockable.io/drGohPreEvaluations')
+
+            .success(function (listOfAppointments) {
+                var drGohPreEvaluations = listOfAppointments;
+                angular.forEach(drGohPreEvaluations, function (preEvaluationAppointment) {
+                    $scope.drGohPreEvaluations.events.push(preEvaluationAppointment);
+                })
+            })
+
+            .error(function () {
+                console.log("Error getting Dr Goh's pre-evaluation appointments");
+            });
+    };
+
+    //Async http get request to retrieve Dr Ho's surgery appointments
+    $scope.getDrGohSurgeries = function () {
+        $scope.drGohSurgeries.events.splice(0);
+        $http.get('http://demo4552602.mockable.io/drGohSurgeries')
+
+            .success(function (listOfAppointments) {
+                var drGohSurgeries = listOfAppointments;
+                angular.forEach(drGohSurgeries, function (surgeryAppointment) {
+                    $scope.drGohSurgeries.events.push(surgeryAppointment);
+                })
+            })
+
+            .error(function () {
+                console.log("Error getting Dr Goh's surgery appointments");
             });
     };
 
