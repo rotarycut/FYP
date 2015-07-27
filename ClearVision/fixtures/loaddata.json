@@ -3,7 +3,6 @@
     "model": "ClearVision.Patient",
     "pk": 1,
     "fields": {
-        "nric": "S9999999D",
         "name": "Sherman",
         "gender": "Male",
         "contact": "999999999",
@@ -16,7 +15,6 @@
     "model": "ClearVision.Patient",
     "pk": 2,
     "fields": {
-        "nric": "S8888888D",
         "name": "Claire",
         "gender": "Female",
         "contact": "88888888",
@@ -102,12 +100,12 @@
 
     "fields": {
 
-        "type": "cut eye ball",
+        "type": "Screening",
         "start": "2015-07-17T07:16:35Z",
         "end": "2015-07-17T07:50:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patient": 1,
-        "doctor": 1,
+        "patient": [1],
+        "doctor": 2,
         "clinic": 2
     }
   },
@@ -118,11 +116,11 @@
 
     "fields": {
 
-        "type": "Checkup",
+        "type": "Surgery",
         "start": "2015-07-20T07:16:35Z",
         "end": "2015-07-20T07:45:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patient": 2,
+        "patient": [1,2],
         "doctor": 2,
         "clinic": 1
     }
@@ -134,12 +132,60 @@
 
     "fields": {
 
-        "type": "Checkup type 2",
+        "type": "Pre Evaluation",
         "start": "2015-07-25T07:16:35Z",
         "end": "2015-07-25T07:30:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patient": 1,
+        "patient": [1,2],
         "doctor": 2,
+        "clinic": 2
+    }
+  },
+
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 4,
+
+    "fields": {
+
+        "type": "Screening",
+        "start": "2015-07-27T07:16:35Z",
+        "end": "2015-07-27T07:50:35Z",
+        "creation_time": "2015-07-27T07:16:36Z",
+        "patient": [1],
+        "doctor": 1,
+        "clinic": 2
+    }
+  },
+
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 5,
+
+    "fields": {
+
+        "type": "Surgery",
+        "start": "2015-07-27T07:16:35Z",
+        "end": "2015-07-27T07:45:35Z",
+        "creation_time": "2015-07-27T07:16:36Z",
+        "patient": [1,2],
+        "doctor": 1,
+        "clinic": 1
+    }
+  },
+
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 6,
+
+    "fields": {
+
+        "type": "Pre Evaluation",
+        "start": "2015-07-27T07:16:35Z",
+        "end": "2015-07-27T07:30:35Z",
+        "creation_time": "2015-07-27T07:16:36Z",
+        "patient": [1,2],
+        "doctor": 1,
         "clinic": 2
     }
   }
