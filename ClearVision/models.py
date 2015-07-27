@@ -3,7 +3,7 @@ from django.db import models
 class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
-    contact = models.CharField(max_length=50)
+    contact = models.CharField(max_length=50, primary_key=True)
     dob = models.CharField(max_length=50)
     marketingChannelId = models.PositiveIntegerField(default=0)
 

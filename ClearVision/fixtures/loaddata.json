@@ -1,11 +1,10 @@
 [
   {
     "model": "ClearVision.Patient",
-    "pk": 1,
     "fields": {
         "name": "Sherman",
         "gender": "Male",
-        "contact": "999999999",
+        "contact": "91500323",
         "dob": "21/21/21",
         "marketingChannelId": 10
     }
@@ -13,11 +12,10 @@
 
   {
     "model": "ClearVision.Patient",
-    "pk": 2,
     "fields": {
-        "name": "Claire",
-        "gender": "Female",
-        "contact": "88888888",
+        "name": "Leon",
+        "gender": "Male",
+        "contact": "94764232",
         "dob": "18/18/18",
         "marketingChannelId": 11
     }
@@ -104,7 +102,7 @@
         "start": "2015-07-17T07:16:35Z",
         "end": "2015-07-17T07:50:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patients": [1],
+        "patients": [91500323],
         "doctor": 2,
         "clinic": 2
     }
@@ -120,7 +118,7 @@
         "start": "2015-07-20T07:16:35Z",
         "end": "2015-07-20T07:45:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patients": [1,2],
+        "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 1
     }
@@ -136,7 +134,7 @@
         "start": "2015-07-25T07:16:35Z",
         "end": "2015-07-25T07:30:35Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patients": [1,2],
+        "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 2
     }
@@ -152,7 +150,7 @@
         "start": "2015-07-27T07:16:35Z",
         "end": "2015-07-27T07:50:35Z",
         "creation_time": "2015-07-27T07:16:36Z",
-        "patients": [1],
+        "patients": [91500323],
         "doctor": 1,
         "clinic": 2
     }
@@ -168,7 +166,7 @@
         "start": "2015-07-27T07:16:35Z",
         "end": "2015-07-27T07:45:35Z",
         "creation_time": "2015-07-27T07:16:36Z",
-        "patients": [1,2],
+        "patients": [91500323, 94764232],
         "doctor": 1,
         "clinic": 1
     }
@@ -184,7 +182,7 @@
         "start": "2015-07-27T07:16:35Z",
         "end": "2015-07-27T07:30:35Z",
         "creation_time": "2015-07-27T07:16:36Z",
-        "patients": [1,2],
+        "patients": [91500323, 94764232],
         "doctor": 1,
         "clinic": 2
     }

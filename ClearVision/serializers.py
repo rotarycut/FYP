@@ -25,8 +25,9 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
+
         fields = ('id', 'title', 'start', 'end', 'patients',)
-        depth = 2
+        depth = 0
         read_only_fields = ('title',)
 
     #def get_title(self, Appointment):
