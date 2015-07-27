@@ -356,7 +356,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Async http get request to retrieve Dr Ho's surgery appointments
+    //Async http get request to retrieve Dr Goh's surgery appointments
     $scope.getDrGohSurgeries = function () {
         $scope.drGohSurgeries.events.splice(0);
         $http.get('http://demo4552602.mockable.io/drGohSurgeries')
@@ -372,5 +372,33 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 console.log("Error getting Dr Goh's surgery appointments");
             });
     };
+
+
+    //Testing: Post request
+    $scope.postAppointment = function () {
+
+        $http.post('/Clearvision/_api/appointments/', {
+            "type": "Pre Evaluation",
+            "start": "2015-07-28T07:16:35Z",
+            "end": "2015-07-28T07:30:35Z",
+            "creation_time": "2015-07-28T07:16:36Z",
+            "doctor": 1,
+            "clinic": 2,
+            "patients": [
+                91500323,
+                94764232
+            ]
+        })
+
+            .success(function (data) {
+                console.log("Successful with http post");
+            })
+
+            .error(function (data) {
+                console.log("Error with http post");
+            });
+
+    };
+
 
 });
