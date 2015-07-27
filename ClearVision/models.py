@@ -43,7 +43,7 @@ class Appointment(models.Model):
     start = models.DateTimeField('Appointment start date and time')
     end = models.DateTimeField("Appointment end date and time")
     creation_time = models.DateTimeField('Creation Time')
-    patient = models.ManyToManyField(Patient)
+    patients = models.ManyToManyField(Patient)
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
 

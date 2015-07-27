@@ -96,7 +96,7 @@ class AppointmentFilter(django_filters.FilterSet):
 
     class Meta:
         model = Appointment
-        fields = ['patient', 'doctor__name', 'clinic', 'appt_time_range_start', 'appt_time_range_end', 'type']
+        fields = ['patients', 'doctor__name', 'clinic', 'appt_time_range_start', 'appt_time_range_end', 'type']
 
 class AppointmentList(viewsets.ModelViewSet):
     renderer_classes = (JSONRenderer,)

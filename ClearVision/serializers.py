@@ -20,12 +20,12 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 class AppointmentSerializer(serializers.ModelSerializer):
 
-    title = serializers.IntegerField(source='patient.count')
+    title = serializers.CharField(source='patients.count')
     #title = serializers.SerializerMethodField()
 
     class Meta:
         model = Appointment
-        fields = ('id', 'title', 'start', 'end', 'patient',)
+        fields = ('id', 'title', 'start', 'end', 'patients',)
         depth = 2
         read_only_fields = ('title',)
 
