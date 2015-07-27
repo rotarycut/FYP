@@ -1,7 +1,9 @@
 var app = angular.module('calendarDemoApp', [
     'ui.calendar',
     'ui.bootstrap',
-    'app.calendar',]);
+    'app.calendar',
+    'app.appointment.form'
+]);
 
 
 // Changing Angular interpolation from "{{ }}" to "[[ ]]" to prevent conflict with Django codes
@@ -12,5 +14,5 @@ app.config(function ($interpolateProvider) {
 
 //remove ng-scope and ng-bining class from html
 /*app.config(['$compileProvider', function ($compileProvider) {
-    $compileProvider.debugInfoEnabled(false);
-}]);*/
+ $compileProvider.debugInfoEnabled(false);
+ }]);*/

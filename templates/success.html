@@ -5,7 +5,8 @@
         <div ng-include='"header.html"'></div>
         <section class="app-content">
             <div class="side-container">
-                <a href="#" class="pull-right" style="padding-top: 0.4em" data-tooltip="New Appointment" onclick="showForm()"
+                <a href="#" class="pull-right" style="padding-top: 0.4em" data-tooltip="New Appointment"
+                   onclick="showForm()"
                    data-ng-click="vis = !vis" id="show-form-btn"><i class="fa fa-plus-circle fa-2x pull-right"></i></a>
             </div>
 
@@ -13,9 +14,6 @@
             <div class="cal-container" id="directives-calendar" data-ng-controller="CalendarCtrl"
                  style="display: inline-block">
 
-                <div>
-                    <button ng-click="postAppointment()">Post Appointment</button>
-                </div>
                 <!--<section>-->
                 <div class="well cal-well" style="background: #F4F4F4">
                     <!-- <div class="row-fluid">
@@ -125,24 +123,24 @@
 
             </div>
 
-            <div class="form-container" id="addAppt-form" ng-show="vis"
+            <div class="form-container" id="addAppt-form" ng-show="vis" data-ng-controller="AppointmentFormController"
                  ng-animate="{show: 'menu-show', hide: 'menu-hide'}">
+
                 <div class="form-div pull-left">
                     <div class="form-div-header">
                         <a href="#" onclick="hideForm()" data-ng-click="vis = !vis" id="hide-form-btn"><i
                                 class="fa fa-chevron-left fa-lg pull-left"></i></a>
                         <h5 id="form-title" style="font-weight: bold">Create New Appointment</h5>
                     </div>
+
                     <div class="form-div-body">
                         <form class="form-horizontal">
                             <div class="form-group col-md-12">
                                 <label class="control-label">Appointment Type:</label>
-                                <select class="form-control" data-ng-model="form-appt-type">
-                                    <option>Choose Appt Type</option>
-                                    <option>Pre-Evaluation</option>
-                                    <option>Screening</option>
-                                    <option>Lasik Surgery</option>
-                                    <option>Follow-up</option>
+                                <select class="form-control" data-ng-model="appointmentType">
+                                    <option ng-repeat="apptType in listOfAppointmentTypes">
+                                        [[apptType]]
+                                    </option>
                                 </select>
                             </div>
                             <div class="form-group col-md-12">
@@ -151,88 +149,109 @@
                                         <label class="control-label">Date</label>
 
                                         <p class="input-group">
-                                            <input type="text" class="form-control" datepicker-popup="{{ format }}"
-                                                   data-ng-model="form-appt-date" is-open="opened" min-date="minDate"
-                                                   max-date="'2015-06-22'"
-                                                   datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                                                   ng-required="true" close-text="Close"/>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="Appointment Date"
+                                                   datepicker-popup="[[ format ]]"
+                                                   name="datePickerCalendar"
+                                                   ng-model="apptDateTime"
+                                                   is-open="datepickers.showDatePicker"
+                                                   min-date="minDate"
+                                                   datepicker-options="dateOptions"
+                                                   show-button-bar="false"
+                                                   disabled="disabled"/>
+
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i
-                                                        class="glyphicon glyphicon-calendar"></i></button>
+                                                <button type="button" class="btn btn-default"
+                                                        ng-click="open($event,'showDatePicker')">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                </button>
                                             </span>
                                         </p>
+
                                     </div>
+
                                     <div class="col-md-4" date-div>
                                         <label class="control-label">Time</label>
-                                        <select class="form-control" data-ng-model="form-appt-time">
-                                            <option>09:00</option>
-                                            <option>10:00</option>
-                                            <option>11:00</option>
-                                            <option>12:00</option>
-                                            <option>13:00</option>
+                                        <select class="form-control" data-ng-model="appointmentTime">
+                                            <option ng-repeat="apptTime in listOfAppointmentTimings">
+                                                [[apptTime]]
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <div class="row">
                                     <div class="col-md-6 name-div">
                                         <label class="control-label">Patient Name</label>
-                                        <input type="text" class="form-control" data-ng-model="form-appt-name">
+                                        <input type="text" class="form-control" data-ng-model="patientName">
                                     </div>
+
                                     <div class="col-md-6 contact-div">
                                         <label class="control-label">Contact No.</label>
-                                        <input type="text" class="form-control" data-ng-model="form-appt-contact">
+                                        <input type="text" class="form-control" data-ng-model="patientContact">
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label class="control-label">Doctor</label>
 
                                 <div class="row">
                                     <div class="radio col-md-6 doc-div">
-                                        <label><input type="radio" data-ng-model="form-appt-doc" value="drho">Dr.
-                                            Ho</label>
+                                        <label><input type="radio" data-ng-model="doctorAssigned" value="drho">
+                                            Dr.Ho
+                                        </label>
                                     </div>
                                     <div class="radio col-md-6 doc-div">
-                                        <label><input type="radio" data-ng-model="form-appt-doc" value="drgoh">Dr.
-                                            Goh</label>
+                                        <label><input type="radio" data-ng-model="doctorAssigned" value="drgoh">
+                                            Dr.Goh
+                                        </label>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label class="control-label">Marketing Channel</label>
-                                <select class="form-control" data-ng-model="form-appt-channle">
-                                    <option>Email</option>
-                                    <option>Friend</option>
-                                    <option>Facebook</option>
-                                    <option>Website</option>
+                                <select class="form-control" data-ng-model="marketingChannel">
+                                    <option ng-repeat="mktChannel in listOfMarketingChannels">
+                                        [[mktChannel]]
+                                    </option>
                                 </select>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label class="control-label">Remarks</label>
-                                <textarea class="form-control" rows="3" data-ng-model="form-appt-remark"></textarea>
+                                <textarea class="form-control" rows="3" data-ng-model="appointmentRemarks"
+                                          placeholder="Optional">
+                                </textarea>
                             </div>
+
                             <div class="form-group col-md-12 form-appt-btns">
                                 <div class="row">
                                     <div class="col-md-4 col-md-offset-2">
-                                        <button class="btn btn-primary" data-ng-click="ok($event)">Submit</button>
+                                        <button class="btn btn-primary" onclick="hideForm()"
+                                                data-ng-click="vis = !vis; clearForm();">Submit
+                                        </button>
                                     </div>
                                     <div class="col-md-6">
-                                        <button class="btn btn-warning" data-ng-click="cancel($event)">Cancel</button>
+                                        <button class="btn btn-warning" onclick="hideForm()"
+                                                data-ng-click="vis = !vis; clearForm()">Cancel
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </form>
 
                     </div>
-
                 </div>
             </div>
 
-
         </section>
     </section>
+
     <script>
         function showForm() {
             var cal = document.getElementById("directives-calendar");
@@ -252,7 +271,7 @@
             form.style.visibility = "hidden"
             cal.style.width = "85vw";
             btn.style.visibility = "visible";
-
         }
     </script>
+    
 {% endblock %}
