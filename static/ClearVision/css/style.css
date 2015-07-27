@@ -16,7 +16,7 @@ body {
 }
 
 .app-content{
-    padding-top: 7%;
+    padding-top: 2em;
     margin-left: 2em;
     margin-right: 0;
     height: 100vh;
@@ -134,16 +134,16 @@ header {
     width:100%;
     background: #BEE2E7;
     border-bottom: 2px solid #1859a8;
-    min-height: 70px;
+    height: 7.5vh;
     padding: 0 15px;
     z-index: 1002;
 }
 #header-container{
-    height: 50%;
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
-    margin-top: 1.1em;
-    margin-bottom: 1.1em;
+    height: 100%;
+    padding-top: 0.3em;
+    padding-bottom: 0.3;
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
 }
 #header-logo{
     content: url('../img/app-header-logo.png');
@@ -217,28 +217,42 @@ a.navbar-a {
 /* succcess page css begins here*/
 
 .cal-container{
-    width: 90vw;
-    max-height: 380px;
+    width: 85vw;
+    height: 83vh;
     display: inline-block;
-    margin-right: 1em;
-
+    margin-right: 1.5em;
+    margin-top: 2em;
 }
 .form-container{
-    width: 0vw;
-    max-height: 380px;
+    visibility:hidden;
+    height: 85vh;
     display: inline-block;
     padding-left: 0;
 
 }
 .form-div{
-    width:18vw;
-    max-height: 380px;
+    height: 81vh;
+}
+.form-group{
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+.control-label{
+    font-weight: 400;!important;
+}
+.form-appt-btns{
+    padding-top: 0.6em;
+}
+.date-div{
+    padding-right:0
 }
 .side-container{
-    width: 5vw;
-    height: 40vh;
-    display: inline-block;
-    margin-right: 0.1em;
+    height: 8vh;
+    margin-top:0.5em;
+    padding-top:0.5em;
+    margin-right: 0;
+    margin-bottom: 0;
 }
 .menu-show-setup, .menu-hide-setup {
   transition:all 0.5s ease-out;
@@ -246,8 +260,8 @@ a.navbar-a {
 }
 
 .well.cal-well {
-    padding:0;
-    height: 80vh;
+    margin-bottom: 0;
+    height: 81vh;
 }
 
 #form-title{
