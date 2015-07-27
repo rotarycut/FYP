@@ -377,7 +377,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     //Testing: Post request
     $scope.postAppointment = function () {
 
-        $http.post('/Clearvision/_api/appointments/', {
+        $http.post('/Clearvision/_api/appointmentsCUD/', {
             "type": "Pre Evaluation",
             "start": "2015-07-28T07:16:35Z",
             "end": "2015-07-28T07:30:35Z",
