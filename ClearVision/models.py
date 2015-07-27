@@ -1,15 +1,14 @@
 from django.db import models
 
 class Patient(models.Model):
-    nric = models.CharField(max_length=15)
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
-    contact = models.CharField(max_length=50)
+    contact = models.CharField(max_length=50, primary_key=True)
     dob = models.CharField(max_length=50)
     marketingChannelId = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.nric
+        return self.name
 
 class Clinic(models.Model):
     name = models.CharField(max_length=50)
@@ -44,7 +43,7 @@ class Appointment(models.Model):
     start = models.DateTimeField('Appointment start date and time')
     end = models.DateTimeField("Appointment end date and time")
     creation_time = models.DateTimeField('Creation Time')
-    patient = models.ForeignKey(Patient)
+    patients = models.ManyToManyField(Patient)
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
 

@@ -38,7 +38,7 @@
 
                     <div>
                         <tabset>
-                            <tab select="renderCalendar('myCalendar1');">
+                            <tab select="renderCalendar('drHoCalendar');" ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
                                 <tab-heading>
                                     <i class="fa fa-calendar tab-head-icon"></i>
 
@@ -67,13 +67,12 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="calendar" ng-model="eventSources" calendar="myCalendar1"
-                                     ui-calendar="uiConfig.calendar"></div>
+                                <div class="calendar" ng-model="doctorHoAppointments" calendar="myCalendar1"
+                                     ui-calendar="uiConfig.calendar" id="drHoCalendar"></div>
 
                             </tab>
 
-                            <tab>
-
+                            <tab select="renderCalendar('drGohCalendar');" ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
                                 <tab-heading>
                                     <i class="fa fa-calendar tab-head-icon"></i>
 
@@ -103,8 +102,8 @@
                                     </div>
                                 </div>
 
-                                <div class="calendar" ng-model="eventSources2" calendar="myCalendar2"
-                                     ui-calendar="uiConfig.calendar"></div>
+                                <div class="calendar" ng-model="doctorGohAppointments" calendar="myCalendar2"
+                                     ui-calendar="uiConfig.calendar" id="drGohCalendar"></div>
                             </tab>
 
                         </tabset>
