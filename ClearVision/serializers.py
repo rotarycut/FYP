@@ -29,7 +29,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'start', 'end', 'patients')
 
     def get_title(self, appointment):
-        return str(appointment.patients.count()) + " Appointment(s)"
+        return str(appointment.patients.count()) + " Patient(s)"
 
     patients = PatientSerializer(many=True)
 
