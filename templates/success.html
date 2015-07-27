@@ -4,6 +4,10 @@
     <section class="app-container">
         <div ng-include='"header.html"'></div>
         <section class="app-content">
+            <div class="side-container">
+                <a href="#" class="pull-right" data-tooltip="New Appointment" onclick="showForm()"
+                   data-ng-click="vis = !vis" id="show-form-btn"><i class="fa fa-plus-circle fa-2x pull-right"></i></a>
+            </div>
             <!-- CALENDAR COMES IN HERE -->
             <div class="cal-container" id="directives-calendar" data-ng-controller="CalendarCtrl"
                  style="display: inline-block">
@@ -38,7 +42,8 @@
 
                     <div>
                         <tabset>
-                            <tab select="renderCalendar('drHoCalendar');" ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
+                            <tab select="renderCalendar('drHoCalendar');"
+                                 ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
                                 <tab-heading>
                                     <i class="fa fa-calendar tab-head-icon"></i>
 
@@ -72,7 +77,8 @@
 
                             </tab>
 
-                            <tab select="renderCalendar('drGohCalendar');" ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
+                            <tab select="renderCalendar('drGohCalendar');"
+                                 ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
                                 <tab-heading>
                                     <i class="fa fa-calendar tab-head-icon"></i>
 
@@ -114,85 +120,134 @@
 
             </div>
 
-            <div class="form-container" id="addAppt-form">
-                <div class="form-div pull-right" ng-show="vis" ng-animate="{show: 'menu-show', hide: 'menu-hide'}">
+            <div class="form-container" id="addAppt-form" ng-show="vis"
+                 ng-animate="{show: 'menu-show', hide: 'menu-hide'}">
+                <div class="form-div pull-left">
                     <div class="form-div-header">
-                     <a href="#" onclick="hideForm()" data-ng-click="vis = !vis" id="hide-form-btn"><i class="fa fa-chevron-left fa-lg pull-left"></i></a>
-                    <h5 id="form-title" style="font-weight: bold">Create New Appointment</h5>
-                </div>
+                        <a href="#" onclick="hideForm()" data-ng-click="vis = !vis" id="hide-form-btn"><i
+                                class="fa fa-chevron-left fa-lg pull-left"></i></a>
+                        <h5 id="form-title" style="font-weight: bold">Create New Appointment</h5>
+                    </div>
+                    <div class="form-div-body">
+                        <form class="form-horizontal">
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Appointment Type:</label>
+                                <select class="form-control" data-ng-model="form-appt-type">
+                                    <option>Choose Appt Type</option>
+                                    <option>Pre-Evaluation</option>
+                                    <option>Screening</option>
+                                    <option>Lasik Surgery</option>
+                                    <option>Follow-up</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="row">
+                                    <div class="col-md-8 date-div">
+                                        <label class="control-label">Date</label>
 
-                <div class="form-div-body">
-                    <form class="form-horizontal">
-                        <label>Patient Name:</label>
-                        <input type="text" class="form-control" ng-model="ApptPatientName">
-                        <label>Contact No.:</label>
-                        <input type="text" class="form-control" ng-model="ApptPatientContact">
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" datepicker-popup="{{ format }}"
+                                                   data-ng-model="form-appt-date" is-open="opened" min-date="minDate"
+                                                   max-date="'2015-06-22'"
+                                                   datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                                                   ng-required="true" close-text="Close"/>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i
+                                                        class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4" date-div>
+                                        <label class="control-label">Time</label>
+                                        <select class="form-control" data-ng-model="form-appt-time">
+                                            <option>09:00</option>
+                                            <option>10:00</option>
+                                            <option>11:00</option>
+                                            <option>12:00</option>
+                                            <option>13:00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6 name-div">
+                                        <label class="control-label">Patient Name</label>
+                                        <input type="text" class="form-control" data-ng-model="form-appt-name">
+                                    </div>
+                                    <div class="col-md-6 contact-div">
+                                        <label class="control-label">Contact No.</label>
+                                        <input type="text" class="form-control" data-ng-model="form-appt-contact">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Doctor</label>
 
-                        <div>
-                            <label>Appointment Date:</label>
-                            <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"
-                                        custom-class="getDayClass(date, mode)"></datepicker>
-                        </div>
-                        <div class="btn-group" dropdown is-open="status.isopen">
-                            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle
-                                    ng-disabled="disabled">
-                                Appointment Type <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">General Eye Checkup</a></li>
-                                <li><a href="#">Lasik Follow-up</a></li>
-                                <li><a href="#">Pre-eval Consultation</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Screening</a></li>
-                                <li><a href="#">Pre-evaluation</a></li>
-                                <li><a href="#">Lasik Surgery</a></li>
-                            </ul>
-                        </div>
-                        <div class="timepicker-appt">
-                            <label>Appointment Time:</label>
-                            <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep"
-                                        show-meridian="ismeridian"></timepicker>
-                        </div>
-                        <div class="radio radio-doc" style="display: inline-block">
-                            <label><input type="radio" name="optradio">Dr. Ho</label>
-                        </div>
-                        <div class="radio radio-doc" style="display: inline-block">
-                            <label><input type="radio" name="optradio">Dr. Goh</label>
-                        </div>
-                        <div class="form-group remarks-tb">
-                            <label for="comment">Remarks:</label>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="form-div-footer">
-                    <button class="btn btn-primary" ng-click="ok($event)">OK</button>
-                    <button class="btn btn-warning" ng-click="cancel($event)">Cancel</button>
-                </div>
+                                <div class="row">
+                                    <div class="radio col-md-6 doc-div">
+                                        <label><input type="radio" data-ng-model="form-appt-doc" value="drho">Dr.
+                                            Ho</label>
+                                    </div>
+                                    <div class="radio col-md-6 doc-div">
+                                        <label><input type="radio" data-ng-model="form-appt-doc" value="drgoh">Dr.
+                                            Goh</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Marketing Channel</label>
+                                <select class="form-control" data-ng-model="form-appt-channle">
+                                    <option>Email</option>
+                                    <option>Friend</option>
+                                    <option>Facebook</option>
+                                    <option>Website</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Remarks</label>
+                                <textarea class="form-control" rows="3" data-ng-model="form-appt-remark"></textarea>
+                            </div>
+                            <div class="form-group col-md-12 form-appt-btns">
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-2">
+                                        <button class="btn btn-primary" data-ng-click="ok($event)">Submit</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-warning" data-ng-click="cancel($event)">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
                 </div>
             </div>
 
-            <div class="side-container pull-right" id="addAppt-form-btn">
-                <a href="#" data-tooltip="New Appointment" onclick="showForm()" data-ng-click="vis = !vis" id="show-form-btn"><i class="fa fa-plus-circle fa-2x pull-right"></i></a>
-            </div>
+
         </section>
     </section>
-    <script>
-        function showForm(){
+        <script>
+        function showForm() {
             var cal = document.getElementById("directives-calendar");
             var form = document.getElementById("addAppt-form");
             var btn = document.getElementById("addAppt-form-btn");
             cal.style.width = "70vw";
-            form.style.width = "21vw";
-            btn.style.visibility="hidden";
+            form.style.visibility = "visible";
+            form.style.width = "25vw";
+            btn.style.width="0"
+            btn.style.visibility = "hidden";
+
         }
-        function hideForm(){
+        function hideForm() {
             var cal = document.getElementById("directives-calendar");
             var form = document.getElementById("addAppt-form");
             var btn = document.getElementById("addAppt-form-btn");
-            cal.style.width = "90vw";
-            form.style.width = "0";
-            btn.style.visibility="visible";
+            form.style.visibility = "hidden"
+            cal.style.width = "85vw";
+            btn.style.visibility = "visible";
+
         }
     </script>
 {% endblock %}
