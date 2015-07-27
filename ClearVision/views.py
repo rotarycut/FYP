@@ -8,6 +8,7 @@ from rest_framework.renderers import JSONRenderer
 from .serializers import *
 from rest_framework import filters
 from rest_framework import generics, viewsets
+from rest_framework.response import Response
 
 @login_required
 def success(request):
@@ -103,5 +104,11 @@ class AppointmentList(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
-    search_fields = ('type', )
     filter_class = AppointmentFilter
+
+# API for Appointment to Create, Update & Delete
+class AppointmentWriter(viewsets.ModelViewSet):
+    renderer_classes = (JSONRenderer,)
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentMakerSerializer
+
