@@ -221,7 +221,6 @@ a.navbar-a {
     height: 83vh;
     display: inline-block;
     margin-right: 1.5em;
-    margin-top: 2em;
 }
 .form-container{
     visibility:hidden;
@@ -248,11 +247,12 @@ a.navbar-a {
     padding-right:0
 }
 .side-container{
-    height: 8vh;
+    height: 11vh;
     margin-top:0.5em;
     padding-top:0.5em;
     margin-right: 0;
     margin-bottom: 0;
+    padding-bottom:0.4em;
 }
 .menu-show-setup, .menu-hide-setup {
   transition:all 0.5s ease-out;

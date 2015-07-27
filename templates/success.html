@@ -5,6 +5,9 @@
         <div ng-include='"header.html"'></div>
         <section class="app-content">
             <div class="side-container">
+                <a href="#" class="pull-right" style="padding-top: 0.4em" data-tooltip="New Appointment" onclick="showForm()"
+                   data-ng-click="vis = !vis" id="show-form-btn"><i class="fa fa-plus-circle fa-2x pull-right"></i></a>
+            </div>
 
             <!-- CALENDAR COMES IN HERE -->
             <div class="cal-container" id="directives-calendar" data-ng-controller="CalendarCtrl"
@@ -226,7 +229,7 @@
 
         </section>
     </section>
-        <script>
+    <script>
         function showForm() {
             var cal = document.getElementById("directives-calendar");
             var form = document.getElementById("addAppt-form");
@@ -234,7 +237,7 @@
             cal.style.width = "70vw";
             form.style.visibility = "visible";
             form.style.width = "25vw";
-            btn.style.width="0"
+            btn.style.width = "0"
             btn.style.visibility = "hidden";
 
         }
