@@ -9,6 +9,7 @@ router.register(r'_api/staff', views.StaffList)
 router.register(r'_api/doctors', views.DoctorList)
 router.register(r'_api/appointments', views.AppointmentList)
 router.register(r'_api/appointmentsCUD', views.AppointmentWriter)
+router.register(r'_api/appointmentsFinder', views.GetEarliestBlankAppointmentSlot)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
@@ -18,5 +19,3 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
-
-    #url(r'^_api/patients, PatientList.as_view()')

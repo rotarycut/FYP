@@ -48,4 +48,4 @@ class Appointment(models.Model):
     clinic = models.ForeignKey(Clinic)
 
     def __str__(self):
-        return self.type
+        return self.type, self.start, self.end, self.patients

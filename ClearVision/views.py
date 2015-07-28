@@ -1,5 +1,7 @@
+from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
+from django.db.models import Count
 from django.shortcuts import render
 from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
@@ -108,7 +110,18 @@ class AppointmentList(viewsets.ModelViewSet):
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentMakerSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        p = Patient.objects.get(contact=request.query_params.get('contact'))
+        a = Appointment.objects.get(id=self.get_object().id)
+        a.patients.remove(p)
+        return Response("Patient Removed")
+
+# API for iScheduling
+class GetEarliestBlankAppointmentSlot(viewsets.ModelViewSet):
+    #renderer_classes = (JSONRenderer,)
+    queryset = Appointment.objects.filter(start__lte=datetime.now()+timedelta(days=5))
+    serializer_class = AppointmentFinderSerializer

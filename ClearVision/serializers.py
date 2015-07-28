@@ -1,3 +1,5 @@
+from datetime import datetime
+
 __author__ = 'sherman'
 from rest_framework import serializers
 from ClearVision.models import *
@@ -36,3 +38,12 @@ class AppointmentSerializer(serializers.ModelSerializer):
 class AppointmentMakerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
+
+class AppointmentFinderSerializer(serializers.ModelSerializer):
+    size = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Appointment
+
+    def get_size(self, appointment):
+        return appointment.patients.count()
