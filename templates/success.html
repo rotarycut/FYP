@@ -4,10 +4,22 @@
     <section class="app-container">
         <div ng-include='"header.html"'></div>
         <section class="app-content">
-            <div class="side-container">
-                <a href="#" class="pull-right" style="padding-top: 0.4em" data-tooltip="New Appointment"
-                   onclick="showForm()"
-                   data-ng-click="vis = !vis" id="show-form-btn"><i class="fa fa-plus-circle fa-2x pull-right"></i></a>
+            <div class="top-container" id="top-row">
+                <section class="nav search-row">
+                    <form class="navbar-form">
+                        <input class="form-control" placeholder="Search" type="text">
+                    </form>
+                </section>
+                <section class="nav btn-row pull-right">
+                    <div class="btn-group-appt">
+                        <button class="btn btn-primary form-btn-group" id="show-form-btn" data-ng-click="vis = !vis" onclick="showForm()">
+                            Add Appointment
+                        </button>
+                        <button class="btn btn-primary form-btn-group" id="block-btn">
+                            Block
+                        </button>
+                    </div>
+                </section>
             </div>
 
             <!-- CALENDAR COMES IN HERE -->
@@ -129,14 +141,22 @@
                 <div class="form-div pull-left">
                     <div class="form-div-header">
                         <a href="#" onclick="hideForm()" data-ng-click="vis = !vis" id="hide-form-btn"><i
-                                class="fa fa-chevron-left fa-lg pull-left"></i></a>
+                                class="fa fa-chevron-right fa-lg pull-left"></i></a>
                         <h5 id="form-title" style="font-weight: bold">Create New Appointment</h5>
                     </div>
 
                     <div class="form-div-body">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" id="edit-form-patients">
                             <div class="form-group col-md-12">
-                                <label class="control-label">Appointment Type:</label>
+                                <label class="control-label">Patient List</label>
+                                <select class="form-control" data-ng-model="appointmentPatientList">
+                                    <option ng-repeat="apptPatient in listOfTimeslotPatients">
+                                        [[apptPatient]]
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Appointment Type</label>
                                 <select class="form-control" data-ng-model="appointmentType">
                                     <option ng-repeat="apptType in listOfAppointmentTypes">
                                         [[apptType]]
@@ -231,14 +251,19 @@
 
                             <div class="form-group col-md-12 form-appt-btns">
                                 <div class="row">
-                                    <div class="col-md-4 col-md-offset-2">
+                                    <div class="col-md-3 col-md-offset-1">
                                         <button class="btn btn-primary" onclick="hideForm()"
                                                 data-ng-click="vis = !vis; clearForm();">Submit
                                         </button>
                                     </div>
-                                    <div class="col-md-6">
-                                        <button class="btn btn-warning" onclick="hideForm()"
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary" onclick="hideForm()"
                                                 data-ng-click="vis = !vis; clearForm()">Cancel
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-md-offset-1">
+                                        <button class="btn btn-warning" onclick=""
+                                                data-ng-click="vis = !vis; clearForm()">Delete
                                         </button>
                                     </div>
                                 </div>
@@ -256,21 +281,26 @@
         function showForm() {
             var cal = document.getElementById("directives-calendar");
             var form = document.getElementById("addAppt-form");
-            var btn = document.getElementById("addAppt-form-btn");
+            var btn = document.getElementById("show-form-btn");
+            var row = document.getElementById("top-row");
+            btn.disabled = true;
             cal.style.width = "70vw";
+            row.style.width = "70vw";
             form.style.visibility = "visible";
             form.style.width = "25vw";
-            btn.style.width = "0"
-            btn.style.visibility = "hidden";
+            form.style.height="85vh"
 
         }
         function hideForm() {
             var cal = document.getElementById("directives-calendar");
             var form = document.getElementById("addAppt-form");
-            var btn = document.getElementById("addAppt-form-btn");
-            form.style.visibility = "hidden"
+            var btn = document.getElementById("show-form-btn");
+            var row = document.getElementById("top-row");
+            btn.disabled = false;
             cal.style.width = "85vw";
-            btn.style.visibility = "visible";
+            row.style.width = "85vw";
+            form.style.visibility = "hidden"
+
         }
     </script>
     
