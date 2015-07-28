@@ -6,6 +6,9 @@ appAppointmentForm.controller('AppointmentFormController', function ($scope) {
     $scope.datepickers = {
         showDatePicker: false
     };
+    $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
+    };
 
     $scope.today = function () {
         $scope.datePickerCalendar = new Date();
@@ -44,6 +47,8 @@ appAppointmentForm.controller('AppointmentFormController', function ($scope) {
     $scope.listOfAppointmentTimings = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"];
 
     $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
+
+    $scope.listOfTimeslotPatients = ["Amabel Lau", "Leon Lim", "Sherman Yong"];
 
     $scope.clearForm = function () {
         $scope.appointmentType = "";

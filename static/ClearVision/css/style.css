@@ -141,8 +141,8 @@ header {
 #header-container{
     height: 100%;
     padding-top: 0.3em;
-    padding-bottom: 0.3;
-    margin-top: 0.3em;
+    padding-bottom: 0.2em;
+    margin-top: 0.4em;
     margin-bottom: 0.3em;
 }
 #header-logo{
@@ -153,8 +153,8 @@ header {
 #header-navbar{
     display: inline-block;
     position: absolute;
-    padding-left:5em;
-    margin-left:10em;
+    padding-left:3em;
+    margin-left:3em;
     margin-top: auto;
     width:50%;
 
@@ -177,7 +177,6 @@ li.navbar-li {
     /*border-right: 1px solid #1859a8;*/
 }
 a.navbar-a {
-    display: block;
     width: 80%;
     padding-left: 0.1em;
     display: inline-block;
@@ -224,10 +223,42 @@ a.navbar-a {
 }
 .form-container{
     visibility:hidden;
-    height: 85vh;
     display: inline-block;
     padding-left: 0;
+}
+.navbar-form{
+    padding: 0px;
+    margin: 0 0 0 0;
+}
 
+.navbar-form .form-control{
+    width: 200px;
+    height: 30px;
+    background: white url('../img/search-line-icon.png') no-repeat 3px;
+    margin-left: 0;
+    padding-left: 1.5em;
+    margin-top: 1px;
+}
+.search-row {
+    float: left;
+    margin-top: 15px;
+}
+.btn-row{
+    float: right;
+    margin-top: 15px;
+}
+.form-btn-group{
+    height: 31px;
+    outline: none;
+    background: #1859a8;
+    border-color: #1859a8;
+}
+.form-btn-group:hover {
+    background: #283c57;
+    border:#1859a8;
+}
+.form-btn-group:focus{
+    outline: 0;
 }
 .form-div{
     height: 81vh;
@@ -246,12 +277,13 @@ a.navbar-a {
 .date-div{
     padding-right:0
 }
-.side-container{
+.top-container{
+    width: 85vw;
     height: 11vh;
     margin-top:0.5em;
     padding-top:0.5em;
-    margin-right: 0;
     margin-bottom: 0;
+    margin-right:0em; !important;
     padding-bottom:0.4em;
 }
 .menu-show-setup, .menu-hide-setup {
@@ -667,11 +699,7 @@ a.logo span {
 #top_menu .nav > li, ul.top-menu > li {
     float: left;
 }
-.search-row {
-    float: left;
-    margin-top: 15px;
-    margin-left: 16px;
-}
+
 .notification-row {
     float: right;
     margin-top: 15px;
@@ -726,18 +754,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     border-radius: 4px;
     -webkit-border-radius: 4px;
 }
-.navbar-form{
-    padding: 0px;
-    margin: 0 0 0 10px;
-}
 
-.navbar-form .form-control{
-    width: 200px;
-    height: 30px;
-    background: white url('../img/icons/search-line-icon.png') no-repeat 3px;
-    padding-left: 24px;
-    margin-top: 1px;
-}
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     /* Safari and Chrome */
