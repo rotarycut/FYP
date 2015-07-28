@@ -17,51 +17,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
     /* event source that contains custom events on the scope */
 
-    /*$scope.events = [
-     {
-     id: 1,
-     title: 'Mabel Appt',
-     start: new Date("July 13, 2015 11:15:00"),
-     end: new Date("July 13, 2015 11:30:00")
-     },
-     {
-     id: 2,
-     title: 'Sherman Appt',
-     start: new Date("July 13, 2015 11:30:00"),
-     end: new Date("July 13, 2015 11:45:00")
-     },
-     {
-     id: 3,
-     title: 'Carina Appt',
-     start: new Date("July 13, 2015 12:30:00"),
-     end: new Date("July 13, 2015 12:45:00")
-     },
-     {
-     id: 4,
-     title: 'Sim Appt',
-     start: new Date("July 21, 2015 12:30:00"),
-     end: new Date("July 21, 2015 12:45:00")
-     },
-     {
-     id: 5,
-     title: 'Jane Appt',
-     start: new Date("July 17, 2015 11:30:00"),
-     end: new Date("July 17, 2015 11:45:00")
-     },
-     {
-     id: 6,
-     title: 'Apple Appt',
-     start: new Date("July 17, 2015 12:00:00"),
-     end: new Date("July 17, 2015 12:30:00")
-     },
-     {
-     id: 7,
-     title: 'Bob Appt',
-     start: new Date("July 26, 2015 16:30:00"),
-     end: new Date("July 26, 2015 16:45:00")
-     }
-     ];*/
-
     $scope.drHoScreenings = {
         color: '#303030',
         textColor: 'White',
@@ -392,12 +347,43 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             .success(function (data) {
                 console.log("Successful with http post");
+                console.log(data);
+
+                var event = data;
+
+                $scope.drHoPreEvaluations.events.push(event);
             })
 
             .error(function (data) {
                 console.log("Error with http post");
             });
 
+    };
+
+
+    //Testing: Delete request
+    $scope.deleteAppointment = function () {
+
+        $http.delete('/Clearvision/_api/appointmentsCUD/1')
+            .success(function (data) {
+                console.log("Successfully deleted");
+            });
+
+    };
+
+
+    //Testing : Updating request
+    $scope.updateAppointment = function () {
+
+        $scope.updateJson = {
+            "id": 2,
+            "start": "2015-07-22T07:16:35Z"
+        };
+
+        $http.patch('/Clearvision/_api/appointmentsCUD/2', $scope.updateJson)
+            .success(function (data) {
+                console.log("Successfully updated");
+            });
     };
 
 
