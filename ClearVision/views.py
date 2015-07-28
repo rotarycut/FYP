@@ -11,6 +11,7 @@ from .serializers import *
 from rest_framework import filters
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
+from django.db.models import Q
 
 @login_required
 def success(request):
@@ -110,7 +111,7 @@ class AppointmentList(viewsets.ModelViewSet):
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentMakerSerializer
 
@@ -122,6 +123,13 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class GetEarliestBlankAppointmentSlot(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
-    queryset = Appointment.objects.filter(start__lte=datetime.now()+timedelta(days=5))
+    renderer_classes = (JSONRenderer,)
+
+    #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
+    #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
+
+    queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).filter(appointment__isnull=True) | \
+               AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).filter(num_patients__lt=5)\
+               .order_by('num_patients')
+
     serializer_class = AppointmentFinderSerializer

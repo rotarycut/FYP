@@ -22,6 +22,17 @@
   },
 
   {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Claire",
+        "gender": "Female",
+        "contact": "91500212",
+        "dob": "19/19/19",
+        "marketingChannelId": 8
+    }
+  },
+
+  {
     "model": "ClearVision.Clinic",
     "pk": 1,
     "fields": {
@@ -91,7 +102,34 @@
       ]
     }
   },
+    {
+    "model": "ClearVision.AvailableTimeSlots",
+    "pk": 1,
 
+    "fields": {
+      "type": "Screening",
+      "startTime": "09:00:00",
+      "endTime": "09:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "pk": 2,
+    "fields": {
+      "type": "Screening",
+      "startTime": "09:30:00",
+      "endTime": "10:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "pk": 3,
+    "fields": {
+      "type": "Screening",
+      "startTime": "10:00:00",
+      "endTime": "10:30:00"
+    }
+  },
   {
     "model": "ClearVision.Appointment",
     "pk": 1,
@@ -99,12 +137,13 @@
     "fields": {
 
         "type": "Screening",
-        "start": "2015-07-17T07:16:35Z",
-        "end": "2015-07-17T07:50:35Z",
+        "start": "2015-07-17T09:00:00Z",
+        "end": "2015-07-17T09:30:00Z",
         "creation_time": "2015-07-17T07:16:36Z",
-        "patients": [91500323],
+        "patients": [91500323,91500212,94764232],
         "doctor": 2,
-        "clinic": 2
+        "clinic": 2,
+        "timeBucket": 1
     }
   },
 
@@ -115,12 +154,13 @@
     "fields": {
 
         "type": "Surgery",
-        "start": "2015-07-20T07:16:35Z",
-        "end": "2015-07-20T07:45:35Z",
+        "start": "2015-07-20T09:30:00Z",
+        "end": "2015-07-20T10:00:00Z",
         "creation_time": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 2,
-        "clinic": 1
+        "clinic": 1,
+        "timeBucket": 2
     }
   },
 
@@ -136,7 +176,8 @@
         "creation_time": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 2,
-        "clinic": 2
+        "clinic": 2,
+        "timeBucket": 3
     }
   },
 
@@ -152,7 +193,8 @@
         "creation_time": "2015-07-27T07:16:36Z",
         "patients": [91500323],
         "doctor": 1,
-        "clinic": 2
+        "clinic": 2,
+        "timeBucket": 1
     }
   },
 
@@ -168,7 +210,8 @@
         "creation_time": "2015-07-27T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 1,
-        "clinic": 1
+        "clinic": 1,
+        "timeBucket": 2
     }
   },
 
@@ -184,8 +227,8 @@
         "creation_time": "2015-07-27T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 1,
-        "clinic": 2
+        "clinic": 2,
+        "timeBucket": 3
     }
   }
-
 ]

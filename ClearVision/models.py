@@ -37,6 +37,14 @@ class Doctor(models.Model):
         return self.name
 
 
+class AvailableTimeSlots(models.Model):
+    type = models.CharField(max_length=200)
+    startTime = models.TimeField("Start Time")
+    endTime = models.TimeField("End Time")
+
+    def __str__(self):
+        return str(self.startTime)
+
 class Appointment(models.Model):
 
     type = models.CharField(max_length=200)
@@ -46,6 +54,8 @@ class Appointment(models.Model):
     patients = models.ManyToManyField(Patient)
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
+    timeBucket = models.ForeignKey(AvailableTimeSlots, null=True)
 
     def __str__(self):
-        return self.type, self.start, self.end, self.patients
+        return self.type
+

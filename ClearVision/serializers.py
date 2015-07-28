@@ -38,12 +38,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
 class AppointmentMakerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
+        depth = 10
 
 class AppointmentFinderSerializer(serializers.ModelSerializer):
-    size = serializers.SerializerMethodField()
 
     class Meta:
-        model = Appointment
-
-    def get_size(self, appointment):
-        return appointment.patients.count()
+        model = AvailableTimeSlots
+        depth = 1
