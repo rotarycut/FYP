@@ -220,12 +220,46 @@ a.navbar-a {
     height: 83vh;
     display: inline-block;
     margin-right: 1.5em;
+    margin-top:-0.5em;
 }
 .form-container{
-    visibility:hidden;
+    visibility: hidden;
+}
+.form-container-show{
+    visibility: visible;
+    width: 25vw;
     display: inline-block;
     padding-left: 0;
+    height: 85vh;
 }
+.add-btn-disable{
+
+}
+.cal-container-resize{
+    width: 70vw;
+    height: 83vh;
+    display: inline-block;
+    margin-right: 1.5em;
+}
+.top-container{
+    width: 85vw;
+    height: 11vh;
+    margin-top:0.35em;
+    padding-top:0.35em;
+    margin-bottom: 0;
+    margin-right: 1.5em;
+    padding-bottom:0.2em;
+}
+.top-container-resize{
+    width: 70vw;
+    height: 11vh;
+    margin-top:0.35em;
+    padding-top:0.35em;
+    margin-bottom: 0;
+    padding-bottom:0.4em;
+    margin-right: 1.5em;
+}
+
 .navbar-form{
     padding: 0px;
     margin: 0 0 0 0;
@@ -277,23 +311,26 @@ a.navbar-a {
 .date-div{
     padding-right:0
 }
-.top-container{
-    width: 85vw;
-    height: 11vh;
-    margin-top:0.5em;
-    padding-top:0.5em;
-    margin-bottom: 0;
-    margin-right:0em; !important;
-    padding-bottom:0.4em;
-}
+
 .menu-show-setup, .menu-hide-setup {
   transition:all 0.5s ease-out;
   overflow:hidden
 }
 
 .well.cal-well {
+    padding-bottom: 0;
     margin-bottom: 0;
-    height: 81vh;
+    height: 83vh;
+}
+.cal-appt-legend{
+    height:3vh
+}
+ul.legend-ul{
+    padding-left: 22em;
+}
+ul.legend-ul li{
+    display: inline;
+    padding-right: 3em;
 }
 
 #form-title{
@@ -1634,7 +1671,7 @@ div[data-role="editor-toolbar"] {
   -moz-box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 2px 4px 6px 0 rgba(0, 0, 0, 0.1);
 }
-* /Widget-Content */
+/*Widget-Content */
 
 .widget-content .error .form-inline button{
 	margin-left:-2px;

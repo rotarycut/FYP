@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section class="app-container">
+    <section class="app-container" data-ng-controller="CalendarCtrl">
         <div ng-include='"header.html"'></div>
         <section class="app-content">
-            <div class="top-container" id="top-row">
+            <div class="top-container" ng-class="topAnimation">
                 <section class="nav search-row">
                     <form class="navbar-form">
                         <input class="form-control" placeholder="Search" type="text">
@@ -12,7 +12,8 @@
                 </section>
                 <section class="nav btn-row pull-right">
                     <div class="btn-group-appt">
-                        <button class="btn btn-primary form-btn-group" id="show-form-btn" data-ng-click="vis = !vis" onclick="showForm()">
+                        <button class="btn btn-primary form-btn-group" id="show-form-btn" ng-click="showForm()"
+                                ng-class="addBtnAnimation">
                             Add Appointment
                         </button>
                         <button class="btn btn-primary form-btn-group" id="block-btn">
@@ -23,8 +24,7 @@
             </div>
 
             <!-- CALENDAR COMES IN HERE -->
-            <div class="cal-container" id="directives-calendar" data-ng-controller="CalendarCtrl"
-                 style="display: inline-block">
+            <div class="cal-container" ng-class="calAnimation">
 
                 <!--<section>-->
                 <div class="well cal-well" style="background: #F4F4F4">
@@ -129,18 +129,26 @@
 
                         </tabset>
                     </div>
+                    <!--<div class="cal-appt-legend">
+                        <ul class="legend-ul">
+                            <li><a href="#" data-ng-click=""><i class="fa fa-stop legend1"></i>&nbsp;Pre-Eval</a></li>
+                            <li><a href="#" data-ng-click=""><i class="fa fa-stop legend2"></i>&nbsp;Screening</a></li>
+                            <li><a href="#" data-ng-click=""><i class="fa fa-stop legend3"></i>&nbsp;Lasik</a></li>
+                            <li><a href="#" data-ng-click=""><i class="fa fa-stop legend4"></i>&nbsp;Follow-up</a></li>
+                        </ul>
+
+                    </div>-->
 
                 </div>
                 <!--</section>-->
 
             </div>
 
-            <div class="form-container" id="addAppt-form" ng-show="vis" data-ng-controller="AppointmentFormController"
-                 ng-animate="{show: 'menu-show', hide: 'menu-hide'}">
+            <div class="form-container" ng-class="formAnimation">
 
                 <div class="form-div pull-left">
                     <div class="form-div-header">
-                        <a href="#" onclick="hideForm()" data-ng-click="vis = !vis" id="hide-form-btn"><i
+                        <a href="#" data-ng-click="hideForm()" id="hide-form-btn"><i
                                 class="fa fa-chevron-right fa-lg pull-left"></i></a>
                         <h5 id="form-title" style="font-weight: bold">Create New Appointment</h5>
                     </div>
@@ -277,31 +285,5 @@
         </section>
     </section>
 
-    <script>
-        function showForm() {
-            var cal = document.getElementById("directives-calendar");
-            var form = document.getElementById("addAppt-form");
-            var btn = document.getElementById("show-form-btn");
-            var row = document.getElementById("top-row");
-            btn.disabled = true;
-            cal.style.width = "70vw";
-            row.style.width = "70vw";
-            form.style.visibility = "visible";
-            form.style.width = "25vw";
-            form.style.height="85vh"
 
-        }
-        function hideForm() {
-            var cal = document.getElementById("directives-calendar");
-            var form = document.getElementById("addAppt-form");
-            var btn = document.getElementById("show-form-btn");
-            var row = document.getElementById("top-row");
-            btn.disabled = false;
-            cal.style.width = "85vw";
-            row.style.width = "85vw";
-            form.style.visibility = "hidden"
-
-        }
-    </script>
-    
 {% endblock %}
