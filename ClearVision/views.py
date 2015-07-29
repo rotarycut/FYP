@@ -166,14 +166,14 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
 
     #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
     #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
 
-    queryset = Appointment.objects.annotate(num_patients=Count('patients')) | \
-               Appointment.objects.annotate(num_patients=Count('patients')).filter(num_patients__lt=5)\
-               .order_by('num_patients')
+    queryset = Appointment.objects.annotate(num_patients=Count('patients'))\
+        .filter(num_patients__lt=5, date__lte=datetime.now()+timedelta(days=5))\
+        .order_by('num_patients')
 
     serializer_class = AppointmentIScheduleFinderSerializer
 
