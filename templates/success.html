@@ -65,10 +65,10 @@
                                     <div class="tab-head-text">Doctor Ho</div>
                                 </tab-heading>
 
-                                <div class="alert-success calAlert"
+                                <!--<div class="alert-success calAlert"
                                      ng-show="alertMessage != undefined && alertMessage != '' ">
                                     <h4>[[ alertMessage ]]</h4>
-                                </div>
+                                </div>-->
 
                                 <div class="btn-toolbar cal-btn-group">
 
@@ -150,16 +150,17 @@
                     <div class="form-div-header">
                         <a href="#" data-ng-click="hideForm()" id="hide-form-btn"><i
                                 class="fa fa-chevron-right fa-lg pull-left"></i></a>
-                        <h5 id="form-title" style="font-weight: bold">Create New Appointment</h5>
+                        <h5 id="form-title" style="font-weight: bold">[[formTitle]]</h5>
                     </div>
 
                     <div class="form-div-body">
                         <form class="form-horizontal" id="edit-form-patients">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-12" ng-show="showPatientList">
                                 <label class="control-label">Patient List</label>
-                                <select class="form-control" data-ng-model="appointmentPatientList">
-                                    <option ng-repeat="apptPatient in listOfTimeslotPatients">
-                                        [[apptPatient]]
+                                <select class="form-control" data-ng-model="appointmentPatient"
+                                        ng-change="populatePatientDetails()">
+                                    <option ng-repeat="patient in patientList">
+                                        [[patient.name]]
                                     </option>
                                 </select>
                             </div>
@@ -179,7 +180,6 @@
                                         <p class="input-group">
                                             <input type="text"
                                                    class="form-control"
-                                                   placeholder="Appointment Date"
                                                    datepicker-popup="[[ format ]]"
                                                    name="datePickerCalendar"
                                                    ng-model="apptDateTime"
@@ -187,7 +187,7 @@
                                                    min-date="minDate"
                                                    datepicker-options="dateOptions"
                                                    show-button-bar="false"
-                                                   disabled="disabled"/>
+                                                    />
 
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default"
@@ -214,12 +214,14 @@
                                 <div class="row">
                                     <div class="col-md-6 name-div">
                                         <label class="control-label">Patient Name</label>
-                                        <input type="text" class="form-control" data-ng-model="patientName">
+                                        <input type="text" class="form-control" data-ng-model="patientName"
+                                               ng-disabled="disablePatientNameInput">
                                     </div>
 
                                     <div class="col-md-6 contact-div">
                                         <label class="control-label">Contact No.</label>
-                                        <input type="text" class="form-control" data-ng-model="patientContact">
+                                        <input type="text" class="form-control" data-ng-model="patientContact"
+                                               ng-disabled="disablePatientContactInput">
                                     </div>
                                 </div>
                             </div>
@@ -229,12 +231,14 @@
 
                                 <div class="row">
                                     <div class="radio col-md-6 doc-div">
-                                        <label><input type="radio" data-ng-model="doctorAssigned" value="drho">
+                                        <label><input type="radio" data-ng-model="doctorAssigned" value="drho"
+                                                      ng-disabled="disableAssignedDoctorInput">
                                             Dr.Ho
                                         </label>
                                     </div>
                                     <div class="radio col-md-6 doc-div">
-                                        <label><input type="radio" data-ng-model="doctorAssigned" value="drgoh">
+                                        <label><input type="radio" data-ng-model="doctorAssigned" value="drgoh"
+                                                      ng-disabled="disableAssignedDoctorInput">
                                             Dr.Goh
                                         </label>
                                     </div>
@@ -243,7 +247,8 @@
 
                             <div class="form-group col-md-12">
                                 <label class="control-label">Marketing Channel</label>
-                                <select class="form-control" data-ng-model="marketingChannel">
+                                <select class="form-control" data-ng-model="marketingChannel"
+                                        ng-disabled="disableMktgChannelInput">
                                     <option ng-repeat="mktChannel in listOfMarketingChannels">
                                         [[mktChannel]]
                                     </option>
@@ -271,7 +276,8 @@
                                     </div>
                                     <div class="col-md-2 col-md-offset-1">
                                         <button class="btn btn-warning" onclick=""
-                                                data-ng-click="vis = !vis; clearForm()">Delete
+                                                data-ng-click="vis = !vis; clearForm()"
+                                                ng-show="showDeleteButton">Delete
                                         </button>
                                     </div>
                                 </div>
