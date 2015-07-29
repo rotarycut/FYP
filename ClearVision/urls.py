@@ -9,7 +9,8 @@ router.register(r'_api/staff', views.StaffList)
 router.register(r'_api/doctors', views.DoctorList)
 router.register(r'_api/appointments', views.AppointmentList)
 router.register(r'_api/appointmentsCUD', views.AppointmentWriter)
-router.register(r'_api/appointmentsFinder', views.GetEarliestBlankAppointmentSlot)
+router.register(r'_api/appointmentsFinder', views.AppointmentIScheduleFinder)
+router.register(r'_api/appointmentsSwap', views.AppointmentIScheduleSwap)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

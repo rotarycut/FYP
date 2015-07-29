@@ -111,19 +111,29 @@ class AppointmentList(viewsets.ModelViewSet):
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentMakerSerializer
 
     def destroy(self, request, *args, **kwargs):
+        num_patients = Appointment.objects.get(id=self.get_object().id).patients.count()
+
+        num_temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.count()
+        temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.values("name", "contact",)
+
         p = Patient.objects.get(contact=request.query_params.get('contact'))
         a = Appointment.objects.get(id=self.get_object().id)
         a.patients.remove(p)
-        return Response("Patient Removed")
+        a.save()
+        if num_patients <= 5 and num_temp_patients >= 1:
+            return Response("Inform Swap Possible for " + str(temp_patients))
+        else:
+            return Response("Patient Removed")
+
 
 # API for iScheduling
-class GetEarliestBlankAppointmentSlot(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+class AppointmentIScheduleFinder(viewsets.ModelViewSet):
+    #renderer_classes = (JSONRenderer,)
 
     #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
     #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
@@ -132,4 +142,28 @@ class GetEarliestBlankAppointmentSlot(viewsets.ModelViewSet):
                AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).filter(num_patients__lt=5)\
                .order_by('num_patients')
 
-    serializer_class = AppointmentFinderSerializer
+    serializer_class = AppointmentIScheduleFinderSerializer
+
+class AppointmentIScheduleSwap(viewsets.ModelViewSet):
+    #renderer_classes = (JSONRenderer,)
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentIScheduleSwapSerializer
+
+    """
+    def update(self, request, *args, **kwargs):
+        patient = Patient.objects.get(contact=request.query_params.get('patientContact'))
+        patientInQueue = Patient.objects.get(contact=request.query_params.get('tempPatientContact'))
+        a = Appointment.objects.get(id=self.get_object().id)
+        a.patients.remove(patient)
+        a.patients.add(patientInQueue)
+        a.tempPatients.remove(patientInQueue)
+        a.save()
+        return Response("Patient Swapped")
+    """
+    def update(self, request, *args, **kwargs):
+        patientInQueue = Patient.objects.get(contact=request.query_params.get('tempPatientContact'))
+        a = Appointment.objects.get(id=self.get_object().id)
+        a.patients.add(patientInQueue)
+        a.tempPatients.remove(patientInQueue)
+        a.save()
+        return Response("Patient Swapped")

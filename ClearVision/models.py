@@ -48,10 +48,11 @@ class AvailableTimeSlots(models.Model):
 class Appointment(models.Model):
 
     type = models.CharField(max_length=200)
-    start = models.DateTimeField('Appointment start date and time')
-    end = models.DateTimeField("Appointment end date and time")
-    creation_time = models.DateTimeField('Creation Time')
-    patients = models.ManyToManyField(Patient)
+    start = models.DateField('Appointment start date and time')
+    end = models.DateField("Appointment end date and time")
+    last_modified = models.DateTimeField('Creation Time', auto_now=True)
+    patients = models.ManyToManyField(Patient, related_name="patients")
+    tempPatients = models.ManyToManyField(Patient, related_name="tempPatients", blank=True)
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
     timeBucket = models.ForeignKey(AvailableTimeSlots, null=True)

@@ -33,6 +33,50 @@
   },
 
   {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Amabel",
+        "gender": "Female",
+        "contact": "91500111",
+        "dob": "19/19/19",
+        "marketingChannelId": 5
+    }
+  },
+
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Carina",
+        "gender": "Female",
+        "contact": "91500222",
+        "dob": "19/19/19",
+        "marketingChannelId": 3
+    }
+  },
+
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Kaiwen",
+        "gender": "Male",
+        "contact": "91500333",
+        "dob": "19/19/19",
+        "marketingChannelId": 4
+    }
+  },
+
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "G Dragon",
+        "gender": "Male",
+        "contact": "91500444",
+        "dob": "19/19/19",
+        "marketingChannelId": 1
+    }
+  },
+
+  {
     "model": "ClearVision.Clinic",
     "pk": 1,
     "fields": {
@@ -104,8 +148,6 @@
   },
     {
     "model": "ClearVision.AvailableTimeSlots",
-    "pk": 1,
-
     "fields": {
       "type": "Screening",
       "startTime": "09:00:00",
@@ -114,7 +156,6 @@
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
-    "pk": 2,
     "fields": {
       "type": "Screening",
       "startTime": "09:30:00",
@@ -123,11 +164,42 @@
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
-    "pk": 3,
     "fields": {
       "type": "Screening",
       "startTime": "10:00:00",
       "endTime": "10:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "type": "Screening",
+      "startTime": "10:30:00",
+      "endTime": "11:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "type": "Screening",
+      "startTime": "11:00:00",
+      "endTime": "11:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "type": "Screening",
+      "startTime": "11:30:00",
+      "endTime": "12:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "type": "Screening",
+      "startTime": "12:00:00",
+      "endTime": "12:30:00"
     }
   },
   {
@@ -137,9 +209,9 @@
     "fields": {
 
         "type": "Screening",
-        "start": "2015-07-17T09:00:00Z",
-        "end": "2015-07-17T09:30:00Z",
-        "creation_time": "2015-07-17T07:16:36Z",
+        "start": "2015-07-17",
+        "end": "2015-07-17",
+        "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323,91500212,94764232],
         "doctor": 2,
         "clinic": 2,
@@ -154,9 +226,9 @@
     "fields": {
 
         "type": "Surgery",
-        "start": "2015-07-20T09:30:00Z",
-        "end": "2015-07-20T10:00:00Z",
-        "creation_time": "2015-07-17T07:16:36Z",
+        "start": "2015-07-20",
+        "end": "2015-07-20",
+        "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 1,
@@ -171,9 +243,9 @@
     "fields": {
 
         "type": "Pre Evaluation",
-        "start": "2015-07-25T07:16:35Z",
-        "end": "2015-07-25T07:30:35Z",
-        "creation_time": "2015-07-17T07:16:36Z",
+        "start": "2015-07-25",
+        "end": "2015-07-25",
+        "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 2,
@@ -188,9 +260,9 @@
     "fields": {
 
         "type": "Screening",
-        "start": "2015-07-27T07:16:35Z",
-        "end": "2015-07-27T07:50:35Z",
-        "creation_time": "2015-07-27T07:16:36Z",
+        "start": "2015-07-27",
+        "end": "2015-07-27",
+        "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323],
         "doctor": 1,
         "clinic": 2,
@@ -205,9 +277,9 @@
     "fields": {
 
         "type": "Surgery",
-        "start": "2015-07-27T07:16:35Z",
-        "end": "2015-07-27T07:45:35Z",
-        "creation_time": "2015-07-27T07:16:36Z",
+        "start": "2015-07-27",
+        "end": "2015-07-27",
+        "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 1,
         "clinic": 1,
@@ -222,13 +294,14 @@
     "fields": {
 
         "type": "Pre Evaluation",
-        "start": "2015-07-27T07:16:35Z",
-        "end": "2015-07-27T07:30:35Z",
-        "creation_time": "2015-07-27T07:16:36Z",
-        "patients": [91500323, 94764232],
+        "start": "2015-07-27",
+        "end": "2015-07-27",
+        "last_modified": "2015-07-27T07:16:36Z",
+        "patients": [91500212,91500323,91500111,91500222,94764232],
         "doctor": 1,
         "clinic": 2,
-        "timeBucket": 3
+        "timeBucket": 3,
+        "tempPatients": [91500333,91500444]
     }
   }
 ]
