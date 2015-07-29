@@ -12,6 +12,7 @@ from rest_framework import filters
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 @login_required
 def success(request):
@@ -103,7 +104,7 @@ class AppointmentFilter(django_filters.FilterSet):
         fields = ['patients', 'doctor__name', 'clinic', 'appt_time_range_start', 'appt_time_range_end', 'type']
 
 class AppointmentList(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
@@ -111,7 +112,7 @@ class AppointmentList(viewsets.ModelViewSet):
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentMakerSerializer
 
@@ -130,6 +131,38 @@ class AppointmentWriter(viewsets.ModelViewSet):
         else:
             return Response("Patient Removed")
 
+    def create(self, request, *args, **kwargs):
+        apptDate = request.query_params.get('date')
+        apptTimeBucket = request.query_params.get('time')
+        apptType = request.query_params.get('type')
+        docID = request.query_params.get('docID')
+        clinicID = request.query_params.get('clinicID')
+        patientContact = request.query_params.get('contact')
+        patientName = request.query_params.get('name')
+        patientGender = request.query_params.get('gender')
+        marketingID = request.query_params.get('channelID')
+
+        if not Patient.objects.filter(contact=patientContact).exists():
+            Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact, marketingChannelId=marketingID)
+
+        p = Patient.objects.get(contact=patientContact)
+
+        if Appointment.objects.filter(date=apptDate, timeBucket=apptTimeBucket, type=apptType).exists():
+            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucket, type=apptType)
+            existingAppt.patients.add(p)
+            existingAppt.save()
+
+            if existingAppt.patients.count() > 5:
+                return Response("Number of patients exceeded 5")
+
+            return Response("Patient Added to Existing Appointment")
+        else:
+            Appointment.objects.create(type=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
+                                       clinic=Clinic.objects.get(id=clinicID),
+                                       timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucket)).patients.add(p)
+
+            return Response("Patient Added to Newly Created Appointment")
+
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ModelViewSet):
@@ -138,18 +171,19 @@ class AppointmentIScheduleFinder(viewsets.ModelViewSet):
     #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
     #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
 
-    queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).filter(appointment__isnull=True) | \
-               AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).filter(num_patients__lt=5)\
+    queryset = Appointment.objects.annotate(num_patients=Count('patients')) | \
+               Appointment.objects.annotate(num_patients=Count('patients')).filter(num_patients__lt=5)\
                .order_by('num_patients')
 
     serializer_class = AppointmentIScheduleFinderSerializer
 
+"""
 class AppointmentIScheduleSwap(viewsets.ModelViewSet):
     renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentIScheduleSwapSerializer
 
-    """
+
     def update(self, request, *args, **kwargs):
         patient = Patient.objects.get(contact=request.query_params.get('patientContact'))
         patientInQueue = Patient.objects.get(contact=request.query_params.get('tempPatientContact'))
@@ -159,7 +193,7 @@ class AppointmentIScheduleSwap(viewsets.ModelViewSet):
         a.tempPatients.remove(patientInQueue)
         a.save()
         return Response("Patient Swapped")
-    """
+
     def update(self, request, *args, **kwargs):
         patientInQueue = Patient.objects.get(contact=request.query_params.get('tempPatientContact'))
         a = Appointment.objects.get(id=self.get_object().id)
@@ -167,3 +201,4 @@ class AppointmentIScheduleSwap(viewsets.ModelViewSet):
         a.tempPatients.remove(patientInQueue)
         a.save()
         return Response("Patient Swapped")
+    """

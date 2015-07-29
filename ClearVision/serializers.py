@@ -24,21 +24,29 @@ class DoctorSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
 
     title = serializers.SerializerMethodField()
+    startTime = serializers.SerializerMethodField()
+    endTime = serializers.SerializerMethodField()
 
     class Meta:
         model = Appointment
         depth = 0
-        fields = ('id', 'title', 'start', 'end', 'patients')
+        fields = ('id', 'title', 'date', 'startTime', 'endTime', 'doctor', 'patients',)
 
     def get_title(self, appointment):
         return str(appointment.patients.count()) + " Patient(s)"
+
+    def get_startTime(self, appointment):
+        return str(appointment.doctor.timeBucket.startTime)
+
+    def get_endTime(self, appointment):
+        return str(appointment.doctor.timeBucket.endTime)
 
     patients = PatientSerializer(many=True)
 
 class AppointmentMakerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
-        depth = 10
+        depth = 0
 
 class AppointmentIScheduleFinderSerializer(serializers.ModelSerializer):
 
@@ -46,8 +54,10 @@ class AppointmentIScheduleFinderSerializer(serializers.ModelSerializer):
         model = AvailableTimeSlots
         depth = 1
 
+"""
 class AppointmentIScheduleSwapSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
         depth = 1
+"""

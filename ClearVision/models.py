@@ -4,11 +4,11 @@ class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     contact = models.CharField(max_length=50, primary_key=True)
-    dob = models.CharField(max_length=50)
+    dob = models.CharField(max_length=50, null=True)
     marketingChannelId = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.contact
 
 class Clinic(models.Model):
     name = models.CharField(max_length=50)
@@ -26,17 +26,6 @@ class Staff(models.Model):
     def __str__(self):
         return self.name
 
-class Doctor(models.Model):
-    name = models.CharField(max_length=50)
-    phoneModel = models.CharField(max_length=50)
-    calDavAccount = models.CharField(max_length=50)
-    contact = models.CharField(max_length=50)
-    clinic = models.ManyToManyField(Clinic)
-
-    def __str__(self):
-        return self.name
-
-
 class AvailableTimeSlots(models.Model):
     type = models.CharField(max_length=200)
     startTime = models.TimeField("Start Time")
@@ -45,17 +34,27 @@ class AvailableTimeSlots(models.Model):
     def __str__(self):
         return str(self.startTime)
 
+class Doctor(models.Model):
+    name = models.CharField(max_length=50)
+    phoneModel = models.CharField(max_length=50)
+    calDavAccount = models.CharField(max_length=50)
+    contact = models.CharField(max_length=50)
+    timeBucket = models.ForeignKey(AvailableTimeSlots, null=True)
+    clinic = models.ManyToManyField(Clinic)
+
+    def __str__(self):
+        return self.name
+
 class Appointment(models.Model):
 
     type = models.CharField(max_length=200)
-    start = models.DateField('Appointment start date and time')
-    end = models.DateField("Appointment end date and time")
+    date = models.DateField('Appointment date')
     last_modified = models.DateTimeField('Creation Time', auto_now=True)
     patients = models.ManyToManyField(Patient, related_name="patients")
     tempPatients = models.ManyToManyField(Patient, related_name="tempPatients", blank=True)
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
-    timeBucket = models.ForeignKey(AvailableTimeSlots, null=True)
+    timeBucket = models.ForeignKey(AvailableTimeSlots)
 
     def __str__(self):
         return self.type

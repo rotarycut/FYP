@@ -115,37 +115,6 @@
         "clinic": "1"
     }
   },
-
-  {
-    "model": "ClearVision.Doctor",
-    "pk": 1,
-
-    "fields": {
-      "name": "Dr Goh",
-      "phoneModel": "Apple",
-      "calDavAccount": "example@abc.com",
-      "contact": "12345",
-      "clinic": [
-        1,
-        2
-      ]
-    }
-  },
-
-  {
-    "model": "ClearVision.Doctor",
-    "pk": 2,
-
-    "fields": {
-      "name": "Dr Ho",
-      "phoneModel": "Samsung",
-      "calDavAccount": "example2@abc.com",
-      "contact": "54321",
-      "clinic": [
-        1
-      ]
-    }
-  },
     {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
@@ -202,6 +171,40 @@
       "endTime": "12:30:00"
     }
   },
+
+    {
+    "model": "ClearVision.Doctor",
+    "pk": 1,
+
+    "fields": {
+      "name": "Dr Goh",
+      "phoneModel": "Apple",
+      "calDavAccount": "example@abc.com",
+      "contact": "12345",
+      "clinic": [
+        1,
+        2
+      ],
+      "timeBucket": 2
+    }
+  },
+
+  {
+    "model": "ClearVision.Doctor",
+    "pk": 2,
+
+    "fields": {
+      "name": "Dr Ho",
+      "phoneModel": "Samsung",
+      "calDavAccount": "example2@abc.com",
+      "contact": "54321",
+      "clinic": [
+        1
+      ],
+      "timeBucket": 2
+    }
+  },
+
   {
     "model": "ClearVision.Appointment",
     "pk": 1,
@@ -209,13 +212,12 @@
     "fields": {
 
         "type": "Screening",
-        "start": "2015-07-17",
-        "end": "2015-07-17",
+        "date": "2015-07-17",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323,91500212,94764232],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 1
+        "timeBucket": 2
     }
   },
 
@@ -226,8 +228,7 @@
     "fields": {
 
         "type": "Surgery",
-        "start": "2015-07-20",
-        "end": "2015-07-20",
+        "date": "2015-07-20",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 2,
@@ -243,13 +244,12 @@
     "fields": {
 
         "type": "Pre Evaluation",
-        "start": "2015-07-25",
-        "end": "2015-07-25",
+        "date": "2015-07-25",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 3
+        "timeBucket": 2
     }
   },
 
@@ -260,13 +260,12 @@
     "fields": {
 
         "type": "Screening",
-        "start": "2015-07-27",
-        "end": "2015-07-27",
+        "date": "2015-07-27",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323],
         "doctor": 1,
         "clinic": 2,
-        "timeBucket": 1
+        "timeBucket": 2
     }
   },
 
@@ -277,8 +276,7 @@
     "fields": {
 
         "type": "Surgery",
-        "start": "2015-07-27",
-        "end": "2015-07-27",
+        "date": "2015-07-28",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323, 94764232],
         "doctor": 1,
@@ -294,14 +292,13 @@
     "fields": {
 
         "type": "Pre Evaluation",
-        "start": "2015-07-27",
-        "end": "2015-07-27",
+        "date": "2015-07-29",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500212,91500323,91500111,91500222,94764232],
         "doctor": 1,
         "clinic": 2,
-        "timeBucket": 3,
-        "tempPatients": [91500333,91500444]
+        "tempPatients": [91500333,91500444],
+        "timeBucket": 2
     }
   }
 ]
