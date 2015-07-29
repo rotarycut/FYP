@@ -163,6 +163,10 @@
                                         [[patient.name]]
                                     </option>
                                 </select>
+
+                                <div style="color:red" ng-if="appointmentPatient.length === 0">
+                                    [[remarkWarning]]
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">Appointment Type</label>
@@ -265,13 +269,13 @@
                             <div class="form-group col-md-12 form-appt-btns">
                                 <div class="row">
                                     <div class="col-md-3 col-md-offset-1">
-                                        <button class="btn btn-primary" onclick="hideForm()"
-                                                data-ng-click="vis = !vis; clearForm();">Submit
+                                        <button class="btn btn-primary"
+                                                data-ng-click="clearForm();">Submit
                                         </button>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-primary" onclick="hideForm()"
-                                                data-ng-click="vis = !vis; clearForm()">Cancel
+                                        <button class="btn btn-primary"
+                                                data-ng-click="hideForm()">Cancel
                                         </button>
                                     </div>
                                     <div class="col-md-2 col-md-offset-1">

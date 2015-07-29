@@ -439,6 +439,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.formTitle = "Create New Appointment";
     $scope.showPatientList = false;
     $scope.showDeleteButton = false;
+    $scope.remarkWarning = "Please select a patient";
 
     /* Populate patient details upon selection */
     $scope.populatePatientDetails = function () {
