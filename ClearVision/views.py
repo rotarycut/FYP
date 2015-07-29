@@ -111,7 +111,7 @@ class AppointmentList(viewsets.ModelViewSet):
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentMakerSerializer
 
@@ -133,7 +133,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
 
     #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
     #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
@@ -145,7 +145,7 @@ class AppointmentIScheduleFinder(viewsets.ModelViewSet):
     serializer_class = AppointmentIScheduleFinderSerializer
 
 class AppointmentIScheduleSwap(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentIScheduleSwapSerializer
 
