@@ -13,6 +13,7 @@ from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.parsers import JSONParser
 
 @login_required
 def success(request):
@@ -132,6 +133,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
             return Response("Patient Removed")
 
     def create(self, request, *args, **kwargs):
+        data = request.DATA
+
+        """
         apptDate = request.query_params.get('date')
         apptTimeBucket = request.query_params.get('time')
         apptType = request.query_params.get('type')
@@ -141,6 +145,17 @@ class AppointmentWriter(viewsets.ModelViewSet):
         patientName = request.query_params.get('name')
         patientGender = request.query_params.get('gender')
         marketingID = request.query_params.get('channelID')
+        """
+
+        apptDate = data.get('date')
+        apptTimeBucket = data.get('time')
+        apptType = data.get('type')
+        docID = data.get('docID')
+        clinicID = data.get('clinicID')
+        patientContact = data.get('contact')
+        patientName = data.get('name')
+        patientGender = data.get('gender')
+        marketingID = data.get('channelID')
 
         if not Patient.objects.filter(contact=patientContact).exists():
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact, marketingChannelId=marketingID)
