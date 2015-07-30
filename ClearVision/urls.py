@@ -10,7 +10,7 @@ router.register(r'_api/doctors', views.DoctorList)
 router.register(r'_api/appointments', views.AppointmentList)
 router.register(r'_api/appointmentsCUD', views.AppointmentWriter)
 router.register(r'_api/appointmentsFinder', views.AppointmentIScheduleFinder)
-# router.register(r'_api/appointmentsSwap', views.AppointmentIScheduleSwap)
+router.register(r'_api/analyticsServer', views.AnalyticsServer)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

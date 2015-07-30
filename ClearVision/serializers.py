@@ -61,3 +61,10 @@ class AppointmentIScheduleSwapSerializer(serializers.ModelSerializer):
         model = Appointment
         depth = 10
 """
+class AnalyticsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Patient
+        depth = 5
+
+

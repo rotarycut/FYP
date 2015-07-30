@@ -10,6 +10,7 @@ class Patient(models.Model):
     contact = models.CharField(max_length=50, primary_key=True)
     dob = models.CharField(max_length=50, null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
+    conversion = models.NullBooleanField(default=False)
 
     def __str__(self):
         return self.contact

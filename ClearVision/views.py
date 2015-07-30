@@ -110,7 +110,7 @@ class AppointmentList(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
     filter_class = AppointmentFilter
-    search_fields = ('patients__contact',)
+    search_fields = ('^patients__contact',)
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
@@ -154,7 +154,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
         isWaitingList = data.get('waitingListFlag')
 
         if not Patient.objects.filter(contact=patientContact).exists():
-            Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact, marketingChannelId=marketingID)
+
+            Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
+                                   marketingChannelId=MarketingChannels.objects.get(id=marketingID))
 
         p = Patient.objects.get(contact=patientContact)
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=apptTimeBucket)
@@ -251,3 +253,17 @@ class AppointmentIScheduleSwap(viewsets.ModelViewSet):
         a.save()
         return Response("Patient Swapped")
 """
+
+class AnalyticsFilter(django_filters.FilterSet):
+    min_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='gte')
+    max_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='lte')
+
+    class Meta:
+        model = Patient
+        fields = ['marketingChannelId', 'min_id', 'max_id']
+
+class AnalyticsServer(viewsets.ModelViewSet):
+    queryset = Patient.objects.all()
+    serializer_class = AnalyticsSerializer
+    filter_class = AnalyticsFilter
+    filter_backends = (filters.DjangoFilterBackend,)
