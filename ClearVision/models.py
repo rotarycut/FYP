@@ -28,8 +28,8 @@ class Staff(models.Model):
 
 class AvailableTimeSlots(models.Model):
     type = models.CharField(max_length=200)
-    startTime = models.TimeField("Start Time")
-    endTime = models.TimeField("End Time")
+    start = models.TimeField("Start Time")
+    end = models.TimeField("End Time")
 
     def __str__(self):
         return str(self.startTime)

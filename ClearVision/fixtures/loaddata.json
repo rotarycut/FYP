@@ -119,56 +119,56 @@
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "09:00:00",
-      "endTime": "09:30:00"
+      "start": "09:00:00",
+      "end": "09:30:00"
     }
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "09:30:00",
-      "endTime": "10:00:00"
+      "start": "09:30:00",
+      "end": "10:00:00"
     }
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "10:00:00",
-      "endTime": "10:30:00"
+      "start": "10:00:00",
+      "end": "10:30:00"
     }
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "10:30:00",
-      "endTime": "11:00:00"
+      "start": "10:30:00",
+      "end": "11:00:00"
     }
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "11:00:00",
-      "endTime": "11:30:00"
+      "start": "11:00:00",
+      "end": "11:30:00"
     }
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "11:30:00",
-      "endTime": "12:00:00"
+      "start": "11:30:00",
+      "end": "12:00:00"
     }
   },
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "type": "Screening",
-      "startTime": "12:00:00",
-      "endTime": "12:30:00"
+      "start": "12:00:00",
+      "end": "12:30:00"
     }
   },
 
