@@ -1,11 +1,15 @@
 from django.db import models
 
+
+class MarketingChannels(models.Model):
+    name = models.CharField(max_length=350)
+
 class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     contact = models.CharField(max_length=50, primary_key=True)
     dob = models.CharField(max_length=50, null=True)
-    marketingChannelId = models.PositiveIntegerField(default=0)
+    marketingChannelId = models.ForeignKey(MarketingChannels)
 
     def __str__(self):
         return self.contact

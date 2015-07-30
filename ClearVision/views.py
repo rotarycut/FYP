@@ -110,6 +110,7 @@ class AppointmentList(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
     filter_class = AppointmentFilter
+    search_fields = ('patients__contact',)
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):

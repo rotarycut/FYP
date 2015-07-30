@@ -1,12 +1,48 @@
 [
   {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "987 Radio"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Andrea Chong Blog"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Channel News Asia"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Referred by Doctor"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "ST Ads"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Others"
+    }
+  },
+  {
     "model": "ClearVision.Patient",
     "fields": {
         "name": "Sherman",
         "gender": "Male",
         "contact": "91500323",
         "dob": "21/21/21",
-        "marketingChannelId": 10
+        "marketingChannelId": 1
     }
   },
 
@@ -17,7 +53,7 @@
         "gender": "Male",
         "contact": "94764232",
         "dob": "18/18/18",
-        "marketingChannelId": 11
+        "marketingChannelId": 2
     }
   },
 
@@ -28,7 +64,7 @@
         "gender": "Female",
         "contact": "91500212",
         "dob": "19/19/19",
-        "marketingChannelId": 8
+        "marketingChannelId": 3
     }
   },
 
@@ -39,7 +75,7 @@
         "gender": "Female",
         "contact": "91500111",
         "dob": "19/19/19",
-        "marketingChannelId": 5
+        "marketingChannelId": 4
     }
   },
 
@@ -50,7 +86,7 @@
         "gender": "Female",
         "contact": "91500222",
         "dob": "19/19/19",
-        "marketingChannelId": 3
+        "marketingChannelId": 5
     }
   },
 
@@ -61,7 +97,7 @@
         "gender": "Male",
         "contact": "91500333",
         "dob": "19/19/19",
-        "marketingChannelId": 4
+        "marketingChannelId": 6
     }
   },
 
