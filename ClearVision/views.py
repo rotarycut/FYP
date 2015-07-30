@@ -118,19 +118,24 @@ class AppointmentWriter(viewsets.ModelViewSet):
     serializer_class = AppointmentMakerSerializer
 
     def destroy(self, request, *args, **kwargs):
+        data = request.DATA
         num_patients = Appointment.objects.get(id=self.get_object().id).patients.count()
 
         num_temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.count()
         temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.values("name", "contact",)
 
-        p = Patient.objects.get(contact=request.query_params.get('contact'))
+        p = Patient.objects.get(contact=data.get('contact'))
         a = Appointment.objects.get(id=self.get_object().id)
         a.patients.remove(p)
         a.save()
+
         if num_patients <= 5 and num_temp_patients >= 1:
             return Response("Inform Swap Possible for " + str(temp_patients))
+        elif num_patients == 1:
+            return Response("{}")
         else:
-            return Response("Patient Removed")
+            serializedExistingAppt = AppointmentSerializer(a)
+            return Response(serializedExistingAppt.data)
 
     def create(self, request, *args, **kwargs):
         data = request.DATA
