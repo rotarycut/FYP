@@ -353,29 +353,80 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Testing: Post request
+    //Post appointment
     $scope.postAppointment = function () {
 
-        $http.post('/Clearvision/_api/appointmentsCUD/', {
-            "type": "Pre Evaluation",
-            "start": "2015-07-28T07:16:35Z",
-            "end": "2015-07-28T07:30:35Z",
-            "creation_time": "2015-07-28T07:16:36Z",
-            "doctor": 1,
-            "clinic": 2,
-            "patients": [
-                91500323,
-                94764232
-            ]
-        })
+        var year = $scope.apptDateTime.getFullYear();
 
+        var month = $scope.apptDateTime.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = $scope.apptDateTime.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        $scope.formattedDate = year + '-' + month + '-' + day;
+
+        $http.post('/Clearvision/_api/appointmentsCUD/', {
+            "type": $scope.appointmentType.trim(),
+            "date": $scope.formattedDate,
+            "docID": $scope.doctorAssigned,
+            "clinicID": 1,
+            "contact": $scope.patientContact,
+            "name": $scope.patientName,
+            "gender": "Male",
+            "channelID": "1",
+            "time": $scope.appointmentTime.trim()
+        })
             .success(function (data) {
                 console.log("Successful with http post");
                 console.log(data);
 
                 var event = data;
 
-                $scope.drHoPreEvaluations.events.push(event);
+                switch ($scope.appointmentType.trim()) {
+
+                    case "Screening":
+                        var appointmentIndex = 0;
+                        angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+                            if (screeningAppointment.start === event.start) {
+                                $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+
+                            }
+                            appointmentIndex++;
+                        });
+                        $scope.drHoScreenings.events.push(event);
+                        break;
+
+                    case "Pre Evaluation":
+                        var appointmentIndex = 0;
+                        angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                            if (preEvaluationAppointment.start === event.start) {
+                                $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+
+                            }
+                            appointmentIndex++;
+                        });
+                        $scope.drHoPreEvaluations.events.push(event);
+                        break;
+
+                    case "Surgery":
+                        var appointmentIndex = 0;
+                        angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+                            if (surgeryAppointment.start === event.start) {
+                                $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+
+                            }
+                            appointmentIndex++;
+                        });
+
+                        $scope.drHoSurgeries.events.push(event);
+                        break;
+                }
+
             })
 
             .error(function (data) {
@@ -465,9 +516,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         })
     };
 
-    $scope.listOfAppointmentTypes = ["Pre-Evaluation", "Lasik Surgery", "Screening", "Follow-up"];
+    $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
 
-    $scope.listOfAppointmentTimings = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"];
+    $scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
 
     $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
 
