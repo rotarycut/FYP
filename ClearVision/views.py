@@ -177,12 +177,11 @@ class AppointmentIScheduleFinder(viewsets.ModelViewSet):
 
     serializer_class = AppointmentIScheduleFinderSerializer
 
-"""
-class AppointmentIScheduleSwap(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
-    queryset = Appointment.objects.all()
-    serializer_class = AppointmentIScheduleSwapSerializer
 
+class AppointmentIScheduleSwap(viewsets.ModelViewSet):
+    #renderer_classes = (JSONRenderer,)
+    queryset = Appointment.objects.annotate(num_patients=Count('patients')).filter(num_patients__lt=5)
+    serializer_class = AppointmentIScheduleSwapSerializer
 
     def update(self, request, *args, **kwargs):
         patient = Patient.objects.get(contact=request.query_params.get('patientContact'))
@@ -201,4 +200,3 @@ class AppointmentIScheduleSwap(viewsets.ModelViewSet):
         a.tempPatients.remove(patientInQueue)
         a.save()
         return Response("Patient Swapped")
-    """

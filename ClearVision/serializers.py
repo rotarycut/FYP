@@ -54,10 +54,9 @@ class AppointmentIScheduleFinderSerializer(serializers.ModelSerializer):
         model = Appointment
         depth = 0
 
-"""
+
 class AppointmentIScheduleSwapSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        depth = 1
-"""
+        depth = 10
