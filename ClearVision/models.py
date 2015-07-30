@@ -6,7 +6,6 @@ class Patient(models.Model):
     contact = models.CharField(max_length=50, primary_key=True)
     dob = models.CharField(max_length=50, null=True)
     marketingChannelId = models.PositiveIntegerField(default=0)
-    convert = models.NullBooleanField(null=True)
 
     def __str__(self):
         return self.contact
