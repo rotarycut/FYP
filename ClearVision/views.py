@@ -196,8 +196,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
 
-        if Appointment.objects.filter(date=futureApptDate, timeBucket__start=datetime.strptime(futureApptTimeBucket, '%H:%M:%S').time(), type=apptType).exists():
-            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=futureApptTimeBucket, type=apptType)
+        if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket, type=apptType).exists():
+            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID, type=apptType)
             existingFutureAppt.patients.add(patient)
             existingFutureAppt.save()
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
