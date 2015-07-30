@@ -242,13 +242,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     //Async http get request to retrieve Dr Ho's screening appointments
     $scope.getDrHoScreenings = function () {
 
-        $http.get('http://demo4552602.mockable.io/drHoScreenings')
+        $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Screening')
 
             .success(function (listOfAppointments) {
                 var drHoScreenings = listOfAppointments;
-                angular.forEach(drHoScreenings, function (screeningAppointment) {
-                    $scope.drHoScreenings.events.push(screeningAppointment);
-                })
+
+                $timeout(function () {
+                    angular.forEach(drHoScreenings, function (screeningAppointment) {
+                        $scope.drHoScreenings.events.push(screeningAppointment);
+                    })
+                }, 200);
+
             })
 
             .error(function () {
@@ -259,13 +263,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     //Async http get request to retrieve Dr Ho's pre-evaluation appointments
     $scope.getDrHoPreEvaluations = function () {
 
-        $http.get('http://demo4552602.mockable.io/drHoPreEvaluations')
+        $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Pre%20Evaluation')
 
             .success(function (listOfAppointments) {
                 var drHoPreEvaluations = listOfAppointments;
-                angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
-                    $scope.drHoPreEvaluations.events.push(preEvaluationAppointment);
-                })
+
+                $timeout(function () {
+                    angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
+                        $scope.drHoPreEvaluations.events.push(preEvaluationAppointment);
+                    })
+                }, 200);
+
             })
 
             .error(function () {
@@ -276,13 +284,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     //Async http get request to retrieve Dr Ho's surgery appointments
     $scope.getDrHoSurgeries = function () {
 
-        $http.get('http://demo4552602.mockable.io/drHoSurgeries')
+        $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Surgery')
 
             .success(function (listOfAppointments) {
                 var drHoSurgeries = listOfAppointments;
-                angular.forEach(drHoSurgeries, function (surgeryAppointment) {
-                    $scope.drHoSurgeries.events.push(surgeryAppointment);
-                })
+
+                $timeout(function () {
+                    angular.forEach(drHoSurgeries, function (surgeryAppointment) {
+                        $scope.drHoSurgeries.events.push(surgeryAppointment);
+                    })
+                }, 200);
+
             })
 
             .error(function () {
