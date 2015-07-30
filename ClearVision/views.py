@@ -13,7 +13,7 @@ from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.parsers import JSONParser
+
 
 @login_required
 def success(request):
@@ -115,7 +115,7 @@ class AppointmentList(viewsets.ModelViewSet):
 class AppointmentWriter(viewsets.ModelViewSet):
     #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
-    serializer_class = AppointmentMakerSerializer
+    serializer_class = AppointmentSerializer
 
     def destroy(self, request, *args, **kwargs):
         num_patients = Appointment.objects.get(id=self.get_object().id).patients.count()
@@ -135,18 +135,6 @@ class AppointmentWriter(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.DATA
 
-        """
-        apptDate = request.query_params.get('date')
-        apptTimeBucket = request.query_params.get('time')
-        apptType = request.query_params.get('type')
-        docID = request.query_params.get('docID')
-        clinicID = request.query_params.get('clinicID')
-        patientContact = request.query_params.get('contact')
-        patientName = request.query_params.get('name')
-        patientGender = request.query_params.get('gender')
-        marketingID = request.query_params.get('channelID')
-        """
-
         apptDate = data.get('date')
         apptTimeBucket = data.get('time') + ":00"
         apptType = data.get('type')
@@ -156,14 +144,15 @@ class AppointmentWriter(viewsets.ModelViewSet):
         patientName = data.get('name')
         patientGender = data.get('gender')
         marketingID = data.get('channelID')
+        isWaitingList = data.get('waitingListFlag')
 
         if not Patient.objects.filter(contact=patientContact).exists():
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact, marketingChannelId=marketingID)
 
         p = Patient.objects.get(contact=patientContact)
-        apptTimeBucketID = AvailableTimeSlots.objects.filter(startTime=apptTimeBucket)
+        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=apptTimeBucket)
 
-        if Appointment.objects.filter(date=apptDate, timeBucket__startTime=apptTimeBucket, type=apptType).exists():
+        if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, type=apptType).exists():
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
             existingAppt.patients.add(p)
             existingAppt.save()
@@ -171,14 +160,20 @@ class AppointmentWriter(viewsets.ModelViewSet):
             if existingAppt.patients.count() > 5:
                 return Response("Number of patients exceeded 5")
 
-            return Response("Patient Added to Existing Appointment")
+            serializedExistingAppt = AppointmentSerializer(existingAppt)
+
+            return Response(serializedExistingAppt.data)
+
         else:
 
             Appointment.objects.create(type=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
 
-            return Response("Patient Added to Newly Created Appointment")
+            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
+            serializedExistingAppt = AppointmentSerializer(existingAppt)
+
+            return Response(serializedExistingAppt.data)
 
 
 # API for iScheduling
