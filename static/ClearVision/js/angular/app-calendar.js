@@ -8,6 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var m = date.getMonth();
     var y = date.getFullYear();
 
+
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
     $scope.eventSource = {
@@ -97,8 +98,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* alert on eventClick */
-    $scope.alertOnEventClick = function (date, jsEvent, view) {
-        $scope.alertMessage = (date.title + ' was clicked ');
+    $scope.alertOnEventClick = function (appointment, jsEvent, view) {
+        $scope.alertMessage = (appointment.title + ' was clicked ');
+        $scope.clearForm();
+        $scope.showForm();
+        $scope.formTitle = "Edit Appointment";
+        $scope.showPatientList = true;
+        $scope.showDeleteButton = true;
+        $scope.patientList = appointment.patients;
+        $scope.disablePatientNameInput = true;
+        $scope.disablePatientContactInput = true;
+        $scope.disableAssignedDoctorInput = true;
+        $scope.disableMktgChannelInput = true;
+
     };
 
     /* alert on Drop */
@@ -210,6 +222,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
+    /* changing of calendar language, if we need to use */
     $scope.changeLang = function () {
         if ($scope.changeTo === 'Hungarian') {
             $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
@@ -328,7 +341,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-
     //Testing: Post request
     $scope.postAppointment = function () {
 
@@ -360,7 +372,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     };
 
-
     //Testing: Delete request
     $scope.deleteAppointment = function () {
 
@@ -370,7 +381,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
     };
-
 
     //Testing : Updating request
     $scope.updateAppointment = function () {
@@ -384,6 +394,102 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .success(function (data) {
                 console.log("Successfully updated");
             });
+    };
+
+    /* Start of date picker codes */
+    $scope.datepickers = {
+        showDatePicker: false
+    };
+    $scope.disabled = function (date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
+    };
+
+    $scope.today = function () {
+        $scope.datePickerCalendar = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.datePickerCalendar = null;
+    };
+
+    $scope.toggleMin = function () {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.open = function ($event, which) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.datepickers[which] = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1,
+        showWeeks: 'false'
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+    /* End of date picker codes */
+
+    /* Appointment form configuration */
+    $scope.formTitle = "Create New Appointment";
+    $scope.showPatientList = false;
+    $scope.showDeleteButton = false;
+    $scope.remarkWarning = "Please select a patient";
+
+    /* Populate patient details upon selection */
+    $scope.populatePatientDetails = function () {
+        var patientName = $scope.appointmentPatient.trim();
+
+        angular.forEach($scope.patientList, function (patient) {
+            if (patientName === patient.name) {
+                $scope.patientName = patient.name;
+                $scope.patientContact = patient.handphone;
+            }
+        })
+    };
+
+    $scope.listOfAppointmentTypes = ["Pre-Evaluation", "Lasik Surgery", "Screening", "Follow-up"];
+
+    $scope.listOfAppointmentTimings = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"];
+
+    $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
+
+    $scope.clearForm = function () {
+        $scope.appointmentPatient = "";
+        $scope.appointmentType = "";
+        $scope.apptDateTime = "";
+        $scope.appointmentTime = "";
+        $scope.patientName = "";
+        $scope.patientContact = "";
+        $scope.doctorAssigned = "";
+        $scope.marketingChannel = "";
+        $scope.appointmentRemarks = "";
+        $scope.disablePatientNameInput = false;
+        $scope.disablePatientContactInput = false;
+        $scope.disableAssignedDoctorInput = false;
+        $scope.disableMktgChannelInput = false;
+    };
+
+    $scope.showForm = function () {
+        $scope.formAnimation = "form-container-show";
+        $scope.calAnimation = "cal-container-resize";
+        $scope.topAnimation = "top-container-resize";
+    };
+
+    $scope.hideForm = function () {
+        $scope.formAnimation = "form-container";
+        $scope.calAnimation = "cal-container";
+        $scope.topAnimation = "top-container";
+        $scope.formTitle = "Create New Appointment";
+        $scope.showPatientList = false;
+        $scope.showDeleteButton = false;
+        $scope.clearForm();
+
     };
 
 
