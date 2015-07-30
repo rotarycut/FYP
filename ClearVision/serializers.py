@@ -24,8 +24,8 @@ class DoctorSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
 
     title = serializers.SerializerMethodField()
-    startTime = serializers.SerializerMethodField()
-    endTime = serializers.SerializerMethodField()
+    start = serializers.SerializerMethodField()
+    end = serializers.SerializerMethodField()
 
     class Meta:
         model = Appointment
@@ -35,11 +35,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
     def get_title(self, appointment):
         return str(appointment.patients.count()) + " Patient(s)"
 
-    def get_startTime(self, appointment):
-        return str(appointment.date) + " " + str(appointment.doctor.timeBucket.startTime)
+    def get_start(self, appointment):
+        return str(appointment.date) + " " + str(appointment.doctor.timeBucket.start)
 
-    def get_endTime(self, appointment):
-        return str(appointment.date) + " " + str(appointment.doctor.timeBucket.endTime)
+    def get_end(self, appointment):
+        return str(appointment.date) + " " + str(appointment.doctor.timeBucket.end)
 
     patients = PatientSerializer(many=True)
 
