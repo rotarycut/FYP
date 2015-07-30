@@ -148,7 +148,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         """
 
         apptDate = data.get('date')
-        apptTimeBucket = data.get('time')
+        apptTimeBucket = data.get('time') + ":00"
         apptType = data.get('type')
         docID = data.get('docID')
         clinicID = data.get('clinicID')
@@ -161,9 +161,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact, marketingChannelId=marketingID)
 
         p = Patient.objects.get(contact=patientContact)
+        apptTimeBucketID = AvailableTimeSlots.objects.filter(startTime=apptTimeBucket)
 
-        if Appointment.objects.filter(date=apptDate, timeBucket=apptTimeBucket, type=apptType).exists():
-            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucket, type=apptType)
+        if Appointment.objects.filter(date=apptDate, timeBucket__startTime=apptTimeBucket, type=apptType).exists():
+            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
             existingAppt.patients.add(p)
             existingAppt.save()
 
@@ -172,9 +173,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             return Response("Patient Added to Existing Appointment")
         else:
+
             Appointment.objects.create(type=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
-                                       timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucket)).patients.add(p)
+                                       timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
 
             return Response("Patient Added to Newly Created Appointment")
 
