@@ -197,6 +197,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
         currentAppt.patients.remove(patient)
         currentAppt.save()
 
+        if currentAppt.patients.count() == 0:
+            currentAppt.delete()
+
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
 
         if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket, type=apptType).exists():
