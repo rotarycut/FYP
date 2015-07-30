@@ -36,10 +36,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
         return str(appointment.patients.count()) + " Patient(s)"
 
     def get_start(self, appointment):
-        return str(appointment.date) + " " + str(appointment.doctor.timeBucket.start)
+        return str(appointment.date) + " " + str(appointment.timeBucket.start)
 
     def get_end(self, appointment):
-        return str(appointment.date) + " " + str(appointment.doctor.timeBucket.end)
+        return str(appointment.date) + " " + str(appointment.timeBucket.end)
 
     patients = PatientSerializer(many=True)
 
