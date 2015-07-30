@@ -181,6 +181,30 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             return Response(serializedExistingAppt.data)
 
+    def update(self, request, *args, **kwargs):
+        data=request.DATA
+        futureApptDate = data.get('replacementApptDate')
+        futureApptTimeBucket = data.get('replacementApptTime') + ":00"
+        currentAppt = Appointment.objects.get(id=self.get_object().id)
+        patient = Patient.objects.get(contact=data.get('contact'))
+        apptType=data.get('type')
+        docID=data.get('docID')
+        clinicID=data.get('clinicID')
+
+        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
+        if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket, type=apptType).exists():
+            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=futureApptTimeBucket, type=apptType)
+            existingFutureAppt.patients.add(patient)
+            existingFutureAppt.save()
+        else:
+
+            Appointment.objects.create(type=apptType, date=futureApptDate, doctor=Doctor.objects.get(id=docID),
+                                       clinic=Clinic.objects.get(id=clinicID),
+                                       timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(patient)
+
+        currentAppt.remove(patient)
+        currentAppt.save()
+
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ModelViewSet):
