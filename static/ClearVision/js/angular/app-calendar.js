@@ -102,10 +102,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.alertMessage = (appointment.title + ' was clicked ');
         $scope.clearForm();
         $scope.showForm();
+        $scope.appointmentId = appointment.id;
         $scope.formTitle = "Edit Appointment";
         $scope.showPatientList = true;
         $scope.showDeleteButton = true;
         $scope.patientList = appointment.patients;
+        $scope.appointmentType = "Surgery";
+        $scope.apptDateTime = appointment.date;
+        $scope.appointmentTime = "10:00";
         $scope.disablePatientNameInput = true;
         $scope.disablePatientContactInput = true;
         $scope.disableAssignedDoctorInput = true;
@@ -435,13 +439,66 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     };
 
-    //Testing: Delete request
+    //Delete appointment
     $scope.deleteAppointment = function () {
 
-        $http.delete('/Clearvision/_api/appointmentsCUD/1')
+        var urlStr = '/Clearvision/_api/appointmentsCUD/' + $scope.appointmentId;
+
+        var req = {
+            method: 'DELETE',
+            url: urlStr,
+            headers: {'Content-Type': 'application/json'},
+            data: {
+                "contact": $scope.patientContact
+            }
+        };
+
+        $http(req)
             .success(function (data) {
                 console.log("Successfully deleted");
-            });
+                var event = data;
+
+                switch ($scope.appointmentType.trim()) {
+
+                    case "Screening":
+                        var appointmentIndex = 0;
+                        angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+                            if (screeningAppointment.start === event.start) {
+                                $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+
+                            }
+                            appointmentIndex++;
+                        });
+                        $scope.drHoScreenings.events.push(event);
+                        break;
+
+                    case "Pre Evaluation":
+                        var appointmentIndex = 0;
+                        angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                            if (preEvaluationAppointment.start === event.start) {
+                                $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+
+                            }
+                            appointmentIndex++;
+                        });
+                        $scope.drHoPreEvaluations.events.push(event);
+                        break;
+
+                    case "Surgery":
+                        var appointmentIndex = 0;
+                        angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+                            if (surgeryAppointment.start === event.start) {
+                                $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+
+                            }
+                            appointmentIndex++;
+                        });
+
+                        $scope.drHoSurgeries.events.push(event);
+                        break;
+                }
+
+            })
 
     };
 
@@ -511,7 +568,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         angular.forEach($scope.patientList, function (patient) {
             if (patientName === patient.name) {
                 $scope.patientName = patient.name;
-                $scope.patientContact = patient.handphone;
+                $scope.patientContact = patient.contact;
             }
         })
     };
@@ -523,6 +580,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
 
     $scope.clearForm = function () {
+        $scope.appointmentId = "";
         $scope.appointmentPatient = "";
         $scope.appointmentType = "";
         $scope.apptDateTime = "";
