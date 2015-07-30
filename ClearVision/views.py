@@ -115,7 +115,7 @@ class AppointmentList(viewsets.ModelViewSet):
 class AppointmentWriter(viewsets.ModelViewSet):
     #renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
-    serializer_class = AppointmentSerializer
+    serializer_class = AppointmentMakerSerializer
 
     def destroy(self, request, *args, **kwargs):
         num_patients = Appointment.objects.get(id=self.get_object().id).patients.count()
