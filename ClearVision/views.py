@@ -129,10 +129,11 @@ class AppointmentWriter(viewsets.ModelViewSet):
         a.patients.remove(p)
         a.save()
 
-        if num_patients <= 5 and num_temp_patients >= 1:
-            return Response("Inform Swap Possible for " + str(temp_patients))
-        elif num_patients == 1:
+        if num_patients == 1:
+            a.delete()
             return Response("{}")
+        elif num_patients <= 5 and num_temp_patients >= 1:
+            return Response("Inform Swap Possible for " + str(temp_patients))
         else:
             serializedExistingAppt = AppointmentSerializer(a)
             return Response(serializedExistingAppt.data)
