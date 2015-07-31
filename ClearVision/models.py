@@ -8,7 +8,7 @@ class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     contact = models.CharField(max_length=50, primary_key=True)
-    dob = models.CharField(max_length=50, null=True)
+    registrationDate = models.DateField(null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
     conversion = models.NullBooleanField(default=False)
 

@@ -273,13 +273,12 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         channel = request.query_params.get('channel')
-        if not Patient.objects.filter(marketingChannelId__name=channel).exists():
-            return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate':0})
+        month = request.query_params.get('month')
+        if not Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).exists():
+            return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate': 0})
         else:
             leads = Patient.objects.filter(marketingChannelId__name=channel).distinct().count()
             conversion = Patient.objects.filter(marketingChannelId__name=channel, conversion=True).count()
             rate = conversion/leads
-            response_data = {'Name': channel, 'Leads': leads, 'Conversion': conversion, 'Rate':rate}
+            response_data = {'Name': channel, 'Leads': leads, 'Conversion': conversion, 'Rate': rate}
             return Response(response_data)
-
-

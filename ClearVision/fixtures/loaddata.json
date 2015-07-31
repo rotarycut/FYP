@@ -41,7 +41,7 @@
         "name": "Sherman",
         "gender": "Male",
         "contact": "91500323",
-        "dob": "21/21/21",
+        "registrationDate": "2015-04-29",
         "marketingChannelId": 1
     }
   },
@@ -52,7 +52,7 @@
         "name": "Leon",
         "gender": "Male",
         "contact": "94764232",
-        "dob": "18/18/18",
+        "registrationDate": "2015-04-30",
         "marketingChannelId": 2
     }
   },
@@ -63,7 +63,7 @@
         "name": "Claire",
         "gender": "Female",
         "contact": "91500212",
-        "dob": "19/19/19",
+        "registrationDate": "2015-05-30",
         "marketingChannelId": 3
     }
   },
@@ -74,7 +74,7 @@
         "name": "Amabel",
         "gender": "Female",
         "contact": "91500111",
-        "dob": "19/19/19",
+        "registrationDate": "2015-06-30",
         "marketingChannelId": 4
     }
   },
@@ -85,7 +85,7 @@
         "name": "Carina",
         "gender": "Female",
         "contact": "91500222",
-        "dob": "19/19/19",
+        "registrationDate": "2015-07-30",
         "marketingChannelId": 5
     }
   },
@@ -96,7 +96,7 @@
         "name": "Kaiwen",
         "gender": "Male",
         "contact": "91500333",
-        "dob": "19/19/19",
+        "registrationDate": "2015-07-28",
         "marketingChannelId": 6
     }
   },
@@ -107,7 +107,7 @@
         "name": "G Dragon",
         "gender": "Male",
         "contact": "91500444",
-        "dob": "19/19/19",
+        "registrationDate": "2015-07-14",
         "marketingChannelId": 1
     }
   },
