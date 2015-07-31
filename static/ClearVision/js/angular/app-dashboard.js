@@ -1,11 +1,11 @@
 var appDashboard = angular.module('app.dashboard', []);
 
 appDashboard.controller('DashboardCtrl', function ($scope, $http) {
-    $scope.months = ["july", "june", "may"];
+    $scope.months = ["august", "july", "june"];
 
     $scope.initializeChart = function () {
         var monthNames = ["January", "February", "March", "April", "May", "June",
-            "july", "August", "September", "October", "November", "December"
+            "july", "august", "September", "October", "November", "December"
         ];
 
         var currentMonth = monthNames[new Date().getMonth()];
@@ -27,7 +27,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $http.get('http://demo4552602.mockable.io/marketingTimeline')
             .success(function (data) {
                 $scope.newTimeline = data;
-                $scope.showTimelineChart($scope.newTimeline);
+                $scope.showTimelineChart([]);
             });
     };
 
@@ -97,7 +97,51 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 axes: {
                     Bloggers: 'y2'
                 },
-                type: 'bar'
+                type: 'bar',
+                onclick: function (d, element) {
+                    switch (d.x) {
+                        case 0:
+                            $scope.showTimelineChart(
+                                [
+                                    {"date": "2015-07-01", "google search": 5},
+                                    {"date": "2015-07-02", "google search": 2},
+                                    {"date": "2015-07-03", "google search": 7},
+                                    {"date": "2015-07-04", "google search": 2},
+                                    {"date": "2015-07-05", "google search": 4},
+                                    {"date": "2015-07-06", "google search": 6},
+                                    {"date": "2015-07-07", "google search": 0},
+                                    {"date": "2015-07-08", "google search": 8},
+                                    {"date": "2015-07-09", "google search": 3},
+                                    {"date": "2015-07-10", "google search": 12},
+                                    {"date": "2015-07-11", "google search": 4},
+                                    {"date": "2015-07-12", "google search": 6}
+
+                                ]
+                            );
+                            break;
+
+                        case 1:
+                            $scope.showTimelineChart(
+                                [
+                                    {"date": "2015-07-01", "facebook ad": 5},
+                                    {"date": "2015-07-02", "facebook ad": 12},
+                                    {"date": "2015-07-03", "facebook ad": 8},
+                                    {"date": "2015-07-04", "facebook ad": 2},
+                                    {"date": "2015-07-05", "facebook ad": 9},
+                                    {"date": "2015-07-06", "facebook ad": 12},
+                                    {"date": "2015-07-07", "facebook ad": 5},
+                                    {"date": "2015-07-08", "facebook ad": 8},
+                                    {"date": "2015-07-09", "facebook ad": 3},
+                                    {"date": "2015-07-10", "facebook ad": 2},
+                                    {"date": "2015-07-11", "facebook ad": 9},
+                                    {"date": "2015-07-12", "facebook ad": 5}
+
+                                ]
+                            );
+                            break;
+                    }
+
+                }
             }
 
 
@@ -106,7 +150,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         setTimeout(function () {
             $scope.marketingChart.toggle('Conversion');
             $scope.marketingChart.toggle('Rate');
-        }, 500);
+        }, 300);
 
     };
 

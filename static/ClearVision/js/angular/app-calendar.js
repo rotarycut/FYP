@@ -54,6 +54,84 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         events: []
     };
 
+    $scope.lowHeatMap = {
+        color: '#33CC00',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.medHeatMap = {
+        color: '#FF9966',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.highHeatMap = {
+        color: '#FF0000',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.getLowHeatMap = function () {
+
+        $http.get('http://demo4552602.mockable.io/lowHeatmap')
+
+            .success(function (listOfAppointments) {
+                var lowHeatMap = listOfAppointments;
+
+                $timeout(function () {
+                    angular.forEach(lowHeatMap, function (appointment) {
+                        $scope.lowHeatMap.events.push(appointment);
+                    })
+                }, 200);
+
+            })
+
+            .error(function () {
+                console.log("Error getting low heat map");
+            });
+    };
+
+    $scope.getMedHeatMap = function () {
+
+        $http.get('http://demo4552602.mockable.io/medHeatmap')
+
+            .success(function (listOfAppointments) {
+                var medHeatMap = listOfAppointments;
+
+                $timeout(function () {
+                    angular.forEach(medHeatMap, function (appointment) {
+                        $scope.medHeatMap.events.push(appointment);
+                    })
+                }, 200);
+
+            })
+
+            .error(function () {
+                console.log("Error getting med heat map");
+            });
+    };
+
+    $scope.getHighHeatMap = function () {
+
+        $http.get('http://demo4552602.mockable.io/highHeatmap')
+
+            .success(function (listOfAppointments) {
+                var highHeatMap = listOfAppointments;
+
+                $timeout(function () {
+                    angular.forEach(highHeatMap, function (appointment) {
+                        $scope.highHeatMap.events.push(appointment);
+                    })
+                }, 200);
+
+            })
+
+            .error(function () {
+                console.log("Error getting high heat map");
+            });
+    };
+
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
         var s = new Date(start).getTime() / 1000;
@@ -121,6 +199,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.disablePatientContactInput = true;
         $scope.disableAssignedDoctorInput = true;
         $scope.disableMktgChannelInput = true;
+        $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
+        $('#drHoCalendar').fullCalendar('select', appointment.date);
 
     };
 
@@ -192,6 +272,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* Render Tooltip */
     $scope.eventRender = function (event, element, view) {
         var strOfPatientNames = $scope.getAllPatientsName(event);
+        console.log(element);
         element.attr({
             'tooltip': strOfPatientNames,
             'tooltip-append-to-body': true
@@ -247,7 +328,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* event sources array*/
-    $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries];
+    $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap];
     $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
 
     //Async http get request to retrieve Dr Ho's screening appointments
@@ -621,6 +702,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.formAnimation = "form-container-show";
         $scope.calAnimation = "cal-container-resize";
         $scope.topAnimation = "top-container-resize";
+
+        /*
+        $scope.getLowHeatMap();
+        $scope.getMedHeatMap();
+        $scope.getHighHeatMap();
+        $scope.drHoScreenings.events.splice(0);
+        $scope.drHoPreEvaluations.events.splice(0);
+        $scope.drHoSurgeries.events.splice(0);
+        */
     };
 
     $scope.hideForm = function () {
@@ -634,7 +724,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.showSubmitButton = true;
         $scope.clearForm();
 
-    };
+        /*
+        $scope.lowHeatMap.events.splice(0);
+        $scope.medHeatMap.events.splice(0);
+        $scope.highHeatMap.events.splice(0);
+        $scope.getDrHoScreenings();
+        $scope.getDrHoPreEvaluations();
+        $scope.getDrHoSurgeries();
+        */
 
+    };
 
 });
