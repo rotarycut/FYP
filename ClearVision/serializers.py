@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.db.models import Count
 
 __author__ = 'sherman'
 from rest_framework import serializers
@@ -61,10 +62,3 @@ class AppointmentIScheduleSwapSerializer(serializers.ModelSerializer):
         model = Appointment
         depth = 10
 """
-class AnalyticsSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Patient
-        depth = 5
-
-

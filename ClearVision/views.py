@@ -1,7 +1,8 @@
 from datetime import timedelta
+import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
-from django.db.models import Count
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
@@ -37,7 +38,7 @@ class PatientFilter(django_filters.FilterSet):
         fields = ['gender', 'min_id', 'max_id']
 
 class PatientList(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
+    #renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -255,19 +256,26 @@ class AppointmentIScheduleSwap(viewsets.ModelViewSet):
         a.tempPatients.remove(patientInQueue)
         a.save()
         return Response("Patient Swapped")
-"""
 
 class AnalyticsFilter(django_filters.FilterSet):
-    min_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='gte')
-    max_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='lte')
-    name = django_filters.CharFilter(name='marketingChannelId__name')
 
     class Meta:
         model = Patient
-        fields = ['name', 'min_id', 'max_id']
+        fields = ['name', 'contact']
+"""
 
-class AnalyticsServer(viewsets.ModelViewSet):
-    queryset = Patient.objects.all()
-    serializer_class = AnalyticsSerializer
-    filter_class = AnalyticsFilter
-    filter_backends = (filters.DjangoFilterBackend,)
+class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
+    queryset = Patient.objects
+
+    def list(self, request, *args, **kwargs):
+        channel = request.query_params.get('channel')
+        if not Patient.objects.filter(marketingChannelId__name=channel).exists():
+            return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate':0})
+        else:
+            leads = Patient.objects.filter(marketingChannelId__name=channel).distinct().count()
+            conversion = Patient.objects.filter(marketingChannelId__name=channel, conversion=True).count()
+            rate = conversion/leads
+            response_data = {'Name': channel, 'Leads': leads, 'Conversion': conversion, 'Rate':rate}
+            return Response(response_data)
+
+
