@@ -15,6 +15,8 @@ router.register(r'_api/analyticsServer', views.AnalyticsServer)
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
     url(r'^header', views.header, name='header'),
+    url(r'^calendar', views.calendar),
+    url(r'^dashboard', views.dashboard),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^', include(router.urls)),

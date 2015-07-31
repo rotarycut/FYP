@@ -2,11 +2,20 @@ var app = angular.module('calendarDemoApp', [
     'ui.calendar',
     'ui.bootstrap',
     'app.calendar',
-    'app.appointment.form'
+    'ngRoute'
 ]);
 
+/* Angular routing */
+app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+        .when("/", {templateUrl: "calendar.html"})
+        .when("/dashboard", {templateUrl: "dashboard.html"})
+        .otherwise({
+            redirectTo: '/'
+        });
+}]);
 
-// Changing Angular interpolation from "{{ }}" to "[[ ]]" to prevent conflict with Django codes
+/* Changing Angular interpolation from "{{ }}" to "[[ ]]" to prevent conflict with Django codes */
 app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
