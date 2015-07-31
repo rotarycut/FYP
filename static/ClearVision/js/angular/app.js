@@ -2,6 +2,7 @@ var app = angular.module('calendarDemoApp', [
     'ui.calendar',
     'ui.bootstrap',
     'app.calendar',
+    'app.dashboard',
     'ngRoute'
 ]);
 
@@ -13,7 +14,8 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'CalendarCtrl'
         })
         .when("/dashboard", {
-            templateUrl: "dashboard.html"
+            templateUrl: "dashboard.html",
+            controller: 'DashboardCtrl'
         })
         .otherwise({
             redirectTo: '/'
