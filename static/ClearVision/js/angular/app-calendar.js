@@ -109,7 +109,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.showEditButton = true;
         $scope.showSubmitButton = false;
         $scope.patientList = appointment.patients;
-        $scope.appointmentType.value = "Screening";
+        $scope.appointmentType.value = appointment.type;
         $scope.apptDateTime = appointment.date;
         $scope.apptFullTime = appointment.start._i;
 
