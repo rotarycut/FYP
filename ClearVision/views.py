@@ -25,6 +25,10 @@ def success(request):
     return render(request, 'success.html', context)
 def header(request):
     return render(request, 'header.html')
+def calendar(request):
+    return render(request, 'calendar.html')
+def dashboard(request):
+    return render(request, 'dashboard.html')
 def logout(request):
     return logout_then_login(request, 'login')
 

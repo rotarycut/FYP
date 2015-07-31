@@ -1,0 +1,18 @@
+<div>
+    <br/><br/><br/>
+    Dashboard!
+
+    <div ng-repeat="mth in months">
+        <button ng-click="changeData(mth)">
+            [[ mth ]]
+        </button>
+    </div>
+
+    <div class="cold-md-12">
+        <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
+    </div>
+
+    <div class="cold-md-12">
+        <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
+    </div>
+</div>
