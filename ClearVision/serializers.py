@@ -30,7 +30,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         depth = 0
-        fields = ('id', 'title', 'date', 'start', 'end', 'doctor', 'patients',)
+        fields = ('id', 'type', 'title', 'date', 'start', 'end', 'doctor', 'patients',)
 
     def get_title(self, appointment):
         return str(appointment.patients.count()) + " Patient(s)"

@@ -260,10 +260,11 @@ class AppointmentIScheduleSwap(viewsets.ModelViewSet):
 class AnalyticsFilter(django_filters.FilterSet):
     min_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='gte')
     max_id = django_filters.NumberFilter(name="marketingChannelId", lookup_type='lte')
+    name = django_filters.CharFilter(name='marketingChannelId__name')
 
     class Meta:
         model = Patient
-        fields = ['marketingChannelId', 'min_id', 'max_id']
+        fields = ['name', 'min_id', 'max_id']
 
 class AnalyticsServer(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
