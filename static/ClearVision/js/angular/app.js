@@ -8,8 +8,13 @@ var app = angular.module('calendarDemoApp', [
 /* Angular routing */
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-        .when("/", {templateUrl: "calendar.html"})
-        .when("/dashboard", {templateUrl: "dashboard.html"})
+        .when("/", {
+            templateUrl: "calendar.html",
+            controller: 'CalendarCtrl'
+        })
+        .when("/dashboard", {
+            templateUrl: "dashboard.html"
+        })
         .otherwise({
             redirectTo: '/'
         });
