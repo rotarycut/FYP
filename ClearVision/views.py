@@ -12,7 +12,8 @@ from .serializers import *
 from rest_framework import filters
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
-from django.db.models import Q
+from django.db.models import Q,F, FloatField, Max, Avg, Sum, Min, Case, When, CharField, Value, IntegerField, \
+    NullBooleanField
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -137,7 +138,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         if num_patients == 1:
             a.delete()
-            return Response("{}")
+            return Response({})
         elif num_patients <= 5 and num_temp_patients >= 1:
             return Response("Inform Swap Possible for " + str(temp_patients))
         else:
@@ -269,15 +270,34 @@ class AnalyticsFilter(django_filters.FilterSet):
 """
 
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
-    queryset = Patient.objects
+    queryset = Patient.objects.all()
 
     def list(self, request, *args, **kwargs):
         channel = request.query_params.get('channel')
         month = request.query_params.get('month')
-        if not Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).exists():
+
+        if channel == 'all':
+            response_data = Patient.objects.filter(registrationDate__month=month).\
+                annotate(channelname=F('marketingChannelId__name')).values('channelname').\
+                annotate(leads=Count('channelname')).order_by('leads').\
+                annotate(
+                    convert=Sum(
+                        Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
+                    )
+                )
+
+            for eachObj in response_data:
+                leads = eachObj['leads']
+                convert = eachObj['convert']
+                rate = convert/leads
+                eachObj['rate'] = rate
+
+            return Response(response_data)
+
+        elif not Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).exists():
             return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate': 0})
         else:
-            leads = Patient.objects.filter(marketingChannelId__name=channel).distinct().count()
+            leads = Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).distinct().count()
             conversion = Patient.objects.filter(marketingChannelId__name=channel, conversion=True).count()
             rate = conversion/leads
             response_data = {'Name': channel, 'Leads': leads, 'Conversion': conversion, 'Rate': rate}

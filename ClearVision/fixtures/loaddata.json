@@ -42,7 +42,8 @@
         "gender": "Male",
         "contact": "91500323",
         "registrationDate": "2015-04-29",
-        "marketingChannelId": 1
+        "marketingChannelId": 1,
+        "conversion": "True"
     }
   },
 
@@ -53,7 +54,8 @@
         "gender": "Male",
         "contact": "94764232",
         "registrationDate": "2015-04-30",
-        "marketingChannelId": 2
+        "marketingChannelId": 2,
+        "conversion": "False"
     }
   },
 
@@ -63,8 +65,9 @@
         "name": "Claire",
         "gender": "Female",
         "contact": "91500212",
-        "registrationDate": "2015-05-30",
-        "marketingChannelId": 3
+        "registrationDate": "2015-04-30",
+        "marketingChannelId": 1,
+        "conversion": "True"
     }
   },
 
@@ -74,8 +77,9 @@
         "name": "Amabel",
         "gender": "Female",
         "contact": "91500111",
-        "registrationDate": "2015-06-30",
-        "marketingChannelId": 4
+        "registrationDate": "2015-04-30",
+        "marketingChannelId": 2,
+        "conversion": "False"
     }
   },
 
@@ -85,8 +89,9 @@
         "name": "Carina",
         "gender": "Female",
         "contact": "91500222",
-        "registrationDate": "2015-07-30",
-        "marketingChannelId": 5
+        "registrationDate": "2015-04-30",
+        "marketingChannelId": 3,
+        "conversion": "True"
     }
   },
 
@@ -96,8 +101,9 @@
         "name": "Kaiwen",
         "gender": "Male",
         "contact": "91500333",
-        "registrationDate": "2015-07-28",
-        "marketingChannelId": 6
+        "registrationDate": "2015-04-28",
+        "marketingChannelId": 3,
+        "conversion": "False"
     }
   },
 
@@ -107,8 +113,31 @@
         "name": "G Dragon",
         "gender": "Male",
         "contact": "91500444",
-        "registrationDate": "2015-07-14",
-        "marketingChannelId": 1
+        "registrationDate": "2015-04-14",
+        "marketingChannelId": 3,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "M Dragon",
+        "gender": "Male",
+        "contact": "91500484",
+        "registrationDate": "2015-04-14",
+        "marketingChannelId": 3,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Y Dragon",
+        "gender": "Male",
+        "contact": "91500784",
+        "registrationDate": "2015-04-14",
+        "marketingChannelId": 3,
+        "conversion": "False"
     }
   },
 
