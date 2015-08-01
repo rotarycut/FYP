@@ -8,6 +8,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var m = date.getMonth();
     var y = date.getFullYear();
 
+    $scope.apptFormBtns = true;
+
 
     $scope.changeTo = 'Hungarian';
     /* event source that pulls from google.com */
@@ -655,6 +657,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.showDeleteButton = false;
     $scope.showEditButton = false;
     $scope.showSubmitButton = true;
+    $scope.showResetButton = true;
     $scope.remarkWarning = "Please select a patient";
 
     /* Populate patient details upon selection */
@@ -699,10 +702,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.showForm = function () {
-        $scope.formAnimation = "form-container-show";
-        $scope.calAnimation = "cal-container-resize";
-        $scope.topAnimation = "top-container-resize";
-
+        $scope.leftAnimation = "col-sm-8 left-content-resize";
+        $scope.rightAnimation = "col-sm-4 right-content-show";
+        $scope.apptFormBtns = false;
         /*
         $scope.getLowHeatMap();
         $scope.getMedHeatMap();
@@ -714,14 +716,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.hideForm = function () {
-        $scope.formAnimation = "form-container";
-        $scope.calAnimation = "cal-container";
-        $scope.topAnimation = "top-container";
+        $scope.leftAnimation = "col-sm-12 left-content"
+        $scope.rightAnimation = "col-sm-4 right-content"
         $scope.formTitle = "Create New Appointment";
         $scope.showPatientList = false;
         $scope.showDeleteButton = false;
+        $scope.apptFormBtns = true;
         $scope.showEditButton = false;
         $scope.showSubmitButton = true;
+        $scope.showResetButton=true;
         $scope.clearForm();
 
         /*
