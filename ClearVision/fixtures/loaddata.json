@@ -140,6 +140,39 @@
         "conversion": "False"
     }
   },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "R Dragon",
+        "gender": "Male",
+        "contact": "915004732",
+        "registrationDate": "2015-04-14",
+        "marketingChannelId": 4,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "V Dragon",
+        "gender": "Male",
+        "contact": "91587471",
+        "registrationDate": "2015-04-14",
+        "marketingChannelId": 4,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "W Dragon",
+        "gender": "Male",
+        "contact": "90884621",
+        "registrationDate": "2015-04-14",
+        "marketingChannelId": 5,
+        "conversion": "False"
+    }
+  },
 
   {
     "model": "ClearVision.Clinic",
