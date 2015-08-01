@@ -405,84 +405,89 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to create appointment */
-    $scope.postAppointment = function () {
+    $scope.postAppointment = function (formIsValid) {
 
-        var year = $scope.fields.appointmentDate.getFullYear();
+        if (formIsValid) {
+            var year = $scope.fields.appointmentDate.getFullYear();
 
-        var month = $scope.fields.appointmentDate.getMonth() + 1;
-        if (month <= 9) {
-            month = '0' + month;
-        }
+            var month = $scope.fields.appointmentDate.getMonth() + 1;
+            if (month <= 9) {
+                month = '0' + month;
+            }
 
-        var day = $scope.fields.appointmentDate.getDate();
-        if (day <= 9) {
-            day = '0' + day;
-        }
+            var day = $scope.fields.appointmentDate.getDate();
+            if (day <= 9) {
+                day = '0' + day;
+            }
 
-        $scope.formattedDate = year + '-' + month + '-' + day;
+            $scope.formattedDate = year + '-' + month + '-' + day;
 
-        $http.post('/Clearvision/_api/appointmentsCUD/', {
-            "type": $scope.fields.appointmentType,
-            "date": $scope.formattedDate,
-            "docID": $scope.fields.doctorAssigned,
-            "clinicID": 1,
-            "contact": $scope.fields.patientContact,
-            "name": $scope.fields.patientName,
-            "gender": "Male",
-            "channelID": "1",
-            "time": $scope.fields.appointmentTime
-        })
-            .success(function (data) {
-                console.log("Successful with http post");
-                console.log(data);
-
-                var event = data;
-
-                switch ($scope.fields.appointmentType) {
-
-                    case "Screening":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                            if (screeningAppointment.start === event.start) {
-                                $scope.drHoScreenings.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        $scope.drHoScreenings.events.push(event);
-                        break;
-
-                    case "Pre Evaluation":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                            if (preEvaluationAppointment.start === event.start) {
-                                $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        $scope.drHoPreEvaluations.events.push(event);
-                        break;
-
-                    case "Surgery":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                            if (surgeryAppointment.start === event.start) {
-                                $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-
-                        $scope.drHoSurgeries.events.push(event);
-                        break;
-                }
-
+            $http.post('/Clearvision/_api/appointmentsCUD/', {
+                "type": $scope.fields.appointmentType,
+                "date": $scope.formattedDate,
+                "docID": $scope.fields.doctorAssigned,
+                "clinicID": 1,
+                "contact": $scope.fields.patientContact,
+                "name": $scope.fields.patientName,
+                "gender": "Male",
+                "channelID": "1",
+                "time": $scope.fields.appointmentTime
             })
+                .success(function (data) {
+                    console.log("Successful with http post");
+                    console.log(data);
 
-            .error(function (data) {
-                console.log("Error with http post");
-            });
+                    var event = data;
+
+                    switch ($scope.fields.appointmentType) {
+
+                        case "Screening":
+                            var appointmentIndex = 0;
+                            angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+                                if (screeningAppointment.start === event.start) {
+                                    $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+                            $scope.drHoScreenings.events.push(event);
+                            break;
+
+                        case "Pre Evaluation":
+                            var appointmentIndex = 0;
+                            angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                                if (preEvaluationAppointment.start === event.start) {
+                                    $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+                            $scope.drHoPreEvaluations.events.push(event);
+                            break;
+
+                        case "Surgery":
+                            var appointmentIndex = 0;
+                            angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+                                if (surgeryAppointment.start === event.start) {
+                                    $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+
+                            $scope.drHoSurgeries.events.push(event);
+                            break;
+                    }
+
+                })
+
+                .error(function (data) {
+                    console.log("Error with http post");
+                });
+
+        } else {
+            console.log("Form is not valid. Please try again.");
+        }
 
     };
 
