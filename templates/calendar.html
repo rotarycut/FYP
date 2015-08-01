@@ -10,8 +10,8 @@
                 <div class="row center-block">
                     <div class="col-sm-2" id="top-content-search">
                         <div class="nav search-row">
-                <input class="form-control" placeholder="Search" type="text">
-        </div>
+                            <input class="form-control" placeholder="Search" type="text">
+                        </div>
                     </div>
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
@@ -21,14 +21,15 @@
                             <button type="button" class="btn btn-primary cal-view-btn"
                                     ng-click="changeView('agendaWeek', 'myCalendar1')">Week
                             </button>
-                            <button type="button" class="btn btn-primary cal-view-btn" ng-click="changeView('month', 'myCalendar1')">
+                            <button type="button" class="btn btn-primary cal-view-btn"
+                                    ng-click="changeView('month', 'myCalendar1')">
                                 Month
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp" ng-show="apptFormBtns">
+                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp" ng-show="addAndBlockButtons">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
-                            <button type="button" class="btn btn-primary" ng-click="showForm()"><i
+                            <button type="button" class="btn btn-primary" ng-click="showForm('Create')"><i
                                     class="fa fa-plus-circle"></i> Add
                                 Appointment
                             </button>
@@ -77,7 +78,8 @@
                             </li>
                             <li><a href="#" data-ng-click="" class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
                             </li>
-                            <li><a href="#" data-ng-click="" class="legend-lasik"><i class="fa fa-stop"></i> Lasik</a></li>
+                            <li><a href="#" data-ng-click="" class="legend-lasik"><i class="fa fa-stop"></i> Lasik</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -103,42 +105,45 @@
         </div>
         <div class="row form-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <form class="form-horizontal" id="edit-form-patients">
+                <form class="form-horizontal" id="edit-form-patients" name="appointmentForm">
+
                     <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
                         <label class="control-label">Patient List</label>
-                        <select class="form-control" data-ng-model="appointmentPatient"
-                                ng-change="populatePatientDetails()">
-                            <option ng-repeat="patient in patientList">
-                                [[patient.name]]
-                            </option>
+                        <select class="form-control" data-ng-model="selectedPatient"
+                                ng-change="populatePatientDetails()"
+                                ng-options="patient.name for patient in fields.patientList"
+                                name="patientList">
                         </select>
 
-                        <div style="color:red" ng-if="appointmentPatient.length === 0">
+                        <div style="color:red" ng-if="fields.selectedPatient.length === 0">
                             [[remarkWarning]]
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Appointment Type</label>
-                        <select class="form-control" ng-options="appt for appt in appointmentType.list"
-                                ng-model="appointmentType.value">
+                        <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
+                                ng-model="fields.appointmentType" name="appointmentType">
                         </select>
                     </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-6">
                                 <label class="control-label">Patient Name</label>
-                                <input type="text" class="form-control" data-ng-model="patientName"
-                                       ng-disabled="disablePatientNameInput">
+                                <input type="text" class="form-control" data-ng-model="fields.patientName"
+                                       ng-disabled="disablePatientNameInput" name="patientName">
                             </div>
 
                             <div class="col-sm-6">
                                 <label class="control-label">Contact No.</label>
-                                <input type="text" class="form-control" data-ng-model="patientContact"
-                                       ng-disabled="disablePatientContactInput">
+                                <input type="text" class="form-control" data-ng-model="fields.patientContact"
+                                       ng-disabled="disablePatientContactInput" name="patientContact">
                             </div>
                         </div>
                     </div>
-                                        <div class="form-group col-sm-12 add-appt-formgrp">
+
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-8 date-div">
                                 <label class="control-label">Date</label>
@@ -148,7 +153,7 @@
                                            class="form-control"
                                            datepicker-popup="[[ format ]]"
                                            name="datePickerCalendar"
-                                           ng-model="apptDateTime"
+                                           ng-model="fields.appointmentDate"
                                            is-open="datepickers.showDatePicker"
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
@@ -167,25 +172,26 @@
 
                             <div class="col-sm-4" date-div>
                                 <label class="control-label">Time</label>
-                                <select class="form-control" ng-options="appt for appt in appointmentTime.list"
-                                        data-ng-model="appointmentTime.value">
+                                <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
+                                        data-ng-model="fields.appointmentTime" name="appointmentTime">
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Doctor</label>
 
                         <div class="row">
                             <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="doctorAssigned" value="2"
-                                              ng-disabled="disableAssignedDoctorInput">
+                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="2"
+                                              ng-disabled="disableAssignedDoctorInput" name="doctorAssigned">
                                     Dr.Ho
                                 </label>
                             </div>
                             <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="doctorAssigned" value="1"
-                                              ng-disabled="disableAssignedDoctorInput">
+                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="1"
+                                              ng-disabled="disableAssignedDoctorInput" name="doctorAssigned">
                                     Dr.Goh
                                 </label>
                             </div>
@@ -194,19 +200,18 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Marketing Channel</label>
-                        <select class="form-control" data-ng-model="marketingChannel"
-                                ng-disabled="disableMktgChannelInput">
-                            <option ng-repeat="mktChannel in listOfMarketingChannels">
-                                [[mktChannel]]
-                            </option>
+                        <select class="form-control" data-ng-model="fields.marketingChannel"
+                                ng-disabled="disableMktgChannelInput"
+                                ng-options="channel for channel in listOfMarketingChannels"
+                                name="marketingChannel">
                         </select>
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Remarks</label>
-                                <textarea class="form-control" rows="3" data-ng-model="appointmentRemarks"
-                                          placeholder="Optional">
-                                </textarea>
+                        <textarea class="form-control" rows="3" data-ng-model="fields.appointmentRemarks"
+                                  placeholder="Optional" name="appointmentRemarks">
+                        </textarea>
                     </div>
 
                     <!-- LEON TO MODIFY THIS -->
@@ -250,7 +255,7 @@
                             </div>
                             <div class="col-sm-1 col-sm-offset-1">
                                 <button class="btn btn-default"
-                                        data-ng-click="resetAppointment();"
+                                        data-ng-click="clearForm();"
                                         ng-show="showResetButton">Reset
                                 </button>
                             </div>
