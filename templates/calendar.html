@@ -1,156 +1,110 @@
-<section class="app-content">
-    <div class="top-container" ng-class="topAnimation">
-        <section class="nav search-row">
-            <form class="navbar-form">
+<!-- row for entire app content-->
+<div class="row content-row">
+    <!-- col for top content, cal content, legend content-->
+    <div class="col-sm-12 left-content" ng-class="leftAnimation">
+
+        <!-- row for top content: button groups-->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- inner row for all buttons>-->
+                <div class="row center-block">
+                    <div class="col-sm-2" id="top-content-search">
+                        <div class="nav search-row">
                 <input class="form-control" placeholder="Search" type="text">
-            </form>
-        </section>
-        <section class="nav btn-row pull-right">
-            <div class="btn-group-appt">
-                <button class="btn btn-primary form-btn-group" id="show-form-btn" ng-click="showForm()"
-                        ng-class="addBtnAnimation">
-                    Add Appointment
-                </button>
-                <button class="btn btn-primary form-btn-group" id="block-btn">
-                    Block
-                </button>
-            </div>
-        </section>
-    </div>
-
-    <!-- CALENDAR COMES IN HERE -->
-    <div class="cal-container" ng-class="calAnimation">
-
-        <!--<section>-->
-        <div class="well cal-well" style="background: #F4F4F4">
-            <!-- <div class="row-fluid">
-                 <div class="span4">
-                     <div class="btn-group calTools">
-                         <button class="btn" ng-click="changeLang()">
-                             [[ changeTo ]]
-                         </button>
-
-                         <button class="btn" ng-click="addRemoveEventSource(eventSources,eventSource)">
-                             Toggle Source
-                         </button>
-
-                         <button type="button" class="btn btn-primary" ng-click="addEvent()">
-                             Add Event
-                         </button>
-                     </div>
-
-                     <ul class="unstyled">
-                         <li ng-repeat="e in events">
-                             <div class="alert alert-info">
-                                 <a class="close" ng-click="remove($index)"><i class="fa fa-trash"></i></a>
-                                 <b><input ng-model="e.title"></b>
-                                 [[ e.start | date:"MMM dd" ]] - [[ e.end | date:"MMM dd" ]]
-                             </div>
-                         </li>
-                     </ul>
-                 </div> -->
-
-            <div>
-                <tabset>
-                    <tab select="renderCalendar('drHoCalendar');"
-                         ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
-                        <tab-heading>
-                            <i class="fa fa-calendar tab-head-icon"></i>
-
-                            <div class="tab-head-text">Doctor Ho</div>
-                        </tab-heading>
-
-                        <!--<div class="alert-success calAlert"
-                             ng-show="alertMessage != undefined && alertMessage != '' ">
-                            <h4>[[ alertMessage ]]</h4>
-                        </div>-->
-
-                        <div class="btn-toolbar cal-btn-group">
-
-                            <div class="btn-group">
-                                <button class="btn btn-success cal-view-btn"
-                                        ng-click="changeView('agendaDay', 'myCalendar1')">
-                                    Day
-                                </button>
-                                <button class="btn btn-success cal-view-btn"
-                                        ng-click="changeView('agendaWeek', 'myCalendar1')">
-                                    Week
-                                </button>
-                                <button class="btn btn-success cal-view-btn"
-                                        ng-click="changeView('month', 'myCalendar1')">
-                                    Month
-                                </button>
-                            </div>
-                        </div>
-                        <div class="calendar" ng-model="doctorHoAppointments" calendar="myCalendar1"
-                             ui-calendar="uiConfig.calendar" id="drHoCalendar"></div>
-
-                    </tab>
-
-                    <tab select="renderCalendar('drGohCalendar');"
-                         ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
-                        <tab-heading>
-                            <i class="fa fa-calendar tab-head-icon"></i>
-
-                            <div class="tab-head-text">Doctor Goh</div>
-                        </tab-heading>
-
-                        <div class="alert-success calAlert"
-                             ng-show="alertMessage != undefined && alertMessage != '' ">
-                            <h4>[[ alertMessage ]]</h4>
-                        </div>
-
-                        <div class="btn-toolbar cal-btn-group">
-
-                            <div class="btn-group">
-                                <button class="btn btn-success cal-view-btn"
-                                        ng-click="changeView('agendaDay', 'myCalendar2')">
-                                    Day
-                                </button>
-                                <button class="btn btn-success cal-view-btn"
-                                        ng-click="changeView('agendaWeek', 'myCalendar2')">
-                                    Week
-                                </button>
-                                <button class="btn btn-success cal-view-btn"
-                                        ng-click="changeView('month', 'myCalendar2')">
-                                    Month
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="calendar" ng-model="doctorGohAppointments" calendar="myCalendar2"
-                             ui-calendar="uiConfig.calendar" id="drGohCalendar"></div>
-                    </tab>
-
-                </tabset>
-            </div>
-            <!--<div class="cal-appt-legend">
-                <ul class="legend-ul">
-                    <li><a href="#" data-ng-click=""><i class="fa fa-stop legend1"></i>&nbsp;Pre-Eval</a></li>
-                    <li><a href="#" data-ng-click=""><i class="fa fa-stop legend2"></i>&nbsp;Screening</a></li>
-                    <li><a href="#" data-ng-click=""><i class="fa fa-stop legend3"></i>&nbsp;Lasik</a></li>
-                    <li><a href="#" data-ng-click=""><i class="fa fa-stop legend4"></i>&nbsp;Follow-up</a></li>
-                </ul>
-
-            </div>-->
-
         </div>
-        <!--</section>-->
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-primary cal-view-btn"
+                                    ng-click="changeView('agendaDay', 'myCalendar1')">Day
+                            </button>
+                            <button type="button" class="btn btn-primary cal-view-btn"
+                                    ng-click="changeView('agendaWeek', 'myCalendar1')">Week
+                            </button>
+                            <button type="button" class="btn btn-primary cal-view-btn" ng-click="changeView('month', 'myCalendar1')">
+                                Month
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp" ng-show="apptFormBtns">
+                        <div class="btn-group appt-form-btn" role="group" aria-label="...">
+                            <button type="button" class="btn btn-primary" ng-click="showForm()"><i
+                                    class="fa fa-plus-circle"></i> Add
+                                Appointment
+                            </button>
+                            <button type="button" class="btn btn-primary"><i class="fa fa-ban"></i> Block</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- row for top content ends-->
+
+        <!-- row for calendar content-->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="jumbotron">
+                    <tabset type="pills">
+                        <tab select="renderCalendar('drHoCalendar');"
+                             ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
+                            <tab-heading>
+                                <i class="fa fa-calendar tab-head-icon"></i> Doctor Ho
+                            </tab-heading>
+                            <!--<div class="alert-success calAlert"
+                                 ng-show="alertMessage != undefined && alertMessage != '' ">
+                                <h4>[[ alertMessage ]]</h4>
+                            </div>-->
+                            <div class="calendar" ng-model="doctorHoAppointments" calendar="myCalendar1"
+                                 ui-calendar="uiConfig.calendar" id="drHoCalendar"></div>
+                        </tab>
+                        <tab select="renderCalendar('drGohCalendar');"
+                             ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
+                            <tab-heading>
+                                <i class="fa fa-calendar"></i> Doctor Goh
+                            </tab-heading>
+                            <!--<div class="alert-success calAlert"
+                                 ng-show="alertMessage != undefined && alertMessage != '' ">
+                                <h4>[[ alertMessage ]]</h4>
+                            </div>-->
+                            <div class="calendar" ng-model="doctorGohAppointments" calendar="myCalendar2"
+                                 ui-calendar="uiConfig.calendar" id="drGohCalendar"></div>
+                        </tab>
+                    </tabset>
+
+                    <div>
+                        <ul class="legend-ul">
+                            <li><a href="#" data-ng-click="" class="legend-screen"><i class="fa fa-stop"></i> Screening</a>
+                            </li>
+                            <li><a href="#" data-ng-click="" class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
+                            </li>
+                            <li><a href="#" data-ng-click="" class="legend-lasik"><i class="fa fa-stop"></i> Lasik</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- row for cal content ends-->
 
     </div>
+    <!--col for top content, cal content and legend content ends-->
 
-    <div class="form-container" ng-class="formAnimation">
-
-        <div class="form-div pull-left">
-            <div class="form-div-header">
-                <a href="#/" data-ng-click="hideForm()" id="hide-form-btn"><i
-                        class="fa fa-chevron-right fa-lg pull-left"></i></a>
-                <h5 id="form-title" style="font-weight: bold">[[formTitle]]</h5>
+    <!-- col for form content -->
+    <div class="col-sm-4 right-content" ng-class="rightAnimation">
+        <!-- row for form content -->
+        <div class="row form-row">
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-primary btn-sm" data-ng-click="hideForm()"><i
+                        class="fa fa-chevron-left"></i> Back
+                </button>
             </div>
-
-            <div class="form-div-body">
+            <div class="col-sm-6 col-sm-offset-1">
+                <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
+            </div>
+        </div>
+        <div class="row form-row">
+            <div class="col-sm-12 add-appt-formgrp">
                 <form class="form-horizontal" id="edit-form-patients">
-                    <div class="form-group col-md-12" ng-show="showPatientList">
+                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
                         <label class="control-label">Patient List</label>
                         <select class="form-control" data-ng-model="appointmentPatient"
                                 ng-change="populatePatientDetails()">
@@ -163,15 +117,30 @@
                             [[remarkWarning]]
                         </div>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in appointmentType.list"
                                 ng-model="appointmentType.value">
                         </select>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-md-8 date-div">
+                            <div class="col-sm-6">
+                                <label class="control-label">Patient Name</label>
+                                <input type="text" class="form-control" data-ng-model="patientName"
+                                       ng-disabled="disablePatientNameInput">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="control-label">Contact No.</label>
+                                <input type="text" class="form-control" data-ng-model="patientContact"
+                                       ng-disabled="disablePatientContactInput">
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row">
+                            <div class="col-sm-8 date-div">
                                 <label class="control-label">Date</label>
 
                                 <p class="input-group">
@@ -189,14 +158,14 @@
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default"
                                                         ng-click="open($event,'showDatePicker')">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    <i class="fa fa-calendar"></i>
                                                 </button>
                                             </span>
                                 </p>
 
                             </div>
 
-                            <div class="col-md-4" date-div>
+                            <div class="col-sm-4" date-div>
                                 <label class="control-label">Time</label>
                                 <select class="form-control" ng-options="appt for appt in appointmentTime.list"
                                         data-ng-model="appointmentTime.value">
@@ -204,34 +173,17 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group col-md-12">
-                        <div class="row">
-                            <div class="col-md-6 name-div">
-                                <label class="control-label">Patient Name</label>
-                                <input type="text" class="form-control" data-ng-model="patientName"
-                                       ng-disabled="disablePatientNameInput">
-                            </div>
-
-                            <div class="col-md-6 contact-div">
-                                <label class="control-label">Contact No.</label>
-                                <input type="text" class="form-control" data-ng-model="patientContact"
-                                       ng-disabled="disablePatientContactInput">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Doctor</label>
 
                         <div class="row">
-                            <div class="radio col-md-6 doc-div">
+                            <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="doctorAssigned" value="2"
                                               ng-disabled="disableAssignedDoctorInput">
                                     Dr.Ho
                                 </label>
                             </div>
-                            <div class="radio col-md-6 doc-div">
+                            <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="doctorAssigned" value="1"
                                               ng-disabled="disableAssignedDoctorInput">
                                     Dr.Goh
@@ -240,7 +192,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Marketing Channel</label>
                         <select class="form-control" data-ng-model="marketingChannel"
                                 ng-disabled="disableMktgChannelInput">
@@ -250,34 +202,60 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Remarks</label>
                                 <textarea class="form-control" rows="3" data-ng-model="appointmentRemarks"
                                           placeholder="Optional">
                                 </textarea>
                     </div>
 
-                    <div class="form-group col-md-12 form-appt-btns">
+                    <!-- LEON TO MODIFY THIS -->
+                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
+                        <label class="control-label">Earliest Availability</label>
+                        <select class="form-control" data-ng-model="appointmentPatient"
+                                ng-change="populatePatientDetails()">
+                            <option ng-repeat="patient in patientList">
+                                [[patient.name]]
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
+                        <label class="control-label">Less Packed Slots</label>
+                        <select class="form-control" data-ng-model="appointmentPatient"
+                                ng-change="populatePatientDetails()">
+                            <option ng-repeat="patient in patientList">
+                                [[patient.name]]
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-md-3 col-md-offset-1">
-                                <button class="btn btn-primary"
+                            <div class="col-sm-1 col-sm-offset-1">
+                                <button class="btn btn-success"
                                         data-ng-click="postAppointment();"
                                         ng-show="showSubmitButton">Submit
                                 </button>
                             </div>
-                            <div class="col-md-3 col-md-offset-1">
-                                <button class="btn btn-primary"
+                            <div class="col-sm-2">
+                                <button class="btn btn-success"
                                         data-ng-click="postAppointment();"
                                         ng-show="showEditButton">Edit
                                 </button>
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary"
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button class="btn btn-warning"
                                         data-ng-click="hideForm()">Cancel
                                 </button>
                             </div>
-                            <div class="col-md-2 col-md-offset-1">
-                                <button class="btn btn-warning"
+                            <div class="col-sm-1 col-sm-offset-1">
+                                <button class="btn btn-default"
+                                        data-ng-click="resetAppointment();"
+                                        ng-show="showResetButton">Reset
+                                </button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <button class="btn btn-danger"
                                         data-ng-click="deleteAppointment()"
                                         ng-show="showDeleteButton">Delete
                                 </button>
@@ -285,9 +263,13 @@
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
+    <!-- col for form content ends -->
+</div>
+<!-- row for entire app content ends-->
+<div class="clearfix"></div>
 
-</section>
+
+

@@ -1,16 +1,40 @@
-<header>
-    <section id="header-container">
-        <img id="header-logo">
-        <section id="header-navbar">
-            <ul id="navbar-ul">
-                <li class="navbar-li"><i class="fa fa-home tab-head-icon"></i>&nbsp;<a class="navbar-a" ng-href="#/">Calendar</a></li>
-                <li class="navbar-li"><i class="fa fa-user-times tab-head-icon"></i>&nbsp;&nbsp;<a class="navbar-a" ng-href="/[['#']]">Queue</a></li>
-                <li class="navbar-li"><i class="fa fa-wrench tab-head-icon"></i>&nbsp;&nbsp;<a class="navbar-a" ng-href="/[['#']]">Admin</a></li>
-                <li class="navbar-li"><i class="fa fa-area-chart tab-head-icon"></i>&nbsp;&nbsp;<a class="navbar-a" ng-href="#/dashboard">Dashboard</a></li>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img id="navbar-logo" class="img-responsive"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#" ng-href="#/“ ><i class="fa fa-calendar"></i> Calendar</a></li>
+                <!--<li class="active"><a href="#">Home</a></li>-->
+                <li><a href="#" ng-href="/[['#']]”><i class="fa fa-user-times"></i> Queue</a></li>
+                <li><a href="#" ng-href="/[['#']]”><i class="fa fa-cogs"></i> Admin</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false" ng-href="#/dashboard"><i class="fa fa-bar-chart"></i> Dashboard<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Overview</a></li>
+                        <li><a href="#">Marketing Channel</a></li>
+                        <li><a href="#">Appointments</a></li>
+                    </ul>
+                </li>
             </ul>
-        </section>
-    </section>
-
-</header>
-<!--header end-->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Welcome, Admin</a></li>
+                <li><a href="#"><i class="fa fa-envelope"></i> <span class="badge">3</span></a></li>
+                <li><a href="#"><i id="navbar-print-icon" class="fa fa-print"></i></a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<!--navbar end-->
 

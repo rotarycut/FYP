@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <section class="app-container">
-        <div ng-include='"header.html"'></div>
-        <div ng-view></div>
-    </section>
-
+    <div ng-include='"header.html"'></div>
+    <div class="app-container">
+        <div ng-view class="container"></div>
+    </div>
 {% endblock %}
