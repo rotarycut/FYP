@@ -629,6 +629,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to clear fields in form */
     $scope.clearForm = function () {
         $scope.fields = {};
+        $scope.appointmentForm.$setPristine();
+        $scope.appointmentForm.$setUntouched();
     };
 
     /* function to show appointment form */
