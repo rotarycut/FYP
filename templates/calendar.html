@@ -11,7 +11,7 @@
                     <div class="col-sm-2" id="top-content-search">
                         <div class="input-group">
                             <span class="input-group-btn">
-                                <button class="btn btn-default"><i class="fa fa-search"></i> </button>
+                                <button class="btn btn-default"><i class="fa fa-search"></i></button>
                             </span>
                             <input type="text" class="form-control" placeholder="Search for...">
                         </div>
@@ -140,19 +140,6 @@
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-6"
-                                 ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}">
-                                <label class="control-label">Patient Name</label>
-                                <input type="text" class="form-control" data-ng-model="fields.patientName"
-                                       ng-disabled="disablePatientNameInput" name="patientName" autocomplete="off"
-                                       required>
-
-                                <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
-                                     class="help-block">
-                                    Please enter a name
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6"
                                  ng-class="{'has-error': appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)}">
                                 <label class="control-label">Contact No.</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientContact"
@@ -164,7 +151,47 @@
                                     Invalid Number
                                 </div>
                             </div>
+                            <div class="col-sm-6"
+                                 ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}">
+                                <label class="control-label">Patient Name</label>
+                                <input type="text" class="form-control" data-ng-model="fields.patientName"
+                                       ng-disabled="disablePatientNameInput" name="patientName" autocomplete="off"
+                                       required>
+
+                                <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Please enter a name
+                                </div>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 ischeduleForm">
+                        <label class="control-label">Next Earliest Availablility</label>
+                        <ol id="i-slots-date" class="list-group">
+                            <li class="list-group-item" ng-repeat="date in dates" data-ng-click="showTimeList(date)">
+                                <label class="i-slot-label">[[date.apptDate]]</label>
+                                <ol>
+                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
+                                        <label>[[time.apptTime]]</label>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="form-group col-sm-12 ischeduleForm">
+                        <label class="control-label">Least Packed Slots</label>
+                        <ol id="i-slots-date" class="list-group">
+                            <li class="list-group-item" ng-repeat="date in leastPackSlots"
+                                data-ng-click="showLeastPackedSlots(date)">
+                                <label class="i-slot-label">[[date.apptDate]]</label>
+                                <ol>
+                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
+                                        <label>[[time.apptTime]]</label>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
@@ -260,27 +287,6 @@
                                   placeholder="Optional" name="appointmentRemarks">
                         </textarea>
                     </div>
-
-                    <!-- LEON TO MODIFY THIS -->
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
-                        <label class="control-label">Earliest Availability</label>
-                        <select class="form-control" data-ng-model="appointmentPatient"
-                                ng-change="populatePatientDetails()">
-                            <option ng-repeat="patient in patientList">
-                                [[patient.name]]
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
-                        <label class="control-label">Less Packed Slots</label>
-                        <select class="form-control" data-ng-model="appointmentPatient"
-                                ng-change="populatePatientDetails()">
-                            <option ng-repeat="patient in patientList">
-                                [[patient.name]]
-                            </option>
-                        </select>
-                    </div>
-
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-1 col-sm-offset-1">
@@ -319,8 +325,8 @@
                 </form>
             </div>
         </div>
+        <!-- col for form content ends -->
     </div>
-    <!-- col for form content ends -->
 </div>
 <!-- row for entire app content ends-->
 <div class="clearfix"></div>

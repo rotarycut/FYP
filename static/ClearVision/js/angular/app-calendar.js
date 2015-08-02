@@ -700,4 +700,53 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.getDrHoSurgeries();
     };
 
+    /* ischedule list */
+
+    $scope.showTimeList = function(date){
+        date.active = !date.active;
+    };
+
+    $scope.dates = [
+        {
+            apptDate: 'Wed 18 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "9am"},
+                {apptTime: "1pm"},
+                {apptTime: "2pm"}
+            ]
+        },
+        {
+            apptDate: 'Fri 21 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "11am"},
+                {apptTime: "2pm"},
+                {apptTime: "5pm"}
+            ]
+        },
+    ];
+
+    $scope.showLeastPackedSlots = function(date){
+        date.active = !date.active;
+    };
+
+    $scope.leastPackSlots = [
+        {
+            apptDate: 'Wed 18 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "9am"},
+                {apptTime: "1pm"},
+                {apptTime: "2pm"}
+            ]
+        },
+        {
+            apptDate: 'Fri 21 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "11am"},
+                {apptTime: "2pm"},
+                {apptTime: "5pm"}
+            ]
+        },
+    ];
+
+
 });

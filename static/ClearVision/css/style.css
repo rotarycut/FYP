@@ -234,37 +234,66 @@ ul.legend-ul li{
     display: none;
 }
 
+
 .right-content-show{
     display: inline-block;
     float: left;
+    height: 530px;
+    overflow-y: auto;
 }
+
+#i-slots-date li{
+    list-style: none;
+}
+
+
+li .i-slot-label {
+    cursor: pointer;
+}
+
+
+.ischeduleForm{
+    margin-bottom: 0;
+}
+
+
 /*form page css ends*/
 
 /* dashboard css*/
 .side-menu-col{
     border: 2px solid #1859ab;
-
+    float: left;
+    margin-bottom: 6px;
 }
+
+
 
 .side-menu-row1{
     border-bottom: 2px solid #1859ab;
     position: relative;
-    margin-top: 5px;
+    margin-top: 35px;
+    height: 156px;
 }
 
 .side-menu-row2{
     border-bottom: 2px solid #1859ab;
     position: relative;
-    margin-top: 5px;
+    margin-top: 35px;
+    height: 156px;
 }
 .side-menu-row3{
     position: relative;
-    margin-top: 15px;
+    margin-top: 35px;
+    height: 156px;
+    text-align: left;
 }
 
-.side-menu-col1{
-    margin: 0 auto;
+.charts-row1{
+    position: relative;
+    margin-left:15px;
+    border-bottom: solid 1px #1859ab;
 }
+
 /* dashboard css ends*/
 
 
