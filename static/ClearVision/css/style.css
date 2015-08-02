@@ -233,5 +233,31 @@ ul.legend-ul li{
 }
 /*form page css ends*/
 
+/* dashboard css*/
+.side-menu-col{
+    border: 2px solid #1859ab;
+
+}
+
+.side-menu-row1{
+    border-bottom: 2px solid #1859ab;
+    position: relative;
+    margin-top: 5px;
+}
+
+.side-menu-row2{
+    border-bottom: 2px solid #1859ab;
+    position: relative;
+    margin-top: 5px;
+}
+.side-menu-row3{
+    position: relative;
+    margin-top: 15px;
+}
+
+.side-menu-col1{
+    margin: 0 auto;
+}
+/* dashboard css ends*/
 
 

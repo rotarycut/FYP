@@ -1,20 +1,72 @@
-<div>
-    <br/><br/><br/>
-    Dashboard!
-
-    <div ng-repeat="mth in months">
-        <button ng-click="changeData(mth)">
-            [[ mth ]]
-        </button>
-    </div>
-    <div class="row">
-        <div class="cold-md-12">
-            <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
+<!-- row for entire app content-->
+<div class="row content-row">
+    <!-- col for side content-->
+    <div class="col-sm-2 side-menu-col">
+        <!--row for 1st side menu-->
+        <div class="row side-menu-row1">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <i class="fa fa-eye fa-5x"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <a href="#" ng-click=""><h4>Overview</h4></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--row for 2nd side menu-->
+        <div class="row side-menu-row2">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <i class="fa fa-area-chart fa-5x"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <a href="#" ng-click=""><h4>Marketing</h4></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--row for 3rd side menu-->
+        <div class="row side-menu-row3">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <i class="fa fa-calendar fa-5x"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <a href="#" ng-click=""><h4>Appointments</h4></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-sm-10">
+        <!--row for title content-->
+        <div class="row">
+
+        </div>
+        <!--row for filter content-->
+        <div class="row">
+
+        </div>
+        <!--row for main chart content-->
+        <div class="row">
+
+        </div>
+        <!--row for other charts content-->
+        <div class="row">
+
+        </div>
 
 
-    <div class="cold-md-12">
-        <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
     </div>
+
 </div>

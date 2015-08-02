@@ -5026,6 +5026,7 @@ a.badge:focus {
 .container .jumbotron,
 .container-fluid .jumbotron {
   border-radius: 6px;
+  height: 81vh;
 }
 .jumbotron .container {
   max-width: 100%;
