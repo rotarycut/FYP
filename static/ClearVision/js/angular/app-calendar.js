@@ -147,6 +147,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* alert on eventClick */
     $scope.alertOnEventClick = function (appointment, jsEvent, view) {
+        $scope.clearForm();
         $scope.alertMessage = (appointment.title + ' was clicked ');
         $scope.fields.appointmentId = appointment.id;
         $scope.fields.patientList = appointment.patients;
@@ -613,6 +614,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.fields = {};
     $scope.remarkWarning = "Please select a patient";
     $scope.addAndBlockButtons = true;
+    $scope.screeningActive = true;
+    $scope.preEvaluationActive = true;
+    $scope.surgeryActive = true;
 
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
@@ -678,6 +682,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $scope.clearForm();
         $scope.addAndBlockButtons = true;
+        $scope.disablePatientNameInput = false;
+        $scope.disablePatientContactInput = false;
+        $scope.disableAssignedDoctorInput = false;
+        $scope.disableMktgChannelInput = false;
     };
 
     /* function to enable iSchedule */
@@ -700,9 +708,82 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.getDrHoSurgeries();
     };
 
-    /* ischedule list */
+    /* function to filter by appointment types */
+    $scope.filterByAppointmentTypes = function (appointmentType, hidesTheRest) {
+        switch (appointmentType) {
+            case "Screening" :
+                if (hidesTheRest) {
+                    if (!$scope.screeningActive) {
+                        $scope.drHoScreenings.events.splice(0);
+                        $scope.getDrHoScreenings();
+                    }
+                    $scope.drHoPreEvaluations.events.splice(0);
+                    $scope.drHoSurgeries.events.splice(0);
+                    $scope.screeningActive = true;
+                    $scope.preEvaluationActive = false;
+                    $scope.surgeryActive = false;
 
-    $scope.showTimeList = function(date){
+                } else {
+                    if ($scope.screeningActive) {
+                        $scope.screeningActive = false;
+                        $scope.drHoScreenings.events.splice(0);
+                    } else {
+                        $scope.screeningActive = true;
+                        $scope.getDrHoScreenings();
+                    }
+                }
+                break;
+
+            case "Pre Evaluation":
+                if (hidesTheRest) {
+                    if (!$scope.preEvaluationActive) {
+                        $scope.drHoPreEvaluations.events.splice(0);
+                        $scope.getDrHoPreEvaluations();
+                    }
+                    $scope.drHoScreenings.events.splice(0);
+                    $scope.drHoSurgeries.events.splice(0);
+                    $scope.screeningActive = false;
+                    $scope.preEvaluationActive = true;
+                    $scope.surgeryActive = false;
+
+                } else {
+                    if ($scope.preEvaluationActive) {
+                        $scope.preEvaluationActive = false;
+                        $scope.drHoPreEvaluations.events.splice(0);
+                    } else {
+                        $scope.preEvaluationActive = true;
+                        $scope.getDrHoPreEvaluations();
+                    }
+                }
+                break;
+
+            case "Surgery":
+                if (hidesTheRest) {
+                    if (!$scope.surgeryActive) {
+                        $scope.drHoSurgeries.events.splice(0);
+                        $scope.getDrHoSurgeries();
+                    }
+                    $scope.drHoScreenings.events.splice(0);
+                    $scope.drHoPreEvaluations.events.splice(0);
+                    $scope.screeningActive = false;
+                    $scope.preEvaluationActive = false;
+                    $scope.surgeryActive = true;
+
+                } else {
+                    if ($scope.surgeryActive) {
+                        $scope.surgeryActive = false;
+                        $scope.drHoSurgeries.events.splice(0);
+                    } else {
+                        $scope.surgeryActive = true;
+                        $scope.getDrHoSurgeries();
+                    }
+                }
+                break;
+        }
+    };
+
+    /* iSchedule list */
+    $scope.showTimeList = function (date) {
         date.active = !date.active;
     };
 
@@ -725,7 +806,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         },
     ];
 
-    $scope.showLeastPackedSlots = function(date){
+    $scope.showLeastPackedSlots = function (date) {
         date.active = !date.active;
     };
 
@@ -745,8 +826,32 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 {apptTime: "2pm"},
                 {apptTime: "5pm"}
             ]
-        },
+        }
     ];
 
-
 });
+
+/* directive for single click */
+appCalendar.directive('sglclick', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            var fn = $parse(attr['sglclick']);
+            var delay = 300, clicks = 0, timer = null;
+            element.on('click', function (event) {
+                clicks++;  //count clicks
+                if (clicks === 1) {
+                    timer = setTimeout(function () {
+                        scope.$apply(function () {
+                            fn(scope, {$event: event});
+                        });
+                        clicks = 0; //after action performed, reset counter
+                    }, delay);
+                } else {
+                    clearTimeout(timer); //prevent single-click action
+                    clicks = 0; //after action performed, reset counter
+                }
+            });
+        }
+    };
+}]);

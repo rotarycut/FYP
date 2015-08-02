@@ -78,11 +78,17 @@
 
                     <div class="cal-legend">
                         <ul class="legend-ul">
-                            <li><a href="#" data-ng-click="" class="legend-screen"><i class="fa fa-stop"></i> Screening</a>
+                            <li><a href="#/" sglclick="filterByAppointmentTypes('Screening', false)"
+                                   data-ng-Dblclick="filterByAppointmentTypes('Screening', true)" class="legend-screen"><i
+                                    class="fa fa-stop"></i> Screening</a>
                             </li>
-                            <li><a href="#" data-ng-click="" class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
+                            <li><a href="#/" sglclick="filterByAppointmentTypes('Pre Evaluation', false)"
+                                   data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
+                                   class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
                             </li>
-                            <li><a href="#" data-ng-click="" class="legend-lasik"><i class="fa fa-stop"></i> Lasik</a>
+                            <li><a href="#/" sglclick="filterByAppointmentTypes('Surgery', false)"
+                                   data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)" class="legend-lasik"><i
+                                    class="fa fa-stop"></i> Lasik</a>
                             </li>
                         </ul>
                     </div>
