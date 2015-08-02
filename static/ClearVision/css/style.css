@@ -209,6 +209,13 @@ ul.legend-ul li{
     color: #74aaf7;
 }
 
+.cal-legend{
+    background: #BEE2E7;
+    border: dotted 1px #777777;
+    border-radius: 4px;
+    margin-top: 2px;
+}
+
 
 /*calendar css ends*/
 
