@@ -3,7 +3,8 @@ var app = angular.module('calendarDemoApp', [
     'ui.bootstrap',
     'app.calendar',
     'app.dashboard',
-    'ngRoute'
+    'ngRoute',
+    'single.click'
 ]);
 
 /* Angular routing */
