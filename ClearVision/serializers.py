@@ -30,8 +30,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        depth = 0
-        fields = ('id', 'type', 'title', 'date', 'start', 'end', 'doctor', 'patients',)
+        depth = 1
+        fields = ('id', 'type', 'title', 'date', 'start', 'end', 'doctor', 'patients', 'tempPatients',)
 
     def get_title(self, appointment):
         return str(appointment.patients.count()) + " Patient(s)"
@@ -42,6 +42,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     def get_end(self, appointment):
         return str(appointment.date) + " " + str(appointment.timeBucket.end)
 
+    tempPatients = PatientSerializer(many=True)
     patients = PatientSerializer(many=True)
 
 class AppointmentMakerSerializer(serializers.ModelSerializer):

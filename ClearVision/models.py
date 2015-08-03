@@ -12,6 +12,9 @@ class Patient(models.Model):
     marketingChannelId = models.ForeignKey(MarketingChannels)
     conversion = models.NullBooleanField(default=False)
 
+    class Meta:
+        ordering = ['registrationDate']
+
     def __str__(self):
         return self.contact
 
