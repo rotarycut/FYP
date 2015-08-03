@@ -435,5 +435,14 @@
         "appointment":4,
         "remarks": "I am a Gorilla"
     }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "pk": 5,
+    "fields": {
+        "patient": 1419999111,
+        "appointment":8,
+        "remarks": "I am a G Dragon"
+    }
   }
 ]
