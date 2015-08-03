@@ -158,6 +158,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         patientGender = data.get('gender')
         marketingID = data.get('channelID')
         isWaitingList = data.get('waitingListFlag')
+        remarks = data.get('remarks')
+        apptId = self.get_object().id
 
         if not Patient.objects.filter(contact=patientContact).exists():
 
@@ -172,8 +174,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingAppt.patients.add(p)
             existingAppt.save()
 
-            if existingAppt.patients.count() > 5:
-                return Response("Number of patients exceeded 5")
+            AppointmentRemarks.objects.create(patient=p.contact, appointment=apptId, remarks=remarks)
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
@@ -184,6 +185,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
             Appointment.objects.create(type=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
+
+            AppointmentRemarks.objects.create(patient=p.contact, appointment=apptId, remarks=remarks)
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
             serializedExistingAppt = AppointmentSerializer(existingAppt)
@@ -204,7 +207,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         currentAppt.save()
 
         if currentAppt.patients.count() == 0:
-            currentAppt.delete()
+                currentAppt.delete()
 
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
 
@@ -213,6 +216,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingFutureAppt.patients.add(patient)
             existingFutureAppt.save()
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
+
             return Response(serializedExistingFutureAppt.data)
         else:
 
@@ -226,51 +230,30 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 
 # API for iScheduling
-class AppointmentIScheduleFinder(viewsets.ModelViewSet):
+class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
     #renderer_classes = (JSONRenderer,)
 
     #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
     #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
 
-    queryset = Appointment.objects.annotate(num_patients=Count('patients'))\
-        .filter(num_patients__lt=5, date__lte=datetime.now()+timedelta(days=5))\
-        .order_by('num_patients')
+    #query params: type,days,limit
 
-    serializer_class = AppointmentIScheduleFinderSerializer
+    queryset = Appointment.objects.none()
 
-"""
-class AppointmentIScheduleSwap(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
-    queryset = Appointment.objects.annotate(num_patients=Count('patients')).filter(num_patients__lt=5)
-    serializer_class = AppointmentIScheduleSwapSerializer
+    def list(self, request, *args, **kwargs):
+        type = request.query_params.get('type')
+        days = request.query_params.get('days')
+        limit = request.query_params.get('limit')
 
-    def update(self, request, *args, **kwargs):
-        patient = Patient.objects.get(contact=request.query_params.get('patientContact'))
-        patientInQueue = Patient.objects.get(contact=request.query_params.get('tempPatientContact'))
-        a = Appointment.objects.get(id=self.get_object().id)
-        a.patients.remove(patient)
-        a.patients.add(patientInQueue)
-        a.tempPatients.remove(patientInQueue)
-        a.save()
-        return Response("Patient Swapped")
+        response_data = Appointment.objects.annotate(num_patients=Count('patients')).\
+            filter(type=type, num_patients__lt=5, date__lte=datetime.now()+timedelta(days=days)).\
+            order_by('num_patients')[limit]
 
-    def update(self, request, *args, **kwargs):
-        patientInQueue = Patient.objects.get(contact=request.query_params.get('tempPatientContact'))
-        a = Appointment.objects.get(id=self.get_object().id)
-        a.patients.add(patientInQueue)
-        a.tempPatients.remove(patientInQueue)
-        a.save()
-        return Response("Patient Swapped")
-
-class AnalyticsFilter(django_filters.FilterSet):
-
-    class Meta:
-        model = Patient
-        fields = ['name', 'contact']
-"""
+        serialized_response_data = AppointmentSerializer(response_data)
+        return(serialized_response_data.data)
 
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
-    queryset = Patient.objects.all()
+    queryset = Patient.objects.none()
 
     def list(self, request, *args, **kwargs):
         channel = request.query_params.get('channel')
@@ -297,8 +280,23 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
         elif not Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).exists():
             return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate': 0})
         else:
-            leads = Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).distinct().count()
-            conversion = Patient.objects.filter(marketingChannelId__name=channel, conversion=True).count()
-            rate = conversion/leads
-            response_data = {'Name': channel, 'Leads': leads, 'Conversion': conversion, 'Rate': rate}
+            response_data = Patient.objects.filter(registrationDate__month=month, marketingChannelId__name=channel).\
+                annotate(leads=Count('channelname')).order_by('leads').\
+                annotate(
+                    convert=Sum(
+                        Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
+                    )
+                )
             return Response(response_data)
+
+class RemarksFinder(viewsets.ReadOnlyModelViewSet):
+    queryset = AppointmentRemarks.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        patientID = request.query_params.get('patient')
+        apptID = request.query_params.get('appt')
+
+        response_data = AppointmentRemarks.objects.get(patient=patientID, appointment=apptID)
+
+        serialized_response_data = RemarksSerializer(response_data)
+        return Response(serialized_response_data.data)

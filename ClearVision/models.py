@@ -51,7 +51,6 @@ class Doctor(models.Model):
         return self.name
 
 class Appointment(models.Model):
-
     type = models.CharField(max_length=200)
     date = models.DateField('Appointment date')
     last_modified = models.DateTimeField('Creation Time', auto_now=True)
@@ -64,3 +63,7 @@ class Appointment(models.Model):
     def __str__(self):
         return self.type
 
+class AppointmentRemarks(models.Model):
+    patient = models.OneToOneField(Patient)
+    appointment = models.OneToOneField(Appointment)
+    remarks = models.CharField(max_length=1500)

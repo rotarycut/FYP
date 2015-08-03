@@ -398,5 +398,38 @@
         "tempPatients": [91500333,91500444],
         "timeBucket": 2
     }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 91500323,
+        "appointment":1,
+        "remarks": "I am a big snake"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 94764232,
+        "appointment":2,
+        "remarks": "I am a Horse"
+
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 91500212,
+        "appointment":3,
+        "remarks": "I am a Chimpanzee"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 91500111,
+        "appointment":4,
+        "remarks": "I am a Gorilla"
+    }
   }
 ]
