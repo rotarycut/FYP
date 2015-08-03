@@ -67,6 +67,6 @@ class Appointment(models.Model):
         return self.type
 
 class AppointmentRemarks(models.Model):
-    patient = models.OneToOneField(Patient)
-    appointment = models.OneToOneField(Appointment)
+    patient = models.ForeignKey(Patient)
+    appointment = models.ForeignKey(Appointment)
     remarks = models.CharField(max_length=1500)
