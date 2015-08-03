@@ -164,7 +164,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if not Patient.objects.filter(contact=patientContact).exists():
 
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
-                                   marketingChannelId=MarketingChannels.objects.get(id=marketingID))
+                                   marketingChannelId=MarketingChannels.objects.get(id=marketingID), registrationDate=datetime.now())
 
         p = Patient.objects.get(contact=patientContact)
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=apptTimeBucket)
