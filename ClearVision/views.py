@@ -16,7 +16,6 @@ from django.db.models import Q,F, FloatField, Max, Avg, Sum, Min, Case, When, Ch
     NullBooleanField
 from django.core.exceptions import ObjectDoesNotExist
 
-
 @login_required
 def success(request):
     response = "Hello " + request.user.username + ". You're at the Clearvision home page and successfully logged in."
@@ -157,9 +156,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         patientName = data.get('name')
         patientGender = data.get('gender')
         marketingID = data.get('channelID')
-        isWaitingList = data.get('waitingListFlag')
+        #isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
-        apptId = self.get_object().id
 
         if not Patient.objects.filter(contact=patientContact).exists():
 
@@ -174,7 +172,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingAppt.patients.add(p)
             existingAppt.save()
 
-            AppointmentRemarks.objects.create(patient=p.contact, appointment=apptId, remarks=remarks)
+            AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks)
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
@@ -186,9 +184,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
 
-            AppointmentRemarks.objects.create(patient=p.contact, appointment=apptId, remarks=remarks)
-
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
+            AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks)
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
             return Response(serializedExistingAppt.data)

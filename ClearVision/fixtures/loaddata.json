@@ -401,6 +401,7 @@
   },
   {
     "model": "ClearVision.AppointmentRemarks",
+    "pk": 1,
     "fields": {
         "patient": 91500323,
         "appointment":1,
@@ -409,6 +410,7 @@
   },
   {
     "model": "ClearVision.AppointmentRemarks",
+    "pk": 2,
     "fields": {
         "patient": 94764232,
         "appointment":2,
@@ -418,6 +420,7 @@
   },
   {
     "model": "ClearVision.AppointmentRemarks",
+    "pk": 3,
     "fields": {
         "patient": 91500212,
         "appointment":3,
@@ -426,6 +429,7 @@
   },
   {
     "model": "ClearVision.AppointmentRemarks",
+    "pk": 4,
     "fields": {
         "patient": 91500111,
         "appointment":4,
