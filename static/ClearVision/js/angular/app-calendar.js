@@ -410,19 +410,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.postAppointment = function (formIsValid) {
 
         if (formIsValid) {
-            var year = $scope.fields.appointmentDate.getFullYear();
 
-            var month = $scope.fields.appointmentDate.getMonth() + 1;
-            if (month <= 9) {
-                month = '0' + month;
-            }
-
-            var day = $scope.fields.appointmentDate.getDate();
-            if (day <= 9) {
-                day = '0' + day;
-            }
-
-            $scope.formattedDate = year + '-' + month + '-' + day;
+            var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
 
             if ($scope.fields.appointmentRemarks === undefined) {
                 $scope.fields.appointmentRemarks = "";
@@ -430,7 +419,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $http.post('/Clearvision/_api/appointmentsCUD/', {
                 "type": $scope.fields.appointmentType,
-                "date": $scope.formattedDate,
+                "date": formattedDate,
                 "docID": $scope.fields.doctorAssigned,
                 "clinicID": 1,
                 "contact": $scope.fields.patientContact,
@@ -651,6 +640,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .error(function () {
                 console.log("Error getting patient's appointment remarks.");
             });
+    };
+
+    /* function to navigate to date after selection on date picker */
+    $scope.navigateToDate = function () {
+        var selectedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+        $('#drHoCalendar').fullCalendar('gotoDate', selectedDate);
+    };
+
+    /* function to format date */
+    $scope.getFormattedDate = function (fullDate) {
+        var year = fullDate.getFullYear();
+
+        var month = fullDate.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = fullDate.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate;
     };
 
     /* function to clear fields in form */
