@@ -269,14 +269,14 @@ li .i-slot-label {
 
 
 .side-menu-row1{
-    border-bottom: 2px solid #1859ab;
+    /*border-bottom: 2px solid #1859ab;*/
     position: relative;
     margin-top: 35px;
     height: 156px;
 }
 
 .side-menu-row2{
-    border-bottom: 2px solid #1859ab;
+    /*border-bottom: 2px solid #1859ab;*/
     position: relative;
     margin-top: 35px;
     height: 156px;
@@ -288,11 +288,26 @@ li .i-slot-label {
     text-align: left;
 }
 
-.charts-row1{
-    position: relative;
+.filter-collapse-row{
     margin-left:15px;
-    border-bottom: solid 1px #1859ab;
+    border-top: solid 2px #1859ab;
 }
+
+.filter-row-hide{
+    margin-left: 15px;
+    background-color: #ebebeb;
+    padding-top:10px;
+}
+
+.charts-row1{
+    margin-left: 15px;
+}
+
+
+.dashboard-filter-mrkt{
+    border-left: dashed 2px #1859ab;
+}
+
 
 /* dashboard css ends*/
 
