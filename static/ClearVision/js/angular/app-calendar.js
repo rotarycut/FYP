@@ -8,18 +8,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    $scope.apptFormBtns = true;
-
-
     $scope.changeTo = 'Hungarian';
+
     /* event source that pulls from google.com */
     $scope.eventSource = {
         url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
         className: 'gcal-event',           // an option!
         currentTimezone: 'America/Chicago' // an option!
     };
-    /* event source that contains custom events on the scope */
 
+    /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
         color: '#303030',
         textColor: 'White',
@@ -73,11 +71,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         textColor: 'White',
         events: []
     };
+    /* --- end of declaration --- */
 
+    /* function to retrieve low heat map for iSchedule */
     $scope.getLowHeatMap = function () {
 
         $http.get('http://demo4552602.mockable.io/lowHeatmap')
-
             .success(function (listOfAppointments) {
                 var lowHeatMap = listOfAppointments;
 
@@ -88,16 +87,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }, 200);
 
             })
-
             .error(function () {
                 console.log("Error getting low heat map");
             });
     };
 
+    /* function to retrieve medium heat map for iSchedule */
     $scope.getMedHeatMap = function () {
 
         $http.get('http://demo4552602.mockable.io/medHeatmap')
-
             .success(function (listOfAppointments) {
                 var medHeatMap = listOfAppointments;
 
@@ -108,16 +106,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }, 200);
 
             })
-
             .error(function () {
                 console.log("Error getting med heat map");
             });
     };
 
+    /* function to retrieve high heat map for iSchedule */
     $scope.getHighHeatMap = function () {
 
         $http.get('http://demo4552602.mockable.io/highHeatmap')
-
             .success(function (listOfAppointments) {
                 var highHeatMap = listOfAppointments;
 
@@ -128,7 +125,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }, 200);
 
             })
-
             .error(function () {
                 console.log("Error getting high heat map");
             });
@@ -149,61 +145,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         callback(events);
     };
 
-    $scope.calEventsExt = {
-        color: '#f00',
-        textColor: 'yellow',
-        events: [
-            {
-                type: 'party',
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                type: 'party',
-                title: 'Lunch 2',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                type: 'party',
-                title: 'Click for Google',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://google.com/'
-            }
-        ]
-    };
-
     /* alert on eventClick */
     $scope.alertOnEventClick = function (appointment, jsEvent, view) {
-        $scope.alertMessage = (appointment.title + ' was clicked ');
         $scope.clearForm();
-        $scope.showForm();
-        $scope.appointmentId = appointment.id;
-        $scope.formTitle = "Edit Appointment";
-        $scope.showPatientList = true;
-        $scope.showDeleteButton = true;
-        $scope.showEditButton = true;
-        $scope.showSubmitButton = false;
-        $scope.patientList = appointment.patients;
-        $scope.appointmentType.value = appointment.type;
-        $scope.apptDateTime = appointment.date;
-        $scope.apptFullTime = appointment.start._i;
+        $scope.alertMessage = (appointment.title + ' was clicked ');
+        $scope.fields.appointmentId = appointment.id;
+        $scope.fields.patientList = appointment.patients;
+        $scope.fields.appointmentType = appointment.type;
+        $scope.fields.appointmentDate = appointment.date;
 
-        var space = $scope.apptFullTime.lastIndexOf(" ") + 1;
-        var colon = $scope.apptFullTime.lastIndexOf(":");
-        $scope.appointmentTime.value = $scope.apptFullTime.substring(space, colon);
+        var appointmentFullDateTime = appointment.start._i;
+        var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
+        var colonIndex = appointmentFullDateTime.lastIndexOf(":");
+        $scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
 
-        $scope.disablePatientNameInput = true;
-        $scope.disablePatientContactInput = true;
-        $scope.disableAssignedDoctorInput = true;
-        $scope.disableMktgChannelInput = true;
         $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
         $('#drHoCalendar').fullCalendar('select', appointment.date);
 
+        $scope.showForm('Edit');
     };
 
     /* alert on Drop */
@@ -242,7 +201,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
-    /* add custom event*/
+    /* add custom event */
     $scope.addEvent = function () {
         $scope.events.push({
             title: 'Open Sesame',
@@ -257,12 +216,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.events.splice(index, 1);
     };
 
-    /* Change View */
+    /* change calendar view */
     $scope.changeView = function (view, calendar) {
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
 
-    /* Change View */
+    /* render calendar */
     $scope.renderCalendar = function (calendarId) {
         $timeout(function () {
             calendarTag = $('#' + calendarId);
@@ -271,10 +230,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }, 0);
     };
 
-    /* Render Tooltip */
+    /* render tooltip */
     $scope.eventRender = function (event, element, view) {
         var strOfPatientNames = $scope.getAllPatientsName(event);
-        console.log(element);
         element.attr({
             'tooltip': strOfPatientNames,
             'tooltip-append-to-body': true
@@ -282,7 +240,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $compile(element)($scope);
     };
 
-    /* Returns a string of patient names for a particular appointment time slot */
+    /* function which returns a string of patient names for the particular appointment time slot */
     $scope.getAllPatientsName = function (event, element) {
 
         var listOfPatients = event.patients;
@@ -329,11 +287,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
-    /* event sources array*/
+    /* event sources array */
     $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap];
     $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
 
-    //Async http get request to retrieve Dr Ho's screening appointments
+    /* function to retrieve dr ho's screening appointments */
     $scope.getDrHoScreenings = function () {
 
         $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Screening')
@@ -354,7 +312,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Async http get request to retrieve Dr Ho's pre-evaluation appointments
+    /* function to retrieve dr ho's pre-evaluation appointments */
     $scope.getDrHoPreEvaluations = function () {
 
         $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Pre%20Evaluation')
@@ -375,7 +333,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Async http get request to retrieve Dr Ho's surgery appointments
+    /* function to retrieve dr ho's surgery appointments */
     $scope.getDrHoSurgeries = function () {
 
         $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Surgery')
@@ -396,7 +354,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Async http get request to retrieve Dr Goh's screening appointments
+    /* function to retrieve dr goh's screening appointments */
     $scope.getDrGohScreenings = function () {
         $scope.drGohScreenings.events.splice(0);
         $http.get('http://demo4552602.mockable.io/drGohScreenings')
@@ -413,7 +371,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Async http get request to retrieve Dr Goh's pre-evaluation appointments
+    /* function to retrieve dr goh's pre-evaluation appointments */
     $scope.getDrGohPreEvaluations = function () {
         $scope.drGohPreEvaluations.events.splice(0);
         $http.get('http://demo4552602.mockable.io/drGohPreEvaluations')
@@ -430,7 +388,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Async http get request to retrieve Dr Goh's surgery appointments
+    /* function to retrieve dr goh's surgery appointments */
     $scope.getDrGohSurgeries = function () {
         $scope.drGohSurgeries.events.splice(0);
         $http.get('http://demo4552602.mockable.io/drGohSurgeries')
@@ -447,99 +405,104 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    //Post appointment
-    $scope.postAppointment = function () {
+    /* function to create appointment */
+    $scope.postAppointment = function (formIsValid) {
 
-        var year = $scope.apptDateTime.getFullYear();
+        if (formIsValid) {
+            var year = $scope.fields.appointmentDate.getFullYear();
 
-        var month = $scope.apptDateTime.getMonth() + 1;
-        if (month <= 9) {
-            month = '0' + month;
-        }
+            var month = $scope.fields.appointmentDate.getMonth() + 1;
+            if (month <= 9) {
+                month = '0' + month;
+            }
 
-        var day = $scope.apptDateTime.getDate();
-        if (day <= 9) {
-            day = '0' + day;
-        }
+            var day = $scope.fields.appointmentDate.getDate();
+            if (day <= 9) {
+                day = '0' + day;
+            }
 
-        $scope.formattedDate = year + '-' + month + '-' + day;
+            $scope.formattedDate = year + '-' + month + '-' + day;
 
-        $http.post('/Clearvision/_api/appointmentsCUD/', {
-            "type": $scope.appointmentType.value.trim(),
-            "date": $scope.formattedDate,
-            "docID": $scope.doctorAssigned,
-            "clinicID": 1,
-            "contact": $scope.patientContact,
-            "name": $scope.patientName,
-            "gender": "Male",
-            "channelID": "1",
-            "time": $scope.appointmentTime.value.trim()
-        })
-            .success(function (data) {
-                console.log("Successful with http post");
-                console.log(data);
-
-                var event = data;
-
-                switch ($scope.appointmentType.value.trim()) {
-
-                    case "Screening":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                            if (screeningAppointment.start === event.start) {
-                                $scope.drHoScreenings.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        $scope.drHoScreenings.events.push(event);
-                        break;
-
-                    case "Pre Evaluation":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                            if (preEvaluationAppointment.start === event.start) {
-                                $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        $scope.drHoPreEvaluations.events.push(event);
-                        break;
-
-                    case "Surgery":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                            if (surgeryAppointment.start === event.start) {
-                                $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-
-                        $scope.drHoSurgeries.events.push(event);
-                        break;
-                }
-
+            $http.post('/Clearvision/_api/appointmentsCUD/', {
+                "type": $scope.fields.appointmentType,
+                "date": $scope.formattedDate,
+                "docID": $scope.fields.doctorAssigned,
+                "clinicID": 1,
+                "contact": $scope.fields.patientContact,
+                "name": $scope.fields.patientName,
+                "gender": "Male",
+                "channelID": "1",
+                "time": $scope.fields.appointmentTime
             })
+                .success(function (data) {
+                    console.log("Successful with http post");
+                    console.log(data);
 
-            .error(function (data) {
-                console.log("Error with http post");
-            });
+                    var event = data;
+
+                    switch ($scope.fields.appointmentType) {
+
+                        case "Screening":
+                            var appointmentIndex = 0;
+                            angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+                                if (screeningAppointment.start === event.start) {
+                                    $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+                            $scope.drHoScreenings.events.push(event);
+                            break;
+
+                        case "Pre Evaluation":
+                            var appointmentIndex = 0;
+                            angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                                if (preEvaluationAppointment.start === event.start) {
+                                    $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+                            $scope.drHoPreEvaluations.events.push(event);
+                            break;
+
+                        case "Surgery":
+                            var appointmentIndex = 0;
+                            angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+                                if (surgeryAppointment.start === event.start) {
+                                    $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+
+                            $scope.drHoSurgeries.events.push(event);
+                            break;
+                    }
+
+                })
+
+                .error(function (data) {
+                    console.log("Error with http post");
+                });
+
+        } else {
+            console.log("Form is not valid. Please try again.");
+        }
 
     };
 
-    //Delete appointment
+    /* function to delete appointment */
     $scope.deleteAppointment = function () {
 
-        var urlStr = '/Clearvision/_api/appointmentsCUD/' + $scope.appointmentId;
+        var urlStr = '/Clearvision/_api/appointmentsCUD/' + $scope.fields.appointmentId;
 
         var req = {
             method: 'DELETE',
             url: urlStr,
             headers: {'Content-Type': 'application/json'},
             data: {
-                "contact": $scope.patientContact
+                "contact": $scope.fields.patientContact
             }
         };
 
@@ -549,18 +512,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 console.log(data);
                 var event = data;
 
-                switch ($scope.appointmentType.value.trim()) {
+                switch ($scope.fields.appointmentType) {
 
                     case "Screening":
                         var appointmentIndex = 0;
                         angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                            if (screeningAppointment.id === $scope.appointmentId) {
+                            if (screeningAppointment.id === $scope.fields.appointmentId) {
+
                                 $scope.drHoScreenings.events.splice(appointmentIndex, 1);
 
                             }
                             appointmentIndex++;
                         });
-                        if (event != '{}') {
+                        if (event != 'Object {}') {
                             $scope.drHoScreenings.events.push(event);
                         }
                         break;
@@ -568,13 +532,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     case "Pre Evaluation":
                         var appointmentIndex = 0;
                         angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                            if (preEvaluationAppointment.id === $scope.appointmentId) {
+                            if (preEvaluationAppointment.id === $scope.fields.appointmentId) {
                                 $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
 
                             }
                             appointmentIndex++;
                         });
-                        if (event != '{}') {
+                        if (event != 'Object {}') {
                             $scope.drHoPreEvaluations.events.push(event);
                         }
                         break;
@@ -582,23 +546,22 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     case "Surgery":
                         var appointmentIndex = 0;
                         angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                            if (surgeryAppointment.id === $scope.appointmentId) {
+                            if (surgeryAppointment.id === $scope.fields.appointmentId) {
                                 $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
 
                             }
                             appointmentIndex++;
                         });
-                        if (event != '{}') {
+                        if (event != 'Object {}') {
                             $scope.drHoSurgeries.events.push(event);
                             break;
                         }
+
                 }
-
             })
-
     };
 
-    //Testing : Updating request
+    /* function to update appointment */
     $scope.updateAppointment = function () {
 
         $scope.updateJson = {
@@ -612,14 +575,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    /* Start of date picker codes */
+    /* --- start of date picker codes --- */
     $scope.datepickers = {
         showDatePicker: false
     };
     $scope.disabled = function (date, mode) {
         return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
     };
-
     $scope.today = function () {
         $scope.datePickerCalendar = new Date();
     };
@@ -628,7 +590,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.clear = function () {
         $scope.datePickerCalendar = null;
     };
-
     $scope.toggleMin = function () {
         $scope.minDate = $scope.minDate ? null : new Date();
     };
@@ -640,102 +601,232 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $scope.datepickers[which] = true;
     };
-
     $scope.dateOptions = {
         formatYear: 'yy',
         startingDay: 1,
         showWeeks: 'false'
     };
-
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
-    /* End of date picker codes */
+    /* --- end of date picker codes --- */
 
-    /* Appointment form configuration */
-    $scope.formTitle = "Create New Appointment";
-    $scope.showPatientList = false;
-    $scope.showDeleteButton = false;
-    $scope.showEditButton = false;
-    $scope.showSubmitButton = true;
-    $scope.showResetButton = true;
+    /* initialization when page first loads */
+    $scope.fields = {};
     $scope.remarkWarning = "Please select a patient";
+    $scope.addAndBlockButtons = true;
+    $scope.screeningActive = true;
+    $scope.preEvaluationActive = true;
+    $scope.surgeryActive = true;
 
-    /* Populate patient details upon selection */
+    /* different lists to populate form. will subsequently get from backend */
+    $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
+    $scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
+    $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
+
+    /* function to populate patient details upon selection on the edit appointment form */
     $scope.populatePatientDetails = function () {
-        var patientName = $scope.appointmentPatient.trim();
+        var patientName = $scope.selectedPatient.name;
 
-        angular.forEach($scope.patientList, function (patient) {
+        angular.forEach($scope.fields.patientList, function (patient) {
             if (patientName === patient.name) {
-                $scope.patientName = patient.name;
-                $scope.patientContact = patient.contact;
+                $scope.fields.patientName = patient.name;
+                $scope.fields.patientContact = patient.contact;
             }
         })
     };
 
-    $scope.appointmentType = {
-        value: "",
-        list: ["Screening", "Pre Evaluation", "Surgery"]
-    };
-
-    $scope.appointmentTime = {
-        value: "",
-        list: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"]
-    };
-
-    $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
-
+    /* function to clear fields in form */
     $scope.clearForm = function () {
-        $scope.appointmentId = "";
-        $scope.appointmentPatient = "";
-        $scope.appointmentType.value = "";
-        $scope.apptDateTime = "";
-        $scope.appointmentTime.value = "";
-        $scope.patientName = "";
-        $scope.patientContact = "";
-        $scope.doctorAssigned = "";
-        $scope.marketingChannel = "";
-        $scope.appointmentRemarks = "";
+        $scope.fields = {};
+        $scope.appointmentForm.$setPristine();
+        $scope.appointmentForm.$setUntouched();
+    };
+
+    /* function to show appointment form */
+    $scope.showForm = function (formType) {
+        $scope.leftAnimation = "col-sm-8 left-content-resize";
+        $scope.rightAnimation = "col-sm-4 right-content-show";
+        $scope.addAndBlockButtons = false;
+
+        if (formType === 'Create') {
+            // Perform these operations when showing the create appointment form
+            $scope.showPatientList = false;
+            $scope.showSubmitButton = true;
+            $scope.showDeleteButton = false;
+            $scope.showEditButton = false;
+            $scope.showResetButton = true;
+            $scope.formTitle = "Create New Appointment";
+
+        } else if (formType === 'Edit') {
+            // Perform these operations when showing the edit appointment form
+            $scope.showPatientList = true;
+            $scope.showSubmitButton = false;
+            $scope.showDeleteButton = true;
+            $scope.showEditButton = true;
+            $scope.showResetButton = false;
+            $scope.formTitle = "Edit New Appointment";
+            $scope.disablePatientNameInput = true;
+            $scope.disablePatientContactInput = true;
+            $scope.disableAssignedDoctorInput = true;
+            $scope.disableMktgChannelInput = true;
+
+        } else {
+            // Do nothing
+        }
+    };
+
+    /* function to hide appointment form */
+    $scope.hideForm = function () {
+        $scope.leftAnimation = "col-sm-12 left-content"
+        $scope.rightAnimation = "col-sm-4 right-content"
+
+        $scope.clearForm();
+        $scope.addAndBlockButtons = true;
         $scope.disablePatientNameInput = false;
         $scope.disablePatientContactInput = false;
         $scope.disableAssignedDoctorInput = false;
         $scope.disableMktgChannelInput = false;
     };
 
-    $scope.showForm = function () {
-        $scope.leftAnimation = "col-sm-8 left-content-resize";
-        $scope.rightAnimation = "col-sm-4 right-content-show";
-        $scope.apptFormBtns = false;
-        /*
+    /* function to enable iSchedule */
+    $scope.enableISchedule = function () {
         $scope.getLowHeatMap();
         $scope.getMedHeatMap();
         $scope.getHighHeatMap();
         $scope.drHoScreenings.events.splice(0);
         $scope.drHoPreEvaluations.events.splice(0);
         $scope.drHoSurgeries.events.splice(0);
-        */
     };
 
-    $scope.hideForm = function () {
-        $scope.leftAnimation = "col-sm-12 left-content"
-        $scope.rightAnimation = "col-sm-4 right-content"
-        $scope.formTitle = "Create New Appointment";
-        $scope.showPatientList = false;
-        $scope.showDeleteButton = false;
-        $scope.apptFormBtns = true;
-        $scope.showEditButton = false;
-        $scope.showSubmitButton = true;
-        $scope.showResetButton=true;
-        $scope.clearForm();
-
-        /*
+    /* function to disable iSchedule */
+    $scope.disableISchedule = function () {
         $scope.lowHeatMap.events.splice(0);
         $scope.medHeatMap.events.splice(0);
         $scope.highHeatMap.events.splice(0);
         $scope.getDrHoScreenings();
         $scope.getDrHoPreEvaluations();
         $scope.getDrHoSurgeries();
-        */
-
     };
+
+    /* function to filter by appointment types */
+    $scope.filterByAppointmentTypes = function (appointmentType, hidesTheRest) {
+        switch (appointmentType) {
+            case "Screening" :
+                if (hidesTheRest) {
+                    if (!$scope.screeningActive) {
+                        $scope.drHoScreenings.events.splice(0);
+                        $scope.getDrHoScreenings();
+                    }
+                    $scope.drHoPreEvaluations.events.splice(0);
+                    $scope.drHoSurgeries.events.splice(0);
+                    $scope.screeningActive = true;
+                    $scope.preEvaluationActive = false;
+                    $scope.surgeryActive = false;
+
+                } else {
+                    if ($scope.screeningActive) {
+                        $scope.screeningActive = false;
+                        $scope.drHoScreenings.events.splice(0);
+                    } else {
+                        $scope.screeningActive = true;
+                        $scope.getDrHoScreenings();
+                    }
+                }
+                break;
+
+            case "Pre Evaluation":
+                if (hidesTheRest) {
+                    if (!$scope.preEvaluationActive) {
+                        $scope.drHoPreEvaluations.events.splice(0);
+                        $scope.getDrHoPreEvaluations();
+                    }
+                    $scope.drHoScreenings.events.splice(0);
+                    $scope.drHoSurgeries.events.splice(0);
+                    $scope.screeningActive = false;
+                    $scope.preEvaluationActive = true;
+                    $scope.surgeryActive = false;
+
+                } else {
+                    if ($scope.preEvaluationActive) {
+                        $scope.preEvaluationActive = false;
+                        $scope.drHoPreEvaluations.events.splice(0);
+                    } else {
+                        $scope.preEvaluationActive = true;
+                        $scope.getDrHoPreEvaluations();
+                    }
+                }
+                break;
+
+            case "Surgery":
+                if (hidesTheRest) {
+                    if (!$scope.surgeryActive) {
+                        $scope.drHoSurgeries.events.splice(0);
+                        $scope.getDrHoSurgeries();
+                    }
+                    $scope.drHoScreenings.events.splice(0);
+                    $scope.drHoPreEvaluations.events.splice(0);
+                    $scope.screeningActive = false;
+                    $scope.preEvaluationActive = false;
+                    $scope.surgeryActive = true;
+
+                } else {
+                    if ($scope.surgeryActive) {
+                        $scope.surgeryActive = false;
+                        $scope.drHoSurgeries.events.splice(0);
+                    } else {
+                        $scope.surgeryActive = true;
+                        $scope.getDrHoSurgeries();
+                    }
+                }
+                break;
+        }
+    };
+
+    /* iSchedule list */
+    $scope.showTimeList = function (date) {
+        date.active = !date.active;
+    };
+
+    $scope.dates = [
+        {
+            apptDate: 'Wed 18 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "9am"},
+                {apptTime: "1pm"},
+                {apptTime: "2pm"}
+            ]
+        },
+        {
+            apptDate: 'Fri 21 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "11am"},
+                {apptTime: "2pm"},
+                {apptTime: "5pm"}
+            ]
+        },
+    ];
+
+    $scope.showLeastPackedSlots = function (date) {
+        date.active = !date.active;
+    };
+
+    $scope.leastPackSlots = [
+        {
+            apptDate: 'Wed 18 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "9am"},
+                {apptTime: "1pm"},
+                {apptTime: "2pm"}
+            ]
+        },
+        {
+            apptDate: 'Fri 21 Aug 2015',
+            apptTimeslots: [
+                {apptTime: "11am"},
+                {apptTime: "2pm"},
+                {apptTime: "5pm"}
+            ]
+        }
+    ];
 
 });

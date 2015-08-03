@@ -5026,6 +5026,7 @@ a.badge:focus {
 .container .jumbotron,
 .container-fluid .jumbotron {
   border-radius: 6px;
+  height: 81vh;
 }
 .jumbotron .container {
   max-width: 100%;
@@ -5712,6 +5713,7 @@ button.list-group-item-danger.active:focus {
 .panel-group .panel {
   margin-bottom: 0;
   border-radius: 4px;
+  width: 200px;
 }
 .panel-group .panel + .panel {
   margin-top: 5px;

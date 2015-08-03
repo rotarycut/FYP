@@ -9,9 +9,13 @@
                 <!-- inner row for all buttons>-->
                 <div class="row center-block">
                     <div class="col-sm-2" id="top-content-search">
-                        <div class="nav search-row">
-                <input class="form-control" placeholder="Search" type="text">
-        </div>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Search for...">
+                        </div>
+                        <!-- /input-group -->
                     </div>
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
@@ -21,14 +25,15 @@
                             <button type="button" class="btn btn-primary cal-view-btn"
                                     ng-click="changeView('agendaWeek', 'myCalendar1')">Week
                             </button>
-                            <button type="button" class="btn btn-primary cal-view-btn" ng-click="changeView('month', 'myCalendar1')">
+                            <button type="button" class="btn btn-primary cal-view-btn"
+                                    ng-click="changeView('month', 'myCalendar1')">
                                 Month
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp" ng-show="apptFormBtns">
+                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp" ng-show="addAndBlockButtons">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
-                            <button type="button" class="btn btn-primary" ng-click="showForm()"><i
+                            <button type="button" class="btn btn-primary" ng-click="showForm('Create')"><i
                                     class="fa fa-plus-circle"></i> Add
                                 Appointment
                             </button>
@@ -71,13 +76,20 @@
                         </tab>
                     </tabset>
 
-                    <div>
+                    <div class="cal-legend">
                         <ul class="legend-ul">
-                            <li><a href="#" data-ng-click="" class="legend-screen"><i class="fa fa-stop"></i> Screening</a>
+                            <li><a href="#/" singleclick="filterByAppointmentTypes('Screening', false)"
+                                   data-ng-Dblclick="filterByAppointmentTypes('Screening', true)" class="legend-screen"><i
+                                    class="fa fa-stop"></i> Screening</a>
                             </li>
-                            <li><a href="#" data-ng-click="" class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
+                            <li><a href="#/" singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
+                                   data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
+                                   class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
                             </li>
-                            <li><a href="#" data-ng-click="" class="legend-lasik"><i class="fa fa-stop"></i> Lasik</a></li>
+                            <li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
+                                   data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)" class="legend-lasik"><i
+                                    class="fa fa-stop"></i> Lasik</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -103,42 +115,92 @@
         </div>
         <div class="row form-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <form class="form-horizontal" id="edit-form-patients">
+                <form class="form-horizontal" id="edit-form-patients" name="appointmentForm" novalidate>
+
                     <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
                         <label class="control-label">Patient List</label>
-                        <select class="form-control" data-ng-model="appointmentPatient"
-                                ng-change="populatePatientDetails()">
-                            <option ng-repeat="patient in patientList">
-                                [[patient.name]]
-                            </option>
+                        <select class="form-control" data-ng-model="selectedPatient"
+                                ng-change="populatePatientDetails()"
+                                ng-options="patient.name for patient in fields.patientList"
+                                name="patientList">
                         </select>
 
-                        <div style="color:red" ng-if="appointmentPatient.length === 0">
+                        <div style="color:red" ng-if="fields.selectedPatient.length === 0">
                             [[remarkWarning]]
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
+
+                    <div class="form-group col-sm-12 add-appt-formgrp"
+                         ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
-                        <select class="form-control" ng-options="appt for appt in appointmentType.list"
-                                ng-model="appointmentType.value">
+                        <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
+                                ng-model="fields.appointmentType" name="appointmentType" required>
                         </select>
+
+                        <div ng-show="appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)"
+                             class="help-block">
+                            Please select an appointment type
+                        </div>
                     </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <label class="control-label">Patient Name</label>
-                                <input type="text" class="form-control" data-ng-model="patientName"
-                                       ng-disabled="disablePatientNameInput">
-                            </div>
-
-                            <div class="col-sm-6">
+                            <div class="col-sm-6"
+                                 ng-class="{'has-error': appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)}">
                                 <label class="control-label">Contact No.</label>
-                                <input type="text" class="form-control" data-ng-model="patientContact"
-                                       ng-disabled="disablePatientContactInput">
+                                <input type="text" class="form-control" data-ng-model="fields.patientContact"
+                                       ng-disabled="disablePatientContactInput" name="patientContact" autocomplete="off"
+                                       ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8" required>
+
+                                <div ng-show="appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Invalid Number
+                                </div>
+                            </div>
+                            <div class="col-sm-6"
+                                 ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}">
+                                <label class="control-label">Patient Name</label>
+                                <input type="text" class="form-control" data-ng-model="fields.patientName"
+                                       ng-disabled="disablePatientNameInput" name="patientName" autocomplete="off"
+                                       required>
+
+                                <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Please enter a name
+                                </div>
                             </div>
                         </div>
                     </div>
-                                        <div class="form-group col-sm-12 add-appt-formgrp">
+
+                    <div class="form-group col-sm-12 ischeduleForm">
+                        <label class="control-label">Next Earliest Availablility</label>
+                        <ol id="i-slots-date" class="list-group">
+                            <li class="list-group-item" ng-repeat="date in dates" data-ng-click="showTimeList(date)">
+                                <label class="i-slot-label">[[date.apptDate]]</label>
+                                <ol>
+                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
+                                        <label>[[time.apptTime]]</label>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="form-group col-sm-12 ischeduleForm">
+                        <label class="control-label">Least Packed Slots</label>
+                        <ol id="i-slots-date" class="list-group">
+                            <li class="list-group-item" ng-repeat="date in leastPackSlots"
+                                data-ng-click="showLeastPackedSlots(date)">
+                                <label class="i-slot-label">[[date.apptDate]]</label>
+                                <ol>
+                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
+                                        <label>[[time.apptTime]]</label>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-8 date-div">
                                 <label class="control-label">Date</label>
@@ -148,7 +210,7 @@
                                            class="form-control"
                                            datepicker-popup="[[ format ]]"
                                            name="datePickerCalendar"
-                                           ng-model="apptDateTime"
+                                           ng-model="fields.appointmentDate"
                                            is-open="datepickers.showDatePicker"
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
@@ -165,75 +227,77 @@
 
                             </div>
 
-                            <div class="col-sm-4" date-div>
+                            <div class="col-sm-4" date-div
+                                 ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}">
                                 <label class="control-label">Time</label>
-                                <select class="form-control" ng-options="appt for appt in appointmentTime.list"
-                                        data-ng-model="appointmentTime.value">
+                                <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
+                                        data-ng-model="fields.appointmentTime" name="appointmentTime" required>
                                 </select>
+
+                                <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Invalid time
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
+
+                    <div class="form-group col-sm-12 add-appt-formgrp"
+                         ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}">
+
                         <label class="control-label">Doctor</label>
 
                         <div class="row">
                             <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="doctorAssigned" value="2"
-                                              ng-disabled="disableAssignedDoctorInput">
+                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="2"
+                                              ng-disabled="disableAssignedDoctorInput" name="doctorAssigned"
+                                              ng-required="!doctorAssigned">
                                     Dr.Ho
                                 </label>
                             </div>
                             <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="doctorAssigned" value="1"
-                                              ng-disabled="disableAssignedDoctorInput">
+                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="1"
+                                              ng-disabled="disableAssignedDoctorInput" name="doctorAssigned"
+                                              ng-required="!doctorAssigned">
                                     Dr.Goh
                                 </label>
                             </div>
                         </div>
+
+                        <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
+                             class="help-block">
+                            Please select a doctor
+                        </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp">
+                    <div class="form-group col-sm-12 add-appt-formgrp"
+                         ng-class="{'has-error': appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)}">
+
                         <label class="control-label">Marketing Channel</label>
-                        <select class="form-control" data-ng-model="marketingChannel"
-                                ng-disabled="disableMktgChannelInput">
-                            <option ng-repeat="mktChannel in listOfMarketingChannels">
-                                [[mktChannel]]
-                            </option>
+
+                        <select class="form-control" data-ng-model="fields.marketingChannel"
+                                ng-disabled="disableMktgChannelInput"
+                                ng-options="channel for channel in listOfMarketingChannels"
+                                name="marketingChannel" required>
                         </select>
+
+                        <div ng-show="appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)"
+                             class="help-block">
+                            Please select a marketing channel
+                        </div>
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <label class="control-label">Remarks</label>
-                                <textarea class="form-control" rows="3" data-ng-model="appointmentRemarks"
-                                          placeholder="Optional">
-                                </textarea>
+                        <textarea class="form-control" rows="3" data-ng-model="fields.appointmentRemarks"
+                                  placeholder="Optional" name="appointmentRemarks">
+                        </textarea>
                     </div>
-
-                    <!-- LEON TO MODIFY THIS -->
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
-                        <label class="control-label">Earliest Availability</label>
-                        <select class="form-control" data-ng-model="appointmentPatient"
-                                ng-change="populatePatientDetails()">
-                            <option ng-repeat="patient in patientList">
-                                [[patient.name]]
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
-                        <label class="control-label">Less Packed Slots</label>
-                        <select class="form-control" data-ng-model="appointmentPatient"
-                                ng-change="populatePatientDetails()">
-                            <option ng-repeat="patient in patientList">
-                                [[patient.name]]
-                            </option>
-                        </select>
-                    </div>
-
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-1 col-sm-offset-1">
                                 <button class="btn btn-success"
-                                        data-ng-click="postAppointment();"
+                                        data-ng-click="postAppointment(appointmentForm.$valid);"
                                         ng-show="showSubmitButton">Submit
                                 </button>
                             </div>
@@ -245,12 +309,14 @@
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
                                 <button class="btn btn-warning"
+                                        type="reset"
                                         data-ng-click="hideForm()">Cancel
                                 </button>
                             </div>
                             <div class="col-sm-1 col-sm-offset-1">
                                 <button class="btn btn-default"
-                                        data-ng-click="resetAppointment();"
+                                        data-ng-click="clearForm();"
+                                        type="reset"
                                         ng-show="showResetButton">Reset
                                 </button>
                             </div>
@@ -265,8 +331,8 @@
                 </form>
             </div>
         </div>
+        <!-- col for form content ends -->
     </div>
-    <!-- col for form content ends -->
 </div>
 <!-- row for entire app content ends-->
 <div class="clearfix"></div>
