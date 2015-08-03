@@ -172,7 +172,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingAppt.patients.add(p)
             existingAppt.save()
 
-            AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks)
+            AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
@@ -185,7 +185,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                        timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
-            AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks)
+            AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
             return Response(serializedExistingAppt.data)
@@ -203,19 +203,18 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         currentAppt.patients.remove(patient)
         currentAppt.save()
+        oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.contact)
 
         if currentAppt.patients.count() == 0:
                 currentAppt.delete()
-
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
-        oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt, patient=patient)
 
         if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket, type=apptType).exists():
             existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID, type=apptType)
             existingFutureAppt.patients.add(patient)
             existingFutureAppt.save()
 
-            oldRemarks.appointment = existingFutureAppt
+            oldRemarks.appointment = existingFutureAppt.id
             oldRemarks.remarks = newRemarks
             oldRemarks.save()
 
@@ -246,20 +245,19 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
 
     #query params: type,days,limit
 
-    queryset = Appointment.objects.none()
-
+    queryset = Appointment.objects.annotate(num_patients=Count('patients')).\
+            filter(type='Screening', num_patients__lt=5, date__lte=datetime.now()+timedelta(days=5)).\
+            order_by('num_patients')
+    serializer_class = AppointmentIScheduleFinderSerializer
+"""
     def list(self, request, *args, **kwargs):
-        type = request.query_params.get('type')
-        days = request.query_params.get('days')
-        limit = request.query_params.get('limit')
 
         response_data = Appointment.objects.annotate(num_patients=Count('patients')).\
-            filter(type=type, num_patients__lt=5, date__lte=datetime.now()+timedelta(days=days)).\
-            order_by('num_patients')[limit]
+            filter(type='Screening', num_patients__lt=5, date__lte=datetime.now()+timedelta(days=5)).\
+            order_by('num_patients')
 
-        serialized_response_data = AppointmentSerializer(response_data)
-        return(serialized_response_data.data)
-
+        return Response(response_data)
+"""
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
     queryset = Patient.objects.none()
 
