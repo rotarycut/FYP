@@ -8,7 +8,6 @@ from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
 import django_filters
 from rest_framework.renderers import JSONRenderer
-from rest_framework.status import HTTP_400_BAD_REQUEST
 from .serializers import *
 from rest_framework import filters
 from rest_framework import generics, viewsets
@@ -246,7 +245,7 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
     #query params: type,days,limit
 
     queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
-                filter(appointment__isnull=True)
+                filter(Q(appointment__isnull=True) | Q(num_patients__lt=5)).filter(appointment__date=datetime.now()+timedelta(days=5))
 
     serializer_class = AppointmentIScheduleFinderSerializer
 """
@@ -308,7 +307,3 @@ class RemarksFinder(viewsets.ReadOnlyModelViewSet):
         serialized_response_data = RemarksSerializer(response_data)
         return Response(serialized_response_data.data)
 
-from rest_framework.views import exception_handler
-
-def custom_exception_handler(exc, context):
-    return Response({}, status=HTTP_400_BAD_REQUEST)

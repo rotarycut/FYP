@@ -116,7 +116,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    'EXCEPTION_HANDLER': 'ClearVision.views.custom_exception_handler'
 }
 
 STATICFILES_DIRS = (
