@@ -215,4 +215,9 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
          unload: $scope.marketingChart.columns
          });*/
     }
+
+    $scope.isCollapsed = true;
+
+
+
 });
