@@ -119,13 +119,13 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp" ng-show="showPatientList">
                         <label class="control-label">Patient List</label>
-                        <select class="form-control" data-ng-model="selectedPatient"
+                        <select class="form-control" data-ng-model="fields.selectedPatient"
                                 ng-change="populatePatientDetails()"
                                 ng-options="patient.name for patient in fields.patientList"
                                 name="patientList">
                         </select>
 
-                        <div style="color:red" ng-if="fields.selectedPatient.length === 0">
+                        <div style="color:red" ng-if="fields.fields.selectedPatient.length === 0">
                             [[remarkWarning]]
                         </div>
                     </div>

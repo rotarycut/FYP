@@ -153,6 +153,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.fields.patientList = appointment.patients;
         $scope.fields.appointmentType = appointment.type;
         $scope.fields.appointmentDate = appointment.date;
+        $scope.fields.doctorAssigned = appointment.doctor.id;
 
         var appointmentFullDateTime = appointment.start._i;
         var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
@@ -423,6 +424,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $scope.formattedDate = year + '-' + month + '-' + day;
 
+            if ($scope.fields.appointmentRemarks === undefined) {
+                $scope.fields.appointmentRemarks = "";
+            }
+
             $http.post('/Clearvision/_api/appointmentsCUD/', {
                 "type": $scope.fields.appointmentType,
                 "date": $scope.formattedDate,
@@ -432,7 +437,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 "name": $scope.fields.patientName,
                 "gender": "Male",
                 "channelID": "1",
-                "time": $scope.fields.appointmentTime
+                "time": $scope.fields.appointmentTime,
+                "remarks": $scope.fields.appointmentRemarks
             })
                 .success(function (data) {
                     console.log("Successful with http post");
@@ -511,6 +517,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 console.log("Successfully deleted");
                 console.log(data);
                 var event = data;
+                var appointmentsLeftAfterDelete = Object.keys(event).length;
 
                 switch ($scope.fields.appointmentType) {
 
@@ -524,7 +531,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             }
                             appointmentIndex++;
                         });
-                        if (event != 'Object {}') {
+                        if (appointmentsLeftAfterDelete != 0) {
                             $scope.drHoScreenings.events.push(event);
                         }
                         break;
@@ -538,7 +545,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             }
                             appointmentIndex++;
                         });
-                        if (event != 'Object {}') {
+                        if (appointmentsLeftAfterDelete != 0) {
                             $scope.drHoPreEvaluations.events.push(event);
                         }
                         break;
@@ -552,7 +559,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             }
                             appointmentIndex++;
                         });
-                        if (event != 'Object {}') {
+                        if (appointmentsLeftAfterDelete != 0) {
                             $scope.drHoSurgeries.events.push(event);
                             break;
                         }
@@ -625,7 +632,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to populate patient details upon selection on the edit appointment form */
     $scope.populatePatientDetails = function () {
-        var patientName = $scope.selectedPatient.name;
+        var patientName = $scope.fields.selectedPatient.name;
 
         angular.forEach($scope.fields.patientList, function (patient) {
             if (patientName === patient.name) {
@@ -633,6 +640,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.fields.patientContact = patient.contact;
             }
         })
+
+        var url = '/Clearvision/_api/Remarks/?patient=' + $scope.fields.patientContact + '&appt=' + $scope.fields.appointmentId;
+
+        $http.get(url)
+            .success(function (patientAppointment) {
+                $scope.fields.appointmentRemarks = patientAppointment.remarks;
+            })
+
+            .error(function () {
+                console.log("Error getting patient's appointment remarks.");
+            });
     };
 
     /* function to clear fields in form */
