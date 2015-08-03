@@ -8,6 +8,7 @@ from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
 import django_filters
 from rest_framework.renderers import JSONRenderer
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from .serializers import *
 from rest_framework import filters
 from rest_framework import generics, viewsets
@@ -238,25 +239,25 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
-    #renderer_classes = (JSONRenderer,)
-
-    #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients'))\
-    #   .filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
+    #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
+    #   filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
+    #serializer_class = AppointmentIScheduleFinderSerializer
 
     #query params: type,days,limit
 
-    queryset = Appointment.objects.annotate(num_patients=Count('patients')).\
-            filter(type='Screening', num_patients__lt=5, date__lte=datetime.now()+timedelta(days=5)).\
-            order_by('num_patients')
+    queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
+                filter(appointment__isnull=True)
+
     serializer_class = AppointmentIScheduleFinderSerializer
 """
     def list(self, request, *args, **kwargs):
 
-        response_data = Appointment.objects.annotate(num_patients=Count('patients')).\
-            filter(type='Screening', num_patients__lt=5, date__lte=datetime.now()+timedelta(days=5)).\
-            order_by('num_patients')
+        response_data = queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
+                           filter(Q(appointment__isnull=True) | Q(num_patients__lt=5)).filter(appointment__date=datetime.now()+timedelta(days=5))
 
-        return Response(response_data)
+        serialized_response_data = AppointmentIScheduleFinderSerializer(response_data)
+
+        return Response(serialized_response_data.data)
 """
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
     queryset = Patient.objects.none()
@@ -306,3 +307,8 @@ class RemarksFinder(viewsets.ReadOnlyModelViewSet):
 
         serialized_response_data = RemarksSerializer(response_data)
         return Response(serialized_response_data.data)
+
+from rest_framework.views import exception_handler
+
+def custom_exception_handler(exc, context):
+    return Response({}, status=HTTP_400_BAD_REQUEST)

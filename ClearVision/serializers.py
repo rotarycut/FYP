@@ -53,7 +53,7 @@ class AppointmentMakerSerializer(serializers.ModelSerializer):
 class AppointmentIScheduleFinderSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Appointment
+        model = AvailableTimeSlots
         depth = 0
 
 class RemarksSerializer(serializers.ModelSerializer):
