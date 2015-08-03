@@ -41,7 +41,7 @@
         "name": "Sherman",
         "gender": "Male",
         "contact": "91500323",
-        "registrationDate": "2015-04-29",
+        "registrationDate": "2015-04-29T16:00:00Z",
         "marketingChannelId": 1,
         "conversion": "True"
     }
@@ -53,7 +53,7 @@
         "name": "Leon",
         "gender": "Male",
         "contact": "94764232",
-        "registrationDate": "2015-04-30",
+        "registrationDate": "2015-04-30T16:00:00Z",
         "marketingChannelId": 2,
         "conversion": "False"
     }
@@ -65,7 +65,7 @@
         "name": "Claire",
         "gender": "Female",
         "contact": "91500212",
-        "registrationDate": "2015-04-30",
+        "registrationDate": "2015-04-30T16:00:00Z",
         "marketingChannelId": 1,
         "conversion": "True"
     }
@@ -77,7 +77,7 @@
         "name": "Amabel",
         "gender": "Female",
         "contact": "91500111",
-        "registrationDate": "2015-04-30",
+        "registrationDate": "2015-04-30T16:00:00Z",
         "marketingChannelId": 2,
         "conversion": "False"
     }
@@ -89,7 +89,7 @@
         "name": "Carina",
         "gender": "Female",
         "contact": "91500222",
-        "registrationDate": "2015-04-30",
+        "registrationDate": "2015-04-30T16:00:00Z",
         "marketingChannelId": 3,
         "conversion": "True"
     }
@@ -101,7 +101,7 @@
         "name": "Kaiwen",
         "gender": "Male",
         "contact": "91500333",
-        "registrationDate": "2015-04-28",
+        "registrationDate": "2015-04-28T16:00:00Z",
         "marketingChannelId": 3,
         "conversion": "False"
     }
@@ -113,7 +113,7 @@
         "name": "G Dragon",
         "gender": "Male",
         "contact": "91500444",
-        "registrationDate": "2015-04-14",
+        "registrationDate": "2015-04-14T16:00:00Z",
         "marketingChannelId": 3,
         "conversion": "False"
     }
@@ -124,7 +124,7 @@
         "name": "M Dragon",
         "gender": "Male",
         "contact": "91500484",
-        "registrationDate": "2015-04-14",
+        "registrationDate": "2015-04-14T16:00:00Z",
         "marketingChannelId": 3,
         "conversion": "False"
     }
@@ -135,7 +135,7 @@
         "name": "Y Dragon",
         "gender": "Male",
         "contact": "91500784",
-        "registrationDate": "2015-04-14",
+        "registrationDate": "2015-04-14T16:00:00Z",
         "marketingChannelId": 3,
         "conversion": "False"
     }
@@ -146,7 +146,7 @@
         "name": "R Dragon",
         "gender": "Male",
         "contact": "915004732",
-        "registrationDate": "2015-04-14",
+        "registrationDate": "2015-04-14T16:00:00Z",
         "marketingChannelId": 4,
         "conversion": "True"
     }
@@ -157,7 +157,7 @@
         "name": "V Dragon",
         "gender": "Male",
         "contact": "91587471",
-        "registrationDate": "2015-04-14",
+        "registrationDate": "2015-04-14T16:00:00Z",
         "marketingChannelId": 4,
         "conversion": "False"
     }
@@ -168,7 +168,7 @@
         "name": "W Dragon",
         "gender": "Male",
         "contact": "90884621",
-        "registrationDate": "2015-04-14",
+        "registrationDate": "2015-04-14T16:00:00Z",
         "marketingChannelId": 5,
         "conversion": "False"
     }
@@ -443,6 +443,15 @@
         "patient": 91500222,
         "appointment":6,
         "remarks": "I am a G Dragon"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "pk": 6,
+    "fields": {
+        "patient": 91500212,
+        "appointment":1,
+        "remarks": "TESTING SCENARIO"
     }
   }
 ]
