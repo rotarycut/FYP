@@ -600,13 +600,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             $scope.spliceAppointment($scope.drHoScreenings.events, id);
 
                             $http.get('/Clearvision/_api/appointments/' + id)
-
-                                .success(function (listOfAppointments) {
-                                    var drHoScreenings = listOfAppointments;
-
-                                    angular.forEach(drHoScreenings, function (screeningAppointment) {
-                                        $scope.drHoScreenings.events.push(screeningAppointment);
-                                    })
+                                .success(function (oldAppointment) {
+                                    $scope.drHoScreenings.events.push(oldAppointment);
                                 });
                             break;
 
@@ -614,13 +609,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             $scope.spliceAppointment($scope.drHoPreEvaluations.events, id);
 
                             $http.get('/Clearvision/_api/appointments/' + id)
-
-                                .success(function (listOfAppointments) {
-                                    var drHoPreEvaluations = listOfAppointments;
-
-                                    angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
-                                        $scope.drHoPreEvaluations.events.push(preEvaluationAppointment);
-                                    })
+                                .success(function (oldAppointment) {
+                                    $scope.drHoPreEvaluations.events.push(oldAppointment);
                                 });
                             break;
 
@@ -628,13 +618,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             $scope.spliceAppointment($scope.drHoSurgeries.events, id);
 
                             $http.get('/Clearvision/_api/appointments/' + id)
-
-                                .success(function (listOfAppointments) {
-                                    var drHoSurgeries = listOfAppointments;
-
-                                    angular.forEach(drHoSurgeries, function (surgeryAppointment) {
-                                        $scope.drHoSurgeries.events.push(surgeryAppointment);
-                                    })
+                                .success(function (oldAppointment) {
+                                    $scope.drHoSurgeries.events.push(oldAppointment)
                                 });
                             break;
                     }
@@ -648,16 +633,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             $scope.spliceAppointment($scope.drHoScreenings.events, id);
 
                             $http.get('/Clearvision/_api/appointments/' + id)
-
-                                .success(function (listOfAppointments) {
-                                    var drHoScreenings = listOfAppointments;
-
-                                    angular.forEach(drHoScreenings, function (screeningAppointment) {
-                                        $scope.drHoScreenings.events.push(screeningAppointment);
-                                    })
-                                })
-                                .error(function (response) {
-                                    console.log("No patients left in old appointment");
+                                .success(function (oldAppointment) {
+                                    $scope.drHoScreenings.events.push(oldAppointment);
                                 });
                             break;
 
@@ -665,13 +642,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             $scope.spliceAppointment($scope.drHoPreEvaluations.events, id);
 
                             $http.get('/Clearvision/_api/appointments/' + id)
-
-                                .success(function (listOfAppointments) {
-                                    var drHoPreEvaluations = listOfAppointments;
-
-                                    angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
-                                        $scope.drHoPreEvaluations.events.push(preEvaluationAppointment);
-                                    })
+                                .success(function (oldAppointment) {
+                                    $scope.drHoPreEvaluations.events.push(oldAppointment);
                                 });
                             break;
 
@@ -679,13 +651,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                             $scope.spliceAppointment($scope.drHoSurgeries.events, id);
 
                             $http.get('/Clearvision/_api/appointments/' + id)
-
-                                .success(function (listOfAppointments) {
-                                    var drHoSurgeries = listOfAppointments;
-
-                                    angular.forEach(drHoSurgeries, function (surgeryAppointment) {
-                                        $scope.drHoSurgeries.events.push(surgeryAppointment);
-                                    })
+                                .success(function (oldAppointment) {
+                                    $scope.drHoSurgeries.events.push(oldAppointment)
                                 });
                             break;
                     }
