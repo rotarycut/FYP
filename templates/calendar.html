@@ -48,7 +48,7 @@
         <!-- row for calendar content-->
         <div class="row">
             <div class="col-sm-12">
-                <div class="jumbotron" ng-class="{'ijumbotron' : showHeatMap}">
+                <div ng-class="showHeatMap ? 'ijumbotron' : 'jumbotron'">
                     <tabset type="pills">
                         <tab select="renderCalendar('drHoCalendar');"
                              ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
