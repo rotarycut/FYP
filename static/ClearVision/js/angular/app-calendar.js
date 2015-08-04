@@ -293,6 +293,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap];
     $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
 
+    /* function to retrieve doctor's appointments */
+
     /* function to retrieve dr ho's screening appointments */
     $scope.getDrHoScreenings = function () {
         appointmentService.getDrHoScreenings()
@@ -906,16 +908,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
-    /* function to search for contact */
-    $scope.searchContact = function () {
-        console.log("Searching...");
-        searchContact.search($scope.fields.patientContact).then(function (response) {
-            console.log("success");
-            console.log(response.data.name);
-            $scope.fields.patientName = response.data.name;
-        });
-    };
-
     /* iSchedule list */
     $scope.showTimeList = function (date) {
         date.active = !date.active;
@@ -963,13 +955,25 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     ];
 
+    /* function to search for contact */
+    $scope.searchContact = function () {
+        searchContact.search($scope.fields.patientContact).then(function (response) {
+            if (response.data.length !== 0) {
+                $scope.fields.patientName = response.data[0].name;
+            } else {
+                $scope.fields.patientName = "";
+            }
+        });
+    };
+
 });
 
 /* service to search for patient's details based on contact */
 appCalendar.service('searchContact', ['$http', function ($http) {
     return {
         search: function (contact) {
-            return $http.post('http://demo4552602.mockable.io/searchContact', {"contact": contact});
+            var url = '/Clearvision/_api/patients/?search=' + contact;
+            return $http.get(url);
         }
     }
 }]);

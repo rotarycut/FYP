@@ -150,7 +150,7 @@
                                 <label class="control-label">Contact No.</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientContact"
                                        ng-disabled="disablePatientContactInput" name="patientContact" autocomplete="off"
-                                       ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8" ng-change=""
+                                       ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8" ng-change="searchContact()"
                                        required>
 
                                 <div ng-show="appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)"
