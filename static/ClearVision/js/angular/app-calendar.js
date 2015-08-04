@@ -812,6 +812,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.disablePatientContactInput = false;
         $scope.disableAssignedDoctorInput = false;
         $scope.disableMktgChannelInput = false;
+        $scope.showHeatMap = false;
     };
 
     /* function to enable iSchedule */
@@ -832,6 +833,22 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.getDrHoScreenings();
         $scope.getDrHoPreEvaluations();
         $scope.getDrHoSurgeries();
+    };
+
+    /* function to search for contact */
+    $scope.searchContact = function () {
+        searchContact.search($scope.fields.patientContact).then(function (response) {
+            if (response.data.length !== 0) {
+                $scope.fields.patientName = response.data[0].name;
+            } else {
+                $scope.fields.patientName = "";
+            }
+        });
+    };
+
+    /* function to activate heat map */
+    $scope.activateHeatMap = function () {
+        $scope.showHeatMap = true;
     };
 
     /* function to filter by appointment types */
@@ -929,7 +946,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 {apptTime: "2pm"},
                 {apptTime: "5pm"}
             ]
-        },
+        }
     ];
 
     $scope.showLeastPackedSlots = function (date) {
@@ -954,17 +971,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             ]
         }
     ];
-
-    /* function to search for contact */
-    $scope.searchContact = function () {
-        searchContact.search($scope.fields.patientContact).then(function (response) {
-            if (response.data.length !== 0) {
-                $scope.fields.patientName = response.data[0].name;
-            } else {
-                $scope.fields.patientName = "";
-            }
-        });
-    };
 
 });
 

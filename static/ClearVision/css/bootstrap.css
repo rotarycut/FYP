@@ -5011,6 +5011,13 @@ a.badge:focus {
   background-color: #ebebeb;
   border: dotted 2px #1859A8;
 }
+.ijumbotron {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  /*color: inherit;*/
+  background-color: #CCFFCC;
+  border: dotted 2px #1859A8;
+}
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;

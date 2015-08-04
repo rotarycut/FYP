@@ -48,7 +48,7 @@
         <!-- row for calendar content-->
         <div class="row">
             <div class="col-sm-12">
-                <div class="jumbotron" >
+                <div class="jumbotron" ng-class="{'ijumbotron' : showHeatMap}">
                     <tabset type="pills">
                         <tab select="renderCalendar('drHoCalendar');"
                              ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
@@ -134,7 +134,8 @@
                          ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
-                                ng-model="fields.appointmentType" name="appointmentType" required>
+                                ng-model="fields.appointmentType" name="appointmentType" ng-change="activateHeatMap()"
+                                required>
                         </select>
 
                         <div ng-show="appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)"
