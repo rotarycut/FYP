@@ -61,4 +61,3 @@ class RemarksSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppointmentRemarks
         depth = 10
-

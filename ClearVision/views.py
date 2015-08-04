@@ -45,8 +45,8 @@ class PatientList(viewsets.ModelViewSet):
     #renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = PatientFilter
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
+    search_fields = ('=contact', )
 
 
 # API for Clinics
