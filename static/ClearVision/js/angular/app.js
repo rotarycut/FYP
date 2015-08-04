@@ -4,7 +4,8 @@ var app = angular.module('calendarDemoApp', [
     'app.calendar',
     'app.dashboard',
     'ngRoute',
-    'single.click'
+    'single.click',
+    'appointment.service'
 ]);
 
 /* Angular routing */

@@ -48,7 +48,7 @@
         <!-- row for calendar content-->
         <div class="row">
             <div class="col-sm-12">
-                <div class="jumbotron">
+                <div class="jumbotron" >
                     <tabset type="pills">
                         <tab select="renderCalendar('drHoCalendar');"
                              ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
@@ -150,7 +150,8 @@
                                 <label class="control-label">Contact No.</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientContact"
                                        ng-disabled="disablePatientContactInput" name="patientContact" autocomplete="off"
-                                       ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8" required>
+                                       ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8" ng-change=""
+                                       required>
 
                                 <div ng-show="appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)"
                                      class="help-block">
@@ -304,7 +305,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <button class="btn btn-success"
-                                        data-ng-click="postAppointment();"
+                                        data-ng-click="updateAppointment();"
                                         ng-show="showEditButton">Edit
                                 </button>
                             </div>
