@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', []);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService) {
 
     var date = new Date();
     var d = date.getDate();
@@ -154,6 +154,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.fields.appointmentType = appointment.type;
         $scope.fields.appointmentDate = appointment.date;
         $scope.fields.doctorAssigned = appointment.doctor.id;
+        $scope.fields.originalAppointmentType = appointment.type;
 
         var appointmentFullDateTime = appointment.start._i;
         var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
@@ -294,115 +295,79 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to retrieve dr ho's screening appointments */
     $scope.getDrHoScreenings = function () {
-
-        $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Screening')
-
-            .success(function (listOfAppointments) {
-                var drHoScreenings = listOfAppointments;
-
-                $timeout(function () {
-                    angular.forEach(drHoScreenings, function (screeningAppointment) {
-                        $scope.drHoScreenings.events.push(screeningAppointment);
-                    })
-                }, 200);
-
-            })
-
-            .error(function () {
-                console.log("Error getting Dr Ho's screening appointments");
+        appointmentService.getDrHoScreenings()
+            .then(function (appointments) {
+                angular.forEach(appointments, function (appt) {
+                    $scope.drHoScreenings.events.push(appt);
+                });
+            },
+            function (data) {
+                console.log("Failed to retrieve appointments");
             });
     };
 
     /* function to retrieve dr ho's pre-evaluation appointments */
     $scope.getDrHoPreEvaluations = function () {
-
-        $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Pre%20Evaluation')
-
-            .success(function (listOfAppointments) {
-                var drHoPreEvaluations = listOfAppointments;
-
-                $timeout(function () {
-                    angular.forEach(drHoPreEvaluations, function (preEvaluationAppointment) {
-                        $scope.drHoPreEvaluations.events.push(preEvaluationAppointment);
-                    })
-                }, 200);
-
-            })
-
-            .error(function () {
-                console.log("Error getting Dr Ho's pre-evaluation appointments");
+        appointmentService.getDrHoPreEvaluations()
+            .then(function (appointments) {
+                angular.forEach(appointments, function (appt) {
+                    $scope.drHoPreEvaluations.events.push(appt);
+                });
+            },
+            function (data) {
+                console.log("Failed to retrieve appointments");
             });
     };
 
     /* function to retrieve dr ho's surgery appointments */
     $scope.getDrHoSurgeries = function () {
-
-        $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Surgery')
-
-            .success(function (listOfAppointments) {
-                var drHoSurgeries = listOfAppointments;
-
-                $timeout(function () {
-                    angular.forEach(drHoSurgeries, function (surgeryAppointment) {
-                        $scope.drHoSurgeries.events.push(surgeryAppointment);
-                    })
-                }, 200);
-
-            })
-
-            .error(function () {
-                console.log("Error getting Dr Ho's surgery appointments");
+        appointmentService.getDrHoSurgeries()
+            .then(function (appointments) {
+                angular.forEach(appointments, function (appt) {
+                    $scope.drHoSurgeries.events.push(appt);
+                });
+            },
+            function (data) {
+                console.log("Failed to retrieve appointments");
             });
     };
 
     /* function to retrieve dr goh's screening appointments */
     $scope.getDrGohScreenings = function () {
-        $scope.drGohScreenings.events.splice(0);
-        $http.get('http://demo4552602.mockable.io/drGohScreenings')
-
-            .success(function (listOfAppointments) {
-                var drGohScreenings = listOfAppointments;
-                angular.forEach(drGohScreenings, function (screeningAppointment) {
-                    $scope.drGohScreenings.events.push(screeningAppointment);
-                })
-            })
-
-            .error(function () {
-                console.log("Error getting Dr Goh's screening appointments");
+        appointmentService.getDrGohScreenings()
+            .then(function (appointments) {
+                angular.forEach(appointments, function (appt) {
+                    $scope.drGohScreenings.events.push(appt);
+                });
+            },
+            function (data) {
+                console.log("Failed to retrieve appointments");
             });
     };
 
     /* function to retrieve dr goh's pre-evaluation appointments */
     $scope.getDrGohPreEvaluations = function () {
-        $scope.drGohPreEvaluations.events.splice(0);
-        $http.get('http://demo4552602.mockable.io/drGohPreEvaluations')
-
-            .success(function (listOfAppointments) {
-                var drGohPreEvaluations = listOfAppointments;
-                angular.forEach(drGohPreEvaluations, function (preEvaluationAppointment) {
-                    $scope.drGohPreEvaluations.events.push(preEvaluationAppointment);
-                })
-            })
-
-            .error(function () {
-                console.log("Error getting Dr Goh's pre-evaluation appointments");
+        appointmentService.getDrGohPreEvaluations()
+            .then(function (appointments) {
+                angular.forEach(appointments, function (appt) {
+                    $scope.drGohPreEvaluations.events.push(appt);
+                });
+            },
+            function (data) {
+                console.log("Failed to retrieve appointments");
             });
     };
 
     /* function to retrieve dr goh's surgery appointments */
     $scope.getDrGohSurgeries = function () {
-        $scope.drGohSurgeries.events.splice(0);
-        $http.get('http://demo4552602.mockable.io/drGohSurgeries')
-
-            .success(function (listOfAppointments) {
-                var drGohSurgeries = listOfAppointments;
-                angular.forEach(drGohSurgeries, function (surgeryAppointment) {
-                    $scope.drGohSurgeries.events.push(surgeryAppointment);
-                })
-            })
-
-            .error(function () {
-                console.log("Error getting Dr Goh's surgery appointments");
+        appointmentService.getDrGohSurgeries()
+            .then(function (appointments) {
+                angular.forEach(appointments, function (appt) {
+                    $scope.drGohSurgeries.events.push(appt);
+                });
+            },
+            function (data) {
+                console.log("Failed to retrieve appointments");
             });
     };
 
@@ -557,17 +522,145 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             })
     };
 
+    /* function to splice appointments */
+    $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
+        console.log(appointmentsInType);
+        var appointmentIndex = 0;
+        angular.forEach(appointmentsInType, function (existingAppointment) {
+            if (existingAppointment.id === retrievedAppointmentId) {
+                appointmentsInType.splice(appointmentIndex, 1);
+            }
+            appointmentIndex++;
+        });
+    };
+
     /* function to update appointment */
     $scope.updateAppointment = function () {
 
-        $scope.updateJson = {
-            "id": 2,
-            "start": "2015-07-22T07:16:35Z"
+        var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+
+        if ($scope.fields.appointmentRemarks === undefined) {
+            $scope.fields.appointmentRemarks = "";
+        }
+
+        var updateJson = {
+            "contact": $scope.fields.patientContact,
+            "replacementApptDate": formattedDate,
+            "replacementApptTime": $scope.fields.appointmentTime,
+            "type": $scope.fields.appointmentType,
+            "docID": $scope.fields.doctorAssigned,
+            "clinicID": 1,
+            "remarks": $scope.fields.appointmentRemarks
         };
 
-        $http.patch('/Clearvision/_api/appointmentsCUD/2', $scope.updateJson)
+        console.log(updateJson);
+
+        var urlStr = '/Clearvision/_api/appointmentsCUD/' + $scope.fields.appointmentId;
+        console.log(urlStr);
+        var req = {
+            method: 'PATCH',
+            url: urlStr,
+            headers: {'Content-Type': 'application/json'},
+            data: updateJson
+        };
+
+        $http(req)
             .success(function (data) {
                 console.log("Successfully updated");
+                console.log(data);
+
+                var event = data;
+
+                switch ($scope.fields.appointmentType) {
+
+                    case "Screening":
+                        $scope.spliceAppointment($scope.drHoScreenings.events, event.id);
+                        $scope.drHoScreenings.events.push(event);
+                        break;
+
+                    case "Pre Evaluation":
+                        $scope.spliceAppointment($scope.drHoPreEvaluations.events, event.id);
+                        $scope.drHoPreEvaluations.events.push(event);
+                        break;
+
+                    case "Surgery":
+                        $scope.spliceAppointment($scope.drHoSurgeries.events, event.id);
+                        $scope.drHoSurgeries.events.push(event);
+                        break;
+                }
+
+                // handle the update of the old appointment
+                if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType) {
+                    console.log("Update old different appointment type");
+                    var id = $scope.fields.appointmentId;
+
+                    switch ($scope.fields.originalAppointmentType) {
+
+                        case "Screening":
+                            $scope.spliceAppointment($scope.drHoScreenings.events, id);
+
+                            $http.get('/Clearvision/_api/appointments/' + id)
+                                .success(function (oldAppointment) {
+                                    $scope.drHoScreenings.events.push(oldAppointment);
+                                });
+                            break;
+
+                        case "Pre Evaluation":
+                            $scope.spliceAppointment($scope.drHoPreEvaluations.events, id);
+
+                            $http.get('/Clearvision/_api/appointments/' + id)
+                                .success(function (oldAppointment) {
+                                    $scope.drHoPreEvaluations.events.push(oldAppointment);
+                                });
+                            break;
+
+                        case "Surgery":
+                            $scope.spliceAppointment($scope.drHoSurgeries.events, id);
+
+                            $http.get('/Clearvision/_api/appointments/' + id)
+                                .success(function (oldAppointment) {
+                                    $scope.drHoSurgeries.events.push(oldAppointment)
+                                });
+                            break;
+                    }
+                } else {
+                    console.log("Update old same appointment type");
+                    var id = $scope.fields.appointmentId;
+
+                    switch ($scope.fields.appointmentType) {
+
+                        case "Screening":
+                            $scope.spliceAppointment($scope.drHoScreenings.events, id);
+
+                            $http.get('/Clearvision/_api/appointments/' + id)
+                                .success(function (oldAppointment) {
+                                    $scope.drHoScreenings.events.push(oldAppointment);
+                                });
+                            break;
+
+                        case "Pre Evaluation":
+                            $scope.spliceAppointment($scope.drHoPreEvaluations.events, id);
+
+                            $http.get('/Clearvision/_api/appointments/' + id)
+                                .success(function (oldAppointment) {
+                                    $scope.drHoPreEvaluations.events.push(oldAppointment);
+                                });
+                            break;
+
+                        case "Surgery":
+                            $scope.spliceAppointment($scope.drHoSurgeries.events, id);
+
+                            $http.get('/Clearvision/_api/appointments/' + id)
+                                .success(function (oldAppointment) {
+                                    $scope.drHoSurgeries.events.push(oldAppointment)
+                                });
+                            break;
+                    }
+                }
+            })
+
+            .error(function (data) {
+                console.log("Error with updating appointment");
             });
     };
 
@@ -813,6 +906,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
+    /* function to search for contact */
+    $scope.searchContact = function () {
+        console.log("Searching...");
+        searchContact.search($scope.fields.patientContact).then(function (response) {
+            console.log("success");
+            console.log(response.data.name);
+            $scope.fields.patientName = response.data.name;
+        });
+    };
+
     /* iSchedule list */
     $scope.showTimeList = function (date) {
         date.active = !date.active;
@@ -861,3 +964,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     ];
 
 });
+
+/* service to search for patient's details based on contact */
+appCalendar.service('searchContact', ['$http', function ($http) {
+    return {
+        search: function (contact) {
+            return $http.post('http://demo4552602.mockable.io/searchContact', {"contact": contact});
+        }
+    }
+}]);
