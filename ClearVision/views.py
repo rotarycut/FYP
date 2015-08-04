@@ -214,7 +214,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingFutureAppt.patients.add(patient)
             existingFutureAppt.save()
 
-            oldRemarks.appointment = existingFutureAppt.id
+            oldRemarks.appointment = existingFutureAppt
             oldRemarks.remarks = newRemarks
             oldRemarks.save()
 
@@ -245,7 +245,7 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
     #query params: type,days,limit
 
     queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
-                filter(Q(appointment__isnull=True) | Q(num_patients__lt=5)).filter(appointment__date=datetime.now()+timedelta(days=5))
+                filter(Q(appointment__isnull=True), type='Screening')
 
     serializer_class = AppointmentIScheduleFinderSerializer
 """
