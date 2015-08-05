@@ -5,7 +5,7 @@ class FullYearCalendar(models.Model):
     day = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class MarketingChannels(models.Model):
     name = models.CharField(max_length=350)

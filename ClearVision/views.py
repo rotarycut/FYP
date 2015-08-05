@@ -261,21 +261,24 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
     #   filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
     # serializer_class = AppointmentIScheduleFinderSerializer
 
-    queryset = AvailableTimeSlots.objects.none()
+    queryset = FullYearCalendar.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.filter(timeslotType='Screening').\
-            extra(select={'dates':'SELECT date FROM ClearVision_appointment'}). \
-            annotate(num_patients=Count('appointment__patients'), num_appt=Count('appointment')). \
-            values('num_patients', 'start', 'timeslotType', 'num_appt','dates').\
-            annotate(
-            non_existent_appts=Sum(
-                Case(When(appointment=None, then=1), output_field=IntegerField())
-            )
-        )[:10]
+
+        limit = int(request.query_params.get('limit'))
+        daysAhead = int(request.query_params.get('daysAhead'))
+
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead), date__gte=datetime.now(), availabletimeslots__appointment__apptType="Screening").\
+                        annotate(patientcount=Count('availabletimeslots__appointment__patients')).\
+                        annotate(apptId=F('availabletimeslots__appointment__id')).\
+                        annotate(apptType=F('availabletimeslots__appointment__apptType')).\
+                        annotate(start=F('availabletimeslots__start')).\
+                        annotate(end=F('availabletimeslots__end')).\
+                        annotate(docID=F('availabletimeslots__doctor')).\
+                        values('date', 'day', 'patientcount', 'apptId', 'apptType', 'start', 'end', 'docID').\
+                        order_by('patientcount')[:limit]
 
         return Response(response_data)
-
 
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
     queryset = Patient.objects.none()

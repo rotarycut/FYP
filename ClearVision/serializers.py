@@ -53,7 +53,7 @@ class AppointmentMakerSerializer(serializers.ModelSerializer):
 class AppointmentIScheduleFinderSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = AvailableTimeSlots
+        model = FullYearCalendar
 
 class RemarksSerializer(serializers.ModelSerializer):
 
