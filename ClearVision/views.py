@@ -270,15 +270,16 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
 
         limit = int(request.query_params.get('limit'))
         daysAhead = int(request.query_params.get('daysAhead'))
+        type = request.query_params.get('timeslotType')
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead), date__gte=datetime.now(), availabletimeslots__appointment__apptType="Screening").\
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
                         annotate(patientcount=Count('availabletimeslots__appointment__patients')).\
                         annotate(apptId=F('availabletimeslots__appointment__id')).\
-                        annotate(apptType=F('availabletimeslots__appointment__apptType')).\
+                        annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
                         annotate(end=F('availabletimeslots__end')).\
                         annotate(docID=F('availabletimeslots__doctor')).\
-                        values('date', 'day', 'patientcount', 'apptId', 'apptType', 'start', 'end', 'docID').\
+                        values('date', 'day', 'patientcount', 'apptId', 'timeslotType', 'start', 'end', 'docID').\
                         order_by('patientcount')[:limit]
 
         return Response(response_data)
