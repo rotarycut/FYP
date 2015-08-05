@@ -19,6 +19,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "dashboard.html",
             controller: 'DashboardCtrl'
         })
+        .when("/waitlist", {
+            templateUrl: "waitlist.html",
+            controller: ''
+        })
         .otherwise({
             redirectTo: '/'
         });

@@ -9,11 +9,64 @@
 
 .content-row{
     padding-top: 60px;
+    height: 100vh;
 }
 
 button:focus{
     outline: 0;
     border-radius: 5px;
+}
+
+.heading-rotate{
+    -webkit-transform: rotate(-90deg);
+
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+
+    /* IE */
+    -ms-transform: rotate(-90deg);
+
+    /* Opera */
+    -o-transform: rotate(-90deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.cal-main-contain{
+    padding-left: 0;
+}
+.side-tab-doc{
+    padding-right: 0;
+    padding-left: 0;
+    width: 60px;
+    height: 30px;
+    padding-top: 41px;
+}
+.cal-tab-clinic{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.side-tabset > ul.nav >li{
+    margin-right: 0;
+    padding-bottom: 30px;
+    padding-right: 0;
+}
+
+.side-tabset > ul.nav >li > a{
+    padding: 5px 5px 5px 5px;
+    background-color: #1859A8;
+    color: #fff;
+}
+
+.side-tabset > ul.nav >li > a:hover,
+.side-tabset > ul.nav >li > a:focus,
+.side-tabset > ul.nav >li > a:active
+{
+    padding: 5px 5px 5px 5px;
+    background-color: #4aaaa4;
+    color: #fff;
 }
 
 /* app css ends here */
@@ -140,8 +193,9 @@ button:focus{
 #top-content-calview{
     text-align: right;
 }
-#top-content-search{
+.top-content-search{
     text-align: left;
+    width: 180px;
 }
 
 ul.legend-ul{
@@ -164,11 +218,15 @@ ul.legend-ul li{
 .left-content{
     float: left;
     display: inline-block;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .left-content-resize{
     float: left;
     display: inline-block;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .cal-view-btn{
@@ -227,7 +285,8 @@ ul.legend-ul li{
 }
 
 .add-appt-formgrp{
-    margin-bottom: 3px;
+    margin-bottom: 0;
+    margin-top: 6px;
 }
 
 .right-content{
@@ -238,8 +297,12 @@ ul.legend-ul li{
 .right-content-show{
     display: inline-block;
     float: left;
-    height: 530px;
+    /*height: 530px;
+    overflow-y: auto;*/
+}
+.form-row.form-content-row{
     overflow-y: auto;
+    height: 510px;
 }
 
 #i-slots-date li{
@@ -311,4 +374,46 @@ li .i-slot-label {
 
 /* dashboard css ends*/
 
+/* waitlist css*/
 
+table.waitlist-main-tbl{
+    margin-top: 10px;
+    background-color: #ebebeb;
+    border: 1px solid #e0e0e0;
+}
+
+table.waitlist-main-tbl > tbody > tr > th{
+    color: #1859A8;
+    text-align: center;
+}
+table.waitlist-main-tbl > tbody > tr > td{
+    text-align: center;
+}
+
+table.waitlist-action-tbl{
+    margin-top: 10px;
+}
+
+table.waitlist-action-tbl > tbody > tr > th{
+    color: #1859A8;
+    text-align: center;
+}
+table.waitlist-action-tbl > tbody > tr > td{
+    padding-top:1px;
+    padding-bottom: 1px;
+}
+
+table.waitlist-swap-tbl{
+    margin-top: 10px;
+    background-color: #ebebeb;
+    border: 1px solid #e0e0e0;
+}
+
+table.waitlist-swap-tbl > tbody > tr > th{
+    color: #1859A8;
+    text-align: center;
+}
+table.waitlist-swap-tbl > tbody > tr > td{
+    text-align: left;
+}
+/* waitlist css ends*?
