@@ -1,5 +1,11 @@
 from django.db import models
 
+class FullYearCalendar(models.Model):
+    date = models.DateField('Date', primary_key=True)
+    day = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.date
 
 class MarketingChannels(models.Model):
     name = models.CharField(max_length=350)
@@ -35,12 +41,13 @@ class Staff(models.Model):
         return self.name
 
 class AvailableTimeSlots(models.Model):
-    type = models.CharField(max_length=200)
+    timeslotType = models.CharField(max_length=200)
     start = models.TimeField("Start Time")
     end = models.TimeField("End Time")
+    dates = models.ForeignKey(FullYearCalendar, null=True)
 
     def __str__(self):
-        return str(self.start)
+        return self.start
 
 class Doctor(models.Model):
     name = models.CharField(max_length=50)
@@ -54,7 +61,7 @@ class Doctor(models.Model):
         return self.name
 
 class Appointment(models.Model):
-    type = models.CharField(max_length=200)
+    apptType = models.CharField(max_length=200)
     date = models.DateField('Appointment date')
     last_modified = models.DateTimeField('Creation Time', auto_now=True)
     patients = models.ManyToManyField(Patient, related_name="patients")
@@ -64,7 +71,7 @@ class Appointment(models.Model):
     timeBucket = models.ForeignKey(AvailableTimeSlots)
 
     def __str__(self):
-        return self.type
+        return self.apptType
 
 class AppointmentRemarks(models.Model):
     patient = models.ForeignKey(Patient)

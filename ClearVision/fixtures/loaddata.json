@@ -216,7 +216,7 @@
     {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "09:00:00",
       "end": "09:30:00"
     }
@@ -224,7 +224,7 @@
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "09:30:00",
       "end": "10:00:00"
     }
@@ -232,7 +232,7 @@
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "10:00:00",
       "end": "10:30:00"
     }
@@ -240,7 +240,7 @@
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "10:30:00",
       "end": "11:00:00"
     }
@@ -248,7 +248,7 @@
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "11:00:00",
       "end": "11:30:00"
     }
@@ -256,7 +256,7 @@
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "11:30:00",
       "end": "12:00:00"
     }
@@ -264,7 +264,7 @@
   {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
-      "type": "Screening",
+      "timeslotType": "Screening",
       "start": "12:00:00",
       "end": "12:30:00"
     }
@@ -309,7 +309,7 @@
 
     "fields": {
 
-        "type": "Screening",
+        "apptType": "Screening",
         "date": "2015-07-17",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323,91500212,94764232],
@@ -325,7 +325,7 @@
 
     "fields": {
 
-        "type": "Surgery",
+        "apptType": "Surgery",
         "date": "2015-07-20",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
@@ -341,7 +341,7 @@
 
     "fields": {
 
-        "type": "Pre Evaluation",
+        "apptType": "Pre Evaluation",
         "date": "2015-07-25",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232],
@@ -357,7 +357,7 @@
 
     "fields": {
 
-        "type": "Screening",
+        "apptType": "Screening",
         "date": "2015-07-27",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323],
@@ -373,7 +373,7 @@
 
     "fields": {
 
-        "type": "Surgery",
+        "apptType": "Surgery",
         "date": "2015-07-28",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323, 94764232],
@@ -389,7 +389,7 @@
 
     "fields": {
 
-        "type": "Pre Evaluation",
+        "apptType": "Pre Evaluation",
         "date": "2015-08-06",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500212,91500323,91500111,91500222,94764232],

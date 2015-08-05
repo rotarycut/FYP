@@ -12,9 +12,10 @@ from .serializers import *
 from rest_framework import filters
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
-from django.db.models import Q,F, FloatField, Max, Avg, Sum, Min, Case, When, CharField, Value, IntegerField, \
+from django.db.models import Q, F, FloatField, Max, Avg, Sum, Min, Case, When, CharField, Value, IntegerField, \
     NullBooleanField
 from django.core.exceptions import ObjectDoesNotExist
+
 
 @login_required
 def success(request):
@@ -23,14 +24,23 @@ def success(request):
         'message': response,
     })
     return render(request, 'success.html', context)
+
+
 def header(request):
     return render(request, 'header.html')
+
+
 def calendar(request):
     return render(request, 'calendar.html')
+
+
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+
 def logout(request):
     return logout_then_login(request, 'login')
+
 
 # API for Patients
 class PatientFilter(django_filters.FilterSet):
@@ -41,12 +51,13 @@ class PatientFilter(django_filters.FilterSet):
         model = Patient
         fields = ['gender', 'min_id', 'max_id']
 
+
 class PatientList(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    # renderer_classes = (JSONRenderer,)
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
-    search_fields = ('=contact', )
+    search_fields = ('=contact',)
 
 
 # API for Clinics
@@ -58,44 +69,46 @@ class ClinicFilter(django_filters.FilterSet):
         model = Clinic
         fields = ['start_time', 'end_time']
 
+
 class ClinicList(viewsets.ModelViewSet):
     renderer_classes = (JSONRenderer,)
     queryset = Clinic.objects.all()
     serializer_class = ClinicSerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
-    search_fields = ('name', )
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
+    search_fields = ('name',)
     filter_class = ClinicFilter
+
 
 # API for Staff
 
 class StaffFilter(django_filters.FilterSet):
-
     class Meta:
         model = Staff
+
 
 class StaffList(viewsets.ModelViewSet):
     renderer_classes = (JSONRenderer,)
     queryset = Staff.objects.all()
     serializer_class = StaffSerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
-    search_fields = ('name', )
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
+    search_fields = ('name',)
     filter_class = StaffFilter
 
 
 # API for Doctor
 
 class DoctorFilter(django_filters.FilterSet):
-
     class Meta:
         model = Doctor
         fields = ['contact', 'phoneModel', 'clinic']
+
 
 class DoctorList(viewsets.ModelViewSet):
     renderer_classes = (JSONRenderer,)
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
-    search_fields = ('name', )
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
+    search_fields = ('name',)
     filter_class = DoctorFilter
 
 
@@ -107,19 +120,21 @@ class AppointmentFilter(django_filters.FilterSet):
 
     class Meta:
         model = Appointment
-        fields = ['patients', 'doctor__name', 'clinic', 'appt_time_range_start', 'appt_time_range_end', 'type']
+        fields = ['patients', 'doctor__name', 'clinic', 'appt_time_range_start', 'appt_time_range_end', 'apptType']
+
 
 class AppointmentList(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    # renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter, )
+    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
     filter_class = AppointmentFilter
-    search_fields = ('^patients__contact',)
+    search_fields = ('^patients__contact', '^patients__name')
+
 
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
-    #renderer_classes = (JSONRenderer,)
+    # renderer_classes = (JSONRenderer,)
     queryset = Appointment.objects.all()
     serializer_class = AppointmentMakerSerializer
 
@@ -128,7 +143,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         num_patients = Appointment.objects.get(id=self.get_object().id).patients.count()
 
         num_temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.count()
-        temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.values("name", "contact",)
+        temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.values("name", "contact", )
 
         p = Patient.objects.get(contact=data.get('contact'))
         a = Appointment.objects.get(id=self.get_object().id)
@@ -156,19 +171,19 @@ class AppointmentWriter(viewsets.ModelViewSet):
         patientName = data.get('name')
         patientGender = data.get('gender')
         marketingID = data.get('channelID')
-        #isWaitingList = data.get('waitingListFlag')
+        # isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
 
         if not Patient.objects.filter(contact=patientContact).exists():
-
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
-                                   marketingChannelId=MarketingChannels.objects.get(id=marketingID), registrationDate=datetime.now())
+                                   marketingChannelId=MarketingChannels.objects.get(id=marketingID),
+                                   registrationDate=datetime.now())
 
         p = Patient.objects.get(contact=patientContact)
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=apptTimeBucket)
 
-        if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, type=apptType).exists():
-            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
+        if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType).exists():
+            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
             existingAppt.patients.add(p)
             existingAppt.save()
 
@@ -184,33 +199,35 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
 
-            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, type=apptType)
+            existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
             AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
             return Response(serializedExistingAppt.data)
 
     def update(self, request, *args, **kwargs):
-        data=request.DATA
+        data = request.DATA
         futureApptDate = data.get('replacementApptDate')
         futureApptTimeBucket = data.get('replacementApptTime') + ":00"
         currentAppt = Appointment.objects.get(id=self.get_object().id)
         patient = Patient.objects.get(contact=data.get('contact'))
-        apptType=data.get('type')
-        docID=data.get('docID')
-        clinicID=data.get('clinicID')
-        newRemarks=data.get('remarks')
+        apptType = data.get('type')
+        docID = data.get('docID')
+        clinicID = data.get('clinicID')
+        newRemarks = data.get('remarks')
 
         currentAppt.patients.remove(patient)
         currentAppt.save()
         oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.contact)
 
         if currentAppt.patients.count() == 0:
-                currentAppt.delete()
+            currentAppt.delete()
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
 
-        if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket, type=apptType).exists():
-            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID, type=apptType)
+        if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket,
+                                      apptType=apptType).exists():
+            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID,
+                                                         apptType=apptType)
             existingFutureAppt.patients.add(patient)
             existingFutureAppt.save()
 
@@ -223,10 +240,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
             return Response(serializedExistingFutureAppt.data)
         else:
 
-            Appointment.objects.create(type=apptType, date=futureApptDate, doctor=Doctor.objects.get(id=docID),
+            Appointment.objects.create(apptType=apptType, date=futureApptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
-                                       timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(patient)
-            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID, type=apptType)
+                                       timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(
+                patient)
+            existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID,
+                                                         apptType=apptType)
 
             oldRemarks.appointment = existingFutureAppt
             oldRemarks.remarks = newRemarks
@@ -238,26 +257,26 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
-    #queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
+    # queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
     #   filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
-    #serializer_class = AppointmentIScheduleFinderSerializer
+    # serializer_class = AppointmentIScheduleFinderSerializer
 
-    #query params: type,days,limit
+    queryset = AvailableTimeSlots.objects.none()
 
-    queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
-                filter(Q(appointment__isnull=True), type='Screening')
-
-    serializer_class = AppointmentIScheduleFinderSerializer
-"""
     def list(self, request, *args, **kwargs):
+        response_data = AvailableTimeSlots.objects.filter(timeslotType='Screening').\
+            extra(select={'dates':'SELECT date FROM ClearVision_appointment'}). \
+            annotate(num_patients=Count('appointment__patients'), num_appt=Count('appointment')). \
+            values('num_patients', 'start', 'timeslotType', 'num_appt','dates').\
+            annotate(
+            non_existent_appts=Sum(
+                Case(When(appointment=None, then=1), output_field=IntegerField())
+            )
+        )[:10]
 
-        response_data = queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
-                           filter(Q(appointment__isnull=True) | Q(num_patients__lt=5)).filter(appointment__date=datetime.now()+timedelta(days=5))
+        return Response(response_data)
 
-        serialized_response_data = AppointmentIScheduleFinderSerializer(response_data)
 
-        return Response(serialized_response_data.data)
-"""
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
     queryset = Patient.objects.none()
 
@@ -266,19 +285,19 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
         month = request.query_params.get('month')
 
         if channel == 'all':
-            response_data = Patient.objects.filter(registrationDate__month=month).\
-                annotate(channelname=F('marketingChannelId__name')).values('channelname').\
-                annotate(leads=Count('channelname')).order_by('leads').\
+            response_data = Patient.objects.filter(registrationDate__month=month). \
+                annotate(channelname=F('marketingChannelId__name')).values('channelname'). \
+                annotate(leads=Count('channelname')).order_by('leads'). \
                 annotate(
-                    convert=Sum(
-                        Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
-                    )
+                convert=Sum(
+                    Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
                 )
+            )
 
             for eachObj in response_data:
                 leads = eachObj['leads']
                 convert = eachObj['convert']
-                rate = convert/leads
+                rate = convert / leads
                 eachObj['rate'] = rate
 
             return Response(response_data)
@@ -286,14 +305,15 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
         elif not Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).exists():
             return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate': 0})
         else:
-            response_data = Patient.objects.filter(registrationDate__month=month, marketingChannelId__name=channel).\
-                annotate(leads=Count('channelname')).order_by('leads').\
+            response_data = Patient.objects.filter(registrationDate__month=month, marketingChannelId__name=channel). \
+                annotate(leads=Count('channelname')).order_by('leads'). \
                 annotate(
-                    convert=Sum(
-                        Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
-                    )
+                convert=Sum(
+                    Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
                 )
+            )
             return Response(response_data)
+
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()
@@ -306,4 +326,6 @@ class RemarksFinder(viewsets.ReadOnlyModelViewSet):
 
         serialized_response_data = RemarksSerializer(response_data)
         return Response(serialized_response_data.data)
+
+
 
