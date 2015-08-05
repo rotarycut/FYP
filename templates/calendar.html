@@ -8,12 +8,12 @@
             <div class="col-sm-12">
                 <!-- inner row for all buttons>-->
                 <div class="row center-block">
-                    <div class="col-sm-2" id="top-content-search">
+                    <div class="col-sm-2 top-content-search">
                         <div class="input-group">
                             <span class="input-group-btn">
                                 <button class="btn btn-default"><i class="fa fa-search"></i></button>
                             </span>
-                            <input type="text" class="form-control" placeholder="Search for...">
+                            <input type="text" class="form-control" placeholder="Search..">
                         </div>
                         <!-- /input-group -->
                     </div>
@@ -48,49 +48,67 @@
         <!-- row for calendar content-->
         <div class="row">
             <div class="col-sm-12">
-                <div ng-class="showHeatMap ? 'ijumbotron' : 'jumbotron'">
-                    <tabset type="pills">
-                        <tab select="renderCalendar('drHoCalendar');"
-                             ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
-                            <tab-heading>
-                                <i class="fa fa-calendar tab-head-icon"></i> Doctor Ho
-                            </tab-heading>
-                            <!--<div class="alert-success calAlert"
-                                 ng-show="alertMessage != undefined && alertMessage != '' ">
-                                <h4>[[ alertMessage ]]</h4>
-                            </div>-->
-                            <div class="calendar" ng-model="doctorHoAppointments" calendar="myCalendar1"
-                                 ui-calendar="uiConfig.calendar" id="drHoCalendar"></div>
-                        </tab>
-                        <tab select="renderCalendar('drGohCalendar');"
-                             ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
-                            <tab-heading>
-                                <i class="fa fa-calendar"></i> Doctor Goh
-                            </tab-heading>
-                            <!--<div class="alert-success calAlert"
-                                 ng-show="alertMessage != undefined && alertMessage != '' ">
-                                <h4>[[ alertMessage ]]</h4>
-                            </div>-->
-                            <div class="calendar" ng-model="doctorGohAppointments" calendar="myCalendar2"
-                                 ui-calendar="uiConfig.calendar" id="drGohCalendar"></div>
-                        </tab>
-                    </tabset>
+                <div class="col-sm-12 cal-main-contain">
+                    <!--<div class="col-sm-1 side-tab-doc">-->
+                    <!--</div>-->
+                    <div ng-class="showHeatMap ? 'ijumbotron' : 'jumbotron'">
+                        <div class="row">
+                            <div class="col-sm-1 side-tab-doc">
+                                <tabset vertical="true" type="pills" class="side-tabset">
+                                    <tab heading="Dr. Ho" class="heading-rotate"></tab>
+                                    <tab heading="Dr. Goh" class="heading-rotate"></tab>
+                                </tabset>
+                            </div>
+                            <div class="col-sm-11 cal-tab-clinic">
+                                <tabset type="pills">
+                                    <tab select="renderCalendar('drHoCalendar');"
+                                         ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
+                                        <tab-heading>
+                                            <i class="fa fa-calendar tab-head-icon"></i> Doctor Ho
+                                        </tab-heading>
+                                        <!--<div class="alert-success calAlert"
+                                             ng-show="alertMessage != undefined && alertMessage != '' ">
+                                            <h4>[[ alertMessage ]]</h4>
+                                        </div>-->
+                                        <div class="calendar" ng-model="doctorHoAppointments" calendar="myCalendar1"
+                                             ui-calendar="uiConfig.calendar" id="drHoCalendar"></div>
+                                    </tab>
+                                    <tab select="renderCalendar('drGohCalendar');"
+                                         ng-click="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();">
+                                        <tab-heading>
+                                            <i class="fa fa-calendar"></i> Doctor Goh
+                                        </tab-heading>
+                                        <!--<div class="alert-success calAlert"
+                                             ng-show="alertMessage != undefined && alertMessage != '' ">
+                                            <h4>[[ alertMessage ]]</h4>
+                                        </div>-->
+                                        <div class="calendar" ng-model="doctorGohAppointments" calendar="myCalendar2"
+                                             ui-calendar="uiConfig.calendar" id="drGohCalendar"></div>
+                                    </tab>
+                                </tabset>
+                            </div>
+                        </div>
+                        <div class="row">
 
-                    <div class="cal-legend">
-                        <ul class="legend-ul">
-                            <li><a href="#/" singleclick="filterByAppointmentTypes('Screening', false)"
-                                   data-ng-Dblclick="filterByAppointmentTypes('Screening', true)" class="legend-screen"><i
-                                    class="fa fa-stop"></i> Screening</a>
-                            </li>
-                            <li><a href="#/" singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
-                                   data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
-                                   class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
-                            </li>
-                            <li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
-                                   data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)" class="legend-lasik"><i
-                                    class="fa fa-stop"></i> Lasik</a>
-                            </li>
-                        </ul>
+                            <div class="cal-legend">
+                                <ul class="legend-ul">
+                                    <li><a href="#/" singleclick="filterByAppointmentTypes('Screening', false)"
+                                           data-ng-Dblclick="filterByAppointmentTypes('Screening', true)"
+                                           class="legend-screen"><i
+                                            class="fa fa-stop"></i> Screening</a>
+                                    </li>
+                                    <li><a href="#/" singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
+                                           data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
+                                           class="legend-preEval"><i class="fa fa-stop"></i> Pre-Eval</a>
+                                    </li>
+                                    <li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
+                                           data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
+                                           class="legend-lasik"><i
+                                            class="fa fa-stop"></i> Lasik</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,7 +131,7 @@
                 <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
         </div>
-        <div class="row form-row">
+        <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
                 <form class="form-horizontal" id="edit-form-patients" name="appointmentForm" novalidate>
 

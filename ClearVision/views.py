@@ -37,6 +37,9 @@ def calendar(request):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+def waitlist(request):
+    return render(request, 'waitlist.html')
+
 
 def logout(request):
     return logout_then_login(request, 'login')
