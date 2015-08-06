@@ -213,7 +213,7 @@
         "clinic": "1"
     }
   },
-    {
+  {
     "model": "ClearVision.AvailableTimeSlots",
     "fields": {
       "timeslotType": "Screening",
@@ -275,8 +275,540 @@
       "end": "12:30:00"
     }
   },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "12:30:00",
+      "end": "13:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "13:00:00",
+      "end": "13:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "13:30:00",
+      "end": "14:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "14:00:00",
+      "end": "14:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "14:30:00",
+      "end": "15:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "15:00:00",
+      "end": "15:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "15:30:00",
+      "end": "16:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "16:00:00",
+      "end": "16:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "16:30:00",
+      "end": "17:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "17:00:00",
+      "end": "17:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "17:30:00",
+      "end": "18:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "18:00:00",
+      "end": "18:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "18:30:00",
+      "end": "19:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "19:00:00",
+      "end": "19:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "19:30:00",
+      "end": "20:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "20:00:00",
+      "end": "20:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Screening",
+      "start": "20:30:00",
+      "end": "21:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "09:00:00",
+      "end": "09:30:00",
+      "dates":"2015-08-06"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "09:30:00",
+      "end": "10:00:00",
+      "dates":"2015-08-07"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "10:00:00",
+      "end": "10:30:00",
+      "dates":"2015-08-08"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "10:30:00",
+      "end": "11:00:00",
+      "dates":"2015-08-09"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "11:00:00",
+      "end": "11:30:00",
+      "dates":"2015-08-10"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "11:30:00",
+      "end": "12:00:00",
+      "dates":"2015-08-11"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "12:00:00",
+      "end": "12:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "12:30:00",
+      "end": "13:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "13:00:00",
+      "end": "13:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "13:30:00",
+      "end": "14:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "14:00:00",
+      "end": "14:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "14:30:00",
+      "end": "15:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "15:00:00",
+      "end": "15:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "15:30:00",
+      "end": "16:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "16:00:00",
+      "end": "16:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "16:30:00",
+      "end": "17:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "17:00:00",
+      "end": "17:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "17:30:00",
+      "end": "18:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "18:00:00",
+      "end": "18:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "18:30:00",
+      "end": "19:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "19:00:00",
+      "end": "19:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "19:30:00",
+      "end": "20:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "20:00:00",
+      "end": "20:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Surgery",
+      "start": "20:30:00",
+      "end": "21:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "09:00:00",
+      "end": "09:30:00",
+      "dates":"2015-08-06"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "09:30:00",
+      "end": "10:00:00",
+      "dates":"2015-08-07"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "10:00:00",
+      "end": "10:30:00",
+      "dates":"2015-08-08"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "10:30:00",
+      "end": "11:00:00",
+      "dates":"2015-08-09"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "11:00:00",
+      "end": "11:30:00",
+      "dates":"2015-08-10"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "11:30:00",
+      "end": "12:00:00",
+      "dates":"2015-08-11"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "12:00:00",
+      "end": "12:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "12:30:00",
+      "end": "13:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "13:00:00",
+      "end": "13:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "13:30:00",
+      "end": "14:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "14:00:00",
+      "end": "14:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "14:30:00",
+      "end": "15:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "15:00:00",
+      "end": "15:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "15:30:00",
+      "end": "16:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "16:00:00",
+      "end": "16:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "16:30:00",
+      "end": "17:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "17:00:00",
+      "end": "17:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "17:30:00",
+      "end": "18:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "18:00:00",
+      "end": "18:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "18:30:00",
+      "end": "19:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "19:00:00",
+      "end": "19:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "19:30:00",
+      "end": "20:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "20:00:00",
+      "end": "20:30:00"
+    }
+  },
+  {
+    "model": "ClearVision.AvailableTimeSlots",
+    "fields": {
+      "timeslotType": "Pre Evaluation",
+      "start": "20:30:00",
+      "end": "21:00:00"
+    }
+  },
 
-    {
+  {
     "model": "ClearVision.Doctor",
     "pk": 1,
 
