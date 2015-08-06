@@ -7,7 +7,6 @@ from django.shortcuts import render
 from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
 import django_filters
-from monthdelta import monthdelta
 from rest_framework.renderers import JSONRenderer
 from .serializers import *
 from rest_framework import filters
@@ -341,7 +340,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         monthsAhead = int(request.query_params.get('monthsAhead'))
         type = request.query_params.get('timeslotType')
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + monthdelta(monthsAhead), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(monthsAhead*30), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
                         annotate(patientcount=Count('availabletimeslots__appointment__patients')).\
                         annotate(apptId=F('availabletimeslots__appointment__id')).\
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
