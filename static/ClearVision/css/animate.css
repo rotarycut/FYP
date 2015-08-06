@@ -7,6 +7,15 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 Copyright (c) 2015 Daniel Eden
 */
 
+/* --- start of custom animation --- */
+.form-animation.ng-hide-add {
+}
+
+.form-animation.ng-hide-remove {
+  animation: fadeIn 1.0s ease;
+}
+/* --- end of custom animation --- */
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

@@ -148,7 +148,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.appointmentType"
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.appointmentType"
                          ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
@@ -164,7 +164,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-6"
+                            <div class="col-sm-6 form-animation"
                                  ng-class="{'has-error': appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)}"
                                  ng-show="form.contact">
                                 <label class="control-label">Contact No.</label>
@@ -178,7 +178,7 @@
                                     Invalid Number
                                 </div>
                             </div>
-                            <div class="col-sm-6"
+                            <div class="col-sm-6 form-animation"
                                  ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}"
                                  ng-show="form.name">
                                 <label class="control-label">Patient Name</label>
@@ -194,7 +194,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 ischeduleForm">
+                    <!-- <div class="form-group col-sm-12 ischeduleForm">
                         <label class="control-label">Next Earliest Availablility</label>
                         <ol id="i-slots-date" class="list-group">
                             <li class="list-group-item" ng-repeat="date in dates" data-ng-click="showTimeList(date)">
@@ -220,11 +220,11 @@
                                 </ol>
                             </li>
                         </ol>
-                    </div>
+                    </div> -->
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-8 date-div" ng-show="form.datepicker">
+                            <div class="col-sm-8 date-div form-animation" ng-show="form.datepicker">
                                 <label class="control-label">Date</label>
 
                                 <p class="input-group">
@@ -250,7 +250,7 @@
 
                             </div>
 
-                            <div class="col-sm-4" date-div
+                            <div class="col-sm-4 form-animation" date-div
                                  ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}"
                                  ng-show="form.time">
                                 <label class="control-label">Time</label>
@@ -266,7 +266,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp"
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
                          ng-show="form.doctor">
 
@@ -295,7 +295,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp"
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)}"
                          ng-show="form.marketingChannel">
 
@@ -313,13 +313,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.remarks">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.remarks">
                         <label class="control-label">Remarks</label>
                         <textarea class="form-control" rows="3" data-ng-model="fields.appointmentRemarks"
                                   placeholder="Optional" name="appointmentRemarks">
                         </textarea>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.buttons">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.buttons">
                         <div class="row">
                             <div class="col-sm-1 col-sm-offset-1">
                                 <button class="btn btn-success"
