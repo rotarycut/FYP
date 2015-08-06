@@ -709,6 +709,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.preEvaluationActive = true;
     $scope.surgeryActive = true;
 
+    $scope.form = {
+        appointmentType: true,
+        contact: true,
+        name: true,
+        datepicker: true,
+        time: true,
+        doctor: true,
+        marketingChannel: true,
+        remarks: true,
+        buttons: true
+    };
+
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     $scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
@@ -735,6 +747,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .error(function () {
                 console.log("Error getting patient's appointment remarks.");
             });
+
+        for (var field in $scope.form) {
+            $scope.form[field] = true;
+        }
     };
 
     /* function to navigate to date after selection on date picker */
@@ -796,6 +812,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.disableAssignedDoctorInput = true;
             $scope.disableMktgChannelInput = true;
 
+            for (var field in $scope.form) {
+                $scope.form[field] = false;
+            }
+
         } else {
             // Do nothing
         }
@@ -813,6 +833,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.disableAssignedDoctorInput = false;
         $scope.disableMktgChannelInput = false;
         $scope.showHeatMap = false;
+
+        for (var field in $scope.form) {
+            $scope.form[field] = true;
+        }
     };
 
     /* function to enable iSchedule */
