@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
 import django_filters
+from monthdelta import monthdelta
 from rest_framework.renderers import JSONRenderer
 from .serializers import *
 from rest_framework import filters
@@ -15,7 +16,6 @@ from rest_framework.response import Response
 from django.db.models import Q, F, FloatField, Max, Avg, Sum, Min, Case, When, CharField, Value, IntegerField, \
     NullBooleanField
 from django.core.exceptions import ObjectDoesNotExist
-
 
 @login_required
 def success(request):
@@ -334,5 +334,23 @@ class RemarksFinder(viewsets.ReadOnlyModelViewSet):
         serialized_response_data = RemarksSerializer(response_data)
         return Response(serialized_response_data.data)
 
+class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
+    queryset = FullYearCalendar.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        monthsAhead = int(request.query_params.get('monthsAhead'))
+        type = request.query_params.get('timeslotType')
+
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + monthdelta(monthsAhead), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
+                        annotate(patientcount=Count('availabletimeslots__appointment__patients')).\
+                        annotate(apptId=F('availabletimeslots__appointment__id')).\
+                        annotate(timeslotType=F('availabletimeslots__timeslotType')).\
+                        annotate(start=F('availabletimeslots__start')).\
+                        annotate(end=F('availabletimeslots__end')).\
+                        annotate(docID=F('availabletimeslots__doctor')).\
+                        values('date', 'day', 'patientcount', 'apptId', 'timeslotType', 'start', 'end', 'docID').\
+                        order_by('patientcount')
+
+        return Response(response_data)
 
 
