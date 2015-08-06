@@ -8,7 +8,7 @@ angular.module('appointment.service', [])
 
             var defer = $q.defer();
 
-            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Screening')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Screening')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
@@ -30,7 +30,7 @@ angular.module('appointment.service', [])
 
             var defer = $q.defer();
 
-            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Pre%20Evaluation')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Pre%20Evaluation')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
@@ -52,7 +52,7 @@ angular.module('appointment.service', [])
 
             var defer = $q.defer();
 
-            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&type=Surgery')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Surgery')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
