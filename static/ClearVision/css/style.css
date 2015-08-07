@@ -371,8 +371,24 @@ li .i-slot-label {
 
 .filter-row-hide{
     margin-left: 15px;
-    background-color: #ebebeb;
-    padding-top:10px;
+    background-color: #FFFFFF;
+    padding-top:0;
+    border: 1px dotted #1859ab;
+
+}
+.filter-row-title{
+    background-color: #e0e0e0;
+    margin-bottom: 10px;
+}
+.filter-row-close{
+    text-align: right;
+    cursor: pointer;
+}
+
+.filter-row-options{
+    background: rgba(255,255,255,0.2);
+
+
 }
 
 .charts-row1{

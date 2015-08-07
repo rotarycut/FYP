@@ -806,7 +806,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.showDeleteButton = true;
             $scope.showEditButton = true;
             $scope.showResetButton = false;
-            $scope.formTitle = "Edit New Appointment";
+            $scope.formTitle = "Edit Appointment";
             $scope.disablePatientNameInput = true;
             $scope.disablePatientContactInput = true;
             $scope.disableAssignedDoctorInput = true;

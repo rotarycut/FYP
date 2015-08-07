@@ -681,7 +681,7 @@ a.fc-more:hover {
 	position: static;
 	margin-bottom: 0.5em;
 	margin-top:-2.5em;
-	margin-left: 400px;
+	margin-left: 380px;
 	width: 500px;
 }
 
@@ -689,13 +689,13 @@ a.fc-more:hover {
 	float: left;
 	display: inline-block;
 	position: relative;
-	width: 200px;
+	width: 160px;
 
 }
 
 .fc-toolbar .fc-right {
 	display: inline-block;
-	margin-left: 10px;
+	margin-left: 0;
 	position: relative;
 }
 

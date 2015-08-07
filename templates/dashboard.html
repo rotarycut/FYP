@@ -51,55 +51,40 @@
     <div class="col-sm-11 mrkt-db-main">
         <div class="row filter-collapse-row">
             <div class="col-sm-2 col-sm-offset-10" style="text-align: right">
-                <button class="btn btn-default" data-ng-click="isCollapsed = !isCollapsed">Filter</button>
+                <button class="btn btn-default" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
+                    Filter
+                </button>
             </div>
         </div>
         <!--row for filter content-->
         <div class="row filter-row-hide" ng-show="!isCollapsed">
-            <div class="col-sm-2">
+            <div class="col-sm-12 filter-row-title">
                 <div class="row">
-                    <p class="input-group">
-                        <input type="text"
-                               class="form-control"
-                               datepicker-popup="[[ format ]]"
-                               name="datePickerCalendar"
-                               ng-model=""
-                               is-open="datepickers.showDatePicker"
-                               min-date="minDate"
-                               datepicker-options="dateOptions"
-                               show-button-bar="false"
-                               ng-change="navigateToDate()"
-                               placeholder="Start Date"
-                                />
-
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default"
-                                    ng-click="open($event,'showDatePicker')">
-                                <i class="fa fa-calendar"></i>
-                            </button>
-                        </span>
-                    </p>
-                </div>
-                <div class="row">
-                    <div class="col-sm-1 col-sm-offset-4">
-                        <h5>To</h5>
+                    <div class="col-sm-11">
+                        <h5>Filter Options</h5>
+                    </div>
+                    <div class="col-sm-1 filter-row-close">
+                        <a data-ng-click="isCollapsed = !isCollapsed"><h5><i class="fa fa-times"></i></h5></a>
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-12 filter-row-options">
                 <div class="row">
-
-                    <p class="input-group">
-                        <input type="text"
-                               class="form-control"
-                               datepicker-popup="[[ format ]]"
-                               name="datePickerCalendar"
-                               ng-model=""
-                               is-open="datepickers.showDatePicker"
-                               min-date="minDate"
-                               datepicker-options="dateOptions"
-                               show-button-bar="false"
-                               ng-change="navigateToDate()"
-                               placeholder="End Date"
-                                />
+                    <div class="col-sm-2">
+                        <div class="row">
+                            <p class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       datepicker-popup="[[ format ]]"
+                                       name="datePickerCalendar"
+                                       ng-model=""
+                                       is-open="datepickers.showDatePicker"
+                                       min-date="minDate"
+                                       datepicker-options="dateOptions"
+                                       show-button-bar="false"
+                                       ng-change="navigateToDate()"
+                                       placeholder="Start Date"
+                                        />
 
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
@@ -107,31 +92,63 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                    </p>
-                </div>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1 col-sm-offset-4">
+                                <h5>To</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <p class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       datepicker-popup="[[ format ]]"
+                                       name="datePickerCalendar"
+                                       ng-model=""
+                                       is-open="datepickers.showDatePicker"
+                                       min-date="minDate"
+                                       datepicker-options="dateOptions"
+                                       show-button-bar="false"
+                                       ng-change="navigateToDate()"
+                                       placeholder="End Date"
+                                        />
+
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"
+                                    ng-click="open($event,'showDatePicker')">
+                                <i class="fa fa-calendar"></i>
+                            </button>
+                        </span>
+                            </p>
+                        </div>
 
 
-            </div>
-            <div class="col-sm-1" style="text-align: center">
-                <h4 style="margin-top: 50px;">OR</h4>
-            </div>
-            <div class="col-sm-2">
-                <select class="form-control" data-ng-model="fields.appointmentTime" name="appointmentTime" required>
-                    <option value="" selected="selected">July</option>
-                    <option value="" selected="selected">June</option>
-                    <option value="" selected="selected">May</option>
-                    <option value="" selected="selected">Last 3 Months</option>
-                </select>
-            </div>
-            <div class="col-sm-3 dashboard-filter-mrkt">
-                <select class="form-control" data-ng-model="filters.marketingChannel"
+                    </div>
+                    <div class="col-sm-1" style="text-align: center">
+                        <h4 style="margin-top: 50px;">OR</h4>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" data-ng-model="fields.appointmentTime" name="appointmentTime"
+                                required>
+                            <option value="" selected="selected">July</option>
+                            <option value="" selected="selected">June</option>
+                            <option value="" selected="selected">May</option>
+                            <option value="" selected="selected">Last 3 Months</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 dashboard-filter-mrkt">
+                        <select class="form-control" data-ng-model="filters.marketingChannel"
                                 ng-options="" name="marketingChannel" required>
-                    <option value="" selected="selected">Marketing Channel</option>
-                    </select>
-            </div>
-            <div class="col-sm-2">
-                <button class="btn btn-default" ng-click="">Go
-        </button>
+                            <option value="" selected="selected">Marketing Channel</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-default" ng-click="">Go
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <!--row for main chart content-->
