@@ -276,7 +276,7 @@ previous button's border...
 }
 
 .fc .fc-button-group > :first-child { /* same */
-	margin-right:50px;
+	margin-right:0;
 
 }
 
@@ -678,21 +678,22 @@ a.fc-more:hover {
 --------------------------------------------------------------------------------------------------*/
 
 .fc-toolbar {
-	position: fixed;
+	position: static;
 	margin-bottom: 0.5em;
 	margin-top:-2.5em;
-	margin-left: 20%;
+	margin-left: 400px;
+	width: 500px;
 }
 
 .fc-toolbar .fc-left {
 	float: left;
 	display: inline-block;
-	margin-left: 100px;
 	position: relative;
+	width: 200px;
+
 }
 
 .fc-toolbar .fc-right {
-
 	display: inline-block;
 	margin-left: 10px;
 	position: relative;

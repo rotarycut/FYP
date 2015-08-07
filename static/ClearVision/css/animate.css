@@ -11,9 +11,17 @@ Copyright (c) 2015 Daniel Eden
 .form-animation.ng-hide-add {
 }
 
-.form-animation.ng-hide-remove {
+.form-animation.ng-hide-remove   {
   animation: fadeIn 1.0s ease;
 }
+
+.right-content.ng-hide-remove   {
+  animation: slideInRight 0.5s ease;
+}
+.right-content.ng-hide-add  {
+  animation: slideOutLeft 0.5s ease;
+}
+
 /* --- end of custom animation --- */
 
 .animated {

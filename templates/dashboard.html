@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-11">
+    <div class="col-sm-11 mrkt-db-main">
         <div class="row filter-collapse-row">
             <div class="col-sm-2 col-sm-offset-10" style="text-align: right">
                 <button class="btn btn-default" data-ng-click="isCollapsed = !isCollapsed">Filter</button>
@@ -136,18 +136,17 @@
         </div>
         <!--row for main chart content-->
         <div class="row charts-row1">
-            <div class="col-sm-12">
+            <div class="col-sm-12 dashboard-chart-mrkt">
                 <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
             </div>
         </div>
         <!--row for other charts content-->
-        <div class="row charts-row4">
-            <div class="col-sm-6">
+        <div class="row charts-row1">
+            <div class="col-sm-7 dashboard-chart-mrkt">
                 <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
             </div>
         </div>
-
-
     </div>
+    <div class="clearfix"></div>
 
 </div>

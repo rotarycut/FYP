@@ -12,8 +12,9 @@
     height: 100vh;
 }
 
-button:focus{
-    outline: 0;
+button:focus,
+button:active{
+    outline: solid 1px #1859ab;
     border-radius: 5px;
 }
 
@@ -229,6 +230,19 @@ ul.legend-ul li{
     padding-right: 0;
 }
 
+.animate-enter{
+    -webkit-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space:nowrap;
+}
+
 .cal-view-btn{
     width: 5vw;
     border: 1px solid #FFFFFF;
@@ -290,16 +304,11 @@ ul.legend-ul li{
 }
 
 .right-content{
-    display: none;
-}
-
-
-.right-content-show{
+    /*display: none;*/
     display: inline-block;
     float: left;
-    /*height: 530px;
-    overflow-y: auto;*/
 }
+
 .form-row.form-content-row{
     overflow-y: auto;
     height: 510px;
@@ -327,9 +336,13 @@ li .i-slot-label {
     border: 2px solid #1859ab;
     float: left;
     margin-bottom: 6px;
+    display: inline-block;
 }
 
-
+.mrkt-db-main{
+    float: left;
+    display: inline-block;
+}
 
 .side-menu-row1{
     /*border-bottom: 2px solid #1859ab;*/
@@ -371,6 +384,10 @@ li .i-slot-label {
     border-left: dashed 2px #1859ab;
 }
 
+.dashboard-chart-mrkt{
+    padding-left: 0;
+    padding-right: 0;
+}
 
 /* dashboard css ends*/
 

@@ -3129,20 +3129,20 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-
   border-color: #122b40;
-  outline: 0;
+  outline: auto;
 }
 .btn-primary:hover {
   color: #fff;
   background-color: #286090;
   border-color: #204d74;
+  outline: auto;
 }
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
-
+  outline: auto;
   border-color: #204d74;
 }
 .btn-primary:active:hover,
@@ -6094,6 +6094,7 @@ button.close {
   text-align: center;
   background-color: #000;
   border-radius: 4px;
+  white-space: pre-line;
 }
 .tooltip-arrow {
   position: absolute;

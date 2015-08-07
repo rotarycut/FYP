@@ -237,7 +237,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var strOfPatientNames = $scope.getAllPatientsName(event);
         element.attr({
             'tooltip': strOfPatientNames,
-            'tooltip-append-to-body': true
+            'tooltip-append-to-body': true,
         });
         $compile(element)($scope);
     };
@@ -713,6 +713,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.screeningActive = true;
     $scope.preEvaluationActive = true;
     $scope.surgeryActive = true;
+    $scope.rightContentShow = false;
+    $scope.rightAnimation = false;
 
     $scope.form = {
         appointmentType: true,
@@ -792,8 +794,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to show appointment form */
     $scope.showForm = function (formType) {
         $scope.leftAnimation = "col-sm-8 left-content-resize";
-        $scope.rightAnimation = "col-sm-4 right-content-show";
+        /*$scope.rightAnimation = "col-sm-4 right-content-show";*/
         $scope.addAndBlockButtons = false;
+        $scope.rightContentShow = true;
+        $scope.rightAnimation = true;
 
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
@@ -828,9 +832,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to hide appointment form */
     $scope.hideForm = function () {
-        $scope.leftAnimation = "col-sm-12 left-content"
-        $scope.rightAnimation = "col-sm-4 right-content"
-
+        $scope.leftAnimation = "col-sm-12 left-content";
+        /*$scope.rightAnimation = "col-sm-4 right-content"*/
+        $scope.rightAnimation = false;
         $scope.clearForm();
         $scope.addAndBlockButtons = true;
         $scope.disablePatientNameInput = false;
