@@ -152,7 +152,7 @@
                          ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
-                                ng-model="fields.appointmentType" name="appointmentType" ng-change="activateHeatMap()"
+                                ng-model="fields.appointmentType" name="appointmentType" ng-change="enableISchedule()"
                                 required>
                         </select>
 

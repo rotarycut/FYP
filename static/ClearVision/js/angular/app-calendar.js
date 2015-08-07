@@ -92,42 +92,27 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    /* function to retrieve medium heat map for iSchedule */
-    $scope.getMedHeatMap = function () {
+    /* function to get heat map */
+    $scope.getHeatMap = function (appointmentType, doctorId) {
 
-        $http.get('http://demo4552602.mockable.io/medHeatmap')
+        var url = 'http://demo4552602.mockable.io/heatmap';
+
+        // /Clearvision/_api/HeatMap/?monthsAhead=6&timeslotType=Screening&doctorId=1&patientLower=0&patientUpper=2
+        // lowHeatMap.events.push(appointment)
+
+        // /Clearvision/_api/HeatMap/?monthsAhead=6&timeslotType=Screening&doctorId=1&patientLower=2&patientUpper=4
+        // medHeatMap.events.push(appointment)
+
+        // /Clearvision/_api/HeatMap/?monthsAhead=6&timeslotType=Screening&doctorId=1&patientLower=4&patientUpper=infinity
+        // highHeatMap.events.push(appointment)
+
+        $http.get(url)
             .success(function (listOfAppointments) {
-                var medHeatMap = listOfAppointments;
-
-                $timeout(function () {
-                    angular.forEach(medHeatMap, function (appointment) {
-                        $scope.medHeatMap.events.push(appointment);
-                    })
-                }, 200);
-
+                angular.forEach(listOfAppointments, function (appointment) {
+                    appointment.title = appointment.patientcount + " patient(s)";
+                    $scope.lowHeatMap.events.push(appointment);
+                })
             })
-            .error(function () {
-                console.log("Error getting med heat map");
-            });
-    };
-
-    /* function to retrieve high heat map for iSchedule */
-    $scope.getHighHeatMap = function () {
-
-        $http.get('http://demo4552602.mockable.io/highHeatmap')
-            .success(function (listOfAppointments) {
-                var highHeatMap = listOfAppointments;
-
-                $timeout(function () {
-                    angular.forEach(highHeatMap, function (appointment) {
-                        $scope.highHeatMap.events.push(appointment);
-                    })
-                }, 200);
-
-            })
-            .error(function () {
-                console.log("Error getting high heat map");
-            });
     };
 
     /* event source that calls a function on every view switch */
@@ -237,7 +222,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var strOfPatientNames = $scope.getAllPatientsName(event);
         element.attr({
             'tooltip': strOfPatientNames,
-            'tooltip-append-to-body': true,
+            'tooltip-append-to-body': true
         });
         $compile(element)($scope);
     };
@@ -245,13 +230,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function which returns a string of patient names for the particular appointment time slot */
     $scope.getAllPatientsName = function (event, element) {
 
-        var listOfPatients = event.patients;
         var strOfPatientNames = "";
 
-        listOfPatients.forEach(function (patient) {
-            strOfPatientNames += patient.name;
-            strOfPatientNames += '\r\n';
-        });
+        try {
+            var listOfPatients = event.patients;
+
+            listOfPatients.forEach(function (patient) {
+                strOfPatientNames += patient.name;
+                strOfPatientNames += '\r\n';
+            });
+
+        } catch (Exception) {
+            return;
+        }
 
         return strOfPatientNames;
     };
@@ -835,6 +826,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.leftAnimation = "col-sm-12 left-content";
         /*$scope.rightAnimation = "col-sm-4 right-content"*/
         $scope.rightAnimation = false;
+
+        $scope.disableISchedule();
         $scope.clearForm();
         $scope.addAndBlockButtons = true;
         $scope.disablePatientNameInput = false;
@@ -850,22 +843,27 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
-        $scope.getLowHeatMap();
-        $scope.getMedHeatMap();
-        $scope.getHighHeatMap();
-        $scope.drHoScreenings.events.splice(0);
-        $scope.drHoPreEvaluations.events.splice(0);
-        $scope.drHoSurgeries.events.splice(0);
+        if ($scope.formTitle === 'Create New Appointment') {
+            $scope.showHeatMap = true;
+            $scope.iSchedule = true;
+            $scope.getHeatMap('appointmentType', 'doctorId');
+            $scope.drHoScreenings.events.splice(0);
+            $scope.drHoPreEvaluations.events.splice(0);
+            $scope.drHoSurgeries.events.splice(0);
+        }
     };
 
     /* function to disable iSchedule */
     $scope.disableISchedule = function () {
-        $scope.lowHeatMap.events.splice(0);
-        $scope.medHeatMap.events.splice(0);
-        $scope.highHeatMap.events.splice(0);
-        $scope.getDrHoScreenings();
-        $scope.getDrHoPreEvaluations();
-        $scope.getDrHoSurgeries();
+        if ($scope.formTitle === 'Create New Appointment' && $scope.iSchedule === true) {
+            $scope.iSchedule = false;
+            $scope.lowHeatMap.events.splice(0);
+            $scope.medHeatMap.events.splice(0);
+            $scope.highHeatMap.events.splice(0);
+            $scope.getDrHoScreenings();
+            $scope.getDrHoPreEvaluations();
+            $scope.getDrHoSurgeries();
+        }
     };
 
     /* function to search for contact */
@@ -877,11 +875,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.fields.patientName = "";
             }
         });
-    };
-
-    /* function to activate heat map */
-    $scope.activateHeatMap = function () {
-        $scope.showHeatMap = true;
     };
 
     /* function to filter by appointment types */
