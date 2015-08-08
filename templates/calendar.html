@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="col-sm-3 col-sm-offset-2 animation-buttons" id="top-content-btngrp"
-                         ng-show="addAndBlockButtons">
+                         ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary" ng-click="showForm('Create')"><i
                                     class="fa fa-plus-circle"></i> Add
@@ -120,7 +120,7 @@
     <!--col for top content, cal content and legend content ends-->
 
     <!-- col for form content -->
-    <div class="col-sm-4 right-content" ng-show="showAppointmentForm">
+    <div class="col-sm-4 right-content" ng-show="form.showForm">
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">

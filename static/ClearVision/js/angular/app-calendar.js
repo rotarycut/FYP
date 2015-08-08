@@ -702,13 +702,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* initialization when page first loads */
     $scope.fields = {};
     $scope.remarkWarning = "Please select a patient";
-    $scope.addAndBlockButtons = true;
     $scope.screeningActive = true;
     $scope.preEvaluationActive = true;
     $scope.surgeryActive = true;
-    $scope.showAppointmentForm = false;
 
     $scope.form = {
+        showForm: false,
         showFields: {
             appointmentType: true,
             contact: true,
@@ -727,7 +726,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         },
         showButtons: {
             createForm: false,
-            editForm: false
+            editForm: false,
+            addAndBlock: true
         }
     };
 
@@ -799,16 +799,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to show appointment form */
     $scope.showForm = function (formType) {
         $scope.scaleDownCalendar = true;
-        $scope.addAndBlockButtons = false;
         $timeout(function () {
-            $scope.showAppointmentForm = true;
+            $scope.form.showForm = true;
         }, 1200);
 
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
+            $scope.formTitle = "Create New Appointment";
             $scope.showPatientList = false;
             $scope.form.showButtons['createForm'] = true;
-            $scope.formTitle = "Create New Appointment";
+            $scope.form.showButtons['addAndBlock'] = false;
 
         } else if (formType === 'Edit') {
             // Perform these operations when showing the edit appointment form
@@ -818,11 +818,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             for (var field in $scope.form.showFields) {
                 $scope.form.showFields[field] = false;
             }
-
             for (var field in $scope.form.disableFields) {
                 $scope.form.disableFields[field] = true;
             }
-
             for (var field in $scope.form.showButtons) {
                 $scope.form.showButtons[field] = false;
             }
@@ -835,13 +833,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to hide appointment form */
     $scope.hideForm = function () {
         $scope.scaleDownCalendar = false;
-        $scope.showAppointmentForm = false;
+        $scope.form.showForm = false;
         $scope.disableISchedule();
         $scope.clearForm();
         $scope.showHeatMap = false;
 
         $timeout(function () {
-            $scope.addAndBlockButtons = true;
+            $scope.form.showButtons['addAndBlock'] = true;
         }, 1200);
 
         for (var field in $scope.form.showFields) {
