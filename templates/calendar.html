@@ -149,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.appointmentType"
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showFields.appointmentType"
                          ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
@@ -167,7 +167,7 @@
                         <div class="row">
                             <div class="col-sm-6 form-animation"
                                  ng-class="{'has-error': appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)}"
-                                 ng-show="form.contact">
+                                 ng-show="form.showFields.contact">
                                 <label class="control-label">Contact No.</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientContact"
                                        ng-disabled="disablePatientContactInput" name="patientContact" autocomplete="off"
@@ -181,7 +181,7 @@
                             </div>
                             <div class="col-sm-6 form-animation"
                                  ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}"
-                                 ng-show="form.name">
+                                 ng-show="form.showFields.name">
                                 <label class="control-label">Patient Name</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientName"
                                        ng-disabled="disablePatientNameInput" name="patientName" autocomplete="off"
@@ -225,7 +225,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-8 date-div form-animation" ng-show="form.datepicker">
+                            <div class="col-sm-8 date-div form-animation" ng-show="form.showFields.datepicker">
                                 <label class="control-label">Date</label>
 
                                 <p class="input-group">
@@ -253,7 +253,7 @@
 
                             <div class="col-sm-4 form-animation" date-div
                                  ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}"
-                                 ng-show="form.time">
+                                 ng-show="form.showFields.time">
                                 <label class="control-label">Time</label>
                                 <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
                                         data-ng-model="fields.appointmentTime" name="appointmentTime" required>
@@ -269,7 +269,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
-                         ng-show="form.doctor">
+                         ng-show="form.showFields.doctor">
 
                         <label class="control-label">Doctor</label>
 
@@ -298,7 +298,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)}"
-                         ng-show="form.marketingChannel">
+                         ng-show="form.showFields.marketingChannel">
 
                         <label class="control-label">Marketing Channel</label>
 
@@ -314,7 +314,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.remarks">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showFields.remarks">
                         <label class="control-label">Remarks</label>
                         <textarea class="form-control" rows="3" data-ng-model="fields.appointmentRemarks"
                                   placeholder="Optional" name="appointmentRemarks">

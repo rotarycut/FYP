@@ -709,17 +709,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.showAppointmentForm = false;
 
     $scope.form = {
-        appointmentType: true,
-        contact: true,
-        name: true,
-        datepicker: true,
-        time: true,
-        doctor: true,
-        marketingChannel: true,
-        remarks: true,
-        createButtons: true,
-        editButtons: true
+        showFields: {
+            appointmentType: true,
+            contact: true,
+            name: true,
+            datepicker: true,
+            time: true,
+            doctor: true,
+            marketingChannel: true,
+            remarks: true,
+            createButtons: true,
+            editButtons: true
+        }
     };
+
+    $scope.disablePatientNameInput = true;
+    $scope.disablePatientContactInput = true;
+    $scope.disableAssignedDoctorInput = true;
+    $scope.disableMktgChannelInput = true;
 
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
@@ -748,8 +755,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 console.log("Error getting patient's appointment remarks.");
             });
 
-        for (var field in $scope.form) {
-            $scope.form[field] = true;
+        for (var field in $scope.form.showFields) {
+            $scope.form.fields[field] = true;
         }
 
         $scope.showEditButtons = true;
@@ -811,8 +818,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.disableAssignedDoctorInput = true;
             $scope.disableMktgChannelInput = true;
 
-            for (var field in $scope.form) {
-                $scope.form[field] = false;
+            for (var field in $scope.form.showFields) {
+                $scope.form.fields[field] = false;
             }
 
         } else {
@@ -833,13 +840,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.disableAssignedDoctorInput = false;
         $scope.disableMktgChannelInput = false;
         $scope.showHeatMap = false;
-        
+
         $timeout(function () {
             $scope.addAndBlockButtons = true;
         }, 1200);
 
-        for (var field in $scope.form) {
-            $scope.form[field] = true;
+        for (var field in $scope.form.showFields) {
+            $scope.form.showFields[field] = true;
         }
     };
 
