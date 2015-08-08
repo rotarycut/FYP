@@ -321,20 +321,17 @@
                         </textarea>
                     </div>
                     <!-- button group for create appointment form -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.buttons">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="showCreateButtons">
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
                                         data-ng-click="clearForm()"
-                                        type="reset"
-                                        ng-show="showResetButton"><i class="fa fa-refresh"
-                                        tooltip="Reset"></i>
+                                        type="reset"><i class="fa fa-refresh" tooltip="Reset"></i>
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
                                 <button class="btn btn-success"
-                                        data-ng-click="postAppointment(appointmentForm.$valid);"
-                                        ng-show="showSubmitButton">Submit
+                                        data-ng-click="postAppointment(appointmentForm.$valid);">Submit
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
@@ -346,19 +343,17 @@
                         </div>
                     </div>
                     <!-- button group for edit appointment form -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.buttons">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="showEditButtons">
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
                                         data-ng-click="deleteAppointment()"
-                                        ng-show="showDeleteButton"
-                                        tooltip="Delete"><i class="fa fa-trash"></i>
+                                        tooltip="Delete"><i class="fa fa-trash"></i>Delete
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
                                 <button class="btn btn-success"
-                                        data-ng-click="updateAppointment(appointmentForm.$valid);"
-                                        ng-show="showEditButton">Update
+                                        data-ng-click="updateAppointment(appointmentForm.$valid);">Update
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">

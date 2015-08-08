@@ -716,7 +716,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         doctor: true,
         marketingChannel: true,
         remarks: true,
-        buttons: true
+        createButtons: true,
+        editButtons: true
     };
 
     /* different lists to populate form. will subsequently get from backend */
@@ -749,6 +750,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         for (var field in $scope.form) {
             $scope.form[field] = true;
         }
+
+        $scope.showEditButtons = true;
     };
 
     /* function to navigate to date after selection on date picker */
@@ -796,19 +799,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
             $scope.showPatientList = false;
-            $scope.showSubmitButton = true;
-            $scope.showDeleteButton = false;
-            $scope.showEditButton = false;
-            $scope.showResetButton = true;
+            $scope.showCreateButtons = true;
             $scope.formTitle = "Create New Appointment";
 
         } else if (formType === 'Edit') {
             // Perform these operations when showing the edit appointment form
             $scope.showPatientList = true;
-            $scope.showSubmitButton = false;
-            $scope.showDeleteButton = true;
-            $scope.showEditButton = true;
-            $scope.showResetButton = false;
+            $scope.showCreateButtons = false;
+            $scope.showEditButtons = false;
             $scope.formTitle = "Edit Appointment";
             $scope.disablePatientNameInput = true;
             $scope.disablePatientContactInput = true;
@@ -832,7 +830,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.rightAnimation = false;
 
         //$scope.rightAnimation = false;
-
+        $scope.showEditButtons = false;
+        $scope.showCreateButtons = false;
         $scope.disableISchedule();
         $scope.clearForm();
         $timeout(function () {
