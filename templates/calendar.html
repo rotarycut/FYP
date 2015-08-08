@@ -170,7 +170,7 @@
                                  ng-show="form.showFields.contact">
                                 <label class="control-label">Contact No.</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientContact"
-                                       ng-disabled="disablePatientContactInput" name="patientContact" autocomplete="off"
+                                       ng-disabled="form.disableFields.contact" name="patientContact" autocomplete="off"
                                        ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8" ng-change="searchContact()"
                                        required>
 
@@ -184,7 +184,7 @@
                                  ng-show="form.showFields.name">
                                 <label class="control-label">Patient Name</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientName"
-                                       ng-disabled="disablePatientNameInput" name="patientName" autocomplete="off"
+                                       ng-disabled="form.disableFields.patientName" name="patientName" autocomplete="off"
                                        required>
 
                                 <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
@@ -276,14 +276,14 @@
                         <div class="row">
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.doctorAssigned" value="2"
-                                              ng-disabled="disableAssignedDoctorInput" name="doctorAssigned"
+                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
                                               ng-required="!doctorAssigned">
                                     Dr.Ho
                                 </label>
                             </div>
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.doctorAssigned" value="1"
-                                              ng-disabled="disableAssignedDoctorInput" name="doctorAssigned"
+                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
                                               ng-required="!doctorAssigned">
                                     Dr.Goh
                                 </label>
@@ -303,7 +303,7 @@
                         <label class="control-label">Marketing Channel</label>
 
                         <select class="form-control" data-ng-model="fields.marketingChannel"
-                                ng-disabled="disableMktgChannelInput"
+                                ng-disabled="form.disableFields.marketingChannel"
                                 ng-options="channel for channel in listOfMarketingChannels"
                                 name="marketingChannel" required>
                         </select>
@@ -321,7 +321,7 @@
                         </textarea>
                     </div>
                     <!-- button group for create appointment form -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="showCreateButtons">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showButtons.createForm">
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
@@ -343,7 +343,7 @@
                         </div>
                     </div>
                     <!-- button group for edit appointment form -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="showEditButtons">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showButtons.editForm">
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"

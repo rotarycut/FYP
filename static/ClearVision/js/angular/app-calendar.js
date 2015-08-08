@@ -717,16 +717,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             time: true,
             doctor: true,
             marketingChannel: true,
-            remarks: true,
-            createButtons: true,
-            editButtons: true
+            remarks: true
+        },
+        disableFields: {
+            patientName: false,
+            contact: false,
+            doctor: false,
+            marketingChannel: false
+        },
+        showButtons: {
+            createForm: false,
+            editForm: false
         }
     };
-
-    $scope.disablePatientNameInput = true;
-    $scope.disablePatientContactInput = true;
-    $scope.disableAssignedDoctorInput = true;
-    $scope.disableMktgChannelInput = true;
 
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
@@ -756,10 +759,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
         for (var field in $scope.form.showFields) {
-            $scope.form.fields[field] = true;
+            $scope.form.showFields[field] = true;
         }
 
-        $scope.showEditButtons = true;
+        $scope.form.showButtons['editForm'] = true;
     };
 
     /* function to navigate to date after selection on date picker */
@@ -804,22 +807,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
             $scope.showPatientList = false;
-            $scope.showCreateButtons = true;
+            $scope.form.showButtons['createForm'] = true;
             $scope.formTitle = "Create New Appointment";
 
         } else if (formType === 'Edit') {
             // Perform these operations when showing the edit appointment form
             $scope.showPatientList = true;
-            $scope.showCreateButtons = false;
-            $scope.showEditButtons = false;
             $scope.formTitle = "Edit Appointment";
-            $scope.disablePatientNameInput = true;
-            $scope.disablePatientContactInput = true;
-            $scope.disableAssignedDoctorInput = true;
-            $scope.disableMktgChannelInput = true;
 
             for (var field in $scope.form.showFields) {
-                $scope.form.fields[field] = false;
+                $scope.form.showFields[field] = false;
+            }
+
+            for (var field in $scope.form.disableFields) {
+                $scope.form.disableFields[field] = true;
+            }
+
+            for (var field in $scope.form.showButtons) {
+                $scope.form.showButtons[field] = false;
             }
 
         } else {
@@ -831,14 +836,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.hideForm = function () {
         $scope.scaleDownCalendar = false;
         $scope.showAppointmentForm = false;
-        $scope.showEditButtons = false;
-        $scope.showCreateButtons = false;
         $scope.disableISchedule();
         $scope.clearForm();
-        $scope.disablePatientNameInput = false;
-        $scope.disablePatientContactInput = false;
-        $scope.disableAssignedDoctorInput = false;
-        $scope.disableMktgChannelInput = false;
         $scope.showHeatMap = false;
 
         $timeout(function () {
@@ -847,6 +846,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         for (var field in $scope.form.showFields) {
             $scope.form.showFields[field] = true;
+        }
+
+        for (var field in $scope.form.disableFields) {
+            $scope.form.disableFields[field] = false;
+        }
+
+        for (var field in $scope.form.showButtons) {
+            $scope.form.showButtons[field] = false;
         }
     };
 
