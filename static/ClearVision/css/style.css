@@ -221,11 +221,6 @@ ul.legend-ul li{
     display: inline-block;
     padding-left: 0;
     padding-right: 0;
-    -webkit-transition-duration: 0.5s;
-    -webkit-transition-timing-function: ease-in-out;
-    -webkit-transition-delay: 0s;
-    -webkit-transition: width 0.5s;
-    transition: width 0.5s;
 }
 
 .left-content-resize{
@@ -233,11 +228,19 @@ ul.legend-ul li{
     display: inline-block;
     padding-left: 0;
     padding-right: 0;
-    -webkit-transition-duration: 0.5s;
-    -webkit-transition-timing-function: ease-in-out;
-    -webkit-transition: width 0.5s;
-    transition: width 0.5s;
-    -webkit-transition-delay: 0s;
+}
+
+.animate-enter{
+    -webkit-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 1s cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space:nowrap;
 }
 
 .cal-view-btn{
