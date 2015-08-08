@@ -2,7 +2,7 @@
 <div class="row content-row">
     <!-- col for top content, cal content, legend content-->
     <div class="col-sm-12 left-content"
-         ng-class="leftanimation ? 'lefty-animation left-content-resize' : 'back-animation left-content'">
+         ng-class="scaleDownCalendar ? 'calendar-scale-down left-content' : 'calendar-scale-up left-content'">
         <!-- row for top content: button groups-->
         <div class="row">
             <div class="col-sm-12">
@@ -120,7 +120,7 @@
     <!--col for top content, cal content and legend content ends-->
 
     <!-- col for form content -->
-    <div class="col-sm-4 right-content" ng-show="rightAnimation">
+    <div class="col-sm-4 right-content" ng-show="showAppointmentForm">
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">

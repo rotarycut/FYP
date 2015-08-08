@@ -706,8 +706,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.screeningActive = true;
     $scope.preEvaluationActive = true;
     $scope.surgeryActive = true;
-    $scope.rightContentShow = false;
-    $scope.rightAnimation = false;
+    $scope.showAppointmentForm = false;
 
     $scope.form = {
         appointmentType: true,
@@ -789,14 +788,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to show appointment form */
     $scope.showForm = function (formType) {
-        $scope.leftanimation = true;
-        /*$scope.rightAnimation = "col-sm-4 right-content-show";*/
+        $scope.scaleDownCalendar = true;
         $scope.addAndBlockButtons = false;
-        $scope.rightContentShow = true;
         $timeout(function () {
-            $scope.rightAnimation = true;
+            $scope.showAppointmentForm = true;
         }, 1200);
-
 
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
@@ -826,24 +822,21 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to hide appointment form */
     $scope.hideForm = function () {
-
-        /*$scope.rightAnimation = "col-sm-4 right-content"*/
-        $scope.leftanimation = false;
-        $scope.rightAnimation = false;
-
-        //$scope.rightAnimation = false;
+        $scope.scaleDownCalendar = false;
+        $scope.showAppointmentForm = false;
         $scope.showEditButtons = false;
         $scope.showCreateButtons = false;
         $scope.disableISchedule();
         $scope.clearForm();
-        $timeout(function () {
-            $scope.addAndBlockButtons = true;
-        }, 1200);
         $scope.disablePatientNameInput = false;
         $scope.disablePatientContactInput = false;
         $scope.disableAssignedDoctorInput = false;
         $scope.disableMktgChannelInput = false;
         $scope.showHeatMap = false;
+        
+        $timeout(function () {
+            $scope.addAndBlockButtons = true;
+        }, 1200);
 
         for (var field in $scope.form) {
             $scope.form[field] = true;
