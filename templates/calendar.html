@@ -1,8 +1,8 @@
 <!-- row for entire app content-->
 <div class="row content-row">
     <!-- col for top content, cal content, legend content-->
-    <div class="col-sm-12 left-content" ng-class="leftAnimation">
-
+    <div class="col-sm-12 left-content"
+         ng-class="leftanimation ? 'lefty-animation left-content-resize' : 'back-animation left-content'">
         <!-- row for top content: button groups-->
         <div class="row">
             <div class="col-sm-12">
@@ -31,7 +31,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp" ng-show="addAndBlockButtons">
+                    <div class="col-sm-3 col-sm-offset-2 animation-buttons" id="top-content-btngrp"
+                         ng-show="addAndBlockButtons">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary" ng-click="showForm('Create')"><i
                                     class="fa fa-plus-circle"></i> Add
