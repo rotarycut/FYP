@@ -1,7 +1,7 @@
-var appCalendar = angular.module('app.calendar', []);
+var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService,ngProgressFactory) {
 
     var date = new Date();
     var d = date.getDate();
@@ -705,6 +705,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.screeningActive = true;
     $scope.preEvaluationActive = true;
     $scope.surgeryActive = true;
+    $scope.progressbar = ngProgressFactory.createInstance();
 
     $scope.form = {
         showForm: false,
@@ -799,9 +800,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to show appointment form */
     $scope.showForm = function (formType) {
         $scope.scaleDownCalendar = true;
+        $scope.progressbar.start();
+        $scope.progressbar.complete();
         $timeout(function () {
             $scope.form.showForm = true;
-        }, 1200);
+        }, 1000);
 
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
