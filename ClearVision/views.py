@@ -272,12 +272,14 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
         type = request.query_params.get('timeslotType')
         upperB = request.query_params.get('upperB')
         lowerB = request.query_params.get('lowerB')
-        docID = request.query_params.get('docID')
+        docName = request.query_params.get('docID')
 
         if lowerB is None:
             lowerB = 0
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead),
+                                                        date__gte=datetime.now(), availabletimeslots__timeslotType=type,
+                                                        ).\
                         annotate(title=Count('availabletimeslots__appointment__patients')).\
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
@@ -369,6 +371,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
 
 class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
+
     def list(self, request, *args, **kwargs):
         response_data = AvailableTimeSlots.objects.get(date='2015-08-14', start='11:30:00', timeslotType='Screening').id
         return HttpResponse(response_data)
