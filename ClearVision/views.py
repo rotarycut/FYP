@@ -316,23 +316,26 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
             for eachObj in response_data:
                 leads = eachObj['leads']
                 convert = eachObj['convert']
-                rate = float(convert / leads)
+                rate = float(convert/leads)
                 eachObj['rate'] = rate
 
             return Response(response_data)
 
-        elif not Patient.objects.filter(marketingChannelId__name=channel, registrationDate__month=month).exists():
-            return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate': 0})
         else:
-            response_data = Patient.objects.filter(registrationDate__month=month, marketingChannelId__name=channel). \
-                annotate(channelname=F('marketingChannelId__name')).values('channelname').\
-                annotate(leads=Count('channelname')).order_by('leads'). \
-                annotate(
-                convert=Sum(
-                    Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
-                )
-            )
-            return Response(response_data)
+            marketed_list = Patient.objects.filter(registrationDate__month=month).annotate(channelname=F('marketingChannelId__name')).values()
+            date_range = FullYearCalendar.objects.filter(date__month=month).values('date')
+
+            for eachObj in date_range:
+                for eachObj2 in marketed_list:
+
+                    if eachObj['date'] == eachObj2['registrationDate'].date():
+                        mktname = eachObj2['channelname']
+                        try:
+                            eachObj[mktname] += 1
+                        except KeyError:
+                            eachObj[mktname] = 1
+
+            return Response(date_range)
 
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
