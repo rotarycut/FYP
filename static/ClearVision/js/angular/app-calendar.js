@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService,ngProgressFactory) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory) {
 
     var date = new Date();
     var d = date.getDate();
@@ -378,7 +378,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
 
             $http.post('/Clearvision/_api/appointmentsCUD/', {
-                "type": $scope.fields.appointmentType,
+                "apptType": $scope.fields.appointmentType,
                 "date": formattedDate,
                 "docID": $scope.fields.doctorAssigned,
                 "clinicID": 1,
@@ -735,7 +735,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     $scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
-    $scope.listOfMarketingChannels = ["Email", "Friend", "Facebook Advertisement", "Clearvision Website"];
+    $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
 
     /* function to populate patient details upon selection on the edit appointment form */
     $scope.populatePatientDetails = function () {
@@ -745,6 +745,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             if (patientName === patient.name) {
                 $scope.fields.patientName = patient.name;
                 $scope.fields.patientContact = patient.contact;
+                $scope.fields.marketingChannel = patient.marketingname;
             }
         })
 
@@ -804,7 +805,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.progressbar.complete();
         $timeout(function () {
             $scope.form.showForm = true;
-        }, 1000);
+        }, 800);
 
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
@@ -843,7 +844,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $timeout(function () {
             $scope.form.showButtons['addAndBlock'] = true;
-        }, 1200);
+        }, 800);
 
         for (var field in $scope.form.showFields) {
             $scope.form.showFields[field] = true;
