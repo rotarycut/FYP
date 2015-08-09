@@ -272,14 +272,14 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
         type = request.query_params.get('timeslotType')
         upperB = request.query_params.get('upperB')
         lowerB = request.query_params.get('lowerB')
-        docName = request.query_params.get('docID')
+        docName = request.query_params.get('docName')
 
         if lowerB is None:
             lowerB = 0
 
         response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead),
                                                         date__gte=datetime.now(), availabletimeslots__timeslotType=type,
-                                                        ).\
+                                                        availabletimeslots__doctors__name=docName).\
                         annotate(title=Count('availabletimeslots__appointment__patients')).\
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\

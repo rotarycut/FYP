@@ -239,6 +239,7 @@ for months in range(0, 13):
 
 types = ['Screening', 'Pre Evaluation', 'Surgery']
 totalTimeslots = []
+doctors = [1,2]
 
 startTime = datetime.datetime(100, 1, 1, 9, 00)
 
@@ -247,7 +248,7 @@ for i in types:
         for k in range(1, 25):
             totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
                 {"timeslotType": str(i), "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
-                 "date": str(j)}})
+                 "date": str(j), "doctors": doctors}})
             startTime = startTime + datetime.timedelta(minutes=30)
         startTime = datetime.datetime(100, 1, 1, 9, 00)
 

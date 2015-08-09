@@ -40,25 +40,26 @@ class Staff(models.Model):
     def __str__(self):
         return self.name
 
-class AvailableTimeSlots(models.Model):
-    timeslotType = models.CharField(max_length=200)
-    start = models.TimeField("Start Time")
-    end = models.TimeField("End Time")
-    date = models.ForeignKey(FullYearCalendar,)
-
-    def __str__(self):
-        return self.start
-
 class Doctor(models.Model):
     name = models.CharField(max_length=50)
     phoneModel = models.CharField(max_length=50)
     calDavAccount = models.CharField(max_length=50)
     contact = models.CharField(max_length=50)
     clinic = models.ManyToManyField(Clinic)
-    timeslots = models.ManyToManyField(AvailableTimeSlots)
 
     def __str__(self):
         return self.name
+
+
+class AvailableTimeSlots(models.Model):
+    timeslotType = models.CharField(max_length=200)
+    start = models.TimeField("Start Time")
+    end = models.TimeField("End Time")
+    date = models.ForeignKey(FullYearCalendar,)
+    doctors = models.ManyToManyField(Doctor)
+
+    def __str__(self):
+        return self.start
 
 class Appointment(models.Model):
     apptType = models.CharField(max_length=200)
