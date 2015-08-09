@@ -166,14 +166,14 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         apptDate = data.get('date')
         apptTimeBucket = data.get('time') + ":00"
-        apptType = data.get('type')
+        apptType = data.get('apptType')
         docID = data.get('docID')
         clinicID = data.get('clinicID')
         patientContact = data.get('contact')
         patientName = data.get('name')
         patientGender = data.get('gender')
         marketingID = data.get('channelID')
-        # isWaitingList = data.get('waitingListFlag')
+        #isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
 
         if not Patient.objects.filter(contact=patientContact).exists():
@@ -182,9 +182,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                    registrationDate=datetime.now())
 
         p = Patient.objects.get(contact=patientContact)
-        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=apptTimeBucket)
+        apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate).id
 
         if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType).exists():
+
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
             existingAppt.patients.add(p)
             existingAppt.save()
@@ -197,7 +198,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         else:
 
-            Appointment.objects.create(type=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
+            Appointment.objects.create(apptType=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=apptTimeBucketID)).patients.add(p)
 
@@ -224,10 +225,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         if currentAppt.patients.count() == 0:
             currentAppt.delete()
-        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket)
+        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket, date=futureApptDate, timeslotType=apptType)
 
         if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket,
-                                      apptType=apptType).exists():
+                                      apptType=apptType, timeBucket__id=apptTimeBucketID).exists():
             existingFutureAppt = Appointment.objects.get(date=futureApptDate, timeBucket=apptTimeBucketID,
                                                          apptType=apptType)
             existingFutureAppt.patients.add(patient)
@@ -323,6 +324,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
             return Response({'Name': "DoesNotExist", 'Leads': 0, 'Conversion': 0, 'Rate': 0})
         else:
             response_data = Patient.objects.filter(registrationDate__month=month, marketingChannelId__name=channel). \
+                annotate(channelname=F('marketingChannelId__name')).values('channelname').\
                 annotate(leads=Count('channelname')).order_by('leads'). \
                 annotate(
                 convert=Sum(
@@ -373,5 +375,5 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-14', start='11:30:00', timeslotType='Screening').id
+        response_data = AvailableTimeSlots.objects.get(date='2015-12-01', start='09:00:00', timeslotType='Screening').id
         return HttpResponse(response_data)

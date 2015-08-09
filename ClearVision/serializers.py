@@ -65,7 +65,7 @@ class RemarksSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AppointmentRemarks
-        depth = 10
+        depth = 0
 
 
 class AvailiableTimeSlotsSerializer(serializers.ModelSerializer):
