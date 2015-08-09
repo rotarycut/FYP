@@ -285,6 +285,7 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
                         annotate(end=F('availabletimeslots__end')).\
+                        annotate(apptId=F('availabletimeslots__appointment__id')).\
                         filter(title__lte=upperB, title__gte=lowerB,).\
                         values().order_by('title')[:limit]
 
@@ -364,8 +365,9 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
                         annotate(end=F('availabletimeslots__end')).\
+                        annotate(apptId=F('availabletimeslots__appointment__id')).\
                         filter(title__lte=upperB, title__gte=lowerB,).\
-                        values().order_by('title')
+                        values()
 
         for eachObj in response_data:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
