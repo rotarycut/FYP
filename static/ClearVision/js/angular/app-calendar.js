@@ -93,24 +93,49 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to get heat map */
-    $scope.getHeatMap = function (appointmentType, doctorId) {
+    $scope.getHeatMap = function (appointmentType, doctorName) {
 
-        var url = 'http://demo4552602.mockable.io/heatmap';
+        var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
+        var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
+        var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=10&lowerB=4&docName=' + doctorName;
 
-        // /Clearvision/_api/HeatMap/?monthsAhead=6&timeslotType=Screening&doctorId=1&patientLower=0&patientUpper=2
-        // lowHeatMap.events.push(appointment)
-
-        // /Clearvision/_api/HeatMap/?monthsAhead=6&timeslotType=Screening&doctorId=1&patientLower=2&patientUpper=4
-        // medHeatMap.events.push(appointment)
-
-        // /Clearvision/_api/HeatMap/?monthsAhead=6&timeslotType=Screening&doctorId=1&patientLower=4&patientUpper=infinity
-        // highHeatMap.events.push(appointment)
-
-        $http.get(url)
+        $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
+                var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
-                    appointment.title = appointment.patientcount + " patient(s)";
-                    $scope.lowHeatMap.events.push(appointment);
+                    //appointment.title = appointment.patientcount + " patient(s)";
+                    if (count <= 20) {
+                        $scope.lowHeatMap.events.push(appointment);
+                        count++;
+                    } else {
+                        return;
+                    }
+                })
+            })
+        $http.get(medHeatUrl)
+            .success(function (listOfAppointments) {
+                var count = 0;
+                angular.forEach(listOfAppointments, function (appointment) {
+                    //appointment.title = appointment.patientcount + " patient(s)";
+                    if (count <= 20) {
+                        $scope.medHeatMap.events.push(appointment);
+                        count++;
+                    } else {
+                        return;
+                    }
+                })
+            })
+        $http.get(highHeatUrl)
+            .success(function (listOfAppointments) {
+                var count = 0;
+                angular.forEach(listOfAppointments, function (appointment) {
+                    //appointment.title = appointment.patientcount + " patient(s)";
+                    if (count <= 20) {
+                        $scope.highHeatMap.events.push(appointment);
+                        count++;
+                    } else {
+                        return;
+                    }
                 })
             })
     };
@@ -864,10 +889,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if ($scope.formTitle === 'Create New Appointment') {
             $scope.showHeatMap = true;
             $scope.iSchedule = true;
-            $scope.getHeatMap('appointmentType', 'doctorId');
             $scope.drHoScreenings.events.splice(0);
             $scope.drHoPreEvaluations.events.splice(0);
             $scope.drHoSurgeries.events.splice(0);
+            $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+            console.log("methodDone");
         }
     };
 

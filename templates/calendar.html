@@ -149,7 +149,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showFields.appointmentType"
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
+                         ng-show="form.showFields.appointmentType"
                          ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
@@ -184,7 +185,8 @@
                                  ng-show="form.showFields.name">
                                 <label class="control-label">Patient Name</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientName"
-                                       ng-disabled="form.disableFields.patientName" name="patientName" autocomplete="off"
+                                       ng-disabled="form.disableFields.patientName" name="patientName"
+                                       autocomplete="off"
                                        required>
 
                                 <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
@@ -321,7 +323,8 @@
                         </textarea>
                     </div>
                     <!-- button group for create appointment form -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showButtons.createForm">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
+                         ng-show="form.showButtons.createForm">
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
@@ -343,7 +346,8 @@
                         </div>
                     </div>
                     <!-- button group for edit appointment form -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showButtons.editForm">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
+                         ng-show="form.showButtons.editForm">
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
