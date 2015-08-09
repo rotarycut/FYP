@@ -273,7 +273,7 @@
         "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 1,
-        "timeBucket": 5306
+        "timeBucket": 22826
     }
   },
 
@@ -289,7 +289,7 @@
         "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 5331
+        "timeBucket": 14091
     }
   },
 
@@ -321,7 +321,7 @@
         "patients": [91500323, 94764232],
         "doctor": 1,
         "clinic": 1,
-        "timeBucket": 5381
+        "timeBucket": 22901
     }
   },
 
@@ -338,7 +338,7 @@
         "doctor": 1,
         "clinic": 2,
         "tempPatients": [91500333,91500444],
-        "timeBucket": 5406
+        "timeBucket": 14166
     }
   },
   {
