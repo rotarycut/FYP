@@ -316,7 +316,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
             for eachObj in response_data:
                 leads = eachObj['leads']
                 convert = eachObj['convert']
-                rate = convert / leads
+                rate = float(convert / leads)
                 eachObj['rate'] = rate
 
             return Response(response_data)
