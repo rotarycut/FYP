@@ -6,9 +6,15 @@ from rest_framework import serializers
 from ClearVision.models import *
 
 class PatientSerializer(serializers.ModelSerializer):
+
+    marketingname = serializers.SerializerMethodField()
+
     class Meta:
         model = Patient
-        fields = ('name', 'contact')
+        fields = ('name', 'contact', 'marketingname')
+
+    def get_marketingname(self, patient):
+        return str(patient.marketingChannelId.name)
 
 class ClinicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,7 +37,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         depth = 0
-        fields = ('id', 'apptType', 'title', 'date', 'start', 'end', 'doctor', 'patients', 'tempPatients',)
+        fields = ('id', 'apptType', 'title', 'date', 'start', 'end', 'doctor', 'patients', 'tempPatients')
 
     def get_title(self, appointment):
         return str(appointment.patients.count()) + " Patient(s)"
