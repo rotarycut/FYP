@@ -44,7 +44,7 @@ class AvailableTimeSlots(models.Model):
     timeslotType = models.CharField(max_length=200)
     start = models.TimeField("Start Time")
     end = models.TimeField("End Time")
-    dates = models.ForeignKey(FullYearCalendar, null=True)
+    date = models.ForeignKey(FullYearCalendar,)
 
     def __str__(self):
         return self.start
@@ -54,8 +54,8 @@ class Doctor(models.Model):
     phoneModel = models.CharField(max_length=50)
     calDavAccount = models.CharField(max_length=50)
     contact = models.CharField(max_length=50)
-    timeBucket = models.ForeignKey(AvailableTimeSlots, null=True)
     clinic = models.ManyToManyField(Clinic)
+    timeslots = models.ManyToManyField(AvailableTimeSlots)
 
     def __str__(self):
         return self.name

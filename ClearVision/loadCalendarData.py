@@ -241,5 +241,4 @@ for months in range(0, 13):
                         if tup[1] == 6:
                             blank.append({"model": "ClearVision.FullYearCalendar", "fields": {"day": "Sunday", "date": str(year) + "-12-" + str(tup[0])}})
 
-print(blank)
-dump.write(str(blank))
+dump.write(str(blank).replace("'", "\""))

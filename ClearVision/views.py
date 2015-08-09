@@ -270,16 +270,25 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
         limit = int(request.query_params.get('limit'))
         daysAhead = int(request.query_params.get('daysAhead'))
         type = request.query_params.get('timeslotType')
+        upperB = request.query_params.get('upperB')
+        lowerB = request.query_params.get('lowerB')
+        docID = request.query_params.get('docID')
+
+        if lowerB is None:
+            lowerB = 0
 
         response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
-                        annotate(patientcount=Count('availabletimeslots__appointment__patients')).\
-                        annotate(apptId=F('availabletimeslots__appointment__id')).\
+                        annotate(title=Count('availabletimeslots__appointment__patients')).\
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
                         annotate(end=F('availabletimeslots__end')).\
-                        annotate(docID=F('availabletimeslots__doctor')).\
-                        values('date', 'day', 'patientcount', 'apptId', 'timeslotType', 'start', 'end', 'docID').\
-                        order_by('patientcount')[:limit]
+                        filter(title__lte=upperB, title__gte=lowerB,).\
+                        values().order_by('title')[:limit]
+
+        for eachObj in response_data:
+                eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
+                eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
+                eachObj['title'] = str(eachObj['title']) + " Patient(s)"
 
         return Response(response_data)
 
@@ -298,7 +307,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                 convert=Sum(
                     Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
                 )
-            )
+                )
 
             for eachObj in response_data:
                 leads = eachObj['leads']
@@ -337,19 +346,29 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
     queryset = FullYearCalendar.objects.none()
 
     def list(self, request, *args, **kwargs):
+        limit = int(request.query_params.get('limit'))
         monthsAhead = int(request.query_params.get('monthsAhead'))
         type = request.query_params.get('timeslotType')
+        upperB = request.query_params.get('upperB')
+        lowerB = request.query_params.get('lowerB')
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(monthsAhead*30), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
-                        annotate(patientcount=Count('availabletimeslots__appointment__patients')).\
-                        annotate(apptId=F('availabletimeslots__appointment__id')).\
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=monthsAhead*30), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
+                        annotate(title=Count('availabletimeslots__appointment__patients')).\
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
                         annotate(end=F('availabletimeslots__end')).\
-                        annotate(docID=F('availabletimeslots__doctor')).\
-                        values('date', 'day', 'patientcount', 'apptId', 'timeslotType', 'start', 'end', 'docID').\
-                        order_by('patientcount')
+                        filter(title__lte=upperB, title__gte=lowerB,).\
+                        values().order_by('title')[:limit]
+
+        for eachObj in response_data:
+            eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
+            eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
+            eachObj['title'] = str(eachObj['title']) + " Patient(s)"
 
         return Response(response_data)
 
-
+class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
+    queryset = AvailableTimeSlots.objects.none()
+    def list(self, request, *args, **kwargs):
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-14', start='11:30:00', timeslotType='Screening').id
+        return HttpResponse(response_data)

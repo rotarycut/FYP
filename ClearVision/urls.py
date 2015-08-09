@@ -13,6 +13,7 @@ router.register(r'_api/iSchedule', views.AppointmentIScheduleFinder)
 router.register(r'_api/analyticsServer', views.AnalyticsServer)
 router.register(r'_api/Remarks', views.RemarksFinder)
 router.register(r'_api/HeatMap', views.AppointmentHeatMap)
+router.register(r'_api/TimeSlots', views.AvaliableTimeSlots)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
