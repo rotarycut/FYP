@@ -155,7 +155,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if num_patients == 1:
             a.delete()
             return Response({})
-        elif num_patients <= 5 and num_temp_patients >= 1:
+        elif num_temp_patients >= 1:
             return Response("Inform Swap Possible for " + str(temp_patients))
         else:
             serializedExistingAppt = AppointmentSerializer(a)
@@ -173,8 +173,11 @@ class AppointmentWriter(viewsets.ModelViewSet):
         patientName = data.get('name')
         patientGender = data.get('gender')
         marketingID = data.get('channelID')
-        #isWaitingList = data.get('waitingListFlag')
+        isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
+
+        tempApptTimeBucket = data.get('tempTime') + ":00"
+        tempApptDate = data.get('tempDate')
 
         if not Patient.objects.filter(contact=patientContact).exists():
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
@@ -194,6 +197,26 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
+            if isWaitingList == True:
+
+                tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType, date=tempApptDate).id
+
+                if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket, apptType=apptType).exists():
+
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt.tempPatients.add(p)
+                    tempExistingAppt.save()
+
+                    AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
+                else:
+
+                    Appointment.objects.create(apptType=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
+                                       clinic=Clinic.objects.get(id=clinicID),
+                                       timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
+
+                    tempExistingAppt = Appointment.objects.get(date=apptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
+
             return Response(serializedExistingAppt.data)
 
         else:
@@ -204,6 +227,27 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
             AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
+
+            if isWaitingList == True:
+
+                tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType, date=tempApptDate).id
+
+                if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket, apptType=apptType).exists():
+
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt.tempPatients.add(p)
+                    tempExistingAppt.save()
+
+                    AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
+                else:
+
+                    Appointment.objects.create(apptType=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
+                                       clinic=Clinic.objects.get(id=clinicID),
+                                       timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
+
+                    tempExistingAppt = Appointment.objects.get(date=apptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
+
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
             return Response(serializedExistingAppt.data)
@@ -385,3 +429,18 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         response_data = AvailableTimeSlots.objects.get(date='2015-08-14', start='11:30:00', timeslotType='Pre Evaluation').id
         return HttpResponse(response_data)
+
+class iScheduleSwapper(viewsets.ModelViewSet):
+    queryset = Patient.objects.none()
+    serializer_class = AppointmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        response_data = Patient.objects.\
+            annotate(tempApptDate=F('tempPatients__timeBucket_id__date')).\
+            annotate(tempApptStart=F('tempPatients__timeBucket_id__start')).\
+            annotate(tempApptType=F('tempPatients__timeBucket__timeslotType')).\
+            annotate(tempApptDay=F('tempPatients__timeBucket_id__date__day')).\
+            annotate(doctor=F('tempPatients__timeBucket_id__appointment__doctor__name')).\
+            exclude(tempApptDate=None).\
+            values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor',)
+        return Response(response_data)
