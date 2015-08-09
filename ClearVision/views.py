@@ -350,19 +350,22 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
     queryset = FullYearCalendar.objects.none()
 
     def list(self, request, *args, **kwargs):
-        limit = int(request.query_params.get('limit'))
         monthsAhead = int(request.query_params.get('monthsAhead'))
         type = request.query_params.get('timeslotType')
         upperB = request.query_params.get('upperB')
         lowerB = request.query_params.get('lowerB')
+        docName = request.query_params.get('docName')
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=monthsAhead*30), date__gte=datetime.now(), availabletimeslots__timeslotType=type).\
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=monthsAhead*30),
+                                                        date__gte=datetime.now(),
+                                                        availabletimeslots__timeslotType=type,
+                                                        availabletimeslots__doctors__name=docName).\
                         annotate(title=Count('availabletimeslots__appointment__patients')).\
                         annotate(timeslotType=F('availabletimeslots__timeslotType')).\
                         annotate(start=F('availabletimeslots__start')).\
                         annotate(end=F('availabletimeslots__end')).\
                         filter(title__lte=upperB, title__gte=lowerB,).\
-                        values().order_by('title')[:limit]
+                        values().order_by('title')
 
         for eachObj in response_data:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
