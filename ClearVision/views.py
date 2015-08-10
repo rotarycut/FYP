@@ -476,9 +476,12 @@ class iScheduleSwapper(viewsets.ModelViewSet):
         contact = data.get('contact')
 
         p = Patient.objects.get(contact=contact)
-        Appointment.objects.get(id=scheduledApptId).patients.remove(p).save()
+        scheduledAppt = Appointment.objects.get(id=scheduledApptId)
+        scheduledAppt.patients.remove(p)
+        scheduledAppt.save()
 
-        tempAppt = Appointment.objects.get(id=tempApptId).patients.add(p)
+        tempAppt = Appointment.objects.get(id=tempApptId)
+        tempAppt.patients.add(p)
         tempAppt.tempPatients.remove(p)
         tempAppt.save()
 
