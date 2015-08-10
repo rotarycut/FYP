@@ -682,15 +682,15 @@ a.fc-more:hover {
 	position: static;
 	margin-bottom: 0.5em;
 	margin-top:-2.5em;
-	margin-left: 380px;
-	width: 500px;
+	margin-left: 250px;
+
 }
 
 .fc-toolbar .fc-left {
 	float: left;
 	display: inline-block;
 	position: relative;
-	width: 160px;
+	width: 293px;
 
 }
 

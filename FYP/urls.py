@@ -18,7 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^Clearvision/', include('ClearVision.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^Clearvision/admin/', include(admin.site.urls)),
 ]
 
 #Site Header
