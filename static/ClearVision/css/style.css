@@ -213,6 +213,7 @@ ul.legend-ul li{
 .fc-view-container{
     height: 64vh; !important;
     width: 100% !important;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
