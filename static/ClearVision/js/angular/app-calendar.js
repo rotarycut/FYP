@@ -432,9 +432,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 "channelID": "1",
                 "time": $scope.fields.appointmentTime,
                 "remarks": $scope.fields.appointmentRemarks,
-                //"waitingListFlag": $scope.fields.waitingList,
-                //"tempDate": formattedWaitingDate,
-                //"tempTime": $scope.fields.waitingTime
+                "waitingListFlag": $scope.fields.waitingList,
+                "tempDate": formattedWaitingDate,
+                "tempTime": $scope.fields.waitingTime
             })
                 .success(function (data) {
                     console.log("Successful with http post");

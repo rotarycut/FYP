@@ -3,6 +3,7 @@ var app = angular.module('calendarDemoApp', [
     'ui.bootstrap',
     'app.calendar',
     'app.dashboard',
+    'app.waitingList',
     'ngRoute',
     'single.click',
     'appointment.service',
@@ -23,7 +24,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/waitlist", {
             templateUrl: "waitlist.html",
-            controller: ''
+            controller: 'waitListCtrl'
         })
         .otherwise({
             redirectTo: '/'
