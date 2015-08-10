@@ -197,7 +197,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
-            if isWaitingList == True:
+            if isWaitingList == 'True':
 
                 tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType, date=tempApptDate).id
 
@@ -228,7 +228,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
             AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
 
-            if isWaitingList == True:
+            if isWaitingList == 'True':
 
                 tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType, date=tempApptDate).id
 
@@ -304,9 +304,6 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
-    # queryset = AvailableTimeSlots.objects.annotate(num_patients=Count('appointment__patients')).\
-    #   filter(Q(appointment__isnull=True) | Q(num_patients__lt=5))
-    # serializer_class = AppointmentIScheduleFinderSerializer
 
     queryset = FullYearCalendar.objects.none()
 
@@ -472,18 +469,18 @@ class iScheduleSwapper(viewsets.ModelViewSet):
 
         return Response(temp_response_data)
 
-    def update(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         data = request.DATA
-        scheduledApptId = data.get('oldApptId')
-        tempApptId = data.get('newApptId')
+        scheduledApptId = data.get('scheduledApptId')
+        tempApptId = data.get('tempApptId')
         contact = data.get('contact')
 
         p = Patient.objects.get(contact=contact)
-
         Appointment.objects.get(id=scheduledApptId).patients.remove(p).save()
 
         tempAppt = Appointment.objects.get(id=tempApptId).patients.add(p)
-        tempAppt.tempPatients.remove(p).save()
+        tempAppt.tempPatients.remove(p)
+        tempAppt.save()
 
         serializedAppt = AppointmentSerializer(tempAppt)
         return Response(serializedAppt.data)
