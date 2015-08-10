@@ -166,7 +166,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
                 annotate(tempApptDate=F('tempAppt__timeBucket_id__date')).\
                 annotate(tempApptStart=F('tempAppt__timeBucket_id__start')).\
                 annotate(tempApptDay=F('tempAppt__timeBucket_id__date__day')).\
-                values('patientname', 'scheduledApptDate', 'scheduledApptStart', 'tempApptDate', 'tempApptStart', 'scheduledApptDay', 'tempApptDay')
+                exclude(swappable=False).\
+                values('patientname', 'scheduledApptDate', 'scheduledApptStart', 'tempApptDate', 'tempApptStart', 'scheduledApptDay', 'tempApptDay','swappable')
 
             return Response(response_data)
 
