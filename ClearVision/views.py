@@ -176,8 +176,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
         isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
 
-        tempApptTimeBucket = data.get('tempTime') + ":00"
-        tempApptDate = data.get('tempDate')
+        if data.get('tempTime') and data.get('tempDate') is not "" and isWaitingList == 'True':
+            tempApptTimeBucket = data.get('tempTime') + ":00"
+            tempApptDate = data.get('tempDate')
 
         if not Patient.objects.filter(contact=patientContact).exists():
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
@@ -207,6 +208,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt.id, tempAppt=tempExistingAppt.id, swappable=False)
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 

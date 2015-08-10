@@ -78,3 +78,9 @@ class AppointmentRemarks(models.Model):
     patient = models.ForeignKey(Patient)
     appointment = models.ForeignKey(Appointment)
     remarks = models.CharField(max_length=1500)
+
+class Swapper(models.Model):
+    patient = models.ForeignKey(Patient)
+    scheduledAppt = models.ForeignKey(Appointment, related_name="scheduledAppt")
+    tempAppt = models.ForeignKey(Appointment, related_name="tempAppt")
+    swappable = models.NullBooleanField(default=False)
