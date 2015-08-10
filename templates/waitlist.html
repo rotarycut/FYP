@@ -12,7 +12,7 @@
                 <!-- /input-group -->
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-init="getWaitListAppointments()">
             <div class="col-sm-9">
                 <table class="table table-striped waitlist-main-tbl">
                     <tr>
@@ -23,37 +23,16 @@
                         <th>Appt Type</th>
                         <th>Scheduled Time</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Adam</td>
-                        <td>91132635</td>
-                        <td>Dr. Ho</td>
-                        <td>Pre-eval</td>
-                        <td>11am, Wed, 15 Aug 2015</td>
-                    </tr>
-                    <tr class="success">
-                        <td>2</td>
-                        <td>Max</td>
-                        <td>82568133</td>
-                        <td>Dr. Ho</td>
-                        <td>Follow-up</td>
-                        <td>2pm, Fri, 24 Aug 2015</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>David</td>
-                        <td>97461342</td>
-                        <td>Dr. Goh</td>
-                        <td>Surgery</td>
-                        <td>5pm, Tue, 28 Aug 2015</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Mary</td>
-                        <td>85265612</td>
-                        <td>Dr. Ho</td>
-                        <td>Follow-up</td>
-                        <td>9am, Tue, 4 Sep 2015</td>
+                    <tr ng-repeat="appt in listOfWaitingAppointments">
+                        <td>[[$index + 1]]</td>
+                        <td>[[appt.patientname]]</td>
+                        <td>[[appt.patientcontact]]</td>
+                        <td>[[appt.doctor]]</td>
+                        <td>[[appt.tempApptType]]</td>
+                        <td>[[appt.scheduledAppointments[0].scheduledApptDate]],
+                            [[appt.scheduledAppointments[0].scheduledApptStart]]
+                        </td>
+                        <!--<td>11am, Wed, 15 Aug 2015</td>-->
                     </tr>
                 </table>
             </div>
@@ -62,18 +41,20 @@
                     <tr>
                         <th>Action</th>
                     </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-default waitlist-action-btn" ng-click="" disabled="disabled"><i class="fa fa-exchange"></i> Swap</button></td>
+                    <tr ng-repeat="appt in listOfWaitingAppointments">
+                        <td>
+                            <button type="button" class="btn btn-default waitlist-action-btn" ng-click=""
+                                    ng-disabled="true"><i class="fa fa-exchange"></i> Swap
+                            </button>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-success waitlist-action-btn" ng-click=""><i class="fa fa-exchange"></i> Swap</button></td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-default waitlist-action-btn" ng-click="" disabled="disabled"><i class="fa fa-exchange"></i> Swap</button></td>
-                    </tr>
-                    <tr>
-                        <td><button type="button" class="btn btn-default waitlist-action-btn" ng-click="" disabled="disabled"><i class="fa fa-exchange"></i> Swap</button></td>
-                    </tr>
+                    <!--<tr>
+                        <td>
+                            <button type="button" class="btn btn-success waitlist-action-btn" ng-click=""><i
+                                    class="fa fa-exchange"></i> Swap
+                            </button>
+                        </td>
+                    </tr>-->
                 </table>
             </div>
             <div class="col-sm-2" style="padding-right: 0; padding-left: 0;">
@@ -81,18 +62,14 @@
                     <tr>
                         <th>Preferred Time</th>
                     </tr>
-                    <tr>
-                        <td><i class="fa fa-circle" style="color: #5e5e5e"></i> 11am, Mon,10 Aug 2015</td>
+                    <tr ng-repeat="appt in listOfWaitingAppointments">
+                        <td><i class="fa fa-circle" style="color: #5e5e5e"></i> [[appt.tempApptDate]],
+                            [[appt.tempApptStart]]
+                        </td>
                     </tr>
-                    <tr>
+                    <!--<tr>
                         <td><i class="fa fa-circle" style="color: #4ea64e"></i> 1pm, Wed,26 Aug 2015</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-circle" style="color: #5e5e5e"></i> 10am, Wed,26 Aug 2015</td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-circle" style="color: #5e5e5e"></i> 4pm, Fri,24 Aug 2015</td>
-                    </tr>
+                    </tr>-->
                 </table>
             </div>
         </div>
