@@ -210,11 +210,11 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
-                    Appointment.objects.create(apptType=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
+                    Appointment.objects.create(apptType=apptType, date=tempApptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
 
-                    tempExistingAppt = Appointment.objects.get(date=apptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             return Response(serializedExistingAppt.data)
@@ -241,11 +241,11 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
-                    Appointment.objects.create(apptType=apptType, date=apptDate, doctor=Doctor.objects.get(id=docID),
+                    Appointment.objects.create(apptType=apptType, date=tempApptDate, doctor=Doctor.objects.get(id=docID),
                                        clinic=Clinic.objects.get(id=clinicID),
                                        timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
 
-                    tempExistingAppt = Appointment.objects.get(date=apptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
