@@ -71,7 +71,22 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         textColor: 'White',
         events: []
     };
+
     /* --- end of declaration --- */
+
+    /* function to get iSchedule */
+    $scope.getISchedule = function () {
+
+        $scope.appointments = [];
+        var url = '/Clearvision/_api/iSchedule/?limit=5&daysAhead=7&timeslotType=' + $scope.fields.appointmentType + '&upperB=5&docName=Dr%20Ho'
+
+        $http.get(url)
+            .success(function (listOfAppointments) {
+                angular.forEach(listOfAppointments, function (appointment) {
+                    $scope.appointments.push(appointment);
+                });
+            })
+    };
 
     /* function to retrieve low heat map for iSchedule */
     $scope.getLowHeatMap = function () {
@@ -893,7 +908,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.drHoPreEvaluations.events.splice(0);
             $scope.drHoSurgeries.events.splice(0);
             $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
-            console.log("methodDone");
+            $scope.getISchedule();
         }
     };
 
@@ -1000,24 +1015,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         date.active = !date.active;
     };
 
-    $scope.dates = [
-        {
-            apptDate: 'Wed 18 Aug 2015',
-            apptTimeslots: [
-                {apptTime: "9am"},
-                {apptTime: "1pm"},
-                {apptTime: "2pm"}
-            ]
-        },
-        {
-            apptDate: 'Fri 21 Aug 2015',
-            apptTimeslots: [
-                {apptTime: "11am"},
-                {apptTime: "2pm"},
-                {apptTime: "5pm"}
-            ]
-        }
-    ];
+    /*$scope.dates = [
+     {
+     apptDate: 'Wed 18 Aug 2015',
+     apptTimeslots: [
+     {apptTime: "9am"},
+     {apptTime: "1pm"},
+     {apptTime: "2pm"}
+     ]
+     },
+     {
+     apptDate: 'Fri 21 Aug 2015',
+     apptTimeslots: [
+     {apptTime: "11am"},
+     {apptTime: "2pm"},
+     {apptTime: "5pm"}
+     ]
+     }
+     ];*/
 
     $scope.showLeastPackedSlots = function (date) {
         date.active = !date.active;

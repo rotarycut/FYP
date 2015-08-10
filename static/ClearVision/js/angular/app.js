@@ -6,7 +6,8 @@ var app = angular.module('calendarDemoApp', [
     'ngRoute',
     'single.click',
     'appointment.service',
-    'ngAnimate'
+    'ngAnimate',
+    'angular.filter'
 ]);
 
 /* Angular routing */
