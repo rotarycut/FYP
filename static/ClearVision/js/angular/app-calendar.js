@@ -19,19 +19,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
-        color: '#303030',
+        color: '#f98a5f',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoPreEvaluations = {
-        color: '#CC6600',
+        color: '#aa2159',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoSurgeries = {
-        color: '#CC3333',
+        color: '#74aaf7',
         textColor: 'White',
         events: []
     };
