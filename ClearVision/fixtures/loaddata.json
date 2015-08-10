@@ -313,7 +313,7 @@
         "apptType": "Screening",
         "date": "2015-08-12",
         "last_modified": "2015-07-27T07:16:36Z",
-        "patients": [91500323, 94764232],
+        "patients": [91500323, 94764232, 91500444],
         "doctor": 1,
         "clinic": 2,
         "timeBucket": 5356
@@ -329,7 +329,7 @@
         "apptType": "Surgery",
         "date": "2015-08-13",
         "last_modified": "2015-07-27T07:16:36Z",
-        "patients": [91500323, 94764232],
+        "patients": [91500323, 94764232, 91500333],
         "doctor": 1,
         "clinic": 1,
         "timeBucket": 22901
