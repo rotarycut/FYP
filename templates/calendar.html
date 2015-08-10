@@ -270,6 +270,66 @@
                         </div>
                     </div>
 
+                    <!-- Waiting list -->
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
+                         ng-show="true">
+
+                        <label class="control-label">Waiting list</label>
+
+                        <div class="row">
+                            <div class="radio col-sm-6">
+                                <label><input type="radio" data-ng-model="fields.waitingList" value="true"
+                                              ng-change="showWaitingFields('yes')">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="radio col-sm-6">
+                                <label><input type="radio" data-ng-model="fields.waitingList" value="false"
+                                              ng-change="showWaitingFields('no')">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date and time for waiting list -->
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row">
+                            <div class="col-sm-8 date-div form-animation" ng-show="showWaitingDate">
+                                <label class="control-label">Date</label>
+
+                                <p class="input-group">
+                                    <input type="text"
+                                           class="form-control"
+                                           datepicker-popup="[[ format ]]"
+                                           name="datePickerCalendar"
+                                           ng-model="fields.waitingDate"
+                                           is-open="datepickers.showDatePicker2"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                            />
+
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default"
+                                                        ng-click="open($event,'showDatePicker2')">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                </p>
+
+                            </div>
+
+                            <div class="col-sm-4 form-animation" date-div ng-show="showWaitingTime">
+                                <label class="control-label">Time</label>
+                                <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
+                                        data-ng-model="fields.waitingTime" name="appointmentTime">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assigned doctor -->
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
                          ng-show="form.showFields.doctor">
@@ -294,6 +354,7 @@
                         </div>
 
                         <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
+                        <div ng-show="adateppointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
                              class="help-block">
                             Please select a doctor
                         </div>

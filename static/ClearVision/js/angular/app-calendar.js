@@ -417,6 +417,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.fields.appointmentRemarks = "";
             }
 
+            if ($scope.fields.waitingDate !== undefined) {
+                var formattedWaitingDate = $scope.getFormattedDate($scope.fields.waitingDate);
+            }
+
             $http.post('/Clearvision/_api/appointmentsCUD/', {
                 "apptType": $scope.fields.appointmentType,
                 "date": formattedDate,
@@ -427,7 +431,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 "gender": "Male",
                 "channelID": "1",
                 "time": $scope.fields.appointmentTime,
-                "remarks": $scope.fields.appointmentRemarks
+                "remarks": $scope.fields.appointmentRemarks,
+                //"waitingListFlag": $scope.fields.waitingList,
+                //"tempDate": formattedWaitingDate,
+                //"tempTime": $scope.fields.waitingTime
             })
                 .success(function (data) {
                     console.log("Successful with http post");
@@ -706,7 +713,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* --- start of date picker codes --- */
     $scope.datepickers = {
-        showDatePicker: false
+        showDatePicker: false,
+        showDatePicker2: false
     };
     $scope.disabled = function (date, mode) {
         return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
@@ -725,6 +733,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.toggleMin();
 
     $scope.open = function ($event, which) {
+
         $event.preventDefault();
         $event.stopPropagation();
 
@@ -881,6 +890,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.disableISchedule();
         $scope.clearForm();
         $scope.showHeatMap = false;
+        $scope.showWaitingDate = false;
+        $scope.showWaitingTime = false;
 
         $timeout(function () {
             $scope.form.showButtons['addAndBlock'] = true;
@@ -1007,6 +1018,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
                 }
                 break;
+        }
+    };
+
+    /* function to show waiting fields */
+    $scope.showWaitingFields = function (showFields) {
+        if (showFields === 'yes') {
+            $scope.showWaitingDate = true;
+            $scope.showWaitingTime = true;
+        } else {
+            $scope.showWaitingDate = false;
+            $scope.showWaitingTime = false;
         }
     };
 
