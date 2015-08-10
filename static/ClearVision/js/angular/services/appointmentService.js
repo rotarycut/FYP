@@ -1,5 +1,3 @@
-/* service to retrieve doctor's appointments */
-
 angular.module('appointment.service', [])
     .service('appointmentService', function ($http, $q, $timeout) {
 

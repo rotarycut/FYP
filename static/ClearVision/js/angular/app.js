@@ -8,7 +8,8 @@ var app = angular.module('calendarDemoApp', [
     'single.click',
     'appointment.service',
     'ngAnimate',
-    'angular.filter'
+    'angular.filter',
+    'post.appointment'
 ]);
 
 /* Angular routing */

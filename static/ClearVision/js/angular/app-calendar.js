@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -407,85 +407,85 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to create appointment */
-    $scope.postAppointment = function () {
+    /*$scope.postAppointment = function () {
 
-        var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+     var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
 
-        if ($scope.fields.appointmentRemarks === undefined) {
-            $scope.fields.appointmentRemarks = "";
-        }
+     if ($scope.fields.appointmentRemarks === undefined) {
+     $scope.fields.appointmentRemarks = "";
+     }
 
-        if ($scope.fields.waitingDate !== undefined) {
-            var formattedWaitingDate = $scope.getFormattedDate($scope.fields.waitingDate);
-        }
+     if ($scope.fields.waitingDate !== undefined) {
+     var formattedWaitingDate = $scope.getFormattedDate($scope.fields.waitingDate);
+     }
 
-        $http.post('/Clearvision/_api/appointmentsCUD/', {
-            "apptType": $scope.fields.appointmentType,
-            "date": formattedDate,
-            "docID": $scope.fields.doctorAssigned,
-            "clinicID": 1,
-            "contact": $scope.fields.patientContact,
-            "name": $scope.fields.patientName,
-            "gender": "Male",
-            "channelID": "1",
-            "time": $scope.fields.appointmentTime,
-            "remarks": $scope.fields.appointmentRemarks,
-            "waitingListFlag": $scope.fields.waitingList,
-            "tempDate": formattedWaitingDate,
-            "tempTime": $scope.fields.waitingTime
-        })
-            .success(function (data) {
-                console.log("Successful with http post");
-                console.log(data);
+     $http.post('/Clearvision/_api/appointmentsCUD/', {
+     "apptType": $scope.fields.appointmentType,
+     "date": formattedDate,
+     "docID": $scope.fields.doctorAssigned,
+     "clinicID": 1,
+     "contact": $scope.fields.patientContact,
+     "name": $scope.fields.patientName,
+     "gender": "Male",
+     "channelID": "1",
+     "time": $scope.fields.appointmentTime,
+     "remarks": $scope.fields.appointmentRemarks,
+     "waitingListFlag": $scope.fields.waitingList,
+     "tempDate": formattedWaitingDate,
+     "tempTime": $scope.fields.waitingTime
+     })
+     .success(function (data) {
+     console.log("Successful with http post");
+     console.log(data);
 
-                var event = data;
+     var event = data;
 
-                switch ($scope.fields.appointmentType) {
+     switch ($scope.fields.appointmentType) {
 
-                    case "Screening":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                            if (screeningAppointment.start === event.start) {
-                                $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+     case "Screening":
+     var appointmentIndex = 0;
+     angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+     if (screeningAppointment.start === event.start) {
+     $scope.drHoScreenings.events.splice(appointmentIndex, 1);
 
-                            }
-                            appointmentIndex++;
-                        });
-                        $scope.drHoScreenings.events.push(event);
-                        break;
+     }
+     appointmentIndex++;
+     });
+     $scope.drHoScreenings.events.push(event);
+     break;
 
-                    case "Pre Evaluation":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                            if (preEvaluationAppointment.start === event.start) {
-                                $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+     case "Pre Evaluation":
+     var appointmentIndex = 0;
+     angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+     if (preEvaluationAppointment.start === event.start) {
+     $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
 
-                            }
-                            appointmentIndex++;
-                        });
-                        $scope.drHoPreEvaluations.events.push(event);
-                        break;
+     }
+     appointmentIndex++;
+     });
+     $scope.drHoPreEvaluations.events.push(event);
+     break;
 
-                    case "Surgery":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                            if (surgeryAppointment.start === event.start) {
-                                $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+     case "Surgery":
+     var appointmentIndex = 0;
+     angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+     if (surgeryAppointment.start === event.start) {
+     $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
 
-                            }
-                            appointmentIndex++;
-                        });
+     }
+     appointmentIndex++;
+     });
 
-                        $scope.drHoSurgeries.events.push(event);
-                        break;
-                }
+     $scope.drHoSurgeries.events.push(event);
+     break;
+     }
 
-            })
+     })
 
-            .error(function (data) {
-                console.log("Error with http post");
-            });
-    };
+     .error(function (data) {
+     console.log("Error with http post");
+     });
+     };*/
 
     /* function to delete appointment */
     $scope.deleteAppointment = function () {
@@ -1101,13 +1101,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     }
 
+    /* pass the scope to the post appointment service upon initialization*/
+    postAppointmentSvc.getScope($scope);
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.ok = function () {
+        postAppointmentSvc.postAppointment();
         $modalInstance.close();
     };
 
