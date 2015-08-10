@@ -83,4 +83,4 @@ class Swapper(models.Model):
     patient = models.ForeignKey(Patient)
     scheduledAppt = models.ForeignKey(Appointment, related_name="scheduledAppt")
     tempAppt = models.ForeignKey(Appointment, related_name="tempAppt")
-    swappable = models.NullBooleanField(default=False)
+    swappable = models.NullBooleanField()

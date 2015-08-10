@@ -406,5 +406,23 @@
         "appointment":1,
         "remarks": "TESTING SCENARIO"
     }
+  },
+    {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 91500333,
+        "scheduledAppt": 5,
+        "tempAppt": 6,
+        "swappable": false
+    }
+  },
+  {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 91500444,
+        "scheduledAppt": 4,
+        "tempAppt": 6,
+        "swappable": false
+    }
   }
 ]

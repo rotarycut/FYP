@@ -142,13 +142,14 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         data = request.DATA
-        num_patients = Appointment.objects.get(id=self.get_object().id).patients.count()
-
-        num_temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.count()
-        temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.values("name", "contact", )
-
         p = Patient.objects.get(contact=data.get('contact'))
+
         a = Appointment.objects.get(id=self.get_object().id)
+        num_patients = a.patients.count()
+
+        num_temp_patients = a.tempPatients.count()
+        temp_patients = Appointment.objects.get(id=self.get_object().id).tempPatients.values()
+
         a.patients.remove(p)
         a.save()
 
@@ -156,7 +157,19 @@ class AppointmentWriter(viewsets.ModelViewSet):
             a.delete()
             return Response({})
         elif num_temp_patients >= 1:
-            return Response("Inform Swap Possible for " + str(temp_patients))
+            Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
+
+            response_data = Swapper.objects.annotate(patientname=F('patient__name')).\
+                annotate(scheduledApptDate=F('scheduledAppt__timeBucket_id__date')).\
+                annotate(scheduledApptStart=F('scheduledAppt__timeBucket_id__start')).\
+                annotate(scheduledApptDay=F('scheduledAppt__timeBucket_id__date__day')).\
+                annotate(tempApptDate=F('tempAppt__timeBucket_id__date')).\
+                annotate(tempApptStart=F('tempAppt__timeBucket_id__start')).\
+                annotate(tempApptDay=F('tempAppt__timeBucket_id__date__day')).\
+                values('patientname', 'scheduledApptDate', 'scheduledApptStart', 'tempApptDate', 'tempApptStart', 'scheduledApptDay', 'tempApptDay')
+
+            return Response(response_data)
+
         else:
             serializedExistingAppt = AppointmentSerializer(a)
             return Response(serializedExistingAppt.data)
@@ -208,7 +221,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt.id, tempAppt=tempExistingAppt.id, swappable=False)
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -217,6 +230,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                        timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
 
                     tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             return Response(serializedExistingAppt.data)
@@ -240,6 +255,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -248,6 +264,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                        timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
 
                     tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
@@ -435,6 +453,7 @@ class iScheduleSwapper(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         temp_response_data = Patient.objects.\
+            annotate(canswap=F('swapper__swappable')).\
             annotate(tempApptDate=F('tempPatients__timeBucket_id__date')).\
             annotate(tempApptStart=F('tempPatients__timeBucket_id__start')).\
             annotate(tempApptType=F('tempPatients__timeBucket__timeslotType')).\
@@ -444,7 +463,7 @@ class iScheduleSwapper(viewsets.ModelViewSet):
             annotate(doctor=F('tempPatients__timeBucket_id__appointment__doctor__name')).\
             annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')).\
             exclude(tempApptDate=None).\
-            values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname', 'patientcontact', 'tempApptId')
+            values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname', 'patientcontact', 'tempApptId','canswap')
 
         scheduled_response_data = Patient.objects.\
             annotate(scheduledApptDate=F('patients__timeBucket_id__date')).\
@@ -509,3 +528,11 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
         else:
             response_data = Patient.objects.all().values()
             return Response(response_data)
+
+class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
+    queryset = Swapper.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        response_data = Swapper.objects.all().values()
+
+        return Response(response_data)
