@@ -1,120 +1,131 @@
 angular.module('post.appointment', [])
     .service('postAppointmentSvc', function ($http) {
 
-        this._scope = {};
+        var self = this;
+        self._scope = {};
 
-        this.test = [];
-        this.test.push({event: "yes"});
+        self.test = [];
+        self.test.push({event: "yes"});
 
-        this.getScope = function (scope) {
-            this._scope = scope;
-            var scopeTest = scope;
-            console.log(this._scope);
-            console.log(scopeTest);
+        self.getScope = function (scope) {
+            self._scope = scope;
+            /*var scopeTest = scope;
+
+             console.log(scopeTest);
+
+             var event = {
+             apptType: "Surgery",
+             color: "#74aaf7",
+             date: "2015-08-12",
+             doctor: 2,
+             start: "2015-08-10 09:30:00",
+             end: "2015-08-10 10:00:00",
+             };
+             this._scope.drHoScreenings.events.push(event);
+             console.log(this._scope);*/
+
         };
 
-        this.postAppointment = function () {
-            var formattedDate = this._scope.getFormattedDate(this._scope.fields.appointmentDate);
 
-            if (this._scope.fields.appointmentRemarks === undefined) {
-                this._scope.fields.appointmentRemarks = "";
+        self.postAppointment = function () {
+            var formattedDate = self._scope.getFormattedDate(self._scope.fields.appointmentDate);
+
+            if (self._scope.fields.appointmentRemarks === undefined) {
+                self._scope.fields.appointmentRemarks = "";
             }
 
-            if (this._scope.fields.waitingDate !== undefined) {
-                var formattedWaitingDate = this._scope.getFormattedDate(this._scope.fields.waitingDate);
+            if (self._scope.fields.waitingDate !== undefined) {
+                var formattedWaitingDate = self._scope.getFormattedDate(self._scope.fields.waitingDate);
             }
 
-            if (this._scope.fields.waitingList === undefined) {
-                this._scope.fields.waitingList = false;
+            if (self._scope.fields.waitingList === undefined) {
+                self._scope.fields.waitingList = false;
             }
 
-            if (this._scope.fields.appointmentDate === undefined) {
-                this._scope.fields.appointmentDate = "";
+            if (self._scope.fields.appointmentDate === undefined) {
+                self._scope.fields.appointmentDate = "";
             }
 
-            if (this._scope.fields.waitingTime === undefined) {
-                this._scope.fields.waitingTime = "";
+            if (self._scope.fields.waitingTime === undefined) {
+                self._scope.fields.waitingTime = "";
             }
 
             var sending = {
-                "apptType": this._scope.fields.appointmentType,
+                "apptType": self._scope.fields.appointmentType,
                 "date": formattedDate,
-                "docID": this._scope.fields.doctorAssigned,
+                "docID": self._scope.fields.doctorAssigned,
                 "clinicID": 1,
-                "contact": this._scope.fields.patientContact,
-                "name": this._scope.fields.patientName,
+                "contact": self._scope.fields.patientContact,
+                "name": self._scope.fields.patientName,
                 "gender": "Male",
                 "channelID": "1",
-                "time": this._scope.fields.appointmentTime,
-                "remarks": this._scope.fields.appointmentRemarks,
-                "waitingListFlag": this._scope.fields.waitingList,
+                "time": self._scope.fields.appointmentTime,
+                "remarks": self._scope.fields.appointmentRemarks,
+                "waitingListFlag": self._scope.fields.waitingList,
                 "tempDate": formattedWaitingDate,
-                "tempTime": this._scope.fields.waitingTime
+                "tempTime": self._scope.fields.waitingTime
             };
 
-            console.log(sending);
-
             $http.post('/Clearvision/_api/appointmentsCUD/', {
-                "apptType": this._scope.fields.appointmentType,
+                "apptType": self._scope.fields.appointmentType,
                 "date": formattedDate,
-                "docID": this._scope.fields.doctorAssigned,
+                "docID": self._scope.fields.doctorAssigned,
                 "clinicID": 1,
-                "contact": this._scope.fields.patientContact,
-                "name": this._scope.fields.patientName,
+                "contact": self._scope.fields.patientContact,
+                "name": self._scope.fields.patientName,
                 "gender": "Male",
                 "channelID": "1",
-                "time": this._scope.fields.appointmentTime,
-                "remarks": this._scope.fields.appointmentRemarks,
-                "waitingListFlag": this._scope.fields.waitingList,
+                "time": self._scope.fields.appointmentTime,
+                "remarks": self._scope.fields.appointmentRemarks,
+                "waitingListFlag": self._scope.fields.waitingList,
                 "tempDate": formattedWaitingDate,
-                "tempTime": this._scope.fields.waitingTime
+                "tempTime": self._scope.fields.waitingTime
             })
                 .success(function (data) {
                     console.log("Successful with http post");
                     console.log(data);
-                    console.log(this._scope);
+
+                    //console.log(self._scope);
                     var event = data;
 
-                    switch (sending.apptType) {
+                    switch (self._scope.fields.appointmentType) {
 
                         case "Screening":
-                            console.log("SCREENING");
-                            console.log(this._scope);
                             var appointmentIndex = 0;
-                            angular.forEach(this._scope.drHoScreenings.events, function (screeningAppointment) {
+                            angular.forEach(self._scope.drHoScreenings.events, function (screeningAppointment) {
                                 if (screeningAppointment.start === event.start) {
-                                    //this._scope.drHoScreenings.events.splice(appointmentIndex, 1);
+                                    self._scope.drHoScreenings.events.splice(appointmentIndex, 1);
 
                                 }
                                 appointmentIndex++;
                             });
 
-                            //this._scope.drHoScreenings.events.push(event);
+                            self._scope.drHoScreenings.events.push(event);
                             break;
 
                         case "Pre Evaluation":
                             var appointmentIndex = 0;
-                            angular.forEach($this._scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                            angular.forEach(self._scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
                                 if (preEvaluationAppointment.start === event.start) {
-                                    this._scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+                                    self._scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
 
                                 }
                                 appointmentIndex++;
                             });
-                            this._scope.drHoPreEvaluations.events.push(event);
+                            self._scope.drHoPreEvaluations.events.push(event);
                             break;
 
                         case "Surgery":
                             var appointmentIndex = 0;
-                            angular.forEach(this._scope.drHoSurgeries.events, function (surgeryAppointment) {
+                            angular.forEach(self._scope.drHoSurgeries.events, function (surgeryAppointment) {
                                 if (surgeryAppointment.start === event.start) {
-                                    this._scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+                                    self._scope.drHoSurgeries.events.splice(appointmentIndex, 1);
 
                                 }
                                 appointmentIndex++;
                             });
 
-                            this._scope.drHoSurgeries.events.push(event);
+                            self._scope.drHoSurgeries.events.push(event);
                             break;
                     }
 
