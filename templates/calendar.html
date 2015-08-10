@@ -396,7 +396,7 @@
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
                                 <button class="btn btn-success"
-                                        data-ng-click="postAppointment(appointmentForm.$valid);">Submit
+                                        data-ng-click="isFormValid(appointmentForm.$valid);">Submit
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
@@ -438,6 +438,31 @@
 </div>
 <!-- row for entire app content ends-->
 <div class="clearfix"></div>
+
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Sure you want to create this appointment?</h3>
+    </div>
+
+    <div class="modal-body">
+        <ul>
+            <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+            <li>Contact No: [[patientDetails.patientContact]]</li>
+            <li>Patient Name: [[patientDetails.patientName]]</li>
+            <li>Date: [[patientDetails.appointmentDate]]</li>
+            <li>Time: [[patientDetails.appointmentTime]]</li>
+            <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+            <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
+            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+        </ul>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">Yes</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
 
 
 
