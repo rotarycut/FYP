@@ -15,6 +15,7 @@ router.register(r'_api/Remarks', views.RemarksFinder)
 router.register(r'_api/HeatMap', views.AppointmentHeatMap)
 router.register(r'_api/TimeSlots', views.AvaliableTimeSlots)
 router.register(r'_api/Swapper', views.iScheduleSwapper)
+router.register(r'_api/SearchBar', views.SearchBarFilter)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

@@ -487,3 +487,23 @@ class iScheduleSwapper(viewsets.ModelViewSet):
 
         serializedAppt = AppointmentSerializer(tempAppt)
         return Response(serializedAppt.data)
+
+
+class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
+    # renderer_classes = (JSONRenderer,)
+    queryset = Patient.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        searchstring = request.query_params.get('search')
+
+        if searchstring is not None:
+            response_data = Patient.objects.filter(Q(contact__contains=searchstring)|Q(name__contains=searchstring)).\
+                annotate(apptId=F('patients__timeBucket__appointment__id')).\
+                annotate(apptStart=F('patients__timeBucket__start')).\
+                annotate(apptDate=F('patients__timeBucket__date')).\
+                values('apptId', 'contact', 'name', 'apptStart', 'apptDate')
+
+            return Response(response_data)
+        else:
+            response_data = Patient.objects.all().values()
+            return Response(response_data)
