@@ -905,28 +905,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
-        if ($scope.formTitle === 'Create New Appointment') {
-            $scope.showHeatMap = true;
-            $scope.iSchedule = true;
-            $scope.drHoScreenings.events.splice(0);
-            $scope.drHoPreEvaluations.events.splice(0);
-            $scope.drHoSurgeries.events.splice(0);
-            $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
-            $scope.getISchedule();
-        }
+        /*
+         if ($scope.formTitle === 'Create New Appointment') {
+         $scope.showHeatMap = true;
+         $scope.iSchedule = true;
+         $scope.drHoScreenings.events.splice(0);
+         $scope.drHoPreEvaluations.events.splice(0);
+         $scope.drHoSurgeries.events.splice(0);
+         $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+         $scope.getISchedule();
+         }*/
     };
 
     /* function to disable iSchedule */
     $scope.disableISchedule = function () {
-        if ($scope.formTitle === 'Create New Appointment' && $scope.iSchedule === true) {
-            $scope.iSchedule = false;
-            $scope.lowHeatMap.events.splice(0);
-            $scope.medHeatMap.events.splice(0);
-            $scope.highHeatMap.events.splice(0);
-            $scope.getDrHoScreenings();
-            $scope.getDrHoPreEvaluations();
-            $scope.getDrHoSurgeries();
-        }
+        /*
+         if ($scope.formTitle === 'Create New Appointment' && $scope.iSchedule === true) {
+         $scope.iSchedule = false;
+         $scope.lowHeatMap.events.splice(0);
+         $scope.medHeatMap.events.splice(0);
+         $scope.highHeatMap.events.splice(0);
+         $scope.getDrHoScreenings();
+         $scope.getDrHoPreEvaluations();
+         $scope.getDrHoSurgeries();
+         }*/
     };
 
     /* function to search for contact */
@@ -1101,8 +1103,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     }
 
-    /* pass the scope to the post appointment service upon initialization*/
+    /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
+
+    /* function to search for patient appointments in search box */
+    $scope.searchForAppt = function (searchValue) {
+        return $http.get('/Clearvision/_api/SearchBar/?search=' + searchValue)
+            .then(function (response) {
+                var row = response.data;
+                var rowArr = [];
+                angular.forEach(row, function (appt) {
+                    var rowStr = appt.apptDate + " (" + appt.name + ": " + appt.contact + ")";
+                    rowArr.push(rowStr)
+                });
+                return rowArr;
+            });
+    };
+
+    /* function after selecting an appointment from the search box result */
+    $scope.onSelect = function ($item, $model, $label) {
+        var spaceIndex = $item.indexOf(" ");
+        var date = $item.substring(0, spaceIndex);
+        $scope.changeView('agendaDay', 'myCalendar1');
+        $('#drHoCalendar').fullCalendar('gotoDate', date);
+    };
+
 });
 
 /* controller for modal instance */

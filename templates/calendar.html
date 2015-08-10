@@ -13,7 +13,10 @@
                             <span class="input-group-btn">
                                 <button class="btn btn-default"><i class="fa fa-search"></i></button>
                             </span>
-                            <input type="text" class="form-control" placeholder="Search..">
+                            <input type="text" class="form-control" placeholder="Search for..." ng-model="searchText"
+                                   typeahead="appt for appt in searchForAppt($viewValue)"
+                                   typeahead-loading="loadingLocations" typeahead-no-results="noResults"
+                                   typeahead-on-select='onSelect($item, $model, $label)'>
                         </div>
                         <!-- /input-group -->
                     </div>
