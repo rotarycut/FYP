@@ -171,9 +171,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             return Response(response_data)
 
-        else:
-            serializedExistingAppt = AppointmentSerializer(a)
-            return Response(serializedExistingAppt.data)
+        #else:
+            #serializedExistingAppt = AppointmentSerializer(a)
+            #return Response(serializedExistingAppt.data)
 
     def create(self, request, *args, **kwargs):
         data = request.DATA
@@ -506,6 +506,8 @@ class iScheduleSwapper(viewsets.ModelViewSet):
         tempAppt.patients.add(p)
         tempAppt.tempPatients.remove(p)
         tempAppt.save()
+
+        Swapper.objects.filter(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt).delete()
 
         serializedAppt = AppointmentSerializer(tempAppt)
         return Response(serializedAppt.data)
