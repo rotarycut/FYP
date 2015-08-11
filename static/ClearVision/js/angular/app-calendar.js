@@ -875,30 +875,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
-        /*
-         if ($scope.formTitle === 'Create New Appointment') {
-         $scope.showHeatMap = true;
-         $scope.iSchedule = true;
-         $scope.drHoScreenings.events.splice(0);
-         $scope.drHoPreEvaluations.events.splice(0);
-         $scope.drHoSurgeries.events.splice(0);
-         $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
-         $scope.getISchedule();
-         }*/
+
+        if ($scope.formTitle === 'Create New Appointment') {
+            $scope.showHeatMap = true;
+            $scope.iSchedule = true;
+            $scope.drHoScreenings.events.splice(0);
+            $scope.drHoPreEvaluations.events.splice(0);
+            $scope.drHoSurgeries.events.splice(0);
+            $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+            $scope.getISchedule();
+        }
     };
 
     /* function to disable iSchedule */
     $scope.disableISchedule = function () {
-        /*
-         if ($scope.formTitle === 'Create New Appointment' && $scope.iSchedule === true) {
-         $scope.iSchedule = false;
-         $scope.lowHeatMap.events.splice(0);
-         $scope.medHeatMap.events.splice(0);
-         $scope.highHeatMap.events.splice(0);
-         $scope.getDrHoScreenings();
-         $scope.getDrHoPreEvaluations();
-         $scope.getDrHoSurgeries();
-         }*/
+
+        if ($scope.formTitle === 'Create New Appointment' && $scope.iSchedule === true) {
+            $scope.iSchedule = false;
+            $scope.lowHeatMap.events.splice(0);
+            $scope.medHeatMap.events.splice(0);
+            $scope.highHeatMap.events.splice(0);
+            $scope.getDrHoScreenings();
+            $scope.getDrHoPreEvaluations();
+            $scope.getDrHoSurgeries();
+        }
     };
 
     /* function to search for contact */
