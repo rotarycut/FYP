@@ -389,16 +389,29 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
             marketed_list = Patient.objects.filter(registrationDate__month=month).annotate(channelname=F('marketingChannelId__name')).values()
             date_range = FullYearCalendar.objects.filter(date__month=month).values('date')
 
+            marketing_channels = []
+
             for eachObj in date_range:
                 for eachObj2 in marketed_list:
-
                     if eachObj['date'] == eachObj2['registrationDate'].date():
                         mktname = eachObj2['channelname']
                         try:
                             eachObj[mktname] += 1
+                            if mktname not in marketing_channels:
+                                marketing_channels.append(mktname)
                         except KeyError:
                             eachObj[mktname] = 1
+                            if mktname not in marketing_channels:
+                                marketing_channels.append(mktname)
 
+            for eachObj in date_range:
+                for eachChannel in marketing_channels:
+                    try:
+                        eachObj[eachChannel]
+                    except KeyError:
+                        eachObj[eachChannel] = 0
+
+            print(marketing_channels)
             return Response(date_range)
 
 
