@@ -1,0 +1,49 @@
+[
+  {
+    "model": "ClearVision.Clinic",
+    "pk": 1,
+    "fields": {
+        "name": "Mount E",
+        "startHr": "08:00:00",
+        "endHr": "20:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.Clinic",
+    "pk": 2,
+    "fields": {
+        "name": "Clearvision Clinic",
+        "startHr": "07:00:00",
+        "endHr": "19:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.Doctor",
+    "pk": 1,
+
+    "fields": {
+      "name": "Dr Goh",
+      "phoneModel": "Apple",
+      "calDavAccount": "example@abc.com",
+      "contact": "12345",
+      "clinic": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "ClearVision.Doctor",
+    "pk": 2,
+
+    "fields": {
+      "name": "Dr Ho",
+      "phoneModel": "Samsung",
+      "calDavAccount": "example2@abc.com",
+      "contact": "54321",
+      "clinic": [
+        1
+      ]
+    }
+  }
+]
