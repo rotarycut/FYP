@@ -409,11 +409,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to delete appointment */
     $scope.deleteAppointment = function () {
 
-        var urlStr = '/Clearvision/_api/appointmentsCUD/' + $scope.fields.appointmentId;
+        var url = '/Clearvision/_api/appointmentsCUD/' + $scope.fields.appointmentId;
 
         var req = {
             method: 'DELETE',
-            url: urlStr,
+            url: url,
             headers: {'Content-Type': 'application/json'},
             data: {
                 "contact": $scope.fields.patientContact
@@ -422,57 +422,108 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $http(req)
             .success(function (data) {
-                console.log("Successfully deleted");
+                console.log("Successfully deleted. Retrieved swapped content.");
                 console.log(data);
+
                 var event = data;
-                var appointmentsLeftAfterDelete = Object.keys(event).length;
+                var appointmentsCanBeSwapped = Object.keys(event).length;
 
-                switch ($scope.fields.appointmentType) {
-
-                    case "Screening":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                            if (screeningAppointment.id === $scope.fields.appointmentId) {
-
-                                $scope.drHoScreenings.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        if (appointmentsLeftAfterDelete != 0) {
-                            $scope.drHoScreenings.events.push(event);
-                        }
-                        break;
-
-                    case "Pre Evaluation":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                            if (preEvaluationAppointment.id === $scope.fields.appointmentId) {
-                                $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        if (appointmentsLeftAfterDelete != 0) {
-                            $scope.drHoPreEvaluations.events.push(event);
-                        }
-                        break;
-
-                    case "Surgery":
-                        var appointmentIndex = 0;
-                        angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                            if (surgeryAppointment.id === $scope.fields.appointmentId) {
-                                $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
-
-                            }
-                            appointmentIndex++;
-                        });
-                        if (appointmentsLeftAfterDelete != 0) {
-                            $scope.drHoSurgeries.events.push(event);
-                            break;
-                        }
-
+                if (appointmentsCanBeSwapped != 0) {
+                    // Then I perform some swap.
+                    console.log("Some swapped being done");
                 }
+
+                // Find if any more patients in the appointment
+                var urlStr = '/Clearvision/_api/appointments/' + $scope.fields.appointmentId;
+
+                $http.get(urlStr)
+                    .success(function (data) {
+                        console.log("There still exist patients in the appointment");
+                        console.log(data);
+                        var event = data;
+
+                        switch ($scope.fields.appointmentType) {
+
+                            case "Screening":
+                                var appointmentIndex = 0;
+                                angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+                                    if (screeningAppointment.id === $scope.fields.appointmentId) {
+
+                                        $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+
+                                    }
+                                    appointmentIndex++;
+                                });
+                                $scope.drHoScreenings.events.push(event);
+                                break;
+
+                            case "Pre Evaluation":
+                                var appointmentIndex = 0;
+                                angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                                    if (preEvaluationAppointment.id === $scope.fields.appointmentId) {
+                                        $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+
+                                    }
+                                    appointmentIndex++;
+                                });
+                                $scope.drHoPreEvaluations.events.push(event);
+                                break;
+
+                            case "Surgery":
+                                var appointmentIndex = 0;
+                                angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+                                    if (surgeryAppointment.id === $scope.fields.appointmentId) {
+                                        $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+
+                                    }
+                                    appointmentIndex++;
+                                });
+                                $scope.drHoSurgeries.events.push(event);
+                                break;
+                        }
+                    })
+                    .error(function (data) {
+                        console.log("No more patients left in the appointment");
+
+                        switch ($scope.fields.appointmentType) {
+
+                            case "Screening":
+                                var appointmentIndex = 0;
+                                angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
+                                    if (screeningAppointment.id === $scope.fields.appointmentId) {
+
+                                        $scope.drHoScreenings.events.splice(appointmentIndex, 1);
+
+                                    }
+                                    appointmentIndex++;
+                                });
+                                break;
+
+                            case "Pre Evaluation":
+                                var appointmentIndex = 0;
+                                angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                                    if (preEvaluationAppointment.id === $scope.fields.appointmentId) {
+
+                                        $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+
+                                    }
+                                    appointmentIndex++;
+                                });
+                                break;
+
+                            case "Surgery":
+                                var appointmentIndex = 0;
+                                angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
+                                    if (surgeryAppointment.id === $scope.fields.appointmentId) {
+
+                                        $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
+
+                                    }
+                                    appointmentIndex++;
+                                });
+                                break;
+                        }
+                    });
             })
     };
 
