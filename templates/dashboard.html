@@ -130,8 +130,8 @@
                         <h4 style="margin-top: 50px;">OR</h4>
                     </div>
                     <div class="col-sm-2">
-                        <select class="form-control" data-ng-model="fields.appointmentTime" name="appointmentTime"
-                                ng-options="mth for mth in months">
+                        <select class="form-control" data-ng-model="monthData" name="appointmentTime"
+                                ng-options="mth for mth in months" ng-change="changeMonthData()">
                         </select>
                     </div>
                     <div class="col-sm-3 dashboard-filter-mrkt">

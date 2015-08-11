@@ -2,7 +2,7 @@ var appDashboard = angular.module('app.dashboard', []);
 
 appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.months = ["January", "February", "March", "April", "May", "June",
-        "july", "august", "September", "October", "November", "December"
+        "July", "August", "September", "October", "November", "December"
     ];
 
     $scope.initializeChart = function () {
@@ -15,7 +15,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     };
 
     $scope.getMonthData = function (month) {
-        var restRequest = '/Clearvision/_api/analyticsServer/?channel=all&month=' + '04';
+        var restRequest = '/Clearvision/_api/analyticsServer/?channel=all&month=' + month;
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newMonthData = data;
@@ -59,7 +59,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         text: 'Count',
                         position: 'outer middle'
                     },
-                    max: 5,
+                    max: 10,
                     min: 0,
                     padding: {top: 0, bottom: 0}
                 },
@@ -70,7 +70,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         position: 'outer middle'
 
                     },
-                    max: 10,
+                    max: 100,
                     min: 0,
                     padding: {
                         top: 0,
@@ -143,8 +143,26 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         setTimeout(function () {
             $scope.marketingChart.toggle('convert');
             $scope.marketingChart.toggle('rate');
-        }, 300);
+        }, 50);
 
+    };
+
+    $scope.changeMonthData = function () {
+
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        var count = 1;
+        var index = 0;
+        angular.forEach(monthNames, function (month) {
+
+            if (month === $scope.monthData) {
+                index = count;
+            }
+            count++;
+        })
+
+        $scope.getMonthData(index);
     };
 
     $scope.getMarketingTimeline = function () {
