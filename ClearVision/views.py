@@ -153,10 +153,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         a.patients.remove(p)
         a.save()
 
-        if num_patients == 1:
-            a.delete()
-            return Response({})
-        elif num_temp_patients >= 1:
+        if num_temp_patients >= 1:
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
 
             response_data = Swapper.objects.annotate(patientname=F('patient__name')).\
