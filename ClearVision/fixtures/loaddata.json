@@ -184,6 +184,28 @@
         "conversion": "False"
     }
   },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Mark Zuckerberg",
+        "gender": "Male",
+        "contact": "90421874",
+        "registrationDate": "2015-05-16T00:00:00Z",
+        "marketingChannelId": 5,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Sundar Pichai",
+        "gender": "Male",
+        "contact": "90421875",
+        "registrationDate": "2015-05-14T00:00:00Z",
+        "marketingChannelId": 5,
+        "conversion": "False"
+    }
+  },
 
   {
     "model": "ClearVision.Staff",
@@ -230,7 +252,7 @@
         "apptType": "Surgery",
         "date": "2015-08-12",
         "last_modified": "2015-07-17T07:16:36Z",
-        "patients": [91500323, 94764232],
+        "patients": [91500323, 94764232, 91500484],
         "doctor": 2,
         "clinic": 1,
         "timeBucket": 3813
@@ -246,7 +268,7 @@
         "apptType": "Pre Evaluation",
         "date": "2015-08-13",
         "last_modified": "2015-07-17T07:16:36Z",
-        "patients": [91500323, 94764232],
+        "patients": [91500323, 94764232, 91504758],
         "doctor": 2,
         "clinic": 2,
         "timeBucket": 2357
@@ -281,7 +303,9 @@
         "patients": [91500323, 94764232, 91500333],
         "doctor": 1,
         "clinic": 1,
+        "tempPatients": [91500784,915004732],
         "timeBucket": 3826
+
     }
   },
 
@@ -298,6 +322,22 @@
         "doctor": 1,
         "clinic": 2,
         "tempPatients": [91500333,91500444],
+        "timeBucket": 2366
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 7,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-16",
+        "last_modified": "2015-07-27T07:16:36Z",
+        "patients": [90421875,90421874, 91587471],
+        "doctor": 1,
+        "clinic": 2,
+        "tempPatients": [90884621],
         "timeBucket": 2366
     }
   },
