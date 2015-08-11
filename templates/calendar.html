@@ -200,7 +200,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 ischeduleForm">
+                    <div class="form-group col-sm-12 ischeduleForm" ng-show="form.showFields.earliestAvl">
                         <label class="control-label">Next Earliest Availablility</label>
                         <ol id="i-slots-date" class="list-group">
                             <li class="list-group-item" ng-repeat="appt in appointments | unique: 'start'"
@@ -275,7 +275,7 @@
 
                     <!-- Waiting list -->
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-show="true">
+                         ng-show="form.showFields.waitingList">
 
                         <label class="control-label">Waiting list</label>
 

@@ -738,7 +738,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             time: true,
             doctor: true,
             marketingChannel: true,
-            remarks: true
+            remarks: true,
+            earliestAvl: true,
+            waitingList: true
         },
         disableFields: {
             patientName: false,
