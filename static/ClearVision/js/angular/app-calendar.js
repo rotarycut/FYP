@@ -172,24 +172,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* alert on eventClick */
     $scope.alertOnEventClick = function (appointment, jsEvent, view) {
-        $scope.clearForm();
-        $scope.alertMessage = (appointment.title + ' was clicked ');
-        $scope.fields.appointmentId = appointment.id;
-        $scope.fields.patientList = appointment.patients;
-        $scope.fields.appointmentType = appointment.apptType;
-        $scope.fields.appointmentDate = appointment.date;
-        $scope.fields.doctorAssigned = appointment.doctor;
-        $scope.fields.originalAppointmentType = appointment.apptType;
 
-        var appointmentFullDateTime = appointment.start._i;
-        var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
-        var colonIndex = appointmentFullDateTime.lastIndexOf(":");
-        $scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+        if (!$scope.iSchedule) {
+            clearFormSvc.clearForm();
+            $scope.alertMessage = (appointment.title + ' was clicked ');
+            $scope.fields.appointmentId = appointment.id;
+            $scope.fields.patientList = appointment.patients;
+            $scope.fields.appointmentType = appointment.apptType;
+            $scope.fields.appointmentDate = appointment.date;
+            $scope.fields.doctorAssigned = appointment.doctor;
+            $scope.fields.originalAppointmentType = appointment.apptType;
 
-        $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
-        $('#drHoCalendar').fullCalendar('select', appointment.date);
+            var appointmentFullDateTime = appointment.start._i;
+            var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
+            var colonIndex = appointmentFullDateTime.lastIndexOf(":");
+            $scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
 
-        $scope.showForm('Edit');
+            $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
+            $('#drHoCalendar').fullCalendar('select', appointment.date);
+
+            $scope.showForm('Edit');
+        } else {
+            console.log(appointment.date);
+            console.log(appointment.start);
+        }
     };
 
     /* alert on Drop */
@@ -803,13 +809,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         return formattedDate;
     };
 
-    /* function to clear fields in form */
-    $scope.clearForm = function () {
-        $scope.fields = {};
-        $scope.appointmentForm.$setPristine();
-        $scope.appointmentForm.$setUntouched();
-    };
-
     /* function to show appointment form */
     $scope.showForm = function (formType) {
         $scope.scaleDownCalendar = true;
@@ -851,7 +850,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.scaleDownCalendar = false;
         $scope.form.showForm = false;
         $scope.disableISchedule();
-        $scope.clearForm();
+        clearFormSvc.clearForm();
         $scope.showHeatMap = false;
         $scope.showWaitingDate = false;
         $scope.showWaitingTime = false;
