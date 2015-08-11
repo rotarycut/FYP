@@ -523,6 +523,7 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
                 annotate(apptId=F('patients__timeBucket__appointment__id')).\
                 annotate(apptStart=F('patients__timeBucket__start')).\
                 annotate(apptDate=F('patients__timeBucket__date')).\
+                annotate(apptDate=F('patients__timeBucket__appointment__doctor__name')).\
                 values('apptId', 'contact', 'name', 'apptStart', 'apptDate')
 
             return Response(response_data)
