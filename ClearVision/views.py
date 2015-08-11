@@ -558,3 +558,15 @@ class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
         response_data = Swapper.objects.all().values()
 
         return Response(response_data)
+
+class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
+    queryset = AvailableTimeSlots.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        apptType = request.query_params.get('apptType')
+        docName = request.query_params.get('docName')
+
+        response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName).\
+            values('start', 'end').distinct()
+
+        return Response(response_data)
