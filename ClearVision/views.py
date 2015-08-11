@@ -156,7 +156,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if num_temp_patients >= 1:
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
 
-            response_data = Swapper.objects.annotate(patientname=F('patient__name')).\
+            response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).\
+                annotate(patientname=F('patient__name')).\
                 annotate(scheduledApptDate=F('scheduledAppt__timeBucket_id__date')).\
                 annotate(scheduledApptStart=F('scheduledAppt__timeBucket_id__start')).\
                 annotate(scheduledApptDay=F('scheduledAppt__timeBucket_id__date__day')).\
