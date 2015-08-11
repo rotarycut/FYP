@@ -511,6 +511,9 @@ class iScheduleSwapper(viewsets.ModelViewSet):
 
         Swapper.objects.filter(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt).delete()
 
+        if scheduledAppt.patients.count() == 0:
+            scheduledAppt.delete()
+
         serializedAppt = AppointmentSerializer(tempAppt)
         return Response(serializedAppt.data)
 
