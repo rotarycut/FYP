@@ -1095,7 +1095,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var row = response.data;
                 var rowArr = [];
                 angular.forEach(row, function (appt) {
-                    var rowStr = appt.apptDate + " (" + appt.name + ": " + appt.contact + ")";
+                    var rowStr = appt.apptDate + ", " + appt.apptStart + " (" + appt.name + ": " + appt.contact + ")";
                     rowArr.push(rowStr)
                 });
                 return rowArr;
@@ -1104,10 +1104,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function after selecting an appointment from the search box result */
     $scope.onSelect = function ($item, $model, $label) {
-        var spaceIndex = $item.indexOf(" ");
-        var date = $item.substring(0, spaceIndex);
+        var commarIndex = $item.indexOf(",");
+        var date = $item.substring(0, commarIndex);
         $scope.changeView('agendaDay', 'myCalendar1');
         $('#drHoCalendar').fullCalendar('gotoDate', date);
+        $scope.searchText = "";
     };
 
 });
