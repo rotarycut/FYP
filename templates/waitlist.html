@@ -43,8 +43,9 @@
                     </tr>
                     <tr ng-repeat="appt in listOfWaitingAppointments">
                         <td>
-                            <button type="button" class="btn btn-default waitlist-action-btn" ng-click=""
-                                    ng-disabled="true"><i class="fa fa-exchange"></i> Swap
+                            <button type="button" class="btn btn-default waitlist-action-btn"
+                                    ng-click="swapAppointment($index)"
+                                    ng-disabled="!appt.canswap"><i class="fa fa-exchange"></i> Swap
                             </button>
                         </td>
                     </tr>
@@ -63,13 +64,17 @@
                         <th>Preferred Time</th>
                     </tr>
                     <tr ng-repeat="appt in listOfWaitingAppointments">
-                        <td><i class="fa fa-circle" style="color: #5e5e5e"></i> [[appt.tempApptDate]],
+                        <td><i class="fa fa-circle"
+                               ng-class="appt.canswap ? 'color: #5e5e5e' : 'color: #000000'"></i>
+                            [[appt.tempApptDate]],
                             [[appt.tempApptStart]]
                         </td>
                     </tr>
                     <!--<tr>
-                        <td><i class="fa fa-circle" style="color: #4ea64e"></i> 1pm, Wed,26 Aug 2015</td>
-                    </tr>-->
+                        <td><i class=" fa fa-circle" style="color: #4ea64e"></i> 1pm, Wed,26 Aug 2015
+                        </td>
+                    </tr>
+                    -->
                 </table>
             </div>
         </div>

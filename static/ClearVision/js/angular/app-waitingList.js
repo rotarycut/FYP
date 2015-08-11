@@ -14,4 +14,27 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http) {
             })
     };
 
+
+    $scope.swapAppointment = function (indexInWaitList) {
+        $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
+
+        var scheduledApptId = $scope.waitListAppointment.scheduledAppointments[0].scheduledApptId;
+        var tempApptId = $scope.waitListAppointment.tempApptId;
+        var contact = $scope.waitListAppointment.patientcontact;
+
+        var json = {
+            scheduledApptId: scheduledApptId,
+            tempApptId: tempApptId,
+            contact: contact
+        };
+
+        $http.post('/Clearvision/_api/Swapper/', json)
+            .success(function (listOfAppointments) {
+
+                console.log("Swapped successfully");
+                console.log(listOfAppointments);
+                //Post is successful
+            })
+    }
+
 });
