@@ -193,8 +193,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $scope.showForm('Edit');
         } else {
-            console.log(appointment.date);
-            console.log(appointment.start);
+            $scope.fields.appointmentDate = appointment.date;
+            var appointmentFullDateTime = appointment.start._i;
+            var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
+            var colonIndex = appointmentFullDateTime.lastIndexOf(":");
+            $scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
         }
     };
 
@@ -876,13 +879,20 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.enableISchedule = function () {
 
         if ($scope.formTitle === 'Create New Appointment') {
-            $scope.showHeatMap = true;
-            $scope.iSchedule = true;
-            $scope.drHoScreenings.events.splice(0);
-            $scope.drHoPreEvaluations.events.splice(0);
-            $scope.drHoSurgeries.events.splice(0);
-            $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
-            $scope.getISchedule();
+            if (!$scope.iSchedule) {
+                $scope.showHeatMap = true;
+                $scope.iSchedule = true;
+                $scope.drHoScreenings.events.splice(0);
+                $scope.drHoPreEvaluations.events.splice(0);
+                $scope.drHoSurgeries.events.splice(0);
+                $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+                $scope.getISchedule();
+            } else {
+                $scope.lowHeatMap.events.splice(0);
+                $scope.medHeatMap.events.splice(0);
+                $scope.highHeatMap.events.splice(0);
+                $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+            }
         }
     };
 
