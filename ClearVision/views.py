@@ -168,6 +168,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                 values('patientname', 'scheduledApptDate', 'scheduledApptStart', 'tempApptDate', 'tempApptStart', 'scheduledApptDay', 'tempApptDay','swappable')
 
             return Response(response_data)
+        return Response({})
 
         #else:
             #serializedExistingAppt = AppointmentSerializer(a)
