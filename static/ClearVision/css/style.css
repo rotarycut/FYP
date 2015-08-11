@@ -448,4 +448,11 @@ table.waitlist-swap-tbl > tbody > tr > th{
 table.waitlist-swap-tbl > tbody > tr > td{
     text-align: left;
 }
+
+.cannotSwap{
+    color: #5e5e5e;
+}
+.canSwap{
+    color: #4ea64e;
+}
 /* waitlist css ends*?
