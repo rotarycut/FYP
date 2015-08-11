@@ -237,20 +237,39 @@ for months in range(0, 13):
                             blank.append( str(year) + "-12-" + str(tup[0]))
 
 
-types = ['Screening', 'Pre Evaluation', 'Surgery']
 totalTimeslots = []
-doctors = [1,2]
+doctors = [1, 2]
 
 startTime = datetime.datetime(100, 1, 1, 9, 00)
 
-for i in types:
-    for j in blank:
-        for k in range(1, 25):
-            totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
-                {"timeslotType": str(i), "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
-                 "date": str(j), "doctors": doctors}})
-            startTime = startTime + datetime.timedelta(minutes=30)
-        startTime = datetime.datetime(100, 1, 1, 9, 00)
+for j in blank:
+    for k in range(1, 5):
+        totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
+        {"timeslotType": "Screening", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
+        "date": str(j), "doctors": doctors}})
+        startTime = startTime + datetime.timedelta(minutes=30)
+    startTime = datetime.datetime(100, 1, 1, 9, 00)
+
+startTime = datetime.datetime(100, 1, 1, 12, 00)
+
+for j in blank:
+    for k in range(1, 5):
+        totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
+        {"timeslotType": "Pre Evaluation", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
+        "date": str(j), "doctors": doctors}})
+        startTime = startTime + datetime.timedelta(minutes=30)
+    startTime = datetime.datetime(100, 1, 1, 12, 00)
+
+startTime = datetime.datetime(100, 1, 1, 15, 00)
+
+for j in blank:
+    for k in range(1, 5):
+        totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
+        {"timeslotType": "Surgery", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
+        "date": str(j), "doctors": doctors}})
+        startTime = startTime + datetime.timedelta(minutes=30)
+    startTime = datetime.datetime(100, 1, 1, 15, 00)
+
 
 dump.write(str(totalTimeslots).replace("'", "\""))
 #print(str(totalTimeslots).replace("'", "\""))
