@@ -92,6 +92,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 },
                 type: 'bar',
                 onclick: function (d, element) {
+                    console.log(d);
                     switch (d.x) {
                         case 0:
                             $scope.showTimelineChart(

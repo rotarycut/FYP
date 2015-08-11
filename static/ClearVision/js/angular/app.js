@@ -9,7 +9,8 @@ var app = angular.module('calendarDemoApp', [
     'appointment.service',
     'ngAnimate',
     'angular.filter',
-    'post.appointment'
+    'post.appointment',
+    'clear.form'
 ]);
 
 /* Angular routing */

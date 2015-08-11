@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -1075,6 +1075,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
+    clearFormSvc.getScope($scope);
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
@@ -1101,12 +1102,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.ok = function () {
         postAppointmentSvc.postAppointment();
         $modalInstance.close();
+        clearFormSvc.clearForm();
     };
 
     $scope.cancel = function () {

@@ -93,39 +93,37 @@ angular.module('post.appointment', [])
                         case "Screening":
                             var appointmentIndex = 0;
                             angular.forEach(self._scope.drHoScreenings.events, function (screeningAppointment) {
-                                if (screeningAppointment.start === event.start) {
+                                if (screeningAppointment.id === event.id) {
                                     self._scope.drHoScreenings.events.splice(appointmentIndex, 1);
-
                                 }
                                 appointmentIndex++;
                             });
-
-                            self._scope.drHoScreenings.events.push(event);
+                            //self._scope.drHoScreenings.events.push(event);
                             break;
 
                         case "Pre Evaluation":
                             var appointmentIndex = 0;
                             angular.forEach(self._scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                                if (preEvaluationAppointment.start === event.start) {
+                                if (preEvaluationAppointment.id === event.id) {
                                     self._scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
 
                                 }
                                 appointmentIndex++;
                             });
-                            self._scope.drHoPreEvaluations.events.push(event);
+                            //self._scope.drHoPreEvaluations.events.push(event);
                             break;
 
                         case "Surgery":
                             var appointmentIndex = 0;
                             angular.forEach(self._scope.drHoSurgeries.events, function (surgeryAppointment) {
-                                if (surgeryAppointment.start === event.start) {
+                                if (surgeryAppointment.id === event.id) {
                                     self._scope.drHoSurgeries.events.splice(appointmentIndex, 1);
 
                                 }
                                 appointmentIndex++;
                             });
 
-                            self._scope.drHoSurgeries.events.push(event);
+                            //self._scope.drHoSurgeries.events.push(event);
                             break;
                     }
 
