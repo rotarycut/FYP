@@ -65,7 +65,7 @@
                     </tr>
                     <tr ng-repeat="appt in listOfWaitingAppointments">
                         <td><i class="fa fa-circle"
-                               ng-class="appt.canswap ? 'color: #5e5e5e' : 'color: #000000'"></i>
+                               ng-class="{appt.canswap: {color: #4ea64e}, false: {color: #4ea64e} }"></i>
                             [[appt.tempApptDate]],
                             [[appt.tempApptStart]]
                         </td>

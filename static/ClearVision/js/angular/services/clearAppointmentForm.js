@@ -12,6 +12,7 @@ angular.module('clear.form', [])
             self._scope.fields = {};
             self._scope.appointmentForm.$setPristine();
             self._scope.appointmentForm.$setUntouched();
+            self._scope.listOfAppointmentTimings = [];
         };
 
     });
