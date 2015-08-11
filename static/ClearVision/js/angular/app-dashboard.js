@@ -1,7 +1,9 @@
 var appDashboard = angular.module('app.dashboard', []);
 
 appDashboard.controller('DashboardCtrl', function ($scope, $http) {
-    $scope.months = ["august", "july", "june"];
+    $scope.months = ["January", "February", "March", "April", "May", "June",
+        "july", "august", "September", "October", "November", "December"
+    ];
 
     $scope.initializeChart = function () {
         var monthNames = ["January", "February", "March", "April", "May", "June",
@@ -10,24 +12,15 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
         var currentMonth = monthNames[new Date().getMonth()];
         $scope.getMonthData(currentMonth);
-
     };
 
     $scope.getMonthData = function (month) {
-        var restRequest = 'http://demo4552602.mockable.io/' + month;
+        var restRequest = '/Clearvision/_api/analyticsServer/?channel=all&month=' + '04';
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newMonthData = data;
                 $scope.showMarketingChart($scope.newMonthData);
 
-            });
-    };
-
-    $scope.getMarketingTimeline = function () {
-        $http.get('http://demo4552602.mockable.io/marketingTimeline')
-            .success(function (data) {
-                $scope.newTimeline = data;
-                $scope.showTimelineChart([]);
             });
     };
 
@@ -66,7 +59,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         text: 'Count',
                         position: 'outer middle'
                     },
-                    max: 400,
+                    max: 5,
                     min: 0,
                     padding: {top: 0, bottom: 0}
                 },
@@ -77,8 +70,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         position: 'outer middle'
 
                     },
-                    max: 100,
-                    min: 80,
+                    max: 10,
+                    min: 0,
                     padding: {
                         top: 0,
                         bottom: 0
@@ -91,11 +84,11 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 json: newData,
                 keys: {
                     // x: 'name', // it's possible to specify 'x' when category axis
-                    x: 'name',
-                    value: ['Lead', 'Conversion', 'Rate']
+                    x: 'channelname',
+                    value: ['leads', 'convert', 'rate']
                 },
                 axes: {
-                    Bloggers: 'y2'
+                    'rate': 'y2'
                 },
                 type: 'bar',
                 onclick: function (d, element) {
@@ -148,12 +141,19 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         });
 
         setTimeout(function () {
-            $scope.marketingChart.toggle('Conversion');
-            $scope.marketingChart.toggle('Rate');
+            $scope.marketingChart.toggle('convert');
+            $scope.marketingChart.toggle('rate');
         }, 300);
 
     };
 
+    $scope.getMarketingTimeline = function () {
+        $http.get('http://demo4552602.mockable.io/marketingTimeline')
+            .success(function (data) {
+                $scope.newTimeline = data;
+                $scope.showTimelineChart([]);
+            });
+    };
 
     var marketingDateSeries = ['google search', 'facebook ad'];
 
@@ -217,7 +217,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     }
 
     $scope.isCollapsed = true;
-
 
 
 });
