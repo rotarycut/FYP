@@ -573,6 +573,12 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         docName = request.query_params.get('docName')
 
         response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName).\
-            values('start', 'end').distinct()
+            values('start',).distinct()
 
-        return Response(response_data)
+        timings = []
+
+        for eachObj in response_data:
+            timing = eachObj['start']
+            timings.append(str(timing)[:-3])
+
+        return Response(timings)
