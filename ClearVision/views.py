@@ -364,12 +364,17 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
     queryset = Patient.objects.none()
 
     def list(self, request, *args, **kwargs):
-        channel = request.query_params.get('channel')
-        month = request.query_params.get('month')
+        timelineFlag = request.query_params.get('timelineFlag')
 
-        if channel == 'all':
-            response_data = Patient.objects.filter(registrationDate__month=month). \
-                annotate(channelname=F('marketingChannelId__name')).values('channelname'). \
+        channels = request.query_params.get('channels')
+        channels = channels.split(',')
+
+        startDate = request.query_params.get('startDate')
+        endDate = request.query_params.get('endDate')
+
+        if timelineFlag == 'False':
+            response_data = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate). \
+                annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values('channelname'). \
                 annotate(leads=Count('channelname')).order_by('leads'). \
                 annotate(
                 convert=Sum(
@@ -386,8 +391,9 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
             return Response(response_data)
 
         else:
-            marketed_list = Patient.objects.filter(registrationDate__month=month).annotate(channelname=F('marketingChannelId__name')).values()
-            date_range = FullYearCalendar.objects.filter(date__month=month).values('date')
+            marketed_list = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate).\
+                annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values()
+            date_range = FullYearCalendar.objects.filter(date__gte=startDate, date__lte=endDate).values('date')
 
             marketing_channels = []
 
@@ -411,7 +417,6 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     except KeyError:
                         eachObj[eachChannel] = 0
 
-            print(marketing_channels)
             return Response(date_range)
 
 
