@@ -96,7 +96,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
                     var channel = $scope.newMonthData[d.x];
                     console.log(channel);
-                    var url = '/Clearvision/_api/analyticsServer/?channels=' + channel.channelname + '&startDate=2015-04-01&endDate=2015-04-30&timelineFlag=True&filterFlag=True';
+                    var url = '/Clearvision/_api/analyticsServer/?channels=' + channel.channelname + '&startDate=2015-07-01&endDate=2015-07-30&timelineFlag=True&filterFlag=True';
                     $http.get(url)
                         .success(function (timeLine) {
                             var channelArr = [];
