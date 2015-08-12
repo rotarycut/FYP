@@ -238,7 +238,7 @@ for months in range(0, 13):
 
 
 totalTimeslots = []
-doctors = [1]
+doctors = [2]
 
 startTime = datetime.datetime(100, 1, 1, 9, 00)
 
