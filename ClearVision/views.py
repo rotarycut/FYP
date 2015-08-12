@@ -463,6 +463,13 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     rate = float(convert / leads) * 100
                     eachObj['rate'] = rate
 
+                allchannels = MarketingChannels.objects.all().values()
+
+                for eachObj in response_data:
+                    for eachObj2 in allchannels:
+                        if eachObj2['name'] != eachObj['channelname']:
+                            eachObj[eachObj2['name']] = 0
+
                 return Response(response_data)
 
             else:
@@ -470,27 +477,23 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     annotate(channelname=F('marketingChannelId__name')).values()
                 date_range = FullYearCalendar.objects.filter(date__month=month).values('date')
 
-                marketing_channels = []
-
                 for eachObj in date_range:
                     for eachObj2 in marketed_list:
                         if eachObj['date'] == eachObj2['registrationDate'].date():
                             mktname = eachObj2['channelname']
                             try:
                                 eachObj[mktname] += 1
-                                if mktname not in marketing_channels:
-                                    marketing_channels.append(mktname)
                             except KeyError:
                                 eachObj[mktname] = 1
-                                if mktname not in marketing_channels:
-                                    marketing_channels.append(mktname)
+
+                allchannels = MarketingChannels.objects.all().values()
 
                 for eachObj in date_range:
-                    for eachChannel in marketing_channels:
+                    for eachObj2 in allchannels:
                         try:
-                            eachObj[eachChannel]
-                        except KeyError:
-                            eachObj[eachChannel] = 0
+                            eachObj[eachObj2['name']]
+                        except:
+                            eachObj[eachObj2['name']] = 0
 
                 return Response(date_range)
 
