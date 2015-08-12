@@ -186,7 +186,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             var appointmentFullDateTime = appointment.start._i;
             var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
             var colonIndex = appointmentFullDateTime.lastIndexOf(":");
-            $scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+            var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+
+            $scope.getAppointmentTimings($scope.fields.appointmentType, appointmentTime);
 
             $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
             $('#drHoCalendar').fullCalendar('select', appointment.date);
@@ -757,8 +759,20 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
-    $scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
+    //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
     $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
+
+    /* function to retrieve list of appointment timings */
+    $scope.getAppointmentTimings = function (apptType, apptTime) {
+
+        $http.get('http://127.0.0.1:8000/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=Dr%20Ho')
+            .success(function (listOfTimings) {
+                console.log(listOfTimings);
+                $scope.listOfAppointmentTimings = listOfTimings;
+                $scope.fields.appointmentTime = apptTime;
+                console.log(apptTime);
+            });
+    };
 
     /* function to populate patient details upon selection on the edit appointment form */
     $scope.populatePatientDetails = function () {
@@ -879,6 +893,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
+
+        $scope.getAppointmentTimings($scope.fields.appointmentType);
 
         if ($scope.formTitle === 'Create New Appointment') {
             if (!$scope.iSchedule) {
