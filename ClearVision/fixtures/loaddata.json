@@ -41,7 +41,7 @@
         "name": "Sherman",
         "gender": "Male",
         "contact": "91500323",
-        "registrationDate": "2015-04-29T00:00:00Z",
+        "registrationDate": "2015-07-14T00:00:00Z",
         "marketingChannelId": 1,
         "conversion": "True"
     }
@@ -49,10 +49,10 @@
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "yong",
+        "name": "Gary",
         "gender": "Male",
         "contact": "91504758",
-        "registrationDate": "2015-04-29T00:00:00Z",
+        "registrationDate": "2015-07-17T00:00:00Z",
         "marketingChannelId": 6,
         "conversion": "True"
     }
@@ -64,7 +64,7 @@
         "name": "Leon",
         "gender": "Male",
         "contact": "94764232",
-        "registrationDate": "2015-04-30T00:00:00Z",
+        "registrationDate": "2015-07-19T00:00:00Z",
         "marketingChannelId": 2,
         "conversion": "False"
     }
@@ -76,7 +76,7 @@
         "name": "Claire",
         "gender": "Female",
         "contact": "91500212",
-        "registrationDate": "2015-04-30T00:00:00Z",
+        "registrationDate": "2015-07-24T00:00:00Z",
         "marketingChannelId": 1,
         "conversion": "True"
     }
@@ -88,7 +88,7 @@
         "name": "Amabel",
         "gender": "Female",
         "contact": "91500111",
-        "registrationDate": "2015-04-30T00:00:00Z",
+        "registrationDate": "2015-07-22T00:00:00Z",
         "marketingChannelId": 2,
         "conversion": "False"
     }
@@ -100,8 +100,8 @@
         "name": "Carina",
         "gender": "Female",
         "contact": "91500222",
-        "registrationDate": "2015-04-30T00:00:00Z",
-        "marketingChannelId": 3,
+        "registrationDate": "2015-07-29T00:00:00Z",
+        "marketingChannelId": 1,
         "conversion": "True"
     }
   },
@@ -112,8 +112,8 @@
         "name": "Kaiwen",
         "gender": "Male",
         "contact": "91500333",
-        "registrationDate": "2015-04-28T00:00:00Z",
-        "marketingChannelId": 3,
+        "registrationDate": "2015-08-02T00:00:00Z",
+        "marketingChannelId": 2,
         "conversion": "False"
     }
   },
@@ -121,32 +121,32 @@
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "G Dragon",
+        "name": "Najib",
         "gender": "Male",
         "contact": "91500444",
-        "registrationDate": "2015-04-14T00:00:00Z",
-        "marketingChannelId": 3,
+        "registrationDate": "2015-07-03T00:00:00Z",
+        "marketingChannelId": 4,
         "conversion": "False"
     }
   },
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "M Dragon",
+        "name": "Lucas",
         "gender": "Male",
         "contact": "91500484",
-        "registrationDate": "2015-04-14T00:00:00Z",
-        "marketingChannelId": 3,
+        "registrationDate": "2015-07-05T00:00:00Z",
+        "marketingChannelId": 1,
         "conversion": "False"
     }
   },
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "Y Dragon",
+        "name": "Marie",
         "gender": "Male",
         "contact": "91500784",
-        "registrationDate": "2015-04-14T00:00:00Z",
+        "registrationDate": "2015-07-08T00:00:00Z",
         "marketingChannelId": 3,
         "conversion": "False"
     }
@@ -154,33 +154,33 @@
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "R Dragon",
+        "name": "Jane",
         "gender": "Male",
         "contact": "915004732",
-        "registrationDate": "2015-04-14T00:00:00Z",
-        "marketingChannelId": 4,
+        "registrationDate": "2015-07-11T00:00:00Z",
+        "marketingChannelId": 2,
         "conversion": "True"
     }
   },
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "V Dragon",
+        "name": "Fiona",
         "gender": "Male",
         "contact": "91587471",
-        "registrationDate": "2015-04-14T00:00:00Z",
-        "marketingChannelId": 4,
+        "registrationDate": "2015-08-06T00:00:00Z",
+        "marketingChannelId": 3,
         "conversion": "False"
     }
   },
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "W Dragon",
+        "name": "Jessica",
         "gender": "Male",
         "contact": "90884621",
-        "registrationDate": "2015-04-14T00:00:00Z",
-        "marketingChannelId": 5,
+        "registrationDate": "2015-07-04T00:00:00Z",
+        "marketingChannelId": 4,
         "conversion": "False"
     }
   },
@@ -190,8 +190,8 @@
         "name": "Mark Zuckerberg",
         "gender": "Male",
         "contact": "90421874",
-        "registrationDate": "2015-05-16T00:00:00Z",
-        "marketingChannelId": 5,
+        "registrationDate": "2015-08-02T00:00:00Z",
+        "marketingChannelId": 2,
         "conversion": "False"
     }
   },
@@ -201,8 +201,8 @@
         "name": "Sundar Pichai",
         "gender": "Male",
         "contact": "90421875",
-        "registrationDate": "2015-05-14T00:00:00Z",
-        "marketingChannelId": 5,
+        "registrationDate": "2015-08-02T00:00:00Z",
+        "marketingChannelId": 3,
         "conversion": "False"
     }
   },
@@ -237,7 +237,7 @@
         "date": "2015-08-11",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323,91500212,94764232],
-        "doctor": 2,
+        "doctor": 1,
         "clinic": 2,
         "timeBucket": 889
     }
@@ -253,7 +253,7 @@
         "date": "2015-08-12",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232, 91500484],
-        "doctor": 2,
+        "doctor": 1,
         "clinic": 1,
         "timeBucket": 3813
     }
@@ -269,7 +269,7 @@
         "date": "2015-08-13",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232, 91504758],
-        "doctor": 2,
+        "doctor": 1,
         "clinic": 2,
         "timeBucket": 2357
     }
@@ -334,13 +334,46 @@
         "apptType": "Screening",
         "date": "2015-08-16",
         "last_modified": "2015-07-27T07:16:36Z",
-        "patients": [90421875,90421874, 91587471],
+        "patients": [90421874, 91587471],
         "doctor": 1,
         "clinic": 2,
         "tempPatients": [90884621],
-        "timeBucket": 2366
+        "timeBucket": 912
     }
   },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 8,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-24",
+        "last_modified": "2015-07-27T07:16:36Z",
+        "patients": [90884621, 915004732],
+        "doctor": 1,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 942
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 9,
+
+    "fields": {
+
+        "apptType": "Pre Evaluation",
+        "date": "2015-08-25",
+        "last_modified": "2015-07-27T07:16:36Z",
+        "patients": [91500784, 90421875],
+        "doctor": 1,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 2408
+    }
+  },
+
   {
     "model": "ClearVision.AppointmentRemarks",
     "pk": 1,
@@ -413,5 +446,33 @@
         "tempAppt": 6,
         "swappable": false
     }
+  },
+  {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 90884621,
+        "scheduledAppt": 8,
+        "tempAppt": 7,
+        "swappable": false
+    }
+  },
+  {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 915004732,
+        "scheduledAppt": 8,
+        "tempAppt": 5,
+        "swappable": false
+    }
+  },
+  {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 91500784,
+        "scheduledAppt": 9,
+        "tempAppt": 5,
+        "swappable": false
+    }
   }
+
 ]
