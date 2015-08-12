@@ -457,25 +457,26 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     )
                 )
 
+                set_channels = []
+
                 for eachObj in response_data:
                     leads = eachObj['leads']
                     convert = eachObj['convert']
                     rate = float(convert / leads) * 100
                     eachObj['rate'] = rate
+                    set_channels.append(eachObj['channelname'])
 
                 response_data = list(response_data)
                 allmarketingchannels = list(MarketingChannels.objects.all().values())
 
-                for eachObj in response_data:
-                    for eachChannel in allmarketingchannels:
-                        if eachChannel['name'] != eachObj['channelname']:
-                            response_data.append({
-                                'channelname': eachChannel['name'],
-                                'leads': 0,
-                                'convert': 0,
-                                'rate': 0.0
-                            })
-                            allmarketingchannels.remove(eachChannel)
+                for eachchannel in allmarketingchannels:
+                    if eachchannel['name'] not in set_channels:
+                        response_data.append({
+                            "channelname": eachchannel['name'],
+                            "leads": 0,
+                            "convert": 0,
+                            "rate": 0
+                        })
 
                 return Response(response_data)
 
