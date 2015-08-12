@@ -197,7 +197,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 top: 5,
                 right: 100,
                 bottom: 5,
-                left: 100
+                left: 80
             },
             data: {
                 json: newData,
@@ -227,6 +227,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         text: 'Lead Count',
                         position: 'outer middle'
                     },
+                    max: 10,
+                    min: 0
 
                 }
 

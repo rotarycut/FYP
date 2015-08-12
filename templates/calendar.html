@@ -41,7 +41,7 @@
                                     class="fa fa-plus-circle"></i> Add
                                 Appointment
                             </button>
-                            <button type="button" class="btn btn-primary"><i class="fa fa-ban"></i> Block</button>
+                            <!--<button type="button" class="btn btn-primary"><i class="fa fa-ban"></i> Block</button>-->
                         </div>
                     </div>
                 </div>
@@ -57,13 +57,13 @@
                     <!--</div>-->
                     <div class="jumbotron" ng-class="{'ijumbotron' : showHeatMap}">
                         <div class="row">
-                            <div class="col-sm-1 side-tab-doc">
+                            <!--<div class="col-sm-1 side-tab-doc">
                                 <tabset vertical="true" type="pills" class="side-tabset">
                                     <tab heading="Dr. Ho" class="heading-rotate"></tab>
                                     <tab heading="Dr. Goh" class="heading-rotate"></tab>
                                 </tabset>
-                            </div>
-                            <div class="col-sm-11 cal-tab-clinic">
+                            </div>-->
+                            <div class="col-sm-12 cal-tab-clinic">
                                 <tabset type="pills">
                                     <tab select="renderCalendar('drHoCalendar');"
                                          ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();">
@@ -207,15 +207,15 @@
                                 data-ng-click="showTimeList(date)">
                                 <label class="i-slot-label">[[appt.start]] </label>-->
 
-                                <!--<ol>
-                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
-                                        <label>[[time.apptTime]]</label>
-                                    </li>
-                                </ol>-->
+                    <!--<ol>
+                        <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
+                            <label>[[time.apptTime]]</label>
+                        </li>
+                    </ol>-->
 
-                            <!--</li>
-                        </ol>
-                    </div>-->
+                    <!--</li>
+                </ol>
+            </div>-->
 
                     <!-- <div class="form-group col-sm-12 ischeduleForm">
                         <label class="control-label">Least Packed Slots</label>
