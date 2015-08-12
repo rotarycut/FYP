@@ -475,7 +475,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                             "channelname": eachchannel['name'],
                             "leads": 0,
                             "convert": 0,
-                            "rate": 0
+                            "rate": 0.0
                         })
 
                 return Response(response_data)
