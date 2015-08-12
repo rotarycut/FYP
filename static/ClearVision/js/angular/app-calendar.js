@@ -282,7 +282,20 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.getAllPatientsName = function (event, element) {
 
         var strOfPatientNames = "";
+        //var haveToolTip = null;
 
+        try {
+            console.log("IN");
+            var tooltip = event.tooltip;
+
+            //haveToolTip = true;
+
+        } catch (Exception) {
+            //haveToolTip = false;
+            return;
+        }
+
+        //console.log(haveToolTip);
         try {
             var listOfPatients = event.patients;
 
@@ -292,7 +305,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
         } catch (Exception) {
-            return;
+            console.log("Exception");
+            strOfPatientNames = event.tooltip;
+            console.log(strOfPatientNames);
+            return strOfPatientNames;
         }
 
         return strOfPatientNames;
