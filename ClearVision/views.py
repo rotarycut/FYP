@@ -533,7 +533,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         for eachObj in response_data:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
             eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
-            eachObj['title'] = str(eachObj['title']) + " Patient(s)"
+            eachObj['tooltip'] = str(eachObj['title']) + " Patient(s)"
 
         return Response(response_data)
 
