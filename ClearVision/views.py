@@ -463,13 +463,6 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     rate = float(convert / leads) * 100
                     eachObj['rate'] = rate
 
-                allchannels = MarketingChannels.objects.all().values()
-
-                for eachObj in response_data:
-                    for eachObj2 in allchannels:
-                        if eachObj2['name'] != eachObj['channelname']:
-                            eachObj[eachObj2['name']] = 0
-
                 return Response(response_data)
 
             else:
@@ -485,15 +478,6 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                                 eachObj[mktname] += 1
                             except KeyError:
                                 eachObj[mktname] = 1
-
-                allchannels = MarketingChannels.objects.all().values()
-
-                for eachObj in date_range:
-                    for eachObj2 in allchannels:
-                        try:
-                            eachObj[eachObj2['name']]
-                        except:
-                            eachObj[eachObj2['name']] = 0
 
                 return Response(date_range)
 

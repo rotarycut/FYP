@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'pxs+h+dny2_$k4le=5jiclt*-s$uppn#w*x9(76ae(4!t7^h=_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -119,8 +119,7 @@ REST_FRAMEWORK = {
 }
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-    '/ClearVision/js/app.js',
+    os.path.join(BASE_DIR, 'static'),
 )
 
 """
@@ -131,6 +130,5 @@ DATABASES['default'] =  dj_database_url.config()
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
+STATIC_ROOT = 'static'
 """
