@@ -16,6 +16,7 @@ from django.db.models import Q, F, FloatField, Max, Avg, Sum, Min, Case, When, C
     NullBooleanField
 from django.core.exceptions import ObjectDoesNotExist
 
+
 @login_required
 def success(request):
     response = "Hello " + request.user.username + ". You're at the Clearvision home page and successfully logged in."
@@ -35,6 +36,7 @@ def calendar(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
 
 def waitlist(request):
     return render(request, 'waitlist.html')
@@ -159,23 +161,24 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if num_temp_patients >= 1:
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
 
-            response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).\
-                annotate(patientname=F('patient__name')).\
-                annotate(scheduledApptDate=F('scheduledAppt__timeBucket_id__date')).\
-                annotate(scheduledApptStart=F('scheduledAppt__timeBucket_id__start')).\
-                annotate(scheduledApptDay=F('scheduledAppt__timeBucket_id__date__day')).\
-                annotate(tempApptDate=F('tempAppt__timeBucket_id__date')).\
-                annotate(tempApptStart=F('tempAppt__timeBucket_id__start')).\
-                annotate(tempApptDay=F('tempAppt__timeBucket_id__date__day')).\
-                exclude(swappable=False).\
-                values('patientname', 'scheduledApptDate', 'scheduledApptStart', 'tempApptDate', 'tempApptStart', 'scheduledApptDay', 'tempApptDay','swappable')
+            response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a). \
+                annotate(patientname=F('patient__name')). \
+                annotate(scheduledApptDate=F('scheduledAppt__timeBucket_id__date')). \
+                annotate(scheduledApptStart=F('scheduledAppt__timeBucket_id__start')). \
+                annotate(scheduledApptDay=F('scheduledAppt__timeBucket_id__date__day')). \
+                annotate(tempApptDate=F('tempAppt__timeBucket_id__date')). \
+                annotate(tempApptStart=F('tempAppt__timeBucket_id__start')). \
+                annotate(tempApptDay=F('tempAppt__timeBucket_id__date__day')). \
+                exclude(swappable=False). \
+                values('patientname', 'scheduledApptDate', 'scheduledApptStart', 'tempApptDate', 'tempApptStart',
+                       'scheduledApptDay', 'tempApptDay', 'swappable')
 
             return Response(response_data)
         return Response({})
 
-        #else:
-            #serializedExistingAppt = AppointmentSerializer(a)
-            #return Response(serializedExistingAppt.data)
+        # else:
+        # serializedExistingAppt = AppointmentSerializer(a)
+        # return Response(serializedExistingAppt.data)
 
     def create(self, request, *args, **kwargs):
         data = request.DATA
@@ -216,25 +219,33 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             if isWaitingList == 'True':
 
-                tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType, date=tempApptDate).id
+                tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType,
+                                                                      date=tempApptDate).id
 
-                if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket, apptType=apptType).exists():
+                if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket,
+                                              apptType=apptType).exists():
 
-                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID,
+                                                               apptType=apptType)
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                           swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
-                    Appointment.objects.create(apptType=apptType, date=tempApptDate, doctor=Doctor.objects.get(id=docID),
-                                       clinic=Clinic.objects.get(id=clinicID),
-                                       timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
+                    Appointment.objects.create(apptType=apptType, date=tempApptDate,
+                                               doctor=Doctor.objects.get(id=docID),
+                                               clinic=Clinic.objects.get(id=clinicID),
+                                               timeBucket=AvailableTimeSlots.objects.get(
+                                                   id=tempApptTimeBucketID)).tempPatients.add(p)
 
-                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID,
+                                                               apptType=apptType)
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                           swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             return Response(serializedExistingAppt.data)
@@ -250,25 +261,33 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             if isWaitingList == 'True':
 
-                tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType, date=tempApptDate).id
+                tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType,
+                                                                      date=tempApptDate).id
 
-                if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket, apptType=apptType).exists():
+                if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket,
+                                              apptType=apptType).exists():
 
-                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID,
+                                                               apptType=apptType)
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                           swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
-                    Appointment.objects.create(apptType=apptType, date=tempApptDate, doctor=Doctor.objects.get(id=docID),
-                                       clinic=Clinic.objects.get(id=clinicID),
-                                       timeBucket=AvailableTimeSlots.objects.get(id=tempApptTimeBucketID)).tempPatients.add(p)
+                    Appointment.objects.create(apptType=apptType, date=tempApptDate,
+                                               doctor=Doctor.objects.get(id=docID),
+                                               clinic=Clinic.objects.get(id=clinicID),
+                                               timeBucket=AvailableTimeSlots.objects.get(
+                                                   id=tempApptTimeBucketID)).tempPatients.add(p)
 
-                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID, apptType=apptType)
+                    tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID,
+                                                               apptType=apptType)
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt, swappable=False).save()
+                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                           swappable=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
@@ -292,7 +311,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         if currentAppt.patients.count() == 0:
             currentAppt.delete()
-        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket, date=futureApptDate, timeslotType=apptType)
+        apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket, date=futureApptDate,
+                                                             timeslotType=apptType)
 
         if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket,
                                       apptType=apptType, timeBucket__id=apptTimeBucketID).exists():
@@ -327,7 +347,6 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
 # API for iScheduling
 class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
-
     queryset = FullYearCalendar.objects.none()
 
     def list(self, request, *args, **kwargs):
@@ -342,82 +361,138 @@ class AppointmentIScheduleFinder(viewsets.ReadOnlyModelViewSet):
         if lowerB is None:
             lowerB = 0
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=daysAhead),
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=daysAhead),
                                                         date__gte=datetime.now(), availabletimeslots__timeslotType=type,
-                                                        availabletimeslots__doctors__name=docName).\
-                        annotate(title=Count('availabletimeslots__appointment__patients')).\
-                        annotate(timeslotType=F('availabletimeslots__timeslotType')).\
-                        annotate(start=F('availabletimeslots__start')).\
-                        annotate(end=F('availabletimeslots__end')).\
-                        annotate(apptId=F('availabletimeslots__appointment__id')).\
-                        filter(title__lte=upperB, title__gte=lowerB,).\
-                        values().order_by('title')[:limit]
+                                                        availabletimeslots__doctors__name=docName). \
+                            annotate(title=Count('availabletimeslots__appointment__patients')). \
+                            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+                            annotate(start=F('availabletimeslots__start')). \
+                            annotate(end=F('availabletimeslots__end')). \
+                            annotate(apptId=F('availabletimeslots__appointment__id')). \
+                            filter(title__lte=upperB, title__gte=lowerB, ). \
+                            values().order_by('title')[:limit]
 
         for eachObj in response_data:
-                eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
-                eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
-                eachObj['title'] = str(eachObj['title']) + " Patient(s)"
+            eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
+            eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
+            eachObj['title'] = str(eachObj['title']) + " Patient(s)"
 
         return Response(response_data)
+
 
 class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
     queryset = Patient.objects.none()
 
     def list(self, request, *args, **kwargs):
         timelineFlag = request.query_params.get('timelineFlag')
+        filterFlag = request.query_params.get('filterFlag')
 
+        month = request.query_params.get('month')
         channels = request.query_params.get('channels')
-        channels = channels.split(',')
+
+        if filterFlag == 'True':
+            channels = channels.split(',')
 
         startDate = request.query_params.get('startDate')
         endDate = request.query_params.get('endDate')
 
-        if timelineFlag == 'False':
-            response_data = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate). \
-                annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values('channelname'). \
-                annotate(leads=Count('channelname')).order_by('leads'). \
-                annotate(
-                convert=Sum(
-                    Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
+        if filterFlag == 'True':
+            if timelineFlag == 'False':
+                response_data = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate). \
+                    annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values(
+                    'channelname'). \
+                    annotate(leads=Count('channelname')).order_by('leads'). \
+                    annotate(
+                    convert=Sum(
+                        Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
+                    )
                 )
-                )
 
-            for eachObj in response_data:
-                leads = eachObj['leads']
-                convert = eachObj['convert']
-                rate = float(convert/leads) * 100
-                eachObj['rate'] = rate
+                for eachObj in response_data:
+                    leads = eachObj['leads']
+                    convert = eachObj['convert']
+                    rate = float(convert / leads) * 100
+                    eachObj['rate'] = rate
 
-            return Response(response_data)
+                return Response(response_data)
 
-        else:
-            marketed_list = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate).\
-                annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values()
-            date_range = FullYearCalendar.objects.filter(date__gte=startDate, date__lte=endDate).values('date')
+            else:
+                marketed_list = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate). \
+                    annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values()
+                date_range = FullYearCalendar.objects.filter(date__gte=startDate, date__lte=endDate).values('date')
 
-            marketing_channels = []
+                marketing_channels = []
 
-            for eachObj in date_range:
-                for eachObj2 in marketed_list:
-                    if eachObj['date'] == eachObj2['registrationDate'].date():
-                        mktname = eachObj2['channelname']
+                for eachObj in date_range:
+                    for eachObj2 in marketed_list:
+                        if eachObj['date'] == eachObj2['registrationDate'].date():
+                            mktname = eachObj2['channelname']
+                            try:
+                                eachObj[mktname] += 1
+                                if mktname not in marketing_channels:
+                                    marketing_channels.append(mktname)
+                            except KeyError:
+                                eachObj[mktname] = 1
+                                if mktname not in marketing_channels:
+                                    marketing_channels.append(mktname)
+
+                for eachObj in date_range:
+                    for eachChannel in marketing_channels:
                         try:
-                            eachObj[mktname] += 1
-                            if mktname not in marketing_channels:
-                                marketing_channels.append(mktname)
+                            eachObj[eachChannel]
                         except KeyError:
-                            eachObj[mktname] = 1
-                            if mktname not in marketing_channels:
-                                marketing_channels.append(mktname)
+                            eachObj[eachChannel] = 0
 
-            for eachObj in date_range:
-                for eachChannel in marketing_channels:
-                    try:
-                        eachObj[eachChannel]
-                    except KeyError:
-                        eachObj[eachChannel] = 0
+                return Response(date_range)
+        else:
 
-            return Response(date_range)
+            if channels == 'all':
+                response_data = Patient.objects.filter(registrationDate__month=month). \
+                    annotate(channelname=F('marketingChannelId__name')).values(
+                    'channelname'). \
+                    annotate(leads=Count('channelname')).order_by('leads'). \
+                    annotate(
+                    convert=Sum(
+                        Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
+                    )
+                )
+
+                for eachObj in response_data:
+                    leads = eachObj['leads']
+                    convert = eachObj['convert']
+                    rate = float(convert / leads) * 100
+                    eachObj['rate'] = rate
+
+                return Response(response_data)
+
+            else:
+                marketed_list = Patient.objects.filter(registrationDate__month=month). \
+                    annotate(channelname=F('marketingChannelId__name')).values()
+                date_range = FullYearCalendar.objects.filter(date__month=month).values('date')
+
+                marketing_channels = []
+
+                for eachObj in date_range:
+                    for eachObj2 in marketed_list:
+                        if eachObj['date'] == eachObj2['registrationDate'].date():
+                            mktname = eachObj2['channelname']
+                            try:
+                                eachObj[mktname] += 1
+                                if mktname not in marketing_channels:
+                                    marketing_channels.append(mktname)
+                            except KeyError:
+                                eachObj[mktname] = 1
+                                if mktname not in marketing_channels:
+                                    marketing_channels.append(mktname)
+
+                for eachObj in date_range:
+                    for eachChannel in marketing_channels:
+                        try:
+                            eachObj[eachChannel]
+                        except KeyError:
+                            eachObj[eachChannel] = 0
+
+                return Response(date_range)
 
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
@@ -432,6 +507,7 @@ class RemarksFinder(viewsets.ReadOnlyModelViewSet):
         serialized_response_data = RemarksSerializer(response_data)
         return Response(serialized_response_data.data)
 
+
 class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
     queryset = FullYearCalendar.objects.none()
 
@@ -442,17 +518,17 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         lowerB = request.query_params.get('lowerB')
         docName = request.query_params.get('docName')
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now()+timedelta(days=monthsAhead*30),
+        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                         date__gte=datetime.now(),
                                                         availabletimeslots__timeslotType=type,
-                                                        availabletimeslots__doctors__name=docName).\
-                        annotate(title=Count('availabletimeslots__appointment__patients')).\
-                        annotate(timeslotType=F('availabletimeslots__timeslotType')).\
-                        annotate(start=F('availabletimeslots__start')).\
-                        annotate(end=F('availabletimeslots__end')).\
-                        annotate(apptId=F('availabletimeslots__appointment__id')).\
-                        filter(title__lte=upperB, title__gte=lowerB,).\
-                        values()
+                                                        availabletimeslots__doctors__name=docName). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values()
 
         for eachObj in response_data:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
@@ -461,52 +537,61 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
 
         return Response(response_data)
 
+
 class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-15', start='12:30:00', timeslotType='Pre Evaluation').id
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-15', start='12:30:00',
+                                                       timeslotType='Pre Evaluation').id
         return HttpResponse(response_data)
+
 
 class iScheduleSwapper(viewsets.ModelViewSet):
     queryset = Patient.objects.none()
     serializer_class = AppointmentSerializer
 
     def list(self, request, *args, **kwargs):
-        temp_response_data = Patient.objects.\
-            annotate(canswap=F('swapper__swappable')).\
-            annotate(tempApptDate=F('tempPatients__timeBucket_id__date')).\
-            annotate(tempApptStart=F('tempPatients__timeBucket_id__start')).\
-            annotate(tempApptType=F('tempPatients__timeBucket__timeslotType')).\
-            annotate(tempApptDay=F('tempPatients__timeBucket_id__date__day')).\
-            annotate(patientname=F('name')).\
-            annotate(patientcontact=F('contact')).\
-            annotate(doctor=F('tempPatients__timeBucket_id__appointment__doctor__name')).\
-            annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')).\
-            exclude(tempApptDate=None).\
-            values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname', 'patientcontact', 'tempApptId','canswap')
+        temp_response_data = Patient.objects. \
+            annotate(canswap=F('swapper__swappable')). \
+            annotate(tempApptDate=F('tempPatients__timeBucket_id__date')). \
+            annotate(tempApptStart=F('tempPatients__timeBucket_id__start')). \
+            annotate(tempApptType=F('tempPatients__timeBucket__timeslotType')). \
+            annotate(tempApptDay=F('tempPatients__timeBucket_id__date__day')). \
+            annotate(patientname=F('name')). \
+            annotate(patientcontact=F('contact')). \
+            annotate(doctor=F('tempPatients__timeBucket_id__appointment__doctor__name')). \
+            annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')). \
+            exclude(tempApptDate=None). \
+            values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname',
+                   'patientcontact', 'tempApptId', 'canswap')
 
-        scheduled_response_data = Patient.objects.\
-            annotate(scheduledApptDate=F('patients__timeBucket_id__date')).\
-            annotate(scheduledApptStart=F('patients__timeBucket_id__start')).\
-            annotate(scheduledApptType=F('patients__timeBucket__timeslotType')).\
-            annotate(scheduledApptDay=F('patients__timeBucket_id__date__day')).\
-            annotate(patientcontact=F('contact')).\
-            annotate(scheduledApptId=F('patients__timeBucket_id__appointment__id')).\
-            exclude(scheduledApptDate=None).\
-            values('scheduledApptDate', 'scheduledApptStart', 'scheduledApptType', 'scheduledApptDay', 'patientcontact', 'scheduledApptId')
+        scheduled_response_data = Patient.objects. \
+            annotate(scheduledApptDate=F('patients__timeBucket_id__date')). \
+            annotate(scheduledApptStart=F('patients__timeBucket_id__start')). \
+            annotate(scheduledApptType=F('patients__timeBucket__timeslotType')). \
+            annotate(scheduledApptDay=F('patients__timeBucket_id__date__day')). \
+            annotate(patientcontact=F('contact')). \
+            annotate(scheduledApptId=F('patients__timeBucket_id__appointment__id')). \
+            exclude(scheduledApptDate=None). \
+            values('scheduledApptDate', 'scheduledApptStart', 'scheduledApptType', 'scheduledApptDay', 'patientcontact',
+                   'scheduledApptId')
 
         for eachObj in temp_response_data:
             for eachObj2 in scheduled_response_data:
                 if eachObj2['patientcontact'] == eachObj['patientcontact']:
                     try:
-                        toAdd = {"scheduledApptId": eachObj2['scheduledApptId'], "scheduledApptDate": eachObj2['scheduledApptDate'],
-                                 "scheduledApptDay": eachObj2['scheduledApptDay'], "scheduledApptStart": eachObj2['scheduledApptStart']}
+                        toAdd = {"scheduledApptId": eachObj2['scheduledApptId'],
+                                 "scheduledApptDate": eachObj2['scheduledApptDate'],
+                                 "scheduledApptDay": eachObj2['scheduledApptDay'],
+                                 "scheduledApptStart": eachObj2['scheduledApptStart']}
                         eachObj['scheduledAppointments'].append(toAdd)
                     except KeyError:
                         eachObj['scheduledAppointments'] = []
-                        toAdd = {"scheduledApptId": eachObj2['scheduledApptId'], "scheduledApptDate": eachObj2['scheduledApptDate'],
-                                 "scheduledApptDay": eachObj2['scheduledApptDay'], "scheduledApptStart": eachObj2['scheduledApptStart']}
+                        toAdd = {"scheduledApptId": eachObj2['scheduledApptId'],
+                                 "scheduledApptDate": eachObj2['scheduledApptDate'],
+                                 "scheduledApptDay": eachObj2['scheduledApptDay'],
+                                 "scheduledApptStart": eachObj2['scheduledApptStart']}
                         eachObj['scheduledAppointments'].append(toAdd)
 
         return Response(temp_response_data)
@@ -544,18 +629,19 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
         searchstring = request.query_params.get('search')
 
         if searchstring is not None:
-            response_data = Patient.objects.filter(Q(contact__contains=searchstring)|Q(name__contains=searchstring)).\
-                annotate(apptId=F('patients__timeBucket__appointment__id')).\
-                annotate(apptStart=F('patients__timeBucket__start')).\
-                annotate(apptDate=F('patients__timeBucket__date')).\
-                annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')).\
-                exclude(apptId=None).\
+            response_data = Patient.objects.filter(Q(contact__contains=searchstring) | Q(name__contains=searchstring)). \
+                annotate(apptId=F('patients__timeBucket__appointment__id')). \
+                annotate(apptStart=F('patients__timeBucket__start')). \
+                annotate(apptDate=F('patients__timeBucket__date')). \
+                annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')). \
+                exclude(apptId=None). \
                 values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname')
 
             return Response(response_data)
         else:
             response_data = Patient.objects.all().values()
             return Response(response_data)
+
 
 class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
     queryset = Swapper.objects.none()
@@ -565,6 +651,7 @@ class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
 
         return Response(response_data)
 
+
 class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
@@ -572,8 +659,8 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         apptType = request.query_params.get('apptType')
         docName = request.query_params.get('docName')
 
-        response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName).\
-            values('start',).distinct()
+        response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName). \
+            values('start', ).distinct()
 
         timings = []
 
