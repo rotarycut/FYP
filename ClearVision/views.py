@@ -528,12 +528,13 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             annotate(end=F('availabletimeslots__end')). \
             annotate(apptId=F('availabletimeslots__appointment__id')). \
             filter(title__lte=upperB, title__gte=lowerB, ). \
-            values()
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title')
 
         for eachObj in response_data:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
             eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
             eachObj['tooltip'] = str(eachObj['title']) + " Patient(s)"
+            del eachObj['title']
 
         return Response(response_data)
 
