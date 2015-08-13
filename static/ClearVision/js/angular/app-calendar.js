@@ -285,7 +285,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         //var haveToolTip = null;
 
         try {
-            console.log("IN");
+            //console.log("IN");
             var tooltip = event.tooltip;
 
             //haveToolTip = true;
@@ -305,9 +305,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
         } catch (Exception) {
-            console.log("Exception");
+            //console.log("Exception");
             strOfPatientNames = event.tooltip;
-            console.log(strOfPatientNames);
+            //console.log(strOfPatientNames);
             return strOfPatientNames;
         }
 
@@ -781,7 +781,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to retrieve list of appointment timings */
     $scope.getAppointmentTimings = function (apptType, apptTime) {
 
-        $http.get('http://127.0.0.1:8000/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=Dr%20Ho')
+        $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=Dr%20Ho')
             .success(function (listOfTimings) {
                 console.log(listOfTimings);
                 $scope.listOfAppointmentTimings = listOfTimings;
