@@ -270,14 +270,18 @@ ul.legend-ul li{
 
 .legend-screen{
     color: #f98a5f;
+    text-decoration: none;
 }
 
 
 .legend-preEval{
     color: #aa2159;
+    text-decoration: none;
+
 }
 .legend-lasik{
     color: #74aaf7;
+    text-decoration: none;
 }
 
 .cal-legend{
@@ -285,6 +289,19 @@ ul.legend-ul li{
     border: dotted 1px #777777;
     border-radius: 4px;
     margin-top: 2px;
+}
+
+.legend-screen-clicked{
+    color: #f98a5f;
+    text-decoration: underline;
+}
+.legend-preEval-clicked{
+    color: #aa2159;
+    text-decoration: underline;
+}
+.legend-surgery-clicked{
+    color: #74aaf7;
+    text-decoration: underline;
 }
 
 

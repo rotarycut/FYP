@@ -961,9 +961,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             case "Screening" :
                 if (hidesTheRest) {
                     if (!$scope.screeningActive) {
+                        $scope.legendScreenClicked = "legend-screen-clicked";
                         $scope.drHoScreenings.events.splice(0);
                         $scope.getDrHoScreenings();
                     }
+                    $scope.legendScreenClicked = "legend-screen";
                     $scope.drHoPreEvaluations.events.splice(0);
                     $scope.drHoSurgeries.events.splice(0);
                     $scope.screeningActive = true;
@@ -972,13 +974,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 } else {
                     if ($scope.screeningActive) {
+                        $scope.legendScreenClicked = "legend-screen-clicked";
                         $scope.screeningActive = false;
                         $scope.drHoScreenings.events.splice(0);
                     } else {
+                        $scope.legendScreenClicked = "legend-screen-clicked";
                         $scope.screeningActive = true;
                         $scope.getDrHoScreenings();
                     }
                 }
+
                 break;
 
             case "Pre Evaluation":
@@ -1002,6 +1007,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.getDrHoPreEvaluations();
                     }
                 }
+                $scope.legendEvalClicked = "legend-preEval-clicked";
                 break;
 
             case "Surgery":
@@ -1025,6 +1031,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.getDrHoSurgeries();
                     }
                 }
+                $scope.legendSurgeryClicked = "legend-surgery-clicked";
                 break;
         }
     };
