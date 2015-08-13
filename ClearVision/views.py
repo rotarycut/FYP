@@ -143,7 +143,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
     serializer_class = AppointmentMakerSerializer
 
     def destroy(self, request, *args, **kwargs):
-        data = request.DATA
+        data = request.data
         p = Patient.objects.get(contact=data.get('contact'))
 
         a = Appointment.objects.get(id=self.get_object().id)
@@ -181,7 +181,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         # return Response(serializedExistingAppt.data)
 
     def create(self, request, *args, **kwargs):
-        data = request.DATA
+        data = request.data
 
         apptDate = data.get('date')
         apptTimeBucket = data.get('time') + ":00"
@@ -295,7 +295,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             return Response(serializedExistingAppt.data)
 
     def update(self, request, *args, **kwargs):
-        data = request.DATA
+        data = request.data
         futureApptDate = data.get('replacementApptDate')
         futureApptTimeBucket = data.get('replacementApptTime') + ":00"
         currentAppt = Appointment.objects.get(id=self.get_object().id)
@@ -610,7 +610,7 @@ class iScheduleSwapper(viewsets.ModelViewSet):
         return Response(temp_response_data)
 
     def create(self, request, *args, **kwargs):
-        data = request.DATA
+        data = request.data
         scheduledApptId = data.get('scheduledApptId')
         tempApptId = data.get('tempApptId')
         contact = data.get('contact')
