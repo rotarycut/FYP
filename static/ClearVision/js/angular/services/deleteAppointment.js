@@ -1,5 +1,5 @@
 angular.module('delete.appointment', [])
-    .service('deleteAppointmentSvc', function ($http) {
+    .service('deleteAppointmentSvc', function ($http, hideFormSvc) {
 
         var self = this;
         self._scope = {};
@@ -82,6 +82,8 @@ angular.module('delete.appointment', [])
                                     self._scope.drHoSurgeries.events.push(event);
                                     break;
                             }
+
+                            hideFormSvc.hideForm();
                         })
                         .error(function (data) {
                             console.log("No more patients left in the appointment");
@@ -124,8 +126,12 @@ angular.module('delete.appointment', [])
                                     });
                                     break;
                             }
+
+                            hideFormSvc.hideForm();
                         });
+
                 })
+
         };
 
     });

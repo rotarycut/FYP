@@ -13,7 +13,8 @@ var app = angular.module('calendarDemoApp', [
     'clear.form',
     'disable.ISchedule',
     'delete.appointment',
-    'update.appointment'
+    'update.appointment',
+    'hide.form'
 ]);
 
 /* Angular routing */

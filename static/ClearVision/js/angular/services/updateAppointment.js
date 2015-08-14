@@ -1,5 +1,5 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http) {
+    .service('updateAppointmentSvc', function ($http, hideFormSvc) {
 
         var self = this;
         self._scope = {};
@@ -134,6 +134,8 @@ angular.module('update.appointment', [])
                                 break;
                         }
                     }
+
+                    hideFormSvc.hideForm();
                 })
 
                 .error(function (data) {

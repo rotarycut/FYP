@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -652,30 +652,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to hide appointment form */
     $scope.hideForm = function () {
-        $scope.scaleDownCalendar = false;
-        $scope.form.showForm = false;
-        //$scope.disableISchedule();
-        clearFormSvc.clearForm();
-        disableIScheduleSvc.disableISchedule();
-        //$scope.showHeatMap = false;
-        $scope.showWaitingDate = false;
-        $scope.showWaitingTime = false;
-
-        $timeout(function () {
-            $scope.form.showButtons['addAndBlock'] = true;
-        }, 800);
-
-        for (var field in $scope.form.showFields) {
-            $scope.form.showFields[field] = true;
-        }
-
-        for (var field in $scope.form.disableFields) {
-            $scope.form.disableFields[field] = false;
-        }
-
-        for (var field in $scope.form.showButtons) {
-            $scope.form.showButtons[field] = false;
-        }
+        hideFormSvc.hideForm();
     };
 
     /* function to clear form */
@@ -966,6 +943,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     disableIScheduleSvc.getScope($scope);
     deleteAppointmentSvc.getScope($scope);
     updateAppointmentSvc.getScope($scope);
+    hideFormSvc.getScope($scope);
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
