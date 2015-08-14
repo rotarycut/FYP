@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -884,9 +884,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.hideForm = function () {
         $scope.scaleDownCalendar = false;
         $scope.form.showForm = false;
-        $scope.disableISchedule();
+        //$scope.disableISchedule();
         clearFormSvc.clearForm();
-        $scope.showHeatMap = false;
+        //$scope.showHeatMap = false;
         $scope.showWaitingDate = false;
         $scope.showWaitingTime = false;
 
@@ -927,20 +927,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.highHeatMap.events.splice(0);
                 $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
             }
-        }
-    };
-
-    /* function to disable iSchedule */
-    $scope.disableISchedule = function () {
-
-        if ($scope.formTitle === 'Create New Appointment' && $scope.iSchedule === true) {
-            $scope.iSchedule = false;
-            $scope.lowHeatMap.events.splice(0);
-            $scope.medHeatMap.events.splice(0);
-            $scope.highHeatMap.events.splice(0);
-            $scope.getDrHoScreenings();
-            $scope.getDrHoPreEvaluations();
-            $scope.getDrHoSurgeries();
         }
     };
 
@@ -1107,7 +1093,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             resolve: {
                 patientInfo: function () {
                     $scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-                    if($scope.fields.doctorAssigned === 1){
+                    if ($scope.fields.doctorAssigned === 1) {
                         $scope.fields.doctorModal = "Dr Goh";
                     } else {
                         $scope.fields.doctorModal = "Dr Ho";
@@ -1133,6 +1119,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
     clearFormSvc.getScope($scope);
+    disableIScheduleSvc.getScope($scope);
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
@@ -1160,11 +1147,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.ok = function () {
         postAppointmentSvc.postAppointment();
+        //disableIScheduleSvc.disableISchedule();
         $modalInstance.close();
         clearFormSvc.clearForm();
     };

@@ -10,7 +10,8 @@ var app = angular.module('calendarDemoApp', [
     'ngAnimate',
     'angular.filter',
     'post.appointment',
-    'clear.form'
+    'clear.form',
+    'disable.ISchedule'
 ]);
 
 /* Angular routing */

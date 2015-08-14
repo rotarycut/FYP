@@ -1,5 +1,5 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http) {
+    .service('postAppointmentSvc', function ($http, disableIScheduleSvc) {
 
         var self = this;
         self._scope = {};
@@ -127,6 +127,7 @@ angular.module('post.appointment', [])
                             break;
                     }
 
+                    disableIScheduleSvc.disableISchedule();
                 })
 
                 .error(function (data) {
