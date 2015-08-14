@@ -210,6 +210,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType).exists():
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
+
+            if existingAppt.patients.filter(contact=patientContact).exists():
+                AppointmentRemarks.objects.filter(patient=p, appointment=existingAppt,).update(remarks=remarks)
+                serializedExistingAppt = AppointmentSerializer(existingAppt)
+                return Response(serializedExistingAppt.data)
+
             existingAppt.patients.add(p)
             existingAppt.save()
 
