@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -442,127 +442,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    /* function to delete appointment */
-    $scope.deleteAppointment = function () {
-
-        var url = '/Clearvision/_api/appointmentsCUD/' + $scope.fields.appointmentId;
-
-        var req = {
-            method: 'DELETE',
-            url: url,
-            headers: {'Content-Type': 'application/json'},
-            data: {
-                "contact": $scope.fields.patientContact
-            }
-        };
-
-        $http(req)
-            .success(function (data) {
-                console.log("Successfully deleted. Retrieved swapped content.");
-                console.log(data);
-
-                var event = data;
-                var appointmentsCanBeSwapped = Object.keys(event).length;
-
-                if (appointmentsCanBeSwapped != 0) {
-                    // Then I perform some swap.
-                    console.log("Some swapped being done");
-                }
-
-                // Find if any more patients in the appointment
-                var urlStr = '/Clearvision/_api/appointments/' + $scope.fields.appointmentId;
-
-                $http.get(urlStr)
-                    .success(function (data) {
-                        console.log("There still exist patients in the appointment");
-                        console.log(data);
-                        var event = data;
-
-                        switch ($scope.fields.appointmentType) {
-
-                            case "Screening":
-                                var appointmentIndex = 0;
-                                angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                                    if (screeningAppointment.id === $scope.fields.appointmentId) {
-
-                                        $scope.drHoScreenings.events.splice(appointmentIndex, 1);
-
-                                    }
-                                    appointmentIndex++;
-                                });
-                                $scope.drHoScreenings.events.push(event);
-                                break;
-
-                            case "Pre Evaluation":
-                                var appointmentIndex = 0;
-                                angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                                    if (preEvaluationAppointment.id === $scope.fields.appointmentId) {
-                                        $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
-
-                                    }
-                                    appointmentIndex++;
-                                });
-                                $scope.drHoPreEvaluations.events.push(event);
-                                break;
-
-                            case "Surgery":
-                                var appointmentIndex = 0;
-                                angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                                    if (surgeryAppointment.id === $scope.fields.appointmentId) {
-                                        $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
-
-                                    }
-                                    appointmentIndex++;
-                                });
-                                $scope.drHoSurgeries.events.push(event);
-                                break;
-                        }
-                    })
-                    .error(function (data) {
-                        console.log("No more patients left in the appointment");
-
-                        switch ($scope.fields.appointmentType) {
-
-                            case "Screening":
-                                var appointmentIndex = 0;
-                                angular.forEach($scope.drHoScreenings.events, function (screeningAppointment) {
-                                    if (screeningAppointment.id === $scope.fields.appointmentId) {
-
-                                        $scope.drHoScreenings.events.splice(appointmentIndex, 1);
-
-                                    }
-                                    appointmentIndex++;
-                                });
-                                break;
-
-                            case "Pre Evaluation":
-                                var appointmentIndex = 0;
-                                angular.forEach($scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
-                                    if (preEvaluationAppointment.id === $scope.fields.appointmentId) {
-
-                                        $scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
-
-                                    }
-                                    appointmentIndex++;
-                                });
-                                break;
-
-                            case "Surgery":
-                                var appointmentIndex = 0;
-                                angular.forEach($scope.drHoSurgeries.events, function (surgeryAppointment) {
-                                    if (surgeryAppointment.id === $scope.fields.appointmentId) {
-
-                                        $scope.drHoSurgeries.events.splice(appointmentIndex, 1);
-
-                                    }
-                                    appointmentIndex++;
-                                });
-                                break;
-                        }
-                    });
-            })
-    };
-
     /* function to splice appointments */
     $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
         console.log(appointmentsInType);
@@ -579,7 +458,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.updateAppointment = function (isFormValid) {
 
         if (isFormValid) {
-            var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+
+            //var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
 
             if ($scope.fields.appointmentRemarks === undefined) {
                 $scope.fields.appointmentRemarks = "";
@@ -833,6 +713,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.navigateToDate = function () {
         var selectedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
         $('#drHoCalendar').fullCalendar('gotoDate', selectedDate);
+        $scope.fields.appointmentDate = selectedDate;
     };
 
     /* function to format date */
@@ -1096,7 +977,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     ];
 
-    /* --- start of modal codes --- */
+    /* --- start of create form submit button modal codes --- */
     $scope.animationsEnabled = true;
 
     $scope.openModal = function (size) {
@@ -1108,7 +989,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             size: size,
             resolve: {
                 patientInfo: function () {
-                    $scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+                    if ($scope.fields.doctorAssigned === 1) {
+                        $scope.fields.doctorModal = "Dr Goh";
+                    } else {
+                        $scope.fields.doctorModal = "Dr Ho";
+                    }
+
+                    return $scope.fields;
+                }
+            }
+        });
+    };
+    /* --- end of modal codes --- */
+
+    /* --- start of edit form delete button modal codes --- */
+    $scope.openDeleteModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
                     if ($scope.fields.doctorAssigned === 1) {
                         $scope.fields.doctorModal = "Dr Goh";
                     } else {
@@ -1136,6 +1041,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     postAppointmentSvc.getScope($scope);
     clearFormSvc.getScope($scope);
     disableIScheduleSvc.getScope($scope);
+    deleteAppointmentSvc.getScope($scope);
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
@@ -1163,14 +1069,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc) {
     $scope.patientDetails = patientInfo;
 
-    $scope.ok = function () {
+    $scope.createAppointment = function () {
         postAppointmentSvc.postAppointment();
         //disableIScheduleSvc.disableISchedule();
         $modalInstance.close();
         clearFormSvc.clearForm();
+    };
+
+    $scope.deleteAppointment = function () {
+        deleteAppointmentSvc.deleteAppointment();
+        $modalInstance.close();
     };
 
     $scope.cancel = function () {
