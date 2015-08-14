@@ -411,7 +411,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                 for eachObj in response_data:
                     leads = eachObj['leads']
                     convert = eachObj['convert']
-                    rate = float(convert / leads) * 100
+                    rate = float(convert) / float(leads) * 100
                     eachObj['rate'] = rate
 
                 return Response(response_data)
@@ -540,7 +540,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             annotate(end=F('availabletimeslots__end')). \
             annotate(apptId=F('availabletimeslots__appointment__id')). \
             filter(title__lte=upperB, title__gte=lowerB, ). \
-            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title')
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
 
         for eachObj in response_data:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
@@ -673,7 +673,7 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         docName = request.query_params.get('docName')
 
         response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName). \
-            values('start', ).distinct()
+            values('start', ).distinct().order_by('start')
 
         timings = []
 
