@@ -10,7 +10,6 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http) {
                 angular.forEach(listOfAppointments, function (appointment) {
                     $scope.listOfWaitingAppointments.push(appointment);
                 })
-                console.log($scope.listOfWaitingAppointments);
             })
     };
 
@@ -34,6 +33,9 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http) {
                 console.log("Swapped successfully");
                 console.log(listOfAppointments);
                 //Post is successful
+
+                $scope.listOfWaitingAppointments.splice(0);
+                $scope.getWaitListAppointments();
             })
     }
 
