@@ -169,6 +169,36 @@
                         </div>
                     </div>
 
+                    <!-- Assigned doctor -->
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
+                         ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
+                         ng-show="form.showFields.doctor">
+
+                        <label class="control-label">Doctor</label>
+
+                        <div class="row">
+                            <div class="radio col-sm-6">
+                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="2"
+                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
+                                              ng-required="!doctorAssigned">
+                                    Dr.Ho
+                                </label>
+                            </div>
+                            <div class="radio col-sm-6">
+                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="1"
+                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
+                                              ng-required="!doctorAssigned">
+                                    Dr.Goh
+                                </label>
+                            </div>
+                        </div>
+
+                        <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
+                             class="help-block">
+                            Please select a doctor
+                        </div>
+                    </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-6 form-animation"
@@ -343,36 +373,6 @@
                                     Invalid Time
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Assigned doctor -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
-                         ng-show="form.showFields.doctor">
-
-                        <label class="control-label">Doctor</label>
-
-                        <div class="row">
-                            <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="2"
-                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
-                                              ng-required="!doctorAssigned">
-                                    Dr.Ho
-                                </label>
-                            </div>
-                            <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="1"
-                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
-                                              ng-required="!doctorAssigned">
-                                    Dr.Goh
-                                </label>
-                            </div>
-                        </div>
-
-                        <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
-                             class="help-block">
-                            Please select a doctor
                         </div>
                     </div>
 
