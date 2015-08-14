@@ -886,6 +886,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.form.showForm = false;
         //$scope.disableISchedule();
         clearFormSvc.clearForm();
+        disableIScheduleSvc.disableISchedule();
         //$scope.showHeatMap = false;
         $scope.showWaitingDate = false;
         $scope.showWaitingTime = false;
@@ -905,6 +906,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         for (var field in $scope.form.showButtons) {
             $scope.form.showButtons[field] = false;
         }
+    };
+
+    /* function to clear form */
+    $scope.clearForm = function () {
+        clearFormSvc.clearForm();
+        disableIScheduleSvc.disableISchedule();
     };
 
     /* function to enable iSchedule */
