@@ -20,6 +20,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
             .success(function (data) {
                 $scope.newMonthData = data;
                 console.log($scope.newMonthData);
+                $scope.currentChartMonth = month;
                 $scope.showMarketingChart($scope.newMonthData);
 
             });
@@ -96,9 +97,16 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
                     var channel = $scope.newMonthData[d.x];
                     console.log(channel);
-                    var url = '/Clearvision/_api/analyticsServer/?channels=' + channel.channelname + '&startDate=2015-07-01&endDate=2015-07-30&timelineFlag=True&filterFlag=True';
+                    var date = new Date();
+                    var firstDay = new Date(2015, $scope.currentChartMonth - 1, 1).getDate();
+                    var lastDay = new Date(2015, $scope.currentChartMonth, 0).getDate();
+                    var startDate = '2015-' + $scope.currentChartMonth + '-' + firstDay;
+                    var endDate = '2015-' + $scope.currentChartMonth + '-' + lastDay;
+
+                    var url = '/Clearvision/_api/analyticsServer/?channels=' + channel.channelname + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=True&filterFlag=True';
                     $http.get(url)
                         .success(function (timeLine) {
+
                             var channelArr = [];
                             channelArr.push(channel.channelname);
                             console.log("ITS IN");
@@ -255,6 +263,44 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     }
 
     $scope.isCollapsed = true;
+
+
+    /* --- start of date picker codes --- */
+    $scope.datepickers = {
+        showDatePicker: false,
+        showDatePicker2: false
+    };
+    $scope.disabled = function (date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
+    };
+    $scope.today = function () {
+        $scope.datePickerCalendar = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.datePickerCalendar = null;
+    };
+    $scope.toggleMin = function () {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.open = function ($event, which) {
+
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.datepickers[which] = true;
+    };
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1,
+        showWeeks: 'false'
+    };
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+    /* --- end of date picker codes --- */
 
 
 });
