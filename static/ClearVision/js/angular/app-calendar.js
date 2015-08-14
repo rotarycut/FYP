@@ -910,6 +910,26 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     } else {
                         $scope.fields.doctorModal = "Dr Ho";
                     }
+                    if ($scope.fields.originalAppointmentDate !== $scope.fields.appointmentDate) {
+                        $scope.fields.dateIsChanged = true;
+                    } else {
+                        $scope.fields.dateIsChanged = false;
+                    }
+                    if ($scope.fields.originalAppointmentTime !== $scope.fields.appointmentTime) {
+                        $scope.fields.timeIsChanged = true;
+                    } else {
+                        $scope.fields.timeIsChanged = false;
+                    }
+                    if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType) {
+                        $scope.fields.typeIsChanged = true;
+                    } else {
+                        $scope.fields.typeIsChanged = false;
+                    }
+                    if ($scope.fields.originalAppointmentRemarks !== $scope.fields.appointmentRemarks) {
+                        $scope.fields.remarksIsChanged = true;
+                    } else {
+                        $scope.fields.remarksIsChanged = false;
+                    }
 
                     return $scope.fields;
                 }

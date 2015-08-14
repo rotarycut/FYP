@@ -472,4 +472,8 @@ table.waitlist-swap-tbl > tbody > tr > td{
 .canSwap{
     color: #4ea64e;
 }
+
+.fieldIsChanged{
+    color: #CC0000;
+}
 /* waitlist css ends*?
