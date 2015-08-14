@@ -586,28 +586,12 @@
   {
     "model": "ClearVision.Swapper",
     "fields": {
-        "patient": 91500333,
-        "scheduledAppt": 5,
-        "tempAppt": 6,
-        "swappable": false
-    }
-  },
-  {
-    "model": "ClearVision.Swapper",
-    "fields": {
-        "patient": 91500444,
-        "scheduledAppt": 4,
-        "tempAppt": 6,
-        "swappable": false
-    }
-  },
-  {
-    "model": "ClearVision.Swapper",
-    "fields": {
         "patient": 90884621,
         "scheduledAppt": 8,
         "tempAppt": 7,
-        "swappable": false
+        "swappable": false,
+        "hasRead": true,
+        "creationTime": "2015-07-17T00:00:00Z"
     }
   },
   {
@@ -616,7 +600,9 @@
         "patient": 915004732,
         "scheduledAppt": 8,
         "tempAppt": 5,
-        "swappable": false
+        "swappable": false,
+        "hasRead": true,
+        "creationTime": "2015-07-17T00:00:00Z"
     }
   },
   {
@@ -625,8 +611,9 @@
         "patient": 91500784,
         "scheduledAppt": 9,
         "tempAppt": 5,
-        "swappable": false
+        "swappable": false,
+        "hasRead": true,
+        "creationTime": "2015-07-17T00:00:00Z"
     }
   }
-
 ]

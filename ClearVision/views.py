@@ -237,7 +237,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.save()
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False).save()
+                                           swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -251,7 +251,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                                                apptType=apptType)
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False).save()
+                                           swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             return Response(serializedExistingAppt.data)
@@ -279,7 +279,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.save()
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False).save()
+                                           swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -293,7 +293,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                                                apptType=apptType)
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False).save()
+                                           swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
@@ -690,3 +690,55 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
             timings.append(str(timing)[:-3])
 
         return Response(timings)
+
+class ViewNotifications(viewsets.ReadOnlyModelViewSet):
+    queryset = Patient.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        temp_response_data = Patient.objects. \
+            annotate(canswap=F('swapper__swappable')). \
+            annotate(notified=F('swapper__hasRead')). \
+            annotate(swapperid=F('swapper__id')). \
+            annotate(creationtime=F('swapper__creationTime')). \
+            annotate(tempApptDate=F('tempPatients__timeBucket_id__date')). \
+            annotate(tempApptStart=F('tempPatients__timeBucket_id__start')). \
+            annotate(tempApptType=F('tempPatients__timeBucket__timeslotType')). \
+            annotate(tempApptDay=F('tempPatients__timeBucket_id__date__day')). \
+            annotate(patientname=F('name')). \
+            annotate(patientcontact=F('contact')). \
+            annotate(doctor=F('tempPatients__timeBucket_id__appointment__doctor__name')). \
+            annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')). \
+            exclude(tempApptDate=None). \
+            filter(notified=False, canswap=True). \
+            values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname',
+                   'patientcontact', 'tempApptId', 'canswap', 'notified', 'creationtime', 'swapperid').order_by('-creationtime')
+
+        scheduled_response_data = Patient.objects. \
+            annotate(scheduledApptDate=F('patients__timeBucket_id__date')). \
+            annotate(scheduledApptStart=F('patients__timeBucket_id__start')). \
+            annotate(scheduledApptType=F('patients__timeBucket__timeslotType')). \
+            annotate(scheduledApptDay=F('patients__timeBucket_id__date__day')). \
+            annotate(patientcontact=F('contact')). \
+            annotate(scheduledApptId=F('patients__timeBucket_id__appointment__id')). \
+            exclude(scheduledApptDate=None). \
+            values('scheduledApptDate', 'scheduledApptStart', 'scheduledApptType', 'scheduledApptDay', 'patientcontact',
+                   'scheduledApptId')
+
+        for eachObj in temp_response_data:
+            for eachObj2 in scheduled_response_data:
+                if eachObj2['patientcontact'] == eachObj['patientcontact']:
+                    try:
+                        toAdd = {"scheduledApptId": eachObj2['scheduledApptId'],
+                                 "scheduledApptDate": eachObj2['scheduledApptDate'],
+                                 "scheduledApptDay": eachObj2['scheduledApptDay'],
+                                 "scheduledApptStart": eachObj2['scheduledApptStart']}
+                        eachObj['scheduledAppointments'].append(toAdd)
+                    except KeyError:
+                        eachObj['scheduledAppointments'] = []
+                        toAdd = {"scheduledApptId": eachObj2['scheduledApptId'],
+                                 "scheduledApptDate": eachObj2['scheduledApptDate'],
+                                 "scheduledApptDay": eachObj2['scheduledApptDay'],
+                                 "scheduledApptStart": eachObj2['scheduledApptStart']}
+                        eachObj['scheduledAppointments'].append(toAdd)
+
+        return Response(temp_response_data)

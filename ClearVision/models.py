@@ -84,3 +84,5 @@ class Swapper(models.Model):
     scheduledAppt = models.ForeignKey(Appointment, related_name="scheduledAppt")
     tempAppt = models.ForeignKey(Appointment, related_name="tempAppt")
     swappable = models.NullBooleanField()
+    hasRead = models.BooleanField()
+    creationTime = models.DateTimeField(auto_now=True)

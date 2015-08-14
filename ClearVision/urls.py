@@ -18,6 +18,7 @@ router.register(r'_api/Swapper', views.iScheduleSwapper)
 router.register(r'_api/SearchBar', views.SearchBarFilter)
 router.register(r'_api/ViewSwapperTable', views.ViewSwapperTable)
 router.register(r'_api/ViewApptTimeslots', views.ViewApptTimeslots)
+router.register(r'_api/ViewNotifications', views.ViewNotifications)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
