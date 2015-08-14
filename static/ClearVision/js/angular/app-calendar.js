@@ -194,6 +194,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $('#drHoCalendar').fullCalendar('select', appointment.date);
 
             $scope.showForm('Edit');
+
+            /*var noOfPatients = appointment.patients.length;
+
+             if (noOfPatients === 1) {
+             console.log("1 patient");
+             $scope.fields.selectedPatient = appointment.patients[0].name;
+             console.log($scope.fields.selectedPatient);
+             }*/
+
         } else {
             $scope.fields.appointmentDate = appointment.date;
             var appointmentFullDateTime = appointment.start._i;
