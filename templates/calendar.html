@@ -519,14 +519,22 @@
             <div class="col-sm-6">
                 <ul>
                     <p>Updated Appointment</p>
-                    <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
+                        [[patientDetails.appointmentType]]
+                    </li>
                     <li>Contact No: [[patientDetails.patientContact]]</li>
                     <li>Patient Name: [[patientDetails.patientName]]</li>
-                    <li>Date: [[patientDetails.appointmentDate]]</li>
-                    <li>Time: [[patientDetails.appointmentTime]]</li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
+                        [[patientDetails.appointmentDate]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
+                        [[patientDetails.appointmentTime]]
+                    </li>
                     <li>Doctor: [[patientDetails.doctorModal]]</li>
                     <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
-                    <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
+                        [[patientDetails.appointmentRemarks]]
+                    </li>
                 </ul>
             </div>
         </div>
