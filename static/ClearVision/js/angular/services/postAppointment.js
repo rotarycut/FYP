@@ -28,7 +28,7 @@ angular.module('post.appointment', [])
 
 
         self.postAppointment = function () {
-            var formattedDate = self._scope.getFormattedDate(self._scope.fields.appointmentDate);
+            //var formattedDate = self._scope.getFormattedDate(self._scope.fields.appointmentDate);
 
             if (self._scope.fields.appointmentRemarks === undefined) {
                 self._scope.fields.appointmentRemarks = "";
@@ -52,7 +52,7 @@ angular.module('post.appointment', [])
 
             var sending = {
                 "apptType": self._scope.fields.appointmentType,
-                "date": formattedDate,
+                "date": self._scope.fields.appointmentDate,
                 "docID": self._scope.fields.doctorAssigned,
                 "clinicID": 1,
                 "contact": self._scope.fields.patientContact,
@@ -68,7 +68,7 @@ angular.module('post.appointment', [])
 
             $http.post('/Clearvision/_api/appointmentsCUD/', {
                 "apptType": self._scope.fields.appointmentType,
-                "date": formattedDate,
+                "date": self._scope.fields.appointmentDate,
                 "docID": self._scope.fields.doctorAssigned,
                 "clinicID": 1,
                 "contact": self._scope.fields.patientContact,

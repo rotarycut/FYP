@@ -96,13 +96,16 @@
 
                             <div class="cal-legend">
                                 <ul class="legend-ul">
-                                    <li>    <a href="#/" class="legend-screen" singleclick="filterByAppointmentTypes('Screening', false)"
-                                           data-ng-Dblclick="filterByAppointmentTypes('Screening', true)" ng-class="legendScreenClicked"><i
+                                    <li><a href="#/" class="legend-screen"
+                                           singleclick="filterByAppointmentTypes('Screening', false)"
+                                           data-ng-Dblclick="filterByAppointmentTypes('Screening', true)"
+                                           ng-class="legendScreenClicked"><i
                                             class="fa fa-stop"></i> Screening</a>
                                     </li>
                                     <li><a href="#/" singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
                                            data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
-                                           class="legend-preEval" ng-class="legendEvalClicked"><i class="fa fa-stop"></i> Pre-Eval</a>
+                                           class="legend-preEval" ng-class="legendEvalClicked"><i
+                                            class="fa fa-stop"></i> Pre-Eval</a>
                                     </li>
                                     <li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
                                            data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
@@ -457,7 +460,7 @@
             <li>Patient Name: [[patientDetails.patientName]]</li>
             <li>Date: [[patientDetails.appointmentDate]]</li>
             <li>Time: [[patientDetails.appointmentTime]]</li>
-            <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+            <li>Doctor: [[patientDetails.doctorModal]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
         </ul>

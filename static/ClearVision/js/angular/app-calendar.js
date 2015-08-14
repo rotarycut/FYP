@@ -1106,6 +1106,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             size: size,
             resolve: {
                 patientInfo: function () {
+                    $scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+                    if($scope.fields.doctorAssigned === 1){
+                        $scope.fields.doctorModal = "Dr Goh";
+                    } else {
+                        $scope.fields.doctorModal = "Dr Ho";
+                    }
+
                     return $scope.fields;
                 }
             }
