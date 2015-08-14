@@ -462,8 +462,8 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                 for eachObj in response_data:
                     leads = eachObj['leads']
                     convert = eachObj['convert']
-                    rate = float(convert / leads) * 100
-                    eachObj['rate'] = rate
+                    rate = float(convert) / float(leads)
+                    eachObj['rate'] = rate * 100
                     set_channels.append(eachObj['channelname'])
 
                 response_data = list(response_data)
@@ -555,8 +555,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-25', start='13:30:00',
-                                                       timeslotType='Pre Evaluation').id
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-25', start='12:30:00',
+                                                       timeslotType='Pre Evaluation', doctors=2).id
         return HttpResponse(response_data)
 
 
