@@ -180,7 +180,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.fields.patientList = appointment.patients;
             $scope.fields.appointmentType = appointment.apptType;
             $scope.fields.appointmentDate = appointment.date;
-            $scope.fields.doctorAssigned = appointment.doctor;
+
+            if (appointment.doctor === 1) {
+                $scope.fields.doctorAssigned = "Dr. Goh";
+            } else if (appointment.doctor === 2) {
+                $scope.fields.doctorAssigned = "Dr. Ho";
+            }
+            //$scope.fields.doctorAssigned = appointment.doctor;
+
             $scope.fields.originalAppointmentType = appointment.apptType;
             $scope.fields.originalAppointmentDate = appointment.date;
 
@@ -532,6 +539,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
     $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
+    $scope.listOfDoctors = ["Dr. Ho", "Dr. Goh"];
 
     /* function to retrieve list of appointment timings */
     $scope.getAppointmentTimings = function (apptType, apptTime) {
@@ -862,11 +870,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             resolve: {
                 patientInfo: function () {
                     //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-                    if ($scope.fields.doctorAssigned === "1") {
-                        $scope.fields.doctorModal = "Dr Goh";
-                    } else {
-                        $scope.fields.doctorModal = "Dr Ho";
-                    }
 
                     if ($scope.fields.waitingList === "True") {
                         $scope.fields.hasWaitList = true;
@@ -891,13 +894,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             size: size,
             resolve: {
                 patientInfo: function () {
-                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-                    if ($scope.fields.doctorAssigned === "1") {
-                        $scope.fields.doctorModal = "Dr Goh";
-                    } else {
-                        $scope.fields.doctorModal = "Dr Ho";
-                    }
-
                     return $scope.fields;
                 }
             }
@@ -915,12 +911,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             size: size,
             resolve: {
                 patientInfo: function () {
-                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-                    if ($scope.fields.doctorAssigned === 1) {
-                        $scope.fields.doctorModal = "Dr Goh";
-                    } else {
-                        $scope.fields.doctorModal = "Dr Ho";
-                    }
+
                     if ($scope.fields.originalAppointmentDate !== $scope.fields.appointmentDate) {
                         $scope.fields.dateIsChanged = true;
                     } else {

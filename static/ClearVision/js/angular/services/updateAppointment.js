@@ -14,6 +14,12 @@ angular.module('update.appointment', [])
                 self._scope.fields.appointmentRemarks = "";
             }
 
+            if (self._scope.fields.doctorAssigned === "Dr. Ho") {
+                self._scope.fields.doctorAssigned = "2";
+            } else {
+                self._scope.fields.doctorAssigned = "1";
+            }
+
             var updateJson = {
                 "contact": self._scope.fields.patientContact,
                 "replacementApptDate": self._scope.fields.appointmentDate,
