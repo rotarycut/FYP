@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -454,142 +454,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         });
     };
 
-    /* function to update appointment */
-    $scope.updateAppointment = function (isFormValid) {
-
-        if (isFormValid) {
-
-            //var formattedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-
-            if ($scope.fields.appointmentRemarks === undefined) {
-                $scope.fields.appointmentRemarks = "";
-            }
-
-            var updateJson = {
-                "contact": $scope.fields.patientContact,
-                "replacementApptDate": $scope.fields.appointmentDate,
-                "replacementApptTime": $scope.fields.appointmentTime,
-                "type": $scope.fields.appointmentType,
-                "docID": $scope.fields.doctorAssigned,
-                "clinicID": 1,
-                "remarks": $scope.fields.appointmentRemarks
-            };
-
-            console.log(updateJson);
-
-            var urlStr = '/Clearvision/_api/appointmentsCUD/' + $scope.fields.appointmentId;
-            console.log(urlStr);
-            var req = {
-                method: 'PATCH',
-                url: urlStr,
-                headers: {'Content-Type': 'application/json'},
-                data: updateJson
-            };
-
-            $http(req)
-                .success(function (data) {
-                    console.log("Successfully updated");
-                    console.log(data);
-
-                    var event = data;
-
-                    switch ($scope.fields.appointmentType) {
-
-                        case "Screening":
-                            $scope.spliceAppointment($scope.drHoScreenings.events, event.id);
-                            $scope.drHoScreenings.events.push(event);
-                            break;
-
-                        case "Pre Evaluation":
-                            $scope.spliceAppointment($scope.drHoPreEvaluations.events, event.id);
-                            $scope.drHoPreEvaluations.events.push(event);
-                            break;
-
-                        case "Surgery":
-                            $scope.spliceAppointment($scope.drHoSurgeries.events, event.id);
-                            $scope.drHoSurgeries.events.push(event);
-                            break;
-                    }
-
-                    // handle the update of the old appointment
-                    if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType) {
-                        console.log("Update old different appointment type");
-                        var id = $scope.fields.appointmentId;
-
-                        switch ($scope.fields.originalAppointmentType) {
-
-                            case "Screening":
-                                $scope.spliceAppointment($scope.drHoScreenings.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        $scope.drHoScreenings.events.push(oldAppointment);
-                                    });
-                                break;
-
-                            case "Pre Evaluation":
-                                $scope.spliceAppointment($scope.drHoPreEvaluations.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        $scope.drHoPreEvaluations.events.push(oldAppointment);
-                                    });
-                                break;
-
-                            case "Surgery":
-                                $scope.spliceAppointment($scope.drHoSurgeries.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        $scope.drHoSurgeries.events.push(oldAppointment)
-                                    });
-                                break;
-                        }
-                    } else {
-                        console.log("Update old same appointment type");
-                        var id = $scope.fields.appointmentId;
-
-                        switch ($scope.fields.appointmentType) {
-
-                            case "Screening":
-                                $scope.spliceAppointment($scope.drHoScreenings.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        $scope.drHoScreenings.events.push(oldAppointment);
-                                    });
-                                break;
-
-                            case "Pre Evaluation":
-                                $scope.spliceAppointment($scope.drHoPreEvaluations.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        $scope.drHoPreEvaluations.events.push(oldAppointment);
-                                    });
-                                break;
-
-                            case "Surgery":
-                                $scope.spliceAppointment($scope.drHoSurgeries.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        $scope.drHoSurgeries.events.push(oldAppointment)
-                                    });
-                                break;
-                        }
-                    }
-                })
-
-                .error(function (data) {
-                    console.log("Error with updating appointment");
-                });
-
-        } else {
-            console.log("Form is not valid! Please try again.");
-        }
-    };
-
     /* --- start of date picker codes --- */
     $scope.datepickers = {
         showDatePicker: false,
@@ -980,7 +844,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* --- start of create form submit button modal codes --- */
     $scope.animationsEnabled = true;
 
-    $scope.openModal = function (size) {
+    $scope.openCreateModal = function (size) {
 
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
@@ -1027,21 +891,56 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
     /* --- end of modal codes --- */
 
+    /* --- start of edit form update button modal codes --- */
+    $scope.openUpdateModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myUpdateModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+                    if ($scope.fields.doctorAssigned === 1) {
+                        $scope.fields.doctorModal = "Dr Goh";
+                    } else {
+                        $scope.fields.doctorModal = "Dr Ho";
+                    }
+
+                    return $scope.fields;
+                }
+            }
+        });
+    };
+    /* --- end of modal codes --- */
+
     /* function to validate create appointment */
     $scope.isFormValid = function (isValid) {
         if (isValid) {
-            $scope.openModal();
+            $scope.openCreateModal();
         } else {
             console.log("Invalid form");
             // do nothing
         }
-    }
+    };
+
+    /* function to validate create appointment */
+    $scope.isEditFormValid = function (isValid) {
+        if (isValid) {
+            $scope.openUpdateModal();
+        } else {
+            console.log("Invalid form");
+            // do nothing
+        }
+    };
 
     /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
     clearFormSvc.getScope($scope);
     disableIScheduleSvc.getScope($scope);
     deleteAppointmentSvc.getScope($scope);
+    updateAppointmentSvc.getScope($scope);
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
@@ -1069,7 +968,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.createAppointment = function () {
@@ -1081,6 +980,11 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, pa
 
     $scope.deleteAppointment = function () {
         deleteAppointmentSvc.deleteAppointment();
+        $modalInstance.close();
+    };
+
+    $scope.updateAppointment = function () {
+        updateAppointmentSvc.updateAppointment();
         $modalInstance.close();
     };
 
