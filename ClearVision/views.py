@@ -645,11 +645,12 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
         if searchstring is not None:
             response_data = Patient.objects.filter(Q(contact__icontains=searchstring) | Q(name__icontains=searchstring)). \
                 annotate(apptId=F('patients__timeBucket__appointment__id')). \
+                annotate(apptType=F('patients__timeBucket__appointment__apptType')). \
                 annotate(apptStart=F('patients__timeBucket__start')). \
                 annotate(apptDate=F('patients__timeBucket__date')). \
                 annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')). \
                 exclude(apptId=None). \
-                values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname')[:limit]
+                values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname', 'apptType')[:limit]
 
             return Response(response_data)
         else:
