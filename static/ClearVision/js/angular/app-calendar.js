@@ -467,7 +467,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             var updateJson = {
                 "contact": $scope.fields.patientContact,
-                "replacementApptDate": formattedDate,
+                "replacementApptDate": $scope.fields.appointmentDate,
                 "replacementApptTime": $scope.fields.appointmentTime,
                 "type": $scope.fields.appointmentType,
                 "docID": $scope.fields.doctorAssigned,
@@ -984,7 +984,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'myModalContent.html',
+            templateUrl: 'myCreateModalContent.html',
             controller: 'ModalInstanceCtrl',
             size: size,
             resolve: {
@@ -1008,7 +1008,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
-            templateUrl: 'myModalContent.html',
+            templateUrl: 'myDeleteModalContent.html',
             controller: 'ModalInstanceCtrl',
             size: size,
             resolve: {
