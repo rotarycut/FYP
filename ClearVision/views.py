@@ -640,6 +640,7 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         searchstring = request.query_params.get('search')
+        limit = request.query_params.get('limit')
 
         if searchstring is not None:
             response_data = Patient.objects.filter(Q(contact__icontains=searchstring) | Q(name__icontains=searchstring)). \
@@ -648,7 +649,7 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
                 annotate(apptDate=F('patients__timeBucket__date')). \
                 annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')). \
                 exclude(apptId=None). \
-                values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname')
+                values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname')[:limit]
 
             return Response(response_data)
         else:
