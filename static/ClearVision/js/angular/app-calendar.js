@@ -119,7 +119,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 20) {
+                    if (count <= 30) {
                         $scope.lowHeatMap.events.push(appointment);
                         count++;
                     } else {
@@ -583,6 +583,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.fields.appointmentDate = selectedDate;
     };
 
+    /* function to format waiting list date */
+    $scope.formatWaitingListDate = function () {
+        $scope.fields.waitingDate = $scope.getFormattedDate($scope.fields.waitingDate);
+    };
+
     /* function to format date */
     $scope.getFormattedDate = function (fullDate) {
         var year = fullDate.getFullYear();
@@ -857,10 +862,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             resolve: {
                 patientInfo: function () {
                     //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-                    if ($scope.fields.doctorAssigned === 1) {
+                    if ($scope.fields.doctorAssigned === "1") {
                         $scope.fields.doctorModal = "Dr Goh";
                     } else {
                         $scope.fields.doctorModal = "Dr Ho";
+                    }
+
+                    if ($scope.fields.waitingList === "True") {
+                        $scope.fields.hasWaitList = true;
+                    } else {
+                        $scope.fields.hasWaitList = false;
                     }
 
                     return $scope.fields;
@@ -881,7 +892,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             resolve: {
                 patientInfo: function () {
                     //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-                    if ($scope.fields.doctorAssigned === 1) {
+                    if ($scope.fields.doctorAssigned === "1") {
                         $scope.fields.doctorModal = "Dr Goh";
                     } else {
                         $scope.fields.doctorModal = "Dr Ho";

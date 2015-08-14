@@ -287,13 +287,13 @@
                         <div class="row">
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="True"
-                                              ng-change="showWaitingFields('yes')">
+                                              ng-change="showWaitingFields('yes')" name="waitList">
                                     Yes
                                 </label>
                             </div>
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="False"
-                                              ng-change="showWaitingFields('no')">
+                                              ng-change="showWaitingFields('no')" name="waitList">
                                     No
                                 </label>
                             </div>
@@ -310,12 +310,14 @@
                                     <input type="text"
                                            class="form-control"
                                            datepicker-popup="[[ format ]]"
-                                           name="datePickerCalendar"
+                                           name="datePickerCalendar2"
                                            ng-model="fields.waitingDate"
                                            is-open="datepickers.showDatePicker2"
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
                                            show-button-bar="false"
+                                           ng-change="formatWaitingListDate()"
+                                           ng-required="showWaitingDate"
                                             />
 
                                             <span class="input-group-btn">
@@ -328,11 +330,18 @@
 
                             </div>
 
-                            <div class="col-sm-4 form-animation" date-div ng-show="showWaitingTime">
+                            <div class="col-sm-4 form-animation" date-div ng-show="showWaitingTime"
+                                 ng-class="{'has-error': appointmentForm.waitListTime.$invalid && (appointmentForm.waitListTime.$touched || appointmentForm.$submitted)}">
                                 <label class="control-label">Time</label>
                                 <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
-                                        data-ng-model="fields.waitingTime" name="appointmentTime">
+                                        data-ng-model="fields.waitingTime" name="waitListTime"
+                                        ng-required="showWaitingTime">
                                 </select>
+
+                                <div ng-show="appointmentForm.waitListTime.$invalid && (appointmentForm.waitListTime.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Invalid Time
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -362,7 +371,6 @@
                         </div>
 
                         <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
-                        <div ng-show="adateppointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
                              class="help-block">
                             Please select a doctor
                         </div>
@@ -460,6 +468,8 @@
             <li>Patient Name: [[patientDetails.patientName]]</li>
             <li>Date: [[patientDetails.appointmentDate]]</li>
             <li>Time: [[patientDetails.appointmentTime]]</li>
+            <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
+            <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
             <li>Doctor: [[patientDetails.doctorModal]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>

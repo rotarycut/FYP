@@ -34,9 +34,9 @@ angular.module('post.appointment', [])
                 self._scope.fields.appointmentRemarks = "";
             }
 
-            if (self._scope.fields.waitingDate !== undefined) {
+            /*if (self._scope.fields.waitingDate !== undefined) {
                 var formattedWaitingDate = self._scope.getFormattedDate(self._scope.fields.waitingDate);
-            }
+            }*/
 
             if (self._scope.fields.waitingList === undefined) {
                 self._scope.fields.waitingList = false;
@@ -62,7 +62,7 @@ angular.module('post.appointment', [])
                 "time": self._scope.fields.appointmentTime,
                 "remarks": self._scope.fields.appointmentRemarks,
                 "waitingListFlag": self._scope.fields.waitingList,
-                "tempDate": formattedWaitingDate,
+                "tempDate": self._scope.fields.waitingDate,
                 "tempTime": self._scope.fields.waitingTime
             };
 
@@ -78,7 +78,7 @@ angular.module('post.appointment', [])
                 "time": self._scope.fields.appointmentTime,
                 "remarks": self._scope.fields.appointmentRemarks,
                 "waitingListFlag": self._scope.fields.waitingList,
-                "tempDate": formattedWaitingDate,
+                "tempDate": self._scope.fields.waitingDate,
                 "tempTime": self._scope.fields.waitingTime
             })
                 .success(function (data) {
