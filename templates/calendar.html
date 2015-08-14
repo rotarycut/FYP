@@ -421,7 +421,7 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
-                                        data-ng-click="openDeleteModal()"
+                                        data-ng-click="openDeleteModal('lg')"
                                         tooltip="Delete"><i class="fa fa-trash"></i>Delete
                                 </button>
                             </div>
@@ -502,16 +502,34 @@
     </div>
 
     <div class="modal-body">
-        <ul>
-            <li>Appointment Type: [[patientDetails.appointmentType]]</li>
-            <li>Contact No: [[patientDetails.patientContact]]</li>
-            <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate]]</li>
-            <li>Time: [[patientDetails.appointmentTime]]</li>
-            <li>Doctor: [[patientDetails.doctorModal]]</li>
-            <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
-            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-        </ul>
+        <div class="row">
+            <div class="col-sm-6">
+                <ul>
+                    <p>Original Appointment</p>
+                    <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
+                    <li>Contact No: [[patientDetails.patientContact]]</li>
+                    <li>Patient Name: [[patientDetails.patientName]]</li>
+                    <li>Date: [[patientDetails.originalAppointmentDate]]</li>
+                    <li>Time: [[patientDetails.originalAppointmentTime]]</li>
+                    <li>Doctor: [[patientDetails.doctorModal]]</li>
+                    <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
+                    <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <ul>
+                    <p>Updated Appointment</p>
+                    <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+                    <li>Contact No: [[patientDetails.patientContact]]</li>
+                    <li>Patient Name: [[patientDetails.patientName]]</li>
+                    <li>Date: [[patientDetails.appointmentDate]]</li>
+                    <li>Time: [[patientDetails.appointmentTime]]</li>
+                    <li>Doctor: [[patientDetails.doctorModal]]</li>
+                    <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
+                    <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="modal-footer">

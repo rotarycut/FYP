@@ -182,12 +182,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.fields.appointmentDate = appointment.date;
             $scope.fields.doctorAssigned = appointment.doctor;
             $scope.fields.originalAppointmentType = appointment.apptType;
+            $scope.fields.originalAppointmentDate = appointment.date;
 
             var appointmentFullDateTime = appointment.start._i;
             var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
             var colonIndex = appointmentFullDateTime.lastIndexOf(":");
             var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
 
+            $scope.fields.originalAppointmentTime = appointmentTime;
             $scope.getAppointmentTimings($scope.fields.appointmentType, appointmentTime);
 
             $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
@@ -560,6 +562,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $http.get(url)
             .success(function (patientAppointment) {
                 $scope.fields.appointmentRemarks = patientAppointment.remarks;
+                $scope.fields.originalAppointmentRemarks = patientAppointment.remarks;
             })
 
             .error(function () {
@@ -918,7 +921,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to validate create appointment */
     $scope.isFormValid = function (isValid) {
         if (isValid) {
-            $scope.openCreateModal();
+            $scope.openCreateModal('lg');
         } else {
             console.log("Invalid form");
             // do nothing
@@ -928,7 +931,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to validate create appointment */
     $scope.isEditFormValid = function (isValid) {
         if (isValid) {
-            $scope.openUpdateModal();
+            $scope.openUpdateModal('lg');
         } else {
             console.log("Invalid form");
             // do nothing
