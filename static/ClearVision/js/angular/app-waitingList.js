@@ -1,6 +1,9 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http) {
+appWaitingList.controller('waitListCtrl', function ($scope, $http, updateNotificationCountSvc, getNotificationsSvc) {
+
+    updateNotificationCountSvc.getScope($scope);
+    getNotificationsSvc.getScope($scope);
 
     $scope.getWaitListAppointments = function () {
 
@@ -12,7 +15,6 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http) {
                 })
             })
     };
-
 
     $scope.swapAppointment = function (indexInWaitList) {
         $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
@@ -37,6 +39,14 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http) {
                 $scope.listOfWaitingAppointments.splice(0);
                 $scope.getWaitListAppointments();
             })
-    }
+    };
+
+    $scope.getNotifications = function () {
+        getNotificationsSvc.getNotifications();
+    };
+
+    $scope.updateCount = function () {
+        updateNotificationCountSvc.updateCount();
+    };
 
 });

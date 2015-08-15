@@ -1,6 +1,6 @@
 <!-- Fixed navbar -->
 
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="waitListCtrl" ng-init="getNotifications()">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -38,14 +38,14 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Welcome, Admin</a></li>
-                <li class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle"><i
-                        class="fa fa-envelope"></i> <span class="badge">3</span></a>
+                <li class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle" ng-click="updateCount()"><i
+                        class="fa fa-envelope"></i> <span class="badge">[[notificationCount]]</span></a>
                     <ol class="dropdown-menu">
-                        <li style="color: #1859A8"><h6>&nbsp;You have 1 New Message!</h6></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Message 1</a></li>
-                        <li><a href="#">Message 2</a></li>
-                        <li><a href="#">Message 3</a></li>
+                        <!-- <li style="color: #1859A8"><h6>&nbsp;You have 1 New Message!</h6></li> -->
+                        <li><a href="#" ng-repeat="notification in notificationList">[[notification.patientname]] can be
+                            swapped!</a>
+                        </li>
+                        <!-- <li class="divider"></li> -->
                     </ol>
                 </li>
                 <!-- <li><a href="#"><i id="navbar-print-icon" class="fa fa-print"></i></a></li> -->
