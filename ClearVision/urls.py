@@ -26,9 +26,9 @@ urlpatterns = [
     url(r'^calendar', views.calendar),
     url(r'^dashboard', views.dashboard),
     url(r'^waitlist', views.waitlist),
+    url(r'^changepw', views.changepw),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),
-    url(r'^changepw', views.changepw),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

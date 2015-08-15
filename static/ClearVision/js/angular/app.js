@@ -32,6 +32,9 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "waitlist.html",
             controller: 'waitListCtrl'
         })
+        .when("/changepw", {
+            templateUrl: "changepw.html"
+        })
         .otherwise({
             redirectTo: '/'
         });

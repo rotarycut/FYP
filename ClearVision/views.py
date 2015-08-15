@@ -42,11 +42,13 @@ def waitlist(request):
     return render(request, 'waitlist.html')
 
 
+def changepw(request):
+    return render(request, 'changepw.html')
+
+
 def logout(request):
     return logout_then_login(request, 'login')
 
-def changepw(request):
-    return render(request, 'password_change_form.html')
 
 # API for Patients
 class PatientFilter(django_filters.FilterSet):
@@ -214,7 +216,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
 
             if existingAppt.patients.filter(contact=patientContact).exists():
-                AppointmentRemarks.objects.filter(patient=p, appointment=existingAppt,).update(remarks=remarks)
+                AppointmentRemarks.objects.filter(patient=p, appointment=existingAppt, ).update(remarks=remarks)
                 serializedExistingAppt = AppointmentSerializer(existingAppt)
                 return Response(serializedExistingAppt.data)
 
@@ -651,14 +653,16 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
         limit = request.query_params.get('limit')
 
         if searchstring is not None:
-            response_data = Patient.objects.filter(Q(contact__icontains=searchstring) | Q(name__icontains=searchstring)). \
-                annotate(apptId=F('patients__timeBucket__appointment__id')). \
-                annotate(apptType=F('patients__timeBucket__appointment__apptType')). \
-                annotate(apptStart=F('patients__timeBucket__start')). \
-                annotate(apptDate=F('patients__timeBucket__date')). \
-                annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')). \
-                exclude(apptId=None). \
-                values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname', 'apptType')[:limit]
+            response_data = Patient.objects.filter(
+                Q(contact__icontains=searchstring) | Q(name__icontains=searchstring)). \
+                                annotate(apptId=F('patients__timeBucket__appointment__id')). \
+                                annotate(apptType=F('patients__timeBucket__appointment__apptType')). \
+                                annotate(apptStart=F('patients__timeBucket__start')). \
+                                annotate(apptDate=F('patients__timeBucket__date')). \
+                                annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')). \
+                                exclude(apptId=None). \
+                                values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname', 'apptType')[
+                            :limit]
 
             return Response(response_data)
         else:
@@ -693,6 +697,7 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
 
         return Response(timings)
 
+
 class ViewNotifications(viewsets.ModelViewSet):
     queryset = Patient.objects.none()
     serializer_class = PatientSerializer
@@ -714,7 +719,8 @@ class ViewNotifications(viewsets.ModelViewSet):
             exclude(tempApptDate=None). \
             filter(canswap=True). \
             values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname',
-                   'patientcontact', 'tempApptId', 'canswap', 'notified', 'creationtime', 'swapperid').order_by('-creationtime')
+                   'patientcontact', 'tempApptId', 'canswap', 'notified', 'creationtime', 'swapperid').order_by(
+            '-creationtime')
 
         scheduled_response_data = Patient.objects. \
             annotate(scheduledApptDate=F('patients__timeBucket_id__date')). \
