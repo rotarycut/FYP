@@ -45,6 +45,8 @@ def waitlist(request):
 def logout(request):
     return logout_then_login(request, 'login')
 
+def changepw(request):
+    return render(request, 'password_change_form.html')
 
 # API for Patients
 class PatientFilter(django_filters.FilterSet):
@@ -561,8 +563,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-25', start='12:30:00',
-                                                       timeslotType='Pre Evaluation', doctors=2).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-14', start='09:00:00',
+                                                       timeslotType='Screening', doctors=2).id
         return HttpResponse(response_data)
 
 

@@ -206,6 +206,116 @@
         "conversion": "False"
     }
   },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Max",
+        "gender": "Male",
+        "contact": "90833747",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 6,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Peter",
+        "gender": "Male",
+        "contact": "99883824",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 6,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Heather",
+        "gender": "Male",
+        "contact": "97485865",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 6,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Royce",
+        "gender": "Male",
+        "contact": "99377274",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 6,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Kylie",
+        "gender": "Female",
+        "contact": "90394757",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 2,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Tyler",
+        "gender": "Male",
+        "contact": "90382748",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 1,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Felicia",
+        "gender": "Female",
+        "contact": "90387251",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 4,
+        "conversion": "False"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Elicia",
+        "gender": "Female",
+        "contact": "90302918",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 5,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Erica",
+        "gender": "Female",
+        "contact": "90838848",
+        "registrationDate": "2015-08-16T00:00:00Z",
+        "marketingChannelId": 3,
+        "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Bob",
+        "gender": "Male",
+        "contact": "90301245",
+        "registrationDate": "2015-08-13T00:00:00Z",
+        "marketingChannelId": 1,
+        "conversion": "True"
+    }
+  },
 
   {
     "model": "ClearVision.Staff",
@@ -371,6 +481,166 @@
         "clinic": 2,
         "tempPatients": [],
         "timeBucket": 1934
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 10,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-03",
+        "last_modified": "2015-08-01T00:00:00Z",
+        "patients": [90833747],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 429
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 11,
+
+    "fields": {
+
+        "apptType": "Pre Evaluation",
+        "date": "2015-08-04",
+        "last_modified": "2015-08-01T00:00:00Z",
+        "patients": [99883824],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 1891
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 12,
+
+    "fields": {
+
+        "apptType": "Surgery",
+        "date": "2015-08-05",
+        "last_modified": "2015-08-01T00:00:00Z",
+        "patients": [97485865],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 3353
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 13,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-06",
+        "last_modified": "2015-08-01T00:00:00Z",
+        "patients": [99377274],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 436
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 14,
+
+    "fields": {
+
+        "apptType": "Pre Evaluation",
+        "date": "2015-08-07",
+        "last_modified": "2015-08-01T00:00:00Z",
+        "patients": [90394757],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 1898
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 15,
+
+    "fields": {
+
+        "apptType": "Surgery",
+        "date": "2015-08-10",
+        "last_modified": "2015-08-02T00:00:00Z",
+        "patients": [90382748],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 3364
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 16,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-11",
+        "last_modified": "2015-08-02T00:00:00Z",
+        "patients": [90387251],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 445
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 17,
+
+    "fields": {
+
+        "apptType": "Pre Evaluation",
+        "date": "2015-08-12",
+        "last_modified": "2015-08-02T00:00:00Z",
+        "patients": [90302918],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 1907
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 18,
+
+    "fields": {
+
+        "apptType": "Surgery",
+        "date": "2015-08-13",
+        "last_modified": "2015-08-02T00:00:00Z",
+        "patients": [90838848],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 3370
+    }
+  },
+  {
+    "model": "ClearVision.Appointment",
+    "pk": 19,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-14",
+        "last_modified": "2015-08-02T00:00:00Z",
+        "patients": [90301245],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 451
     }
   },
 
@@ -581,6 +851,86 @@
         "patient": 90421875,
         "appointment":9,
         "remarks": "Comment 26"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90833747,
+        "appointment":10,
+        "remarks": "Comment 27"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 99883824,
+        "appointment":11,
+        "remarks": "Comment 28"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 97485865,
+        "appointment":12,
+        "remarks": "Comment 29"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 99377274,
+        "appointment":13,
+        "remarks": "Comment 30"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90394757,
+        "appointment":14,
+        "remarks": "Comment 31"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90382748,
+        "appointment":15,
+        "remarks": "Comment 32"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90387251,
+        "appointment":16,
+        "remarks": "Comment 33"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90302918,
+        "appointment":17,
+        "remarks": "Comment 34"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90838848,
+        "appointment":18,
+        "remarks": "Comment 35"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90301245,
+        "appointment":19,
+        "remarks": "Comment 36"
     }
   },
   {

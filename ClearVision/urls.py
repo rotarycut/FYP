@@ -28,8 +28,7 @@ urlpatterns = [
     url(r'^waitlist', views.waitlist),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),
-    url(r'^changepw', 'django.contrib.auth.views.password_change',
-        {'post_change_redirect': '/Clearvision/success#/', 'template_name': 'password_change_form.html'},),
+    url(r'^changepw', views.changepw),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
