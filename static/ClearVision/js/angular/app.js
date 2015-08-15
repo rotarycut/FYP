@@ -37,6 +37,9 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/changepw", {
             templateUrl: "changepw.html"
         })
+        .when("/changepwdone", {
+            templateUrl: "changepwdone.html"
+        })
         .otherwise({
             redirectTo: '/'
         });

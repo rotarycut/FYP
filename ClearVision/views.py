@@ -43,7 +43,7 @@ def waitlist(request):
 
 
 def changepw(request):
-    return render(request, 'changepw.html')
+    return render(request, 'registration/changepw.html')
 
 
 def logout(request):
