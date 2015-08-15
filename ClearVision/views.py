@@ -157,6 +157,20 @@ class AppointmentWriter(viewsets.ModelViewSet):
         a.patients.remove(p)
         a.save()
 
+        tempApptSwapperObj = Swapper.objects.get(patient=p, scheduledAppt=a,)
+        if tempApptSwapperObj is not None:
+            tempApptSwapperObj.delete()
+
+            getTempApptId = Patient.objects.filter(contact=data.get('contact')).annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')).values()
+
+            if getTempApptId is not None:
+                for eachObj in getTempApptId:
+                    tempApptId = int(eachObj['tempApptId'])
+                tempAppt = Appointment.objects.get(id=tempApptId)
+
+                tempAppt.tempPatients.remove(p)
+                tempAppt.save()
+
         if num_patients == 1:
             a.delete()
 
