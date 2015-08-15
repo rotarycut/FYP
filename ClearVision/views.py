@@ -712,7 +712,7 @@ class ViewNotifications(viewsets.ModelViewSet):
             annotate(doctor=F('tempPatients__timeBucket_id__appointment__doctor__name')). \
             annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')). \
             exclude(tempApptDate=None). \
-            filter(notified=False, canswap=True). \
+            filter(canswap=True). \
             values('tempApptDate', 'tempApptStart', 'tempApptType', 'tempApptDay', 'doctor', 'patientname',
                    'patientcontact', 'tempApptId', 'canswap', 'notified', 'creationtime', 'swapperid').order_by('-creationtime')
 
@@ -747,9 +747,7 @@ class ViewNotifications(viewsets.ModelViewSet):
         return Response(temp_response_data)
 
     def create(self, request, *args, **kwargs):
-        data = request.data
-        swapperId = data.get('swapperId')
 
-        Swapper.objects.filter(id=swapperId).update(hasRead=True)
+        Swapper.objects.filter(swappable=True).update(hasRead=True)
 
         return HttpResponse(status=200)
