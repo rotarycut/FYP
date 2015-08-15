@@ -691,8 +691,9 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
 
         return Response(timings)
 
-class ViewNotifications(viewsets.ReadOnlyModelViewSet):
+class ViewNotifications(viewsets.ModelViewSet):
     queryset = Patient.objects.none()
+    serializer_class = PatientSerializer
 
     def list(self, request, *args, **kwargs):
         temp_response_data = Patient.objects. \
@@ -742,3 +743,11 @@ class ViewNotifications(viewsets.ReadOnlyModelViewSet):
                         eachObj['scheduledAppointments'].append(toAdd)
 
         return Response(temp_response_data)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        swapperId = data.get('swapperId')
+
+        Swapper.objects.filter(id=swapperId).update(hasRead=True)
+
+        return HttpResponse(status=200)
