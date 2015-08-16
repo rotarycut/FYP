@@ -4206,6 +4206,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .tab-content > .active {
   display: block;
+  padding-left: 36px;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
