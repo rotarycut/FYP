@@ -12,7 +12,7 @@ app.service('disableIScheduleSvc', function () {
 
     self.disableISchedule = function () {
 
-        if (self._scope.formTitle === 'Create New Appointment' && self._scope.iSchedule === true) {
+        if ((self._scope.formTitle === 'Create New Appointment' || self._scope.formTitle === 'Edit Appointment') && self._scope.iSchedule === true) {
             self._scope.showHeatMap = false;
             self._scope.iSchedule = false;
             self._scope.lowHeatMap.events.splice(0);

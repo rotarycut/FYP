@@ -587,6 +587,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
 
         $scope.form.showButtons['editForm'] = true;
+
+        $scope.enableISchedule();
     };
 
     /* function to navigate to date after selection on date picker */
@@ -669,9 +671,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
 
-        $scope.getAppointmentTimings($scope.fields.appointmentType);
+        console.log($scope.fields.appointmentType);
 
-        if ($scope.formTitle === 'Create New Appointment') {
+        if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
+            $scope.getAppointmentTimings($scope.fields.appointmentType);
+        }
+
+        if ($scope.formTitle === 'Create New Appointment' || $scope.formTitle === 'Edit Appointment') {
             if (!$scope.iSchedule) {
                 $scope.showHeatMap = true;
                 $scope.iSchedule = true;

@@ -52,17 +52,17 @@ angular.module('update.appointment', [])
 
                         case "Screening":
                             self._scope.spliceAppointment(self._scope.drHoScreenings.events, event.id);
-                            self._scope.drHoScreenings.events.push(event);
+                            //self._scope.drHoScreenings.events.push(event);
                             break;
 
                         case "Pre Evaluation":
                             self._scope.spliceAppointment(self._scope.drHoPreEvaluations.events, event.id);
-                            self._scope.drHoPreEvaluations.events.push(event);
+                            //self._scope.drHoPreEvaluations.events.push(event);
                             break;
 
                         case "Surgery":
                             self._scope.spliceAppointment(self._scope.drHoSurgeries.events, event.id);
-                            self._scope.drHoSurgeries.events.push(event);
+                            //self._scope.drHoSurgeries.events.push(event);
                             break;
                     }
 
@@ -78,7 +78,7 @@ angular.module('update.appointment', [])
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
                                     .success(function (oldAppointment) {
-                                        self._scope.drHoScreenings.events.push(oldAppointment);
+                                        //self._scope.drHoScreenings.events.push(oldAppointment);
                                     });
                                 break;
 
@@ -87,7 +87,7 @@ angular.module('update.appointment', [])
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
                                     .success(function (oldAppointment) {
-                                        self._scope.drHoPreEvaluations.events.push(oldAppointment);
+                                        //self._scope.drHoPreEvaluations.events.push(oldAppointment);
                                     });
                                 break;
 
@@ -96,7 +96,7 @@ angular.module('update.appointment', [])
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
                                     .success(function (oldAppointment) {
-                                        self._scope.drHoSurgeries.events.push(oldAppointment)
+                                        //self._scope.drHoSurgeries.events.push(oldAppointment)
                                     });
                                 break;
                         }
@@ -111,7 +111,7 @@ angular.module('update.appointment', [])
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
                                     .success(function (oldAppointment) {
-                                        self._scope.drHoScreenings.events.push(oldAppointment);
+                                        //self._scope.drHoScreenings.events.push(oldAppointment);
                                     });
                                 break;
 
@@ -120,7 +120,7 @@ angular.module('update.appointment', [])
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
                                     .success(function (oldAppointment) {
-                                        self._scope.drHoPreEvaluations.events.push(oldAppointment);
+                                        //self._scope.drHoPreEvaluations.events.push(oldAppointment);
                                     });
                                 break;
 
@@ -129,7 +129,7 @@ angular.module('update.appointment', [])
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
                                     .success(function (oldAppointment) {
-                                        self._scope.drHoSurgeries.events.push(oldAppointment)
+                                        //self._scope.drHoSurgeries.events.push(oldAppointment)
                                     });
                                 break;
                         }

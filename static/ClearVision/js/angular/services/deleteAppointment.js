@@ -55,7 +55,7 @@ angular.module('delete.appointment', [])
                                         }
                                         appointmentIndex++;
                                     });
-                                    self._scope.drHoScreenings.events.push(event);
+                                    //self._scope.drHoScreenings.events.push(event);
                                     break;
 
                                 case "Pre Evaluation":
@@ -67,7 +67,7 @@ angular.module('delete.appointment', [])
                                         }
                                         appointmentIndex++;
                                     });
-                                    self._scope.drHoPreEvaluations.events.push(event);
+                                    //self._scope.drHoPreEvaluations.events.push(event);
                                     break;
 
                                 case "Surgery":
@@ -79,7 +79,7 @@ angular.module('delete.appointment', [])
                                         }
                                         appointmentIndex++;
                                     });
-                                    self._scope.drHoSurgeries.events.push(event);
+                                    //self._scope.drHoSurgeries.events.push(event);
                                     break;
                             }
                             getNotificationsSvc.getNotifications();
