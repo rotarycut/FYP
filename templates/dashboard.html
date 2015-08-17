@@ -1,14 +1,15 @@
 <!-- row for entire app content-->
 <div class="row content-row">
     <!-- col for side content-->
-
-    <div class="col-sm-11 mrkt-db-main">
+    <div class="col-sm-1 mth-dropdown-col">
+        <select class="form-control" data-ng-model="monthData" name="appointmentTime"
+                                ng-options="mth for mth in months" ng-change="changeMonthData()">
+            <option value="" disabled selected>Month</option>
+                        </select>
+        </div>
+    <div class="col-sm-10 mrkt-db-main">
         <div class="row filter-collapse-row">
-            <div class="col-sm-2 col-sm-offset-10" style="text-align: right">
-                <button class="btn btn-default" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
-                    Filter
-                </button>
-            </div>
+
         </div>
         <!--row for filter content-->
         <div class="row filter-row-hide" ng-show="!isCollapsed">
@@ -25,7 +26,7 @@
             <div class="col-sm-12 filter-row-options">
                 <div class="row">
                     <div class="col-sm-2">
-                        <div class="row">
+                        <div class="row" style="padding-left: 5%">
                             <p class="input-group">
                                 <input type="text"
                                        class="form-control"
@@ -48,12 +49,12 @@
                         </span>
                             </p>
                         </div>
-                        <div class="row">
+                        <div class="row" >
                             <div class="col-sm-1 col-sm-offset-4">
                                 <h5>To</h5>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style="padding-left: 5%">
 
                             <p class="input-group">
                                 <input type="text"
@@ -80,15 +81,7 @@
 
 
                     </div>
-                    <div class="col-sm-1" style="text-align: center">
-                        <h4 style="margin-top: 50px;">OR</h4>
-                    </div>
-                    <div class="col-sm-2">
-                        <select class="form-control" data-ng-model="monthData" name="appointmentTime"
-                                ng-options="mth for mth in months" ng-change="changeMonthData()">
-                        </select>
-                    </div>
-                    <div class="col-sm-3 dashboard-filter-mrkt">
+                    <div class="col-sm-5 col-sm-offset-1">
                         <!--<select class="form-control" data-ng-model="filters.marketingChannel"
                                 ng-options="" name="marketingChannel" required>
                             <option value="" selected="selected">Marketing Channel</option>
@@ -118,13 +111,18 @@
         </div>
         <!--row for other charts content-->
         <div class="row charts-row1">
-            <div class="col-sm-9 dashboard-chart-mrkt">
+            <div class="col-sm-7 dashboard-chart-mrkt">
                 <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
             </div>
-            <div class="col-sm-3 dashboard-chart-mrkt">
+            <div class="col-sm-5 dashboard-chart-mrkt">
                 <div id="roiChart" ng-init="showRoiChart([]);"></div>
             </div>
         </div>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-default" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
+            Filter
+        </button>
     </div>
     <div class="clearfix"></div>
 

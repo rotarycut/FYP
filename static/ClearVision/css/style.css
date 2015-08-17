@@ -484,10 +484,13 @@ li .i-slot-label {
     margin-bottom: 6px;
     display: inline-block;
 }
+.mth-dropdown-col{
+    padding-left: 0;
+    padding-right: 0;
+}
 
 .mrkt-db-main{
-    float: left;
-    display: inline-block;
+    padding-left: 0;
 }
 
 .side-menu-row1{
@@ -541,10 +544,6 @@ li .i-slot-label {
     margin-left: 15px;
 }
 
-
-.dashboard-filter-mrkt{
-    border-left: dashed 2px #1859ab;
-}
 
 .dashboard-chart-mrkt{
     padding-left: 0;
