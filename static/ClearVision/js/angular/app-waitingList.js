@@ -1,6 +1,6 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http, updateNotificationCountSvc, getNotificationsSvc) {
+appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, updateNotificationCountSvc, getNotificationsSvc) {
 
     updateNotificationCountSvc.getScope($scope);
     getNotificationsSvc.getScope($scope);
@@ -50,5 +50,16 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, updateNotific
     };
 
     $scope.haveNotification = false;
+
+
+    $scope.lastThreeSeconds = function () {
+        $scope.highlight = true;
+
+        $timeout(function () {
+            $scope.highlight = false;
+        }, 3000);
+    }
+
+    $scope.lastThreeSeconds();
 
 });

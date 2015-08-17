@@ -23,7 +23,7 @@
                         <th>Appt Type</th>
                         <th>Scheduled Time</th>
                     </tr>
-                    <tr ng-repeat="appt in listOfWaitingAppointments">
+                    <tr ng-repeat="appt in listOfWaitingAppointments" ng-class="highlight ? 'canSwap' : 'cannotSwap'">
                         <td>[[$index + 1]]</td>
                         <td>[[appt.patientname]]</td>
                         <td>[[appt.patientcontact]]</td>
