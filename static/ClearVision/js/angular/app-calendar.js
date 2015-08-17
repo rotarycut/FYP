@@ -670,6 +670,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
+        $scope.changeView('month', 'myCalendar1');
 
         console.log($scope.fields.appointmentType);
 
@@ -738,7 +739,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.legendScreenClicked = "legend-screen-clicked";
                         $scope.screeningActive = true;
                         $scope.getDrHoScreenings();
-                        if($scope.preEvaluationActive && $scope.surgeryActive){
+                        if ($scope.preEvaluationActive && $scope.surgeryActive) {
                             $scope.legendAllClicked = "legend-all-clicked";
                         }
                     }
@@ -773,7 +774,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.legendEvalClicked = "legend-preEval-clicked";
                         $scope.preEvaluationActive = true;
                         $scope.getDrHoPreEvaluations();
-                        if($scope.screeningActive && $scope.surgeryActive){
+                        if ($scope.screeningActive && $scope.surgeryActive) {
                             $scope.legendAllClicked = "legend-all-clicked";
                         }
                     }
@@ -808,7 +809,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.legendSurgeryClicked = "legend-surgery-clicked";
                         $scope.surgeryActive = true;
                         $scope.getDrHoSurgeries();
-                        if($scope.screeningActive && $scope.preEvaluationActive){
+                        if ($scope.screeningActive && $scope.preEvaluationActive) {
                             $scope.legendAllClicked = "legend-all-clicked";
                         }
                     }
