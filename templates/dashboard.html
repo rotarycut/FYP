@@ -94,10 +94,9 @@
                             <option value="" selected="selected">Marketing Channel</option>
                         </select>-->
                         <label class="control-label">Marketing Channel</label>
-                        <select name="users" multiple class="form-control">
-                            <option ng-selected="channel.selected" ng-repeat="channel in channels"
-                                    value="[[ channel.name ]]">[[ channel.name ]]
-                            </option>
+                        <select name="users" multiple class="form-control"
+                                ng-options="channel for channel in channels" ng-selected="channel.selected"
+                                value="[[ channel.name ]]">[[ channel.name ]]
                         </select>
                     </div>
                     <div class="col-sm-2">
