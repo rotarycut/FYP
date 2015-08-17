@@ -714,12 +714,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 if (hidesTheRest) {
                     if (!$scope.screeningActive) {
                         $scope.legendScreenClicked = "legend-screen";
+                        $scope.legendAllClicked = "legend-all";
                         $scope.drHoScreenings.events.splice(0);
                         $scope.getDrHoScreenings();
                     }
                     $scope.legendScreenClicked = "legend-screen-clicked";
                     $scope.legendEvalClicked = "legend-preEval";
                     $scope.legendSurgeryClicked = "legend-surgery";
+                    $scope.legendAllClicked = "legend-all";
                     $scope.drHoPreEvaluations.events.splice(0);
                     $scope.drHoSurgeries.events.splice(0);
                     $scope.screeningActive = true;
@@ -729,12 +731,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 } else {
                     if ($scope.screeningActive) {
                         $scope.legendScreenClicked = "legend-screen";
+                        $scope.legendAllClicked = "legend-all";
                         $scope.screeningActive = false;
                         $scope.drHoScreenings.events.splice(0);
                     } else {
                         $scope.legendScreenClicked = "legend-screen-clicked";
                         $scope.screeningActive = true;
                         $scope.getDrHoScreenings();
+                        if($scope.preEvaluationActive && $scope.surgeryActive){
+                            $scope.legendAllClicked = "legend-all-clicked";
+                        }
                     }
                 }
                 break;
@@ -743,12 +749,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 if (hidesTheRest) {
                     if (!$scope.preEvaluationActive) {
                         $scope.legendEvalClicked = "legend-preEval";
+                        $scope.legendAllClicked = "legend-all";
                         $scope.drHoPreEvaluations.events.splice(0);
                         $scope.getDrHoPreEvaluations();
                     }
                     $scope.legendEvalClicked = "legend-preEval-clicked";
                     $scope.legendScreenClicked = "legend-screen";
                     $scope.legendSurgeryClicked = "legend-surgery";
+                    $scope.legendAllClicked = "legend-all";
                     $scope.drHoScreenings.events.splice(0);
                     $scope.drHoSurgeries.events.splice(0);
                     $scope.screeningActive = false;
@@ -758,12 +766,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 } else {
                     if ($scope.preEvaluationActive) {
                         $scope.legendEvalClicked = "legend-preEval";
+                        $scope.legendAllClicked = "legend-all";
                         $scope.preEvaluationActive = false;
                         $scope.drHoPreEvaluations.events.splice(0);
                     } else {
                         $scope.legendEvalClicked = "legend-preEval-clicked";
                         $scope.preEvaluationActive = true;
                         $scope.getDrHoPreEvaluations();
+                        if($scope.screeningActive && $scope.surgeryActive){
+                            $scope.legendAllClicked = "legend-all-clicked";
+                        }
                     }
                 }
                 break;
@@ -772,12 +784,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 if (hidesTheRest) {
                     if (!$scope.surgeryActive) {
                         $scope.legendSurgeryClicked = "legend-surgery";
+                        $scope.legendAllClicked = "legend-all";
                         $scope.drHoSurgeries.events.splice(0);
                         $scope.getDrHoSurgeries();
                     }
                     $scope.legendSurgeryClicked = "legend-surgery-clicked";
                     $scope.legendEvalClicked = "legend-preEval";
                     $scope.legendScreenClicked = "legend-screen";
+                    $scope.legendAllClicked = "legend-all";
                     $scope.drHoScreenings.events.splice(0);
                     $scope.drHoPreEvaluations.events.splice(0);
                     $scope.screeningActive = false;
@@ -787,12 +801,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 } else {
                     if ($scope.surgeryActive) {
                         $scope.legendSurgeryClicked = "legend-surgery";
+                        $scope.legendAllClicked = "legend-all";
                         $scope.surgeryActive = false;
                         $scope.drHoSurgeries.events.splice(0);
                     } else {
                         $scope.legendSurgeryClicked = "legend-surgery-clicked";
                         $scope.surgeryActive = true;
                         $scope.getDrHoSurgeries();
+                        if($scope.screeningActive && $scope.preEvaluationActive){
+                            $scope.legendAllClicked = "legend-all-clicked";
+                        }
                     }
                 }
                 break;
@@ -801,24 +819,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 if (hidesTheRest) {
                     //console.log("SHOW ALL");
                     if (!$scope.screeningActive) {
-                        //$scope.legendScreenClicked = "legend-screen";
+                        $scope.legendScreenClicked = "legend-screen-clicked";
+                        $scope.legendAllClicked = "legend-all-clicked";
                         $scope.screeningActive = true;
                         $scope.getDrHoScreenings();
                     }
                     if (!$scope.preEvaluationActive) {
+                        $scope.legendEvalClicked = "legend-preEval-clicked";
+                        $scope.legendAllClicked = "legend-all-clicked";
                         $scope.preEvaluationActive = true;
                         $scope.getDrHoPreEvaluations();
                     }
                     if (!$scope.surgeryActive) {
+                        $scope.legendSurgeryClicked = "legend-surgery-clicked";
+                        $scope.legendAllClicked = "legend-all-clicked";
                         $scope.surgeryActive = true;
                         $scope.getDrHoSurgeries();
                     }
 
                 } else {
                     //console.log("HIDES ALL");
-                    $scope.legendScreenClicked = "legend-screen-clicked";
+                    $scope.legendScreenClicked = "legend-screen";
                     $scope.legendEvalClicked = "legend-preEval";
                     $scope.legendSurgeryClicked = "legend-surgery";
+                    $scope.legendAllClicked = "legend-all";
                     $scope.drHoScreenings.events.splice(0);
                     $scope.drHoPreEvaluations.events.splice(0);
                     $scope.drHoSurgeries.events.splice(0);
