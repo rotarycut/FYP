@@ -249,7 +249,7 @@ ul.legend-ul li{
 }
 
 .cal-view-btn{
-    width: 5vw;
+    width: 6vw;
     border: 1px solid #FFFFFF;
     background: #4aaaa4;
     color: #FFFFFF;
@@ -278,17 +278,47 @@ ul.legend-ul li{
 .legend-screen{
     color: #f98a5f;
     text-decoration: none;
+    border-bottom: none;
 }
 
+.legend-screen:focus,
+.legend-screen:active
+.legend-screen:hover
+{
+    color: #f98a5f;
+    text-decoration: none;
+    border-bottom: none;
+}
 
 .legend-preEval{
     color: #aa2159;
     text-decoration: none;
+    border-bottom: none;
 
 }
-.legend-lasik{
+.legend-preEval:active,
+.legend-preEval:focus,
+.legend-preEval:hover
+{
+    color: #aa2159;
+    text-decoration: none;
+    border-bottom: none;
+
+}
+
+.legend-surgery{
     color: #74aaf7;
     text-decoration: none;
+    border-bottom: none;
+}
+
+.legend-surgery:active,
+.legend-surgery:focus,
+.legend-surgery:hover
+{
+    color: #74aaf7;
+    text-decoration: none;
+    border-bottom: none;
 }
 
 .cal-legend{
@@ -300,16 +330,51 @@ ul.legend-ul li{
 
 .legend-screen-clicked{
     color: #f98a5f;
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: solid 2px #f98a5f;
 }
+
+.legend-screen-clicked:active,
+.legend-screen-clicked:focus,
+.legend-screen-clicked:hover
+{
+    color: #f98a5f;
+    text-decoration: none;
+    border-bottom: solid 2px #f98a5f;
+}
+
+
 .legend-preEval-clicked{
     color: #aa2159;
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: solid 2px #aa2159;
 }
+
+.legend-preEval-clicked:active,
+.legend-preEval-clicked:focus,
+.legend-preEval-clicked:hover
+{
+    color: #aa2159;
+    text-decoration: none;
+    border-bottom: solid 2px #aa2159;
+}
+
 .legend-surgery-clicked{
     color: #74aaf7;
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: solid 2px #74aaf7;
 }
+
+.legend-surgery-clicked:active,
+.legend-surgery-clicked:focus,
+.legend-surgery-clicked:hover
+{
+    color: #74aaf7;
+    text-decoration: none;
+    border-bottom: solid 2px #74aaf7;
+}
+
+
 form.form-search {
     position: relative;
 }
