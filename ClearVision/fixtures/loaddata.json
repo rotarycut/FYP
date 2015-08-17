@@ -951,7 +951,7 @@
 
     "fields": {
 
-        "apptType": "Screening",
+        "apptType": "Surgery",
         "date": "2015-08-25",
         "last_modified": "2015-08-14T00:00:00Z",
         "patients": [90874217, 90847246, 90173741, 85765638, 90327174],
