@@ -188,6 +188,13 @@ button:active{
     content: url('../img/app-header-logo.png');
 }
 
+.notification-badge-red{
+    background-color: red;
+}
+.notification-badge-grey{
+    background-color: #777;
+}
+
 /*navbar css ends*/
 
 /*calendar csss*/

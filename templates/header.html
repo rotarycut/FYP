@@ -37,7 +37,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Welcome, {{ user }}</a></li>
                 <li class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle" ng-click="updateCount()"><i
-                        class="fa fa-envelope"></i> <span class="badge">[[notificationCount]]</span></a>
+                        class="fa fa-envelope"></i> <span class="badge" ng-class="haveNotification? '.notification-badge-red' : 'notification-badge-grey'">[[notificationCount]]</span></a>
                     <ol class="dropdown-menu">
                         <!-- <li style="color: #1859A8"><h6>&nbsp;You have 1 New Message!</h6></li> -->
                         <li><a href="#" ng-repeat="notification in notificationList">[[notification.patientname]] can be
