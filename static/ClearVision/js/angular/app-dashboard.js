@@ -22,7 +22,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 console.log($scope.newMonthData);
                 $scope.currentChartMonth = month;
                 $scope.showMarketingChart($scope.newMonthData);
-
+                $scope.showTimelineChart([], []);
             });
     };
 
@@ -236,7 +236,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         position: 'outer middle'
                     },
                     max: 10,
-                    min: 0
+                    min: 1
 
                 }
 
@@ -244,6 +244,15 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         });
 
 
+    };
+
+    $scope.filterChart = function () {
+
+        var startDate = $scope.getFormattedDate($scope.datepicker);
+        var endDate = $scope.getFormattedDate($scope.datepicker2);
+
+        console.log(startDate);
+        console.log(endDate);
     };
 
     //$scope.getMonths();
@@ -302,9 +311,25 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.format = $scope.formats[0];
     /* --- end of date picker codes --- */
 
+    /* function to format date */
+    $scope.getFormattedDate = function (fullDate) {
+        var year = fullDate.getFullYear();
     /* dropdown multiselect codes
 
-    $scope.roles = [
+        var month = fullDate.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = fullDate.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate;
+    };
+});    $scope.roles = [
           {"id": 1, "name": "Manager", "assignable": true},
           {"id": 2, "name": "Developer", "assignable": true},
           {"id": 3, "name": "Reporter", "assignable": true}
