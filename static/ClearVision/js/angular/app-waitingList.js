@@ -49,4 +49,6 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, updateNotific
         updateNotificationCountSvc.updateCount();
     };
 
+    $scope.haveNotification = false;
+
 });

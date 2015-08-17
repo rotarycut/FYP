@@ -12,6 +12,7 @@ angular.module('update.notification.count', [])
             $http.post('/Clearvision/_api/ViewNotifications/')
                 .success(function (emptyArr) {
                     self._scope.getNotifications();
+                    self._scope.haveNotification = false;
                 });
         };
 

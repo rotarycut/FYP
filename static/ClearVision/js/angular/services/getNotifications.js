@@ -23,6 +23,9 @@ angular.module('get.notifications', [])
                     });
                     console.log(notificationCount);
                     self._scope.notificationCount = notificationCount;
+                    if (notificationCount >= 1) {
+                        self._scope.haveNotification = true;
+                    }
                     console.log(self._scope.notificationCount);
                 })
         };
