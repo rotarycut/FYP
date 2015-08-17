@@ -114,8 +114,11 @@
         </div>
         <!--row for other charts content-->
         <div class="row charts-row1">
-            <div class="col-sm-12 dashboard-chart-mrkt">
+            <div class="col-sm-9 dashboard-chart-mrkt">
                 <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
+            </div>
+            <div class="col-sm-3 dashboard-chart-mrkt">
+                <div id="roiChart" ng-init="showRoiChart([]);"></div>
             </div>
         </div>
     </div>

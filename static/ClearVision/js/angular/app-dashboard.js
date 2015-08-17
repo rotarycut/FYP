@@ -115,47 +115,33 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                             $scope.showTimelineChart(timeLine, channelArr);
                         });
 
-                    /*switch (d.x) {
-                     case 0:
-                     $scope.showTimelineChart(
-                     [
-                     {"date": "2015-07-01", "google search": 5},
-                     {"date": "2015-07-02", "google search": 2},
-                     {"date": "2015-07-03", "google search": 7},
-                     {"date": "2015-07-04", "google search": 2},
-                     {"date": "2015-07-05", "google search": 4},
-                     {"date": "2015-07-06", "google search": 6},
-                     {"date": "2015-07-07", "google search": 0},
-                     {"date": "2015-07-08", "google search": 8},
-                     {"date": "2015-07-09", "google search": 3},
-                     {"date": "2015-07-10", "google search": 12},
-                     {"date": "2015-07-11", "google search": 4},
-                     {"date": "2015-07-12", "google search": 6}
+                    switch (d.x) {
+                        case 0:
+                            $scope.showRoiChart(
+                                [
+                                    {
+                                        "channelname": "ST Ads",
+                                        "marketingDollar": 100,
+                                        "revenueDollar": 2500,
+                                        "roi": 1000
+                                    }
+                                ]
+                            );
+                            break;
 
-                     ]
-                     );
-                     break;
-
-                     case 1:
-                     $scope.showTimelineChart(
-                     [
-                     {"date": "2015-07-01", "facebook ad": 5},
-                     {"date": "2015-07-02", "facebook ad": 12},
-                     {"date": "2015-07-03", "facebook ad": 8},
-                     {"date": "2015-07-04", "facebook ad": 2},
-                     {"date": "2015-07-05", "facebook ad": 9},
-                     {"date": "2015-07-06", "facebook ad": 12},
-                     {"date": "2015-07-07", "facebook ad": 5},
-                     {"date": "2015-07-08", "facebook ad": 8},
-                     {"date": "2015-07-09", "facebook ad": 3},
-                     {"date": "2015-07-10", "facebook ad": 2},
-                     {"date": "2015-07-11", "facebook ad": 9},
-                     {"date": "2015-07-12", "facebook ad": 5}
-
-                     ]
-                     );
-                     break;
-                     }*/
+                        case 1:
+                            $scope.showRoiChart(
+                                [
+                                    {
+                                        "channelname": "ST Ads",
+                                        "marketingDollar": 200,
+                                        "revenueDollar": 3000,
+                                        "roi": 1000
+                                    }
+                                ]
+                            );
+                            break;
+                    }
 
                 }
             }
@@ -243,8 +229,78 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
             }
         });
 
+    };
+
+    var roi = [
+        {"channelname": "ST Ads", "marketingDollar": 200, "revenueDollar": 3000, "roi": 1000}
+    ];
+
+    $scope.showRoiChart = function (newData) {
+
+        $scope.RoiChart = c3.generate({
+            bindto: '#roiChart',
+            padding: {
+                top: 5,
+                right: 30,
+                bottom: 5,
+                left: 40
+            },
+            bar: {
+                width: {
+                    ratio: 0.2
+                }
+            },
+            axis: {
+                x: {
+                    height: 100,
+                    label: {
+                        text: '',
+                        position: 'outer-center'
+                    },
+                    tick: {
+                        centered: true
+                    },
+                    // type: 'category'
+                    type: 'category'
+                },
+                y: {
+                    label: {
+                        text: '$ Spent',
+                        position: 'outer middle'
+                    },
+                    padding: {top: 0, bottom: 0}
+                },
+                y2: {
+                    show: true,
+                    label: {
+                        text: 'ROI / Marketing $ Spent',
+                        position: 'outer middle'
+
+                    },
+                    padding: {
+                        top: 0,
+                        bottom: 0
+                    },
+                    default: [0, 100]
+
+                }
+            },
+            data: {
+                json: newData,
+                keys: {
+                    // x: 'name', // it's possible to specify 'x' when category axis
+                    x: 'channelname',
+                    value: ['marketingDollar', 'revenueDollar', 'roi']
+                },
+                axes: {
+                    'roi': 'y2'
+                },
+                type: 'bar'
+            }
+        });
 
     };
+
 
     $scope.filterChart = function () {
 
@@ -314,7 +370,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     /* function to format date */
     $scope.getFormattedDate = function (fullDate) {
         var year = fullDate.getFullYear();
-    /* dropdown multiselect codes
 
         var month = fullDate.getMonth() + 1;
         if (month <= 9) {
@@ -329,23 +384,14 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         var formattedDate = year + '-' + month + '-' + day;
         return formattedDate;
     };
-});    $scope.roles = [
-          {"id": 1, "name": "Manager", "assignable": true},
-          {"id": 2, "name": "Developer", "assignable": true},
-          {"id": 3, "name": "Reporter", "assignable": true}
-    ];
-
-    $scope.member = {roles: []};
-    $scope.selected_items = [];
 
     /* dropdown multiselect codes --*/
-
     $scope.channels = [
-         {name: 'Andrea Chong Blog', selected:false},
-         {name: 'Facebook Ads', selected:false},
-         {name: 'Email Newsletter', selected:false},
-         {name: 'ABC Magazine', selected:false}
-     ];
+        {name: 'Andrea Chong Blog', selected: false},
+        {name: 'Facebook Ads', selected: false},
+        {name: 'Email Newsletter', selected: false},
+        {name: 'ABC Magazine', selected: false}
+    ];
 });
 
 
