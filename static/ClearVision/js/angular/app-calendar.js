@@ -784,6 +784,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         } else {
             $scope.showWaitingDate = false;
             $scope.showWaitingTime = false;
+            console.log("HERE");
         }
     };
 
