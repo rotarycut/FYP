@@ -579,8 +579,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-14', start='09:00:00',
-                                                       timeslotType='Screening', doctors=2).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-29', start='15:30:00',
+                                                       timeslotType='Surgery', doctors=2).id
         return HttpResponse(response_data)
 
 
