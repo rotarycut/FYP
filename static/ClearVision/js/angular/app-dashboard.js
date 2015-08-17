@@ -302,5 +302,26 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.format = $scope.formats[0];
     /* --- end of date picker codes --- */
 
+    /* dropdown multiselect codes
 
+    $scope.roles = [
+          {"id": 1, "name": "Manager", "assignable": true},
+          {"id": 2, "name": "Developer", "assignable": true},
+          {"id": 3, "name": "Reporter", "assignable": true}
+    ];
+
+    $scope.member = {roles: []};
+    $scope.selected_items = [];
+
+    /* dropdown multiselect codes --*/
+
+    $scope.channels = [
+         {name: 'Andrea Chong Blog', selected:false},
+         {name: 'Facebook Ads', selected:false},
+         {name: 'Email Newsletter', selected:false},
+         {name: 'ABC Magazine', selected:false}
+     ];
 });
+
+
+

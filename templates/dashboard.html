@@ -89,9 +89,14 @@
                         </select>
                     </div>
                     <div class="col-sm-3 dashboard-filter-mrkt">
-                        <select class="form-control" data-ng-model="filters.marketingChannel"
+                        <!--<select class="form-control" data-ng-model="filters.marketingChannel"
                                 ng-options="" name="marketingChannel" required>
                             <option value="" selected="selected">Marketing Channel</option>
+                        </select>-->
+                        <label class="control-label">Marketing Channel</label>
+                        <select name="users" multiple class="form-control">
+                            <option ng-selected="channel.selected" ng-repeat="channel in channels"
+                                    value="{{ channel.name }}">[[ channel.name ]]</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
