@@ -246,6 +246,15 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
     };
 
+    $scope.filterChart = function () {
+
+        var startDate = $scope.getFormattedDate($scope.datepicker);
+        var endDate = $scope.getFormattedDate($scope.datepicker2);
+
+        console.log(startDate);
+        console.log(endDate);
+    };
+
     //$scope.getMonths();
     //$scope.getJulyData();
     $scope.changeData = function (month) {
@@ -302,5 +311,21 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.format = $scope.formats[0];
     /* --- end of date picker codes --- */
 
+    /* function to format date */
+    $scope.getFormattedDate = function (fullDate) {
+        var year = fullDate.getFullYear();
 
+        var month = fullDate.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = fullDate.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate;
+    };
 });
