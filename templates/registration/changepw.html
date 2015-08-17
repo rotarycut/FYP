@@ -1,5 +1,6 @@
+{% load i18n admin_static %}
 <div class="row content-row">
-    <div class="col-sm-10 col-sm-offset-3">
+    <div class="col-sm-10 col-sm-offset-4"style="padding-left: 0;">
         <div class="row">
             <div class="col-sm-6 col-sm-offset-2">
                 <h5 class="form-title" style="font-weight: bold">Change Password</h5>
@@ -12,28 +13,30 @@
         </div>
         <div class="row>">
             <div class="col-sm-10">
-                <form class="form-horizontal" method="post" action="">
+                <form class="form-horizontal" method="post" action="{% url 'django.contrib.auth.views.password_change' %}">
+                    {% csrf_token %}
+                    {% load widget_tweaks %}
                     <div class="row form-group">
                         <!--<div class="input-group">-->
                         <div class="col-sm-4">
                             <label class="control-label">Username:</label></div>
-                        <div class="col-sm-5">
-                            <input type="text" data-ng-model=""><br></div>
+                        <div class="col-sm-3" style="padding-left: 0">
+                            <h5>{{ user }}</h5></div>
                         <!--</div>-->
                     </div>
                     <div class="row form-group">
 
                         <div class="col-sm-4">
                             <label class="control-label">Old Password:</label></div>
-                        <div class="col-sm-5">
-                            <input type="text" data-ng-model=""><br></div>
+                        <div class="col-sm-3" style="padding-left: 0">
+                            <input  class="form-control" type="text" data-ng-model=""></div>
                     </div>
                     <div class="row form-group">
 
                         <div class="col-sm-4">
                             <label class="control-label">New Password:</label></div>
-                        <div class="col-sm-5">
-                            <input type="text" data-ng-model=""><br></div>
+                        <div class="col-sm-3" style="padding-left: 0">
+                            <input class="form-control" type="text" data-ng-model=""></div>
                     </div>
                     <div class="row form-group" style="padding-top: 10px">
                         <div class="col-sm-4 col-sm-offset-2" style="padding-top: 10px">

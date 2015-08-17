@@ -555,6 +555,13 @@
         <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
+<script>
+    $('.cal-view-btn').click(function(e) {
+        $('.cal-view-btn').not(this).removeClass('active');
+        e.preventDefault();
+        $(this).addClass('active');
+})
+</script>
 
 
 

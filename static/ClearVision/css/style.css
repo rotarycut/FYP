@@ -194,6 +194,7 @@ button:active{
 
 #top-content-btngrp{
     text-align: right;
+    padding-right: 0;
 }
 #top-content-calview{
     text-align: right;
@@ -254,8 +255,8 @@ ul.legend-ul li{
     color: #FFFFFF;
 }
 .cal-view-btn:hover{
-    border: 1.5px solid #7accc8;
-    background: #4aaaa4;
+    /*border: 1.5px solid #7accc8;*/
+    background: #1859ab;
     color: #FFFFFF;
 }
 .cal-view-btn:active{
@@ -263,8 +264,8 @@ ul.legend-ul li{
     outline: 0;
 }
 .cal-view-btn:focus{
-    background-color: #4aaaa4;
-    border: 2px solid #7accc8;
+    background-color: #1859ab;
+    /*border: 2px solid #7accc8;*/
     outline: 0;
 }
 
@@ -294,7 +295,7 @@ ul.legend-ul li{
     background: #BEE2E7;
     border: dotted 1px #777777;
     border-radius: 4px;
-    margin-top: 2px;
+    margin-top: 6px;
 }
 
 .legend-screen-clicked{
