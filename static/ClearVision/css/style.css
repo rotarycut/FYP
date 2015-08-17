@@ -191,6 +191,11 @@ button:active{
 /*navbar css ends*/
 
 /*calendar csss*/
+.reset-icon{
+    content: url('../img/reset_icon.png');
+    width: 22px;
+    height: 22px;
+}
 
 #top-content-btngrp{
     text-align: right;
@@ -249,7 +254,7 @@ ul.legend-ul li{
 }
 
 .cal-view-btn{
-    width: 6vw;
+    width: 5vw;
     border: 1px solid #FFFFFF;
     background: #4aaaa4;
     color: #FFFFFF;
@@ -321,6 +326,21 @@ ul.legend-ul li{
     border-bottom: none;
 }
 
+.legend-all{
+    color: #4aaaa4;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.legend-all:active,
+.legend-all:focus,
+.legend-all:hover
+{
+    color: #4aaaa4;
+    text-decoration: none;
+    border-bottom: none;
+}
+
 .cal-legend{
     background: #BEE2E7;
     border: dotted 1px #777777;
@@ -372,6 +392,21 @@ ul.legend-ul li{
     color: #74aaf7;
     text-decoration: none;
     border-bottom: solid 2px #74aaf7;
+}
+
+.legend-all-clicked{
+    color: #4aaaa4;
+    text-decoration: none;
+    border-bottom: solid 2px #4aaaa4;
+}
+
+.legend-all-clicked:active,
+.legend-all-clicked:focus,
+.legend-all-clicked:hover
+{
+    color: #4aaaa4;
+    text-decoration: none;
+    border-bottom: solid 2px #4aaaa4;
 }
 
 

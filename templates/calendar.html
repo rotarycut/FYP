@@ -111,6 +111,11 @@
                                        class="legend-surgery" ng-class="legendSurgeryClicked"><i
                                         class="fa fa-stop"></i> Lasik</a>
                                 </li>
+                                <li><a href="#/" singleclick="filterByAppointmentTypes('All', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('All', true)"
+                                       class="legend-all" ng-class="legendAllClicked"><i
+                                        class="fa fa-stop"></i> Show All</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -411,7 +416,7 @@
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
                                         data-ng-click="clearForm()"
-                                        type="reset"><i class="fa fa-refresh" tooltip="Reset"></i>
+                                        type="reset"><img class="reset-icon">Reset
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
@@ -433,8 +438,7 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
-                                        data-ng-click="openDeleteModal('lg')"
-                                        tooltip="Delete"><i class="fa fa-trash"></i>Delete
+                                        data-ng-click="openDeleteModal('lg')"><i class="fa fa-trash"></i> Delete
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
@@ -481,7 +485,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="createAppointment()">Yes</button>
+        <button class="btn btn-success" type="button" ng-click="createAppointment()">Yes</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
@@ -505,7 +509,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="deleteAppointment()">Yes</button>
+        <button class="btn btn-success" type="button" ng-click="deleteAppointment()">Yes</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
@@ -555,7 +559,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="updateAppointment()">Yes</button>
+        <button class="btn btn-success" type="button" ng-click="updateAppointment()">Yes</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
     </div>
 </script>

@@ -510,6 +510,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.legendScreenClicked = "legend-screen-clicked";
     $scope.legendEvalClicked = "legend-preEval-clicked";
     $scope.legendSurgeryClicked = "legend-surgery-clicked";
+    $scope.legendAllClicked = "legend-all-clicked";
 
     $scope.form = {
         showForm: false,
@@ -784,6 +785,35 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.legendSurgeryClicked = "legend-surgery-clicked";
                         $scope.surgeryActive = true;
                         $scope.getDrHoSurgeries();
+                    }
+                }
+                break;
+
+            case "All" :
+                if (hidesTheRest) {
+                    if (!$scope.screeningActive) {
+                        $scope.legendScreenClicked = "legend-screen";
+                        $scope.drHoScreenings.events.splice(0);
+                        $scope.getDrHoScreenings();
+                    }
+                    $scope.legendScreenClicked = "legend-screen-clicked";
+                    $scope.legendEvalClicked = "legend-preEval";
+                    $scope.legendSurgeryClicked = "legend-surgery";
+                    $scope.drHoPreEvaluations.events.splice(0);
+                    $scope.drHoSurgeries.events.splice(0);
+                    $scope.screeningActive = true;
+                    $scope.preEvaluationActive = false;
+                    $scope.surgeryActive = false;
+
+                } else {
+                    if ($scope.screeningActive) {
+                        $scope.legendScreenClicked = "legend-screen";
+                        $scope.screeningActive = false;
+                        $scope.drHoScreenings.events.splice(0);
+                    } else {
+                        $scope.legendScreenClicked = "legend-screen-clicked";
+                        $scope.screeningActive = true;
+                        $scope.getDrHoScreenings();
                     }
                 }
                 break;
