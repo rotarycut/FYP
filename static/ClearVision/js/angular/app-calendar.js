@@ -37,19 +37,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.drGohScreenings = {
-        color: '#303030',
+        color: '#f98a5f',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohPreEvaluations = {
-        color: '#CC6600',
+        color: '#aa2159',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohSurgeries = {
-        color: '#CC3333',
+        color: '#74aaf7',
         textColor: 'White',
         events: []
     };
@@ -948,7 +948,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
-        return $http.get('/Clearvision/_api/SearchBar/?search=' + searchValue)
+        return $http.get('/Clearvision/_api/SearchBar/?search=' + searchValue + '&limit=15')
             .then(function (response) {
                 var row = response.data;
                 var rowArr = [];

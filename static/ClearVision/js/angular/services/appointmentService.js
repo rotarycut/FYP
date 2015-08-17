@@ -72,7 +72,7 @@ angular.module('appointment.service', [])
 
             var defer = $q.defer();
 
-            $http.get('http://demo4552602.mockable.io/drGohScreenings')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Goh&apptType=Screening')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
@@ -94,7 +94,7 @@ angular.module('appointment.service', [])
 
             var defer = $q.defer();
 
-            $http.get('http://demo4552602.mockable.io/drGohPreEvaluations')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Pre%20Evaluation')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
@@ -116,7 +116,7 @@ angular.module('appointment.service', [])
 
             var defer = $q.defer();
 
-            $http.get('http://demo4552602.mockable.io/drGohSurgeries')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Surgery')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {

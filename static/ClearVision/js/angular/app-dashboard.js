@@ -22,7 +22,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 console.log($scope.newMonthData);
                 $scope.currentChartMonth = month;
                 $scope.showMarketingChart($scope.newMonthData);
-
+                $scope.showTimelineChart([], []);
             });
     };
 
@@ -236,7 +236,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         position: 'outer middle'
                     },
                     max: 10,
-                    min: 0
+                    min: 1
 
                 }
 
