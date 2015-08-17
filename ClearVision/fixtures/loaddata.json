@@ -459,6 +459,17 @@
         "conversion": "True"
     }
   },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Bond",
+        "gender": "Male",
+        "contact": "90213775",
+        "registrationDate": "2015-08-27T00:00:00Z",
+        "marketingChannelId": 1,
+        "conversion": "False"
+    }
+  },
 
   {
     "model": "ClearVision.Staff",
@@ -835,6 +846,22 @@
     }
   },
   {
+    "model": "ClearVision.Appointment",
+    "pk": 23,
+
+    "fields": {
+
+        "apptType": "Screening",
+        "date": "2015-08-27",
+        "last_modified": "2015-08-16T00:00:00Z",
+        "patients": [90213775],
+        "doctor": 2,
+        "clinic": 2,
+        "tempPatients": [],
+        "timeBucket": 478
+    }
+  },
+  {
     "model": "ClearVision.AppointmentRemarks",
     "fields": {
         "patient": 91500323,
@@ -1199,7 +1226,7 @@
     "model": "ClearVision.AppointmentRemarks",
     "fields": {
         "patient": 90327174,
-        "appointment":22,
+        "appointment":21,
         "remarks": "Comment 46"
     }
   },
@@ -1223,8 +1250,16 @@
     "model": "ClearVision.AppointmentRemarks",
     "fields": {
         "patient": 90685731,
-        "appointment":21,
+        "appointment":22,
         "remarks": "Comment 49"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentRemarks",
+    "fields": {
+        "patient": 90213775,
+        "appointment":23,
+        "remarks": "Comment 50"
     }
   },
   {
