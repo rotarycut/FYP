@@ -392,6 +392,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         {name: 'Email Newsletter', selected: false},
         {name: 'ABC Magazine', selected: false}
     ];
+
+    $scope.test = function () {
+        alert("YO");
+    };
 });
 
 
