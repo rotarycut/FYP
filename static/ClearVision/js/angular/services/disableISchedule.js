@@ -21,6 +21,7 @@ app.service('disableIScheduleSvc', function () {
             self._scope.getDrHoScreenings();
             self._scope.getDrHoPreEvaluations();
             self._scope.getDrHoSurgeries();
+            self._scope.showFilters = true;
         }
     }
 

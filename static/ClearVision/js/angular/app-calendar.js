@@ -506,6 +506,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.screeningActive = true;
     $scope.preEvaluationActive = true;
     $scope.surgeryActive = true;
+    $scope.showFilters = true;
     $scope.progressbar = ngProgressFactory.createInstance();
     $scope.legendScreenClicked = "legend-screen-clicked";
     $scope.legendEvalClicked = "legend-preEval-clicked";
@@ -679,6 +680,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.drHoSurgeries.events.splice(0);
                 $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
                 $scope.getISchedule();
+                $scope.showFilters = false;
             } else {
                 $scope.lowHeatMap.events.splice(0);
                 $scope.medHeatMap.events.splice(0);

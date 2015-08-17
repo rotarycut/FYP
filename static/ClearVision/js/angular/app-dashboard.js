@@ -396,7 +396,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.test = function (value) {
         alert("YO");
         angular.forEach($scope.selectedChannels, function (channel) {
-            if(channel === $scope.selectedChannel){
+            if (channel === $scope.selectedChannel) {
                 console.log("Channel is already selected");
                 $scope.selectedChannel.selected();
 
