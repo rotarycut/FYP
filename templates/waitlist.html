@@ -3,12 +3,12 @@
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-2 top-content-search">
-                <div class="input-group">
+                <!-- <div class="input-group">
                             <span class="input-group-btn">
                                 <button class="btn btn-default"><i class="fa fa-search"></i></button>
                             </span>
                     <input type="text" class="form-control" placeholder="Search..">
-                </div>
+                </div> -->
                 <!-- /input-group -->
             </div>
         </div>
@@ -23,7 +23,7 @@
                         <th>Appt Type</th>
                         <th>Scheduled Time</th>
                     </tr>
-                    <tr ng-repeat="appt in listOfWaitingAppointments" ng-class="highlight ? 'canSwap' : 'cannotSwap'">
+                    <tr ng-repeat="appt in listOfWaitingAppointments">
                         <td>[[$index + 1]]</td>
                         <td>[[appt.patientname]]</td>
                         <td>[[appt.patientcontact]]</td>

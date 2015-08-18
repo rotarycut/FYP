@@ -120,10 +120,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                             $scope.showRoiChart(
                                 [
                                     {
-                                        "channelname": "ST Ads",
-                                        "marketingDollar": 100,
-                                        "revenueDollar": 2500,
-                                        "roi": 1000
+                                        "channelname": "Channel News Asia",
+                                        "marketingDollar": 8100,
+                                        "revenueDollar": 15552,
+                                        "roi": 1.92
                                     }
                                 ]
                             );
@@ -133,10 +133,62 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                             $scope.showRoiChart(
                                 [
                                     {
+                                        "channelname": "Referred by Doctor",
+                                        "marketingDollar": 2500,
+                                        "revenueDollar": 19440,
+                                        "roi": 7.62
+                                    }
+                                ]
+                            );
+                            break;
+
+                        case 2:
+                            $scope.showRoiChart(
+                                [
+                                    {
+                                        "channelname": "Andrea Chong Blog",
+                                        "marketingDollar": 1000,
+                                        "revenueDollar": 19440,
+                                        "roi": 19.44
+                                    }
+                                ]
+                            );
+                            break;
+
+                        case 3:
+                            $scope.showRoiChart(
+                                [
+                                    {
                                         "channelname": "ST Ads",
-                                        "marketingDollar": 200,
-                                        "revenueDollar": 3000,
-                                        "roi": 1000
+                                        "marketingDollar": 9500,
+                                        "revenueDollar": 19440,
+                                        "roi": 2.04
+                                    }
+                                ]
+                            );
+                            break;
+
+                        case 4:
+                            $scope.showRoiChart(
+                                [
+                                    {
+                                        "channelname": "Others",
+                                        "marketingDollar": 12000,
+                                        "revenueDollar": 34992,
+                                        "roi": 2.92
+                                    }
+                                ]
+                            );
+                            break;
+
+                        case 5:
+                            $scope.showRoiChart(
+                                [
+                                    {
+                                        "channelname": "987 Radio",
+                                        "marketingDollar": 21500,
+                                        "revenueDollar": 19440,
+                                        "roi": 0.90
                                     }
                                 ]
                             );
@@ -150,8 +202,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         });
 
         setTimeout(function () {
-            $scope.marketingChart.toggle('convert');
-            $scope.marketingChart.toggle('rate');
+            //$scope.marketingChart.toggle('convert');
+            //$scope.marketingChart.toggle('rate');
         }, 50);
 
     };
@@ -269,6 +321,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         position: 'outer middle'
                     },
                     padding: {top: 0, bottom: 0}
+
                 },
                 y2: {
                     show: true,
@@ -281,6 +334,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                         top: 0,
                         bottom: 0
                     },
+                    max: 20,
+                    min: 0,
                     default: [0, 100]
 
                 }
