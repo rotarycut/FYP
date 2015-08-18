@@ -45,7 +45,7 @@ button:active{
 
 }
 .side-tabset > ul.nav.nav-pills{
-    width: 142px;
+    width: 145px;
     height: 35px;
     padding-right: 83px;
     margin-right: 0;
@@ -230,7 +230,7 @@ ul.legend-ul li{
 }
 
 .fc-view-container{
-    height: 64vh; !important;
+    height: 68vh; !important;
     width: 100% !important;
     overflow-x: hidden;
     overflow-y: auto;
@@ -261,14 +261,14 @@ ul.legend-ul li{
 }
 
 .cal-view-btn{
-    width: 5vw;
+    width: 4vw;
     border: 1px solid #FFFFFF;
     background: #4aaaa4;
     color: #FFFFFF;
 }
 .cal-view-btn:hover{
     /*border: 1.5px solid #7accc8;*/
-    background: #1859ab;
+    background: #4aaaa4;
     color: #FFFFFF;
 }
 .cal-view-btn:active{
@@ -276,7 +276,7 @@ ul.legend-ul li{
     outline: 0;
 }
 .cal-view-btn:focus{
-    background-color: #1859ab;
+    background-color: #4aaaa4;
     /*border: 2px solid #7accc8;*/
     outline: 0;
 }
