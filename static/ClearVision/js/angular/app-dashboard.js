@@ -293,9 +293,9 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
             bindto: '#roiChart',
             padding: {
                 top: 10,
-                right: 15,
+                right: 55,
                 bottom: 3,
-                left: 25
+                left: 55
             },
             bar: {
                 width: {
