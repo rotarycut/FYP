@@ -261,10 +261,11 @@ ul.legend-ul li{
 }
 
 .cal-view-btn{
-    width: 4vw;
+    width: 4.3vw;
     border: 1px solid #FFFFFF;
     background: #4aaaa4;
     color: #FFFFFF;
+    font-size: 10pt;
 }
 .cal-view-btn:hover{
     /*border: 1.5px solid #7accc8;*/

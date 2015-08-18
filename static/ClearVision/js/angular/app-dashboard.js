@@ -32,7 +32,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
             bindto: '#chart1',
             padding: {
                 top: 20,
-                right: 15,
+                right: 25,
                 bottom: 0,
                 left: 15
             },
@@ -243,7 +243,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 top: 10,
                 right: 20,
                 bottom: 3,
-                left: 15
+                left: 40
             },
             data: {
                 json: newData,
