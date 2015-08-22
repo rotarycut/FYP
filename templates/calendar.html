@@ -37,11 +37,11 @@
                     <div class="col-sm-3 col-sm-offset-2 animation-buttons" id="top-content-btngrp"
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
-                            <button type="button" class="btn btn-primary" ng-click="showForm('Create')"><i
+                            <button type="button" class="btn btn-primary form-btn" ng-click="showForm('Create')"><i
                                     class="fa fa-plus-circle"></i> Add
                                 Appointment
                             </button>
-                            <!--<button type="button" class="btn btn-primary"><i class="fa fa-ban"></i> Block</button>-->
+                            <button type="button" class="btn btn-primary form-btn"><i class="fa fa-ban"></i> Block</button>
                         </div>
                     </div>
                 </div>
@@ -133,11 +133,11 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary btn-sm" data-ng-click="hideForm()"><i
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()"><i
                         class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
-            <div class="col-sm-6 col-sm-offset-1">
+            <div class="col-sm-7 col-sm-offset-1">
                 <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
         </div>
@@ -416,16 +416,16 @@
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
                                         data-ng-click="clearForm()"
-                                        type="reset"><img class="reset-icon">Reset
+                                        type="reset"><img class="reset-icon">
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
-                                <button class="btn btn-success"
+                                <button class="btn form-submit-btn"
                                         data-ng-click="isFormValid(appointmentForm.$valid);">Submit
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
-                                <button class="btn btn-warning"
+                                <button class="btn form-cancel-btn"
                                         type="reset"
                                         data-ng-click="hideForm()">Cancel
                                 </button>
@@ -438,16 +438,16 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
-                                        data-ng-click="openDeleteModal('lg')"><i class="fa fa-trash"></i> Delete
+                                        data-ng-click="openDeleteModal('lg')"><i class="fa fa-trash"></i>
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
-                                <button class="btn btn-success"
+                                <button class="btn form-submit-btn"
                                         data-ng-click="isEditFormValid(true);">Update
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
-                                <button class="btn btn-warning"
+                                <button class="btn form-cancel-btn"
                                         type="reset"
                                         data-ng-click="hideForm()">Cancel
                                 </button>

@@ -5,6 +5,7 @@
 
 .app-container{
     background: url('../img/bg_main.png') repeat;
+    /*background: #FFFEE4;*/
 }
 
 .content-row{
@@ -63,15 +64,13 @@ button:active{
 
 .side-tabset > ul.nav >li > a{
     padding: 5px 5px 5px 5px;
-    color: #1859ab;
 }
 
 .side-tabset > ul.nav >li > a:hover,
-.side-tabset > ul.nav >li > a:focus,
-.side-tabset > ul.nav >li > a:active
+.side-tabset > ul.nav >li > a:focus
 {
     padding: 5px 5px 5px 5px;
-    background-color: #4aaaa4;
+    background-color: #49708A;
     color: #fff;
 }
 /* app css ends here */
@@ -180,8 +179,11 @@ button:active{
 /*navbar csss*/
 
 .navbar.navbar-default.navbar-fixed-top{   /*to be changed*/
-    background: #BEE2E7 ;
-    border-bottom: dotted 2px #777777;
+    background: #D0E0EB ;
+    border-bottom: dotted 2px #70AFC4;
+}
+.nav.navbar-nav.navbar-right > li > a{
+    color: #70AFC4;
 }
 
 #navbar-logo{
@@ -189,10 +191,10 @@ button:active{
 }
 
 .notification-badge-red{
-    background-color: red;
+    background-color: #E79285;
 }
 .notification-badge-grey{
-    background-color: #777;
+    background-color: #70AFC4;
 }
 
 /*navbar css ends*/
@@ -213,7 +215,7 @@ button:active{
 }
 .top-content-search{
     text-align: left;
-    width: 180px;
+    width: 15%;
     padding-left: 0;
     padding-right: 0;
 }
@@ -261,31 +263,39 @@ ul.legend-ul li{
 }
 
 .cal-view-btn{
-    width: 4.3vw;
     border: 1px solid #FFFFFF;
-    background: #4aaaa4;
+    background: #49708A;
     color: #FFFFFF;
-    font-size: 10pt;
+    font-size: 90%;
 }
-.cal-view-btn:hover{
+.cal-view-btn:hover,
+.cal-view-btn:active,
+.cal-view-btn:focus
+{
     /*border: 1.5px solid #7accc8;*/
-    background: #4aaaa4;
+    background: #70AFC4;
     color: #FFFFFF;
-}
-.cal-view-btn:active{
-    background: #4aaaa4;
-    outline: 0;
-}
-.cal-view-btn:focus{
-    background-color: #4aaaa4;
-    /*border: 2px solid #7accc8;*/
     outline: 0;
 }
 
 .appt-form-btn{
     border: 1px solid #FFFFFF;
-    background: #1859ab;
     border-radius: 5px;
+}
+
+.form-btn{
+    background: #70AFC4;
+    border: 1px solid #FFFFFF;
+}
+
+.form-btn:hover,
+.form-btn:active,
+.form-btn:focus
+{
+    /*border: 1.5px solid #7accc8;*/
+    background: #49708A;
+    color: #FFFFFF;
+    outline: 0;
 }
 
 .legend-screen{
@@ -350,10 +360,10 @@ ul.legend-ul li{
 }
 
 .cal-legend{
-    background: #BEE2E7;
+    background: #D0E0EB;
     border: dotted 1px #777777;
     border-radius: 4px;
-    margin-top: 6px;
+    margin-top: 1px;
 }
 
 .legend-screen-clicked{
@@ -442,7 +452,7 @@ form.form-search:before {
 
 .form-title{
     font-weight: bold;
-    color: #1859ab;
+    color: #70AFC4;
 }
 
 .add-appt-formgrp{
@@ -473,6 +483,24 @@ li .i-slot-label {
 
 .ischeduleForm{
     margin-bottom: 0;
+}
+
+.form-submit-btn,
+.form-submit-btn:hover,
+.form-submit-btn:focus
+{
+    background-color: #70AFC4;
+    border: #70AFC4;
+    color: #FFFFFF;
+}
+
+.form-cancel-btn,
+.form-cancel-btn:hover,
+.form-cancel-btn:focus
+{
+    background-color: #E79285;
+    border: #E79285;
+    color: #FFFFFF;
 }
 
 
@@ -537,14 +565,11 @@ li .i-slot-label {
 
 .filter-row-options{
     background: rgba(255,255,255,0.2);
-
-
 }
 
 .charts-row1{
     margin-left: 15px;
 }
-
 
 .dashboard-chart-mrkt{
     padding-left: 0;
@@ -558,11 +583,13 @@ li .i-slot-label {
 table.waitlist-main-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-    border: 1px solid #e0e0e0;
+    border: dotted 2px #70AFC4;
+
 }
 
 table.waitlist-main-tbl > tbody > tr > th{
-    color: #1859A8;
+    background-color: #D0E0EB;
+    color: #49708A;
     text-align: center;
 }
 table.waitlist-main-tbl > tbody > tr > td{
@@ -570,26 +597,30 @@ table.waitlist-main-tbl > tbody > tr > td{
 }
 
 table.waitlist-action-tbl{
-    margin-top: 10px;
+    margin-top: 12%;
+    text-align: left;
 }
 
 table.waitlist-action-tbl > tbody > tr > th{
-    color: #1859A8;
+    color: #49708A;
     text-align: center;
+    border: none;
 }
 table.waitlist-action-tbl > tbody > tr > td{
-    padding-top:1px;
-    padding-bottom: 1px;
+    padding-top:2px;
+    padding-bottom: 2px;
+    border: none;
 }
 
 table.waitlist-swap-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-    border: 1px solid #e0e0e0;
+    border: dotted 2px #70AFC4;
 }
 
 table.waitlist-swap-tbl > tbody > tr > th{
-    color: #1859A8;
+    background-color: #D0E0EB;
+    color: #49708A;
     text-align: center;
 }
 table.waitlist-swap-tbl > tbody > tr > td{

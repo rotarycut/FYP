@@ -1583,8 +1583,8 @@ pre code {
   overflow-y: scroll;
 }
 .container {
-  padding-right: 0px;
-  padding-left: 0px;
+  padding-right: 2%;
+  padding-left: 2%;
   margin-right: auto;
   margin-left: auto;
 }
@@ -4141,6 +4141,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav-pills > li > a {
   border-radius: 4px;
+  color: #49708A;
 }
 .nav-pills > li + li {
   margin-left: 2px;
@@ -4149,7 +4150,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #fff;
-  background-color: #4aaaa4;
+  background-color: #49708A;
 }
 .nav-stacked > li {
   float: none;
@@ -4561,7 +4562,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #777;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+  color: #49708A;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
@@ -5013,15 +5014,16 @@ a.badge:focus {
   margin-bottom: 12px;
   /*color: inherit;*/
   background-color: #ebebeb;
-  border: dotted 2px #1859A8;
+  border: dotted 2px #70AFC4;
 }
-.ijumbotron {
+/*.ijumbotron {
   margin-top: 8px;
   margin-bottom: 12px;
-  /*color: inherit;*/
+  color: inherit;
   background-color: #CCFFCC;
   border: dotted 2px #1859A8;
-}
+}*/
+
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;
@@ -5037,7 +5039,7 @@ a.badge:focus {
 .container .jumbotron,
 .container-fluid .jumbotron {
   border-radius: 6px;
-  height: 81vh;
+  height: 83vh;
 }
 .jumbotron .container {
   max-width: 100%;
