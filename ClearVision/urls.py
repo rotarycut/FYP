@@ -19,6 +19,7 @@ router.register(r'_api/SearchBar', views.SearchBarFilter)
 router.register(r'_api/ViewSwapperTable', views.ViewSwapperTable)
 router.register(r'_api/ViewApptTimeslots', views.ViewApptTimeslots)
 router.register(r'_api/ViewNotifications', views.ViewNotifications)
+router.register(r'_api/ViewTodayPatients', views.ViewTodayPatients)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
@@ -32,4 +33,5 @@ urlpatterns = [
     url(r'^logout', views.logout, name='logout'),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^sms', views.sms)
 ]

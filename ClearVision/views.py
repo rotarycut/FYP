@@ -774,3 +774,23 @@ class ViewNotifications(viewsets.ModelViewSet):
         Swapper.objects.filter(swappable=True).update(hasRead=True)
 
         return HttpResponse(status=200)
+
+from twilio.rest import TwilioRestClient
+
+def sms(request):
+    ACCOUNT_SID = "AC72c59e83e3193394ef8bbb5c17d30810"
+    AUTH_TOKEN = "ad0a094cc106b71f8ddd42eaf6aca4d4"
+
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+
+    client.messages.create(to="+6591500323", from_="+17868002606", body="TESTING123", )
+    return HttpResponse("SUCCESS")
+
+class ViewTodayPatients(viewsets.ReadOnlyModelViewSet):
+    queryset = Appointment.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        response_data = Appointment.objects.filter(timeBucket__date=datetime.today()).values('patients', 'patients__name',
+                                                                                             'patients__gender', 'timeBucket__date',
+                                                                                             'timeBucket__start', 'apptType')
+        return Response(response_data)
