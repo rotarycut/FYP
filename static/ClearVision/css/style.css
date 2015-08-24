@@ -13,6 +13,10 @@
     height: 100vh;
 }
 
+.subcontent-row{
+    padding-top: 1%;
+}
+
 button:focus,
 button:active{
     outline: solid 1px #1859ab;
@@ -637,4 +641,46 @@ table.waitlist-swap-tbl > tbody > tr > td{
 .fieldIsChanged{
     color: #CC0000;
 }
-/* waitlist css ends*?
+/* waitlist css ends*/
+
+/* queue page css*/
+
+.queue-tab.tab-content > .active {
+  display: block;
+  padding-left: 0;
+}
+
+.queuelist-col{
+    margin-top: 3.7%;
+}
+
+table.queuelist-main-tbl{
+    margin-top: 10px;
+    background-color: #ebebeb;
+
+}
+
+table.queuelist-main-tbl > tbody > tr > th{
+    background-color: #70AFC4;
+    color: #FFF;
+    text-align: center;
+}
+table.queuelist-main-tbl > tbody > tr > td{
+    text-align: center;
+}
+
+table.apptlist-main-tbl{
+    border: dotted 2px #70AFC4;
+
+}
+
+table.apptlist-main-tbl > tbody > tr > th{
+    background-color: #D0E0EB;
+    color: #49708A;
+    text-align: center;
+}
+table.apptlist-main-tbl > tbody > tr > td{
+    text-align: center;
+}
+
+/* queue page css ends*/

@@ -4,6 +4,7 @@ var app = angular.module('calendarDemoApp', [
     'app.calendar',
     'app.dashboard',
     'app.waitingList',
+    'app.patientQueue',
     'app.admin',
     'ngRoute',
     'single.click',
@@ -38,6 +39,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/changepw", {
             templateUrl: "changepw.html",
             controller: 'adminCtrl'
+        })
+        .when("/queue", {
+            templateUrl: "queue.html",
+            controller: 'QueueCtrl'
         })
         .otherwise({
             redirectTo: '/'

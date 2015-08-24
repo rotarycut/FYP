@@ -41,6 +41,9 @@ def dashboard(request):
 def waitlist(request):
     return render(request, 'waitlist.html')
 
+def queue(request):
+    return render(request, 'queue.html')
+
 
 def changepw(request):
     return render(request, 'registration/changepw.html')
