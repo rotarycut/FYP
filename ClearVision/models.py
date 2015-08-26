@@ -86,3 +86,14 @@ class Swapper(models.Model):
     swappable = models.BooleanField()
     hasRead = models.BooleanField()
     creationTime = models.DateTimeField(auto_now=True)
+
+class AttendedAppointment(models.Model):
+    apptType = models.CharField(max_length=200)
+    last_modified = models.DateTimeField('Creation Time', auto_now=True)
+    patient = models.ForeignKey(Patient)
+    doctor = models.ForeignKey(Doctor)
+    clinic = models.ForeignKey(Clinic)
+    timeBucket = models.ForeignKey(AvailableTimeSlots)
+
+    def __str__(self):
+        return self.apptType
