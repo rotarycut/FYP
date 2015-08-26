@@ -678,13 +678,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.changeView('month', 'myCalendar1');
 
         console.log($scope.fields.appointmentType);
+        console.log("HEY0");
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
             $scope.getAppointmentTimings($scope.fields.appointmentType);
+            console.log("HEY1");
         }
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.formTitle === 'Edit Appointment') {
             if (!$scope.iSchedule) {
+                console.log("HEY2");
                 $scope.showHeatMap = true;
                 $scope.iSchedule = true;
                 $scope.drHoScreenings.events.splice(0);
@@ -694,6 +697,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.getISchedule();
                 $scope.showFilters = false;
             } else {
+                console.log("HEY3");
                 $scope.lowHeatMap.events.splice(0);
                 $scope.medHeatMap.events.splice(0);
                 $scope.highHeatMap.events.splice(0);

@@ -35,8 +35,8 @@ angular.module('post.appointment', [])
             }
 
             /*if (self._scope.fields.waitingDate !== undefined) {
-                var formattedWaitingDate = self._scope.getFormattedDate(self._scope.fields.waitingDate);
-            }*/
+             var formattedWaitingDate = self._scope.getFormattedDate(self._scope.fields.waitingDate);
+             }*/
 
             if (self._scope.fields.waitingList === undefined) {
                 self._scope.fields.waitingList = false;
