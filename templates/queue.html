@@ -14,7 +14,7 @@
                         <h4 style="color:#49708A;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
                     </div>
                 </div>
-                <div class="row subcontent-row">
+                <div class="row subcontent-row" ng-init="getTodayAppointments()">
                     <div class="col-md-12">
                         <table class="table table-striped apptlist-main-tbl">
                             <tr>
@@ -25,28 +25,30 @@
                                 <th>Scheduled Time</th>
                                 <th>Action</th>
                             </tr>
-                            <tr ng-repeat="patient in patients">
-                                <td>[[patient.name]]</td>
-                                <td>[[patient.contact]]</td>
+                            <tr ng-repeat="patient in patientList">
+                                <td>[[patient.patients__name]]</td>
+                                <td>[[patient.patients]]</td>
                                 <td>[[patient.apptType]]</td>
                                 <td>[[patient.doc]]</td>
-                                <td>[[patient.scheduledTime]]</td>
+                                <td>[[patient.timeBucket__start]]</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm form-submit-btn" ng-click=""><i class="fa fa-check"></i>
+                                    <button type="button" class="btn btn-sm form-submit-btn" ng-click=""><i
+                                            class="fa fa-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm form-cancel-btn" ng-click=""><i class="fa fa-times"></i>
+                                    <button type="button" class="btn btn-sm form-cancel-btn" ng-click=""><i
+                                            class="fa fa-times"></i>
                                     </button>
                                 </td>
                             </tr>
                         </table>
                     </div>
                 </div>
-                <div class="row subcontent-row">
+                <!-- <div class="row subcontent-row">
                     <div class="col-md-12">
                         <pagination total-items="totalItems" ng-model="currentPage"
                                     ng-change="pageChanged()"></pagination>
                     </div>
-                </div>
+                </div> -->
             </tab>
             <tab heading="No Show List" select="">
                 <div class="row subcontent-row">

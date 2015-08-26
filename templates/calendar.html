@@ -23,13 +23,13 @@
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('agendaDay', 'myCalendar1')">Day
+                                    ng-click="changeView('agendaDay', selectedCalendar)">Day
                             </button>
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('agendaWeek', 'myCalendar1')">Week
+                                    ng-click="changeView('agendaWeek', selectedCalendar)">Week
                             </button>
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('month', 'myCalendar1')">
+                                    ng-click="changeView('month', selectedCalendar)">
                                 Month
                             </button>
                         </div>
@@ -41,7 +41,8 @@
                                     class="fa fa-plus-circle"></i> Add
                                 Appointment
                             </button>
-                            <button type="button" class="btn btn-primary form-btn"><i class="fa fa-ban"></i> Block</button>
+                            <button type="button" class="btn btn-primary form-btn"><i class="fa fa-ban"></i> Block
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -67,7 +68,7 @@
                             <tabset type="pills" vertical="true" class="side-tabset">
                                 <tab heading="Dr. Ho" select="renderCalendar('drHoCalendar');"
                                      ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();"
-                                     class="heading-rotate">
+                                     class="heading-rotate" ng-click="changeCalendar('myCalendar1')">
 
                                     <!--<div class="alert-success calAlert"
                                          ng-show="alertMessage != undefined && alertMessage != '' ">
@@ -78,7 +79,7 @@
                                 </tab>
                                 <tab heading="Dr. Goh" select="renderCalendar('drGohCalendar');"
                                      ng-init="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();"
-                                     class="heading-rotate">
+                                     class="heading-rotate" ng-click="changeCalendar('myCalendar2')">
 
                                     <!--<div class="alert-success calAlert"
                                          ng-show="alertMessage != undefined && alertMessage != '' ">
