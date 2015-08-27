@@ -822,3 +822,11 @@ class ViewNoShow(viewsets.ReadOnlyModelViewSet):
         response_data = AttendedAppointment.objects.filter(attended=False).values()
 
         return Response(response_data)
+
+class PatientQueue(viewsets.ReadOnlyModelViewSet):
+    queryset = AttendedAppointment.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        response_data = AttendedAppointment.objects.filter(attended=True).values()
+
+        return Response(response_data)
