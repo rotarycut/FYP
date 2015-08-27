@@ -826,12 +826,7 @@ class ViewNoShow(viewsets.ReadOnlyModelViewSet):
 
 class PatientQueue(viewsets.ModelViewSet):
     queryset = AttendedAppointment.objects.none()
-    serializer_class = AttendedAppointment
-
-    def list(self, request, *args, **kwargs):
-        response_data = AttendedAppointment.objects.filter(attended=True).values()
-
-        return Response(response_data)
+    serializer_class = AttendedAppointmentSerializer
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -843,3 +838,9 @@ class PatientQueue(viewsets.ModelViewSet):
 
         p = Patient.objects.get(contact=patient)
         Appointment.objects.get(id=apptId).patients.add(p)
+
+    def list(self, request, *args, **kwargs):
+        response_data = AttendedAppointment.objects.filter(attended=True).values()
+
+        return Response(response_data)
+
