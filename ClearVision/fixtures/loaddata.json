@@ -630,12 +630,12 @@
     "fields": {
 
         "apptType": "Screening",
-        "date": "2015-08-19",
+        "date": "2015-08-28",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323,91500212,94764232],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 461
+        "timeBucket": 479
     }
   },
 
@@ -646,12 +646,12 @@
     "fields": {
 
         "apptType": "Surgery",
-        "date": "2015-08-19",
+        "date": "2015-08-28",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232, 91500484],
-        "doctor": 1,
+        "doctor": 2,
         "clinic": 1,
-        "timeBucket": 4111
+        "timeBucket": 3399
     }
   },
 
@@ -662,12 +662,12 @@
     "fields": {
 
         "apptType": "Pre Evaluation",
-        "date": "2015-08-20",
+        "date": "2015-08-28",
         "last_modified": "2015-07-17T07:16:36Z",
         "patients": [91500323, 94764232, 91504758],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 1924
+        "timeBucket": 1939
     }
   },
 
@@ -678,12 +678,12 @@
     "fields": {
 
         "apptType": "Screening",
-        "date": "2015-08-20",
+        "date": "2015-08-29",
         "last_modified": "2015-07-27T07:16:36Z",
         "patients": [91500323, 94764232, 91500444],
         "doctor": 1,
         "clinic": 2,
-        "timeBucket": 1194
+        "timeBucket": 482
     }
   },
 

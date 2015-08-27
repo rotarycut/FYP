@@ -73,3 +73,9 @@ class AvailiableTimeSlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AvailableTimeSlots
         depth = 1
+
+class AttendedAppointmentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AttendedAppointment
+        depth = 1
