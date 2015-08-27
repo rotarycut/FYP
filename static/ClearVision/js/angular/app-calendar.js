@@ -545,6 +545,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
     $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
     $scope.listOfDoctors = ["Dr. Ho", "Dr. Goh"];
+    $scope.selectedCalendar = "myCalendar1";
+
+    $scope.changeCalendar = function (selectedCalendar) {
+        $scope.selectedCalendar = selectedCalendar;
+    };
 
     /* function to retrieve list of appointment timings */
     $scope.getAppointmentTimings = function (apptType, apptTime) {
@@ -673,13 +678,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.changeView('month', 'myCalendar1');
 
         console.log($scope.fields.appointmentType);
+        console.log("HEY0");
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
             $scope.getAppointmentTimings($scope.fields.appointmentType);
+            console.log("HEY1");
         }
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.formTitle === 'Edit Appointment') {
             if (!$scope.iSchedule) {
+                console.log("HEY2");
                 $scope.showHeatMap = true;
                 $scope.iSchedule = true;
                 $scope.drHoScreenings.events.splice(0);
@@ -689,6 +697,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.getISchedule();
                 $scope.showFilters = false;
             } else {
+                console.log("HEY3");
                 $scope.lowHeatMap.events.splice(0);
                 $scope.medHeatMap.events.splice(0);
                 $scope.highHeatMap.events.splice(0);

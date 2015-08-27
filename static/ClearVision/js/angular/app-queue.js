@@ -1,6 +1,6 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
 
     $scope.CurrentDate = new Date();
 
@@ -44,7 +44,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope) {
             apptType: 'Pre-eval',
             doc: 'Dr. Ho',
             scheduledTime: '2015-08-25, 12:30:00',
-            remarks:'rescheduled to 28 Aug 3pm'
+            remarks: 'rescheduled to 28 Aug 3pm'
         },
         {
             name: 'Sherman',
@@ -52,7 +52,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope) {
             apptType: 'Surgery',
             doc: 'Dr. Ho',
             scheduledTime: '2015-08-29, 10:00:00',
-            remarks:'called, no answer'
+            remarks: 'called, no answer'
         },
         {
             name: 'Zi-hua',
@@ -60,7 +60,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope) {
             apptType: 'Screening',
             doc: '',
             scheduledTime: '2015-09-02, 14:30:00',
-            remarks:''
+            remarks: ''
         }
     ];
 
@@ -69,6 +69,14 @@ appPatientQueue.controller('QueueCtrl', function ($scope) {
 
     $scope.setPage = function (pageNo) {
         $scope.currentPage = pageNo;
+    };
+
+    $scope.getTodayAppointments = function () {
+
+        $http.get('/Clearvision/_api/ViewTodayPatients/')
+            .success(function (data) {
+                $scope.patientList = data;
+            });
     };
 
 
