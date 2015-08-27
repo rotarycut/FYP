@@ -74,104 +74,140 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
     $scope.orderByField = 'timeBucket__start';
     $scope.reverseSort = false;
 
-    /*$scope.getTodayAppointments = function () {
+    $scope.getTodayAppointments = function () {
 
-     $http.get('/Clearvision/_api/ViewTodayPatients/')
-     .success(function (data) {
-     $scope.patientList = data;
-     });
-     };*/
+        $http.get('/Clearvision/_api/ViewTodayPatients/')
+            .success(function (data) {
+                $scope.patientList = data;
+            });
+    };
+
+    $scope.getPatientQueue = function () {
+
+        $http.get('/Clearvision/_api/ViewPatientQueue/')
+            .success(function (data) {
+                $scope.queueList = data;
+            });
+    };
 
     $scope.sortByField = function (field) {
         $scope.orderByField = field;
         $scope.reverseSort = !$scope.reverseSort;
     };
 
-    $scope.patientList = [
-        {
-            "timeBucket__start": "09:30:00",
-            "patients__gender": "Male",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Bond",
-            "apptType": "Screening"
-        },
-        {
-            "timeBucket__start": "15:00:00",
-            "patients__gender": "Male",
-            "timeBucket": 3397,
-            "doctor__name": "Dr Ho",
-            "timeBucket__date": "2015-08-27",
-            "patients": "90421045",
-            "patients__name": "Donald",
-            "id": 26,
-            "apptType": "Surgery"
-        },
-        {
-            "timeBucket__start": "15:00:00",
-            "patients__gender": "Male",
-            "timeBucket": 3397,
-            "doctor__name": "Dr Ho",
-            "timeBucket__date": "2015-08-27",
-            "patients": "90747285",
-            "patients__name": "Ho",
-            "id": 26,
-            "apptType": "Surgery"
-        },
-        {
-            "timeBucket__start": "15:00:00",
-            "patients__gender": "Male",
-            "timeBucket": 3397,
-            "doctor__name": "Dr Ho",
-            "timeBucket__date": "2015-08-27",
-            "patients": "96737432",
-            "patients__name": "Lane",
-            "id": 26,
-            "apptType": "Surgery"
-        },
-        {
-            "timeBucket__start": "13:30:00",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Bond",
-            "apptType": "Screening"
-        },
-        {
-            "timeBucket__start": "08:30:00",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Bond",
-            "apptType": "Pre Evaluation"
-        },
-        {
-            "timeBucket__start": "13:30:00",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Bond",
-            "apptType": "Screening"
-        },
-        {
-            "timeBucket__start": "09:30:00",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Song",
-            "apptType": "Pre Evaluation"
-        },
-        {
-            "timeBucket__start": "07:30:00",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Song",
-            "apptType": "Pre Evaluation"
-        },
-        {
-            "timeBucket__start": "11:30:00",
-            "doctor__name": "Dr Ho",
-            "patients": "90213775",
-            "patients__name": "Song",
-            "apptType": "Pre Evaluation"
+    $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
+
+        if (doctor === "Dr Ho") {
+            doctor = 2;
+        } else {
+            doctor = 1;
         }
-    ];
+
+        $scope.postToQueue = {
+            "apptId": apptId,
+            "apptType": apptType,
+            "clinic": clinic,
+            "doctor": doctor,
+            "timeBucket": timeBucket,
+            "patient": patientContact,
+            "attended": hasAttended
+        };
+
+        $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToQueue)
+            .success(function (result) {
+                console.log("Added to queue successfully.")
+                $scope.getPatientQueue();
+            });
+
+        console.log($scope.postToQueue);
+
+    };
+
+    /*$scope.patientList = [
+     {
+     "timeBucket__start": "09:30:00",
+     "patients__gender": "Male",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Bond",
+     "apptType": "Screening"
+     },
+     {
+     "timeBucket__start": "15:00:00",
+     "patients__gender": "Male",
+     "timeBucket": 3397,
+     "doctor__name": "Dr Ho",
+     "timeBucket__date": "2015-08-27",
+     "patients": "90421045",
+     "patients__name": "Donald",
+     "id": 26,
+     "apptType": "Surgery"
+     },
+     {
+     "timeBucket__start": "15:00:00",
+     "patients__gender": "Male",
+     "timeBucket": 3397,
+     "doctor__name": "Dr Ho",
+     "timeBucket__date": "2015-08-27",
+     "patients": "90747285",
+     "patients__name": "Ho",
+     "id": 26,
+     "apptType": "Surgery"
+     },
+     {
+     "timeBucket__start": "15:00:00",
+     "patients__gender": "Male",
+     "timeBucket": 3397,
+     "doctor__name": "Dr Ho",
+     "timeBucket__date": "2015-08-27",
+     "patients": "96737432",
+     "patients__name": "Lane",
+     "id": 26,
+     "apptType": "Surgery"
+     },
+     {
+     "timeBucket__start": "13:30:00",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Bond",
+     "apptType": "Screening"
+     },
+     {
+     "timeBucket__start": "08:30:00",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Bond",
+     "apptType": "Pre Evaluation"
+     },
+     {
+     "timeBucket__start": "13:30:00",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Bond",
+     "apptType": "Screening"
+     },
+     {
+     "timeBucket__start": "09:30:00",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Song",
+     "apptType": "Pre Evaluation"
+     },
+     {
+     "timeBucket__start": "07:30:00",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Song",
+     "apptType": "Pre Evaluation"
+     },
+     {
+     "timeBucket__start": "11:30:00",
+     "doctor__name": "Dr Ho",
+     "patients": "90213775",
+     "patients__name": "Song",
+     "apptType": "Pre Evaluation"
+     }
+     ];*/
 
 
 });
