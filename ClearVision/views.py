@@ -775,18 +775,17 @@ class ViewNotifications(viewsets.ModelViewSet):
 
         return HttpResponse(status=200)
 
-class ViewTodayPatients(viewsets.ReadOnlyModelViewSet):
+class ViewTodayPatients(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
+    serializer_class = AppointmentSerializer
 
     def list(self, request, *args, **kwargs):
         response_data = Appointment.objects.filter(timeBucket__date=datetime.today()).values('patients', 'patients__name',
                                                                                              'patients__gender', 'timeBucket__date',
                                                                                              'timeBucket__start', 'apptType', 'id',
-                                                                                             'timeBucket', 'doctor__name')
+                                                                                             'timeBucket', 'doctor__name', 'clinic',
+                                                                                             'doctor')
         return Response(response_data)
-
-class QueueManagement(viewsets.ModelViewSet):
-    queryset = Appointment.objects.none()
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -796,6 +795,30 @@ class QueueManagement(viewsets.ModelViewSet):
         clinic = data.get('clinic')
         doctor = data.get('doctor')
         timeBucket = data.get('timeBucket')
+        patient = data.get('patient')
+        attended = data.get('attended')
 
         a = Appointment.objects.get(id=apptId)
+        a.patients.remove(patient)
+        a.save()
 
+        if attended == 'True':
+            AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
+                                               timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
+                                               clinic=Clinic.objects.get(id=clinic),
+                                               doctor=Doctor.objects.get(id=doctor), attended=True)
+            #to discuss what to return
+        else:
+            AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
+                                               timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
+                                               clinic=Clinic.objects.get(id=clinic),
+                                               doctor=Doctor.objects.get(id=doctor), attended=False)
+            #to discuss what to return
+
+class ViewNoShow(viewsets.ReadOnlyModelViewSet):
+    queryset = AttendedAppointment.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        response_data = AttendedAppointment.objects.filter(attended=False).values()
+
+        return Response(response_data)

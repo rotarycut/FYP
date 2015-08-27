@@ -94,6 +94,7 @@ class AttendedAppointment(models.Model):
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
     timeBucket = models.ForeignKey(AvailableTimeSlots)
+    attended = models.BooleanField()
 
     def __str__(self):
         return self.apptType
