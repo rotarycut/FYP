@@ -18,18 +18,39 @@
                     <div class="col-md-12">
                         <table class="table table-striped apptlist-main-tbl">
                             <tr>
-                                <th>Name</th>
+                                <th>
+                                    <a href="#/queue" ng-click="sortByField('patients__name')">Name
+                                    </a>
+                                    <span ng-show="orderByField == 'patients__name'">
+                                        <span ng-show="!reverseSort">&#9650;</span>
+                                        <span ng-show="reverseSort">&#9660;</span>
+                                    </span>
+                                </th>
                                 <th>Contact</th>
-                                <th>Appt Type</th>
+                                <th>
+                                    <a href="#/queue" ng-click="sortByField('apptType')">Appt Type
+                                    </a>
+                                    <span ng-show="orderByField == 'apptType'">
+                                        <span ng-show="!reverseSort">&#9650;</span>
+                                        <span ng-show="reverseSort">&#9660;</span>
+                                    </span>
+                                </th>
                                 <th>Doc</th>
-                                <th>Scheduled Time</th>
+                                <th>
+                                    <a href="#/queue" ng-click="sortByField('timeBucket__start')">Scheduled Time
+                                    </a>
+                                    <span ng-show="orderByField == 'timeBucket__start'">
+                                        <span ng-show="!reverseSort">&#9650;</span>
+                                        <span ng-show="reverseSort">&#9660;</span>
+                                    </span>
+                                </th>
                                 <th>Action</th>
                             </tr>
-                            <tr ng-repeat="patient in patientList">
+                            <tr ng-repeat="patient in patientList | orderBy:orderByField:reverseSort">
                                 <td>[[patient.patients__name]]</td>
                                 <td>[[patient.patients]]</td>
                                 <td>[[patient.apptType]]</td>
-                                <td>[[patient.doc]]</td>
+                                <td>[[patient.doctor__name]]</td>
                                 <td>[[patient.timeBucket__start]]</td>
                                 <td>
                                     <button type="button" class="btn btn-sm form-submit-btn" ng-click=""><i
