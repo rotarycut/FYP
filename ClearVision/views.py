@@ -782,7 +782,7 @@ class ViewTodayPatients(viewsets.ReadOnlyModelViewSet):
         response_data = Appointment.objects.filter(timeBucket__date=datetime.today()).values('patients', 'patients__name',
                                                                                              'patients__gender', 'timeBucket__date',
                                                                                              'timeBucket__start', 'apptType', 'id',
-                                                                                             'timeBucket')
+                                                                                             'timeBucket', 'doctor__name')
         return Response(response_data)
 
 class QueueManagement(viewsets.ModelViewSet):
@@ -798,3 +798,4 @@ class QueueManagement(viewsets.ModelViewSet):
         timeBucket = data.get('timeBucket')
 
         a = Appointment.objects.get(id=apptId)
+
