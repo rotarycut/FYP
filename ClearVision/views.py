@@ -815,6 +815,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a)
             #to discuss what to return
+        return HttpResponse("Success")
 
 class ViewNoShow(viewsets.ReadOnlyModelViewSet):
     queryset = AttendedAppointment.objects.none()
@@ -838,6 +839,8 @@ class PatientQueue(viewsets.ModelViewSet):
 
         p = Patient.objects.get(contact=patient)
         Appointment.objects.get(id=apptId).patients.add(p)
+
+        return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
         response_data = AttendedAppointment.objects.filter(attended=True).values()
