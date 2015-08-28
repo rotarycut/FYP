@@ -843,7 +843,7 @@ class PatientQueue(viewsets.ModelViewSet):
         return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
-        response_data = AttendedAppointment.objects.filter(attended=True).values()
+        response_data = AttendedAppointment.objects.filter(attended=True).values('patient_id', 'patient__name', 'originalAppt_id')
 
         return Response(response_data)
 
