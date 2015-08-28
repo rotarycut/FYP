@@ -2,7 +2,7 @@
 <div class="row content-row">
     <div class="col-md-8">
         <tabset class="queue-tabset">
-            <tab heading="Appointment List" select="">
+            <tab heading="Appointment List" ng-click="decideShowQueue(true)">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -73,7 +73,7 @@
                     </div>
                 </div> -->
             </tab>
-            <tab heading="No Show List" select="">
+            <tab heading="No Show List" ng-click="decideShowQueue(false)">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -110,7 +110,7 @@
             </tab>
         </tabset>
     </div>
-    <div class="col-md-4 queuelist-col">
+    <div class="col-md-4 queuelist-col" ng-show="showQueue">
         <div class="row subcontent-row">
             <div class="col-md-12">
                 <h5 style="text-align: center; color:#49708A;">Patient Queue</h5>

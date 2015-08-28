@@ -79,6 +79,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         $http.get('/Clearvision/_api/ViewTodayPatients/')
             .success(function (data) {
                 $scope.patientList = data;
+                console.log("OK");
             });
     };
 
@@ -116,11 +117,16 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToQueue)
             .success(function (result) {
                 console.log("Added to queue successfully.")
+                $scope.getTodayAppointments();
                 $scope.getPatientQueue();
             });
 
         console.log($scope.postToQueue);
 
+    };
+    $scope.showQueue = true;
+    $scope.decideShowQueue = function (shouldShow) {
+        $scope.showQueue = shouldShow;
     };
 
     /*$scope.patientList = [
