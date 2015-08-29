@@ -582,8 +582,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-29', start='09:30:00',
-                                                       timeslotType='Screening', doctors=2).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-29', start='12:00:00',
+                                                       timeslotType='Pre Evaluation', doctors=2).id
         return HttpResponse(response_data)
 
 
@@ -784,7 +784,9 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                                                              'patients__gender', 'timeBucket__date',
                                                                                              'timeBucket__start', 'apptType', 'id',
                                                                                              'timeBucket', 'doctor__name', 'clinic',
-                                                                                             'doctor')
+                                                                                             'doctor').\
+            exclude(patients__isnull=True)
+
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
@@ -803,6 +805,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         a.patients.remove(patient)
         a.save()
 
+
         if attended == 'True':
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
@@ -815,6 +818,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a)
             #to discuss what to return
+
         return HttpResponse("Success")
 
 class ViewNoShow(viewsets.ReadOnlyModelViewSet):
