@@ -46,7 +46,8 @@
                                 </th>
                                 <th>Action</th>
                             </tr>
-                            <tr ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query">
+                            <tr class=""
+                                ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query">
                                 <td>[[patient.patients__name]]</td>
                                 <td>[[patient.patients]]</td>
                                 <td>[[patient.apptType]]</td>
