@@ -7,7 +7,7 @@
                     <div class="col-md-3">
                         <form class="form-search form-inline">
                             <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                   ng-model=""/>
+                                   ng-model="query"/>
                         </form>
                     </div>
                     <div class="col-md-4 col-md-offset-2">
@@ -46,7 +46,7 @@
                                 </th>
                                 <th>Action</th>
                             </tr>
-                            <tr ng-repeat="patient in patientList | orderBy:orderByField:reverseSort">
+                            <tr ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query">
                                 <td>[[patient.patients__name]]</td>
                                 <td>[[patient.patients]]</td>
                                 <td>[[patient.apptType]]</td>
@@ -133,7 +133,8 @@
                         <td>[[patient.patient__name]]</td>
                         <td>[[patient.timeIn]]</td>
                         <td>[[patient.timeOut]]</td>
-                        <td><a class="remove-from-queue" ng-click="revertFromQueue(patient.originalAppt_id, patient.patient_id)"><i
+                        <td><a class="remove-from-queue"
+                               ng-click="revertFromQueue(patient.originalAppt_id, patient.patient_id)"><i
                                 class="fa fa-times"></i></a></td>
                     </tr>
                 </table>
