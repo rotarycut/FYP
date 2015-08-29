@@ -98,6 +98,22 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         $scope.shrinkLeftTable = shouldShow;
     };
 
+    $scope.revertFromQueue = function (apptId, patientContact) {
+
+        $http.post('/Clearvision/_api/ViewPatientQueue/', {
+            "apptId": apptId,
+            "patient": patientContact
+        })
+            .success(function (data) {
+                console.log("Success reverting");
+                $scope.getTodayAppointments();
+                $scope.getPatientQueue();
+            })
+            .error(function (data) {
+                console.log("Error reverting");
+            });
+    };
+
     /*$scope.patientList = [
      {
      "timeBucket__start": "09:30:00",
