@@ -1,6 +1,6 @@
 <!-- row for entire app content-->
 <div class="row content-row">
-    <div class="col-md-8">
+    <div class="col-md-8" ng-class="shrinkLeftTable ? 'col-md-8' : 'col-md-12'">
         <tabset class="queue-tabset">
             <tab heading="Appointment List" ng-click="decideShowQueue(true)">
                 <div class="row subcontent-row">
@@ -11,7 +11,7 @@
                         </form>
                     </div>
                     <div class="col-md-4 col-md-offset-2">
-                        <h4 style="color:#49708A;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
+                        <h4 style="color:#49708A;;margin-bottom: 0;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
                     </div>
                 </div>
                 <div class="row subcontent-row" ng-init="getTodayAppointments()">
@@ -81,9 +81,7 @@
                                    ng-model=""/>
                         </form>
                     </div>
-                    <div class="col-md-4 col-md-offset-2">
-                        <h4 style="color:#49708A;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
-                    </div>
+
                 </div>
                 <div class="row subcontent-row">
                     <div class="col-md-12">
@@ -95,6 +93,8 @@
                                 <th>Doc</th>
                                 <th>Scheduled Time</th>
                                 <th>Remarks</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             <tr ng-repeat="noshow in noshows">
                                 <td>[[noshow.name]]</td>
@@ -103,6 +103,8 @@
                                 <td>[[noshow.doc]]</td>
                                 <td>[[noshow.scheduledTime]]</td>
                                 <td>[[noshow.remarks]]</td>
+                                <td><a class="edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                                <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
                             </tr>
                         </table>
                     </div>
@@ -124,12 +126,14 @@
                         <th>Name</th>
                         <th>Time In</th>
                         <th>Time Out</th>
+                        <th></th>
                     </tr>
                     <tr ng-repeat="patient in queueList">
                         <td>[[$index + 1]]</td>
                         <td>[[patient.patient_id]]</td>
                         <td>[[patient.timeIn]]</td>
                         <td>[[patient.timeOut]]</td>
+                        <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
                     </tr>
                 </table>
             </div>

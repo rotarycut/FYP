@@ -4,39 +4,6 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
 
     $scope.CurrentDate = new Date();
 
-    $scope.patients = [
-        {
-            index: '1',
-            name: 'Carina',
-            contact: '98208578',
-            apptType: 'Pre-eval',
-            doc: 'Dr. Ho',
-            scheduledTime: '12:30:00',
-            timeIn: '12:30:00',
-            timeOut: '12:30:00',
-        },
-        {
-            index: '2',
-            name: 'Amabel',
-            contact: '82301384',
-            apptType: 'Surgery',
-            doc: 'Dr. Ho',
-            scheduledTime: '14:30:00',
-            timeIn: '12:30:00',
-            timeOut: '12:30:00',
-        },
-        {
-            index: '3',
-            name: 'Angelin',
-            contact: '80382942',
-            apptType: 'Screening',
-            doc: '',
-            scheduledTime: '09:30:00',
-            timeIn: '12:30:00',
-            timeOut: '12:30:00',
-        }
-    ];
-
     $scope.noshows = [
         {
             name: 'Leon',
@@ -125,8 +92,10 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
 
     };
     $scope.showQueue = true;
+    $scope.shrinkLeftTable = true;
     $scope.decideShowQueue = function (shouldShow) {
         $scope.showQueue = shouldShow;
+        $scope.shrinkLeftTable = shouldShow;
     };
 
     /*$scope.patientList = [

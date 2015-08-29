@@ -651,7 +651,19 @@ table.waitlist-swap-tbl > tbody > tr > td{
 }
 
 .queuelist-col{
-    margin-top: 3.7%;
+    margin-top: 3.3%;
+}
+
+.remove-from-queue{
+    cursor: pointer;
+    color: #BCBCBC;
+}
+
+.edit-no-show{
+    cursor: pointer;
+    color: #49708A;
+    font-weight: bold;
+
 }
 
 table.queuelist-main-tbl{
