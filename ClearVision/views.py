@@ -44,6 +44,9 @@ def waitlist(request):
 def queue(request):
     return render(request, 'queue.html')
 
+def msglog(request):
+    return render(request, 'msglog.html')
+
 
 def changepw(request):
     return render(request, 'registration/changepw.html')

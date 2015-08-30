@@ -201,6 +201,13 @@ button:active{
     background-color: #70AFC4;
 }
 
+.dropdown-menu > li > a.msg-viewall-link{
+    text-decoration: underline;
+    text-align: center;
+    color: #49708A;
+    font-weight: bold;
+}
+
 /*navbar css ends*/
 
 /*calendar csss*/
@@ -663,7 +670,11 @@ table.waitlist-swap-tbl > tbody > tr > td{
     cursor: pointer;
     color: #49708A;
     font-weight: bold;
+}
 
+.reschedule-no-show{
+    cursor: pointer;
+    color: #70AFC4;
 }
 
 table.queuelist-main-tbl{
@@ -696,6 +707,31 @@ table.apptlist-main-tbl > tbody > tr > td{
 }
 
 /* queue page css ends*/
+
+/* msglog page css */
+
+.mailbox-folders{
+    list-style: none;
+    padding-left: 18%;
+}
+
+.mailbox-row{
+    padding-top: 10%;
+}
+
+.mailbox-folder{
+    cursor: pointer;
+    color: #70AFC4;
+}
+
+.mailbox-row:hover,
+.mailbox-row:active{
+    border-left: solid 1px #70AFC4;
+}
+
+
+
+/* msglog page css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {
     -webkit-transform:translateY(0px);

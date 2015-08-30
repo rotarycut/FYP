@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^dashboard', views.dashboard),
     url(r'^waitlist', views.waitlist),
     url(r'^queue', views.queue),
+    url(r'^msglog', views.msglog),
     url(r'^changepw', views.changepw),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),

@@ -1,0 +1,38 @@
+<div class="row content-row">
+    <div class="jumbotron">
+        <div class="col-md-2">
+            <div class="row subcontent-row">
+                <button type="button" class="btn form-submit-btn"
+                        ng-click=""><i class="fa fa-comments"></i> Compose
+                </button>
+            </div>
+            <ul class="mailbox-folders">
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Inbox</a>
+                </li>
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Sent</a>
+                </li>
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Draft</a>
+                </li>
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Starred</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="checkbox">
+                        <input type="checkbox" ng-model="allMails" class="mailbox-checkbox">
+                        <select class="form-control" data-ng-model=""
+                                ng-options="mailcategory in mailcategories">
+                            <option value="" disabled selected>Category</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -94,7 +94,7 @@
                                 <th>Doc</th>
                                 <th>Scheduled Time</th>
                                 <th>Remarks</th>
-                                <th></th>
+                                <th>Actions</th>
                                 <th></th>
                             </tr>
                             <tr ng-repeat="noshow in noshows">
@@ -103,8 +103,8 @@
                                 <td>[[noshow.apptType]]</td>
                                 <td>[[noshow.doc]]</td>
                                 <td>[[noshow.scheduledTime]]</td>
-                                <td>[[noshow.remarks]]</td>
-                                <td><a class="edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                                <td>[[noshow.remarks]]<a class="pull-right edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                                <td><a class="reschedule-no-show" ng-click="">Re-schedule</a></td>
                                 <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
                             </tr>
                         </table>
