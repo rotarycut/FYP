@@ -111,6 +111,41 @@
                     </div>
                 </div>
             </tab>
+            <tab heading="Archive" ng-click="decideShowArchive(false)">
+                <div class="row subcontent-row">
+                    <div class="col-md-3">
+                        <form class="form-search form-inline">
+                            <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                   ng-model=""/>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="row subcontent-row">
+                    <div class="col-md-12">
+                        <table class="table table-striped apptlist-main-tbl">
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Appt Type</th>
+                                <th>Doc</th>
+                                <th>Scheduled Time</th>
+                                <th>Remarks</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-repeat="archive in archives">
+                                <td>[[archive.name]]</td>
+                                <td>[[archive.contact]]</td>
+                                <td>[[archive.apptType]]</td>
+                                <td>[[archive.doc]]</td>
+                                <td>[[archive.scheduledTime]]</td>
+                                <td>[[archive.remarks]]<a class="pull-right edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                                <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </tab>
         </tabset>
     </div>
     <div class="col-md-4 queuelist-col" ng-show="showQueue">

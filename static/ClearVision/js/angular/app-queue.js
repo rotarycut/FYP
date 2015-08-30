@@ -31,6 +31,25 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         }
     ];
 
+    $scope.archives = [
+        {
+            name: 'Ben',
+            contact: '98208578',
+            apptType: 'Pre-eval',
+            doc: 'Dr. Ho',
+            scheduledTime: '2015-08-29, 12:30:00',
+            remarks: 'called 3 times, no answer'
+        },
+        {
+            name: 'Max',
+            contact: '82301384',
+            apptType: 'Surgery',
+            doc: 'Dr. Ho',
+            scheduledTime: '2015-08-25, 10:00:00',
+            remarks: 'appointment cancelled'
+        },
+    ];
+
     $scope.totalItems = 24;
     $scope.currentPage = 1;
 
@@ -97,6 +116,13 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         $scope.showQueue = shouldShow;
         $scope.shrinkLeftTable = shouldShow;
     };
+
+    $scope.decideShowArchive = function (shouldShow) {
+        $scope.showQueue = shouldShow;
+        $scope.shrinkLeftTable = shouldShow;
+    };
+
+
 
     $scope.revertFromQueue = function (apptId, patientContact) {
 

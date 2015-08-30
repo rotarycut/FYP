@@ -724,9 +724,9 @@ table.apptlist-main-tbl > tbody > tr > td{
     color: #70AFC4;
 }
 
-.mailbox-row:hover,
-.mailbox-row:active{
-    border-left: solid 1px #70AFC4;
+
+.checkbox{
+    margin: 0;
 }
 
 
