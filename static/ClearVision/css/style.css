@@ -14,7 +14,7 @@
 }
 
 .subcontent-row{
-    padding-top: 1%;
+    padding-top: 8px;
 }
 
 button:focus,
@@ -82,7 +82,7 @@ button:active{
 /*login page css begins here*/
 
 #login-container{
-    background: #BEE2E7;
+    background: #D0E0EB;
     height: 100vh;
     width: 100vw;
 }
@@ -658,7 +658,7 @@ table.waitlist-swap-tbl > tbody > tr > td{
 }
 
 .queuelist-col{
-    margin-top: 3.3%;
+    margin-top: 3.2%;
 }
 
 .remove-from-queue{
@@ -724,12 +724,35 @@ table.apptlist-main-tbl > tbody > tr > td{
     color: #70AFC4;
 }
 
-
 .checkbox{
     margin: 0;
 }
 
+.mailbox-dropdown{
+    outline-color: #1859A8;
+}
 
+.favmail-action[type=checkbox] {
+    display:none;
+}
+
+.mail-unstarred{
+    color: transparent;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #E79285;
+}
+
+.mail-starred,
+.mail-unstarred:hover{
+    cursor: pointer;
+    color: #E79285;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #E79285;
+}
+
+table.mailbox-tbl > tbody > tr > td{
+    text-align: center;
+}
 
 /* msglog page css ends */
 
