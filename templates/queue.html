@@ -59,7 +59,7 @@
                                             patient.doctor__name, patient.timeBucket, patient.patients, 'True')">
                                         <i class="fa fa-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm form-cancel-btn" ng-click=""><i
+                                    <button type="button" class="btn btn-sm form-cancel-btn" ng-click="addToNoShow()"><i
                                             class="fa fa-times"></i>
                                     </button>
                                 </td>
@@ -103,7 +103,8 @@
                                 <td>[[noshow.apptType]]</td>
                                 <td>[[noshow.doc]]</td>
                                 <td>[[noshow.scheduledTime]]</td>
-                                <td>[[noshow.remarks]]<a class="pull-right edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                                <td>[[noshow.remarks]]<a class="pull-right edit-no-show" ng-click=""><i
+                                        class="fa fa-pencil-square-o"></i></a></td>
                                 <td><a class="reschedule-no-show" ng-click="">Re-schedule</a></td>
                                 <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
                             </tr>
@@ -139,7 +140,8 @@
                                 <td>[[archive.apptType]]</td>
                                 <td>[[archive.doc]]</td>
                                 <td>[[archive.scheduledTime]]</td>
-                                <td>[[archive.remarks]]<a class="pull-right edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                                <td>[[archive.remarks]]<a class="pull-right edit-no-show" ng-click=""><i
+                                        class="fa fa-pencil-square-o"></i></a></td>
                                 <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
                             </tr>
                         </table>

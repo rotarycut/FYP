@@ -110,6 +110,35 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         console.log($scope.postToQueue);
 
     };
+
+    $scope.addToNoShow = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
+
+        if (doctor === "Dr Ho") {
+            doctor = 2;
+        } else {
+            doctor = 1;
+        }
+
+        $scope.postToNoShow = {
+            "apptId": apptId,
+            "apptType": apptType,
+            "clinic": clinic,
+            "doctor": doctor,
+            "timeBucket": timeBucket,
+            "patient": patientContact,
+            "attended": hasAttended
+        };
+
+        $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToNoShow)
+            .success(function (result) {
+                console.log("Added to no show successfully.")
+                $scope.getTodayAppointments();
+                $scope.getPatientQueue();
+            });
+
+        console.log($scope.postToNoShow);
+    };
+
     $scope.showQueue = true;
     $scope.shrinkLeftTable = true;
     $scope.decideShowQueue = function (shouldShow) {
@@ -121,8 +150,6 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         $scope.showQueue = shouldShow;
         $scope.shrinkLeftTable = shouldShow;
     };
-
-
 
     $scope.revertFromQueue = function (apptId, patientContact) {
 
