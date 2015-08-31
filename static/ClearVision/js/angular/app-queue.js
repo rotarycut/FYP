@@ -4,31 +4,50 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
 
     $scope.CurrentDate = new Date();
 
-    $scope.noshows = [
+    /*$scope.noshows = [
+     {
+     name: 'Leon',
+     contact: '98208578',
+     apptType: 'Pre-eval',
+     doc: 'Dr. Ho',
+     scheduledTime: '2015-08-25, 12:30:00',
+     remarks: 'rescheduled to 28 Aug 3pm'
+     },
+     {
+     name: 'Sherman',
+     contact: '82301384',
+     apptType: 'Surgery',
+     doc: 'Dr. Ho',
+     scheduledTime: '2015-08-29, 10:00:00',
+     remarks: 'called, no answer'
+     },
+     {
+     name: 'Zi-hua',
+     contact: '80382942',
+     apptType: 'Screening',
+     doc: '',
+     scheduledTime: '2015-09-02, 14:30:00',
+     remarks: ''
+     }
+     ];*/
+
+    $scope.archives = [
         {
-            name: 'Leon',
+            name: 'Ben',
             contact: '98208578',
             apptType: 'Pre-eval',
             doc: 'Dr. Ho',
-            scheduledTime: '2015-08-25, 12:30:00',
-            remarks: 'rescheduled to 28 Aug 3pm'
+            scheduledTime: '2015-08-29, 12:30:00',
+            remarks: 'called 3 times, no answer'
         },
         {
-            name: 'Sherman',
+            name: 'Max',
             contact: '82301384',
             apptType: 'Surgery',
             doc: 'Dr. Ho',
-            scheduledTime: '2015-08-29, 10:00:00',
-            remarks: 'called, no answer'
+            scheduledTime: '2015-08-25, 10:00:00',
+            remarks: 'appointment cancelled'
         },
-        {
-            name: 'Zi-hua',
-            contact: '80382942',
-            apptType: 'Screening',
-            doc: '',
-            scheduledTime: '2015-09-02, 14:30:00',
-            remarks: ''
-        }
     ];
 
     $scope.totalItems = 24;
@@ -40,6 +59,14 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
 
     $scope.orderByField = 'timeBucket__start';
     $scope.reverseSort = false;
+
+    $scope.getNoShow = function () {
+        $http.get('/Clearvision/_api/ViewNoShow/')
+            .success(function (data) {
+                $scope.noShowList = data;
+                console.log($scope.noShowList);
+            });
+    };
 
     $scope.getTodayAppointments = function () {
 
@@ -91,9 +118,43 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         console.log($scope.postToQueue);
 
     };
+
+    $scope.addToNoShow = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
+
+        if (doctor === "Dr Ho") {
+            doctor = 2;
+        } else {
+            doctor = 1;
+        }
+
+        $scope.postToNoShow = {
+            "apptId": apptId,
+            "apptType": apptType,
+            "clinic": clinic,
+            "doctor": doctor,
+            "timeBucket": timeBucket,
+            "patient": patientContact,
+            "attended": hasAttended
+        };
+
+        $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToNoShow)
+            .success(function (result) {
+                console.log("Added to no show successfully.")
+                $scope.getTodayAppointments();
+                $scope.getPatientQueue();
+            });
+
+        console.log($scope.postToNoShow);
+    };
+
     $scope.showQueue = true;
     $scope.shrinkLeftTable = true;
     $scope.decideShowQueue = function (shouldShow) {
+        $scope.showQueue = shouldShow;
+        $scope.shrinkLeftTable = shouldShow;
+    };
+
+    $scope.decideShowArchive = function (shouldShow) {
         $scope.showQueue = shouldShow;
         $scope.shrinkLeftTable = shouldShow;
     };
@@ -108,6 +169,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
                 console.log("Success reverting");
                 $scope.getTodayAppointments();
                 $scope.getPatientQueue();
+                $scope.getNoShow();
             })
             .error(function (data) {
                 console.log("Error reverting");

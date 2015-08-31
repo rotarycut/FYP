@@ -1,0 +1,69 @@
+<div class="row content-row">
+    <div class="jumbotron">
+        <div class="col-md-2">
+            <div class="row subcontent-row">
+                <button type="button" class="btn form-submit-btn"
+                        ng-click=""><i class="fa fa-comments"></i> Compose
+                </button>
+            </div>
+            <ul class="mailbox-folders">
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Inbox</a>
+                </li>
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Sent</a>
+                </li>
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Draft</a>
+                </li>
+                <li class="row mailbox-row">
+                    <a class="mailbox-folder" ng-click="">Starred</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-2">
+                    <h4 style="color:#49708A;">Inbox</h4>
+                </div>
+                <div class="col-md-3 col-md-offset-7" style="padding-right: 0;">
+                    <form class="form-search form-inline pull-right">
+                        <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search Folder"
+                               ng-model=""/>
+                    </form>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <div class="col-md-2">
+                    <div class="checkbox">
+                        <input type="checkbox" ng-model="allMails" class="mailbox-checkbox">
+                        <select class="form-control mailbox-dropdown" data-ng-model=""
+                                ng-options="mailcategory in mailcategories">
+                            <option value="" disabled selected>Category</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 pull-right" style="padding-top: 5px;padding-right: 0">
+                    <div class="btn-group pull-right">
+                        <div class="btn btn-sm form-submit-btn"><i class="fa fa-angle-left fa-lg"></i></div>
+                        <div class="btn btn-sm form-submit-btn"><i class="fa fa-angle-right fa-lg"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <table class="table table-striped mailbox-tbl">
+                    <tbody>
+                            <tr ng-repeat="mail in mails">
+                                <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox"></td>
+                                <td><i class="fa fa-star mail-unstarred" ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'" ng-click="star.checked = !star.checked"></i></td>
+                                <td>[[mail.name]]</td>
+                                <td>[[mail.title]]</td>
+                                <td>[[mail.datetime]]</td>
+                                <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

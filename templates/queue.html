@@ -11,7 +11,7 @@
                         </form>
                     </div>
                     <div class="col-md-4 col-md-offset-2">
-                        <h4 style="color:#49708A;;margin-bottom: 0;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
+                        <h4 style="color:#49708A;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
                     </div>
                 </div>
                 <div class="row subcontent-row" ng-init="getTodayAppointments()">
@@ -46,7 +46,8 @@
                                 </th>
                                 <th>Action</th>
                             </tr>
-                            <tr ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query">
+                            <tr class=""
+                                ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query">
                                 <td>[[patient.patients__name]]</td>
                                 <td>[[patient.patients]]</td>
                                 <td>[[patient.apptType]]</td>
@@ -58,7 +59,9 @@
                                             patient.doctor__name, patient.timeBucket, patient.patients, 'True')">
                                         <i class="fa fa-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm form-cancel-btn" ng-click=""><i
+                                    <button type="button" class="btn btn-sm form-cancel-btn"
+                                            ng-click="addToNoShow(patient.id, patient.apptType, patient.clinic,
+                                            patient.doctor__name, patient.timeBucket, patient.patients, 'False')"><i
                                             class="fa fa-times"></i>
                                     </button>
                                 </td>
@@ -73,7 +76,49 @@
                     </div>
                 </div> -->
             </tab>
-            <tab heading="No Show List" ng-click="decideShowQueue(false)">
+            <tab heading="No Show List" ng-click="decideShowQueue(false); getNoShow()">
+                <div class="row subcontent-row">
+                    <div class="col-md-3">
+                        <form class="form-search form-inline">
+                            <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                   ng-model=""/>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="row subcontent-row">
+                    <div class="col-md-12">
+                        <table class="table table-striped apptlist-main-tbl">
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Appt Type</th>
+                                <th>Doc</th>
+                                <th>Scheduled Time</th>
+                                <th>Remarks</th>
+                                <th>Actions</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-repeat="noshow in noShowList">
+                                <td>[[noshow.name]]</td>
+                                <td>[[noshow.patient_id]]</td>
+                                <td>[[noshow.apptType]]</td>
+                                <td>[[noshow.doctor_id]]</td>
+                                <td>[[noshow.scheduledTime]]</td>
+                                <td>[[noshow.remarks]]
+                                    <a class="pull-right edit-no-show" ng-click="">
+                                        <i class="fa fa-pencil-square-o"></i></a></td>
+                                <td><a class="reschedule-no-show"
+                                       ng-click="">Re-schedule</a></td>
+                                <td><a class="remove-from-queue"
+                                       ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
+                                    <i class="fa fa-times"></i></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </tab>
+            <tab heading="Archive" ng-click="decideShowArchive(false)">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -94,16 +139,15 @@
                                 <th>Scheduled Time</th>
                                 <th>Remarks</th>
                                 <th></th>
-                                <th></th>
                             </tr>
-                            <tr ng-repeat="noshow in noshows">
-                                <td>[[noshow.name]]</td>
-                                <td>[[noshow.contact]]</td>
-                                <td>[[noshow.apptType]]</td>
-                                <td>[[noshow.doc]]</td>
-                                <td>[[noshow.scheduledTime]]</td>
-                                <td>[[noshow.remarks]]</td>
-                                <td><a class="edit-no-show" ng-click=""><i class="fa fa-pencil-square-o"></i></a></td>
+                            <tr ng-repeat="archive in archives">
+                                <td>[[archive.name]]</td>
+                                <td>[[archive.contact]]</td>
+                                <td>[[archive.apptType]]</td>
+                                <td>[[archive.doc]]</td>
+                                <td>[[archive.scheduledTime]]</td>
+                                <td>[[archive.remarks]]<a class="pull-right edit-no-show" ng-click=""><i
+                                        class="fa fa-pencil-square-o"></i></a></td>
                                 <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
                             </tr>
                         </table>

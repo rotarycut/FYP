@@ -14,7 +14,7 @@
 }
 
 .subcontent-row{
-    padding-top: 1%;
+    padding-top: 8px;
 }
 
 button:focus,
@@ -82,7 +82,7 @@ button:active{
 /*login page css begins here*/
 
 #login-container{
-    background: #BEE2E7;
+    background: #D0E0EB;
     height: 100vh;
     width: 100vw;
 }
@@ -199,6 +199,13 @@ button:active{
 }
 .notification-badge-grey{
     background-color: #70AFC4;
+}
+
+.dropdown-menu > li > a.msg-viewall-link{
+    text-decoration: underline;
+    text-align: center;
+    color: #49708A;
+    font-weight: bold;
 }
 
 /*navbar css ends*/
@@ -651,7 +658,7 @@ table.waitlist-swap-tbl > tbody > tr > td{
 }
 
 .queuelist-col{
-    margin-top: 3.3%;
+    margin-top: 3.2%;
 }
 
 .remove-from-queue{
@@ -663,7 +670,11 @@ table.waitlist-swap-tbl > tbody > tr > td{
     cursor: pointer;
     color: #49708A;
     font-weight: bold;
+}
 
+.reschedule-no-show{
+    cursor: pointer;
+    color: #70AFC4;
 }
 
 table.queuelist-main-tbl{
@@ -696,3 +707,72 @@ table.apptlist-main-tbl > tbody > tr > td{
 }
 
 /* queue page css ends*/
+
+/* msglog page css */
+
+.mailbox-folders{
+    list-style: none;
+    padding-left: 18%;
+}
+
+.mailbox-row{
+    padding-top: 10%;
+}
+
+.mailbox-folder{
+    cursor: pointer;
+    color: #70AFC4;
+}
+
+.checkbox{
+    margin: 0;
+}
+
+.mailbox-dropdown{
+    outline-color: #1859A8;
+}
+
+.favmail-action[type=checkbox] {
+    display:none;
+}
+
+.mail-unstarred{
+    color: transparent;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #E79285;
+}
+
+.mail-starred,
+.mail-unstarred:hover{
+    cursor: pointer;
+    color: #E79285;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color: #E79285;
+}
+
+table.mailbox-tbl > tbody > tr > td{
+    text-align: center;
+}
+
+/* msglog page css ends */
+
+.repeated-item.ng-enter, .repeated-item.ng-move {
+    -webkit-transform:translateY(0px);
+    transition:0.2s linear all;
+    opacity:0;
+}
+
+.repeated-item.ng-enter.ng-enter-active,
+.repeated-item.ng-move.ng-move-active {
+    opacity:1;
+}
+
+.repeated-item.ng-leave {
+    -webkit-animation:0.2s my_animation;
+    animation:0.2s my_animation;
+}
+
+@keyframes my_animation {
+    from { opacity:1; }
+    to { opacity:0; }
+}
