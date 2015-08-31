@@ -806,15 +806,13 @@ class ViewTodayPatients(viewsets.ModelViewSet):
 
         a = Appointment.objects.get(id=apptId)
 
-        a.patients.remove(patient)
-        a.save()
-
-
         if attended == 'True':
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a)
+            a.patients.remove(patient)
+            a.save()
             #to discuss what to return
         else:
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
@@ -854,3 +852,21 @@ class PatientQueue(viewsets.ModelViewSet):
         response_data = AttendedAppointment.objects.filter(attended=True).values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified')
 
         return Response(response_data)
+
+def recievemsg(request):
+    payload = request.POST
+
+    message = payload['Message']
+    origin = payload['Mobile']
+
+    origin = origin[2:]
+
+    swap = AttendedAppointment.objects.get(timeBucket=485, patient=origin)
+
+    if message == '1':
+        swap.attended = False
+        swap.save()
+
+    return HttpResponse('Success')
+
+
