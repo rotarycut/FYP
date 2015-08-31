@@ -582,8 +582,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-29', start='12:00:00',
-                                                       timeslotType='Pre Evaluation', doctors=2).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-08-31', start='10:00:00',
+                                                       timeslotType='Screening', doctors=1).id
         return HttpResponse(response_data)
 
 
@@ -802,6 +802,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         remarks = data.get('remarks')
 
         a = Appointment.objects.get(id=apptId)
+
         a.patients.remove(patient)
         a.save()
 
@@ -825,7 +826,7 @@ class ViewNoShow(viewsets.ReadOnlyModelViewSet):
     queryset = AttendedAppointment.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AttendedAppointment.objects.filter(attended=False).values()
+        response_data = AttendedAppointment.objects.filter(attended=False).values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified')
 
         return Response(response_data)
 
@@ -850,4 +851,3 @@ class PatientQueue(viewsets.ModelViewSet):
         response_data = AttendedAppointment.objects.filter(attended=True).values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified')
 
         return Response(response_data)
-
