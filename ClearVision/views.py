@@ -1,5 +1,6 @@
 from datetime import timedelta
 import json
+import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
 from django.http import HttpResponse
@@ -166,6 +167,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         a.save()
 
         tempApptSwapperObj = Swapper.objects.filter(patient=p, scheduledAppt=a,)
+
+        # Check whether deleted patient is queued for any other appointments in the tempPatients queue
         if tempApptSwapperObj:
             tempApptSwapperObj.delete()
 
@@ -182,8 +185,13 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if num_patients == 1:
             a.delete()
 
+        # Inform potential patients in the tempPatients queue, to push into notification basket
         if num_temp_patients >= 1:
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
+
+            # Send SMS here:
+            payload = {'number': temp_patients[0]['contact'], 'msg': 'Reply SWAP to swap. Ignore if you do not want to swap'}
+            requests.get("http://www.sms.sg/http/sendmsg", params=payload)
 
             response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a). \
                 annotate(patientname=F('patient__name')). \
