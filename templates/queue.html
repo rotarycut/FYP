@@ -59,7 +59,9 @@
                                             patient.doctor__name, patient.timeBucket, patient.patients, 'True')">
                                         <i class="fa fa-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-sm form-cancel-btn" ng-click="addToNoShow()"><i
+                                    <button type="button" class="btn btn-sm form-cancel-btn"
+                                            ng-click="addToNoShow(patient.id, patient.apptType, patient.clinic,
+                                            patient.doctor__name, patient.timeBucket, patient.patients, 'False')"><i
                                             class="fa fa-times"></i>
                                     </button>
                                 </td>
@@ -74,7 +76,7 @@
                     </div>
                 </div> -->
             </tab>
-            <tab heading="No Show List" ng-click="decideShowQueue(false)">
+            <tab heading="No Show List" ng-click="decideShowQueue(false); getNoShow()">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -97,16 +99,20 @@
                                 <th>Actions</th>
                                 <th></th>
                             </tr>
-                            <tr ng-repeat="noshow in noshows">
+                            <tr ng-repeat="noshow in noShowList">
                                 <td>[[noshow.name]]</td>
-                                <td>[[noshow.contact]]</td>
+                                <td>[[noshow.patient_id]]</td>
                                 <td>[[noshow.apptType]]</td>
-                                <td>[[noshow.doc]]</td>
+                                <td>[[noshow.doctor_id]]</td>
                                 <td>[[noshow.scheduledTime]]</td>
-                                <td>[[noshow.remarks]]<a class="pull-right edit-no-show" ng-click=""><i
-                                        class="fa fa-pencil-square-o"></i></a></td>
-                                <td><a class="reschedule-no-show" ng-click="">Re-schedule</a></td>
-                                <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                                <td>[[noshow.remarks]]
+                                    <a class="pull-right edit-no-show" ng-click="">
+                                        <i class="fa fa-pencil-square-o"></i></a></td>
+                                <td><a class="reschedule-no-show"
+                                       ng-click="">Re-schedule</a></td>
+                                <td><a class="remove-from-queue"
+                                       ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
+                                    <i class="fa fa-times"></i></a></td>
                             </tr>
                         </table>
                     </div>
