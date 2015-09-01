@@ -836,7 +836,10 @@ class ViewNoShow(viewsets.ReadOnlyModelViewSet):
     queryset = AttendedAppointment.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AttendedAppointment.objects.filter(attended=False).values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified')
+        response_data = AttendedAppointment.objects.filter(attended=False).values('patient_id', 'patient__name',
+                                                                                  'originalAppt_id', 'last_modified',
+                                                                                  'originalAppt__timeBucket__start',
+                                                                                  'originalAppt__apptType', 'originalAppt__doctor__name')
 
         return Response(response_data)
 
