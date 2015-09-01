@@ -17,6 +17,7 @@ class Patient(models.Model):
     registrationDate = models.DateTimeField(null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
     conversion = models.NullBooleanField(default=False)
+    addedToQueue = models.NullBooleanField(default=None)
 
     class Meta:
         ordering = ['registrationDate']

@@ -593,8 +593,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-08-31', start='10:00:00',
-                                                       timeslotType='Screening', doctors=1).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-09-01', start='09:00:00',
+                                                       timeslotType='Screening', doctors=2).id
         return HttpResponse(response_data)
 
 
@@ -795,7 +795,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                                                              'patients__gender', 'timeBucket__date',
                                                                                              'timeBucket__start', 'apptType', 'id',
                                                                                              'timeBucket', 'doctor__name', 'clinic',
-                                                                                             'doctor').\
+                                                                                             'doctor', 'patients__addedToQueue').\
             exclude(patients__isnull=True)
 
         return Response(response_data)
@@ -813,21 +813,22 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         remarks = data.get('remarks')
 
         a = Appointment.objects.get(id=apptId)
+        p = Patient.objects.get(contact=patient)
 
         if attended == 'True':
+            p.addedToQueue = True
+            p.save()
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a)
-            a.patients.remove(patient)
-            a.save()
-            #to discuss what to return
         else:
+            p.addedToQueue = False
+            p.save()
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a)
-            #to discuss what to return
 
         return HttpResponse("Success")
 
@@ -852,7 +853,8 @@ class PatientQueue(viewsets.ModelViewSet):
         AttendedAppointment.objects.get(patient=patient, originalAppt__id=apptId).delete()
 
         p = Patient.objects.get(contact=patient)
-        Appointment.objects.get(id=apptId).patients.add(p)
+        p.addedToQueue = None
+        p.save()
 
         return HttpResponse("Success")
 

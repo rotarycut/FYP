@@ -1,0 +1,38 @@
+[
+{
+  "fields": {
+    "every": 1,
+    "period": "minutes"
+  },
+  "model": "djcelery.intervalschedule",
+  "pk": 1
+},
+{
+  "fields": {
+    "last_update": "2015-08-31T20:07:22.520"
+  },
+  "model": "djcelery.periodictasks",
+  "pk": 1
+},
+{
+  "fields": {
+    "task": "ClearVision.tasks.sendSMS",
+    "name": "sendSMS",
+    "exchange": null,
+    "last_run_at": null,
+    "args": "[]",
+    "enabled": true,
+    "routing_key": null,
+    "crontab": null,
+    "interval": 1,
+    "queue": null,
+    "total_run_count": 0,
+    "expires": null,
+    "kwargs": "{}",
+    "date_changed": "2015-08-31T20:07:22.521",
+    "description": ""
+  },
+  "model": "djcelery.periodictask",
+  "pk": 1
+}
+]
