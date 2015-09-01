@@ -190,7 +190,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
 
             # Send SMS here:
-            payload = {'number': temp_patients[0]['contact'], 'msg': 'Reply SWAP to swap. Ignore if you do not want to swap'}
+            payload = {'number': temp_patients[0]['contact'], 'msg': 'Reply \'SWAP\' to swap. '
+                                                                     'Ignore if you do not want to swap'}
+
             requests.get("http://www.sms.sg/http/sendmsg", params=payload)
 
             response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a). \
@@ -880,10 +882,9 @@ def recievemsg(request):
 
     swap = AttendedAppointment.objects.get(timeBucket=485, patient=origin)
 
-    if message == '1':
+    if message == 'SWAP':
         swap.attended = False
         swap.save()
-
-    return HttpResponse('Success')
-
-
+        return HttpResponse('Success')
+    else:
+        return HttpResponse('Reply not configured')
