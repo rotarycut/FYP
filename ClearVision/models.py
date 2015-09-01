@@ -97,6 +97,7 @@ class AttendedAppointment(models.Model):
     timeBucket = models.ForeignKey(AvailableTimeSlots)
     attended = models.BooleanField()
     originalAppt = models.ForeignKey(Appointment)
+    remarks = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
         return self.apptType

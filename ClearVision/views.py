@@ -821,14 +821,16 @@ class ViewTodayPatients(viewsets.ModelViewSet):
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
-                                               doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a)
+                                               doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
+                                               )
         else:
             p.addedToQueue = False
             p.save()
             AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
-                                               doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a)
+                                               doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a,
+                                               )
 
         return HttpResponse("Success")
 
@@ -839,7 +841,8 @@ class ViewNoShow(viewsets.ReadOnlyModelViewSet):
         response_data = AttendedAppointment.objects.filter(attended=False).values('patient_id', 'patient__name',
                                                                                   'originalAppt_id', 'last_modified',
                                                                                   'originalAppt__timeBucket__start',
-                                                                                  'originalAppt__apptType', 'originalAppt__doctor__name')
+                                                                                  'originalAppt__apptType', 'originalAppt__doctor__name',
+                                                                                  'remarks')
 
         return Response(response_data)
 
@@ -862,7 +865,8 @@ class PatientQueue(viewsets.ModelViewSet):
         return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
-        response_data = AttendedAppointment.objects.filter(attended=True).values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified')
+        response_data = AttendedAppointment.objects.filter(attended=True).values('patient_id', 'patient__name', 'originalAppt_id',
+                                                                                 'last_modified', 'remarks')
 
         return Response(response_data)
 
