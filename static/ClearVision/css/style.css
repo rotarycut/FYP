@@ -693,7 +693,7 @@ table.queuelist-main-tbl > tbody > tr > th{
     color: #FFF;
     text-align: center;
 }
-table.queuelist-main-tbl > tbody > tr > td{
+table.queuelist-main-tbl > tbody > tr > td {
     text-align: center;
 }
 
@@ -711,6 +711,7 @@ table.apptlist-main-tbl > tbody > tr > td{
     text-align: center;
 }
 
+
 .ver-divider{
     margin-right: 3px;
     margin-left: 7px;
@@ -723,16 +724,24 @@ table.apptlist-main-tbl > tbody > tr > td{
 
 .mailbox-folders{
     list-style: none;
-    padding-left: 22px;
+    padding-left: 10px;
 }
 
 .mailbox-row{
-    padding-top: 15px;
+    margin-top: 15px;
+    padding-left: 10px;
 }
 
-.mailbox-folder{
+a.mailbox-folder{
     cursor: pointer;
     color: #70AFC4;
+    padding-left: 10px;
+}
+
+a.mailbox-folder:hover,
+a.mailbox-folder:active{
+    text-decoration: none;
+    border-left: solid 3.5px #E79285;
 }
 
 .checkbox{
@@ -774,11 +783,6 @@ table.mailbox-tbl > tbody > tr:hover{
     background-color: #49708A;
     border: #49708A;
     color: #FFFFFF;
-}
-
-.folder-indicator{
-    border-left: solid 4px #E79285;
-    padding-right: 10px;
 }
 
 /* msglog page css ends */
