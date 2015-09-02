@@ -47,7 +47,8 @@
                                 <th>Action</th>
                             </tr>
                             <tr class=""
-                                ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query">
+                                ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
+                                ng-class="getClass(patient.patients__addedToQueue)">
                                 <td>[[patient.patients__name]]</td>
                                 <td>[[patient.patients]]</td>
                                 <td>[[patient.apptType]]</td>
@@ -56,12 +57,14 @@
                                 <td>
                                     <button type="button" class="btn btn-sm form-submit-btn"
                                             ng-click="addToQueue(patient.id, patient.apptType, patient.clinic,
-                                            patient.doctor__name, patient.timeBucket, patient.patients, 'True')">
+                                            patient.doctor__name, patient.timeBucket, patient.patients, 'True')"
+                                            ng-disabled="patient.disableButtons">
                                         <i class="fa fa-check"></i>
                                     </button>
                                     <button type="button" class="btn btn-sm form-cancel-btn"
                                             ng-click="addToNoShow(patient.id, patient.apptType, patient.clinic,
-                                            patient.doctor__name, patient.timeBucket, patient.patients, 'False')"><i
+                                            patient.doctor__name, patient.timeBucket, patient.patients, 'False')"
+                                            ng-disabled="patient.disableButtons"><i
                                             class="fa fa-times"></i>
                                     </button>
                                 </td>
@@ -81,7 +84,7 @@
                     <div class="col-md-3">
                         <form class="form-search form-inline">
                             <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                   ng-model=""/>
+                                   ng-model="something"/>
                         </form>
                     </div>
 
@@ -100,17 +103,18 @@
                                 <th></th>
                             </tr>
                             <tr ng-repeat="noshow in noShowList">
-                                <td>[[noshow.name]]</td>
+                                <td>[[noshow.patient__name]]</td>
                                 <td>[[noshow.patient_id]]</td>
-                                <td>[[noshow.apptType]]</td>
-                                <td>[[noshow.doctor_id]]</td>
-                                <td>[[noshow.scheduledTime]]</td>
+                                <td>[[noshow.originalAppt__apptType]]</td>
+                                <td>[[noshow.originalAppt__doctor__name]]</td>
+                                <td>[[noshow.originalAppt__timeBucket__start]]</td>
                                 <td>[[noshow.remarks]]
                                     <a class="pull-right edit-no-show" ng-click="">
                                         <i class="fa fa-pencil-square-o"></i></a></td>
                                 <td><a class="reschedule-no-show"
-                                       ng-click="">Re-schedule</a><span class="ver-divider"></span><a class="archive-no-show"
-                                       ng-click="">Archive</a></td>
+                                       ng-click="">Re-schedule</a><span class="ver-divider"></span><a
+                                        class="archive-no-show"
+                                        ng-click="">Archive</a></td>
                                 <td><a class="remove-from-queue"
                                        ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
                                     <i class="fa fa-times"></i></a></td>
@@ -124,11 +128,11 @@
                     <div class="col-md-3">
                         <form class="form-search form-inline">
                             <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                   ng-model=""/>
+                                   ng-model="something"/>
                         </form>
                     </div>
                     <div class="col-md-2">
-                        <select class="form-control mailbox-dropdown" data-ng-model=""
+                        <select class="form-control mailbox-dropdown" data-ng-model="something"
                                 ng-options="mailcategory in mailcategories">
                             <option value="" disabled selected>Month</option>
                         </select>

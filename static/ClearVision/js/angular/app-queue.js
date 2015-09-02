@@ -1,6 +1,6 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout) {
 
     $scope.CurrentDate = new Date();
 
@@ -73,6 +73,15 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
         $http.get('/Clearvision/_api/ViewTodayPatients/')
             .success(function (data) {
                 $scope.patientList = data;
+                angular.forEach($scope.patientList, function (patient) {
+                    if (patient.patients__addedToQueue == false || patient.patients__addedToQueue == true) {
+                        patient.disableButtons = true;
+                    }
+                    else {
+                        patient.disableButtons = false;
+                    }
+                });
+                console.log($scope.patientList);
                 console.log("OK");
             });
     };
@@ -261,7 +270,39 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http) {
      "apptType": "Pre Evaluation"
      }
      ];*/
+    $scope.test = function (appointmentId) {
+        $location.path('/');
 
+        $scope.getNoShowAppointment(appointmentId);
+    };
+
+
+    //function to call backend api to get appointment details
+    $scope.getNoShowAppointment = function (apptId) {
+        $http.get('/Clearvision/_api/appointments/' + apptId)
+            .success(function (data) {
+                var apptDetails = data;
+
+                $timeout(function (data) {
+                    eventClickSvc.eventClick(apptDetails);
+                }, 1000);
+                console.log("Get appt successfully");
+            })
+            .error(function (data) {
+                console.log("error");
+            })
+    };
+
+    $scope.getClass = function (queueStatus) {
+        if (queueStatus == false) {
+            return 'danger';
+        } else if (queueStatus == true) {
+            return 'success';
+        } else {
+            //return nothing;
+            return;
+        }
+    }
 
 });
 

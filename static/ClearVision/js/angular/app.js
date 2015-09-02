@@ -19,7 +19,8 @@ var app = angular.module('calendarDemoApp', [
     'update.appointment',
     'hide.form',
     'update.notification.count',
-    'get.notifications'
+    'get.notifications',
+    'event.click'
 ]);
 
 /* Angular routing */

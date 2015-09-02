@@ -1,7 +1,7 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -170,55 +170,41 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         callback(events);
     };
 
+    $scope.test = function () {
+        $scope.json = {
+            "id": 1,
+            "apptType": "Screening",
+            "title": "3 Patient(s)",
+            "date": "2015-08-29",
+            "start": "2015-08-29 09:00:00",
+            "end": "2015-08-29 09:30:00",
+            "doctor": 2,
+            "patients": [
+                {
+                    "name": "Sherman",
+                    "contact": "91500323",
+                    "marketingname": "987 Radio"
+                },
+                {
+                    "name": "Leon",
+                    "contact": "94764232",
+                    "marketingname": "Andrea Chong Blog"
+                },
+                {
+                    "name": "Claire",
+                    "contact": "91500212",
+                    "marketingname": "987 Radio"
+                }
+            ],
+            "tempPatients": []
+        };
+
+        $scope.alertOnEventClick($scope.json);
+    };
+
     /* alert on eventClick */
     $scope.alertOnEventClick = function (appointment, jsEvent, view) {
-
-        if (!$scope.iSchedule) {
-            clearFormSvc.clearForm();
-            $scope.alertMessage = (appointment.title + ' was clicked ');
-            $scope.fields.appointmentId = appointment.id;
-            $scope.fields.patientList = appointment.patients;
-            $scope.fields.appointmentType = appointment.apptType;
-            $scope.fields.appointmentDate = appointment.date;
-
-            if (appointment.doctor === 1) {
-                $scope.fields.doctorAssigned = "Dr. Goh";
-            } else if (appointment.doctor === 2) {
-                $scope.fields.doctorAssigned = "Dr. Ho";
-            }
-            //$scope.fields.doctorAssigned = appointment.doctor;
-
-            $scope.fields.originalAppointmentType = appointment.apptType;
-            $scope.fields.originalAppointmentDate = appointment.date;
-
-            var appointmentFullDateTime = appointment.start._i;
-            var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
-            var colonIndex = appointmentFullDateTime.lastIndexOf(":");
-            var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
-
-            $scope.fields.originalAppointmentTime = appointmentTime;
-            $scope.getAppointmentTimings($scope.fields.appointmentType, appointmentTime);
-
-            $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
-            $('#drHoCalendar').fullCalendar('select', appointment.date);
-
-            $scope.showForm('Edit');
-
-            /*var noOfPatients = appointment.patients.length;
-
-             if (noOfPatients === 1) {
-             console.log("1 patient");
-             $scope.fields.selectedPatient = appointment.patients[0].name;
-             console.log($scope.fields.selectedPatient);
-             }*/
-
-        } else {
-            $scope.fields.appointmentDate = appointment.date;
-            var appointmentFullDateTime = appointment.start._i;
-            var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
-            var colonIndex = appointmentFullDateTime.lastIndexOf(":");
-            $scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
-        }
+        eventClickSvc.eventClick(appointment);
     };
 
     /* alert on Drop */
@@ -1033,6 +1019,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     deleteAppointmentSvc.getScope($scope);
     updateAppointmentSvc.getScope($scope);
     hideFormSvc.getScope($scope);
+    eventClickSvc.getScope($scope);
 
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
