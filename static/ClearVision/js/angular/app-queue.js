@@ -1,6 +1,6 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc) {
 
     $scope.CurrentDate = new Date();
 
@@ -30,6 +30,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
      remarks: ''
      }
      ];*/
+    getNoShowSvc.getScope($scope);
 
     $scope.archives = [
         {
@@ -61,11 +62,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     $scope.reverseSort = false;
 
     $scope.getNoShow = function () {
-        $http.get('/Clearvision/_api/ViewNoShow/')
-            .success(function (data) {
-                $scope.noShowList = data;
-                console.log($scope.noShowList);
-            });
+        getNoShowSvc.getNoShow();
     };
 
     $scope.getTodayAppointments = function () {
@@ -185,91 +182,6 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             });
     };
 
-    /*$scope.patientList = [
-     {
-     "timeBucket__start": "09:30:00",
-     "patients__gender": "Male",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Bond",
-     "apptType": "Screening"
-     },
-     {
-     "timeBucket__start": "15:00:00",
-     "patients__gender": "Male",
-     "timeBucket": 3397,
-     "doctor__name": "Dr Ho",
-     "timeBucket__date": "2015-08-27",
-     "patients": "90421045",
-     "patients__name": "Donald",
-     "id": 26,
-     "apptType": "Surgery"
-     },
-     {
-     "timeBucket__start": "15:00:00",
-     "patients__gender": "Male",
-     "timeBucket": 3397,
-     "doctor__name": "Dr Ho",
-     "timeBucket__date": "2015-08-27",
-     "patients": "90747285",
-     "patients__name": "Ho",
-     "id": 26,
-     "apptType": "Surgery"
-     },
-     {
-     "timeBucket__start": "15:00:00",
-     "patients__gender": "Male",
-     "timeBucket": 3397,
-     "doctor__name": "Dr Ho",
-     "timeBucket__date": "2015-08-27",
-     "patients": "96737432",
-     "patients__name": "Lane",
-     "id": 26,
-     "apptType": "Surgery"
-     },
-     {
-     "timeBucket__start": "13:30:00",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Bond",
-     "apptType": "Screening"
-     },
-     {
-     "timeBucket__start": "08:30:00",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Bond",
-     "apptType": "Pre Evaluation"
-     },
-     {
-     "timeBucket__start": "13:30:00",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Bond",
-     "apptType": "Screening"
-     },
-     {
-     "timeBucket__start": "09:30:00",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Song",
-     "apptType": "Pre Evaluation"
-     },
-     {
-     "timeBucket__start": "07:30:00",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Song",
-     "apptType": "Pre Evaluation"
-     },
-     {
-     "timeBucket__start": "11:30:00",
-     "doctor__name": "Dr Ho",
-     "patients": "90213775",
-     "patients__name": "Song",
-     "apptType": "Pre Evaluation"
-     }
-     ];*/
     $scope.test = function (appointmentId) {
         $location.path('/');
 
@@ -302,7 +214,49 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             //return nothing;
             return;
         }
-    }
+    };
 
+    /* --- start of edit form delete button modal codes --- */
+    $scope.animationsEnabled = true;
+
+    $scope.openRemarksModal = function (id, remarks, size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myRemarkModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                remarkInfo: function () {
+                    return remarks;
+                },
+                appointmentId: function () {
+                    return id;
+                }
+            }
+        });
+    };
+    /* --- end of modal codes --- */
 });
 
+/* controller for modal instance */
+appPatientQueue.controller('ModalInstanceCtrl', function ($scope, $modalInstance, remarkInfo, appointmentId, $http, getNoShowSvc) {
+    $scope.remarkDetails = remarkInfo;
+
+    $scope.postRemarks = function () {
+
+        $http.post('/Clearvision/_api/ViewNoShow/', {
+            "attendedApptId": appointmentId,
+            "remarks": $scope.remarkDetails
+        })
+            .success(function (data) {
+                console.log("Successfully changed remarks");
+                $modalInstance.close();
+                getNoShowSvc.getNoShow();
+            });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});
