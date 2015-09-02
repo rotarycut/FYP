@@ -648,7 +648,7 @@
         "apptType": "Surgery",
         "date": "2015-09-02",
         "last_modified": "2015-07-17T07:16:36",
-        "patients": [91500323, 94764232, 91500484],
+        "patients": [91504758, 91500444, 91500484],
         "doctor": 2,
         "clinic": 1,
         "timeBucket": 3409
@@ -664,7 +664,7 @@
         "apptType": "Pre Evaluation",
         "date": "2015-09-01",
         "last_modified": "2015-07-17T07:16:36",
-        "patients": [91500323, 94764232, 91504758],
+        "patients": [91500323, 94764232],
         "doctor": 2,
         "clinic": 2,
         "timeBucket": 1947
@@ -680,7 +680,7 @@
         "apptType": "Screening",
         "date": "2015-08-31",
         "last_modified": "2015-07-27T07:16:36",
-        "patients": [91500323, 94764232, 91500444],
+        "patients": [91500323, 94764232],
         "doctor": 1,
         "clinic": 2,
         "timeBucket": 1215
