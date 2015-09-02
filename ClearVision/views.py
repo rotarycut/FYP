@@ -812,7 +812,6 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         timeBucket = data.get('timeBucket')
         patient = data.get('patient')
         attended = data.get('attended')
-        remarks = data.get('remarks')
 
         a = Appointment.objects.get(id=apptId)
         p = Patient.objects.get(contact=patient)
@@ -836,17 +835,31 @@ class ViewTodayPatients(viewsets.ModelViewSet):
 
         return HttpResponse("Success")
 
-class ViewNoShow(viewsets.ReadOnlyModelViewSet):
+class ViewNoShow(viewsets.ModelViewSet):
     queryset = AttendedAppointment.objects.none()
-
+    serializer_class = AttendedAppointmentSerializer
     def list(self, request, *args, **kwargs):
         response_data = AttendedAppointment.objects.filter(attended=False).values('patient_id', 'patient__name',
                                                                                   'originalAppt_id', 'last_modified',
                                                                                   'originalAppt__timeBucket__start',
                                                                                   'originalAppt__apptType', 'originalAppt__doctor__name',
-                                                                                  'remarks')
+                                                                                  'remarks', 'id')
 
         return Response(response_data)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        attendedApptId = data.get('attendedApptId')
+        remarks = data.get('remarks')
+
+        toAddRemarks = AttendedAppointment.objects.get(id=attendedApptId)
+
+        toAddRemarks.remarks = remarks
+        toAddRemarks.save()
+
+        return HttpResponse('Success')
+
 
 class PatientQueue(viewsets.ModelViewSet):
     queryset = AttendedAppointment.objects.none()
