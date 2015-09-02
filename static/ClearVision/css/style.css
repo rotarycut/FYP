@@ -205,7 +205,7 @@ button:active{
     text-decoration: underline;
     text-align: center;
     color: #49708A;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 /*navbar css ends*/
@@ -677,6 +677,11 @@ table.waitlist-swap-tbl > tbody > tr > td{
     color: #70AFC4;
 }
 
+.archive-no-show{
+    cursor: pointer;
+    color: #E79285;
+}
+
 table.queuelist-main-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
@@ -706,17 +711,23 @@ table.apptlist-main-tbl > tbody > tr > td{
     text-align: center;
 }
 
+.ver-divider{
+    margin-right: 3px;
+    margin-left: 7px;
+    border-left: solid 1px #49708A;
+}
+
 /* queue page css ends*/
 
 /* msglog page css */
 
 .mailbox-folders{
     list-style: none;
-    padding-left: 18%;
+    padding-left: 22px;
 }
 
 .mailbox-row{
-    padding-top: 10%;
+    padding-top: 15px;
 }
 
 .mailbox-folder{
@@ -726,10 +737,6 @@ table.apptlist-main-tbl > tbody > tr > td{
 
 .checkbox{
     margin: 0;
-}
-
-.mailbox-dropdown{
-    outline-color: #1859A8;
 }
 
 .favmail-action[type=checkbox] {
@@ -752,6 +759,26 @@ table.apptlist-main-tbl > tbody > tr > td{
 
 table.mailbox-tbl > tbody > tr > td{
     text-align: center;
+}
+
+table.mailbox-tbl > tbody > tr:hover{
+    cursor: pointer;
+    background-color: #D0E0EB;
+}
+
+
+.mailbox-nav-btn,
+.mailbox-nav-btn:hover,
+.mailbox-nav-btn:focus
+{
+    background-color: #49708A;
+    border: #49708A;
+    color: #FFFFFF;
+}
+
+.folder-indicator{
+    border-left: solid 4px #E79285;
+    padding-right: 10px;
 }
 
 /* msglog page css ends */

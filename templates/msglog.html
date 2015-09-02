@@ -7,16 +7,20 @@
                 </button>
             </div>
             <ul class="mailbox-folders">
-                <li class="row mailbox-row">
+                <li class="active row mailbox-row">
+                    <span class="folder-indicator"></span>
                     <a class="mailbox-folder" ng-click="">Inbox</a>
                 </li>
                 <li class="row mailbox-row">
+                    <span class="folder-indicator"></span>
                     <a class="mailbox-folder" ng-click="">Sent</a>
                 </li>
                 <li class="row mailbox-row">
+                    <span class="folder-indicator"></span>
                     <a class="mailbox-folder" ng-click="">Draft</a>
                 </li>
                 <li class="row mailbox-row">
+                    <span class="folder-indicator"></span>
                     <a class="mailbox-folder" ng-click="">Starred</a>
                 </li>
             </ul>
@@ -29,7 +33,7 @@
                 <div class="col-md-3 col-md-offset-7" style="padding-right: 0;">
                     <form class="form-search form-inline pull-right">
                         <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search Folder"
-                               ng-model=""/>
+                               ng-model="searchText"/>
                     </form>
                 </div>
             </div>
@@ -37,7 +41,7 @@
                 <div class="col-md-2">
                     <div class="checkbox">
                         <input type="checkbox" ng-model="allMails" class="mailbox-checkbox">
-                        <select class="form-control mailbox-dropdown" data-ng-model=""
+                        <select class="form-control" data-ng-model=""
                                 ng-options="mailcategory in mailcategories">
                             <option value="" disabled selected>Category</option>
                         </select>
@@ -45,8 +49,8 @@
                 </div>
                 <div class="col-md-3 pull-right" style="padding-top: 5px;padding-right: 0">
                     <div class="btn-group pull-right">
-                        <div class="btn btn-sm form-submit-btn"><i class="fa fa-angle-left fa-lg"></i></div>
-                        <div class="btn btn-sm form-submit-btn"><i class="fa fa-angle-right fa-lg"></i></div>
+                        <div class="btn btn-sm mailbox-nav-btn"><i class="fa fa-angle-left fa-lg"></i></div>
+                        <div class="btn btn-sm mailbox-nav-btn"><i class="fa fa-angle-right fa-lg"></i></div>
                     </div>
                 </div>
             </div>

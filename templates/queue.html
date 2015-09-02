@@ -109,7 +109,8 @@
                                     <a class="pull-right edit-no-show" ng-click="">
                                         <i class="fa fa-pencil-square-o"></i></a></td>
                                 <td><a class="reschedule-no-show"
-                                       ng-click="">Re-schedule</a></td>
+                                       ng-click="">Re-schedule</a><span class="ver-divider"></span><a class="archive-no-show"
+                                       ng-click="">Archive</a></td>
                                 <td><a class="remove-from-queue"
                                        ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
                                     <i class="fa fa-times"></i></a></td>
@@ -125,6 +126,12 @@
                             <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
                                    ng-model=""/>
                         </form>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control mailbox-dropdown" data-ng-model=""
+                                ng-options="mailcategory in mailcategories">
+                            <option value="" disabled selected>Month</option>
+                        </select>
                     </div>
 
                 </div>
