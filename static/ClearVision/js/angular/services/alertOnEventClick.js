@@ -28,8 +28,12 @@ angular.module('event.click', [])
                 self._scope.fields.originalAppointmentType = appointment.apptType;
                 self._scope.fields.originalAppointmentDate = appointment.date;
 
-                var appointmentFullDateTime = appointment.start;
-                console.log(appointment);
+                try {
+                    var appointmentFullDateTime = appointment._start._i;
+                } catch (Exception) {
+                    appointmentFullDateTime = appointment.start;
+                }
+
                 var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
                 var colonIndex = appointmentFullDateTime.lastIndexOf(":");
                 var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
