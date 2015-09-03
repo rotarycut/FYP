@@ -84,7 +84,7 @@
                     <div class="col-md-3">
                         <form class="form-search form-inline">
                             <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                   ng-model="something"/>
+                                   ng-model="queryNoShow"/>
                         </form>
                     </div>
 
@@ -102,7 +102,7 @@
                                 <th>Actions</th>
                                 <th></th>
                             </tr>
-                            <tr ng-repeat="noshow in noShowList">
+                            <tr ng-repeat="noshow in noShowList | filter:queryNoShow">
                                 <td>[[noshow.patient__name]]</td>
                                 <td>[[noshow.patient_id]]</td>
                                 <td>[[noshow.originalAppt__apptType]]</td>
