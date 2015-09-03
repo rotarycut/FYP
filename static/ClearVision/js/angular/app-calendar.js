@@ -109,6 +109,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to get heat map */
     $scope.getHeatMap = function (appointmentType, doctorName) {
+        console.log(appointmentType);
+        console.log(doctorName);
 
         var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
         var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
@@ -505,9 +507,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve list of appointment timings */
-    $scope.getAppointmentTimings = function (apptType, apptTime) {
+    $scope.getAppointmentTimings = function (apptType, apptTime, doctorAssigned) {
 
-        $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=Dr%20Ho')
+        $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctorAssigned)
             .success(function (listOfTimings) {
                 console.log(listOfTimings);
                 $scope.listOfAppointmentTimings = listOfTimings;
@@ -651,14 +653,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if ($scope.fields.appointmentType == undefined || $scope.fields.doctorAssigned == undefined) {
             return;
         }
-        
+
         $scope.changeView('month', 'myCalendar1');
 
         console.log($scope.selectedCalendar);
-        console.log($scope.fields.appointmentType);
+        //console.log($scope.fields.doctorAssigned);
+        //console.log($scope.fields.appointmentType);
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
-            $scope.getAppointmentTimings($scope.fields.appointmentType);
+            $scope.getAppointmentTimings($scope.fields.appointmentType, '', $scope.fields.doctorAssigned);
         }
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.formTitle === 'Edit Appointment') {

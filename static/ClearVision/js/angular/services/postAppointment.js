@@ -50,7 +50,7 @@ angular.module('post.appointment', [])
                 self._scope.fields.waitingTime = "";
             }
 
-            if (self._scope.fields.doctorAssigned === "Dr. Ho") {
+            if (self._scope.fields.doctorAssigned === "Dr Ho") {
                 self._scope.fields.doctorAssigned = "2";
             } else {
                 self._scope.fields.doctorAssigned = "1";
