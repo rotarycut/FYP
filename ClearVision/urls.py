@@ -22,6 +22,7 @@ router.register(r'_api/ViewNotifications', views.ViewNotifications)
 router.register(r'_api/ViewTodayPatients', views.ViewTodayPatients)
 router.register(r'_api/ViewNoShow', views.ViewNoShow)
 router.register(r'_api/ViewPatientQueue', views.PatientQueue)
+router.register(r'_api/ViewArchive', views.ViewArchive)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

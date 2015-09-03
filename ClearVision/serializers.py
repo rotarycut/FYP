@@ -79,3 +79,9 @@ class AttendedAppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendedAppointment
         depth = 1
+
+class BlacklistSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Blacklist
+        depth = 1

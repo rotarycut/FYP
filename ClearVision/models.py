@@ -101,3 +101,10 @@ class AttendedAppointment(models.Model):
 
     def __str__(self):
         return self.apptType
+
+class Blacklist(models.Model):
+    apptType = models.CharField(max_length=200)
+    doctor = models.ForeignKey(Doctor)
+    timeBucket = models.ForeignKey(AvailableTimeSlots)
+    remarks = models.CharField(max_length=1000, blank=True)
+    patient = models.ForeignKey(Patient)

@@ -838,6 +838,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
 class ViewNoShow(viewsets.ModelViewSet):
     queryset = AttendedAppointment.objects.none()
     serializer_class = AttendedAppointmentSerializer
+
     def list(self, request, *args, **kwargs):
         response_data = AttendedAppointment.objects.filter(attended=False).values('patient_id', 'patient__name',
                                                                                   'originalAppt_id', 'last_modified',
@@ -860,6 +861,29 @@ class ViewNoShow(viewsets.ModelViewSet):
 
         return HttpResponse('Success')
 
+class ViewArchive(viewsets.ModelViewSet):
+    queryset = Blacklist.objects.none()
+    serializer_class = BlacklistSerializer
+
+    def list(self, request, *args, **kwargs):
+        response_data = Blacklist.objects.all().values('patient__name', 'patient__contact', 'apptType', 'doctor__name',
+                                                       'timeBucket__date', 'timeBucket__start', 'remarks')
+
+        return Response(response_data)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        attendedAppointmentId = data.get('attendedAppointmentId')
+
+        reference = AttendedAppointment.objects.get(id=attendedAppointmentId)
+
+        Blacklist.objects.create(remarks=reference.remarks, timeBucket=reference.timeBucket, apptType=reference.apptType,
+                                 doctor=reference.doctor, patient=reference.patient)
+
+        reference.delete()
+
+        return HttpResponse('Success')
 
 class PatientQueue(viewsets.ModelViewSet):
     queryset = AttendedAppointment.objects.none()
