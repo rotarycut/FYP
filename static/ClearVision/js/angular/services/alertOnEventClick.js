@@ -23,7 +23,6 @@ angular.module('event.click', [])
                 } else if (appointment.doctor === 2) {
                     self._scope.fields.doctorAssigned = "Dr Ho";
                 }
-                //$scope.fields.doctorAssigned = appointment.doctor;
 
                 self._scope.fields.originalAppointmentType = appointment.apptType;
                 self._scope.fields.originalAppointmentDate = appointment.date;
