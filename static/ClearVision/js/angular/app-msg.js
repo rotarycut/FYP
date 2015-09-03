@@ -1,6 +1,6 @@
 var appMsgLog = angular.module('app.msgLog', []);
 
-appMsgLog.controller('msgCtrl', function ($scope, $http) {
+appMsgLog.controller('msgCtrl', function ($scope, $http, $modal) {
 
     $scope.mails = [
         {
@@ -15,6 +15,28 @@ appMsgLog.controller('msgCtrl', function ($scope, $http) {
         }
     ];
 
+    $scope.openComposeModal = function (size) {
+
+        $scope.animationsEnabled = true;
+
+        var modalInstance = $modal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'myComposeModalContent.html',
+          controller: 'ComposeModalInstanceCtrl',
+          size: size,
+        });
+  };
+
+});
+
+appMsgLog.controller('ComposeModalInstanceCtrl', function ($scope, $modalInstance, $http) {
 
 
+    $scope.composeSMS = function () {
+
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 });
