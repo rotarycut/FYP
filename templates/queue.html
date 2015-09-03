@@ -116,7 +116,7 @@
                                        ng-click="rescheduleAppointment(noshow.originalAppt_id)">Re-schedule</a><span
                                         class="ver-divider"></span><a
                                         class="archive-no-show"
-                                        ng-click="addToArchive(noshow.id)">Archive</a></td>
+                                        ng-click="addToArchive(noshow.id)"> Archive</a></td>
                                 <td><a class="remove-from-queue"
                                        ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
                                     <i class="fa fa-times"></i></a></td>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
             </tab>
-            <tab heading="Archive" ng-click="decideShowArchive(false)">
+            <tab heading="Archive" ng-click="decideShowArchive(false); getArchive()">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -153,12 +153,12 @@
                                 <th>Remarks</th>
                                 <th></th>
                             </tr>
-                            <tr ng-repeat="archive in archives">
-                                <td>[[archive.name]]</td>
-                                <td>[[archive.contact]]</td>
+                            <tr ng-repeat="archive in archiveList">
+                                <td>[[archive.patient__name]]</td>
+                                <td>[[archive.patient__contact]]</td>
                                 <td>[[archive.apptType]]</td>
-                                <td>[[archive.doc]]</td>
-                                <td>[[archive.scheduledTime]]</td>
+                                <td>[[archive.doctor__name]]</td>
+                                <td>[[archive.timeBucket__start]]</td>
                                 <td>[[archive.remarks]]<a class="pull-right edit-no-show" ng-click=""><i
                                         class="fa fa-pencil-square-o"></i></a></td>
                                 <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
