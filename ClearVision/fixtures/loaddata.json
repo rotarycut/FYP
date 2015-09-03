@@ -38,12 +38,23 @@
   {
     "model": "ClearVision.Patient",
     "fields": {
-        "name": "Sherman",
+        "name": "Sherman Yong",
         "gender": "Male",
         "contact": "91500323",
         "registrationDate": "2015-08-02T00:00:00",
         "marketingChannelId": 1,
         "conversion": "True"
+    }
+  },
+  {
+    "model": "ClearVision.Patient",
+    "fields": {
+        "name": "Amabel Lau",
+        "gender": "Female",
+        "contact": "82885391",
+        "registrationDate": "2015-08-03T00:00:00",
+        "marketingChannelId": 3,
+        "conversion": "False"
     }
   },
   {
@@ -632,7 +643,7 @@
         "apptType": "Screening",
         "date": "2015-09-03",
         "last_modified": "2015-07-17T07:16:36",
-        "patients": [91500323,91500212,94764232],
+        "patients": [91500323],
         "doctor": 2,
         "clinic": 2,
         "timeBucket": 491
@@ -648,7 +659,7 @@
         "apptType": "Surgery",
         "date": "2015-09-03",
         "last_modified": "2015-07-17T07:16:36",
-        "patients": [91504758, 91500444, 91500484],
+        "patients": [82885391],
         "doctor": 2,
         "clinic": 1,
         "timeBucket": 3411
