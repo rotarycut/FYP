@@ -651,10 +651,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if ($scope.fields.appointmentType == undefined || $scope.fields.doctorAssigned == undefined) {
             return;
         }
-
-        console.log($scope.selectedCalendar);
+        
         $scope.changeView('month', 'myCalendar1');
 
+        console.log($scope.selectedCalendar);
         console.log($scope.fields.appointmentType);
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
