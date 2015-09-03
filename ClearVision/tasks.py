@@ -1,6 +1,8 @@
 from celery import task
 from datetime import date
 from ClearVision.models import *
+import requests
+from twilio.rest import TwilioRestClient
 
 @task()
 def sendSMS():
@@ -14,6 +16,21 @@ def sendSMS():
     numbersToSend = []
 
     for eachObj in today_patient_data:
-        numbersToSend.append(eachObj['patients'])
+        numbersToSend.append([eachObj['patients__name'], eachObj['patients'], eachObj['timeBucket__start']])
 
-    print(numbersToSend)
+    ACCOUNT_SID = "AC72c59e83e3193394ef8bbb5c17d30810"
+    AUTH_TOKEN = "ad0a094cc106b71f8ddd42eaf6aca4d4"
+
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+
+    for eachNumberToSendSMS in numbersToSend:
+        """ Commzgate logic
+        payload = {'ID': '65250002', 'Password': 'clearvision2015', 'Mobile': '65'+eachNumberToSendSMS, 'Type': 'A',
+                   'Message': '<<Clearvision>> Please be reminded of your Appointment with us tomorrow.'}
+
+        requests.post("https://www.commzgate.net/gateway/SendMsg", params=payload)
+
+        """
+        client.messages.create(to="+65"+eachNumberToSendSMS[1], from_="+17868002606",
+                               body="<<Clearvision>> Hi " + eachNumberToSendSMS[0] +
+                                    ", please be reminded of your Appointment with us tomorrow at " + str(eachNumberToSendSMS[2]))
