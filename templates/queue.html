@@ -35,7 +35,14 @@
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
                                 </th>
-                                <th>Doc</th>
+                                <th>
+                                    <a href="#/queue" ng-click="sortByField('doctor__name')">Doc
+                                    </a>
+                                    <span ng-show="orderByField == 'doctor__name'">
+                                        <span ng-show="!reverseSort">&#9650;</span>
+                                        <span ng-show="reverseSort">&#9660;</span>
+                                    </span>
+                                </th>
                                 <th>
                                     <a href="#/queue" ng-click="sortByField('timeBucket__start')">Scheduled Time
                                     </a>
@@ -46,6 +53,7 @@
                                 </th>
                                 <th>Action</th>
                             </tr>
+
                             <tr class=""
                                 ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
                                 ng-class="getClass(patient.patients__addedToQueue)">
@@ -97,6 +105,7 @@
                                 <th>Contact</th>
                                 <th>Appt Type</th>
                                 <th>Doc</th>
+                                <th>Scheduled Date</th>
                                 <th>Scheduled Time</th>
                                 <th>Remarks</th>
                                 <th>Actions</th>
@@ -107,6 +116,7 @@
                                 <td>[[noshow.patient_id]]</td>
                                 <td>[[noshow.originalAppt__apptType]]</td>
                                 <td>[[noshow.originalAppt__doctor__name]]</td>
+                                <td></td>
                                 <td>[[noshow.originalAppt__timeBucket__start]]</td>
                                 <td>[[noshow.remarks]]
                                     <a class="pull-right edit-no-show"
