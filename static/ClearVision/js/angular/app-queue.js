@@ -165,17 +165,16 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
         $scope.postToArchive = {
             "attendedAppointmentId": attendedAppointmentId,
+        };
+
+        $http.post('/Clearvision/_api/ViewArchive/', $scope.postToArchive)
+            .success(function (result) {
+                console.log("Added to archive successfully.")
+                $scope.getNoShow();
+            });
+
+        console.log($scope.postToArchive);
     };
-
-    $http.post('/Clearvision/_api/ViewArchive/', $scope.postToArchive)
-        .success(function (result) {
-            console.log("Added to archive successfully.")
-            $scope.getNoShow();
-        });
-
-    console.log($scope.postToArchive);
-};
-
 
 
     $scope.showQueue = true;
