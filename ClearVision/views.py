@@ -844,7 +844,7 @@ class ViewNoShow(viewsets.ModelViewSet):
                                                                                   'originalAppt_id', 'last_modified',
                                                                                   'originalAppt__timeBucket__start',
                                                                                   'originalAppt__apptType', 'originalAppt__doctor__name',
-                                                                                  'remarks', 'id')
+                                                                                  'remarks', 'id', 'originalAppt__timeBucket__date')
 
         return Response(response_data)
 
@@ -882,6 +882,14 @@ class ViewArchive(viewsets.ModelViewSet):
                                  doctor=reference.doctor, patient=reference.patient)
 
         reference.delete()
+
+        return HttpResponse('Success')
+
+    def destroy(self, request, *args, **kwargs):
+        data = request.data
+
+        archiveId = data.get('archiveId')
+        Blacklist.objects.get(id=archiveId).delete()
 
         return HttpResponse('Success')
 
