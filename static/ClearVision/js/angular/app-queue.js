@@ -207,12 +207,11 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             });
     };
 
-    $scope.test = function (appointmentId) {
+    $scope.rescheduleAppointment = function (appointmentId) {
         $location.path('/');
 
         $scope.getNoShowAppointment(appointmentId);
     };
-
 
     //function to call backend api to get appointment details
     $scope.getNoShowAppointment = function (apptId) {
@@ -249,7 +248,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myRemarkModalContent.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'RemarksModalInstanceCtrl',
             size: size,
             resolve: {
                 remarkInfo: function () {
@@ -265,7 +264,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 });
 
 /* controller for modal instance */
-appPatientQueue.controller('ModalInstanceCtrl', function ($scope, $modalInstance, remarkInfo, appointmentId, $http, getNoShowSvc) {
+appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalInstance, remarkInfo, appointmentId, $http, getNoShowSvc) {
     $scope.remarkDetails = remarkInfo;
 
     $scope.postRemarks = function () {

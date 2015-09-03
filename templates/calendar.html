@@ -38,8 +38,7 @@
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary form-btn" ng-click="showForm('Create')"><i
-                                    class="fa fa-plus-circle"></i> Add
-                                Appointment
+                                    class="fa fa-plus-circle"></i> Add Appointment
                             </button>
                             <button type="button" class="btn btn-primary form-btn"><i class="fa fa-ban"></i> Block
                             </button>
@@ -79,7 +78,7 @@
                                 </tab>
                                 <tab heading="Dr. Goh" select="renderCalendar('drGohCalendar');"
                                      ng-init="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();"
-                                     class="heading-rotate" ng-click="changeCalendar('myCalendar2')">
+                                     class="heading-rotate" ng-click="changeCalendar('myCalendar2')" active>
 
                                     <!--<div class="alert-success calAlert"
                                          ng-show="alertMessage != undefined && alertMessage != '' ">
@@ -182,7 +181,7 @@
                         <label class="control-label">Doctor</label>
                         <select class="form-control" ng-options="doc for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor"
+                                ng-disabled="form.disableFields.doctor" ng-change="enableISchedule()"
                                 required>
                         </select>
 

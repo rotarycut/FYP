@@ -170,38 +170,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         callback(events);
     };
 
-    $scope.test = function () {
-        $scope.json = {
-            "id": 1,
-            "apptType": "Screening",
-            "title": "3 Patient(s)",
-            "date": "2015-08-29",
-            "start": "2015-08-29 09:00:00",
-            "end": "2015-08-29 09:30:00",
-            "doctor": 2,
-            "patients": [
-                {
-                    "name": "Sherman",
-                    "contact": "91500323",
-                    "marketingname": "987 Radio"
-                },
-                {
-                    "name": "Leon",
-                    "contact": "94764232",
-                    "marketingname": "Andrea Chong Blog"
-                },
-                {
-                    "name": "Claire",
-                    "contact": "91500212",
-                    "marketingname": "987 Radio"
-                }
-            ],
-            "tempPatients": []
-        };
-
-        $scope.alertOnEventClick($scope.json);
-    };
-
     /* alert on eventClick */
     $scope.alertOnEventClick = function (appointment, jsEvent, view) {
         eventClickSvc.eventClick(appointment);
@@ -215,7 +183,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $timeout(function () {
             $scope.alertMessage = ("");
         }, 1000);
-
     };
 
     /* alert on Resize */
@@ -530,7 +497,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
     $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
-    $scope.listOfDoctors = ["Dr. Ho", "Dr. Goh"];
+    $scope.listOfDoctors = ["Dr Ho", "Dr Goh"];
     $scope.selectedCalendar = "myCalendar1";
 
     $scope.changeCalendar = function (selectedCalendar) {
@@ -551,6 +518,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to populate patient details upon selection on the edit appointment form */
     $scope.populatePatientDetails = function () {
+        console.log($scope.fields.selectedPatient.name);
         var patientName = $scope.fields.selectedPatient.name;
 
         angular.forEach($scope.fields.patientList, function (patient) {
@@ -643,6 +611,23 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.form.showButtons[field] = false;
             }
 
+        } else if (formType == 'EditOnePatient') {
+
+            // Perform these operations when editing an appointment with only 1 patient
+            $scope.showPatientList = true;
+            $scope.formTitle = "Edit Appointment";
+
+            for (var field in $scope.form.showFields) {
+                $scope.form.showFields[field] = true;
+            }
+            for (var field in $scope.form.disableFields) {
+                $scope.form.disableFields[field] = true;
+            }
+            for (var field in $scope.form.showButtons) {
+                $scope.form.showButtons[field] = false;
+            }
+            $scope.form.showButtons['editForm'] = true;
+
         } else {
             // Do nothing
         }
@@ -661,33 +646,36 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
+
+        // do not enable iSchedule until both appointment type and doctor are selected
+        if ($scope.fields.appointmentType == undefined || $scope.fields.doctorAssigned == undefined) {
+            return;
+        }
+
+        console.log($scope.selectedCalendar);
         $scope.changeView('month', 'myCalendar1');
 
         console.log($scope.fields.appointmentType);
-        console.log("HEY0");
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
             $scope.getAppointmentTimings($scope.fields.appointmentType);
-            console.log("HEY1");
         }
 
         if ($scope.formTitle === 'Create New Appointment' || $scope.formTitle === 'Edit Appointment') {
             if (!$scope.iSchedule) {
-                console.log("HEY2");
                 $scope.showHeatMap = true;
                 $scope.iSchedule = true;
                 $scope.drHoScreenings.events.splice(0);
                 $scope.drHoPreEvaluations.events.splice(0);
                 $scope.drHoSurgeries.events.splice(0);
-                $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+                $scope.getHeatMap($scope.fields.appointmentType, $scope.fields.doctorAssigned);
                 $scope.getISchedule();
                 $scope.showFilters = false;
             } else {
-                console.log("HEY3");
                 $scope.lowHeatMap.events.splice(0);
                 $scope.medHeatMap.events.splice(0);
                 $scope.highHeatMap.events.splice(0);
-                $scope.getHeatMap($scope.fields.appointmentType, 'Dr Ho');
+                $scope.getHeatMap($scope.fields.appointmentType, $scope.fields.doctorAssigned);
             }
         }
     };
