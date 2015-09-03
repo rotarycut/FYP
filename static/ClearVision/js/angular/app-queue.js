@@ -61,6 +61,12 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
         $http.get('/Clearvision/_api/ViewPatientQueue/')
             .success(function (data) {
+                angular.forEach(data, function (appt) {
+                    var indexOfT = appt.last_modified.indexOf("T") + 1;
+                    var indexOfLastColon = appt.last_modified.lastIndexOf(":");
+                    appt.last_modified = appt.last_modified.substring(indexOfT, indexOfLastColon);
+                });
+
                 $scope.queueList = data;
             });
     };

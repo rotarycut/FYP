@@ -198,7 +198,7 @@
                     <tr ng-repeat="patient in queueList">
                         <td>[[$index + 1]]</td>
                         <td>[[patient.patient__name]]</td>
-                        <td>[[patient.timeIn]]</td>
+                        <td>[[patient.last_modified]]</td>
                         <td>[[patient.timeOut]]</td>
                         <td><a class="remove-from-queue"
                                ng-click="revertFromQueue(patient.originalAppt_id, patient.patient_id)"><i
