@@ -153,6 +153,31 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         console.log($scope.postToNoShow);
     };
 
+    $scope.getArchive = function () {
+
+        $http.get('/Clearvision/_api/ViewArchive/')
+            .success(function (data) {
+                $scope.archiveList = data;
+            });
+    };
+
+    $scope.addToArchive = function (attendedAppointmentId) {
+
+        $scope.postToArchive = {
+            "attendedAppointmentId": attendedAppointmentId,
+    };
+
+    $http.post('/Clearvision/_api/ViewArchive/', $scope.postToArchive)
+        .success(function (result) {
+            console.log("Added to archive successfully.")
+            $scope.getNoShow();
+        });
+
+    console.log($scope.postToArchive);
+};
+
+
+
     $scope.showQueue = true;
     $scope.shrinkLeftTable = true;
     $scope.decideShowQueue = function (shouldShow) {

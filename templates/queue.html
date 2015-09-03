@@ -116,7 +116,7 @@
                                        ng-click="test(noshow.originalAppt_id)">Re-schedule</a><span
                                         class="ver-divider"></span><a
                                         class="archive-no-show"
-                                        ng-click="">Archive</a></td>
+                                        ng-click="addToArchive(noshow.id)">Archive</a></td>
                                 <td><a class="remove-from-queue"
                                        ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
                                     <i class="fa fa-times"></i></a></td>
@@ -210,7 +210,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-success" type="button" ng-click="postRemarks()">Yes</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
+        <button class="btn form-submit-btn" type="button" ng-click="postRemarks()">Yes</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
