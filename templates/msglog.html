@@ -3,7 +3,7 @@
         <div class="col-md-2">
             <div class="row subcontent-row">
                 <button type="button" class="btn form-submit-btn"
-                        ng-click=""><i class="fa fa-comments"></i> Compose
+                        ng-click="openComposeModal('lg')"><i class="fa fa-comments"></i> Send SMS
                 </button>
             </div>
             <ul class="mailbox-folders">
@@ -53,17 +53,52 @@
             <div class="row subcontent-row">
                 <table class="table table-striped mailbox-tbl">
                     <tbody>
-                            <tr ng-repeat="mail in mails">
-                                <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox"></td>
-                                <td><i class="fa fa-star mail-unstarred" ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'" ng-click="star.checked = !star.checked"></i></td>
-                                <td>[[mail.name]]</td>
-                                <td>[[mail.title]]</td>
-                                <td>[[mail.datetime]]</td>
-                                <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
-                            </tr>
+                    <tr ng-repeat="mail in mails">
+                        <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
+                        </td>
+                        <td><i class="fa fa-star mail-unstarred"
+                               ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
+                               ng-click="star.checked = !star.checked"></i></td>
+                        <td>[[mail.name]]</td>
+                        <td>[[mail.title]]</td>
+                        <td>[[mail.datetime]]</td>
+                        <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="myComposeModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Send SMS</h3>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <label class="control-label">Contact No.</label>
+                <input type="text" class="form-control" data-ng-model="smsContact">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <label class="control-label">Select from existing template</label>
+                <select class="form-control" data-ng-model="" ng-options=""></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <label class="control-label">Compose New Message</label>
+                <textarea class="form-control" rows="3" data-ng-model="remarkDetals"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="postRemarks()">Send</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
