@@ -15,5 +15,6 @@ appMsgLog.controller('msgCtrl', function ($scope, $http) {
         }
     ];
 
-    $scope.mailStarred = 'mail-unstarred';
+
+
 });
