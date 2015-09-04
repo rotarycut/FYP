@@ -1,3 +1,4 @@
+import base64
 from datetime import timedelta
 import json
 import requests
@@ -190,10 +191,20 @@ class AppointmentWriter(viewsets.ModelViewSet):
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
 
             # Send SMS here:
-            payload = {'number': temp_patients[0]['contact'], 'msg': 'Reply \'SWAP\' to swap. '
-                                                                     'Ignore if you do not want to swap'}
+            swapperObj = Swapper.objects.get(patient=temp_patients[0]['contact'], tempAppt=a)
+            type = str(swapperObj.scheduledAppt.apptType)
+            preferredDate = str(swapperObj.tempAppt.timeBucket.date)
+            preferredTime = str(swapperObj.tempAppt.timeBucket.start)
+            scheduledDate = str(swapperObj.scheduledAppt.timeBucket.date)
+            scheduledTime = str(swapperObj.scheduledAppt.timeBucket.start)
 
-            requests.get("http://www.sms.sg/http/sendmsg", params=payload)
+            encoded = base64.b64encode('AnthonyS:ClearVision2')
+            headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+            payload = {'from': 'Clearvision', 'to': '65'+temp_patients[0]['contact'], 'text': 'Hi ' + temp_patients[0]['name'] +
+                           ',Swap is possible for ' + type + '. Preferred:' + preferredDate + ',' + preferredTime +
+                       '. Scheduled: ' + scheduledDate + ',' + scheduledTime + '. Reply SWAP to swap appointments.'}
+
+            requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
 
             response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a). \
                 annotate(patientname=F('patient__name')). \
@@ -918,7 +929,7 @@ class PatientQueue(viewsets.ModelViewSet):
         return Response(response_data)
 
 def recievemsg(request):
-    payload = request.POST
+    payload = request.GET
 
     message = payload['Message']
     origin = payload['Mobile']
