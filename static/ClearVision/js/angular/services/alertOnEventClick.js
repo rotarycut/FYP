@@ -37,8 +37,9 @@ angular.module('event.click', [])
                 var colonIndex = appointmentFullDateTime.lastIndexOf(":");
                 var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
 
+                console.log(appointmentTime);
                 self._scope.fields.originalAppointmentTime = appointmentTime;
-                self._scope.getAppointmentTimings(self._scope.fields.appointmentType, appointmentTime);
+                self._scope.getAppointmentTimings(self._scope.fields.appointmentType, appointmentTime, self._scope.fields.doctorAssigned);
 
                 $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
                 $('#drHoCalendar').fullCalendar('select', appointment.date);
