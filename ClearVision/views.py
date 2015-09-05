@@ -931,8 +931,8 @@ class PatientQueue(viewsets.ModelViewSet):
 def recievemsg(request):
     payload = request.GET
 
-    message = payload['Message']
-    origin = payload['Mobile']
+    message = payload['Text']
+    origin = payload['Sender']
 
     origin = origin[2:]
 

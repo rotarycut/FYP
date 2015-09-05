@@ -37,5 +37,5 @@ urlpatterns = [
     url(r'^logout', views.logout, name='logout'),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^_api/recievemsg', views.recievemsg,),
+    url(r'^_api/recieveSMS', views.recievemsg,),
 ]
