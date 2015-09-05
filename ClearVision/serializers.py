@@ -85,3 +85,9 @@ class BlacklistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blacklist
         depth = 1
+
+class SwapperSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Swapper
+        depth = 1

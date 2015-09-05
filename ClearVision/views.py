@@ -695,8 +695,9 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
             return Response(response_data)
 
 
-class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
+class ViewSwapperTable(viewsets.ModelViewSet):
     queryset = Swapper.objects.none()
+    serializer_class = SwapperSerializer
 
     def list(self, request, *args, **kwargs):
         response_data = Swapper.objects.all().values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
@@ -705,6 +706,26 @@ class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
                                                      'scheduledAppt__doctor__name', 'patient__name')
 
         return Response(response_data)
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        preferredApptDate = data.get('tempAppt__timeBucket__date')
+        preferredApptTime = data.get('tempAppt__timeBucket__start')
+        scheduledApptDate = data.get('scheduledAppt__timeBucket__date')
+        scheduledApptTime = data.get('scheduledAppt__timeBucket__start')
+        patientName = data.get('patient__name')
+        apptType = data.get('scheduledAppt__apptType')
+        patientContact = data.get('patient__contact')
+
+        encoded = base64.b64encode('AnthonyS:ClearVision2')
+        headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+        payload = {'from': 'Clearvision', 'to': '65'+patientContact, 'text': 'Hi ' + patientName +
+                ', Swap is possible for ' + apptType + '.\nPreferred:' + preferredApptDate + ',' + preferredApptTime +
+                '.\nScheduled: ' + scheduledApptDate + ',' + scheduledApptTime + '.\nReply SWAP to swap appointments.'}
+
+        requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
+        return HttpResponse('Success')
 
 
 class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
@@ -931,22 +952,3 @@ def recievemsg(request):
         return HttpResponse('Success')
     else:
         return HttpResponse('Reply not configured')
-
-def sendSMSforSwap(request):
-
-    """
-            swapperObj = Swapper.objects.get(patient=temp_patients[0]['contact'], tempAppt=a)
-            type = str(swapperObj.scheduledAppt.apptType)
-            preferredDate = str(swapperObj.tempAppt.timeBucket.date)
-            preferredTime = str(swapperObj.tempAppt.timeBucket.start)
-            scheduledDate = str(swapperObj.scheduledAppt.timeBucket.date)
-            scheduledTime = str(swapperObj.scheduledAppt.timeBucket.start)
-
-            encoded = base64.b64encode('AnthonyS:ClearVision2')
-            headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
-            payload = {'from': 'Clearvision', 'to': '65'+temp_patients[0]['contact'], 'text': 'Hi ' + temp_patients[0]['name'] +
-                           ',Swap is possible for ' + type + '. Preferred:' + preferredDate + ',' + preferredTime +
-                       '. Scheduled: ' + scheduledDate + ',' + scheduledTime + '. Reply SWAP to swap appointments.'}
-
-            requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
-    """
