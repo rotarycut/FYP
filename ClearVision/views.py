@@ -590,7 +590,7 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-09-05', start='15:00:00',
+        response_data = AvailableTimeSlots.objects.get(date='2015-09-07', start='15:00:00',
                                                        timeslotType='Surgery', doctors=2).id
         return HttpResponse(response_data)
 
@@ -721,8 +721,8 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         encoded = base64.b64encode('AnthonyS:ClearVision2')
         headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
         payload = {'from': 'Clearvision', 'to': '65'+patientContact, 'text': 'Hi ' + patientName +
-                ', Swap is possible for ' + apptType + '.\nPreferred:' + preferredApptDate + ',' + preferredApptTime +
-                '.\nScheduled: ' + scheduledApptDate + ',' + scheduledApptTime + '.\nReply SWAP to swap appointments.'}
+                ', Swap is possible for ' + apptType.upper() + '.\nPreferred: ' + preferredApptDate + ', ' + preferredApptTime +
+                '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply SWAP to swap appointments.'}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
         return HttpResponse('Success')
@@ -952,3 +952,11 @@ def recievemsg(request):
         return HttpResponse('Success')
     else:
         return HttpResponse('Reply not configured')
+
+def ViewAllSMS(request):
+    encoded = base64.b64encode('AnthonyS:ClearVision2')
+    headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+    response_data = requests.get("https://api.infobip.com/sms/1/inbox/logs", headers=headers)
+
+    return HttpResponse(response_data)
