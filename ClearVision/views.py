@@ -190,22 +190,6 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if num_temp_patients >= 1:
             Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
 
-            # Send SMS here:
-            swapperObj = Swapper.objects.get(patient=temp_patients[0]['contact'], tempAppt=a)
-            type = str(swapperObj.scheduledAppt.apptType)
-            preferredDate = str(swapperObj.tempAppt.timeBucket.date)
-            preferredTime = str(swapperObj.tempAppt.timeBucket.start)
-            scheduledDate = str(swapperObj.scheduledAppt.timeBucket.date)
-            scheduledTime = str(swapperObj.scheduledAppt.timeBucket.start)
-
-            encoded = base64.b64encode('AnthonyS:ClearVision2')
-            headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
-            payload = {'from': 'Clearvision', 'to': '65'+temp_patients[0]['contact'], 'text': 'Hi ' + temp_patients[0]['name'] +
-                           ',Swap is possible for ' + type + '. Preferred:' + preferredDate + ',' + preferredTime +
-                       '. Scheduled: ' + scheduledDate + ',' + scheduledTime + '. Reply SWAP to swap appointments.'}
-
-            requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
-
             response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a). \
                 annotate(patientname=F('patient__name')). \
                 annotate(scheduledApptDate=F('scheduledAppt__timeBucket_id__date')). \
@@ -606,8 +590,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-09-01', start='09:00:00',
-                                                       timeslotType='Screening', doctors=2).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-09-05', start='15:00:00',
+                                                       timeslotType='Surgery', doctors=2).id
         return HttpResponse(response_data)
 
 
@@ -715,7 +699,10 @@ class ViewSwapperTable(viewsets.ReadOnlyModelViewSet):
     queryset = Swapper.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = Swapper.objects.all().values()
+        response_data = Swapper.objects.all().values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
+                                                     'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
+                                                     'patient__contact', 'scheduledAppt__apptType', 'swappable',
+                                                     'scheduledAppt__doctor__name', 'patient__name')
 
         return Response(response_data)
 
@@ -938,9 +925,28 @@ def recievemsg(request):
 
     swap = AttendedAppointment.objects.get(timeBucket=485, patient=origin)
 
-    if message == 'SWAP':
+    if message == 'swap':
         swap.attended = False
         swap.save()
         return HttpResponse('Success')
     else:
         return HttpResponse('Reply not configured')
+
+def sendSMSforSwap(request):
+
+    """
+            swapperObj = Swapper.objects.get(patient=temp_patients[0]['contact'], tempAppt=a)
+            type = str(swapperObj.scheduledAppt.apptType)
+            preferredDate = str(swapperObj.tempAppt.timeBucket.date)
+            preferredTime = str(swapperObj.tempAppt.timeBucket.start)
+            scheduledDate = str(swapperObj.scheduledAppt.timeBucket.date)
+            scheduledTime = str(swapperObj.scheduledAppt.timeBucket.start)
+
+            encoded = base64.b64encode('AnthonyS:ClearVision2')
+            headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+            payload = {'from': 'Clearvision', 'to': '65'+temp_patients[0]['contact'], 'text': 'Hi ' + temp_patients[0]['name'] +
+                           ',Swap is possible for ' + type + '. Preferred:' + preferredDate + ',' + preferredTime +
+                       '. Scheduled: ' + scheduledDate + ',' + scheduledTime + '. Reply SWAP to swap appointments.'}
+
+            requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
+    """

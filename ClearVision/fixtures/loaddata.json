@@ -643,7 +643,7 @@
         "apptType": "Screening",
         "date": "2015-09-05",
         "last_modified": "2015-07-17T07:16:36",
-        "patients": [91500323],
+        "patients": [91500323, 82885391],
         "doctor": 2,
         "clinic": 2,
         "timeBucket": 495
@@ -657,12 +657,13 @@
     "fields": {
 
         "apptType": "Surgery",
-        "date": "2015-09-05",
+        "date": "2015-09-06",
         "last_modified": "2015-07-17T07:16:36",
-        "patients": [82885391],
+        "patients": [94764232, 91500111],
         "doctor": 2,
         "clinic": 1,
-        "timeBucket": 3415
+        "tempPatients": [91500323, 82885391],
+        "timeBucket": 3417
     }
   },
 
@@ -1079,7 +1080,7 @@
   {
     "model": "ClearVision.AppointmentRemarks",
     "fields": {
-        "patient": 91500212,
+        "patient": 82885391,
         "appointment":1,
         "remarks": "Comment 2"
     }
@@ -1088,25 +1089,17 @@
     "model": "ClearVision.AppointmentRemarks",
     "fields": {
         "patient": 94764232,
-        "appointment":1,
+        "appointment":2,
         "remarks": "Comment 3"
     }
   },
   {
     "model": "ClearVision.AppointmentRemarks",
     "fields": {
-        "patient": 91500323,
+        "patient": 91500111,
         "appointment":2,
         "remarks": "Comment 4"
 
-    }
-  },
-  {
-    "model": "ClearVision.AppointmentRemarks",
-    "fields": {
-        "patient": 94764232,
-        "appointment":2,
-        "remarks": "Comment 5"
     }
   },
   {
@@ -1593,6 +1586,28 @@
         "patient": 91500784,
         "scheduledAppt": 9,
         "tempAppt": 5,
+        "swappable": false,
+        "hasRead": true,
+        "creationTime": "2015-07-17T00:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 91500323,
+        "scheduledAppt": 1,
+        "tempAppt": 2,
+        "swappable": false,
+        "hasRead": true,
+        "creationTime": "2015-07-17T00:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.Swapper",
+    "fields": {
+        "patient": 82885391,
+        "scheduledAppt": 1,
+        "tempAppt": 2,
         "swappable": false,
         "hasRead": true,
         "creationTime": "2015-07-17T00:00:00"
