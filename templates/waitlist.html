@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row" ng-init="getWaitListAppointments()">
-            <div class="col-sm-9" style="padding-right: 0">
+            <div class="col-sm-8" style="padding-right: 0">
                 <table class="table table-striped waitlist-main-tbl">
                     <tr>
                         <th>#</th>
@@ -36,7 +36,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="col-sm-1" style="padding-left: 0">
+            <div class="col-sm-2">
                 <table class="table waitlist-action-tbl">
                     <tr>
                         <th>Action</th>
@@ -46,6 +46,10 @@
                             <button type="button" class="btn btn-default waitlist-action-btn"
                                     ng-click="swapAppointment($index)"
                                     ng-disabled="!appt.canswap"><i class="fa fa-exchange"></i> Swap
+                            </button>
+                            <button type="button" class="btn btn-default waitlist-action-btn"
+                                    ng-click=""
+                                    ng-disabled="!appt.canswap" tooltip="Send SMS"><i class="fa fa-comments-o"></i>
                             </button>
                         </td>
                     </tr>

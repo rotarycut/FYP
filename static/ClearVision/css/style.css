@@ -608,8 +608,8 @@ table.waitlist-main-tbl > tbody > tr > td{
 }
 
 table.waitlist-action-tbl{
-    margin-top: 12%;
-    text-align: left;
+    margin-top: 6%;
+    text-align: center;
 }
 
 table.waitlist-action-tbl > tbody > tr > th{
@@ -659,6 +659,10 @@ table.waitlist-swap-tbl > tbody > tr > td{
 
 .queuelist-col{
     margin-top: 3.2%;
+}
+
+.monthfilter-col{
+    margin-top: 7%;
 }
 
 .remove-from-queue{

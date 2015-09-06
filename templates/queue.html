@@ -1,8 +1,8 @@
 <!-- row for entire app content-->
 <div class="row content-row">
-    <div class="col-md-8" ng-class="shrinkLeftTable ? 'col-md-8' : 'col-md-12'">
+    <div ng-class="mainTableWidth">
         <tabset class="queue-tabset">
-            <tab heading="Appointment List" ng-click="decideShowQueue(true)">
+            <tab heading="Appointment List" ng-click="showApptList()">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -87,7 +87,7 @@
                     </div>
                 </div> -->
             </tab>
-            <tab heading="No Show List" ng-click="decideShowQueue(false); getNoShow()">
+            <tab heading="No Show List" ng-click="showNoshow(); getNoShow()">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             </tab>
-            <tab heading="Archive" ng-click="decideShowArchive(false); getArchive()">
+            <tab heading="Archive" ng-click="showArchive(); getArchive()">
                 <div class="row subcontent-row">
                     <div class="col-md-3">
                         <form class="form-search form-inline">
@@ -143,13 +143,6 @@
                                    ng-model="something"/>
                         </form>
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-control mailbox-dropdown" data-ng-model="something"
-                                ng-options="mailcategory in mailcategories">
-                            <option value="" disabled selected>Month</option>
-                        </select>
-                    </div>
-
                 </div>
                 <div class="row subcontent-row">
                     <div class="col-md-12">
@@ -206,6 +199,15 @@
                     </tr>
                 </table>
             </div>
+        </div>
+    </div>
+    <div class="col-md-2 monthfilter-col" ng-show="showMonthFilter">
+        <div class="row subcontent-row">
+            <ul>
+                <li ng-repeat="month in availableMonths">
+                    <a href="#" ng-click="">[[month]]</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

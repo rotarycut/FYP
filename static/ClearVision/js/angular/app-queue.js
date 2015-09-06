@@ -3,6 +3,7 @@ var appPatientQueue = angular.module('app.patientQueue', []);
 appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc) {
 
     $scope.CurrentDate = new Date();
+    $scope.mainTableWidth = "col-md-8";
 
     getNoShowSvc.getScope($scope);
 
@@ -156,17 +157,23 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         console.log($scope.postToArchive);
     };
 
-
     $scope.showQueue = true;
-    $scope.shrinkLeftTable = true;
-    $scope.decideShowQueue = function (shouldShow) {
-        $scope.showQueue = shouldShow;
-        $scope.shrinkLeftTable = shouldShow;
+    $scope.showApptList = function () {
+        $scope.showQueue = true;
+        $scope.showMonthFilter = false;
+        $scope.mainTableWidth = "col-md-8";
     };
 
-    $scope.decideShowArchive = function (shouldShow) {
-        $scope.showQueue = shouldShow;
-        $scope.shrinkLeftTable = shouldShow;
+    $scope.showNoshow = function () {
+        $scope.showQueue = false;
+        $scope.showMonthFilter = false;
+        $scope.mainTableWidth = "col-md-12";
+    };
+
+    $scope.showArchive = function () {
+        $scope.showQueue = false;
+        $scope.showMonthFilter = true;
+        $scope.mainTableWidth = "col-md-10";
     };
 
     $scope.revertFromQueue = function (apptId, patientContact) {
@@ -240,6 +247,9 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         });
     };
     /* --- end of modal codes --- */
+
+    $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 });
 
 /* controller for modal instance */
