@@ -944,11 +944,26 @@ def recievemsg(request):
 
     origin = origin[2:]
 
-    swap = AttendedAppointment.objects.get(timeBucket=485, patient=origin)
+    swap = Swapper.objects.get(patient=origin)
+    p = Patient.objects.get(contact=origin)
+    scheduledApptId = swap.scheduledAppt_id
+    tempApptId = swap.tempAppt_id
 
     if message == 'swap':
-        swap.attended = False
-        swap.save()
+        scheduledAppt = Appointment.objects.get(id=scheduledApptId)
+        scheduledAppt.patients.remove(p)
+        scheduledAppt.save()
+
+        tempAppt = Appointment.objects.get(id=tempApptId)
+        tempAppt.patients.add(p)
+        tempAppt.tempPatients.remove(p)
+        tempAppt.save()
+
+        Swapper.objects.filter(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt).delete()
+
+        if scheduledAppt.patients.count() == 0:
+            scheduledAppt.delete()
+
         return HttpResponse('Success')
     else:
         return HttpResponse('Reply not configured')
