@@ -25,12 +25,12 @@
                     </tr>
                     <tr ng-repeat="appt in listOfWaitingAppointments">
                         <td>[[$index + 1]]</td>
-                        <td>[[appt.patientname]]</td>
-                        <td>[[appt.patientcontact]]</td>
-                        <td>[[appt.doctor]]</td>
-                        <td>[[appt.tempApptType]]</td>
-                        <td>[[appt.scheduledAppointments[0].scheduledApptDate]],
-                            [[appt.scheduledAppointments[0].scheduledApptStart]]
+                        <td>[[appt.patient__name]]</td>
+                        <td>[[appt.patient__contact]]</td>
+                        <td>[[appt.scheduledAppt__doctor__name]]</td>
+                        <td>[[appt.scheduledAppt__apptType]]</td>
+                        <td>[[appt.scheduledAppt__timeBucket__date]],
+                            [[appt.scheduledAppt__timeBucket__start]]
                         </td>
                         <!--<td>11am, Wed, 15 Aug 2015</td>-->
                     </tr>
@@ -45,11 +45,11 @@
                         <td>
                             <button type="button" class="btn btn-default waitlist-action-btn"
                                     ng-click="swapAppointment($index)"
-                                    ng-disabled="!appt.canswap"><i class="fa fa-exchange"></i> Swap
+                                    ng-disabled="!appt.swappable"><i class="fa fa-exchange"></i> Swap
                             </button>
                             <button type="button" class="btn btn-default waitlist-action-btn"
                                     ng-click=""
-                                    ng-disabled="!appt.canswap" tooltip="Send SMS"><i class="fa fa-comments-o"></i>
+                                    ng-disabled="!appt.swappable" tooltip="Send SMS"><i class="fa fa-comments-o"></i>
                             </button>
                         </td>
                     </tr>
@@ -69,9 +69,9 @@
                     </tr>
                     <tr ng-repeat="appt in listOfWaitingAppointments">
                         <td><i class="fa fa-circle"
-                               ng-class="appt.canswap ? 'canSwap' : 'cannotSwap'"></i>
-                            [[appt.tempApptDate]],
-                            [[appt.tempApptStart]]
+                               ng-class="appt.swappable ? 'canSwap' : 'cannotSwap'"></i>
+                            [[appt.tempAppt__timeBucket__date]],
+                            [[appt.tempAppt__timeBucket__start]]
                         </td>
                     </tr>
                 </table>
