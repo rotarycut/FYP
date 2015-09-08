@@ -441,12 +441,9 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     };
 
     /* dropdown multiselect codes --*/
-    $scope.channels = [
-        {name: 'Andrea Chong Blog', selected: false},
-        {name: 'Facebook Ads', selected: true},
-        {name: 'Email Newsletter', selected: false},
-        {name: 'ABC Magazine', selected: false}
-    ];
+    $scope.channels = ["Andrea Chong Blog","Facebook Ads","Email Newsletter","ABC Magazine","987 Radio"];
+    $scope.savedMonths = ["Jan 15", "Feb 15","Apr 15", "Jul 15", "Aug 15"];
+    $scope.savedFilters = ["Jan 15", "Feb 15","Apr 15", "Jul 15", "Aug 15"];
 
     $scope.test = function (value) {
         alert("YO");
@@ -460,6 +457,17 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     };
 
     $scope.selectedChannels = [];
+
+    $scope.showLeadChart = true;
+    $scope.decideShowLead = function () {
+        $scope.showLeadChart = true;
+        $scope.showROIChart = false;
+    }
+
+    $scope.decideShowROI = function () {
+        $scope.showLeadChart = false;
+        $scope.showROIChart = true;
+    }
 });
 
 
