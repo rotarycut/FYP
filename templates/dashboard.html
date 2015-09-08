@@ -111,7 +111,7 @@
         </div>
         <!--row for main chart content-->
         <div class="row graphs-function-row">
-            <div class="col-md-3 col-md-offset-8">
+            <div class="col-md-3 col-md-offset-7">
                 <div class="col-md-5">
                     <select class="form-control" data-ng-model="">
                         <option value="" disabled selected>Sort By</option>
@@ -130,16 +130,16 @@
                     <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
                 </div>
             </div>
-            <div class="col-md-1" style="padding-top: 1%">
+            <div class="col-md-1 col-md-offset-1" style="padding-top:0.5%; padding-left: 0;">
                 <label class="dashboard-listing-lbl">listings</label>
             </div>
         </div>
         <div class="row charts-row1">
-            <div class="col-sm-11 dashboard-chart-mrkt">
+            <div class="col-md-10 dashboard-chart-mrkt">
                 <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
             </div>
-            <div class="col-md-1">
-                <ul style="list-style: none; padding-left: 15px;">
+            <div class="col-md-2">
+                <ul style="list-style: none; padding-left: 48%;">
                     <li ng-repeat="month in savedMonths">
                         <a href="#" ng-click="">[[month]]</a>
                     </li>
@@ -152,24 +152,24 @@
                 <button class="btn btn-sm switch-chart-btn" ng-click="decideShowLead()">Lead Timeline</button>
                 <button class="btn btn-sm switch-chart-btn" ng-click="decideShowROI()">ROI Chart</button>
             </div>
-            <div class="col-md-1 col-md-offset-7" style="padding-top: 1%">
+            <div class="col-md-1 col-md-offset-6" style="padding-top: 1%">
                 <a href="" ng-click=""><img class="exporticon"></a>
             </div>
-            <div class="col-md-1" style="padding-top: 1%">
+            <div class="col-md-1 col-md-offset-1" style="padding-top: 1%; padding-right: 0;padding-left: 0;">
                 <label class="dashboard-listing-lbl">Saved Filters</label>
             </div>
         </div>
         <div class="row charts-row1">
-            <div class="col-sm-11 dashboard-chart-mrkt" ng-show="showLeadChart">
+            <div class="col-md-10 dashboard-chart-mrkt" ng-show="showLeadChart">
                 <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
             </div>
-            <div class="col-sm-11 dashboard-chart-mrkt" ng-show="showROIChart">
+            <div class="col-md-10 dashboard-chart-mrkt" ng-show="showROIChart">
                 <div id="roiChart" ng-init="showRoiChart([]);"></div>
             </div>
-            <div class="col-md-1">
-                <ul style="list-style: none; padding-left: 15px;">
+            <div class="col-md-2">
+                <ul style="list-style: none; padding-left: 47%;">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="#" ng-click="">[[month]]</a>
+                        <a href="#" ng-click="">[[filter]]</a>
                     </li>
                 </ul>
             </div>

@@ -629,7 +629,7 @@ li .i-slot-label {
 }
 
 .dashboard-listing-lbl{
-    padding-left: 12px;
+    padding-left: 0;
     font-weight: 400;
     text-decoration: underline;
 }
@@ -638,6 +638,10 @@ li .i-slot-label {
     content: url('../img/icon-export.png');
     width: 18px;
     height: 18px;
+}
+
+.charts-row1{
+    padding-left: 5%;
 }
 
 /* dashboard css ends*/

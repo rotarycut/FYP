@@ -443,7 +443,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     /* dropdown multiselect codes --*/
     $scope.channels = ["Andrea Chong Blog","Facebook Ads","Email Newsletter","ABC Magazine","987 Radio"];
     $scope.savedMonths = ["Jan 15", "Feb 15","Apr 15", "Jul 15", "Aug 15"];
-    $scope.savedFilters = ["Jan 15", "Feb 15","Apr 15", "Jul 15", "Aug 15"];
+    $scope.savedFilters = ["SocialM", "Magazine","SEO", "E-commerce"];
 
     $scope.test = function (value) {
         alert("YO");
