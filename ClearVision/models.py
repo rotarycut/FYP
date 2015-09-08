@@ -108,3 +108,9 @@ class Blacklist(models.Model):
     timeBucket = models.ForeignKey(AvailableTimeSlots)
     remarks = models.CharField(max_length=1000, blank=True)
     patient = models.ForeignKey(Patient)
+
+class UserTracking(models.Model):
+    user = models.ForeignKey(Staff)
+    action = models.CharField(max_length=500)
+    timeIn = models.TimeField(auto_now=True)
+    timeOut = models.TimeField(null=True)

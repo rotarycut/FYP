@@ -1,22 +1,21 @@
 import base64
 from datetime import timedelta
 import json
+
 import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import Context
-from django.views.decorators.csrf import csrf_exempt
 import django_filters
 from rest_framework.renderers import JSONRenderer
-from .serializers import *
 from rest_framework import filters
-from rest_framework import generics, viewsets
+from rest_framework import viewsets
 from rest_framework.response import Response
-from django.db.models import Q, F, FloatField, Max, Avg, Sum, Min, Case, When, CharField, Value, IntegerField, \
-    NullBooleanField
-from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q, F, Sum, Case, When, IntegerField
+
+from .serializers import *
 
 
 @login_required
@@ -975,3 +974,14 @@ def ViewAllSMS(request):
     response_data = requests.get("https://api.infobip.com/sms/1/inbox/logs", headers=headers)
 
     return HttpResponse(response_data)
+
+def RecordUserActionsTimeIn(request):
+    payload = request.body
+    payload_clean = json.loads(payload)
+
+    currentUser = payload_clean['user']
+    action = payload_clean['action']
+
+    staff = Staff.objects.get(id=currentUser)
+
+    UserTracking.objects.create(user=staff, action=action, timeOut=None)
