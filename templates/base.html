@@ -43,17 +43,23 @@
     <script src="{% static "/static/ClearVision/js/angular/app-msg.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/angular/app-admin.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/angular/directives/singleClickDirective.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/appointmentService.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/postAppointment.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/clearAppointmentForm.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/disableISchedule.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/deleteAppointment.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/updateAppointment.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/hideAppointmentForm.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/updateNotificationCount.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/getNotifications.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/alertOnEventClick.js" %}"></script>
-    <script src="{% static "/static/ClearVision/js/angular/services/getNoShowList.js" %}"></script>
+
+    <!-- CALENDAR MODULE SERVICES -->
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/crud/createAppointment.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/crud/getAppointments.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/crud/updateAppointment.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/crud/deleteAppointment.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/form/clearAppointmentForm.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/form/hideAppointmentForm.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/ischedule/disableISchedule.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/calendar/others/clickAppointment.js" %}"></script>
+
+    <!-- WAITING LIST MODULE SERVICES -->
+    <script src="{% static "/static/ClearVision/js/angular/services/waitingList/getNoShowList.js" %}"></script>
+
+    <!-- NOTIFICATION MODULE SERVICES -->
+    <script src="{% static "/static/ClearVision/js/angular/services/notification/updateNotificationCount.js" %}"></script>
+    <script src="{% static "/static/ClearVision/js/angular/services/notification/getNotifications.js" %}"></script>
 
     <title>{% block title %}Schedule{% endblock %}</title>
 </head>
