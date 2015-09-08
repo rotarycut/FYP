@@ -13,13 +13,20 @@
             <a class="navbar-brand" ng-href="#/"><img id="navbar-logo" class="img-responsive"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" id="topmenu">
                 <li><a href="#" ng-href="#/"><i class="fa fa-calendar"></i> Calendar</a></li>
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="#" ng-href="#/waitlist"><i class="fa fa-user-times"></i> Wait List</a></li>
                 <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
-
-                <li><a href="#" ng-href="#/dashboard"><i class="fa fa-bar-chart"></i> Dashboard</a></li>
+                <li class="dropdown"><a class="drop" href="#" data-toggle="dropdown" ng-href="#/dashboard"><i
+                        class="fa fa-bar-chart"></i> Dashboard <b class="caret"></b></a>
+                        <ul class="list-inline dashboard-submenu">
+                            <li><a href="#">Dashboard Summary</a></li>
+                            <li><a href="#">Appointments Scheduled</a></li>
+                            <li><a href="#">ROI Analysis</a></li>
+                            <li><a href="#">Survey Results</a></li>
+                        </ul>
+                </li>
                 <li><a href="#" ng-href="#/queue"><i class="fa fa-clock-o"></i> Queue</a></li>
 
 
@@ -61,4 +68,12 @@
     </div>
 </nav>
 <!--navbar end-->
+
+<script>
+    $('ul.nav li.dropdown').hover(function () {
+        $(this).find('.dashboard-submenu').stop(true, true).delay(200).fadeIn(500);
+    }, function () {
+        $(this).find('.dashboard-submenu').stop(true, true).delay(200).fadeOut(500);
+    });
+</script>
 
