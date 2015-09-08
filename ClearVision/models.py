@@ -112,5 +112,5 @@ class Blacklist(models.Model):
 class UserTracking(models.Model):
     user = models.ForeignKey(Staff)
     action = models.CharField(max_length=500)
-    timeIn = models.TimeField(auto_now=True)
+    timeIn = models.TimeField()
     timeOut = models.TimeField(null=True)

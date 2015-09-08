@@ -981,7 +981,24 @@ def RecordUserActionsTimeIn(request):
 
     currentUser = payload_clean['user']
     action = payload_clean['action']
+    timeIn = payload_clean['timeIn']
 
-    staff = Staff.objects.get(id=currentUser)
+    staff = Staff.objects.get(name=currentUser)
 
-    UserTracking.objects.create(user=staff, action=action, timeOut=None)
+    UserTracking.objects.create(user=staff, action=action, timeOut=None, timeIn=timeIn)
+
+    return HttpResponse('Success')
+
+def RecordUserActionsTimeOut(request):
+    payload = request.body
+    payload_clean = json.loads(payload)
+
+    currentUser = payload_clean['user']
+    action = payload_clean['action']
+    timeOut = payload_clean['timeOut']
+
+    toUpdateTimeOut = UserTracking.objects.get(user__name=currentUser, action=action,)
+    toUpdateTimeOut.timeOut = timeOut
+    toUpdateTimeOut.save()
+
+    return HttpResponse('Success')
