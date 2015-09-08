@@ -1,9 +1,8 @@
-from datetime import datetime
-from django.db.models import Count
-
 __author__ = 'sherman'
 from rest_framework import serializers
+
 from ClearVision.models import *
+
 
 class PatientSerializer(serializers.ModelSerializer):
 
@@ -11,7 +10,7 @@ class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ('name', 'contact', 'marketingname')
+        fields = ('name', 'contact', 'marketingname', 'id')
 
     def get_marketingname(self, patient):
         return str(patient.marketingChannelId.name)

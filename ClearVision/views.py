@@ -155,7 +155,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         data = request.data
-        p = Patient.objects.get(contact=data.get('contact'))
+        p = Patient.objects.get(id=data.get('id'))
 
         a = Appointment.objects.get(id=self.get_object().id)
         num_patients = a.patients.count()
@@ -172,7 +172,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if tempApptSwapperObj:
             tempApptSwapperObj.delete()
 
-            getTempApptId = Patient.objects.filter(contact=data.get('contact')).annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')).values()
+            getTempApptId = Patient.objects.filter(id=data.get('id')).annotate(tempApptId=F('tempPatients__timeBucket_id__appointment__id')).values()
 
             if getTempApptId is not None:
                 for eachObj in getTempApptId:
@@ -187,9 +187,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         # Inform potential patients in the tempPatients queue, to push into notification basket
         if num_temp_patients >= 1:
-            Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a).update(swappable=True)
+            Swapper.objects.filter(patient=temp_patients[0]['id'], tempAppt=a).update(swappable=True)
 
-            response_data = Swapper.objects.filter(patient=temp_patients[0]['contact'], tempAppt=a). \
+            response_data = Swapper.objects.filter(patient=temp_patients[0]['id'], tempAppt=a). \
                 annotate(patientname=F('patient__name')). \
                 annotate(scheduledApptDate=F('scheduledAppt__timeBucket_id__date')). \
                 annotate(scheduledApptStart=F('scheduledAppt__timeBucket_id__start')). \
@@ -227,19 +227,19 @@ class AppointmentWriter(viewsets.ModelViewSet):
             tempApptTimeBucket = data.get('tempTime') + ":00"
             tempApptDate = data.get('tempDate')
 
-        if not Patient.objects.filter(contact=patientContact).exists():
+        if not Patient.objects.filter(contact=patientContact, name=patientName).exists():
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
                                    marketingChannelId=MarketingChannels.objects.get(id=marketingID),
                                    registrationDate=datetime.now())
 
-        p = Patient.objects.get(contact=patientContact)
+        p = Patient.objects.get(contact=patientContact, name=patientName)
         apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate).id
 
         if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType).exists():
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
 
-            if existingAppt.patients.filter(contact=patientContact).exists():
+            if existingAppt.patients.filter(contact=patientContact, name=patientName).exists():
                 AppointmentRemarks.objects.filter(patient=p, appointment=existingAppt, ).update(remarks=remarks)
                 serializedExistingAppt = AppointmentSerializer(existingAppt)
                 return Response(serializedExistingAppt.data)
@@ -333,7 +333,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         futureApptDate = data.get('replacementApptDate')
         futureApptTimeBucket = data.get('replacementApptTime') + ":00"
         currentAppt = Appointment.objects.get(id=self.get_object().id)
-        patient = Patient.objects.get(contact=data.get('contact'))
+        patient = Patient.objects.get(id=data.get('id'))
         apptType = data.get('type')
         docID = data.get('docID')
         clinicID = data.get('clinicID')
@@ -341,7 +341,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         currentAppt.patients.remove(patient)
         currentAppt.save()
-        oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.contact)
+        oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.id)
 
         if currentAppt.patients.count() == 0:
             currentAppt.delete()
