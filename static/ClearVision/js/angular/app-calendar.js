@@ -583,7 +583,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
         })
 
-        var url = '/Clearvision/_api/Remarks/?patient=' + $scope.fields.patientContact + '&appt=' + $scope.fields.appointmentId;
+        var url = '/Clearvision/_api/Remarks/?patient=' + $scope.fields.patientId + '&appt=' + $scope.fields.appointmentId;
 
         $http.get(url)
             .success(function (patientAppointment) {
