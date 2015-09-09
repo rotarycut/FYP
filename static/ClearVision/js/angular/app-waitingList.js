@@ -19,6 +19,27 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, upd
     $scope.swapAppointment = function (indexInWaitList) {
         $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
 
+        var scheduledApptId = $scope.waitListAppointment.scheduledAppt_id;
+        var tempApptId = $scope.waitListAppointment.tempAppt_id;
+        var patientId = $scope.waitListAppointment.patient_id;
+
+        var json = {
+            "scheduledApptId": scheduledApptId,
+            "tempApptId": tempApptId,
+            "patientId": patientId
+        };
+
+        $http.post('/Clearvision/_api/Swapper/', json)
+            .success(function (listOfAppointments) {
+                $scope.listOfWaitingAppointments.splice(0);
+                $scope.getWaitListAppointments();
+            });
+
+    };
+
+    $scope.sendSms = function (indexInWaitList) {
+        $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
+
         var waitStartTime = $scope.waitListAppointment.tempAppt__timeBucket__start;
         var scheduleStartTime = $scope.waitListAppointment.scheduledAppt__timeBucket__start;
         var scheduleStartDate = $scope.waitListAppointment.scheduledAppt__timeBucket__date;
@@ -27,23 +48,19 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, upd
         var patientContact = $scope.waitListAppointment.patient__contact;
         var apptType = $scope.waitListAppointment.scheduledAppt__apptType;
 
-        //var scheduledApptId = $scope.waitListAppointment.scheduledAppointments[0].scheduledApptId;
-        //var tempApptId = $scope.waitListAppointment.tempApptId;
-        //var contact = $scope.waitListAppointment.patientcontact;
-
         var json = {
-            "tempAppt_timeBucket_start": waitStartTime,
-            "scheduledAppt_timeBucket_start": scheduleStartTime,
-            "scheduledAppt_timeBucket_date": scheduleStartDate,
-            "patient_name": patientName,
-            "tempAppt_timeBucket_date": waitStartDate,
-            "patient_contact": patientContact,
-            "scheduledAppt_apptType": apptType
+            "tempAppt__timeBucket__start": waitStartTime,
+            "scheduledAppt__timeBucket__start": scheduleStartTime,
+            "scheduledAppt__timeBucket__date": scheduleStartDate,
+            "patient__name": patientName,
+            "tempAppt__timeBucket__date": waitStartDate,
+            "patient__contact": patientContact,
+            "scheduledAppt__apptType": apptType
         };
 
         console.log(json);
 
-        $http.post('/Clearvision/_api/Swapper/', json)
+        $http.post('/Clearvision/_api/ViewSwapperTable/', json)
             .success(function (listOfAppointments) {
 
                 console.log("Swapped successfully");

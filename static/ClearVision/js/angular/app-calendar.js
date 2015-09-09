@@ -509,50 +509,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.changeCalendar = function (selectedCalendar) {
         if (selectedCalendar != undefined) {
-            console.log(selectedCalendar);
+
             $scope.selectedCalendar = selectedCalendar;
             if (selectedCalendar == "myCalendar1") {
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
 
                 $scope.tabs[1].active = false;
                 $scope.tabs[0].active = true;
-
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
             } else {
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
 
                 $scope.tabs[0].active = false;
                 $scope.tabs[1].active = true;
-
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
             }
         } else {
             if ($scope.fields.doctorAssigned == "Dr Ho") {
-                console.log("DR HO");
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
 
                 $scope.selectedCalendar = "myCalendar1";
                 $scope.tabs[1].active = false;
                 $scope.tabs[0].active = true;
 
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
             } else {
-                console.log("DR GOH");
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
 
                 $scope.selectedCalendar = "myCalendar2";
                 $scope.tabs[0].active = false;
                 $scope.tabs[1].active = true;
 
-                console.log($scope.drHoCalendar);
-                console.log($scope.drGohCalendar);
             }
         }
     };
