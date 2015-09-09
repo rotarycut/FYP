@@ -27,7 +27,7 @@ angular.module('update.appointment', [])
             }
 
             var updateJson = {
-                "contact": self._scope.fields.patientContact,
+                "id": self._scope.fields.patientId,
                 "replacementApptDate": self._scope.fields.appointmentDate,
                 "replacementApptTime": self._scope.fields.appointmentTime,
                 "type": self._scope.fields.appointmentType,
