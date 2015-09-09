@@ -647,9 +647,9 @@ class iScheduleSwapper(viewsets.ModelViewSet):
         data = request.data
         scheduledApptId = data.get('scheduledApptId')
         tempApptId = data.get('tempApptId')
-        contact = data.get('contact')
+        patientId = data.get('patientId')
 
-        p = Patient.objects.get(contact=contact)
+        p = Patient.objects.get(id=patientId)
         scheduledAppt = Appointment.objects.get(id=scheduledApptId)
         scheduledAppt.patients.remove(p)
         scheduledAppt.save()
@@ -701,7 +701,7 @@ class ViewSwapperTable(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         response_data = Swapper.objects.all().values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
-                                                     'patient__contact', 'scheduledAppt__apptType', 'swappable',
+                                                     'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
                                                      'scheduledAppt__doctor__name', 'patient__name')
 
         return Response(response_data)
@@ -832,12 +832,12 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         attended = data.get('attended')
 
         a = Appointment.objects.get(id=apptId)
-        p = Patient.objects.get(contact=patient)
+        p = Patient.objects.get(id=patient)
 
         if attended == 'True':
             p.addedToQueue = True
             p.save()
-            AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
+            AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(id=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
@@ -845,7 +845,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         else:
             p.addedToQueue = False
             p.save()
-            AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(contact=patient),
+            AttendedAppointment.objects.create(apptType=apptType, patient=Patient.objects.get(id=patient),
                                                timeBucket=AvailableTimeSlots.objects.get(id=timeBucket),
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a,
@@ -885,7 +885,7 @@ class ViewArchive(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response_data = Blacklist.objects.all().values('patient__name', 'patient__contact', 'apptType', 'doctor__name',
-                                                       'timeBucket__date', 'timeBucket__start', 'remarks')
+                                                       'timeBucket__date', 'timeBucket__start', 'remarks', 'patient_id')
 
         return Response(response_data)
 
@@ -923,7 +923,7 @@ class PatientQueue(viewsets.ModelViewSet):
 
         AttendedAppointment.objects.get(patient=patient, originalAppt__id=apptId).delete()
 
-        p = Patient.objects.get(contact=patient)
+        p = Patient.objects.get(id=patient)
         p.addedToQueue = None
         p.save()
 
