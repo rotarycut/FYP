@@ -702,7 +702,7 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         response_data = Swapper.objects.all().values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
                                                      'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
-                                                     'scheduledAppt__doctor__name', 'patient__name')
+                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id')
 
         return Response(response_data)
 
