@@ -32,8 +32,12 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "calendar.html",
             controller: 'CalendarCtrl'
         })
-        .when("/dashboard", {
-            templateUrl: "dashboard.html",
+        .when("/dashboard/roi", {
+            templateUrl: "roi.html",
+            controller: 'DashboardCtrl'
+        })
+        .when("/dashboard/schedule", {
+            templateUrl: "schedule.html",
             controller: 'DashboardCtrl'
         })
         .when("/waitlist", {

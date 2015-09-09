@@ -35,9 +35,11 @@ def calendar(request):
     return render(request, 'calendar.html')
 
 
-def dashboard(request):
-    return render(request, 'dashboard.html')
+def roi(request):
+    return render(request, 'roi.html')
 
+def schedule(request):
+    return render(request, 'schedule.html')
 
 def waitlist(request):
     return render(request, 'waitlist.html')
