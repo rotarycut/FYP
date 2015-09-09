@@ -1002,3 +1002,23 @@ def RecordUserActionsTimeOut(request):
     toUpdateTimeOut.save()
 
     return HttpResponse('Success')
+
+class NoShowPerChannel(viewsets.ReadOnlyModelViewSet):
+    queryset = MarketingChannels.objects.none()
+
+    def list(self, request, *args, **kwargs):
+
+        allchannels = MarketingChannels.objects.all().values()
+
+        noShow = AttendedAppointment.objects.filter(attended=False,).values('patient__marketingChannelId',)
+
+        for eachChannel in allchannels:
+            counter = 0
+            for eachNoShow in noShow:
+                if eachChannel['id'] == eachNoShow['patient__marketingChannelId']:
+                    counter += 1
+
+            if counter != 0:
+                eachChannel['NoShowCount'] = counter
+
+        return Response(allchannels)
