@@ -3,6 +3,7 @@ var app = angular.module('calendarDemoApp', [
     'ui.bootstrap',
     'app.calendar',
     'app.dashboard',
+    'app.appointmentAnalysis',
     'app.waitingList',
     'app.patientQueue',
     'app.msgLog',
@@ -38,7 +39,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/dashboard/schedule", {
             templateUrl: "schedule.html",
-            controller: 'DashboardCtrl'
+            controller: 'AppointmentAnalysisCtrl'
         })
         .when("/waitlist", {
             templateUrl: "waitlist.html",
