@@ -17,7 +17,7 @@ angular.module('delete.appointment', [])
                 url: url,
                 headers: {'Content-Type': 'application/json'},
                 data: {
-                    "contact": self._scope.fields.patientContact
+                    "id": self._scope.fields.patientId
                 }
             };
 

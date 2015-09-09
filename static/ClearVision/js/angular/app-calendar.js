@@ -579,6 +579,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.fields.patientName = patient.name;
                 $scope.fields.patientContact = patient.contact;
                 $scope.fields.marketingChannel = patient.marketingname;
+                $scope.fields.patientId = patient.id;
             }
         })
 
