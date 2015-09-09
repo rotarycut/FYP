@@ -65,28 +65,23 @@
 
                         <div class="col-sm-12 cal-tab-clinic">
                             <tabset type="pills" vertical="true" class="side-tabset">
-                                <tab heading="Dr. Ho" select="renderCalendar('drHoCalendar');"
-                                     ng-init="getDrHoScreenings(); getDrHoPreEvaluations(); getDrHoSurgeries();"
-                                     class="heading-rotate" ng-click="changeCalendar('myCalendar1')">
+                                <tab ng-repeat="tab in tabs" heading="[[tab.title]]"
+                                     select="renderCalendar([[tab.calendar]]);"
+                                     ng-init="initializeAppointments([[tab.initialise]])"
+                                     class="heading-rotate" ng-click="changeCalendar([[tab.changeCalendar]])"
+                                     active="tab.active">
 
-                                    <!--<div class="alert-success calAlert"
-                                         ng-show="alertMessage != undefined && alertMessage != '' ">
-                                        <h4>[[ alertMessage ]]</h4>
-                                    </div>-->
-                                    <div class="calendar" ng-model="doctorHoAppointments" calendar="myCalendar1"
-                                         ui-calendar="uiConfig.calendar" id="drHoCalendar"></div>
+                                    <div class="calendar" ng-model="tab.model" calendar="[[tab.changeCalendar]]"
+                                         ui-calendar="uiConfig.calendar" id="[[tab.calendar]]"></div>
                                 </tab>
-                                <tab heading="Dr. Goh" select="renderCalendar('drGohCalendar');"
+                                <!-- <tab heading="Dr. Goh" select="renderCalendar('drGohCalendar');"
                                      ng-init="getDrGohScreenings(); getDrGohPreEvaluations(); getDrGohSurgeries();"
-                                     class="heading-rotate" ng-click="changeCalendar('myCalendar2')" active>
+                                     class="heading-rotate" ng-click="changeCalendar('myCalendar2')"
+                                     active="drGohCalendar">
 
-                                    <!--<div class="alert-success calAlert"
-                                         ng-show="alertMessage != undefined && alertMessage != '' ">
-                                        <h4>[[ alertMessage ]]</h4>
-                                    </div>-->
                                     <div class="calendar" ng-model="doctorGohAppointments" calendar="myCalendar2"
                                          ui-calendar="uiConfig.calendar" id="drGohCalendar"></div>
-                                </tab>
+                                </tab> -->
                             </tabset>
                         </div>
                         <!--sd-->
@@ -181,7 +176,7 @@
                         <label class="control-label">Doctor</label>
                         <select class="form-control" ng-options="doc for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor" ng-change="enableISchedule()"
+                                ng-disabled="form.disableFields.doctor" ng-change="enableISchedule(); changeCalendar()"
                                 required>
                         </select>
 

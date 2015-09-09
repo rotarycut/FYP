@@ -14,6 +14,7 @@ var app = angular.module('calendarDemoApp', [
     'angular.filter',
     'post.appointment',
     'clear.form',
+    'enable.ISchedule',
     'disable.ISchedule',
     'delete.appointment',
     'update.appointment',

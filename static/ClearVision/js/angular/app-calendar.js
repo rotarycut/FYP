@@ -1,7 +1,10 @@
 var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
-appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http, searchContact, appointmentService, ngProgressFactory, $modal, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc) {
+appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
+                                                 searchContact, appointmentService, ngProgressFactory, $modal,
+                                                 postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
+                                                 deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -501,9 +504,57 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
     $scope.listOfDoctors = ["Dr Ho", "Dr Goh"];
     $scope.selectedCalendar = "myCalendar1";
+    $scope.drHoCalendar = true;
+    $scope.drGohCalendar = false;
 
     $scope.changeCalendar = function (selectedCalendar) {
-        $scope.selectedCalendar = selectedCalendar;
+        if (selectedCalendar != undefined) {
+            console.log(selectedCalendar);
+            $scope.selectedCalendar = selectedCalendar;
+            if (selectedCalendar == "myCalendar1") {
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+
+                $scope.tabs[1].active = false;
+                $scope.tabs[0].active = true;
+
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+            } else {
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+
+                $scope.tabs[0].active = false;
+                $scope.tabs[1].active = true;
+
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+            }
+        } else {
+            if ($scope.fields.doctorAssigned == "Dr Ho") {
+                console.log("DR HO");
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+
+                $scope.selectedCalendar = "myCalendar1";
+                $scope.tabs[1].active = false;
+                $scope.tabs[0].active = true;
+
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+            } else {
+                console.log("DR GOH");
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+
+                $scope.selectedCalendar = "myCalendar2";
+                $scope.tabs[0].active = false;
+                $scope.tabs[1].active = true;
+
+                console.log($scope.drHoCalendar);
+                console.log($scope.drGohCalendar);
+            }
+        }
     };
 
     /* function to retrieve list of appointment timings */
@@ -648,39 +699,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to enable iSchedule */
     $scope.enableISchedule = function () {
-
-        // do not enable iSchedule until both appointment type and doctor are selected
-        if ($scope.fields.appointmentType == undefined || $scope.fields.doctorAssigned == undefined) {
-            return;
-        }
-
-        $scope.changeView('month', 'myCalendar1');
-
-        console.log($scope.selectedCalendar);
-        //console.log($scope.fields.doctorAssigned);
-        //console.log($scope.fields.appointmentType);
-
-        if ($scope.formTitle === 'Create New Appointment' || $scope.iSchedule === true) {
-            $scope.getAppointmentTimings($scope.fields.appointmentType, '', $scope.fields.doctorAssigned);
-        }
-
-        if ($scope.formTitle === 'Create New Appointment' || $scope.formTitle === 'Edit Appointment') {
-            if (!$scope.iSchedule) {
-                $scope.showHeatMap = true;
-                $scope.iSchedule = true;
-                $scope.drHoScreenings.events.splice(0);
-                $scope.drHoPreEvaluations.events.splice(0);
-                $scope.drHoSurgeries.events.splice(0);
-                $scope.getHeatMap($scope.fields.appointmentType, $scope.fields.doctorAssigned);
-                $scope.getISchedule();
-                $scope.showFilters = false;
-            } else {
-                $scope.lowHeatMap.events.splice(0);
-                $scope.medHeatMap.events.splice(0);
-                $scope.highHeatMap.events.splice(0);
-                $scope.getHeatMap($scope.fields.appointmentType, $scope.fields.doctorAssigned);
-            }
-        }
+        enableIScheduleSvc.enableISchedule();
     };
 
     /* function to search for contact */
@@ -1006,6 +1025,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
     clearFormSvc.getScope($scope);
+    enableIScheduleSvc.getScope($scope);
     disableIScheduleSvc.getScope($scope);
     deleteAppointmentSvc.getScope($scope);
     updateAppointmentSvc.getScope($scope);
@@ -1033,6 +1053,40 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.changeView('agendaDay', 'myCalendar1');
         $('#drHoCalendar').fullCalendar('gotoDate', date);
         $scope.searchText = "";
+    };
+
+    /* calendar tab set */
+    $scope.tabs = [
+        {
+            title: 'Dr. Ho',
+            calendar: 'drHoCalendar',
+            initialise: 'Dr Ho',
+            changeCalendar: 'myCalendar1',
+            active: true,
+            model: [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap]
+
+        },
+        {
+            title: 'Dr. Goh',
+            calendar: 'drGohCalendar',
+            initialise: 'Dr Goh',
+            changeCalendar: 'myCalendar2',
+            active: false,
+            model: [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries]
+        }
+    ];
+
+    /* initialize calendar appointmnets */
+    $scope.initializeAppointments = function (doctor) {
+        if (doctor == "Dr Ho") {
+            $scope.getDrHoScreenings();
+            $scope.getDrHoPreEvaluations();
+            $scope.getDrHoSurgeries();
+        } else {
+            $scope.getDrGohScreenings();
+            $scope.getDrGohPreEvaluations();
+            $scope.getDrGohSurgeries();
+        }
     };
 
 });
