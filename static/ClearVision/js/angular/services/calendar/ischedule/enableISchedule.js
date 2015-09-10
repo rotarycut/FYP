@@ -31,16 +31,24 @@ app.service('enableIScheduleSvc', function () {
             if (!self._scope.iSchedule) {
                 self._scope.showHeatMap = true;
                 self._scope.iSchedule = true;
+
                 self._scope.drHoScreenings.events.splice(0);
                 self._scope.drHoPreEvaluations.events.splice(0);
                 self._scope.drHoSurgeries.events.splice(0);
+                self._scope.drGohScreenings.events.splice(0);
+                self._scope.drGohPreEvaluations.events.splice(0);
+                self._scope.drGohSurgeries.events.splice(0);
+
                 self._scope.getHeatMap(self._scope.fields.appointmentType, self._scope.fields.doctorAssigned);
-                self._scope.getISchedule();
+                //self._scope.getISchedule();
                 self._scope.showFilters = false;
             } else {
                 self._scope.drHoLowHeatMap.events.splice(0);
                 self._scope.drHoMedHeatMap.events.splice(0);
                 self._scope.drHoHighHeatMap.events.splice(0);
+                self._scope.drGohLowHeatMap.events.splice(0);
+                self._scope.drGohMedHeatMap.events.splice(0);
+                self._scope.drGohHighHeatMap.events.splice(0);
                 self._scope.getHeatMap(self._scope.fields.appointmentType, self._scope.fields.doctorAssigned);
             }
         }

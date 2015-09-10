@@ -74,6 +74,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         textColor: 'White',
         events: []
     };
+
+    $scope.drGohLowHeatMap = {
+        color: '#33CC00',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.drGohMedHeatMap = {
+        color: '#FF9966',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.drGohHighHeatMap = {
+        color: '#FF0000',
+        textColor: 'White',
+        events: []
+    };
     /* --- end of declaration --- */
 
     /* function to get iSchedule */
@@ -125,10 +143,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 30) {
                         $scope.drHoLowHeatMap.events.push(appointment);
+                        $scope.drGohLowHeatMap.events.push(appointment);
                         count++;
+                        console.log("AFASFAS");
                     } else {
                         return;
                     }
+
                 })
             })
         $http.get(medHeatUrl)
@@ -138,11 +159,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 20) {
                         $scope.drHoMedHeatMap.events.push(appointment);
+                        $scope.drGohMedHeatMap.events.push(appointment);
                         count++;
                     } else {
                         return;
                     }
                 })
+                console.log("BFASFAS");
             })
         $http.get(highHeatUrl)
             .success(function (listOfAppointments) {
@@ -151,11 +174,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 20) {
                         $scope.drHoHighHeatMap.events.push(appointment);
+                        $scope.drGohHighHeatMap.events.push(appointment);
                         count++;
                     } else {
                         return;
                     }
                 })
+                console.log("CFASFAS");
             })
     };
 
@@ -1063,7 +1088,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             changeCalendar: 'myCalendar2',
             active: false,
             disable: false,
-            model: [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries]
+            model: [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries, $scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap]
         }
     ];
 
