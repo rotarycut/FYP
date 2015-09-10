@@ -58,7 +58,7 @@
                                 ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
                                 ng-class="getClass(patient.patients__addedToQueue)">
                                 <td>[[patient.patients__name]]</td>
-                                <td>[[patient.patients]]</td>
+                                <td>[[patient.patients__contact]]</td>
                                 <td>[[patient.apptType]]</td>
                                 <td>[[patient.doctor__name]]</td>
                                 <td>[[patient.timeBucket__start]]</td>
