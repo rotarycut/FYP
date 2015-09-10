@@ -934,7 +934,7 @@ class PatientQueue(viewsets.ModelViewSet):
         AttendedAppointment.objects.get(patient=patient, originalAppt__id=apptId).delete()
 
         p = Patient.objects.get(id=patient)
-        associatedPAction = AssociatedPatientActions.get(appointment__id=apptId, patient=p)
+        associatedPAction = AssociatedPatientActions.objects.get(appointment__id=apptId, patient=p)
         associatedPAction.addedToQueue = None
         associatedPAction.save()
 
