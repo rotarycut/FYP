@@ -252,6 +252,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             existingAppt.save()
 
             AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
+            AssociatedPatientActions.objects.create(patient=p, appointment=existingAppt)
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
 
@@ -296,6 +297,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
             AppointmentRemarks.objects.create(patient=p, appointment=existingAppt, remarks=remarks).save()
+            AssociatedPatientActions.objects.create(patient=p, appointment=existingAppt)
 
             if isWaitingList == 'True':
 
