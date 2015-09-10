@@ -818,7 +818,11 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                                                              'associatedpatientactions__patient__contact',
                                                                                              'associatedpatientactions__appointment__apptType',
                                                                                              'associatedpatientactions__appointment__timeBucket__start',
-                                                                                             'associatedpatientactions__addedToQueue')
+                                                                                             'associatedpatientactions__addedToQueue',
+                                                                                             'associatedpatientactions__appointment__clinic',
+                                                                                             'associatedpatientactions__appointment__timeBucket',
+                                                                                             'associatedpatientactions__patient_id',
+                                                                                             'associatedpatientactions__appointment__doctor_id')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
