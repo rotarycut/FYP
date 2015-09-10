@@ -36,6 +36,10 @@ angular.module('hide.form', [])
             for (var field in self._scope.form.showButtons) {
                 self._scope.form.showButtons[field] = false;
             }
+
+            angular.forEach(self._scope.tabs, function (tab) {
+                tab.disable = false;
+            });
         };
 
     });
