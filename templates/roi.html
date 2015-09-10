@@ -1,30 +1,25 @@
 <!-- row for entire app content-->
 <div class="row content-row">
     <!-- col for side content-->
-    <div class="col-md-12" style="padding-left: 0">
+    <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
         <div class="row">
-            <div class="col-md-1">
-                <button class="btn form-default-btn" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
-                    Filter
-                </button>
-            </div>
-            <div class="col-sm-10">
+            <div class="col-md-11">
                 <!--row for filter content-->
                 <div class="row filter-row-hide" ng-show="!isCollapsed">
-                    <div class="col-sm-12 filter-row-title">
+                    <div class="col-md-12 filter-row-title">
                         <div class="row">
-                            <div class="col-sm-11">
+                            <div class="col-md-11">
                                 <h5 style="color: #fff">Filter Options</h5>
                             </div>
-                            <div class="col-sm-1 filter-row-close">
+                            <div class="col-md-1 filter-row-close">
                                 <a data-ng-click="isCollapsed = !isCollapsed"><h5 style="color: #fff"><i
                                         class="fa fa-times"></i></h5></a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 filter-row-options">
+                    <div class="col-md-12 filter-row-options">
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <div class="row" style="padding-left: 5%">
                                     <p class="input-group">
                                         <input type="text"
@@ -49,7 +44,7 @@
                                     </p>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-1 col-sm-offset-4">
+                                    <div class="col-md-1 col-md-offset-4">
                                         <h5 style="color:#49708A">To</h5>
                                     </div>
                                 </div>
@@ -80,7 +75,7 @@
 
 
                             </div>
-                            <div class="col-sm-4 col-sm-offset-1">
+                            <div class="col-md-4 col-md-offset-1">
                                 <!--<select class="form-control" data-ng-model="filters.marketingChannel"
                                         ng-options="" name="marketingChannel" required>
                                     <option value="" selected="selected">Marketing Channel</option>
@@ -108,72 +103,84 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-1" style="text-align: right">
+                <button class="btn form-default-btn" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
+                    Filter
+                </button>
+            </div>
         </div>
-        <!--row for main chart content-->
-        <div class="row graphs-function-row">
-            <div class="col-md-3 col-md-offset-7">
-                <div class="col-md-5">
-                    <select class="form-control" data-ng-model="">
-                        <option value="" disabled selected>Sort By</option>
-                        <option value="">Leads</option>
-                        <option value="">Converts</option>
-                        <option value="">Rate</option>
-                    </select>
+        <div class="row subcontent-row">
+            <div class="col-md-11">
+                <div class="row chart-title-row">
+                    <div class="col-md-2">
+                        <h5 style="color: #49708A">Conversion Rate</h5>
+                    </div>
+                    <div class="col-md-2 col-md-offset-7">
+                        <select class="form-control" data-ng-model="">
+                            <option value="" disabled selected>Sort By</option>
+                            <option value="">Leads</option>
+                            <option value="">Converts</option>
+                            <option value="">Rate</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><img class="exporticon"></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-1" style="padding-top: 2.4%">
-                    <a href="" ng-click=""><img class="exporticon"></a>
-                </div>
-                <div class="col-md-1" style="padding-top: 3%">
-                    <a href="" ng-click=""><i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
-                </div>
-                <div class="col-md-1" style="padding-top: 3%">
-                    <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+                <div class="row chart-content-row">
+                    <div class="col-md-11">
+                        <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-1 col-md-offset-1" style="padding-top:0.5%; padding-left: 0;">
+            <div class="col-md-1 saved-filter-list" style="text-align:right;">
                 <label class="dashboard-listing-lbl">listings</label>
-            </div>
-        </div>
-        <div class="row charts-row1">
-            <div class="col-md-10 dashboard-chart-mrkt">
-                <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
-            </div>
-            <div class="col-md-2">
-                <ul style="list-style: none; padding-left: 48%;">
+                <ul style="list-style: none; padding-left: 20%;">
                     <li ng-repeat="month in savedMonths">
                         <a href="#" ng-click="">[[month]]</a>
                     </li>
                 </ul>
             </div>
         </div>
-        <!--row for other charts content-->
-        <div class="row">
-            <div class="col-md-3">
-                <button class="btn btn-sm switch-chart-btn" ng-click="decideShowLead()">Lead Timeline</button>
-                <button class="btn btn-sm switch-chart-btn" ng-click="decideShowROI()">ROI Chart</button>
+        <div class="row subcontent-row">
+            <div class="col-md-11">
+                <div class="row chart-title-row">
+                    <div class="col-md-2">
+                        <h5 style="color: #49708A">ROI Analysis</h5>
+                    </div>
+                    <div class="col-md-3" style="padding-top: 2.5px">
+                        <button class="btn btn-sm switch-chart-btn" ng-click="decideShowLead()">Lead Timeline</button>
+                        <button class="btn btn-sm switch-chart-btn" ng-click="decideShowROI()">ROI Chart</button>
+                    </div>
+                    <div class="col-md-1 col-md-offset-6 graph-function-col">
+                        <a href="" ng-click=""><img class="exporticon"></a>
+                    </div>
+                </div>
+                <div class="row chart-content-row">
+                    <div class="col-md-11" ng-show="showLeadChart">
+                        <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
+                    </div>
+                    <div class="col-md-11" ng-show="showROIChart">
+                        <div id="roiChart" ng-init="showRoiChart([]);"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-1 col-md-offset-6" style="padding-top: 1%">
-                <a href="" ng-click=""><img class="exporticon"></a>
-            </div>
-            <div class="col-md-1 col-md-offset-1" style="padding-top: 1%; padding-right: 0;padding-left: 0;">
+            <div class="col-md-1 saved-filter-list" style="text-align:right;">
                 <label class="dashboard-listing-lbl">Saved Filters</label>
+                <ul style="list-style: none; padding-left: 20%;">
+                <li ng-repeat="filter in savedFilters">
+                    <a href="#" ng-click="">[[filter]]</a>
+                </li>
+            </ul>
             </div>
         </div>
-        <div class="row charts-row1">
-            <div class="col-md-10 dashboard-chart-mrkt" ng-show="showLeadChart">
-                <div id="timeChart" ng-init="showTimelineChart([]); getMarketingTimeline();"></div>
-            </div>
-            <div class="col-md-10 dashboard-chart-mrkt" ng-show="showROIChart">
-                <div id="roiChart" ng-init="showRoiChart([]);"></div>
-            </div>
-            <div class="col-md-2">
-                <ul style="list-style: none; padding-left: 47%;">
-                    <li ng-repeat="filter in savedFilters">
-                        <a href="#" ng-click="">[[filter]]</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
     </div>
 </div>
 

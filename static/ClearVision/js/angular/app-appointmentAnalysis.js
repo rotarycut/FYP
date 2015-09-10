@@ -93,11 +93,11 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
 
     $scope.pieData = [
         {
-            "screening": 20,
-            "preEval": 20,
-            "surgery": 20,
-            "postOne": 20,
-            "postTwo": 20
+            "Screening": 20,
+            "Pre Evaluation": 20,
+            "Surgery": 20,
+            "Post Surgery 1": 20,
+            "Post Surgery 2": 20
         }
     ];
 
@@ -114,7 +114,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
             data: {
                 json: newData,
                 keys: {
-                    value: ['screening', 'preEval', 'surgery', 'postOne', 'postTwo']
+                    value: ['Screening', 'Pre Evaluation', 'Surgery', 'Post Surgery 1', 'Post Surgery 2']
                 },
                 type: 'pie'
             }
@@ -128,6 +128,81 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
     };
 
     $scope.showPieChart($scope.pieData);
+
+    $scope.pieData2 = [
+        {
+            "Change Clinic": 10,
+            "Not Doing Lasik Anymore": 20,
+            "Will Schedule Again": 10,
+            "Change Of Mind": 30,
+            "Others": 30
+        }
+    ];
+
+    $scope.showPieChart2 = function (newData) {
+
+        $scope.pieChartOne = c3.generate({
+            bindto: '#pie2',
+            padding: {
+                top: 30,
+                right: 30,
+                bottom: 0,
+                left: 50
+            },
+            data: {
+                json: newData,
+                keys: {
+                    value: ['Change Clinic', 'Not Doing Lasik Anymore', 'Will Schedule Again', 'Change Of Mind', 'Others']
+                },
+                type: 'pie'
+            }
+        });
+
+        setTimeout(function () {
+            //$scope.marketingChart.toggle('convert');
+            //$scope.marketingChart.toggle('rate');
+        }, 50);
+
+    };
+
+    $scope.showPieChart2($scope.pieData2);
+
+    $scope.pieData3 = [
+        {
+            "Email NewsLetter": 25,
+            "Andrea Chong Blog": 25,
+            "ABC Magazine": 15,
+            "Facebook Ads": 35
+        }
+    ];
+
+    $scope.showPieChart3 = function (newData) {
+
+        $scope.pieChartOne = c3.generate({
+            bindto: '#pie3',
+            padding: {
+                top: 30,
+                right: 30,
+                bottom: 0,
+                left: 50
+            },
+            data: {
+                json: newData,
+                keys: {
+                    value: ['Email NewsLetter', 'Andrea Chong Blog', 'ABC Magazine', 'Change Of Mind', 'Facebook Ads']
+                },
+                type: 'pie'
+            }
+        });
+
+        setTimeout(function () {
+            //$scope.marketingChart.toggle('convert');
+            //$scope.marketingChart.toggle('rate');
+        }, 50);
+
+    };
+
+    $scope.showPieChart3($scope.pieData3);
 
 
 });
