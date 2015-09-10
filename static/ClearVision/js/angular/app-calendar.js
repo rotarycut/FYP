@@ -4,7 +4,7 @@ var appCalendar = angular.module('app.calendar', ['ngProgress']);
 appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
                                                  searchContact, appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
-                                                 deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc) {
+                                                 deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc, $interval) {
 
     var date = new Date();
     var d = date.getDate();
@@ -74,7 +74,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         textColor: 'White',
         events: []
     };
-
     /* --- end of declaration --- */
 
     /* function to get iSchedule */
@@ -1069,6 +1068,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.getDrGohSurgeries();
         }
     };
+
+    /* test function for interval service */
+    $interval(function () {
+        /*$scope.drHoScreenings.events.splice(0);
+         $scope.drHoPreEvaluations.events.splice(0);
+         $scope.drHoSurgeries.events.splice(0);
+         $scope.initializeAppointments("Dr Ho");
+         //$scope.initializeAppointments("Dr Goh");*/
+    }, 5000, false);
 
 });
 
