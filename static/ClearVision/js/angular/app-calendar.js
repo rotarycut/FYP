@@ -506,34 +506,38 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
 
-    $scope.changeCalendar = function (selectedCalendar) {
-        if (selectedCalendar != undefined) {
+    $scope.changeCalendar = function (selectedCalendar, isTabDisabled) {
 
-            $scope.selectedCalendar = selectedCalendar;
-            if (selectedCalendar == "myCalendar1") {
+        if (!isTabDisabled) {
+            if (selectedCalendar != undefined) {
 
-                $scope.tabs[1].active = false;
-                $scope.tabs[0].active = true;
+                $scope.selectedCalendar = selectedCalendar;
+                if (selectedCalendar == "myCalendar1") {
+
+                    $scope.tabs[1].active = false;
+                    $scope.tabs[0].active = true;
+                } else {
+
+                    $scope.tabs[0].active = false;
+                    $scope.tabs[1].active = true;
+                }
             } else {
+                if ($scope.fields.doctorAssigned == "Dr Ho") {
 
-                $scope.tabs[0].active = false;
-                $scope.tabs[1].active = true;
-            }
-        } else {
-            if ($scope.fields.doctorAssigned == "Dr Ho") {
+                    $scope.selectedCalendar = "myCalendar1";
+                    $scope.tabs[1].active = false;
+                    $scope.tabs[0].active = true;
 
-                $scope.selectedCalendar = "myCalendar1";
-                $scope.tabs[1].active = false;
-                $scope.tabs[0].active = true;
+                } else {
 
-            } else {
+                    $scope.selectedCalendar = "myCalendar2";
+                    $scope.tabs[0].active = false;
+                    $scope.tabs[1].active = true;
 
-                $scope.selectedCalendar = "myCalendar2";
-                $scope.tabs[0].active = false;
-                $scope.tabs[1].active = true;
-
+                }
             }
         }
+
     };
 
     /* function to retrieve list of appointment timings */
@@ -619,10 +623,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.progressbar.start();
         $scope.progressbar.complete();
 
-
         $timeout(function () {
             $scope.form.showForm = true;
         }, 800);
+
+        angular.forEach($scope.tabs, function (tab) {
+            tab.disable = true;
+        });
 
         if (formType === 'Create') {
             // Perform these operations when showing the create appointment form
@@ -1045,6 +1052,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             initialise: 'Dr Ho',
             changeCalendar: 'myCalendar1',
             active: true,
+            disable: false,
             model: [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap]
 
         },
@@ -1054,6 +1062,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             initialise: 'Dr Goh',
             changeCalendar: 'myCalendar2',
             active: false,
+            disable: false,
             model: [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries]
         }
     ];
