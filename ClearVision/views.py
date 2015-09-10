@@ -842,7 +842,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         a = Appointment.objects.get(id=apptId)
         p = Patient.objects.get(id=patient)
 
-        associatedPAction = AssociatedPatientActions.get(appointment=a, patient=p)
+        associatedPAction = AssociatedPatientActions.objects.get(appointment=a, patient=p)
 
         if attended == 'True':
             associatedPAction.addedToQueue = True
