@@ -38,9 +38,9 @@ app.service('enableIScheduleSvc', function () {
                 self._scope.getISchedule();
                 self._scope.showFilters = false;
             } else {
-                self._scope.lowHeatMap.events.splice(0);
-                self._scope.medHeatMap.events.splice(0);
-                self._scope.highHeatMap.events.splice(0);
+                self._scope.drHoLowHeatMap.events.splice(0);
+                self._scope.drHoMedHeatMap.events.splice(0);
+                self._scope.drHoHighHeatMap.events.splice(0);
                 self._scope.getHeatMap(self._scope.fields.appointmentType, self._scope.fields.doctorAssigned);
             }
         }

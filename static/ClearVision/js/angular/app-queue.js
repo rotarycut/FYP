@@ -46,7 +46,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             .success(function (data) {
                 $scope.patientList = data;
                 angular.forEach($scope.patientList, function (patient) {
-                    if (patient.patients__addedToQueue == false || patient.patients__addedToQueue == true) {
+                    if (patient.associatedpatientactions__addedToQueue == false || patient.associatedpatientactions__addedToQueue == true) {
                         patient.disableButtons = true;
                     }
                     else {
@@ -77,7 +77,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.reverseSort = !$scope.reverseSort;
     };
 
-    $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
+    $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
 
         if (doctor === "Dr Ho") {
             doctor = 2;
@@ -91,7 +91,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             "clinic": clinic,
             "doctor": doctor,
             "timeBucket": timeBucket,
-            "patient": patientContact,
+            "patient": patientId,
             "attended": hasAttended
         };
 

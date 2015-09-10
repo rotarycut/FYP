@@ -57,19 +57,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         events: []
     };
 
-    $scope.lowHeatMap = {
+    $scope.drHoLowHeatMap = {
         color: '#33CC00',
         textColor: 'White',
         events: []
     };
 
-    $scope.medHeatMap = {
+    $scope.drHoMedHeatMap = {
         color: '#FF9966',
         textColor: 'White',
         events: []
     };
 
-    $scope.highHeatMap = {
+    $scope.drHoHighHeatMap = {
         color: '#FF0000',
         textColor: 'White',
         events: []
@@ -124,7 +124,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 30) {
-                        $scope.lowHeatMap.events.push(appointment);
+                        $scope.drHoLowHeatMap.events.push(appointment);
                         count++;
                     } else {
                         return;
@@ -137,7 +137,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 20) {
-                        $scope.medHeatMap.events.push(appointment);
+                        $scope.drHoMedHeatMap.events.push(appointment);
                         count++;
                     } else {
                         return;
@@ -150,7 +150,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 20) {
-                        $scope.highHeatMap.events.push(appointment);
+                        $scope.drHoHighHeatMap.events.push(appointment);
                         count++;
                     } else {
                         return;
@@ -325,8 +325,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* event sources array */
-    $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap];
-    $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
+    //$scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap];
+    //$scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
 
     /* function to retrieve doctor's appointments */
 
@@ -1053,7 +1053,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             changeCalendar: 'myCalendar1',
             active: true,
             disable: false,
-            model: [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap]
+            model: [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.drHoLowHeatMap, $scope.drHoMedHeatMap, $scope.drHoHighHeatMap]
 
         },
         {

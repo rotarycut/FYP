@@ -56,7 +56,7 @@
 
                             <tr class=""
                                 ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
-                                ng-class="getClass(patient.patients__addedToQueue)">
+                                ng-class="getClass(patient.associatedpatientactions__addedToQueue)">
                                 <td>[[patient.associatedpatientactions__patient__name]]</td>
                                 <td>[[patient.associatedpatientactions__patient__contact]]</td>
                                 <td>[[patient.associatedpatientactions__appointment__apptType]]</td>
@@ -64,16 +64,26 @@
                                 <td>[[patient.associatedpatientactions__appointment__timeBucket__start]]</td>
                                 <td>
                                     <button type="button" class="btn btn-sm form-submit-btn"
-                                            ng-click="addToQueue(patient.id, patient.apptType, patient.clinic,
-                                            patient.doctor__name, patient.timeBucket, patient.patients, 'True')"
+                                            ng-click="addToQueue(patient.associatedpatientactions__appointment_id,
+                                                patient.associatedpatientactions__appointment__apptType,
+                                                patient.associatedpatientactions__appointment__clinic,
+                                                patient.associatedpatientactions__appointment__doctor__name,
+                                                patient.associatedpatientactions__appointment__timeBucket,
+                                                patient.associatedpatientactions__patient_id,
+                                                'True')"
                                             ng-disabled="patient.disableButtons">
                                         <i class="fa fa-check"></i>
                                     </button>
                                     <button type="button" class="btn btn-sm form-cancel-btn"
-                                            ng-click="addToNoShow(patient.id, patient.apptType, patient.clinic,
-                                            patient.doctor__name, patient.timeBucket, patient.patients, 'False')"
-                                            ng-disabled="patient.disableButtons"><i
-                                            class="fa fa-times"></i>
+                                            ng-click="addToNoShow(patient.associatedpatientactions__appointment_id,
+                                                patient.associatedpatientactions__appointment__apptType,
+                                                patient.associatedpatientactions__appointment__clinic,
+                                                patient.associatedpatientactions__appointment__doctor__name,
+                                                patient.associatedpatientactions__appointment__timeBucket,
+                                                patient.associatedpatientactions__patient_id,
+                                                'False')"
+                                            ng-disabled="patient.disableButtons">
+                                        <i class="fa fa-times"></i>
                                     </button>
                                 </td>
                             </tr>
