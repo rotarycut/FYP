@@ -813,13 +813,12 @@ class ViewTodayPatients(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = Appointment.objects.filter(timeBucket__date=datetime.today()).values('patients', 'patients__name',
-                                                                                             'patients__gender', 'timeBucket__date',
-                                                                                             'timeBucket__start', 'apptType', 'id',
-                                                                                             'timeBucket', 'doctor__name', 'clinic',
-                                                                                             'doctor', 'patients__addedToQueue', 'patients__contact').\
-            exclude(patients__isnull=True)
-
+        response_data = Appointment.objects.filter(timeBucket__date=datetime.today()).values('associatedpatientactions__appointment__doctor__name',
+                                                                                             'associatedpatientactions__patient__name',
+                                                                                             'associatedpatientactions__patient__contact',
+                                                                                             'associatedpatientactions__appointment__apptType',
+                                                                                             'associatedpatientactions__appointment__timeBucket__start',
+                                                                                             'associatedpatientactions__addedToQueue')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
@@ -1012,7 +1011,7 @@ class NoShowPerChannel(viewsets.ReadOnlyModelViewSet):
 
         allchannels = MarketingChannels.objects.all().values()
 
-        noShow = AttendedAppointment.objects.filter(attended=False,).values('patient__marketingChannelId',)
+        noShow = Blacklist.objects.values('patient__marketingChannelId',)
 
         for eachChannel in allchannels:
             counter = 0
@@ -1029,9 +1028,12 @@ class AppointmentAnalysis(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
 
     def list(self, request, *args, **kwargs):
-        tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__lte=datetime.now().date())
-        tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__lte=datetime.now().date())
+        month = request.query_params.get('month')
 
-        return Response(tillNowAttended)
+        tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month).values()
+        tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month).values()
+        totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month).values('patients').count()
+
+        return Response(totalPatientsForMonth)
 
 

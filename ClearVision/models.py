@@ -17,7 +17,6 @@ class Patient(models.Model):
     registrationDate = models.DateTimeField(null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
     conversion = models.NullBooleanField(default=False)
-    addedToQueue = models.NullBooleanField(default=None)
 
     class Meta:
         ordering = ['registrationDate']
@@ -114,3 +113,9 @@ class UserTracking(models.Model):
     action = models.CharField(max_length=500)
     timeIn = models.TimeField()
     timeOut = models.TimeField(null=True)
+
+class AssociatedPatientActions(models.Model):
+    patient = models.ForeignKey(Patient)
+    appointment = models.ForeignKey(Appointment)
+    addedToQueue = models.NullBooleanField(default=None)
+    cancelled = models.NullBooleanField(default=None)
