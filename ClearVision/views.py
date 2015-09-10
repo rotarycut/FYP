@@ -168,6 +168,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         a.patients.remove(p)
         a.save()
 
+        AssociatedPatientActions.objects.get(appointment=a, patient=p).cancelled = True
+
         tempApptSwapperObj = Swapper.objects.filter(patient=p, scheduledAppt=a,)
 
         # Check whether deleted patient is queued for any other appointments in the tempPatients queue
@@ -822,7 +824,8 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                                                              'associatedpatientactions__appointment__clinic',
                                                                                              'associatedpatientactions__appointment__timeBucket',
                                                                                              'associatedpatientactions__patient_id',
-                                                                                             'associatedpatientactions__appointment__doctor_id')
+                                                                                             'associatedpatientactions__appointment__doctor_id',
+                                                                                             'associatedpatientactions__appointment_id')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
