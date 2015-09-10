@@ -618,6 +618,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.scaleDownCalendar = true;
         $scope.progressbar.start();
         $scope.progressbar.complete();
+
+
         $timeout(function () {
             $scope.form.showForm = true;
         }, 800);

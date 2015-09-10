@@ -57,11 +57,11 @@
                             <tr class=""
                                 ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
                                 ng-class="getClass(patient.patients__addedToQueue)">
-                                <td>[[patient.patients__name]]</td>
-                                <td>[[patient.patients__contact]]</td>
-                                <td>[[patient.apptType]]</td>
-                                <td>[[patient.doctor__name]]</td>
-                                <td>[[patient.timeBucket__start]]</td>
+                                <td>[[patient.associatedpatientactions__patient__name]]</td>
+                                <td>[[patient.associatedpatientactions__patient__contact]]</td>
+                                <td>[[patient.associatedpatientactions__appointment__apptType]]</td>
+                                <td>[[patient.associatedpatientactions__appointment__doctor__name]]</td>
+                                <td>[[patient.associatedpatientactions__appointment__timeBucket__start]]</td>
                                 <td>
                                     <button type="button" class="btn btn-sm form-submit-btn"
                                             ng-click="addToQueue(patient.id, patient.apptType, patient.clinic,
