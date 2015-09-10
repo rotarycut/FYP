@@ -1019,7 +1019,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var row = response.data;
                 var rowArr = [];
                 angular.forEach(row, function (appt) {
-                    var rowStr = appt.apptDate + ", " + appt.apptStart + " (" + appt.name + ": " + appt.contact + ")";
+                    var rowStr = appt.apptDate + ", " + appt.apptStart + ", " + appt.apptType + " (" + appt.name + ": " + appt.contact + ")";
                     rowArr.push(rowStr)
                 });
                 return rowArr;
