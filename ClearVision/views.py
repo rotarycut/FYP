@@ -817,7 +817,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                                                              'patients__gender', 'timeBucket__date',
                                                                                              'timeBucket__start', 'apptType', 'id',
                                                                                              'timeBucket', 'doctor__name', 'clinic',
-                                                                                             'doctor', 'patients__addedToQueue').\
+                                                                                             'doctor', 'patients__addedToQueue', 'patients__contact').\
             exclude(patients__isnull=True)
 
         return Response(response_data)
@@ -932,8 +932,8 @@ class PatientQueue(viewsets.ModelViewSet):
         return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
-        response_data = AttendedAppointment.objects.filter(attended=True).values('patient_id', 'patient__name', 'originalAppt_id',
-                                                                                 'last_modified', 'remarks')
+        response_data = AttendedAppointment.objects.filter(attended=True, timeBucket__date=datetime.now().date()).\
+            values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified', 'remarks')
 
         return Response(response_data)
 
@@ -1024,3 +1024,14 @@ class NoShowPerChannel(viewsets.ReadOnlyModelViewSet):
                 eachChannel['NoShowCount'] = counter
 
         return Response(allchannels)
+
+class AppointmentAnalysis(viewsets.ReadOnlyModelViewSet):
+    queryset = Blacklist.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__lte=datetime.now().date())
+        tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__lte=datetime.now().date())
+
+        return Response(tillNowAttended)
+
+
