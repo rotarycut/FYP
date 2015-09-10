@@ -114,15 +114,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
             data: {
                 json: newData,
                 keys: {
-                    // x: 'name', // it's possible to specify 'x' when category axis
-                    x: 'apptType',
-                    value: ['turnUp', 'noShow', 'cancelled', 'undecided']
+                    value: ['screening', 'preEval', 'surgery', 'postOne', 'postTwo']
                 },
-                type: 'pie',
-                groups: [
-                    ['turnUp', 'noShow', 'cancelled', 'undecided']
-                ],
-                order: null
+                type: 'pie'
             }
         });
 
@@ -132,6 +126,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
         }, 50);
 
     };
+
+    $scope.showPieChart($scope.pieData);
 
 
 });
