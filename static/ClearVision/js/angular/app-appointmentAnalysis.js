@@ -2,39 +2,29 @@ var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
 appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http) {
 
-    /*$scope.testData = [
-        {
-            "apptType": "screening",
-            "turnUp": 10,
-            "noShow": 5,
-            "cancelled": 7,
-            "undecided": 20
-        },
-        {
-            "apptType": "preEval",
-            "turnUp": 10,
-            "noShow": 2,
-            "cancelled": 9,
-            "undecided": 20
-        },
-        {
-            "apptType": "surgery",
-            "turnUp": 14,
-            "noShow": 8,
-            "cancelled": 9,
-            "undecided": 24
-        }
-    ];*/
+    /* function to get the current month */
+    $scope.getCurrentMonth = function () {
+        var currentMonth = new Date().getMonth() + 1;
+        return currentMonth;
+    };
 
-    $scope.retrieveStackedChart = function () {
-        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?month=09')
+
+    /*******************************************************************************
+     appointment scheduling stacked chart
+     *******************************************************************************/
+
+
+    /* function to retrieve stacked chart data from backend */
+    $scope.retrieveStackedChart = function (currentMonth) {
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?month=' + currentMonth)
             .success(function (data) {
-                $scope.testData = data;
-                $scope.showStackedChart($scope.testData);
+                $scope.stackedChartData = data;
+                $scope.showStackedChart($scope.stackedChartData);
             });
     };
 
-    $scope.showStackedChart = function (newData) {
+    /* c3 function to show stacked chart */
+    $scope.showStackedChart = function (data) {
 
         $scope.stackedChart = c3.generate({
             bindto: '#stacked',
@@ -51,7 +41,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             },
             axis: {
                 x: {
-                    height: 100,
+                    height: 80,
                     label: {
                         text: 'Appointment Types',
                         position: 'outer-center'
@@ -75,7 +65,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 }
             },
             data: {
-                json: newData,
+                json: data,
                 keys: {
                     // x: 'name', // it's possible to specify 'x' when category axis
                     x: 'apptType',
@@ -88,28 +78,38 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 order: null
             }
         });
-
-        setTimeout(function () {
-            //$scope.marketingChart.toggle('convert');
-            //$scope.marketingChart.toggle('rate');
-        }, 50);
-
     };
 
-    $scope.retrieveStackedChart();
+    /* call to retrieve stacked chart */
+    $scope.retrieveStackedChart($scope.getCurrentMonth());
 
 
-    $scope.pieData = [
-        {
-            "Screening": 20,
-            "Pre Evaluation": 20,
-            "Surgery": 20,
-            "Post Surgery 1": 20,
-            "Post Surgery 2": 20
-        }
-    ];
+    /*******************************************************************************
+     cancelled appointments pie chart
+     *******************************************************************************/
 
-    $scope.showPieChart = function (newData) {
+
+    /* function to retrieve cancelled appointment pie chart from backend */
+    $scope.retrieveCancelledAppointments = function (currentMonth) {
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisCancelledAppointments/?month=' + currentMonth)
+            .success(function (data) {
+                if (Object.keys(data).length == 0) {
+                    // there is zero cancelled appointment
+                    console.log("There is zero cancelled appointment");
+                } else {
+                    // there is at least one cancelled appointment
+                    console.log("There is at least one cancelled appointment");
+                    $scope.cancelledChartData = data;
+                    $scope.showCancelledChart($scope.cancelledChartData);
+                }
+            })
+            .error(function (data) {
+                console.log("Error");
+            });
+    };
+
+    /* c3 function to show cancelled pie chart */
+    $scope.showCancelledChart = function (data) {
 
         $scope.pieChartOne = c3.generate({
             bindto: '#pie1',
@@ -120,22 +120,27 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 left: 50
             },
             data: {
-                json: newData,
+                json: data,
                 keys: {
                     value: ['Screening', 'Pre Evaluation', 'Surgery', 'Post Surgery 1', 'Post Surgery 2']
                 },
-                type: 'pie'
+                type: 'pie',
+                onclick: function (d, element) {
+                    var chosenField = d.id;
+                    $scope.cancelledMarketingChannel($scope.pieData3);
+                }
             }
         });
-
-        setTimeout(function () {
-            //$scope.marketingChart.toggle('convert');
-            //$scope.marketingChart.toggle('rate');
-        }, 50);
-
     };
 
-    $scope.showPieChart($scope.pieData);
+    /* call to retrieve cancelled chart */
+    $scope.retrieveCancelledAppointments($scope.getCurrentMonth());
+
+
+    /*******************************************************************************
+     cancelled marketing channel pie chart
+     *******************************************************************************/
+
 
     $scope.pieData2 = [
         {
@@ -147,34 +152,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         }
     ];
 
-    $scope.showPieChart2 = function (newData) {
-
-        $scope.pieChartOne = c3.generate({
-            bindto: '#pie2',
-            padding: {
-                top: 30,
-                right: 30,
-                bottom: 0,
-                left: 50
-            },
-            data: {
-                json: newData,
-                keys: {
-                    value: ['Change Clinic', 'Not Doing Lasik Anymore', 'Will Schedule Again', 'Change Of Mind', 'Others']
-                },
-                type: 'pie'
-            }
-        });
-
-        setTimeout(function () {
-            //$scope.marketingChart.toggle('convert');
-            //$scope.marketingChart.toggle('rate');
-        }, 50);
-
-    };
-
-    $scope.showPieChart2($scope.pieData2);
-
     $scope.pieData3 = [
         {
             "Email NewsLetter": 25,
@@ -184,7 +161,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         }
     ];
 
-    $scope.showPieChart3 = function (newData) {
+    $scope.cancelledMarketingChannel = function (data) {
 
         $scope.pieChartOne = c3.generate({
             bindto: '#pie3',
@@ -195,23 +172,14 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 left: 50
             },
             data: {
-                json: newData,
+                json: data,
                 keys: {
                     value: ['Email NewsLetter', 'Andrea Chong Blog', 'ABC Magazine', 'Change Of Mind', 'Facebook Ads']
                 },
                 type: 'pie'
             }
         });
-
-        setTimeout(function () {
-            //$scope.marketingChart.toggle('convert');
-            //$scope.marketingChart.toggle('rate');
-        }, 50);
-
     };
-
-    $scope.showPieChart3($scope.pieData3);
-
 
 });
 
