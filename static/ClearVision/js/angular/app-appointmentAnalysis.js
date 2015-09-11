@@ -1,8 +1,8 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http) {
 
-    $scope.testData = [
+    /*$scope.testData = [
         {
             "apptType": "screening",
             "turnUp": 10,
@@ -24,7 +24,15 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
             "cancelled": 9,
             "undecided": 24
         }
-    ];
+    ];*/
+
+    $scope.retrieveStackedChart = function () {
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?month=09')
+            .success(function (data) {
+                $scope.testData = data;
+                $scope.showStackedChart($scope.testData);
+            });
+    };
 
     $scope.showStackedChart = function (newData) {
 
@@ -61,7 +69,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
                         text: '# of appointments',
                         position: 'outer middle'
                     },
-                    max: 100,
+                    max: 20,
                     min: 0,
                     padding: {top: 0, bottom: 0}
                 }
@@ -71,11 +79,11 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
                 keys: {
                     // x: 'name', // it's possible to specify 'x' when category axis
                     x: 'apptType',
-                    value: ['turnUp', 'noShow', 'cancelled', 'undecided']
+                    value: ['Appeared', 'NoShow', 'Cancelled', 'Pending']
                 },
                 type: 'bar',
                 groups: [
-                    ['turnUp', 'noShow', 'cancelled', 'undecided']
+                    ['Appeared', 'NoShow', 'Cancelled', 'Pending']
                 ],
                 order: null
             }
@@ -88,7 +96,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope) {
 
     };
 
-    $scope.showStackedChart($scope.testData);
+    $scope.retrieveStackedChart();
 
 
     $scope.pieData = [
