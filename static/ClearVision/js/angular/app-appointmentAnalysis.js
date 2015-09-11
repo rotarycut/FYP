@@ -90,12 +90,16 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
 
     /* function to retrieve cancelled appointment pie chart from backend */
-    $scope.retrieveCancelledAppointments = function (currentMonth) {
-        $http.get('/Clearvision/_api/ViewAppointmentAnalysisCancelledAppointments/?month=' + currentMonth)
+    $scope.retrieveCancelledAppointments = function (type) {
+        var currentMonth = $scope.getCurrentMonth();
+
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?month=' + currentMonth + '&piechartType=' + type)
             .success(function (data) {
+                console.log(data);
                 if (Object.keys(data).length == 0) {
                     // there is zero cancelled appointment
                     console.log("There is zero cancelled appointment");
+                    $scope.showCancelledChart([]);
                 } else {
                     // there is at least one cancelled appointment
                     console.log("There is at least one cancelled appointment");
@@ -134,7 +138,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     };
 
     /* call to retrieve cancelled chart */
-    $scope.retrieveCancelledAppointments($scope.getCurrentMonth());
+    $scope.retrieveCancelledAppointments('Cancelled');
 
 
     /*******************************************************************************
