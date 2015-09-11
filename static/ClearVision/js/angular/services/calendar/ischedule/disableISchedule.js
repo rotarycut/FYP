@@ -18,9 +18,15 @@ app.service('disableIScheduleSvc', function () {
             self._scope.drHoLowHeatMap.events.splice(0);
             self._scope.drHoMedHeatMap.events.splice(0);
             self._scope.drHoHighHeatMap.events.splice(0);
+            self._scope.drGohLowHeatMap.events.splice(0);
+            self._scope.drGohMedHeatMap.events.splice(0);
+            self._scope.drGohHighHeatMap.events.splice(0);
             self._scope.getDrHoScreenings();
             self._scope.getDrHoPreEvaluations();
             self._scope.getDrHoSurgeries();
+            self._scope.getDrGohScreenings();
+            self._scope.getDrGohPreEvaluations();
+            self._scope.getDrGohSurgeries();
             self._scope.showFilters = true;
         }
     }

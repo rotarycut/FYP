@@ -177,7 +177,7 @@
                         <label class="control-label">Doctor</label>
                         <select class="form-control" ng-options="doc for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor" ng-change="enableISchedule(); changeCalendar()"
+                                ng-disabled="form.disableFields.doctor" ng-change="changeCalendar(); enableISchedule()"
                                 required>
                         </select>
 
