@@ -1200,18 +1200,30 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
             for eachMarketingChannel in allmarketingchannels:
                 totalCancelledPerApptTypePerChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
                                                                                 cancelled=True, appointment__timeBucket__timeslotType=apptType,
-                                                                                patient__marketingChannelId__name=eachMarketingChannel['name']).count()
+                                                                                patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
 
                 percentage = float(totalCancelledPerApptTypePerChannel)/float(totalCancelledPerApptType) * 100
                 toAdd = {eachMarketingChannel['name']: percentage}
                 toReturnResponse.append(toAdd)
             return Response(toReturnResponse)
 
-        return Response({})
+        elif pieChart == 'Appointment Type' and pieChartTab == 'NoShow':
+            totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+            if totalNoShowPerApptType == 0:
+                return Response({})
+
+            for eachMarketingChannel in allmarketingchannels:
+                totalNoShowPerApptTypePerChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
+                                                                            patient__marketingChannelId__name=eachMarketingChannel['name'],
+                                                                            appointment__timeBucket__timeslotType=apptType).values().count()
+                percentage = float(totalNoShowPerApptTypePerChannel)/float(totalNoShowPerApptType) * 100
+                toAdd = {eachMarketingChannel['name']: percentage}
+                toReturnResponse.append(toAdd)
+
+            return Response(totalNoShowPerApptType)
 
         """
-        elif pieChart == 'Appointment Type' and pieChartTab == 'NoShow':
-
         elif pieChart == 'Appointment Type' and pieChartTab == 'Combined':
 
         elif pieChart == 'Marketing Channels' and pieChartTab == 'Cancelled':
