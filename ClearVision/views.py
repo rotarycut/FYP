@@ -168,7 +168,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
         a.patients.remove(p)
         a.save()
 
-        AssociatedPatientActions.objects.get(appointment=a, patient=p).cancelled = True
+        associatedPActions = AssociatedPatientActions.objects.get(appointment=a, patient=p)
+        associatedPActions.cancelled = True
+        associatedPActions.save()
 
         tempApptSwapperObj = Swapper.objects.filter(patient=p, scheduledAppt=a,)
 
@@ -1042,10 +1044,17 @@ class AppointmentAnalysis(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
 
-        tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month).values()
-        tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month).values()
-        totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month).values('patients').count()
+        apptTypes = AppointmentType.objects.all().values()
 
-        return Response(totalPatientsForMonth)
+        toReturnResponse = []
 
+        for eachApptType in apptTypes:
+            tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
+            tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
+            totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values('patients').count()
+            totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
 
+            toAdd = {'apptType': eachApptType['name'], 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
+            toReturnResponse.append(toAdd)
+
+        return Response(toReturnResponse)

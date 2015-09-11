@@ -1,5 +1,41 @@
 [
   {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Screening"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Pre Evaluation"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Surgery"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Post Surgery 1"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Post Surgery 2"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "General Eyecare"
+    }
+  },
+  {
     "model": "ClearVision.MarketingChannels",
     "fields": {
         "name": "987 Radio"

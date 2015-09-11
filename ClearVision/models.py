@@ -1,5 +1,8 @@
 from django.db import models
 
+class AppointmentType(models.Model):
+    name = models.CharField(max_length=200)
+
 class FullYearCalendar(models.Model):
     date = models.DateField('Date', primary_key=True)
     day = models.CharField(max_length=50)
