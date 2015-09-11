@@ -157,23 +157,25 @@
                     </div>
                     <div class="col-md-6" style="padding-top: 2.5px">
                         <button class="btn btn-sm switch-chart-btn"
-                                ng-click="retrieveCancelledAppointments('Cancelled')">Cancelled Appointments
+                                ng-click="retrieveFirstPieChart('Cancelled')">Cancelled Appointments
                         </button>
-                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveCancelledAppointments('NoShow')">
+                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveFirstPieChart('NoShow')">
                             No Show Appointments
                         </button>
                         <button class="btn btn-sm switch-chart-btn"
-                                ng-click="retrieveCancelledAppointments('Combined')">Combined Appointments
+                                ng-click="retrieveFirstPieChart('Combined')">Combined Appointments
                         </button>
                     </div>
                     <div class="col-md-1 col-md-offset-3 graph-function-col">
-                        <a href="" ng-click=""><img class="exporticon"></a>
+                        <a href=""><img class="exporticon"></a>
                     </div>
                     <div class="col-md-1 graph-function-col">
-                        <a href="" ng-click=""><i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
+                        <a href="">
+                            <i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
                     </div>
                     <div class="col-md-1 graph-function-col">
-                        <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+                        <a href="">
+                            <i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
                     </div>
                 </div>
                 <div class="row chart-content-row">
@@ -181,25 +183,19 @@
                         <div class="row">
                             <div class="col-md-11 col-md-offset-2">
                                 <button class="btn btn-sm switch-chart-btn"
-                                        ng-click="">Appointment Type
+                                        ng-click="retrieveOtherPieCharts('Appointment Type')">Appointment Type
                                 </button>
                                 <button class="btn btn-sm switch-chart-btn"
-                                        ng-click="">Reasons
+                                        ng-click="retrieveOtherPieCharts('Reasons')">Reasons
                                 </button>
                                 <button class="btn btn-sm switch-chart-btn"
-                                        ng-click="">Marketing Channels
+                                        ng-click="retrieveOtherPieCharts('Marketing Channels')">Marketing Channels
                                 </button>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;">
-                                <div id="pie1"></div>
-                            </div>
-                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;">
-                                <div id="pie2"></div>
-                            </div>
-                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;">
-                                <div id="pie3"></div>
+                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;" ng-repeat="pie in pieDetails | orderBy:'sequence'">
+                                <div id="[[pie.pieName]]"></div>
                             </div>
                         </div>
                     </div>

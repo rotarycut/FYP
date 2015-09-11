@@ -87,35 +87,63 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
 
     /*******************************************************************************
-     cancelled appointments pie chart
+     first appointment pie chart
      *******************************************************************************/
 
 
-    /* function to retrieve cancelled appointment pie chart from backend */
-    $scope.retrieveCancelledAppointments = function (type) {
+    /* function to retrieve first pie chart from backend */
+    $scope.retrieveFirstPieChart = function (type) {
+
+        $scope.outerTab = type;
+
         var currentMonth = $scope.getCurrentMonth();
 
-        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?month=' + currentMonth + '&piechartType=' + type)
-            .success(function (data) {
-                console.log(data);
-                if (Object.keys(data).length == 0) {
-                    // there is zero cancelled appointment
-                    console.log("There is zero cancelled appointment");
-                    $scope.showCancelledChart([]);
-                } else {
-                    // there is at least one cancelled appointment
-                    console.log("There is at least one cancelled appointment");
-                    $scope.cancelledChartData = data;
-                    $scope.showCancelledChart($scope.cancelledChartData);
-                }
-            })
-            .error(function (data) {
-                console.log("Error");
-            });
+        if ($scope.innerTab == 'Appointment Type') {
+            // if inner tab chosen is 'appointment type', outer tab can be anything
+            $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?month=' + currentMonth + '&piechartType=' + type)
+                .success(function (data) {
+                    console.log(data);
+                    if (Object.keys(data).length == 0) {
+                        // there is zero cancelled appointment
+                        console.log("There is zero cancelled appointment");
+                        $scope.appointmentTypeChart([]);
+                        $scope.marketingChannelChart([]);
+                    } else {
+                        // there is at least one cancelled appointment
+                        console.log("There is at least one cancelled appointment");
+                        $scope.appointmentTypeChart(data);
+                        $scope.marketingChannelChart([]);
+                    }
+                })
+                .error(function (data) {
+                    console.log("Error");
+                });
+
+        } else if ($scope.innerTab == 'Marketing Channels') {
+            // if inner tab chosen is 'marketing channel', outer tab can be anything
+            $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?month=' + currentMonth + '&piechartType=' + type)
+                .success(function (data) {
+                    if (Object.keys(data).length == 0) {
+                        // there is zero cancelled appointment
+                        console.log("There is zero cancelled appointment");
+                        $scope.appointmentTypeChart([]);
+                        $scope.marketingChannelChart([]);
+                    } else {
+                        // there is at least one cancelled appointment
+                        console.log("There is at least one cancelled appointment!!");
+                        $scope.appointmentTypeChart([]);
+                        $scope.marketingChannelChart(data);
+                    }
+                })
+        }
+
+
     };
 
-    /* c3 function to show cancelled pie chart */
-    $scope.showCancelledChart = function (data) {
+    /* c3 function to show appointment type pie chart */
+    $scope.appointmentTypeChart = function (data) {
+
+        var currentMonth = $scope.getCurrentMonth();
 
         $scope.pieChartOne = c3.generate({
             bindto: '#pie1',
@@ -133,7 +161,10 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 type: 'pie',
                 onclick: function (d, element) {
                     var chosenField = d.id;
-                    $scope.cancelledMarketingChannel($scope.pieData3);
+                    $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&apptType=' + chosenField)
+                        .success(function (data) {
+                            $scope.marketingChannelChart(data);
+                        })
                 }
             },
             size: {
@@ -142,14 +173,67 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         });
     };
 
+    /* c3 function to show marketing channel pie chart */
+    $scope.marketingChannelChart = function (data) {
+
+        $scope.pieChartOne = c3.generate({
+            bindto: '#pie3',
+            padding: {
+                top: 30,
+                right: 30,
+                bottom: 0,
+                left: 50
+            },
+            data: {
+                json: data,
+                keys: {
+                    value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others']
+                },
+                type: 'pie'
+            },
+            size: {
+                width: 200
+            }
+        });
+    };
+
     /* call to retrieve cancelled chart */
-    $scope.retrieveCancelledAppointments('Cancelled');
+    $scope.innerTab = 'Appointment Type';
+    $scope.retrieveFirstPieChart('Cancelled');
 
 
     /*******************************************************************************
      cancelled marketing channel pie chart
      *******************************************************************************/
 
+    $scope.retrieveOtherPieCharts = function (type) {
+        $scope.innerTab = type;
+        if ($scope.innerTab == 'Appointment Type') {
+            $scope.pieDetails[0].sequence = 1;
+            $scope.pieDetails[1].sequence = 2;
+            $scope.pieDetails[2].sequence = 3;
+        } else if ($scope.innerTab == 'Marketing Channels') {
+            $scope.pieDetails[0].sequence = 2;
+            $scope.pieDetails[1].sequence = 3;
+            $scope.pieDetails[2].sequence = 1;
+        }
+        $scope.retrieveFirstPieChart($scope.outerTab);
+    };
+
+    $scope.pieDetails = [
+        {
+            pieName: 'pie1',
+            sequence: 1
+        },
+        {
+            pieName: 'pie2',
+            sequence: 2
+        },
+        {
+            pieName: 'pie3',
+            sequence: 3
+        }
+    ];
 
     $scope.pieData2 = [
         {
@@ -170,32 +254,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         }
     ];
 
-    $scope.cancelledMarketingChannel = function (data) {
-
-        $scope.pieChartOne = c3.generate({
-            bindto: '#pie3',
-            padding: {
-                top: 30,
-                right: 30,
-                bottom: 0,
-                left: 50
-            },
-            data: {
-                json: data,
-                keys: {
-                    value: ['Email NewsLetter', 'Andrea Chong Blog', 'ABC Magazine']
-                },
-                type: 'pie'
-            },
-            size: {
-                width: 200
-            }
-        });
-    };
-
     $scope.apptTypes = ["Screening", "Pre-Evaluation", "Lasik", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
     $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
     $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
 
 });
-
