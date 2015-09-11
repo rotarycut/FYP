@@ -1059,7 +1059,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
 
         return Response(toReturnResponse)
 
-class AppointmentAnalysisPiechartTab(viewsets.ReadOnlyModelViewSet):
+class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
 
     def list(self, request, *args, **kwargs):
