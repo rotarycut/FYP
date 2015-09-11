@@ -1081,3 +1081,31 @@ class AppointmentAnalysisCancelledAppointments(viewsets.ReadOnlyModelViewSet):
             toReturnResponse.append(toAdd)
 
         return Response(toReturnResponse)
+
+class AppointmentAnalysisMarketingChannels(viewsets.ReadOnlyModelViewSet):
+    queryset = Blacklist.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        month = request.query_params.get('month')
+        apptType = request.query_params.get('apptType')
+
+        toReturnResponse = []
+        allmarketingchannels = MarketingChannels.objects.all().values()
+
+        if apptType is not None:
+            totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType).count()
+
+            if totalCancelledPerApptType == 0:
+                return Response({})
+
+            for eachMarketingChannel in allmarketingchannels:
+                totalCancelledPerApptTypePerChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType,
+                                                                                patient__marketingChannelId__name=eachMarketingChannel['name']).count()
+
+                percentage = float(totalCancelledPerApptTypePerChannel)/float(totalCancelledPerApptType) * 100
+                toAdd = {eachMarketingChannel['name']: percentage}
+                toReturnResponse.append(toAdd)
+
+        return Response(toReturnResponse)
