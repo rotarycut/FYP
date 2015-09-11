@@ -2,6 +2,8 @@ var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
 appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http) {
 
+    $scope.isCollapsed = true;
+
     /* function to get the current month */
     $scope.getCurrentMonth = function () {
         var currentMonth = new Date().getMonth() + 1;
@@ -161,7 +163,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             "Email NewsLetter": 25,
             "Andrea Chong Blog": 25,
             "ABC Magazine": 15,
-            "Facebook Ads": 35
+
         }
     ];
 
@@ -178,12 +180,16 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             data: {
                 json: data,
                 keys: {
-                    value: ['Email NewsLetter', 'Andrea Chong Blog', 'ABC Magazine', 'Change Of Mind', 'Facebook Ads']
+                    value: ['Email NewsLetter', 'Andrea Chong Blog', 'ABC Magazine']
                 },
                 type: 'pie'
             }
         });
     };
+
+    $scope.apptTypes = ["Screening", "Pre-Evaluation", "Lasik", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
+    $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
+    $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
 
 });
 
