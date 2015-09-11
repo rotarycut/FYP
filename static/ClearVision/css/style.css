@@ -335,7 +335,7 @@ ul.legend-ul li{
 }
 
 .legend-screen{
-    color: #C6A49A;
+    color: #3AA0B9;
     text-decoration: none;
     border-bottom: none;
 }
@@ -344,7 +344,7 @@ ul.legend-ul li{
 .legend-screen:active
 .legend-screen:hover
 {
-    color: #C6A49A;
+    color: #3AA0B9;
     text-decoration: none;
     border-bottom: none;
 }
@@ -403,18 +403,18 @@ ul.legend-ul li{
 }
 
 .legend-screen-clicked{
-    color: #C6A49A;
+    color: #3AA0B9;
     text-decoration: none;
-    border-bottom: solid 2px #C6A49A;
+    border-bottom: solid 2px #3AA0B9;
 }
 
 .legend-screen-clicked:active,
 .legend-screen-clicked:focus,
 .legend-screen-clicked:hover
 {
-    color: #C6A49A;
+    color: #3AA0B9;
     text-decoration: none;
-    border-bottom: solid 2px #C6A49A;
+    border-bottom: solid 2px #3AA0B9;
 }
 
 
@@ -587,6 +587,7 @@ li .i-slot-label {
     padding-top:0;
     border: 1px dotted #1859ab;
     border-radius: 4px;
+    margin-right: 0.5%;
 
 }
 .filter-row-title{
@@ -629,6 +630,7 @@ li .i-slot-label {
     overflow-y: auto;
     background: #D0E0EB;
     border-radius: 8px;
+    text-align:center;
 }
 
 
@@ -653,6 +655,11 @@ li .i-slot-label {
     color: #49708A;
 }
 
+.typeSelected{
+    background: #D0E0EB;
+    color: #49708A;
+}
+
 .dashboard-listing-lbl{
     padding-left: 0;
     font-weight: 400;
@@ -661,12 +668,18 @@ li .i-slot-label {
 
 .exporticon{
     content: url('../img/icon-export.png');
-    width: 18px;
+    width: 19px;
     height: 18px;
 }
 
 .charts-row1{
     padding-left: 10px;
+}
+
+.saved-filter-items{
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
 }
 
 /* dashboard css ends*/

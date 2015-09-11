@@ -1,6 +1,7 @@
 var appDashboard = angular.module('app.dashboard', []);
 
 appDashboard.controller('DashboardCtrl', function ($scope, $http) {
+
     $scope.months = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
