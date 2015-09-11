@@ -1221,11 +1221,32 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                 toAdd = {eachMarketingChannel['name']: percentage}
                 toReturnResponse.append(toAdd)
 
-            return Response(totalNoShowPerApptType)
+            return Response(toReturnResponse)
+
+        elif pieChart == 'Appointment Type' and pieChartTab == 'Combined':
+            totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType).values().count()
+            totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+            totalCombined = totalCancelledPerApptType + totalNoShowPerApptType
+
+            if totalCombined == 0:
+                return Response({})
+
+            for eachMarketingChannel in allmarketingchannels:
+                totalCancelledPerApptTypePerChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType,
+                                                                                patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                totalNoShowPerApptTypePerChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
+                                                                            patient__marketingChannelId__name=eachMarketingChannel['name'],
+                                                                            appointment__timeBucket__timeslotType=apptType).values().count()
+                totalCombinedPerApptTypePerChannel = totalCancelledPerApptTypePerChannel + totalCancelledPerApptTypePerChannel
+                percentage = float(totalCombinedPerApptTypePerChannel)/float(totalCombined)
+                toAdd = {eachMarketingChannel['name']: percentage}
+                toReturnResponse.append(toAdd)
+
+            return Response(toReturnResponse)
 
         """
-        elif pieChart == 'Appointment Type' and pieChartTab == 'Combined':
-
         elif pieChart == 'Marketing Channels' and pieChartTab == 'Cancelled':
 
         elif pieChart == 'Marketing Channels' and pieChartTab == 'NoShow':
