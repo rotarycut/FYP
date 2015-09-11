@@ -1071,10 +1071,12 @@ class AppointmentAnalysisCancelledAppointments(viewsets.ReadOnlyModelViewSet):
 
         totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
 
+        if totalCancelledPerMonth == 0:
+            return Response({})
+
         for eachApptType in apptTypes:
             totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
             percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
-            print(percentage)
             toAdd = {'apptType': eachApptType['name'], 'Cancelled': percentage}
             toReturnResponse.append(toAdd)
 
