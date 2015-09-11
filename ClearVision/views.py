@@ -1178,20 +1178,22 @@ class AppointmentAnalysisPiechartMarketingChannelsTab(viewsets.ReadOnlyModelView
             return Response(toReturnResponse)
 
 
-class AppointmentAnalysisMarketingChannels(viewsets.ReadOnlyModelViewSet):
+class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
 
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
         apptType = request.query_params.get('apptType')
+        pieChart = request.query_params.get('pieChart')
+        pieChartTab = request.query_params.get('pieChartTab')
 
         toReturnResponse = []
         allmarketingchannels = MarketingChannels.objects.all().values()
+        allApptTypes = AppointmentType.objects.all().values()
 
-        if apptType is not None:
+        if pieChart == 'Appointment Type' and pieChartTab == 'Cancelled':
             totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
-                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType).count()
-
+                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType).values().count()
             if totalCancelledPerApptType == 0:
                 return Response({})
 
@@ -1203,5 +1205,18 @@ class AppointmentAnalysisMarketingChannels(viewsets.ReadOnlyModelViewSet):
                 percentage = float(totalCancelledPerApptTypePerChannel)/float(totalCancelledPerApptType) * 100
                 toAdd = {eachMarketingChannel['name']: percentage}
                 toReturnResponse.append(toAdd)
+            return Response(toReturnResponse)
 
-        return Response(toReturnResponse)
+        return Response({})
+
+        """
+        elif pieChart == 'Appointment Type' and pieChartTab == 'NoShow':
+
+        elif pieChart == 'Appointment Type' and pieChartTab == 'Combined':
+
+        elif pieChart == 'Marketing Channels' and pieChartTab == 'Cancelled':
+
+        elif pieChart == 'Marketing Channels' and pieChartTab == 'NoShow':
+
+        elif pieChart == 'Marketing Channels' and pieChartTab == 'Combined':
+        """

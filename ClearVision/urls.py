@@ -28,7 +28,7 @@ router.register(r'_api/ViewNoShowPerChannel', views.NoShowPerChannel)
 router.register(r'_api/ViewAppointmentAnalysisStackedChart', views.AppointmentAnalysisStackedChart)
 router.register(r'_api/ViewAppointmentAnalysisPiechartApptTypeTab', views.AppointmentAnalysisPiechartApptTypeTab)
 router.register(r'_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab', views.AppointmentAnalysisPiechartMarketingChannelsTab)
-router.register(r'_api/ViewAppointmentAnalysisMarketingChannels', views.AppointmentAnalysisMarketingChannels)
+router.register(r'_api/ViewAppointmentAnalysisPartPieApptType', views.AppointmentAnalysisPartPieApptType)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
