@@ -1239,7 +1239,7 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                 totalNoShowPerApptTypePerChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
                                                                             patient__marketingChannelId__name=eachMarketingChannel['name'],
                                                                             appointment__timeBucket__timeslotType=apptType).values().count()
-                totalCombinedPerApptTypePerChannel = totalCancelledPerApptTypePerChannel + totalCancelledPerApptTypePerChannel
+                totalCombinedPerApptTypePerChannel = totalCancelledPerApptTypePerChannel + totalNoShowPerApptTypePerChannel
                 percentage = float(totalCombinedPerApptTypePerChannel)/float(totalCombined)
                 toAdd = {eachMarketingChannel['name']: percentage}
                 toReturnResponse.append(toAdd)
