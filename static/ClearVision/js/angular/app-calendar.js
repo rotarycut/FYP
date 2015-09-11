@@ -136,14 +136,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
         var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=10&lowerB=4&docName=' + doctorName;
 
+        console.log(lowHeatUrl);
+
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
+                console.log(listOfAppointments);
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 30) {
-                        $scope.drHoLowHeatMap.events.push(appointment);
+                    if (count <= 20) {
                         $scope.drGohLowHeatMap.events.push(appointment);
+                        $scope.drHoLowHeatMap.events.push(appointment);
+
                         count++;
                         console.log("AFASFAS");
                     } else {
@@ -350,8 +354,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* event sources array */
-    //$scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.lowHeatMap, $scope.medHeatMap, $scope.highHeatMap];
-    //$scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries];
+    $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.drHoLowHeatMap, $scope.drHoMedHeatMap, $scope.drHoHighHeatMap];
+    $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries, $scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap];
 
     /* function to retrieve doctor's appointments */
 
@@ -1078,7 +1082,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             changeCalendar: 'myCalendar1',
             active: true,
             disable: false,
-            model: [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.drHoLowHeatMap, $scope.drHoMedHeatMap, $scope.drHoHighHeatMap]
+            model: $scope.doctorHoAppointments
 
         },
         {
@@ -1088,7 +1092,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             changeCalendar: 'myCalendar2',
             active: false,
             disable: false,
-            model: [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries, $scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap]
+            model: $scope.doctorGohAppointments
         }
     ];
 
