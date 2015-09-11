@@ -26,7 +26,7 @@ router.register(r'_api/ViewPatientQueue', views.PatientQueue)
 router.register(r'_api/ViewArchive', views.ViewArchive)
 router.register(r'_api/ViewNoShowPerChannel', views.NoShowPerChannel)
 router.register(r'_api/ViewAppointmentAnalysisStackedChart', views.AppointmentAnalysisStackedChart)
-router.register(r'_api/ViewAppointmentAnalysisCancelledAppointments', views.AppointmentAnalysisCancelledAppointments)
+router.register(r'_api/ViewAppointmentAnalysisPiechartTab', views.AppointmentAnalysisPiechartTab)
 router.register(r'_api/ViewAppointmentAnalysisMarketingChannels', views.AppointmentAnalysisMarketingChannels)
 
 urlpatterns = [

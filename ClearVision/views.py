@@ -1059,28 +1059,63 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
 
         return Response(toReturnResponse)
 
-class AppointmentAnalysisCancelledAppointments(viewsets.ReadOnlyModelViewSet):
+class AppointmentAnalysisPiechartTab(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
 
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
+        piechartType = request.query_params.get('piechartType')
 
         apptTypes = AppointmentType.objects.all().values()
 
         toReturnResponse = []
 
-        totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+        if piechartType == 'Cancelled':
+            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
 
-        if totalCancelledPerMonth == 0:
-            return Response({})
+            if totalCancelledPerMonth == 0:
+                return Response({})
 
-        for eachApptType in apptTypes:
-            totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
-            percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
-            toAdd = {eachApptType['name']: percentage}
-            toReturnResponse.append(toAdd)
+            for eachApptType in apptTypes:
+                totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+                percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
+                toAdd = {eachApptType['name']: percentage}
+                toReturnResponse.append(toAdd)
 
-        return Response(toReturnResponse)
+            return Response(toReturnResponse)
+        elif piechartType == 'NoShow':
+            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+            if totalNoShowPerMonth == 0:
+                return Response({})
+
+            for eachApptType in apptTypes:
+                totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month, apptType=eachApptType['name']).values().count()
+                percentage = float(totalNoShowPerApptType)/float(totalNoShowPerMonth)
+                toAdd = {eachApptType['name']: percentage}
+                toReturnResponse.append(toAdd)
+
+            return Response(toReturnResponse)
+        elif piechartType == 'Combined':
+            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+            totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+            if totalCombined == 0:
+                return Response({})
+
+            for eachApptType in apptTypes:
+                totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month, apptType=eachApptType['name']).values().count()
+                totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+                totalCombinedPerApptType = totalNoShowPerApptType + totalCancelledPerApptType
+                percentage = float(totalCombinedPerApptType)/float(totalCombined)
+                toAdd = {eachApptType['name']: percentage}
+                toReturnResponse.append(toAdd)
+
+            return Response(toReturnResponse)
+
+        else:
+            return Response("Invalid Request")
 
 class AppointmentAnalysisMarketingChannels(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
