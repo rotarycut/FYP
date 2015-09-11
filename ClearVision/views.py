@@ -1038,7 +1038,7 @@ class NoShowPerChannel(viewsets.ReadOnlyModelViewSet):
 
         return Response(allchannels)
 
-class AppointmentAnalysis(viewsets.ReadOnlyModelViewSet):
+class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
 
     def list(self, request, *args, **kwargs):
