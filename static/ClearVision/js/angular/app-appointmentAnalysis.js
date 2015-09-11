@@ -135,6 +135,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     var chosenField = d.id;
                     $scope.cancelledMarketingChannel($scope.pieData3);
                 }
+            },
+            size: {
+                width: 200
             }
         });
     };
