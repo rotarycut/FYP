@@ -156,9 +156,15 @@
                         <h5 style="color: #49708A">In-depth Analysis</h5>
                     </div>
                     <div class="col-md-6" style="padding-top: 2.5px">
-                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveCancelledAppointments('Cancelled')">Cancelled Appointments</button>
-                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveCancelledAppointments('NoShow')">No Show Appointments</button>
-                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveCancelledAppointments('Combined')">Combined Appointments</button>
+                        <button class="btn btn-sm switch-chart-btn"
+                                ng-click="retrieveCancelledAppointments('Cancelled')">Cancelled Appointments
+                        </button>
+                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveCancelledAppointments('NoShow')">
+                            No Show Appointments
+                        </button>
+                        <button class="btn btn-sm switch-chart-btn"
+                                ng-click="retrieveCancelledAppointments('Combined')">Combined Appointments
+                        </button>
                     </div>
                     <div class="col-md-1 col-md-offset-3 graph-function-col">
                         <a href="" ng-click=""><img class="exporticon"></a>
@@ -171,24 +177,41 @@
                     </div>
                 </div>
                 <div class="row chart-content-row">
-                    <div class="col-md-4">
-                        <div id="pie1"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="pie2"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="pie3"></div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-11 col-md-offset-2">
+                                <button class="btn btn-sm switch-chart-btn"
+                                        ng-click="">Appointment Type
+                                </button>
+                                <button class="btn btn-sm switch-chart-btn"
+                                        ng-click="">Reasons
+                                </button>
+                                <button class="btn btn-sm switch-chart-btn"
+                                        ng-click="">Marketing Channels
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;">
+                                <div id="pie1"></div>
+                            </div>
+                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;">
+                                <div id="pie2"></div>
+                            </div>
+                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;">
+                                <div id="pie3"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-1 saved-filter-list">
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
-                <li ng-repeat="filter in savedFilters">
-                    <a href="#" ng-click="">[[filter]]</a>
-                </li>
-            </ul>
+                    <li ng-repeat="filter in savedFilters">
+                        <a href="#" ng-click="">[[filter]]</a>
+                    </li>
+                </ul>
             </div>
         </div>
 

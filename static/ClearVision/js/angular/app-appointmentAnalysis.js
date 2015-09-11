@@ -186,6 +186,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     value: ['Email NewsLetter', 'Andrea Chong Blog', 'ABC Magazine']
                 },
                 type: 'pie'
+            },
+            size: {
+                width: 200
             }
         });
     };
