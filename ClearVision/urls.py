@@ -26,6 +26,7 @@ router.register(r'_api/ViewPatientQueue', views.PatientQueue)
 router.register(r'_api/ViewArchive', views.ViewArchive)
 router.register(r'_api/ViewNoShowPerChannel', views.NoShowPerChannel)
 router.register(r'_api/ViewAppointmentAnalysisStackedChart', views.AppointmentAnalysisStackedChart)
+router.register(r'_api/ViewAppointmentAnalysisCancelledAppointments', views.AppointmentAnalysisCancelledAppointments)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
