@@ -119,6 +119,25 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     console.log("Error");
                 });
 
+        } else if ($scope.innerTab == 'Reasons') {
+            // if inner tab chosen is 'reasons', outer tab can be anything
+            $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartReasonsTab/?month=' + currentMonth + '&piechartType=' + type)
+                .success(function (data) {
+                    if (Object.keys(data).length == 0) {
+                        // there is zero cancelled appointment
+                        console.log("There is zero cancelled appointment");
+                        $scope.appointmentTypeChart([]);
+                        $scope.reasonsChart([]);
+                        $scope.marketingChannelChart([]);
+                    } else {
+                        // there is at least one cancelled appointment
+                        console.log("There is at least one cancelled appointment!!");
+                        $scope.appointmentTypeChart([]);
+                        $scope.reasonsChart(data);
+                        $scope.marketingChannelChart([]);
+                    }
+                })
+
         } else if ($scope.innerTab == 'Marketing Channels') {
             // if inner tab chosen is 'marketing channel', outer tab can be anything
             $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?month=' + currentMonth + '&piechartType=' + type)
@@ -166,6 +185,32 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                             $scope.marketingChannelChart(data);
                         })
                 }
+            },
+            size: {
+                width: 200
+            }
+        });
+    };
+
+    /* c3 function to show reasons pie chart */
+    $scope.reasonsChart = function (data) {
+
+        var currentMonth = $scope.getCurrentMonth();
+
+        $scope.pieChartOne = c3.generate({
+            bindto: '#pie2',
+            padding: {
+                top: 30,
+                right: 30,
+                bottom: 0,
+                left: 50
+            },
+            data: {
+                json: data,
+                keys: {
+                    value: ['Change Clinic', 'Not doing lasik', 'Schedule later appointment', 'Others', 'Change of mind']
+                },
+                type: 'pie'
             },
             size: {
                 width: 200
