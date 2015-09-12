@@ -174,7 +174,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         var currentMonth = $scope.getCurrentMonth();
 
-        $scope.pieChartOne = c3.generate({
+        $scope.pieChartAppt = c3.generate({
             bindto: '#pieApptType',
             padding: {
                 top: 30,
@@ -209,7 +209,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         var currentMonth = $scope.getCurrentMonth();
 
-        $scope.pieChartOne = c3.generate({
+        $scope.pieChartReason = c3.generate({
             bindto: '#pieReason',
             padding: {
                 top: 30,
@@ -231,6 +231,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                             console.log(data);
                             $scope.appointmentTypeChart(data[0])
                             $scope.marketingChannelChart(data[1]);
+                            console.log(chosenField);
+                            $scope.pieChartReason.defocus(chosenField);
+                            $scope.pieChartAppt.select('Pre Evaluation');
                         })
                 }
             },
@@ -245,7 +248,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         var currentMonth = $scope.getCurrentMonth();
 
-        $scope.pieChartOne = c3.generate({
+        var pieChartMarketing = c3.generate({
             bindto: '#pieMarketing',
             padding: {
                 top: 30,
