@@ -1498,7 +1498,7 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                 percentage = float(totalNoShowPerReasonPerChannel)/float(totalNoShowPerReason)
                 toAdd = {eachMarketingChannel['name']: percentage}
                 secondPie.append(toAdd)
-            toReturnResponse.append(toAdd)
+            toReturnResponse.append(secondPie)
 
             return Response(toReturnResponse)
 

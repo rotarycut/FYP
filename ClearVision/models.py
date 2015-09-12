@@ -6,6 +6,11 @@ class CancellationReason(models.Model):
 class AppointmentType(models.Model):
     name = models.CharField(max_length=200)
 
+class CustomFilter(models.Model):
+    startDate = models.DateField("Start Date")
+    endDate = models.DateField("End Date")
+    apptType = models.ForeignKey(AppointmentType)
+
 class FullYearCalendar(models.Model):
     date = models.DateField('Date', primary_key=True)
     day = models.CharField(max_length=50)
