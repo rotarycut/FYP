@@ -11,6 +11,10 @@ angular.module('delete.appointment', [])
         self.deleteAppointment = function (reasonId) {
 
             var url = '/Clearvision/_api/appointmentsCUD/' + self._scope.fields.appointmentId;
+            console.log({
+                "id": self._scope.fields.patientId,
+                "cancellationReasonID": reasonId
+            });
 
             var req = {
                 method: 'DELETE',
@@ -18,7 +22,7 @@ angular.module('delete.appointment', [])
                 headers: {'Content-Type': 'application/json'},
                 data: {
                     "id": self._scope.fields.patientId,
-                    "cancelledReasonID": reasonId
+                    "cancellationReasonID": reasonId
                 }
             };
 
