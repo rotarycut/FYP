@@ -1190,6 +1190,25 @@ class AppointmentAnalysisPiechartMarketingChannelsTab(viewsets.ReadOnlyModelView
 
             return Response(toReturnResponse)
 
+class AppointmentAnalysisPiechartReasonsTab(viewsets.ReadOnlyModelViewSet):
+    queryset = AssociatedPatientActions.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        month = request.query_params.get('month')
+        piechartType = request.query_params.get('piechartType')
+
+        allreasons = CancellationReason.objects.all().values()
+
+        toReturnResponse = []
+
+        if piechartType == 'Cancelled':
+            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True,).values().count()
+        """
+        if piechartType == 'NoShow':
+
+        if piechartType == 'Combined':
+        """
+        return Response(allreasons)
 
 class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
