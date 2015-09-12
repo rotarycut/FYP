@@ -176,6 +176,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     /* c3 function to show marketing channel pie chart */
     $scope.marketingChannelChart = function (data) {
 
+        var currentMonth = $scope.getCurrentMonth();
+
         $scope.pieChartOne = c3.generate({
             bindto: '#pie3',
             padding: {
@@ -189,7 +191,16 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 keys: {
                     value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others']
                 },
-                type: 'pie'
+                type: 'pie',
+                onclick: function (d, element) {
+                    var chosenField = d.id;
+                    console.log('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField);
+                    $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField)
+                        .success(function (data) {
+                            console.log(data);
+                            $scope.appointmentTypeChart(data);
+                        })
+                }
             },
             size: {
                 width: 200
@@ -213,8 +224,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             $scope.pieDetails[1].sequence = 2;
             $scope.pieDetails[2].sequence = 3;
         } else if ($scope.innerTab == 'Marketing Channels') {
-            $scope.pieDetails[0].sequence = 2;
-            $scope.pieDetails[1].sequence = 3;
+            $scope.pieDetails[0].sequence = 3;
+            $scope.pieDetails[1].sequence = 2;
             $scope.pieDetails[2].sequence = 1;
         }
         $scope.retrieveFirstPieChart($scope.outerTab);
