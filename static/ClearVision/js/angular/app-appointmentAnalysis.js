@@ -192,7 +192,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     var chosenField = d.id;
                     $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&apptType=' + chosenField)
                         .success(function (data) {
-                            $scope.marketingChannelChart(data);
+                            console.log(data);
+                            $scope.reasonsChart(data[1])
+                            $scope.marketingChannelChart(data[0]);
                         })
                 }
             },
@@ -220,7 +222,17 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 keys: {
                     value: ['Change Clinic', 'Not doing lasik', 'Schedule later appointment', 'Others', 'Change of mind']
                 },
-                type: 'pie'
+                type: 'pie',
+                onclick: function (d, element) {
+                    var chosenField = d.id;
+                    console.log('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&reason=' + chosenField);
+                    $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&reason=' + chosenField)
+                        .success(function (data) {
+                            console.log(data);
+                            $scope.appointmentTypeChart(data[0])
+                            $scope.marketingChannelChart(data[1]);
+                        })
+                }
             },
             size: {
                 width: 200
@@ -253,7 +265,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField)
                         .success(function (data) {
                             console.log(data);
-                            $scope.appointmentTypeChart(data);
+                            $scope.appointmentTypeChart(data[0]);
+                            $scope.reasonsChart(data[1]);
                         })
                 }
             },
