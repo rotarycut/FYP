@@ -226,11 +226,12 @@ button:active{
 #topmenu li:hover .dashboard-submenu
 {
     left:-358px;
-    top:auto;
+    top:70%;
 }
-#topmenu li.dropdown:hover
-{
-    padding: 4px 9px 4px 9px;
+
+#topmenu li.dropdown.selected .dashboard-submenu{
+    left:-358px;
+    top:70%;
 }
 
 /*navbar css ends*/
@@ -633,8 +634,6 @@ li .i-slot-label {
     text-align:center;
 }
 
-
-
 .roi-marketing-listbox{
     border: solid 1px #70AFC4;
     border-radius: 4px;
@@ -681,6 +680,46 @@ li .i-slot-label {
     padding-left: 0;
     text-align: center;
 }
+
+.pie-chart-btn.clicked{
+    background: #EFC137;
+    color: #FFF;
+    outline: 0;
+}
+
+.pie-chart-btn{
+    background: #70AFC4;
+    color: #fff;
+}
+
+.pie-chart-btn:hover,
+.pie-chart-btn:focus,
+.pie-chart-btn:active{
+    background: #EFC137;
+    color:#FFF;
+    outline: 0;
+}
+
+.switch-chart-btn.clicked{
+    background: #EFC137;
+    color: #FFF;
+    outline: 0;
+}
+
+.switch-chart-btn{
+    background: #70AFC4;
+    color: #fff;
+}
+
+.switch-chart-btn:hover,
+.switch-chart-btn:focus,
+.switch-chart-btn:active{
+    background: #EFC137;
+    color:#FFF;
+    outline: 0;
+}
+
+
 
 /* dashboard css ends*/
 

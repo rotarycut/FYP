@@ -70,10 +70,9 @@
 <!--navbar end-->
 
 <script>
-    $('ul.nav li.dropdown').hover(function () {
-        $(this).find('.dashboard-submenu').stop(true, true).delay(200).fadeIn(500);
-    }, function () {
-        $(this).find('.dashboard-submenu').stop(true, true).delay(200).fadeOut(500);
+    $('#topmenu li.dropdown').click(function () {
+        $(this).addClass('selected');
     });
+
 </script>
 

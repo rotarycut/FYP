@@ -123,7 +123,7 @@
                             </tr>
                             <tr ng-repeat="noshow in noShowList | filter:queryNoShow">
                                 <td>[[noshow.patient__name]]</td>
-                                <td>[[noshow.patient_id]]</td>
+                                <td>[[noshow.patient__contact]]</td>
                                 <td>[[noshow.originalAppt__apptType]]</td>
                                 <td>[[noshow.originalAppt__doctor__name]]</td>
                                 <td>[[noshow.originalAppt__timeBucket__date]]</td>
@@ -150,7 +150,7 @@
                     <div class="col-md-3">
                         <form class="form-search form-inline">
                             <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                   ng-model="something"/>
+                                   ng-model="queryArchive"/>
                         </form>
                     </div>
                 </div>
@@ -162,19 +162,23 @@
                                 <th>Contact</th>
                                 <th>Appt Type</th>
                                 <th>Doc</th>
+                                <th>Scheduled Date</th>
                                 <th>Scheduled Time</th>
                                 <th>Remarks</th>
-                                <th></th>
+                                <th>Reason</th>
                             </tr>
-                            <tr ng-repeat="archive in archiveList">
+                            <tr ng-repeat="archive in archiveList | filter:queryArchive">
                                 <td>[[archive.patient__name]]</td>
                                 <td>[[archive.patient__contact]]</td>
                                 <td>[[archive.apptType]]</td>
                                 <td>[[archive.doctor__name]]</td>
+                                <td>[[archive.timeBucket__date]]</td>
                                 <td>[[archive.timeBucket__start]]</td>
-                                <td>[[archive.remarks]]<a class="pull-right edit-no-show" ng-click=""><i
-                                        class="fa fa-pencil-square-o"></i></a></td>
-                                <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                                <td>[[archive.remarks]]
+                                <td>[[archive.blacklistReason__reason]]</td>
+                                <!--<a class="pull-right edit-no-show" ng-click=""><i
+                                    class="fa fa-pencil-square-o"></i></a>--></td>
+                                <!--<td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>-->
                             </tr>
                         </table>
                     </div>

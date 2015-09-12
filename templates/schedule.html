@@ -151,7 +151,7 @@
                         <h5 style="color: #49708A">In-depth Analysis</h5>
                     </div>
                     <div class="col-md-6" style="padding-top: 2.5px">
-                        <button class="btn btn-sm switch-chart-btn"
+                        <button class="btn btn-sm switch-chart-btn clicked"
                                 ng-click="retrieveFirstPieChart('Cancelled')">Cancelled Appointments
                         </button>
                         <button class="btn btn-sm switch-chart-btn" ng-click="retrieveFirstPieChart('NoShow')">
@@ -177,7 +177,7 @@
                     <div class="col-md-11">
                         <div class="row">
                             <div class="col-md-11 col-md-offset-4">
-                                <button class="btn btn-sm pie-chart-btn active"
+                                <button class="btn btn-sm pie-chart-btn clicked"
                                         ng-click="retrieveOtherPieCharts('Appointment Type')">Appointment Type
                                 </button>
                                 <button class="btn btn-sm pie-chart-btn"
@@ -210,8 +210,15 @@
 </div>
 <script>
     $('.pie-chart-btn').click(function (e) {
-        $('.pie-chart-btn').not(this).removeClass('active');
+        $('.pie-chart-btn').not(this).removeClass('clicked');
         e.preventDefault();
-        $(this).addClass('active');
+        $(this).addClass('clicked');
+    });
+
+     $('.switch-chart-btn').click(function (e) {
+        $('.switch-chart-btn').not(this).removeClass('clicked');
+        e.preventDefault();
+        $(this).addClass('clicked');
     })
+
 </script>
