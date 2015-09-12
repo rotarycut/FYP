@@ -504,14 +504,15 @@
             <li>
                 Reason:
                 <select data-ng-model="selectedReason"
-                        ng-options="reason.reason for reason in cancellationReasons">
+                        ng-options="reason.reason for reason in cancellationReasons" ng-change="activateModalButtons()">
                 </select>
             </li>
         </ul>
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="deleteAppointment()">Yes</button>
+        <button class="btn form-submit-btn" ng-show="showModalButtons" type="button" ng-click="deleteAppointment()">Yes
+        </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>

@@ -292,4 +292,8 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
                 $scope.cancellationReasons = data;
             })
     };
+
+    $scope.activateModalButtons = function () {
+        $scope.showModalButtons = true;
+    };
 });

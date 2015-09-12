@@ -1153,6 +1153,10 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
             })
     };
 
+    $scope.activateModalButtons = function () {
+        $scope.showModalButtons = true;
+    };
+
 });
 
 /* service to search for patient's details based on contact */
