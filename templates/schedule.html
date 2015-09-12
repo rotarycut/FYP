@@ -6,215 +6,212 @@
             <div class="col-md-11">
                 <!--row for filter content-->
                 <div class="row filter-row-hide" ng-show="!isCollapsed">
-                    <div class="col-md-12 filter-row-title
-                        <div class=" row
-                    ">
-                    <div class="col-md-11">
-                        <h5 style="color: #fff">Filter Options</h5>
+                    <div class="col-md-12 filter-row-title">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h5 style="color: #fff">Filter Options</h5>
+                            </div>
+                            <div class="col-md-1 filter-row-close">
+                                <a data-ng-click="isCollapsed = !isCollapsed"><h5 style="color: #fff"><i
+                                        class="fa fa-times"></i></h5></a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-1 filter-row-close">
-                        <a data-ng-click="isCollapsed = !isCollapsed"><h5 style="color: #fff"><i
-                                class="fa fa-times"></i></h5></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 filter-row-options">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="row" style="padding-left: 5%">
-                            <p class="input-group">
-                                <input type="text"
-                                       class="form-control"
-                                       datepicker-popup="[[ format ]]"
-                                       name="datePickerCalendar"
-                                       ng-model="datepicker"
-                                       is-open="datepickers.showDatePicker"
-                                       min-date="minDate"
-                                       datepicker-options="dateOptions"
-                                       show-button-bar="false"
-                                       ng-change="navigateToDate()"
-                                       placeholder="Start Date"
-                                        />
-
+                    <div class="col-md-12 filter-row-options">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="row" style="padding-left: 5%">
+                                    <p class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               datepicker-popup="[[ format ]]"
+                                               name="datePickerCalendar"
+                                               ng-model="datepicker"
+                                               is-open="datepickers.showDatePicker"
+                                               min-date="minDate"
+                                               datepicker-options="dateOptions"
+                                               show-button-bar="false"
+                                               ng-change="navigateToDate()"
+                                               placeholder="Start Date"
+                                                />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
                                     ng-click="open($event,'showDatePicker')">
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                            </p>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-1 col-md-offset-4">
-                                <h5 style="color:#49708A">To</h5>
-                            </div>
-                        </div>
-                        <div class="row" style="padding-left: 5%">
-
-                            <p class="input-group">
-                                <input type="text"
-                                       class="form-control"
-                                       datepicker-popup="[[ format ]]"
-                                       name="datePickerCalendar"
-                                       ng-model="datepicker2"
-                                       is-open="datepickers.showDatePicker2"
-                                       min-date="minDate"
-                                       datepicker-options="dateOptions"
-                                       show-button-bar="false"
-                                       ng-change="navigateToDate()"
-                                       placeholder="End Date"
-                                        />
-
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1 col-md-offset-4">
+                                        <h5 style="color:#49708A">To</h5>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-left: 5%">
+                                    <p class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               datepicker-popup="[[ format ]]"
+                                               name="datePickerCalendar"
+                                               ng-model="datepicker2"
+                                               is-open="datepickers.showDatePicker2"
+                                               min-date="minDate"
+                                               datepicker-options="dateOptions"
+                                               show-button-bar="false"
+                                               ng-change="navigateToDate()"
+                                               placeholder="End Date"
+                                                />
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
                                     ng-click="open($event,'showDatePicker2')">
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                            </p>
-                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-1">
+                                <!--<select class="form-control" data-ng-model="filters.marketingChannel"
+                                        ng-options="" name="marketingChannel" required>
+                                    <option value="" selected="selected">Marketing Channel</option>
+                                </select>-->
+                                <label class="control-label" style="color: #49708A">Appointment Type</label>
 
-
-                    </div>
-                    <div class="col-md-4 col-md-offset-1">
-                        <!--<select class="form-control" data-ng-model="filters.marketingChannel"
-                                ng-options="" name="marketingChannel" required>
-                            <option value="" selected="selected">Marketing Channel</option>
-                        </select>-->
-                        <label class="control-label" style="color: #49708A">Appointment Type</label>
-
-                        <div class="roi-marketing-listbox">
-                            <ul style="list-style: none; padding-left: 1%;">
-                                <li ng-class="{typeSelected: typeUnselected}" class="mrkt-list-item"
-                                    ng-repeat="apptType in apptTypes" ng-model="typeSelected">
-                                    <label>[[apptType]]
-                                        <input type="checkbox" ng-model="typeUnselected">
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-md-offset-1">
-                        <div class="row" style="padding-top: 22%">
-                            <button class="btn form-default-btn" ng-click="filterChart()">Run Filter</button>
-                            <button class="btn form-default-btn" ng-click="">Save Filter</button>
+                                <div class="roi-marketing-listbox">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li ng-class="{typeSelected: typeUnselected}" class="mrkt-list-item"
+                                            ng-repeat="apptType in apptTypes" ng-model="typeSelected">
+                                            <label>[[apptType]]
+                                                <input type="checkbox" ng-model="typeUnselected">
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-1">
+                                <div class="row" style="padding-top: 22%">
+                                    <button class="btn form-default-btn" ng-click="filterChart()">Run Filter</button>
+                                    <button class="btn form-default-btn" ng-click="">Save Filter</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="col-md-1" style="text-align: right">
-        <button class="btn form-default-btn" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
-            Filter
-        </button>
-    </div>
-</div>
-<div class="row subcontent-row">
-    <div class="col-md-11">
-        <div class="row chart-title-row">
-            <div class="col-md-3">
-                <h5 style="color: #49708A">Scheduled Appointments</h5>
-            </div>
-            <div class="col-md-2 col-md-offset-6">
-                <select class="form-control" data-ng-model="">
-                    <option value="" disabled selected>Sort By</option>
-                    <option value="">Turn Up</option>
-                    <option value="">No Show</option>
-                    <option value="">Cancelled</option>
-                    <option value="">Undecided</option>
-                </select>
-            </div>
-            <div class="col-md-1 graph-function-col">
-                <a href="" ng-click=""><img class="exporticon"></a>
-            </div>
-            <div class="col-md-1 graph-function-col">
-                <a href="" ng-click=""><i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
-            </div>
-            <div class="col-md-1 graph-function-col">
-                <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+            <div class="col-md-1" style="text-align: right">
+                <button class="btn form-default-btn" data-ng-click="isCollapsed = !isCollapsed" ng-show="isCollapsed">
+                    Filter
+                </button>
             </div>
         </div>
-        <div class="row chart-content-row">
+        <div class="row subcontent-row">
             <div class="col-md-11">
-                <div id="stacked"></div>
+                <div class="row chart-title-row">
+                    <div class="col-md-3">
+                        <h5 style="color: #49708A">Scheduled Appointments</h5>
+                    </div>
+                    <div class="col-md-2 col-md-offset-6">
+                        <select class="form-control" data-ng-model="">
+                            <option value="" disabled selected>Sort By</option>
+                            <option value="">Turn Up</option>
+                            <option value="">No Show</option>
+                            <option value="">Cancelled</option>
+                            <option value="">Undecided</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><img class="exporticon"></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+                    </div>
+                </div>
+                <div class="row chart-content-row">
+                    <div class="col-md-11">
+                        <div id="stacked"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 saved-filter-list">
+                <label class="dashboard-listing-lbl">Listings</label>
+                <ul class="saved-filter-items">
+                    <li ng-repeat="month in savedMonths">
+                        <a href="#" ng-click="">[[month]]</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-    <div class="col-md-1 saved-filter-list">
-        <label class="dashboard-listing-lbl">Listings</label>
-        <ul class="saved-filter-items">
-            <li ng-repeat="month in savedMonths">
-                <a href="#" ng-click="">[[month]]</a>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="row subcontent-row">
-    <div class="col-md-11">
-        <div class="row chart-title-row">
-            <div class="col-md-2">
-                <h5 style="color: #49708A">In-depth Analysis</h5>
-            </div>
-            <div class="col-md-6" style="padding-top: 2.5px">
-                <button class="btn btn-sm switch-chart-btn"
-                        ng-click="retrieveFirstPieChart('Cancelled')">Cancelled Appointments
-                </button>
-                <button class="btn btn-sm switch-chart-btn" ng-click="retrieveFirstPieChart('NoShow')">
-                    No Show Appointments
-                </button>
-                <button class="btn btn-sm switch-chart-btn"
-                        ng-click="retrieveFirstPieChart('Combined')">Combined Appointments
-                </button>
-            </div>
-            <div class="col-md-1 col-md-offset-3 graph-function-col">
-                <a href=""><img class="exporticon"></a>
-            </div>
-            <div class="col-md-1 graph-function-col">
-                <a href="">
-                    <i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
-            </div>
-            <div class="col-md-1 graph-function-col">
-                <a href="">
-                    <i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
-            </div>
-        </div>
-        <div class="row chart-content-row">
+        <div class="row subcontent-row">
             <div class="col-md-11">
-                <div class="row">
-                    <div class="col-md-11 col-md-offset-2">
+                <div class="row chart-title-row">
+                    <div class="col-md-2">
+                        <h5 style="color: #49708A">In-depth Analysis</h5>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 2.5px">
                         <button class="btn btn-sm switch-chart-btn"
-                                ng-click="retrieveOtherPieCharts('Appointment Type')">Appointment Type
+                                ng-click="retrieveFirstPieChart('Cancelled')">Cancelled Appointments
+                        </button>
+                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveFirstPieChart('NoShow')">
+                            No Show Appointments
                         </button>
                         <button class="btn btn-sm switch-chart-btn"
-                                ng-click="retrieveOtherPieCharts('Reasons')">Reasons
-                        </button>
-                        <button class="btn btn-sm switch-chart-btn"
-                                ng-click="retrieveOtherPieCharts('Marketing Channels')">Marketing Channels
+                                ng-click="retrieveFirstPieChart('Combined')">Combined Appointments
                         </button>
                     </div>
+                    <div class="col-md-1 col-md-offset-3 graph-function-col">
+                        <a href=""><img class="exporticon"></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="">
+                            <i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="">
+                            <i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3" style="padding-right: 0; padding-left: 0;"
-                         ng-repeat="pie in pieDetails | orderBy:'sequence'">
-                        <div id="[[pie.pieName]]"></div>
+                <div class="row chart-content-row">
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-11 col-md-offset-4">
+                                <button class="btn btn-sm pie-chart-btn active"
+                                        ng-click="retrieveOtherPieCharts('Appointment Type')">Appointment Type
+                                </button>
+                                <button class="btn btn-sm pie-chart-btn"
+                                        ng-click="retrieveOtherPieCharts('Reasons')">Reasons
+                                </button>
+                                <button class="btn btn-sm pie-chart-btn"
+                                        ng-click="retrieveOtherPieCharts('Marketing Channels')">Marketing Channels
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3" style="padding-right: 0; padding-left: 0;"
+                                 ng-repeat="pie in pieDetails | orderBy:'sequence'">
+                                <div id="[[pie.pieName]]"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-1 saved-filter-list">
+                <label class="dashboard-listing-lbl">Saved Filters</label>
+                <ul class="saved-filter-items">
+                    <li ng-repeat="filter in savedFilters">
+                        <a href="#" ng-click="">[[filter]]</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="col-md-1 saved-filter-list">
-        <label class="dashboard-listing-lbl">Saved Filters</label>
-        <ul class="saved-filter-items">
-            <li ng-repeat="filter in savedFilters">
-                <a href="#" ng-click="">[[filter]]</a>
-            </li>
-        </ul>
-    </div>
 </div>
-
-</div>
-</div>
-
-
-
+<script>
+    $('.pie-chart-btn').click(function (e) {
+        $('.pie-chart-btn').not(this).removeClass('active');
+        e.preventDefault();
+        $(this).addClass('active');
+    })
+</script>
