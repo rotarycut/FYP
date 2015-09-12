@@ -153,7 +153,7 @@
                         <h5 style="color: #49708A">ROI Analysis</h5>
                     </div>
                     <div class="col-md-3" style="padding-top: 2.5px">
-                        <button class="btn btn-sm switch-chart-btn" ng-click="decideShowLead()">Lead Timeline</button>
+                        <button class="btn btn-sm switch-chart-btn clicked" ng-click="decideShowLead()">Lead Timeline</button>
                         <button class="btn btn-sm switch-chart-btn" ng-click="decideShowROI()">ROI Chart</button>
                     </div>
                     <div class="col-md-1 col-md-offset-6 graph-function-col">
@@ -182,5 +182,11 @@
     </div>
 </div>
 
-
+<script>
+    $('.switch-chart-btn').click(function (e) {
+        $('.switch-chart-btn').not(this).removeClass('clicked');
+        e.preventDefault();
+        $(this).addClass('clicked');
+    })
+</script>
 
