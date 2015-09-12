@@ -1,5 +1,35 @@
 [
   {
+    "model": "ClearVision.CancellationReason",
+    "fields": {
+        "reason": "Change Clinic"
+    }
+  },
+  {
+    "model": "ClearVision.CancellationReason",
+    "fields": {
+        "reason": "Not doing lasik"
+    }
+  },
+  {
+    "model": "ClearVision.CancellationReason",
+    "fields": {
+        "reason": "Schedule later appointment"
+    }
+  },
+  {
+    "model": "ClearVision.CancellationReason",
+    "fields": {
+        "reason": "Others"
+    }
+  },
+  {
+    "model": "ClearVision.CancellationReason",
+    "fields": {
+        "reason": "Change of mind"
+    }
+  },
+  {
     "model": "ClearVision.AppointmentType",
     "fields": {
         "name": "Screening"

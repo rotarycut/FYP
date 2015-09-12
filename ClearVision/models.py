@@ -1,5 +1,8 @@
 from django.db import models
 
+class CancellationReason(models.Model):
+    reason = models.CharField(max_length=300)
+
 class AppointmentType(models.Model):
     name = models.CharField(max_length=200)
 
@@ -122,3 +125,4 @@ class AssociatedPatientActions(models.Model):
     appointment = models.ForeignKey(Appointment)
     addedToQueue = models.NullBooleanField(default=None)
     cancelled = models.NullBooleanField(default=None)
+    cancellationReason = models.ForeignKey(CancellationReason, default=None, null=True)
