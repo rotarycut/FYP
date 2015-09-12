@@ -900,7 +900,7 @@ class ViewArchive(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response_data = Blacklist.objects.all().values('patient__name', 'patient__contact', 'apptType', 'doctor__name',
-                                                       'timeBucket__date', 'timeBucket__start', 'remarks', 'patient_id')
+                                                       'timeBucket__date', 'timeBucket__start', 'blacklistReason', 'patient_id')
 
         return Response(response_data)
 
@@ -911,12 +911,8 @@ class ViewArchive(viewsets.ModelViewSet):
 
         reference = AttendedAppointment.objects.get(id=attendedAppointmentId)
 
-        Blacklist.objects.create(remarks=reference.remarks, timeBucket=reference.timeBucket, apptType=reference.apptType,
+        Blacklist.objects.create(blacklistReason=CancellationReason.objects.get(id=data.get('cancellationReasonID')), timeBucket=reference.timeBucket, apptType=reference.apptType,
                                  doctor=reference.doctor, patient=reference.patient)
-
-        associatedPActions = AssociatedPatientActions.objects.get(appointment=attendedAppointmentId, patient=reference.patient)
-        associatedPActions.cancellationReason = CancellationReason.objects.get(id=data.get('cancellationReasonID'))
-        associatedPActions.save()
 
         reference.delete()
 
@@ -1202,13 +1198,52 @@ class AppointmentAnalysisPiechartReasonsTab(viewsets.ReadOnlyModelViewSet):
         toReturnResponse = []
 
         if piechartType == 'Cancelled':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True,).values().count()
-        """
+            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,).values().count()
+
+            if totalCancelledPerMonth == 0:
+                return Response({})
+
+            for eachReason in allreasons:
+                totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                                  cancellationReason__id=eachReason['id']).values().count()
+                percentage = float(totalCancelledPerReason)/float(totalCancelledPerMonth)
+                toAdd = {eachReason['reason']: percentage}
+                toReturnResponse.append(toAdd)
+            return Response(toReturnResponse)
+
         if piechartType == 'NoShow':
+            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+            if totalNoShowPerMonth == 0:
+                return Response({})
+
+            for eachReason in allreasons:
+                totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, blacklistReason=eachReason['id']).values().count()
+                percentage = float(totalNoShowPerReason)/float(totalNoShowPerMonth)
+                toAdd = {eachReason['reason']: percentage}
+                toReturnResponse.append(toAdd)
+            return Response(toReturnResponse)
 
         if piechartType == 'Combined':
-        """
-        return Response(allreasons)
+            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,).values().count()
+            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+            totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+
+            if totalCombined == 0:
+                return Response({})
+
+            for eachReason in allreasons:
+                totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                                  cancellationReason__id=eachReason['id']).values().count()
+                totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, blacklistReason=eachReason['id']).values().count()
+                totalCombinedPerReason = totalCancelledPerReason + totalNoShowPerReason
+                percentage = float(totalCombinedPerReason)/float(totalCombined)
+                toAdd = {eachReason['reason']: percentage}
+                toReturnResponse.append(toAdd)
+
+            return Response(toReturnResponse)
+
+        return Response({})
 
 class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
