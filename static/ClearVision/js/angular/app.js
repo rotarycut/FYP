@@ -23,7 +23,8 @@ var app = angular.module('calendarDemoApp', [
     'update.notification.count',
     'get.notifications',
     'event.click',
-    'get.noShow'
+    'get.noShow',
+    'add.archive'
 ]);
 
 /* Angular routing */

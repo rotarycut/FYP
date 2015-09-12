@@ -1,11 +1,12 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc) {
 
     $scope.CurrentDate = new Date();
     $scope.mainTableWidth = "col-md-8";
 
     getNoShowSvc.getScope($scope);
+    addToArchiveSvc.getScope($scope);
 
     /*$scope.archives = [
      {
@@ -142,21 +143,6 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             });
     };
 
-    $scope.addToArchive = function (attendedAppointmentId) {
-
-        $scope.postToArchive = {
-            "attendedAppointmentId": attendedAppointmentId,
-        };
-
-        $http.post('/Clearvision/_api/ViewArchive/', $scope.postToArchive)
-            .success(function (result) {
-                console.log("Added to archive successfully.")
-                $scope.getNoShow();
-            });
-
-        console.log($scope.postToArchive);
-    };
-
     $scope.showQueue = true;
     $scope.showApptList = function () {
         $scope.showQueue = true;
@@ -246,6 +232,24 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             }
         });
     };
+
+    $scope.openArchiveModal = function (id, remarks, size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myArchiveModalContent.html',
+            controller: 'RemarksModalInstanceCtrl',
+            size: size,
+            resolve: {
+                remarkInfo: function () {
+                    return remarks;
+                },
+                appointmentId: function () {
+                    return id;
+                }
+            }
+        });
+    }
     /* --- end of modal codes --- */
 
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -253,7 +257,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 });
 
 /* controller for modal instance */
-appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalInstance, remarkInfo, appointmentId, $http, getNoShowSvc) {
+appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalInstance, remarkInfo, appointmentId, $http, getNoShowSvc, addToArchiveSvc) {
     $scope.remarkDetails = remarkInfo;
 
     $scope.postRemarks = function () {
@@ -271,5 +275,21 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
+    };
+
+    $scope.id = appointmentId;
+
+    $scope.addToArchive = function (attendedAppointmentId) {
+        console.log(attendedAppointmentId);
+        addToArchiveSvc.addToArchive(attendedAppointmentId, $scope.selectedReason.id);
+        $scope.cancel();
+    };
+
+    /* function to receive cancellation reasons */
+    $scope.retrieveCancellationReasons = function () {
+        $http.get('/Clearvision/_api/ViewCancellationReasons/')
+            .success(function (data) {
+                $scope.cancellationReasons = data;
+            })
     };
 });

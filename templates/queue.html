@@ -136,7 +136,7 @@
                                        ng-click="rescheduleAppointment(noshow.originalAppt_id)">Re-schedule</a><span
                                         class="ver-divider"></span><a
                                         class="archive-no-show"
-                                        ng-click="addToArchive(noshow.id)"> Archive</a></td>
+                                        ng-click="openArchiveModal(noshow.id)"> Archive</a></td>
                                 <td><a class="remove-from-queue"
                                        ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
                                     <i class="fa fa-times"></i></a></td>
@@ -233,6 +233,28 @@
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" type="button" ng-click="postRemarks()">Yes</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="myArchiveModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm add to Archive?</h3>
+    </div>
+
+    <div class="modal-body" ng-init="retrieveCancellationReasons()">
+        <ul>
+            <li>
+                Reason:
+                <select data-ng-model="selectedReason"
+                        ng-options="reason.reason for reason in cancellationReasons">
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="addToArchive(id)">Yes</button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
