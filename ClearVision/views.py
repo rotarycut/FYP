@@ -820,7 +820,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = Appointment.objects.filter(timeBucket__date=datetime.today()).values('associatedpatientactions__appointment__doctor__name',
+        response_data = Appointment.objects.filter(timeBucket__date=datetime.today(), associatedpatientactions__cancelled=None).values('associatedpatientactions__appointment__doctor__name',
                                                                                              'associatedpatientactions__patient__name',
                                                                                              'associatedpatientactions__patient__contact',
                                                                                              'associatedpatientactions__appointment__apptType',
@@ -830,7 +830,8 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                                                              'associatedpatientactions__appointment__timeBucket',
                                                                                              'associatedpatientactions__patient_id',
                                                                                              'associatedpatientactions__appointment__doctor_id',
-                                                                                             'associatedpatientactions__appointment_id')
+                                                                                             'associatedpatientactions__appointment_id',
+                                                                                             'associatedpatientactions__cancelled')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
