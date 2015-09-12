@@ -877,7 +877,8 @@ class ViewNoShow(viewsets.ModelViewSet):
                                                                                   'originalAppt_id', 'last_modified',
                                                                                   'originalAppt__timeBucket__start',
                                                                                   'originalAppt__apptType', 'originalAppt__doctor__name',
-                                                                                  'remarks', 'id', 'originalAppt__timeBucket__date')
+                                                                                  'remarks', 'id', 'originalAppt__timeBucket__date',
+                                                                                  'patient__contact')
 
         return Response(response_data)
 

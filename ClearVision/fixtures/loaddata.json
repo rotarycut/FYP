@@ -707,12 +707,12 @@
     "fields": {
 
         "apptType": "Screening",
-        "date": "2015-09-11",
+        "date": "2015-09-13",
         "last_modified": "2015-07-17T07:16:36",
         "patients": [1, 2],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 507
+        "timeBucket": 511
     }
   },
   {
@@ -737,13 +737,13 @@
     "fields": {
 
         "apptType": "Surgery",
-        "date": "2015-09-12",
+        "date": "2015-09-14",
         "last_modified": "2015-07-17T07:16:36",
         "patients": [4, 6],
         "doctor": 2,
         "clinic": 1,
         "tempPatients": [1, 2],
-        "timeBucket": 3429
+        "timeBucket": 3433
     }
   },
   {
