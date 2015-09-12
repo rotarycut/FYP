@@ -1121,7 +1121,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.createAppointment = function () {
@@ -1132,7 +1132,7 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, pa
     };
 
     $scope.deleteAppointment = function () {
-        deleteAppointmentSvc.deleteAppointment();
+        deleteAppointmentSvc.deleteAppointment($scope.selectedReason.id);
         $modalInstance.close();
     };
 
@@ -1144,6 +1144,15 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $modalInstance, pa
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+
+    /* function to receive cancellation reasons */
+    $scope.retrieveCancellationReasons = function () {
+        $http.get('/Clearvision/_api/ViewCancellationReasons/')
+            .success(function (data) {
+                $scope.cancellationReasons = data;
+            })
+    };
+
 });
 
 /* service to search for patient's details based on contact */

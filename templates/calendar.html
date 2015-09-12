@@ -491,7 +491,7 @@
         <h3 class="modal-title">Confirm deletion?</h3>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body" ng-init="retrieveCancellationReasons()">
         <ul>
             <li>Appointment Type: [[patientDetails.appointmentType]]</li>
             <li>Contact No: [[patientDetails.patientContact]]</li>
@@ -501,6 +501,12 @@
             <li>Doctor: [[patientDetails.doctorAssigned]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+            <li>
+                Reason:
+                <select data-ng-model="selectedReason"
+                        ng-options="reason.reason for reason in cancellationReasons">
+                </select>
+            </li>
         </ul>
     </div>
 
