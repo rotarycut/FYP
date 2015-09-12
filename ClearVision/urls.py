@@ -29,6 +29,7 @@ router.register(r'_api/ViewAppointmentAnalysisStackedChart', views.AppointmentAn
 router.register(r'_api/ViewAppointmentAnalysisPiechartApptTypeTab', views.AppointmentAnalysisPiechartApptTypeTab)
 router.register(r'_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab', views.AppointmentAnalysisPiechartMarketingChannelsTab)
 router.register(r'_api/ViewAppointmentAnalysisPartPieApptType', views.AppointmentAnalysisPartPieApptType)
+router.register(r'_api/ViewCancellationReasons', views.ViewCancellationReasons)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

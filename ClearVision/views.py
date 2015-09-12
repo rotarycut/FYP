@@ -1018,6 +1018,14 @@ def RecordUserActionsTimeOut(request):
 
     return HttpResponse('Success')
 
+class ViewCancellationReasons(viewsets.ReadOnlyModelViewSet):
+    queryset = CancellationReason.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        allReasons = CancellationReason.objects.all().values()
+
+        return Response(allReasons)
+
 class NoShowPerChannel(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannels.objects.none()
 
