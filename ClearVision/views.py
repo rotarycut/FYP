@@ -1186,6 +1186,7 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
         apptType = request.query_params.get('apptType')
         pieChart = request.query_params.get('pieChart')
         pieChartTab = request.query_params.get('pieChartTab')
+        channel = request.query_params.get('channel')
 
         toReturnResponse = []
         allmarketingchannels = MarketingChannels.objects.all().values()
@@ -1246,9 +1247,23 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
 
             return Response(toReturnResponse)
 
-        """
         elif pieChart == 'Marketing Channels' and pieChartTab == 'Cancelled':
+            totalCancelledPerChannel = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                               patient__marketingChannelId__name=channel).values().count()
+            if totalCancelledPerChannel == 0:
+                return Response({})
 
+            for eachApptType in allApptTypes:
+                totalCancelledPerChannelPerApptType = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                                              patient__marketingChannelId__name=channel,
+                                                                                              appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+                percentage = float(totalCancelledPerChannelPerApptType)/float(totalCancelledPerChannel)
+                toAdd = {eachApptType['name']: percentage}
+                toReturnResponse.append(toAdd)
+
+            return Response(toReturnResponse)
+
+        """
         elif pieChart == 'Marketing Channels' and pieChartTab == 'NoShow':
 
         elif pieChart == 'Marketing Channels' and pieChartTab == 'Combined':
