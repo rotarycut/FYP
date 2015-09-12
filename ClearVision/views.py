@@ -900,7 +900,7 @@ class ViewArchive(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response_data = Blacklist.objects.all().values('patient__name', 'patient__contact', 'apptType', 'doctor__name',
-                                                       'timeBucket__date', 'timeBucket__start', 'blacklistReason', 'patient_id')
+                                                       'timeBucket__date', 'timeBucket__start', 'blacklistReason__reason', 'patient_id', 'remarks')
 
         return Response(response_data)
 
@@ -912,7 +912,7 @@ class ViewArchive(viewsets.ModelViewSet):
         reference = AttendedAppointment.objects.get(id=attendedAppointmentId)
 
         Blacklist.objects.create(blacklistReason=CancellationReason.objects.get(id=data.get('cancellationReasonID')), timeBucket=reference.timeBucket, apptType=reference.apptType,
-                                 doctor=reference.doctor, patient=reference.patient)
+                                 doctor=reference.doctor, patient=reference.patient, remarks=reference.remarks)
 
         reference.delete()
 
@@ -1254,12 +1254,16 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
         pieChart = request.query_params.get('pieChart')
         pieChartTab = request.query_params.get('pieChartTab')
         channel = request.query_params.get('channel')
+        reason = request.query_params.get('reason')
 
         toReturnResponse = []
         allmarketingchannels = MarketingChannels.objects.all().values()
         allApptTypes = AppointmentType.objects.all().values()
+        allReasons = CancellationReason.objects.all().values()
 
         if pieChart == 'Appointment Type' and pieChartTab == 'Cancelled':
+            firstPie = []
+            secondPie = []
             totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
                                                                                 cancelled=True, appointment__timeBucket__timeslotType=apptType).values().count()
             if totalCancelledPerApptType == 0:
@@ -1272,7 +1276,18 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
 
                 percentage = float(totalCancelledPerApptTypePerChannel)/float(totalCancelledPerApptType) * 100
                 toAdd = {eachMarketingChannel['name']: percentage}
-                toReturnResponse.append(toAdd)
+                firstPie.append(toAdd)
+            toReturnResponse.append(firstPie)
+
+            for eachReason in allReasons:
+                totalCancelledPerApptTypePerReason = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                                                                                cancelled=True, appointment__timeBucket__timeslotType=apptType,
+                                                                                cancellationReason__reason=eachReason['reason']).values().count()
+                percentage = float(totalCancelledPerApptTypePerReason)/float(totalCancelledPerApptType) * 100
+                toAdd = {eachReason['reason']: percentage}
+                secondPie.append(toAdd)
+            toReturnResponse.append(secondPie)
+
             return Response(toReturnResponse)
 
         elif pieChart == 'Appointment Type' and pieChartTab == 'NoShow':
@@ -1308,7 +1323,7 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                                                                             patient__marketingChannelId__name=eachMarketingChannel['name'],
                                                                             apptType=apptType).values().count()
                 totalCombinedPerApptTypePerChannel = totalCancelledPerApptTypePerChannel + totalNoShowPerApptTypePerChannel
-                percentage = float(totalCombinedPerApptTypePerChannel)/float(totalCombined)
+                percentage = float(totalCombinedPerApptTypePerChannel)/float(totalCombined) * 100
                 toAdd = {eachMarketingChannel['name']: percentage}
                 toReturnResponse.append(toAdd)
 
@@ -1324,7 +1339,7 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                 totalCancelledPerChannelPerApptType = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
                                                                                               patient__marketingChannelId__name=channel,
                                                                                               appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
-                percentage = float(totalCancelledPerChannelPerApptType)/float(totalCancelledPerChannel)
+                percentage = float(totalCancelledPerChannelPerApptType)/float(totalCancelledPerChannel) * 100
                 toAdd = {eachApptType['name']: percentage}
                 toReturnResponse.append(toAdd)
 
@@ -1340,7 +1355,7 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                 totalNoShowPerChannelPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month,
                                                                             patient__marketingChannelId__name=channel,
                                                                             apptType=eachApptType['name']).values().count()
-                percentage = float(totalNoShowPerChannelPerApptType)/float(totalNoShowPerChannel)
+                percentage = float(totalNoShowPerChannelPerApptType)/float(totalNoShowPerChannel) * 100
                 toAdd = {eachApptType['name']: percentage}
                 toReturnResponse.append(toAdd)
 
@@ -1365,11 +1380,44 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
 
                 totalCombinedPerChannelPerApptType = totalCancelledPerChannelPerApptType + totalNoShowPerChannelPerApptType
 
-                percentage = float(totalCombinedPerChannelPerApptType)/float(totalCombinedPerChannel)
+                percentage = float(totalCombinedPerChannelPerApptType)/float(totalCombinedPerChannel) * 100
                 toAdd = {eachApptType['name']: percentage}
                 toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
+
+        elif pieChart == 'Reasons' and pieChartTab == 'Cancelled':
+            firstPie = []
+            secondPie = []
+            totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                              cancellationReason__reason=reason).values().count()
+
+            if totalCancelledPerReason == 0:
+                return Response({})
+
+            for eachApptType in allApptTypes:
+                totalCancelledPerReasonPerApptType = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                              cancellationReason__reason=reason, appointment__timeBucket__timeslotType=eachApptType['name'],).values().count()
+                percentage = float(totalCancelledPerReasonPerApptType)/float(totalCancelledPerReason) * 100
+                toAdd = {eachApptType['name']: percentage}
+                firstPie.append(toAdd)
+
+            toReturnResponse.append(firstPie)
+
+            for eachMarketingChannel in allmarketingchannels:
+                totalCancelledPerReasonPerChannel = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                                                                              cancellationReason__reason=reason, patient__marketingChannelId__name=eachMarketingChannel['name'],).values().count()
+                percentage = float(totalCancelledPerReasonPerChannel)/float(totalCancelledPerReason) * 100
+                toAdd = {eachMarketingChannel['name']: percentage}
+                secondPie.append(toAdd)
+            toReturnResponse.append(secondPie)
+
+            return Response(toReturnResponse)
+        """
+        elif pieChart == 'Reasons' and pieChartTab == 'NoShow':
+
+        elif pieChart == 'Reasons' and pieChartTab == 'Combined':
+        """
         return Response({})
 
 class ViewReasons(viewsets.ReadOnlyModelViewSet):

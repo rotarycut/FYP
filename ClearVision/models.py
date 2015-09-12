@@ -112,6 +112,7 @@ class Blacklist(models.Model):
     doctor = models.ForeignKey(Doctor)
     timeBucket = models.ForeignKey(AvailableTimeSlots)
     blacklistReason = models.ForeignKey(CancellationReason, default=None, null=True)
+    remarks = models.CharField(max_length=1000, blank=True)
     patient = models.ForeignKey(Patient)
 
 class UserTracking(models.Model):
