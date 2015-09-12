@@ -170,6 +170,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         associatedPActions = AssociatedPatientActions.objects.get(appointment=a, patient=p)
         associatedPActions.cancelled = True
+        associatedPActions.cancellationReason = data.get('cancellationReasonID')
         associatedPActions.save()
 
         tempApptSwapperObj = Swapper.objects.filter(patient=p, scheduledAppt=a,)
@@ -912,6 +913,10 @@ class ViewArchive(viewsets.ModelViewSet):
 
         Blacklist.objects.create(remarks=reference.remarks, timeBucket=reference.timeBucket, apptType=reference.apptType,
                                  doctor=reference.doctor, patient=reference.patient)
+
+        associatedPActions = AssociatedPatientActions.objects.get(appointment__id=attendedAppointmentId, patient__id=reference.patient)
+        associatedPActions.cancellationReason = data.get('cancellationReasonID')
+        associatedPActions.save()
 
         reference.delete()
 
