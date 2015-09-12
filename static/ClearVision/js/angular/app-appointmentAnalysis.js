@@ -106,12 +106,16 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     if (Object.keys(data).length == 0) {
                         // there is zero cancelled appointment
                         console.log("There is zero cancelled appointment");
+                        $scope.showNoAppointmentRemark = true;
                         $scope.appointmentTypeChart([]);
+                        $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     } else {
                         // there is at least one cancelled appointment
                         console.log("There is at least one cancelled appointment");
+                        $scope.showNoAppointmentRemark = false;
                         $scope.appointmentTypeChart(data);
+                        $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     }
                 })
@@ -126,17 +130,19 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     if (Object.keys(data).length == 0) {
                         // there is zero cancelled appointment
                         console.log("There is zero cancelled appointment");
+                        $scope.showNoAppointmentRemark = true;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     } else {
                         // there is at least one cancelled appointment
                         console.log("There is at least one cancelled appointment!!");
+                        $scope.showNoAppointmentRemark = false;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart(data);
                         $scope.marketingChannelChart([]);
                     }
-                })
+                });
 
         } else if ($scope.innerTab == 'Marketing Channels') {
             // if inner tab chosen is 'marketing channel', outer tab can be anything
@@ -145,15 +151,19 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     if (Object.keys(data).length == 0) {
                         // there is zero cancelled appointment
                         console.log("There is zero cancelled appointment");
+                        $scope.showNoAppointmentRemark = true;
                         $scope.appointmentTypeChart([]);
+                        $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     } else {
                         // there is at least one cancelled appointment
                         console.log("There is at least one cancelled appointment!!");
+                        $scope.showNoAppointmentRemark = false;
                         $scope.appointmentTypeChart([]);
+                        $scope.reasonsChart([]);
                         $scope.marketingChannelChart(data);
                     }
-                })
+                });
         }
 
 
@@ -165,7 +175,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         var currentMonth = $scope.getCurrentMonth();
 
         $scope.pieChartOne = c3.generate({
-            bindto: '#pie1',
+            bindto: '#pieApptType',
             padding: {
                 top: 30,
                 right: 30,
@@ -198,7 +208,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         var currentMonth = $scope.getCurrentMonth();
 
         $scope.pieChartOne = c3.generate({
-            bindto: '#pie2',
+            bindto: '#pieReason',
             padding: {
                 top: 30,
                 right: 30,
@@ -224,7 +234,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         var currentMonth = $scope.getCurrentMonth();
 
         $scope.pieChartOne = c3.generate({
-            bindto: '#pie3',
+            bindto: '#pieMarketing',
             padding: {
                 top: 30,
                 right: 30,
@@ -268,7 +278,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             $scope.pieDetails[0].sequence = 1;
             $scope.pieDetails[1].sequence = 2;
             $scope.pieDetails[2].sequence = 3;
-        } else if ($scope.innerTab == 'Marketing Channels') {
+        } else if ($scope.innerTab == 'Reasons') {
+            $scope.pieDetails[0].sequence = 2;
+            $scope.pieDetails[1].sequence = 1;
+            $scope.pieDetails[2].sequence = 3;
+        }
+        else if ($scope.innerTab == 'Marketing Channels') {
             $scope.pieDetails[0].sequence = 3;
             $scope.pieDetails[1].sequence = 2;
             $scope.pieDetails[2].sequence = 1;
@@ -278,15 +293,15 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
     $scope.pieDetails = [
         {
-            pieName: 'pie1',
+            pieName: 'pieApptType',
             sequence: 1
         },
         {
-            pieName: 'pie2',
+            pieName: 'pieReason',
             sequence: 2
         },
         {
-            pieName: 'pie3',
+            pieName: 'pieMarketing',
             sequence: 3
         }
     ];
