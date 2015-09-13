@@ -9,7 +9,7 @@ class AppointmentType(models.Model):
 class CustomFilter(models.Model):
     startDate = models.DateField("Start Date")
     endDate = models.DateField("End Date")
-    apptType = models.ForeignKey(AppointmentType)
+    apptType = models.ManyToManyField(AppointmentType)
 
 class FullYearCalendar(models.Model):
     date = models.DateField('Date', primary_key=True)

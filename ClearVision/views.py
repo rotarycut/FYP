@@ -1540,9 +1540,21 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
 
         return Response({})
 
-class ViewReasons(viewsets.ReadOnlyModelViewSet):
-    queryset = AssociatedPatientActions.objects.none()
+class ViewSavedCustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilter.objects.none()
+    serializer_class = CustomFilterSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = AssociatedPatientActions.objects.all().values()
+        response_data = CustomFilter.objects.all().values()
         return Response(response_data)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        apptTypes = payload.get('apptTypes')
+        startDate = payload.get('startDate')
+        endDate = payload.get('endDate')
+
+        CustomFilter.create(apptTypes=apptTypes, startDate=startDate, endDate=endDate)
+
+        return Response({})
