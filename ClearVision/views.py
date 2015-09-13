@@ -1090,52 +1090,105 @@ class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
         piechartType = request.query_params.get('piechartType')
+        customFilter = request.query_params.get('customFilter')
+        startDate = request.query_params.get('startDate')
+        endDate = request.query_params.get('endDate')
 
         apptTypes = AppointmentType.objects.all().values()
 
         toReturnResponse = []
 
         if piechartType == 'Cancelled':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
+                                                                                 cancelled=True,).values().count()
 
-            if totalCancelledPerMonth == 0:
-                return Response({})
+                if totalCancelledPerMonth == 0:
+                    return Response({})
 
-            for eachApptType in apptTypes:
-                totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
-                percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
-                toAdd = {eachApptType['name']: percentage}
-                toReturnResponse.append(toAdd)
+                for eachApptType in apptTypes:
+                    totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
+                                                                                        cancelled=True, appointment__timeBucket__timeslotType=eachApptType).values().count()
+                    percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
+                    toAdd = {eachApptType: percentage}
+                    toReturnResponse.append(toAdd)
+
+            else:
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+
+                if totalCancelledPerMonth == 0:
+                    return Response({})
+
+                for eachApptType in apptTypes:
+                    totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+                    percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
+                    toAdd = {eachApptType['name']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
         elif piechartType == 'NoShow':
-            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate).values().count()
 
-            if totalNoShowPerMonth == 0:
-                return Response({})
+                if totalNoShowPerMonth == 0:
+                    return Response({})
 
-            for eachApptType in apptTypes:
-                totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month, apptType=eachApptType['name']).values().count()
-                percentage = float(totalNoShowPerApptType)/float(totalNoShowPerMonth)
-                toAdd = {eachApptType['name']: percentage}
-                toReturnResponse.append(toAdd)
+                for eachApptType in apptTypes:
+                    totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate,
+                                                                      apptType=eachApptType).values().count()
+                    percentage = float(totalNoShowPerApptType)/float(totalNoShowPerMonth)
+                    toAdd = {eachApptType: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+                if totalNoShowPerMonth == 0:
+                    return Response({})
+
+                for eachApptType in apptTypes:
+                    totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month, apptType=eachApptType['name']).values().count()
+                    percentage = float(totalNoShowPerApptType)/float(totalNoShowPerMonth)
+                    toAdd = {eachApptType['name']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
         elif piechartType == 'Combined':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
-            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
+                                                                                 cancelled=True,).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate).values().count()
 
-            totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
-            if totalCombined == 0:
-                return Response({})
+                totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+                if totalCombined == 0:
+                    return Response({})
 
-            for eachApptType in apptTypes:
-                totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month, apptType=eachApptType['name']).values().count()
-                totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
-                totalCombinedPerApptType = totalNoShowPerApptType + totalCancelledPerApptType
-                percentage = float(totalCombinedPerApptType)/float(totalCombined)
-                toAdd = {eachApptType['name']: percentage}
-                toReturnResponse.append(toAdd)
+                for eachApptType in apptTypes:
+                    totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
+                                                                                        cancelled=True, appointment__timeBucket__timeslotType=eachApptType).values().count()
+                    totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate,
+                                                                      apptType=eachApptType).values().count()
+                    totalCombinedPerApptType = totalNoShowPerApptType + totalCancelledPerApptType
+                    percentage = float(totalCombinedPerApptType)/float(totalCombined)
+                    toAdd = {eachApptType['name']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+                totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+                if totalCombined == 0:
+                    return Response({})
+
+                for eachApptType in apptTypes:
+                    totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__month=month, apptType=eachApptType['name']).values().count()
+                    totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+                    totalCombinedPerApptType = totalNoShowPerApptType + totalCancelledPerApptType
+                    percentage = float(totalCombinedPerApptType)/float(totalCombined)
+                    toAdd = {eachApptType['name']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
 
@@ -1148,57 +1201,125 @@ class AppointmentAnalysisPiechartMarketingChannelsTab(viewsets.ReadOnlyModelView
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
         piechartType = request.query_params.get('piechartType')
+        customFilter = request.query_params.get('customFilter')
+        startDate = request.query_params.get('startDate')
+        endDate = request.query_params.get('endDate')
 
         allmarketingchannels = MarketingChannels.objects.all().values()
 
         toReturnResponse = []
 
         if piechartType == 'Cancelled':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                 appointment__timeBucket__date__date__lte=endDate,
+                                                                                 appointment__timeBucket__timeslotType__in=apptTypes,
+                                                                                 cancelled=True,).values().count()
+                if totalCancelledPerMonth == 0:
+                    return Response({})
 
-            if totalCancelledPerMonth == 0:
-                return Response({})
+                for eachMarketingChannel in allmarketingchannels:
+                    totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                                appointment__timeBucket__date__date__lte=endDate,
+                                                                                                cancelled=True,
+                                                                                                appointment__timeBucket__timeslotType__in=apptTypes,
+                                                                                                patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                    percentage = float(totalCancelledPerMarketingChannel)/float(totalCancelledPerMonth)
+                    toAdd = {eachMarketingChannel['name']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
 
-            for eachMarketingChannel in allmarketingchannels:
-                totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                if totalCancelledPerMonth == 0:
+                    return Response({})
+
+                for eachMarketingChannel in allmarketingchannels:
+                    totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
                                                                                     cancelled=True, patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
-                percentage = float(totalCancelledPerMarketingChannel)/float(totalCancelledPerMonth)
-                toAdd = {eachMarketingChannel['name']: percentage}
-                toReturnResponse.append(toAdd)
+                    percentage = float(totalCancelledPerMarketingChannel)/float(totalCancelledPerMonth)
+                    toAdd = {eachMarketingChannel['name']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
 
         elif piechartType == 'NoShow':
-            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
-            if totalNoShowPerMonth == 0:
-                return Response({})
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                               timeBucket__date__date__lte=endDate,
+                                                               apptType__in=apptTypes).values().count()
+                if totalNoShowPerMonth == 0:
+                    return Response({})
 
-            for eachMarketingChannel in allmarketingchannels:
-                totalNoShowPerMarketingChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
-                                                                          patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
-                percentage = float(totalNoShowPerMarketingChannel)/float(totalNoShowPerMonth)
-                toAdd = {eachMarketingChannel['name']: percentage}
-                toReturnResponse.append(toAdd)
+                for eachMarketingChannel in allmarketingchannels:
+                    totalNoShowPerMarketingChannel = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                                              timeBucket__date__date__lte=endDate,
+                                                                              apptType__in=apptTypes,
+                                                                              patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                    percentage = float(totalNoShowPerMarketingChannel)/float(totalNoShowPerMonth)
+                    toAdd = {eachMarketingChannel['name']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+                if totalNoShowPerMonth == 0:
+                    return Response({})
+
+                for eachMarketingChannel in allmarketingchannels:
+                    totalNoShowPerMarketingChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
+                                                                            patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                    percentage = float(totalNoShowPerMarketingChannel)/float(totalNoShowPerMonth)
+                    toAdd = {eachMarketingChannel['name']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
 
         elif piechartType == 'Combined':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
-            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
-            totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                 appointment__timeBucket__date__date__lte=endDate,
+                                                                                 appointment__timeBucket__timeslotType__in=apptTypes,
+                                                                                 cancelled=True,).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                               timeBucket__date__date__lte=endDate,
+                                                               apptType__in=apptTypes).values().count()
+                totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
 
-            if totalCombined == 0:
-                return Response({})
+                if totalCombined == 0:
+                    return Response({})
 
-            for eachMarketingChannel in allmarketingchannels:
-                totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                for eachMarketingChannel in allmarketingchannels:
+                    totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                                appointment__timeBucket__date__date__lte=endDate,
+                                                                                                cancelled=True,
+                                                                                                appointment__timeBucket__timeslotType__in=apptTypes,
+                                                                                                patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                    totalNoShowPerMarketingChannel = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                                              timeBucket__date__date__lte=endDate,
+                                                                              apptType__in=apptTypes,
+                                                                              patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                    totalCombinedPerMarketingChannel = totalCancelledPerMarketingChannel + totalNoShowPerMarketingChannel
+                    percentage = float(totalCombinedPerMarketingChannel)/float(totalCombined)
+                    toAdd = {eachMarketingChannel['name']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+                totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+
+                if totalCombined == 0:
+                    return Response({})
+
+                for eachMarketingChannel in allmarketingchannels:
+                    totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
                                                                                     cancelled=True, patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
-                totalNoShowPerMarketingChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
-                                                                          patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
-                totalCombinedPerMarketingChannel = totalCancelledPerMarketingChannel + totalNoShowPerMarketingChannel
-                percentage = float(totalCombinedPerMarketingChannel)/float(totalCombined)
-                toAdd = {eachMarketingChannel['name']: percentage}
-                toReturnResponse.append(toAdd)
+                    totalNoShowPerMarketingChannel = Blacklist.objects.filter(timeBucket__date__date__month=month,
+                                                                            patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                    totalCombinedPerMarketingChannel = totalCancelledPerMarketingChannel + totalNoShowPerMarketingChannel
+                    percentage = float(totalCombinedPerMarketingChannel)/float(totalCombined)
+                    toAdd = {eachMarketingChannel['name']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
 
@@ -1208,54 +1329,122 @@ class AppointmentAnalysisPiechartReasonsTab(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
         piechartType = request.query_params.get('piechartType')
+        customFilter = request.query_params.get('customFilter')
+        startDate = request.query_params.get('startDate')
+        endDate = request.query_params.get('endDate')
 
         allreasons = CancellationReason.objects.all().values()
 
         toReturnResponse = []
 
         if piechartType == 'Cancelled':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,).values().count()
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True,
+                                                                                 appointment__timeBucket__date__date__gte=startDate,
+                                                                                 appointment__timeBucket__date__date__lte=endDate,
+                                                                                 appointment__apptType__in=apptTypes).values().count()
 
-            if totalCancelledPerMonth == 0:
-                return Response({})
+                if totalCancelledPerMonth == 0:
+                    return Response({})
 
-            for eachReason in allreasons:
-                totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                for eachReason in allreasons:
+                    totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__gte=startDate,
+                                                                                      appointment__timeBucket__date__date__lte=endDate,
+                                                                                      appointment__apptType__in=apptTypes,
+                                                                                      cancellationReason__id=eachReason['id']).values().count()
+                    percentage = float(totalCancelledPerReason)/float(totalCancelledPerMonth)
+                    toAdd = {eachReason['reason']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,).values().count()
+
+                if totalCancelledPerMonth == 0:
+                    return Response({})
+
+                for eachReason in allreasons:
+                    totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
                                                                                   cancellationReason__id=eachReason['id']).values().count()
-                percentage = float(totalCancelledPerReason)/float(totalCancelledPerMonth)
-                toAdd = {eachReason['reason']: percentage}
-                toReturnResponse.append(toAdd)
+                    percentage = float(totalCancelledPerReason)/float(totalCancelledPerMonth)
+                    toAdd = {eachReason['reason']: percentage}
+                    toReturnResponse.append(toAdd)
             return Response(toReturnResponse)
 
         if piechartType == 'NoShow':
-            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                               timeBucket__date__date__lte=endDate,
+                                                               apptType__in=apptTypes).values().count()
 
-            if totalNoShowPerMonth == 0:
-                return Response({})
+                if totalNoShowPerMonth == 0:
+                    return Response({})
 
-            for eachReason in allreasons:
-                totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, blacklistReason=eachReason['id']).values().count()
-                percentage = float(totalNoShowPerReason)/float(totalNoShowPerMonth)
-                toAdd = {eachReason['reason']: percentage}
-                toReturnResponse.append(toAdd)
+                for eachReason in allreasons:
+                    totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                                    timeBucket__date__date__lte=endDate,
+                                                                    apptType__in=apptTypes,
+                                                                    blacklistReason=eachReason['id']).values().count()
+                    percentage = float(totalNoShowPerReason)/float(totalNoShowPerMonth)
+                    toAdd = {eachReason['reason']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+
+                if totalNoShowPerMonth == 0:
+                    return Response({})
+
+                for eachReason in allreasons:
+                    totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, blacklistReason=eachReason['id']).values().count()
+                    percentage = float(totalNoShowPerReason)/float(totalNoShowPerMonth)
+                    toAdd = {eachReason['reason']: percentage}
+                    toReturnResponse.append(toAdd)
             return Response(toReturnResponse)
 
         if piechartType == 'Combined':
-            totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,).values().count()
-            totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
-            totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+            if customFilter == 'True':
+                apptTypes = request.query_params.getlist('apptTypes')
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True,
+                                                                                 appointment__timeBucket__date__date__gte=startDate,
+                                                                                 appointment__timeBucket__date__date__lte=endDate,
+                                                                                 appointment__apptType__in=apptTypes).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                               timeBucket__date__date__lte=endDate,
+                                                               apptType__in=apptTypes).values().count()
+                totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
 
-            if totalCombined == 0:
-                return Response({})
+                if totalCombined == 0:
+                    return Response({})
 
-            for eachReason in allreasons:
-                totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
+                for eachReason in allreasons:
+                    totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__gte=startDate,
+                                                                                      appointment__timeBucket__date__date__lte=endDate,
+                                                                                      appointment__apptType__in=apptTypes,
+                                                                                      cancellationReason__id=eachReason['id']).values().count()
+                    totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                                    timeBucket__date__date__lte=endDate,
+                                                                    apptType__in=apptTypes,
+                                                                    blacklistReason=eachReason['id']).values().count()
+                    totalCombinedPerReason = totalCancelledPerReason + totalNoShowPerReason
+                    percentage = float(totalCombinedPerReason)/float(totalCombined)
+                    toAdd = {eachReason['reason']: percentage}
+                    toReturnResponse.append(toAdd)
+            else:
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__month=month,).values().count()
+                totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
+
+                if totalCombined == 0:
+                    return Response({})
+
+                for eachReason in allreasons:
+                    totalCancelledPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__month=month,
                                                                                   cancellationReason__id=eachReason['id']).values().count()
-                totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, blacklistReason=eachReason['id']).values().count()
-                totalCombinedPerReason = totalCancelledPerReason + totalNoShowPerReason
-                percentage = float(totalCombinedPerReason)/float(totalCombined)
-                toAdd = {eachReason['reason']: percentage}
-                toReturnResponse.append(toAdd)
+                    totalNoShowPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, blacklistReason=eachReason['id']).values().count()
+                    totalCombinedPerReason = totalCancelledPerReason + totalNoShowPerReason
+                    percentage = float(totalCombinedPerReason)/float(totalCombined)
+                    toAdd = {eachReason['reason']: percentage}
+                    toReturnResponse.append(toAdd)
 
             return Response(toReturnResponse)
 
