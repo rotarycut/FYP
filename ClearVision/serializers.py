@@ -90,3 +90,9 @@ class SwapperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Swapper
         depth = 1
+
+class CustomFilterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomFilter
+        depth = 1
