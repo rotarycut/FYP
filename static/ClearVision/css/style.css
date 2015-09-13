@@ -647,16 +647,17 @@ li .i-slot-label {
     border: solid 1px #70AFC4;
     border-radius: 4px;
     height: 90px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .mrkt-list-item input[type=checkbox]{
     position: absolute;
-    opacity: 0;
+    top: -9999px;
+    left: -9999px;
 }
 
 .mrkt-list-item label{
-    font-weight: 200;
+    font-weight: 300;
 }
 .channelSelected{
     background: #D0E0EB;
