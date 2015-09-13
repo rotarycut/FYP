@@ -18,7 +18,7 @@
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li><a href="#" ng-href="#/waitlist"><i class="fa fa-user-times"></i> Wait List</a></li>
                 <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
-                <li class="dropdown"><a class="drop" href="#" data-toggle="dropdown" ng-href="#/dashboard/roi"><i
+                <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/roi"><i
                         class="fa fa-bar-chart"></i> Dashboard <b class="caret"></b></a>
                     <ul class="list-inline dashboard-submenu">
                         <li><a href="#">Dashboard Summary</a></li>
@@ -42,7 +42,7 @@
                 </li> -->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">Welcome, {{ user }}</a>
+                <li class="dropdown" ><a href="" data-toggle="dropdown" class="dropdown-toggle">Welcome, {{ user }}</a>
                     <ol class="dropdown-menu">
                         <li><a href="#" ng-href="#/changepw">Change Password</a></li>
                     </ol>
@@ -70,9 +70,13 @@
 <!--navbar end-->
 
 <script>
-    $('#topmenu li.dropdown').click(function () {
-        $(this).addClass('selected');
+    $('#topmenu li').click(function () {
+        if($(this).attr('class')==="dropdown"){
+            $(this).addClass('selected');
+        }
+        else{
+            $('#topmenu li.dropdown').removeClass('selected')
+        }
     });
-
 </script>
 

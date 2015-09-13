@@ -201,6 +201,10 @@ button:active{
     background-color: #70AFC4;
 }
 
+.dropdown-menu > li:active,
+.dropdown-menu > li:focus{
+    background-color: transparent;
+}
 .dropdown-menu > li > a.msg-viewall-link{
     text-decoration: underline;
     text-align: center;
@@ -213,7 +217,7 @@ button:active{
     float:left;
     position:absolute;
     left:-999em; /* Hides the drop down */
-    text-align:left;
+    text-align:center;
     padding:9px 5px 10px 5px;
     border:1px dotted #70AFC4;
     border-top:none;
@@ -229,9 +233,14 @@ button:active{
     top:70%;
 }
 
-#topmenu li.dropdown.selected .dashboard-submenu{
+#topmenu li.selected .dashboard-submenu{
     left:-358px;
     top:70%;
+}
+
+.dashboard-submenu li{
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 /*navbar css ends*/
@@ -682,7 +691,7 @@ li .i-slot-label {
 }
 
 .pie-chart-btn.clicked{
-    background: #EFC137;
+    background: #E7AB3E;
     color: #FFF;
     outline: 0;
 }
@@ -695,13 +704,13 @@ li .i-slot-label {
 .pie-chart-btn:hover,
 .pie-chart-btn:focus,
 .pie-chart-btn:active{
-    background: #EFC137;
+    background: #E7AB3E;
     color:#FFF;
     outline: 0;
 }
 
 .switch-chart-btn.clicked{
-    background: #EFC137;
+    background: #E7AB3E;
     color: #FFF;
     outline: 0;
 }
@@ -714,7 +723,7 @@ li .i-slot-label {
 .switch-chart-btn:hover,
 .switch-chart-btn:focus,
 .switch-chart-btn:active{
-    background: #EFC137;
+    background: #E7AB3E;
     color:#FFF;
     outline: 0;
 }
