@@ -19,16 +19,16 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Contact</th>
-                        <th>Doc</th>
                         <th>Appt Type</th>
+                        <th>Doc</th>
                         <th>Scheduled Time</th>
                     </tr>
                     <tr ng-repeat="appt in listOfWaitingAppointments">
                         <td>[[$index + 1]]</td>
                         <td>[[appt.patient__name]]</td>
                         <td>[[appt.patient__contact]]</td>
-                        <td>[[appt.scheduledAppt__doctor__name]]</td>
                         <td>[[appt.scheduledAppt__apptType]]</td>
+                        <td>[[appt.scheduledAppt__doctor__name]]</td>
                         <td>[[appt.scheduledAppt__timeBucket__date]],
                             [[appt.scheduledAppt__timeBucket__start]]
                         </td>
