@@ -231,9 +231,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                             console.log(data);
                             $scope.appointmentTypeChart(data[0])
                             $scope.marketingChannelChart(data[1]);
-                            console.log(chosenField);
-                            $scope.pieChartReason.defocus(chosenField);
-                            $scope.pieChartAppt.select('Pre Evaluation');
                         })
                 }
             },
