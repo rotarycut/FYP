@@ -728,7 +728,9 @@ li .i-slot-label {
     outline: 0;
 }
 
-
+.filter-row{
+    padding-top: 2.2%;
+}
 
 /* dashboard css ends*/
 
