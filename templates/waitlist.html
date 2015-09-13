@@ -1,15 +1,12 @@
 <!-- row for entire app content-->
 <div class="row content-row">
     <div class="col-sm-12">
-        <div class="row">
-            <div class="col-sm-2 top-content-search">
-                <!-- <div class="input-group">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default"><i class="fa fa-search"></i></button>
-                            </span>
-                    <input type="text" class="form-control" placeholder="Search..">
-                </div> -->
-                <!-- /input-group -->
+        <div class="row subcontent-row">
+            <div class="col-md-3">
+                <form class="form-search form-inline">
+                    <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                           ng-model="query"/>
+                </form>
             </div>
         </div>
         <div class="row" ng-init="getWaitListAppointments()">
