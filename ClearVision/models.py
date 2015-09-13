@@ -7,6 +7,7 @@ class AppointmentType(models.Model):
     name = models.CharField(max_length=200)
 
 class CustomFilter(models.Model):
+    name = models.CharField(max_length=200)
     startDate = models.DateField("Start Date")
     endDate = models.DateField("End Date")
     apptType = models.ManyToManyField(AppointmentType)

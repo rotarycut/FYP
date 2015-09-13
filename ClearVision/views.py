@@ -1054,19 +1054,33 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
+        customFilter = request.query_params.get('customFilter')
+        startDate = request.query_params.get('startDate')
+        endDate = request.query_params.get('endDate')
 
         apptTypes = AppointmentType.objects.all().values()
-
         toReturnResponse = []
 
-        for eachApptType in apptTypes:
-            tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
-            tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
-            totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values('patients').count()
-            totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+        if customFilter == 'True':
+            apptTypes = request.query_params.getlist('apptTypes')
+            for eachApptType in apptTypes:
+                tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType).values().count()
+                tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType).values().count()
+                totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType).values('patients').count()
+                totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType).values().count()
 
-            toAdd = {'apptType': eachApptType['name'], 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
-            toReturnResponse.append(toAdd)
+                toAdd = {'apptType': eachApptType, 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
+                toReturnResponse.append(toAdd)
+        else:
+
+            for eachApptType in apptTypes:
+                tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
+                tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
+                totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values('patients').count()
+                totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
+
+                toAdd = {'apptType': eachApptType['name'], 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
+                toReturnResponse.append(toAdd)
 
         return Response(toReturnResponse)
 
@@ -1551,10 +1565,18 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         payload = request.data
 
+        name = payload.get('name')
         apptTypes = payload.get('apptTypes')
         startDate = payload.get('startDate')
         endDate = payload.get('endDate')
 
-        CustomFilter.create(apptTypes=apptTypes, startDate=startDate, endDate=endDate)
+        CustomFilter.create(apptTypes=apptTypes, startDate=startDate, endDate=endDate, name=name)
 
         return Response({})
+
+class ViewAllApptTypes(viewsets.ReadOnlyModelViewSet):
+    queryset = AppointmentType.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        allApptTypes = AppointmentType.objects.all().values()
+        return Response(allApptTypes)
