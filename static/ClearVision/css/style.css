@@ -17,12 +17,6 @@
     padding-top: 8px;
 }
 
-button:focus,
-button:active{
-    outline: solid 1px #1859ab;
-    border-radius: 5px;
-}
-
 .heading-rotate{
     -webkit-transform: rotate(-90deg);
 
@@ -221,7 +215,8 @@ button:active{
     padding:9px 5px 10px 5px;
     border:1px dotted #70AFC4;
     border-top:none;
-    width: 1241px;
+    /*width: 1241px;*/
+    width:100vw;
     /* Gradient background */
     background:#70AFC4;
     background: -moz-linear-gradient(top, #D0E0EB, #70AFC4);
@@ -261,7 +256,6 @@ button:active{
 }
 .top-content-search{
     text-align: left;
-    width: 15%;
     padding-left: 0;
     padding-right: 0;
 }
@@ -652,8 +646,7 @@ li .i-slot-label {
 
 .mrkt-list-item input[type=checkbox]{
     position: absolute;
-    top: -9999px;
-    left: -9999px;
+    display: none;
 }
 
 .mrkt-list-item label{
