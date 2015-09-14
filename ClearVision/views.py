@@ -1,6 +1,7 @@
 import base64
 from datetime import timedelta, datetime
 import json
+from operator import itemgetter
 
 import requests
 from django.contrib.auth.decorators import login_required
@@ -1067,6 +1068,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
         customFilter = request.query_params.get('customFilter')
         startDate = request.query_params.get('startDate')
         endDate = request.query_params.get('endDate')
+        sortValue = request.query_params.get('sortValue')
 
         apptTypes = AppointmentType.objects.all().values()
         toReturnResponse = []
@@ -1091,7 +1093,14 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
 
                 toAdd = {'apptType': eachApptType['name'], 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
                 toReturnResponse.append(toAdd)
-
+        """
+        if sortValue == 'Turn Up':
+            toReturnResponseSorted = []
+            lowValue = -float("inf")
+            for eachJsonObj in toReturnResponse:
+                if eachJsonObj['Appeared'] > lowValue:
+        """
+        toReturnResponse = sorted(toReturnResponse, key=itemgetter('Appeared'))
         return Response(toReturnResponse)
 
 class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
@@ -1637,8 +1646,9 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                 for eachReason in allReasons:
                     totalNoShowPerApptTypePerReason = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, apptType=apptType,
                                                                                timeBucket__date__date__lte=endDate,
-                                                                           blacklistReason__reason=eachReason['reason']).values().count()
-                    totalCancelledPerApptTypePerReason = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
+                                                                               blacklistReason__reason=eachReason['reason']).values().count()
+                    totalCancelledPerApptTypePerReason = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                                 appointment__timeBucket__date__date__lte=endDate,
                                                                                 cancelled=True, appointment__timeBucket__timeslotType=apptType,
                                                                                 cancellationReason__reason=eachReason['reason']).values().count()
                     totalCombinedPerApptTypePerReason = totalNoShowPerApptTypePerReason + totalCancelledPerApptTypePerReason
@@ -1830,8 +1840,10 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
                     totalCancelledPerChannelPerReason = AssociatedPatientActions.objects.filter(cancelled=True, appointment__timeBucket__date__date__gte=startDate,
                                                                                                 appointment__timeBucket__date__date__lte=endDate,
                                                                                patient__marketingChannelId__name=channel, cancellationReason__reason=eachReason['reason']).values().count()
-                    totalNoShowPerChannelPerReason = Blacklist.objects.filter(timeBucket__date__date__month=month, patient__marketingChannelId__name=channel,
-                                                                          blacklistReason__reason=eachReason['reason']).values().count()
+                    totalNoShowPerChannelPerReason = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                                              timeBucket__date__date__lte=endDate,
+                                                                              patient__marketingChannelId__name=channel,
+                                                                              blacklistReason__reason=eachReason['reason']).values().count()
                     totalCombinedPerChannelPerReason = totalCancelledPerChannelPerReason + totalNoShowPerChannelPerReason
                     percentage = float(totalCombinedPerChannelPerReason)/float(totalCombinedPerChannel)
                     toAdd = {eachReason['reason']: percentage}
