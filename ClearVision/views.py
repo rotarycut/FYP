@@ -1194,7 +1194,7 @@ class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
                                                                       apptType=eachApptType).values().count()
                     totalCombinedPerApptType = totalNoShowPerApptType + totalCancelledPerApptType
                     percentage = float(totalCombinedPerApptType)/float(totalCombined)
-                    toAdd = {eachApptType['name']: percentage}
+                    toAdd = {eachApptType: percentage}
                     toReturnResponse.append(toAdd)
             else:
                 totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True,).values().count()
@@ -2069,7 +2069,8 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
     serializer_class = CustomFilterSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = CustomFilter.objects.all().values()
+        array = [1,2,3,4,5,6]
+        response_data = CustomFilter.objects.filter(apptType__in=array).values()
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
@@ -2080,9 +2081,7 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
         startDate = payload.get('startDate')
         endDate = payload.get('endDate')
 
-        print(apptTypes)
-
-        CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name)
+        CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name).apptType = apptTypes
 
         return Response({})
 
