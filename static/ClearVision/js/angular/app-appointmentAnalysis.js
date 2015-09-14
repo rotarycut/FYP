@@ -3,7 +3,7 @@ var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http) {
 
     $scope.isCollapsed = true;
-    $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
+    $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
     $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
     $scope.innerTab = 'Appointment Type';
     $scope.listOfSelectedAppointmentTypes = [];
@@ -61,6 +61,23 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         } else {
             $scope.listOfSelectedAppointmentTypes.push(apptType);
         }
+    };
+
+    /* month filter selection in listing */
+    $scope.monthSelection = function (selectedMonth) {
+        $scope.enableCustomFilter = false;
+
+        var month;
+        if (selectedMonth == "Sep 15") {
+            month = 9;
+        } else if (selectedMonth == "Aug 15") {
+            month = 8;
+        } else if (selectedMonth == "Jul 15") {
+            month = 7;
+        }
+
+        $scope.retrieveStackedChart(month);
+        $scope.retrieveFirstPieChart($scope.outerTab, month);
     };
 
 
@@ -145,10 +162,17 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
 
     /* function to retrieve first pie chart from backend */
-    $scope.retrieveFirstPieChart = function (type) {
+    $scope.retrieveFirstPieChart = function (type, month) {
 
         $scope.outerTab = type;
-        var currentMonth = $scope.getCurrentMonth();
+        // if month input exist in argument, overwrites var currentMonth
+        var currentMonth;
+
+        if(month == undefined) {
+            currentMonth = $scope.getCurrentMonth();
+        } else {
+            currentMonth = month;
+        }
 
         if ($scope.innerTab == 'Appointment Type') {
             // if inner tab chosen is 'appointment type', outer tab can be anything
