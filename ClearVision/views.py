@@ -1093,15 +1093,17 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
 
                 toAdd = {'apptType': eachApptType['name'], 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
                 toReturnResponse.append(toAdd)
-        """
+
         if sortValue == 'Turn Up':
-            toReturnResponseSorted = []
-            lowValue = -float("inf")
-            for eachJsonObj in toReturnResponse:
-                if eachJsonObj['Appeared'] > lowValue:
-        """
-        toReturnResponse = sorted(toReturnResponse, key=itemgetter('Appeared'))
-        return Response(toReturnResponse)
+            return Response(sorted(toReturnResponse, key=itemgetter('Appeared'), reverse=True))
+        elif sortValue == 'No Show':
+            return Response(sorted(toReturnResponse, key=itemgetter('NoShow'), reverse=True))
+        elif sortValue == 'Cancelled':
+            return Response(sorted(toReturnResponse, key=itemgetter('Cancelled'), reverse=True))
+        elif sortValue == 'Undecided':
+            return Response(sorted(toReturnResponse, key=itemgetter('Pending'), reverse=True))
+        else:
+            return Response(toReturnResponse)
 
 class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
