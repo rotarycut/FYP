@@ -338,8 +338,74 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         }
     ];
 
-    $scope.apptTypes = ["Screening", "Pre-Evaluation", "Lasik", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
+    $scope.apptTypes = ["Screening", "Pre-Evaluation", "Surgery", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
     $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
     $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
+
+
+    /*******************************************************************************
+     custom appointment scheduling stacked chart
+     *******************************************************************************/
+
+
+    /* function to retrieve custom stacked chart data from backend */
+    $scope.retrieveCustomStackedChart = function (currentMonth) {
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&apptTypes=Screening&apptTypes=Surgery&apptTypes=Pre Evaluation&startDate=2015-09-09&endDate=2015-09-28')
+            .success(function (data) {
+                $scope.stackedCustomChartData = data;
+                console.log(data);
+                $scope.showStackedChart($scope.stackedCustomChartData);
+            });
+
+        console.log($scope.datepicker);
+        console.log($scope.datepicker2);
+        console.log($scope.typeSelected);
+        console.log($scope.typeUnselected);
+    };
+
+
+    /*******************************************************************************
+     start of date picker codes
+     *******************************************************************************/
+
+
+    $scope.datepickers = {
+        showDatePicker: false,
+        showDatePicker2: false
+    };
+    $scope.disabled = function (date, mode) {
+        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
+    };
+    $scope.today = function () {
+        $scope.datePickerCalendar = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.datePickerCalendar = null;
+    };
+    $scope.toggleMin = function () {
+        $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+
+    $scope.open = function ($event, which) {
+
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.datepickers[which] = true;
+    };
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1,
+        showWeeks: 'false'
+    };
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+
+    /*******************************************************************************
+     end of date picker codes
+     *******************************************************************************/
 
 });

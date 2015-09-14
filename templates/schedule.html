@@ -80,7 +80,7 @@
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
                                         <li ng-class="{typeSelected: typeUnselected}" class="mrkt-list-item"
-                                            ng-repeat="apptType in apptTypes" ng-model="typeSelected" >
+                                            ng-repeat="apptType in apptTypes" ng-model="typeSelected">
                                             <label>[[apptType]]<input type="checkbox" ng-model="typeUnselected"></label>
                                         </li>
                                     </ul>
@@ -88,7 +88,9 @@
                             </div>
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="row" style="padding-top: 22%">
-                                    <button class="btn form-default-btn" ng-click="filterChart()">Run Filter</button>
+                                    <button class="btn form-default-btn" ng-click="retrieveCustomStackedChart()">Run
+                                        Filter
+                                    </button>
                                     <button class="btn form-default-btn" ng-click="">Save Filter</button>
                                 </div>
                             </div>
@@ -214,7 +216,7 @@
         $(this).addClass('clicked');
     });
 
-     $('.switch-chart-btn').click(function (e) {
+    $('.switch-chart-btn').click(function (e) {
         $('.switch-chart-btn').not(this).removeClass('clicked');
         e.preventDefault();
         $(this).addClass('clicked');

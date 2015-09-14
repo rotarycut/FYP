@@ -47,6 +47,7 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, upd
         var waitStartDate = $scope.waitListAppointment.tempAppt__timeBucket__date;
         var patientContact = $scope.waitListAppointment.patient__contact;
         var apptType = $scope.waitListAppointment.scheduledAppt__apptType;
+        var id = $scope.waitListAppointment.id;
 
         var json = {
             "tempAppt__timeBucket__start": waitStartTime,
@@ -55,7 +56,8 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, upd
             "patient__name": patientName,
             "tempAppt__timeBucket__date": waitStartDate,
             "patient__contact": patientContact,
-            "scheduledAppt__apptType": apptType
+            "scheduledAppt__apptType": apptType,
+            "swapperID": id
         };
 
         console.log(json);
