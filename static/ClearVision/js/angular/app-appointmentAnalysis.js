@@ -267,13 +267,25 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 },
                 type: 'pie',
                 onclick: function (d, element) {
+
                     var chosenField = d.id;
-                    $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&apptType=' + chosenField)
-                        .success(function (data) {
-                            console.log(data);
-                            $scope.reasonsChart(data[1])
-                            $scope.marketingChannelChart(data[0]);
-                        })
+
+                    if ($scope.enableCustomFilter) {
+                        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?customFilter=True&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate + '&apptType=' + chosenField)
+                            .success(function (data) {
+                                console.log("custom part pie for " + chosenField);
+                                $scope.reasonsChart(data[1])
+                                $scope.marketingChannelChart(data[0]);
+                            })
+
+                    } else {
+                        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&apptType=' + chosenField)
+                            .success(function (data) {
+                                console.log(data);
+                                $scope.reasonsChart(data[1])
+                                $scope.marketingChannelChart(data[0]);
+                            })
+                    }
                 }
             },
             size: {
@@ -302,14 +314,25 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 },
                 type: 'pie',
                 onclick: function (d, element) {
+
                     var chosenField = d.id;
-                    console.log('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&reason=' + chosenField);
-                    $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&reason=' + chosenField)
-                        .success(function (data) {
-                            console.log(data);
-                            $scope.appointmentTypeChart(data[0])
-                            $scope.marketingChannelChart(data[1]);
-                        })
+
+                    if ($scope.enableCustomFilter) {
+                        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?customFilter=True&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate + '&reason=' + chosenField)
+                            .success(function (data) {
+                                console.log("custom part pie for " + chosenField);
+                                $scope.appointmentTypeChart(data[0])
+                                $scope.marketingChannelChart(data[1]);
+                            })
+
+                    } else {
+                        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&reason=' + chosenField)
+                            .success(function (data) {
+                                console.log(data);
+                                $scope.appointmentTypeChart(data[0])
+                                $scope.marketingChannelChart(data[1]);
+                            })
+                    }
                 }
             },
             size: {
@@ -338,14 +361,25 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 },
                 type: 'pie',
                 onclick: function (d, element) {
+
                     var chosenField = d.id;
-                    console.log('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField);
-                    $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField)
-                        .success(function (data) {
-                            console.log(data);
-                            $scope.appointmentTypeChart(data[0]);
-                            $scope.reasonsChart(data[1]);
-                        })
+
+                    if ($scope.enableCustomFilter) {
+                        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?customFilter=True&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate + '&channel=' + chosenField)
+                            .success(function (data) {
+                                console.log("custom part pie for " + chosenField);
+                                $scope.appointmentTypeChart(data[0]);
+                                $scope.reasonsChart(data[1]);
+                            })
+
+                    } else {
+                        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField)
+                            .success(function (data) {
+                                console.log(data);
+                                $scope.appointmentTypeChart(data[0]);
+                                $scope.reasonsChart(data[1]);
+                            })
+                    }
                 }
             },
             size: {
