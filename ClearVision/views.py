@@ -1112,15 +1112,19 @@ class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
         if piechartType == 'Cancelled':
             if customFilter == 'True':
                 apptTypes = request.query_params.getlist('apptTypes')
-                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                 appointment__timeBucket__date__date__lte=endDate,
+                                                                                 appointment__apptType__in=apptTypes,
                                                                                  cancelled=True,).values().count()
 
                 if totalCancelledPerMonth == 0:
                     return Response({})
 
                 for eachApptType in apptTypes:
-                    totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
-                                                                                        cancelled=True, appointment__timeBucket__timeslotType=eachApptType).values().count()
+                    totalCancelledPerApptType = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                        appointment__timeBucket__date__date__lte=endDate,
+                                                                                        cancelled=True,
+                                                                                        appointment__timeBucket__timeslotType=eachApptType).values().count()
                     percentage = float(totalCancelledPerApptType)/float(totalCancelledPerMonth) * 100
                     toAdd = {eachApptType: percentage}
                     toReturnResponse.append(toAdd)
@@ -1141,13 +1145,16 @@ class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
         elif piechartType == 'NoShow':
             if customFilter == 'True':
                 apptTypes = request.query_params.getlist('apptTypes')
-                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                               timeBucket__date__date__lte=endDate,
+                                                               apptType__in=apptTypes).values().count()
 
                 if totalNoShowPerMonth == 0:
                     return Response({})
 
                 for eachApptType in apptTypes:
-                    totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate,
+                    totalNoShowPerApptType = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                                      timeBucket__date__date__lte=endDate,
                                                                       apptType=eachApptType).values().count()
                     percentage = float(totalNoShowPerApptType)/float(totalNoShowPerMonth)
                     toAdd = {eachApptType: percentage}
@@ -1168,9 +1175,13 @@ class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
         elif piechartType == 'Combined':
             if customFilter == 'True':
                 apptTypes = request.query_params.getlist('apptTypes')
-                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate,
+                totalCancelledPerMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate,
+                                                                                 appointment__timeBucket__date__date__lte=endDate,
+                                                                                 appointment__apptType__in=apptTypes,
                                                                                  cancelled=True,).values().count()
-                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate).values().count()
+                totalNoShowPerMonth = Blacklist.objects.filter(timeBucket__date__date__gte=startDate,
+                                                               timeBucket__date__date__lte=endDate,
+                                                               apptType__in=apptTypes).values().count()
 
                 totalCombined = totalCancelledPerMonth + totalNoShowPerMonth
                 if totalCombined == 0:
@@ -1247,7 +1258,7 @@ class AppointmentAnalysisPiechartMarketingChannelsTab(viewsets.ReadOnlyModelView
 
                 for eachMarketingChannel in allmarketingchannels:
                     totalCancelledPerMarketingChannel = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month,
-                                                                                    cancelled=True, patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
+                                                                                                cancelled=True, patient__marketingChannelId__name=eachMarketingChannel['name']).values().count()
                     percentage = float(totalCancelledPerMarketingChannel)/float(totalCancelledPerMonth)
                     toAdd = {eachMarketingChannel['name']: percentage}
                     toReturnResponse.append(toAdd)
@@ -2069,7 +2080,9 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
         startDate = payload.get('startDate')
         endDate = payload.get('endDate')
 
-        CustomFilter.create(apptTypes=apptTypes, startDate=startDate, endDate=endDate, name=name)
+        print(apptTypes)
+
+        CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name)
 
         return Response({})
 
