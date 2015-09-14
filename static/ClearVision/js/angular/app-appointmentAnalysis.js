@@ -3,11 +3,64 @@ var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http) {
 
     $scope.isCollapsed = true;
+    $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
+    $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
+    $scope.innerTab = 'Appointment Type';
+    $scope.listOfSelectedAppointmentTypes = [];
+    $scope.outerTab = "Cancelled";
+    $scope.pieDetails = [
+        {
+            pieName: 'pieApptType',
+            sequence: 1
+        },
+        {
+            pieName: 'pieReason',
+            sequence: 2
+        },
+        {
+            pieName: 'pieMarketing',
+            sequence: 3
+        }
+    ];
+
+
+    /*******************************************************************************
+     Miscellaneous functions
+     *******************************************************************************/
 
     /* function to get the current month */
     $scope.getCurrentMonth = function () {
         var currentMonth = new Date().getMonth() + 1;
         return currentMonth;
+    };
+
+    /* function to format date */
+    $scope.getFormattedDate = function (fullDate) {
+        var year = fullDate.getFullYear();
+
+        var month = fullDate.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = fullDate.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate;
+    };
+
+    /* toggle selection for filter list box */
+    $scope.toggleSelection = function (apptType) {
+        var id = $scope.listOfSelectedAppointmentTypes.indexOf(apptType);
+
+        if (id > -1) {
+            $scope.listOfSelectedAppointmentTypes.splice(id, 1);
+        } else {
+            $scope.listOfSelectedAppointmentTypes.push(apptType);
+        }
     };
 
 
@@ -107,7 +160,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?month=' + currentMonth + '&piechartType=' + type;
             }
 
-            console.log(queryString);
+            console.log("Query: " + queryString);
 
             $http.get(queryString)
                 .success(function (data) {
@@ -141,6 +194,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartReasonsTab/?month=' + currentMonth + '&piechartType=' + type;
             }
 
+            console.log("Query: " + queryString);
+
             $http.get(queryString)
                 .success(function (data) {
                     if (Object.keys(data).length == 0) {
@@ -164,10 +219,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             // if inner tab chosen is 'marketing channel', outer tab can be anything
             var queryString;
             if ($scope.enableCustomFilter) {
-                queryString = "/Clearvision/_api/ViewAppointmentAnalysisMarketingChannelsTab/?piechartType=" + type + "&customFilter=True&" + $scope.string + "startDate=" + $scope.startDate + "&endDate=" + $scope.endDate;
+                queryString = "/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?piechartType=" + type + "&customFilter=True&" + $scope.string + "startDate=" + $scope.startDate + "&endDate=" + $scope.endDate;
             } else {
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?month=' + currentMonth + '&piechartType=' + type;
             }
+
+            console.log("Query: " + queryString);
 
             $http.get(queryString)
                 .success(function (data) {
@@ -297,15 +354,11 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         });
     };
 
-    /* call to retrieve cancelled chart */
-    $scope.innerTab = 'Appointment Type';
-    $scope.listOfSelectedAppointmentTypes = [];
-    $scope.outerTab = "Cancelled";
-
 
     /*******************************************************************************
-     cancelled marketing channel pie chart
+     other two pie charts
      *******************************************************************************/
+
 
     $scope.retrieveOtherPieCharts = function (type) {
         $scope.innerTab = type;
@@ -326,39 +379,11 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         $scope.retrieveFirstPieChart($scope.outerTab);
     };
 
-    $scope.pieDetails = [
-        {
-            pieName: 'pieApptType',
-            sequence: 1
-        },
-        {
-            pieName: 'pieReason',
-            sequence: 2
-        },
-        {
-            pieName: 'pieMarketing',
-            sequence: 3
-        }
-    ];
 
-    $scope.pieData2 = [
-        {
-            "Change Clinic": 10,
-            "Not Doing Lasik Anymore": 20,
-            "Will Schedule Again": 10,
-            "Change Of Mind": 30,
-            "Others": 30
-        }
-    ];
+    /*******************************************************************************
+     retrieve appointment types
+     *******************************************************************************/
 
-    $scope.pieData3 = [
-        {
-            "Email NewsLetter": 25,
-            "Andrea Chong Blog": 25,
-            "ABC Magazine": 15,
-
-        }
-    ];
 
     $scope.retrieveAppointmentTypes = function () {
         $http.get('/Clearvision/_api/ViewAllApptTypes/')
@@ -374,27 +399,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.apptTypes = [];
     $scope.retrieveAppointmentTypes();
 
-    $scope.toggleSelection = function (apptType) {
-        var id = $scope.listOfSelectedAppointmentTypes.indexOf(apptType);
-
-        if (id > -1) {
-            $scope.listOfSelectedAppointmentTypes.splice(id, 1);
-        } else {
-            $scope.listOfSelectedAppointmentTypes.push(apptType);
-        }
-    };
-
-    //$scope.apptTypes = ["Screening", "Pre-Evaluation", "Surgery", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
-    $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
-    $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
-
 
     /*******************************************************************************
      custom appointment scheduling stacked chart
      *******************************************************************************/
 
 
-    /* function to retrieve custom stacked chart data from backend */
     $scope.retrieveCustomStackedChart = function (currentMonth) {
         $scope.startDate = $scope.getFormattedDate($scope.datepicker);
         $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
@@ -419,32 +429,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         $scope.retrieveFirstPieChart($scope.outerTab);
         $scope.enableCustomFilter = true;
 
-        /*$http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?piechartType=Cancelled&customFilter=True&startDate=2015-09-09&endDate=2015-09-28&apptTypes=Screening')
-         .success(function (data) {
-
-         });*/
-
-        //console.log($scope.startDate);
-        //console.log($scope.endDate);
-        //console.log($scope.listOfSelectedAppointmentTypes);
-    };
-
-    /* function to format date */
-    $scope.getFormattedDate = function (fullDate) {
-        var year = fullDate.getFullYear();
-
-        var month = fullDate.getMonth() + 1;
-        if (month <= 9) {
-            month = '0' + month;
-        }
-
-        var day = fullDate.getDate();
-        if (day <= 9) {
-            day = '0' + day;
-        }
-
-        var formattedDate = year + '-' + month + '-' + day;
-        return formattedDate;
     };
 
 
@@ -482,6 +466,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     };
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
+
 
     /*******************************************************************************
      end of date picker codes
