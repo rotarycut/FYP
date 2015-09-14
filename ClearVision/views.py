@@ -988,7 +988,7 @@ def recievemsg(request):
         encoded = base64.b64encode('AnthonyS:ClearVision2')
         headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
         payload = {'from': 'Clearvision', 'to': '65' + origin, 'text': 'Hi ' + p.name +
-                ', \'swap\'  ' + messagePt2 + '\'acknowledged on ' + datetime.now()}
+                ', \'swap\'  ' + messagePt2 + '\'acknowledged on ' + str(datetime.now())}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
 
