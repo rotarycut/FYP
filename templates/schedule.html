@@ -79,9 +79,13 @@
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
-                                        <li ng-class="{typeSelected: typeUnselected}" class="mrkt-list-item"
-                                            ng-repeat="apptType in apptTypes" ng-model="typeSelected">
-                                            <label>[[apptType]]<input type="checkbox" ng-model="typeUnselected"></label>
+                                        <li ng-class="{typeSelected: apptTypeSelected.apptType}" class="mrkt-list-item"
+                                            ng-repeat="apptType in apptTypes">
+                                            <label>[[apptType]]
+                                                <input type="checkbox"
+                                                       ng-model="apptTypeSelected.apptType"
+                                                       ng-click="toggleSelection(apptType)">
+                                            </label>
                                         </li>
                                     </ul>
                                 </div>

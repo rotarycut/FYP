@@ -165,8 +165,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     }
                 });
         }
-
-
     };
 
     /* c3 function to show appointment type pie chart */
@@ -338,7 +336,30 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         }
     ];
 
-    $scope.apptTypes = ["Screening", "Pre-Evaluation", "Surgery", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
+    $scope.retrieveAppointmentTypes = function () {
+        $http.get('/Clearvision/_api/ViewAllApptTypes/')
+            .success(function (data) {
+                angular.forEach(data, function (appt) {
+                    $scope.apptTypes.push(appt.name);
+                });
+            });
+    };
+
+    $scope.apptTypes = [];
+    $scope.retrieveAppointmentTypes();
+    $scope.listOfSelectedAppointmentTypes = [];
+
+    $scope.toggleSelection = function (apptType) {
+        var id = $scope.listOfSelectedAppointmentTypes.indexOf(apptType);
+
+        if (id > -1) {
+            $scope.listOfSelectedAppointmentTypes.splice(id, 1);
+        } else {
+            $scope.listOfSelectedAppointmentTypes.push(apptType);
+        }
+    };
+
+    //$scope.apptTypes = ["Screening", "Pre-Evaluation", "Surgery", "Post Surgery 1", "Post Surgery 2", "Eyecare"];
     $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
     $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
 
@@ -359,8 +380,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         console.log($scope.datepicker);
         console.log($scope.datepicker2);
-        console.log($scope.typeSelected);
-        console.log($scope.typeUnselected);
+        console.log($scope.listOfSelectedAppointmentTypes);
     };
 
 
