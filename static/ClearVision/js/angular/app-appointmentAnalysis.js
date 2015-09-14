@@ -8,6 +8,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.innerTab = 'Appointment Type';
     $scope.listOfSelectedAppointmentTypes = [];
     $scope.outerTab = "Cancelled";
+    $scope.sortOptions = ["Turn Up", "No Show", "Cancelled", "Undecided"];
     $scope.pieDetails = [
         {
             pieName: 'pieApptType',
@@ -31,6 +32,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     /* function to get the current month */
     $scope.getCurrentMonth = function () {
         var currentMonth = new Date().getMonth() + 1;
+        $scope.currentMonth = currentMonth;
         return currentMonth;
     };
 
@@ -69,15 +71,32 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         var month;
         if (selectedMonth == "Sep 15") {
-            month = 9;
+            $scope.currentMonth = 9;
         } else if (selectedMonth == "Aug 15") {
-            month = 8;
+            $scope.currentMonth = 8;
         } else if (selectedMonth == "Jul 15") {
-            month = 7;
+            $scope.currentMonth = 7;
         }
 
-        $scope.retrieveStackedChart(month);
-        $scope.retrieveFirstPieChart($scope.outerTab, month);
+        $scope.retrieveStackedChart($scope.currentMonth);
+        $scope.retrieveFirstPieChart($scope.outerTab, $scope.currentMonth);
+    };
+
+    /* change sort option */
+    $scope.changeSortOption = function () {
+        var queryStr;
+
+        if ($scope.enableCustomFilter) {
+            queryStr = '/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'sortValue=' + $scope.sortSelected + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate;
+
+        } else {
+            queryStr = '/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?sortValue=' + $scope.sortSelected + '&month=' + $scope.currentMonth;
+        }
+
+        $http.get(queryStr)
+            .success(function (data) {
+                $scope.showStackedChart(data);
+            });
     };
 
 
@@ -168,7 +187,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         // if month input exist in argument, overwrites var currentMonth
         var currentMonth;
 
-        if(month == undefined) {
+        if (month == undefined) {
             currentMonth = $scope.getCurrentMonth();
         } else {
             currentMonth = month;
@@ -464,6 +483,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
 
     $scope.retrieveCustomStackedChart = function (currentMonth) {
+
+        $scope.sortSelected = "Turn Up";
+
         $scope.startDate = $scope.getFormattedDate($scope.datepicker);
         $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
 
