@@ -371,16 +371,49 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
     /* function to retrieve custom stacked chart data from backend */
     $scope.retrieveCustomStackedChart = function (currentMonth) {
-        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&apptTypes=Screening&apptTypes=Surgery&apptTypes=Pre Evaluation&startDate=2015-09-09&endDate=2015-09-28')
+        var startDate = $scope.getFormattedDate($scope.datepicker);
+        var endDate = $scope.getFormattedDate($scope.datepicker2);
+
+        var string = "";
+        angular.forEach($scope.listOfSelectedAppointmentTypes, function (appt) {
+            string += "apptTypes=";
+            string += appt;
+            string += '&';
+        });
+
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + string + 'startDate=' + startDate + '&endDate=' + endDate)
             .success(function (data) {
                 $scope.stackedCustomChartData = data;
                 console.log(data);
                 $scope.showStackedChart($scope.stackedCustomChartData);
             });
 
-        console.log($scope.datepicker);
-        console.log($scope.datepicker2);
+        $http.get('/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?piechartType=Cancelled&customFilter=True&startDate=2015-09-09&endDate=2015-09-28&apptTypes=Screening')
+            .success(function (data) {
+
+            });
+
+        console.log(startDate);
+        console.log(endDate);
         console.log($scope.listOfSelectedAppointmentTypes);
+    };
+
+    /* function to format date */
+    $scope.getFormattedDate = function (fullDate) {
+        var year = fullDate.getFullYear();
+
+        var month = fullDate.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = fullDate.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate;
     };
 
 
@@ -404,11 +437,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.clear = function () {
         $scope.datePickerCalendar = null;
     };
-    $scope.toggleMin = function () {
-        $scope.minDate = $scope.minDate ? null : new Date();
-    };
-    $scope.toggleMin();
-
     $scope.open = function ($event, which) {
 
         $event.preventDefault();
