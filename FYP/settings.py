@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'djcelery',
     'kombu.transport.django',
+    'django_socketio',
 )
 
 MIDDLEWARE_CLASSES = (

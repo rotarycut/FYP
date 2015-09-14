@@ -133,3 +133,10 @@ class AssociatedPatientActions(models.Model):
     addedToQueue = models.NullBooleanField(default=None)
     cancelled = models.NullBooleanField(default=None)
     cancellationReason = models.ForeignKey(CancellationReason, default=None, null=True)
+
+class Schedules(models.Model):
+    practitioner = models.ForeignKey(Doctor)
+    start = models.TimeField("Start")
+    end = models.TimeField("End")
+    day = models.CharField(max_length=200)
+    apptType = models.ForeignKey(AppointmentType)

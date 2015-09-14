@@ -14,7 +14,7 @@ from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
-
+from django_socketio import broadcast, broadcast_channel, NoSocket
 from .serializers import *
 
 
@@ -289,7 +289,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
                                            swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
-
+                django_socketio.broadcast(serializedExistingAppt.data)
             return Response(serializedExistingAppt.data)
 
         else:
@@ -731,7 +731,7 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
         payload = {'from': 'Clearvision', 'to': '65' + patientContact, 'text': 'Hi ' + patientName +
                 ', Swap is possible for ' + apptType.upper() + '.\nPreferred: ' + preferredApptDate + ', ' + preferredApptTime +
-                '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply swap<<space>>' + swapperID + ' to swap appointments.'}
+                '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply swap<<space>>' + str(swapperID) + ' to swap appointments.'}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
         return HttpResponse('Success')
