@@ -711,7 +711,7 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         response_data = Swapper.objects.all().values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
                                                      'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
-                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id')
+                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id', 'id')
 
         return Response(response_data)
 
@@ -725,12 +725,13 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         patientName = data.get('patient__name')
         apptType = data.get('scheduledAppt__apptType')
         patientContact = data.get('patient__contact')
+        swapperID = data.get('swapperID')
 
         encoded = base64.b64encode('AnthonyS:ClearVision2')
-        headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
-        payload = {'from': 'Clearvision', 'to': '65'+patientContact, 'text': 'Hi ' + patientName +
+        headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+        payload = {'from': 'Clearvision', 'to': '65' + patientContact, 'text': 'Hi ' + patientName +
                 ', Swap is possible for ' + apptType.upper() + '.\nPreferred: ' + preferredApptDate + ', ' + preferredApptTime +
-                '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply SWAP to swap appointments.'}
+                '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply swap<<space>>' + swapperID + ' to swap appointments.'}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
         return HttpResponse('Success')
@@ -957,16 +958,19 @@ def recievemsg(request):
     payload = request.GET
 
     message = payload['Text']
+    messageArray = message.split()
+    messagePt1 = messageArray[0]
+    messagePt2 = messageArray[1]
     origin = payload['Sender']
 
     origin = origin[2:]
 
-    swap = Swapper.objects.get(patient=origin)
-    p = Patient.objects.get(contact=origin)
+    swap = Swapper.objects.get(id=messagePt2)
+    p = swap.patient
     scheduledApptId = swap.scheduledAppt_id
     tempApptId = swap.tempAppt_id
 
-    if message == 'swap':
+    if messagePt1 == 'swap':
         scheduledAppt = Appointment.objects.get(id=scheduledApptId)
         scheduledAppt.patients.remove(p)
         scheduledAppt.save()
@@ -980,6 +984,13 @@ def recievemsg(request):
 
         if scheduledAppt.patients.count() == 0:
             scheduledAppt.delete()
+
+        encoded = base64.b64encode('AnthonyS:ClearVision2')
+        headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+        payload = {'from': 'Clearvision', 'to': '65' + origin, 'text': 'Hi ' + p.name +
+                ', \'swap\'  ' + messagePt2 + '\'acknowledged on ' + datetime.now()}
+
+        requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
 
         return HttpResponse('Success')
     else:
