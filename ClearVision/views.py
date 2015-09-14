@@ -2068,8 +2068,7 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
     serializer_class = CustomFilterSerializer
 
     def list(self, request, *args, **kwargs):
-        array = [1,2,3,4,5,6]
-        response_data = CustomFilter.objects.filter(apptType__in=array).values()
+        response_data = CustomFilter.objects.all().values('apptType__name', 'id', 'name', 'startDate', 'endDate')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
@@ -2080,9 +2079,10 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
         startDate = payload.get('startDate')
         endDate = payload.get('endDate')
 
-        CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name).apptType = apptTypes
+        newCustomFilter = CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name,)
+        newCustomFilter.apptType = apptTypes
 
-        return Response({})
+        return Response("Success")
 
 class ViewAllApptTypes(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentType.objects.none()
