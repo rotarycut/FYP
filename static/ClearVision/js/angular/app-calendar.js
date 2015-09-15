@@ -58,25 +58,25 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.drHoLowHeatMap = {
-        color: '#33CC00',
+        color: '#00B499',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoMedHeatMap = {
-        color: '#FF9966',
+        color: '#E7A83E',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoHighHeatMap = {
-        color: '#FF0000',
+        color: '#EA525F',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohLowHeatMap = {
-        color: '#33CC00',
+        color: '#00B499',
         textColor: 'White',
         events: []
     };
@@ -88,7 +88,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.drGohHighHeatMap = {
-        color: '#FF0000',
+        color: '#EA525F',
         textColor: 'White',
         events: []
     };
