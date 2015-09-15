@@ -4157,6 +4157,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   color: #fff;
   background-color: #49708A;
 }
+
+
 .nav-stacked > li {
   float: none;
 }
@@ -4215,7 +4217,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .tab-content > .active {
   display: block;
-  padding-left: 36px;
+  padding-left: 35px;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
