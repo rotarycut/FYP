@@ -312,7 +312,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             data: {
                 json: data,
                 keys: {
-                    value: $scope.apptTypes
+                    value: $scope.listOfApptTypes
                 },
                 type: 'pie',
                 onclick: function (d, element) {
@@ -520,6 +520,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             .success(function (data) {
                 angular.forEach(data, function (appt) {
                     $scope.apptTypes.push(appt);
+                    $scope.listOfApptTypes.push(appt.name);
                 });
 
                 $scope.retrieveFirstPieChart('Cancelled');
@@ -527,6 +528,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     };
 
     $scope.apptTypes = [];
+    $scope.listOfApptTypes = [];
     $scope.retrieveAppointmentTypes();
 
 

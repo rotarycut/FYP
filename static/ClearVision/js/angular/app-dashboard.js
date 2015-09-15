@@ -7,13 +7,20 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     ];
 
     $scope.initializeChart = function () {
-        /*var monthNames = ["January", "February", "March", "April", "May", "June",
-         "july", "august", "September", "October", "November", "December"
-         ];*/
-
         var currentMonth = new Date().getMonth() + 1;
         $scope.getMonthData(currentMonth);
     };
+
+    /* dropdown multiselect codes --*/
+    $scope.channels = ["Andrea Chong Blog", "Facebook Ads", "Email Newsletter", "ABC Magazine", "987 Radio"];
+    $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
+    $scope.savedFilters = ["SocialM", "Magazine", "SEO", "E-commerce"];
+
+
+    /*******************************************************************************
+     retrieve month data
+     *******************************************************************************/
+
 
     $scope.getMonthData = function (month) {
         var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=False&channels=all&month=' + month;
@@ -27,15 +34,21 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
             });
     };
 
+
+    /*******************************************************************************
+     marketing channel bar charts
+     *******************************************************************************/
+
+
     $scope.showMarketingChart = function (newData) {
 
         $scope.marketingChart = c3.generate({
-            bindto: '#chart1',
+            bindto: '#mktgBarCharts',
             padding: {
                 top: 20,
-                right: 25,
+                right: 50,
                 bottom: 3,
-                left: 25
+                left: 40
             },
             bar: {
                 width: {
@@ -244,7 +257,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 top: 20,
                 right: 25,
                 bottom: 3,
-                left: 25
+                left: 45
             },
             data: {
                 json: newData,
@@ -440,11 +453,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         var formattedDate = year + '-' + month + '-' + day;
         return formattedDate;
     };
-
-    /* dropdown multiselect codes --*/
-    $scope.channels = ["Andrea Chong Blog", "Facebook Ads", "Email Newsletter", "ABC Magazine", "987 Radio"];
-    $scope.savedMonths = ["Jan 15", "Feb 15", "Apr 15", "Jul 15", "Aug 15"];
-    $scope.savedFilters = ["SocialM", "Magazine", "SEO", "E-commerce"];
 
     $scope.test = function (value) {
         alert("YO");

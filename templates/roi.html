@@ -132,7 +132,7 @@
                 </div>
                 <div class="row chart-content-row">
                     <div class="col-md-11">
-                        <div id="chart1" ng-init="showMarketingChart([]); initializeChart();"></div>
+                        <div id="mktgBarCharts" ng-init="showMarketingChart([]); initializeChart();"></div>
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@
                 <label class="dashboard-listing-lbl">listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#" ng-click="">[[month]]</a>
+                        <a href="#/dashboard/roi" ng-click="">[[month]]</a>
                     </li>
                 </ul>
             </div>
