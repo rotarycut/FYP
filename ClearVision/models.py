@@ -28,6 +28,11 @@ class CustomFilterMarketingChannel(models.Model):
     endDate = models.DateField("End Date")
     channelType = models.ManyToManyField(MarketingChannels)
 
+class MarketingChannelCost(models.Model):
+    channel = models.ForeignKey(MarketingChannels)
+    cost = models.FloatField()
+
+
 class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
