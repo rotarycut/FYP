@@ -562,9 +562,15 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannelCost.objects.none()
 
     def list(self, request, *args, **kwargs):
-        roi = MarketingChannelCost.objects.all().values()
+        payload = request.data
 
-        return Response(roi)
+        startDate = payload.get('startDate')
+        endDate = payload.get('endDate')
+        channel = payload.getlist('channel')
+
+        cost = MarketingChannelCost.objects.filter(channel__name__in=channel).values()
+
+        return Response(cost)
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()
