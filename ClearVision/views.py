@@ -433,6 +433,8 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
         month = request.query_params.get('month')
         channels = request.query_params.get('channels')
 
+        sortValue = request.query_params.get('sortValue')
+
         if filterFlag == 'True':
             channels = channels.split(',')
 
@@ -457,7 +459,14 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     rate = float(convert) / float(leads) * 100
                     eachObj['rate'] = rate
 
-                return Response(response_data)
+                if sortValue == 'Leads':
+                    return Response(sorted(response_data, key=itemgetter('leads'), reverse=True))
+                elif sortValue == 'Convert':
+                    return Response(sorted(response_data, key=itemgetter('convert'), reverse=True))
+                elif sortValue == 'Rate':
+                    return Response(sorted(response_data, key=itemgetter('rate'), reverse=True))
+                else:
+                    return Response(response_data)
 
             else:
                 marketed_list = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate). \
