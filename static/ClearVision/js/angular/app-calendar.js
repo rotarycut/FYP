@@ -542,31 +542,26 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 $scope.selectedCalendar = selectedCalendar;
                 if (selectedCalendar == "myCalendar1") {
-
                     $scope.tabs[1].active = false;
                     $scope.tabs[0].active = true;
-                } else {
 
+                } else {
                     $scope.tabs[0].active = false;
                     $scope.tabs[1].active = true;
                 }
             } else {
                 if ($scope.fields.doctorAssigned == "Dr Ho") {
-
                     $scope.selectedCalendar = "myCalendar1";
                     $scope.tabs[1].active = false;
                     $scope.tabs[0].active = true;
 
                 } else {
-
                     $scope.selectedCalendar = "myCalendar2";
                     $scope.tabs[0].active = false;
                     $scope.tabs[1].active = true;
-
                 }
             }
         }
-
     };
 
     /* function to retrieve list of appointment timings */
