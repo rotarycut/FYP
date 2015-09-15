@@ -140,7 +140,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
-                console.log(listOfAppointments);
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
@@ -149,7 +148,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.drHoLowHeatMap.events.push(appointment);
 
                         count++;
-                        console.log("LOW HEATMAP");
                     } else {
                         return;
                     }
@@ -169,7 +167,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         return;
                     }
                 })
-                console.log("MEDIUM HEATMAP");
             })
         $http.get(highHeatUrl)
             .success(function (listOfAppointments) {
@@ -184,7 +181,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         return;
                     }
                 })
-                console.log("HIGH HEATMAP");
             })
     };
 

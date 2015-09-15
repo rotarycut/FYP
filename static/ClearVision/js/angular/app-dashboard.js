@@ -165,7 +165,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newMonthData = data;
-                console.log($scope.newMonthData);
                 $scope.currentChartMonth = month;
                 $scope.showMarketingChart($scope.newMonthData);
             });
@@ -182,7 +181,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newTimeLineData = data;
-                console.log($scope.newTimeLineData);
                 $scope.currentChartMonth = month;
                 $scope.showTimelineChart($scope.newTimeLineData, $scope.channelLists);
             });

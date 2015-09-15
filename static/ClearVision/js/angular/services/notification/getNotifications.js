@@ -9,10 +9,10 @@ angular.module('get.notifications', [])
         };
 
         self.getNotifications = function () {
-            console.log("COMING TO NOTIFICATION");
+
             $http.get('/Clearvision/_api/ViewNotifications/')
                 .success(function (listOfNotifications) {
-                    console.log(listOfNotifications);
+                    //console.log(listOfNotifications);
 
                     self._scope.notificationList = listOfNotifications;
                     var notificationCount = 0;
@@ -21,12 +21,12 @@ angular.module('get.notifications', [])
                             notificationCount++;
                         }
                     });
-                    console.log(notificationCount);
+                    //console.log(notificationCount);
                     self._scope.notificationCount = notificationCount;
                     if (notificationCount >= 1) {
                         self._scope.haveNotification = true;
                     }
-                    console.log(self._scope.notificationCount);
+                    //console.log(self._scope.notificationCount);
                 })
         };
 
