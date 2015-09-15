@@ -31,7 +31,7 @@ class CustomFilterMarketingChannel(models.Model):
 class MarketingChannelCost(models.Model):
     channel = models.ForeignKey(MarketingChannels)
     cost = models.FloatField()
-
+    name = models.CharField(max_length=500)
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)

@@ -558,6 +558,13 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
 
                 return Response(date_range)
 
+class ViewROIChart(viewsets.ReadOnlyModelViewSet):
+    queryset = MarketingChannelCost.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        roi = MarketingChannelCost.objects.all().values()
+
+        return Response(roi)
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()
