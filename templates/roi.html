@@ -80,7 +80,8 @@
 
                                 <div class="roi-marketing-listbox" ng-init="getMarketingChannels()">
                                     <ul style="list-style: none; padding-left: 1%;">
-                                        <li ng-class="{channelSelected: channel.channelUnselected}" class="mrkt-list-item"
+                                        <li ng-class="{channelSelected: channel.channelUnselected}"
+                                            class="mrkt-list-item"
                                             ng-repeat="channel in channelObjects" ng-model="channelSelected">
                                             <label><input type="checkbox" ng-model="channel.channelUnselected"
                                                           ng-change="toggleSelection(channel.name, channel.id)">[[channel.name]]
@@ -187,5 +188,34 @@
         e.preventDefault();
         $(this).addClass('clicked');
     })
+</script>
+
+<script type="text/ng-template" id="myErrorContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Error</h3>
+    </div>
+
+    <div class="modal-body">
+        Please select all the fields.
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="cancel()">Ok</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="myFilterModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Enter Filter Name</h3>
+    </div>
+
+    <div class="modal-body">
+        <textarea class="form-control" rows="3" data-ng-model="filterName"></textarea>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="postFilter()">Yes</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
 </script>
 
