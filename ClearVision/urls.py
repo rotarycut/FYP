@@ -32,6 +32,7 @@ router.register(r'_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab', vie
 router.register(r'_api/ViewAppointmentAnalysisPartPieApptType', views.AppointmentAnalysisPartPieApptType)
 router.register(r'_api/ViewCancellationReasons', views.ViewCancellationReasons)
 router.register(r'_api/ViewSavedCustomFilters', views.ViewSavedCustomFilters)
+router.register(r'_api/EditSavedCustomFilters', views.EditSavedCustomFilters)
 router.register(r'_api/ViewAllApptTypes', views.ViewAllApptTypes)
 
 urlpatterns = [

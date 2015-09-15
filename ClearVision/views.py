@@ -2082,7 +2082,7 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
     serializer_class = CustomFilterSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = CustomFilter.objects.all().values('apptType__name', 'id', 'name', 'startDate', 'endDate')
+        response_data = CustomFilter.objects.all().values()
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
@@ -2095,6 +2095,41 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
 
         newCustomFilter = CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name,)
         newCustomFilter.apptType = apptTypes
+
+        return Response("Success")
+
+class EditSavedCustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilter.objects.all()
+    serializer_class = CustomFilterSerializer
+
+    def list(self, request, *args, **kwargs):
+        id = request.query_params.get('id')
+
+        customfilter = CustomFilter.objects.get(id=id)
+
+        return Response(CustomFilterSerializer(customfilter).data)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        customfilterID = payload.get('customfilterID')
+        startDate = payload.get('startDate')
+        endDate = payload.get('endDate')
+        name = payload.get('name')
+        apptTypes = payload.get('apptTypes')
+
+        customfilter = CustomFilter.objects.get(id=customfilterID)
+        customfilter.startDate = startDate
+        customfilter.endDate = endDate
+        customfilter.name = name
+        customfilter.save()
+        customfilter.apptType = apptTypes
+        customfilter.save()
+
+        return Response("Success")
+
+    def destroy(self, request, *args, **kwargs):
+        CustomFilter.objects.get(id=self.get_object().id).delete()
 
         return Response("Success")
 
