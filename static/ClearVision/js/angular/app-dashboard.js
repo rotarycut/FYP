@@ -241,10 +241,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $scope.marketingTimeChart = c3.generate({
             bindto: '#timeChart',
             padding: {
-                top: 10,
-                right: 20,
-                bottom: 3,
-                left: 40
+                top: 15,
+                right: 15,
+                bottom: 0,
+                left: 15
             },
             data: {
                 json: newData,
