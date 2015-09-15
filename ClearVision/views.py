@@ -348,20 +348,19 @@ class AppointmentWriter(viewsets.ModelViewSet):
         clinicID = data.get('clinicID')
         newRemarks = data.get('remarks')
 
-        toUpdateAssociatedPatientActions = False
-
         currentAppt.patients.remove(patient)
         currentAppt.save()
         oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.id)
 
         if AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).exists():
             AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).delete()
-            toUpdateAssociatedPatientActions = True
+
 
         """
         if currentAppt.patients.count() == 0:
             currentAppt.delete()
         """
+
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket, date=futureApptDate,
                                                              timeslotType=apptType)
 
@@ -376,8 +375,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
             oldRemarks.remarks = newRemarks
             oldRemarks.save()
 
-            if toUpdateAssociatedPatientActions == True:
-                AssociatedPatientActions.objects.filter(patient=patient, appointment=currentAppt).update(appointment=existingFutureAppt)
+            toUpdateNewAppt = AssociatedPatientActions.objects.get(patient=patient, appointment=currentAppt)
+            toUpdateNewAppt.appointment = existingFutureAppt
+            toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
 
@@ -395,8 +395,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
             oldRemarks.remarks = newRemarks
             oldRemarks.save()
 
-            if toUpdateAssociatedPatientActions == True:
-                AssociatedPatientActions.objects.filter(patient=patient, appointment=currentAppt).update(appointment=existingFutureAppt)
+            toUpdateNewAppt = AssociatedPatientActions.objects.get(patient=patient, appointment=currentAppt)
+            toUpdateNewAppt.appointment = existingFutureAppt
+            toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
             return Response(serializedExistingFutureAppt.data)
@@ -863,18 +864,21 @@ class ViewTodayPatients(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = Appointment.objects.filter(timeBucket__date=datetime.today(), associatedpatientactions__cancelled=None).values('associatedpatientactions__appointment__doctor__name',
-                                                                                             'associatedpatientactions__patient__name',
-                                                                                             'associatedpatientactions__patient__contact',
-                                                                                             'associatedpatientactions__appointment__apptType',
-                                                                                             'associatedpatientactions__appointment__timeBucket__start',
-                                                                                             'associatedpatientactions__addedToQueue',
-                                                                                             'associatedpatientactions__appointment__clinic',
-                                                                                             'associatedpatientactions__appointment__timeBucket',
-                                                                                             'associatedpatientactions__patient_id',
-                                                                                             'associatedpatientactions__appointment__doctor_id',
-                                                                                             'associatedpatientactions__appointment_id',
-                                                                                             'associatedpatientactions__cancelled')
+        response_data = Appointment.objects.filter(timeBucket__date=datetime.today(),
+                                                   associatedpatientactions__cancelled=None,
+                                                   patients__isnull=False
+                                                   ).values('associatedpatientactions__appointment__doctor__name',
+                                                            'associatedpatientactions__patient__name',
+                                                            'associatedpatientactions__patient__contact',
+                                                            'associatedpatientactions__appointment__apptType',
+                                                            'associatedpatientactions__appointment__timeBucket__start',
+                                                            'associatedpatientactions__addedToQueue',
+                                                            'associatedpatientactions__appointment__clinic',
+                                                            'associatedpatientactions__appointment__timeBucket',
+                                                            'associatedpatientactions__patient_id',
+                                                            'associatedpatientactions__appointment__doctor_id',
+                                                            'associatedpatientactions__appointment_id',
+                                                            'associatedpatientactions__cancelled')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
