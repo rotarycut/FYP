@@ -79,12 +79,12 @@
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
-                                        <li ng-class="{typeSelected: apptTypeSelected.apptType}" class="mrkt-list-item"
+                                        <li ng-class="{typeSelected: apptTypeSelected.apptType.name}" class="mrkt-list-item"
                                             ng-repeat="apptType in apptTypes">
-                                            <label>[[apptType]]
+                                            <label>[[apptType.name]]
                                                 <input type="checkbox"
-                                                       ng-model="apptTypeSelected.apptType"
-                                                       ng-click="toggleSelection(apptType)">
+                                                       ng-model="apptTypeSelected.apptType.name"
+                                                       ng-click="toggleSelection(apptType.name, apptType.id)">
                                             </label>
                                         </li>
                                     </ul>
@@ -95,7 +95,8 @@
                                     <button class="btn form-default-btn" ng-click="retrieveCustomStackedChart()">Run
                                         Filter
                                     </button>
-                                    <button class="btn form-default-btn" ng-click="">Save Filter</button>
+                                    <button class="btn form-default-btn" ng-click="openSaveFilterModal()">Save Filter
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -115,11 +116,10 @@
                         <h5 style="color: #49708A">Scheduled Appointments</h5>
                     </div>
                     <div class="col-md-2 col-md-offset-6">
-                        <select class="form-control" data-ng-model="sortSelected"
-                                ng-change="changeSortOption()"
-                                ng-options="option for option in sortOptions"
-                                name="optionList"
-                                ng-init="sortSelected = sortOptions[0]">
+                        <select class="form-control" data-ng-model="sortSelected" ng-change="changeSortOption()"
+                                name="optionList">
+                            <option value="" selected disabled>---Sort By---</option>
+                            <option ng-repeat="option in sortOptions">[[option]]</option>
                         </select>
                     </div>
                     <div class="col-md-1 graph-function-col">
@@ -206,7 +206,7 @@
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="#" ng-click="">[[filter]]</a>
+                        <a href="#" ng-click="">[[filter.name]]</a>
                     </li>
                 </ul>
             </div>
@@ -238,5 +238,21 @@
     </div>
 
     <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="cancel()">Ok</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="myFilterModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Enter Filter Name</h3>
+    </div>
+
+    <div class="modal-body">
+        <textarea class="form-control" rows="3" data-ng-model="filterName"></textarea>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="postFilter()">Yes</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
