@@ -288,27 +288,21 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
                 type: 'bar',
                 onclick: function (d, element) {
 
-                    var channel = $scope.newMonthData[d.x];
-                    console.log(channel);
+                    var channelObject = $scope.newMonthData[d.x];
                     var date = new Date();
                     var firstDay = new Date(2015, $scope.currentChartMonth - 1, 1).getDate();
                     var lastDay = new Date(2015, $scope.currentChartMonth, 0).getDate();
                     var startDate = '2015-' + $scope.currentChartMonth + '-' + firstDay;
                     var endDate = '2015-' + $scope.currentChartMonth + '-' + lastDay;
 
-                    var url = '/Clearvision/_api/analyticsServer/?channels=' + channel.channelname + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=True&filterFlag=True';
-                    $http.get(url)
-                        .success(function (timeLine) {
+                    var url = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelObject.channelname + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=True&sortValue=Leads';
 
-                            var channelArr = [];
-                            channelArr.push(channel.channelname);
-                            console.log("ITS IN");
-                            console.log(timeLine);
-                            console.log(channelArr);
-                            $scope.showTimelineChart(timeLine, channelArr);
+                    $http.get(url)
+                        .success(function (data) {
+                            $scope.showTimelineChart(data, [channelObject.channelname]);
                         });
 
-                    switch (d.x) {
+                    /*switch (d.x) {
                         case 0:
                             $scope.showRoiChart(
                                 [
@@ -386,12 +380,11 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
                                 ]
                             );
                             break;
-                    }
+                    }*/
 
                 }
+
             }
-
-
         });
 
         setTimeout(function () {
