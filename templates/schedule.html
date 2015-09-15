@@ -115,11 +115,10 @@
                         <h5 style="color: #49708A">Scheduled Appointments</h5>
                     </div>
                     <div class="col-md-2 col-md-offset-6">
-                        <select class="form-control" data-ng-model="sortSelected"
-                                ng-change="changeSortOption()"
-                                ng-options="option for option in sortOptions"
-                                name="optionList"
-                                ng-init="sortSelected = sortOptions[0]">
+                        <select class="form-control" data-ng-model="sortSelected" ng-change="changeSortOption()"
+                                name="optionList">
+                            <option value="" selected disabled>---Sort By---</option>
+                            <option ng-repeat="option in sortOptions">[[option]]</option>
                         </select>
                     </div>
                     <div class="col-md-1 graph-function-col">
