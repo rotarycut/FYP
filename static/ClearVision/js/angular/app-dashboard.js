@@ -459,7 +459,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
                 top: 40,
                 right: 50,
                 bottom: 3,
-                left: 40
+                left: 45
             },
             bar: {
                 width: {
