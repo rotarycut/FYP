@@ -144,12 +144,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 20) {
+                    if (count <= 31) {
                         $scope.drGohLowHeatMap.events.push(appointment);
                         $scope.drHoLowHeatMap.events.push(appointment);
 
                         count++;
-                        console.log("AFASFAS");
+                        console.log("LOW HEATMAP");
                     } else {
                         return;
                     }
@@ -161,7 +161,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 20) {
+                    if (count <= 21) {
                         $scope.drHoMedHeatMap.events.push(appointment);
                         $scope.drGohMedHeatMap.events.push(appointment);
                         count++;
@@ -169,14 +169,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         return;
                     }
                 })
-                console.log("BFASFAS");
+                console.log("MEDIUM HEATMAP");
             })
         $http.get(highHeatUrl)
             .success(function (listOfAppointments) {
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 20) {
+                    if (count <= 21) {
                         $scope.drHoHighHeatMap.events.push(appointment);
                         $scope.drGohHighHeatMap.events.push(appointment);
                         count++;
@@ -184,7 +184,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         return;
                     }
                 })
-                console.log("CFASFAS");
+                console.log("HIGH HEATMAP");
             })
     };
 
@@ -535,25 +535,27 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
 
-    $scope.changeCalendar = function (selectedCalendar, isTabDisabled) {
+    $scope.changeCalendar = function (selectedCalendar, isTabDisabled, isCalendarTabChange) {
 
         // upon change of doctor calendar, splice all events and reload it back
-        if (selectedCalendar == "myCalendar1") {
-            $scope.drHoScreenings.events.splice(0);
-            $scope.drHoPreEvaluations.events.splice(0);
-            $scope.drHoSurgeries.events.splice(0);
+        if (isCalendarTabChange) {
+            if (selectedCalendar == "myCalendar1") {
+                $scope.drHoScreenings.events.splice(0);
+                $scope.drHoPreEvaluations.events.splice(0);
+                $scope.drHoSurgeries.events.splice(0);
 
-            $scope.getDrHoScreenings();
-            $scope.getDrHoPreEvaluations();
-            $scope.getDrHoSurgeries();
-        } else {
-            $scope.drGohScreenings.events.splice(0);
-            $scope.drGohPreEvaluations.events.splice(0);
-            $scope.drGohSurgeries.events.splice(0);
+                $scope.getDrHoScreenings();
+                $scope.getDrHoPreEvaluations();
+                $scope.getDrHoSurgeries();
+            } else {
+                $scope.drGohScreenings.events.splice(0);
+                $scope.drGohPreEvaluations.events.splice(0);
+                $scope.drGohSurgeries.events.splice(0);
 
-            $scope.getDrGohScreenings();
-            $scope.getDrGohPreEvaluations();
-            $scope.getDrGohSurgeries();
+                $scope.getDrGohScreenings();
+                $scope.getDrGohPreEvaluations();
+                $scope.getDrGohSurgeries();
+            }
         }
 
         // css changes to make all filters underlined
@@ -568,6 +570,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.surgeryActive = true;
 
         if (!isTabDisabled) {
+
             if (selectedCalendar != undefined) {
 
                 $scope.selectedCalendar = selectedCalendar;
@@ -591,6 +594,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.tabs[1].active = true;
                 }
             }
+            $timeout(function () {
+                if (isCalendarTabChange == undefined) {
+                    $scope.enableISchedule();
+                }
+            }, 500);
+
         }
     };
 

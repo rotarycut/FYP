@@ -69,7 +69,7 @@
                                      select="renderCalendar([[tab.calendar]]);"
                                      ng-init="initializeAppointments([[tab.initialise]])"
                                      class="heading-rotate"
-                                     ng-click="changeCalendar(tab.changeCalendar, tab.disable)"
+                                     ng-click="changeCalendar(tab.changeCalendar, tab.disable, true)"
                                      active="tab.active" disable="tab.disable">
 
                                     <div class="calendar" ng-model="tab.model" calendar="[[tab.changeCalendar]]"
@@ -177,7 +177,7 @@
                         <label class="control-label">Doctor</label>
                         <select class="form-control" ng-options="doc for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor" ng-change="changeCalendar(); enableISchedule()"
+                                ng-disabled="form.disableFields.doctor" ng-change="changeCalendar();"
                                 required>
                         </select>
 
