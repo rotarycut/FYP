@@ -142,7 +142,7 @@ class AppointmentFilter(django_filters.FilterSet):
 
 class AppointmentList(viewsets.ModelViewSet):
     # renderer_classes = (JSONRenderer,)
-    queryset = Appointment.objects.all()
+    queryset = Appointment.objects.exclude(patients=None).all()
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
     filter_class = AppointmentFilter
@@ -188,10 +188,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
                 tempAppt.tempPatients.remove(p)
                 tempAppt.save()
-
+        """
         if num_patients == 1:
             a.delete()
-
+        """
         # Inform potential patients in the tempPatients queue, to push into notification basket
         if num_temp_patients >= 1:
             Swapper.objects.filter(patient=temp_patients[0]['id'], tempAppt=a).update(swappable=True)
@@ -1088,7 +1088,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
             for eachApptType in apptTypes:
                 tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
                 tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
-                totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values('patients').count()
+                totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).exclude(patients=None).values('patients').count()
                 totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
 
                 toAdd = {'apptType': eachApptType['name'], 'Appeared': tillNowAttended, 'NoShow': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Pending': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
