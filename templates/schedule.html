@@ -115,12 +115,11 @@
                         <h5 style="color: #49708A">Scheduled Appointments</h5>
                     </div>
                     <div class="col-md-2 col-md-offset-6">
-                        <select class="form-control" data-ng-model="">
-                            <option value="" disabled selected>Sort By</option>
-                            <option value="">Turn Up</option>
-                            <option value="">No Show</option>
-                            <option value="">Cancelled</option>
-                            <option value="">Undecided</option>
+                        <select class="form-control" data-ng-model="sortSelected"
+                                ng-change="changeSortOption()"
+                                ng-options="option for option in sortOptions"
+                                name="optionList"
+                                ng-init="sortSelected = sortOptions[0]">
                         </select>
                     </div>
                     <div class="col-md-1 graph-function-col">
