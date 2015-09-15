@@ -62,7 +62,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         if (id > -1) {
             $scope.listOfSelectedAppointmentTypes.splice(id, 1);
-            $scope.listOfSelectedAppointmentTypesId.splice(id,1);
+            $scope.listOfSelectedAppointmentTypesId.splice(id, 1);
         } else {
             $scope.listOfSelectedAppointmentTypes.push(apptType);
             $scope.listOfSelectedAppointmentTypesId.push(apptId);
@@ -204,7 +204,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             // if inner tab chosen is 'appointment type', outer tab can be anything
             var queryString;
             if ($scope.enableCustomFilter) {
-                console.log($scope.string);
                 queryString = "/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?piechartType=" + type + "&customFilter=True&" + $scope.string + "startDate=" + $scope.startDate + "&endDate=" + $scope.endDate;
             } else {
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?month=' + currentMonth + '&piechartType=' + type;
@@ -536,28 +535,10 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
      *******************************************************************************/
 
 
-    $scope.retrieveCustomStackedChart = function (currentMonth) {
+    $scope.retrieveCustomStackedChart = function (currentMonth, isSavedFilter) {
 
-        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
-
-            $scope.openErrorModal();
-
-        } else {
-
-            $scope.sortSelected = "Turn Up";
-
-            $scope.startDate = $scope.getFormattedDate($scope.datepicker);
-            $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
-
-            $scope.string = "";
-            angular.forEach($scope.listOfSelectedAppointmentTypes, function (appt) {
-                $scope.string += "apptTypes=";
-                $scope.string += appt;
-                $scope.string += '&';
-            });
-
-            console.log($scope.listOfSelectedAppointmentTypes);
-            console.log($scope.string);
+        // if it is coming from a saved filter
+        if (isSavedFilter) {
 
             $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
                 .success(function (data) {
@@ -566,10 +547,33 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     $scope.showStackedChart($scope.stackedCustomChartData);
                 });
 
-            $scope.retrieveFirstPieChart($scope.outerTab);
-            $scope.enableCustomFilter = true;
+        } else {
+            if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
 
+                $scope.openErrorModal();
+
+            } else {
+
+                $scope.sortSelected = "Turn Up";
+                $scope.startDate = $scope.getFormattedDate($scope.datepicker);
+                $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
+
+                console.log($scope.listOfSelectedAppointmentTypes);
+                console.log($scope.string);
+
+                $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
+                    .success(function (data) {
+                        $scope.stackedCustomChartData = data;
+                        console.log(data);
+                        $scope.showStackedChart($scope.stackedCustomChartData);
+                    });
+
+                $scope.retrieveFirstPieChart($scope.outerTab);
+                $scope.enableCustomFilter = true;
+
+            }
         }
+
     };
 
 
@@ -586,6 +590,31 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     };
 
     $scope.getCustomFilters();
+
+    $scope.activateFilter = function (filterId) {
+        $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
+            .success(function (data) {
+                $scope.startDate = data.startDate;
+                $scope.endDate = data.endDate;
+                $scope.listOfFilterAppointmentTypes = [];
+
+                angular.forEach(data.apptType, function (individualApptType) {
+                    $scope.listOfFilterAppointmentTypes.push(individualApptType.name);
+                });
+
+                $scope.enableCustomFilter = true;
+                $scope.string = "";
+                angular.forEach($scope.listOfFilterAppointmentTypes, function (appt) {
+                    $scope.string += "apptTypes=";
+                    $scope.string += appt;
+                    $scope.string += '&';
+                });
+
+                $scope.retrieveCustomStackedChart("", true);
+                $scope.retrieveFirstPieChart($scope.outerTab);
+
+            });
+    };
 
 
     /*******************************************************************************
