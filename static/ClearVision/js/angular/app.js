@@ -25,7 +25,8 @@ var app = angular.module('calendarDemoApp', [
     'event.click',
     'get.noShow',
     'add.archive',
-    'post.filter'
+    'post.filter',
+    'post.roiFilter'
 ]);
 
 /* Angular routing */
