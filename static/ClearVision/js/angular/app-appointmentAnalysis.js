@@ -1,6 +1,6 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal) {
 
     $scope.isCollapsed = true;
     $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
@@ -8,7 +8,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.innerTab = 'Appointment Type';
     $scope.listOfSelectedAppointmentTypes = [];
     $scope.outerTab = "Cancelled";
-    $scope.sortOptions = ["Turn Up", "No Show", "Cancelled", "Undecided"];
+    $scope.sortOptions = ["Appeared", "No Show", "Cancelled", "Pending"];
     $scope.pieDetails = [
         {
             pieName: 'pieApptType',
@@ -534,31 +534,39 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
     $scope.retrieveCustomStackedChart = function (currentMonth) {
 
-        $scope.sortSelected = "Turn Up";
+        //console.log($scope.listOfSelectedAppointmentTypes === '[]');
+        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || Object.keys($scope.listOfSelectedAppointmentTypes) == 0) {
 
-        $scope.startDate = $scope.getFormattedDate($scope.datepicker);
-        $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
+            $scope.openErrorModal();
 
-        $scope.string = "";
-        angular.forEach($scope.listOfSelectedAppointmentTypes, function (appt) {
-            $scope.string += "apptTypes=";
-            $scope.string += appt;
-            $scope.string += '&';
-        });
+        } else {
 
-        console.log($scope.listOfSelectedAppointmentTypes);
-        console.log($scope.string);
+            $scope.sortSelected = "Turn Up";
 
-        $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
-            .success(function (data) {
-                $scope.stackedCustomChartData = data;
-                console.log(data);
-                $scope.showStackedChart($scope.stackedCustomChartData);
+            $scope.startDate = $scope.getFormattedDate($scope.datepicker);
+            $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
+
+            $scope.string = "";
+            angular.forEach($scope.listOfSelectedAppointmentTypes, function (appt) {
+                $scope.string += "apptTypes=";
+                $scope.string += appt;
+                $scope.string += '&';
             });
 
-        $scope.retrieveFirstPieChart($scope.outerTab);
-        $scope.enableCustomFilter = true;
+            console.log($scope.listOfSelectedAppointmentTypes);
+            console.log($scope.string);
 
+            $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
+                .success(function (data) {
+                    $scope.stackedCustomChartData = data;
+                    console.log(data);
+                    $scope.showStackedChart($scope.stackedCustomChartData);
+                });
+
+            $scope.retrieveFirstPieChart($scope.outerTab);
+            $scope.enableCustomFilter = true;
+
+        }
     };
 
 
@@ -599,7 +607,30 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
 
     /*******************************************************************************
-     end of date picker codes
+     start of modal codes
      *******************************************************************************/
+
+
+    $scope.animationsEnabled = true;
+
+    $scope.openErrorModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myErrorContent.html',
+            controller: 'AppointmentAnalysisCtrl',
+            size: size
+        });
+    };
+
+});
+
+
+/*******************************************************************************
+ start of modal controller
+ *******************************************************************************/
+
+appCalendar.controller('AppointmentAnalysisCtrl', function ($scope, $modalInstance) {
+
 
 });
