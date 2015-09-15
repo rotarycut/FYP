@@ -348,12 +348,20 @@ class AppointmentWriter(viewsets.ModelViewSet):
         clinicID = data.get('clinicID')
         newRemarks = data.get('remarks')
 
+        toUpdateAssociatedPatientActions = False
+
         currentAppt.patients.remove(patient)
         currentAppt.save()
         oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.id)
 
+        if AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).exists():
+            AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).delete()
+            toUpdateAssociatedPatientActions = True
+
+        """
         if currentAppt.patients.count() == 0:
             currentAppt.delete()
+        """
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket, date=futureApptDate,
                                                              timeslotType=apptType)
 
@@ -367,6 +375,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
             oldRemarks.appointment = existingFutureAppt
             oldRemarks.remarks = newRemarks
             oldRemarks.save()
+
+            if toUpdateAssociatedPatientActions == True:
+                AssociatedPatientActions.objects.filter(patient=patient, appointment=currentAppt).update(appointment=existingFutureAppt)
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
 
@@ -383,6 +394,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
             oldRemarks.appointment = existingFutureAppt
             oldRemarks.remarks = newRemarks
             oldRemarks.save()
+
+            if toUpdateAssociatedPatientActions == True:
+                AssociatedPatientActions.objects.filter(patient=patient, appointment=currentAppt).update(appointment=existingFutureAppt)
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
             return Response(serializedExistingFutureAppt.data)

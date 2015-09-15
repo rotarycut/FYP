@@ -763,12 +763,12 @@
     "fields": {
 
         "apptType": "Screening",
-        "date": "2015-09-13",
+        "date": "2015-09-15",
         "last_modified": "2015-07-17T07:16:36",
         "patients": [1, 2],
         "doctor": 2,
         "clinic": 2,
-        "timeBucket": 511
+        "timeBucket": 515
     }
   },
   {
