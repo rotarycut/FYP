@@ -31,8 +31,10 @@ router.register(r'_api/ViewAppointmentAnalysisPiechartReasonsTab', views.Appoint
 router.register(r'_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab', views.AppointmentAnalysisPiechartMarketingChannelsTab)
 router.register(r'_api/ViewAppointmentAnalysisPartPieApptType', views.AppointmentAnalysisPartPieApptType)
 router.register(r'_api/ViewCancellationReasons', views.ViewCancellationReasons)
-router.register(r'_api/ViewSavedCustomFilters', views.ViewSavedCustomFilters)
-router.register(r'_api/EditSavedCustomFilters', views.EditSavedCustomFilters)
+router.register(r'_api/ViewSavedApptTypeCustomFilters', views.ViewSavedApptTypeCustomFilters)
+router.register(r'_api/EditSavedApptTypeCustomFilters', views.EditSavedApptTypeCustomFilters)
+router.register(r'_api/ViewSavedMarketingChannelCustomFilters', views.ViewSavedMarketingChannelCustomFilters)
+router.register(r'_api/EditSavedMarketingChannelCustomFilters', views.EditSavedMarketingChannelCustomFilters)
 router.register(r'_api/ViewAllApptTypes', views.ViewAllApptTypes)
 
 urlpatterns = [

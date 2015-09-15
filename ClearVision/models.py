@@ -6,7 +6,7 @@ class CancellationReason(models.Model):
 class AppointmentType(models.Model):
     name = models.CharField(max_length=200)
 
-class CustomFilter(models.Model):
+class CustomFilterApptType(models.Model):
     name = models.CharField(max_length=200)
     startDate = models.DateField("Start Date")
     endDate = models.DateField("End Date")
@@ -21,6 +21,12 @@ class FullYearCalendar(models.Model):
 
 class MarketingChannels(models.Model):
     name = models.CharField(max_length=350)
+
+class CustomFilterMarketingChannel(models.Model):
+    name = models.CharField(max_length=200)
+    startDate = models.DateField("Start Date")
+    endDate = models.DateField("End Date")
+    channelType = models.ManyToManyField(MarketingChannels)
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)

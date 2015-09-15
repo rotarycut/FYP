@@ -91,8 +91,14 @@ class SwapperSerializer(serializers.ModelSerializer):
         model = Swapper
         depth = 1
 
-class CustomFilterSerializer(serializers.ModelSerializer):
+class CustomFilterApptTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = CustomFilter
+        model = CustomFilterApptType
+        depth = 1
+
+class CustomFilterMarketingChannelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomFilterMarketingChannel
         depth = 1

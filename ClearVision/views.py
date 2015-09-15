@@ -2077,12 +2077,12 @@ class AppointmentAnalysisPartPieApptType(viewsets.ReadOnlyModelViewSet):
 
         return Response({})
 
-class ViewSavedCustomFilters(viewsets.ModelViewSet):
-    queryset = CustomFilter.objects.none()
-    serializer_class = CustomFilterSerializer
+class ViewSavedApptTypeCustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilterApptType.objects.none()
+    serializer_class = CustomFilterApptTypeSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = CustomFilter.objects.all().values()
+        response_data = CustomFilterApptType.objects.all().values()
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
@@ -2093,21 +2093,21 @@ class ViewSavedCustomFilters(viewsets.ModelViewSet):
         startDate = payload.get('startDate')
         endDate = payload.get('endDate')
 
-        newCustomFilter = CustomFilter.objects.create(startDate=startDate, endDate=endDate, name=name,)
+        newCustomFilter = CustomFilterApptType.objects.create(startDate=startDate, endDate=endDate, name=name,)
         newCustomFilter.apptType = apptTypes
 
         return Response("Success")
 
-class EditSavedCustomFilters(viewsets.ModelViewSet):
-    queryset = CustomFilter.objects.all()
-    serializer_class = CustomFilterSerializer
+class EditSavedApptTypeCustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilterApptType.objects.all()
+    serializer_class = CustomFilterApptTypeSerializer
 
     def list(self, request, *args, **kwargs):
         id = request.query_params.get('id')
 
-        customfilter = CustomFilter.objects.get(id=id)
+        customfilter = CustomFilterApptType.objects.get(id=id)
 
-        return Response(CustomFilterSerializer(customfilter).data)
+        return Response(CustomFilterApptTypeSerializer(customfilter).data)
 
     def create(self, request, *args, **kwargs):
         payload = request.data
@@ -2118,7 +2118,7 @@ class EditSavedCustomFilters(viewsets.ModelViewSet):
         name = payload.get('name')
         apptTypes = payload.get('apptTypes')
 
-        customfilter = CustomFilter.objects.get(id=customfilterID)
+        customfilter = CustomFilterApptType.objects.get(id=customfilterID)
         customfilter.startDate = startDate
         customfilter.endDate = endDate
         customfilter.name = name
@@ -2129,7 +2129,63 @@ class EditSavedCustomFilters(viewsets.ModelViewSet):
         return Response("Success")
 
     def destroy(self, request, *args, **kwargs):
-        CustomFilter.objects.get(id=self.get_object().id).delete()
+        CustomFilterApptType.objects.get(id=self.get_object().id).delete()
+
+        return Response("Success")
+
+class ViewSavedMarketingChannelCustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilterMarketingChannel.objects.none()
+    serializer_class = CustomFilterMarketingChannelSerializer
+
+    def list(self, request, *args, **kwargs):
+        response_data = CustomFilterMarketingChannel.objects.all().values()
+        return Response(response_data)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        name = payload.get('name')
+        channelTypes = payload.get('channelTypes')
+        startDate = payload.get('startDate')
+        endDate = payload.get('endDate')
+
+        newCustomFilter = CustomFilterMarketingChannel.objects.create(startDate=startDate, endDate=endDate, name=name,)
+        newCustomFilter.channelType = channelTypes
+
+        return Response("Success")
+
+class EditSavedMarketingChannelCustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilterMarketingChannel.objects.all()
+    serializer_class = CustomFilterMarketingChannelSerializer
+
+    def list(self, request, *args, **kwargs):
+        id = request.query_params.get('id')
+
+        customfilter = CustomFilterMarketingChannel.objects.get(id=id)
+
+        return Response(CustomFilterMarketingChannelSerializer(customfilter).data)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        customfilterID = payload.get('customfilterID')
+        startDate = payload.get('startDate')
+        endDate = payload.get('endDate')
+        name = payload.get('name')
+        channelTypes = payload.get('channelTypes')
+
+        customfilter = CustomFilterMarketingChannel.objects.get(id=customfilterID)
+        customfilter.startDate = startDate
+        customfilter.endDate = endDate
+        customfilter.name = name
+        customfilter.save()
+        customfilter.channelType = channelTypes
+        customfilter.save()
+
+        return Response("Success")
+
+    def destroy(self, request, *args, **kwargs):
+        CustomFilterMarketingChannel.objects.get(id=self.get_object().id).delete()
 
         return Response("Success")
 
