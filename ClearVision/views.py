@@ -562,15 +562,21 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannelCost.objects.none()
 
     def list(self, request, *args, **kwargs):
-        payload = request.data
+        startDate = request.query_params.get('startDate')
+        endDate = request.query_params.get('endDate')
+        channel = request.query_params.getlist('channel')
 
-        startDate = payload.get('startDate')
-        endDate = payload.get('endDate')
-        channel = payload.getlist('channel')
+        toReturnResponse = []
 
-        cost = MarketingChannelCost.objects.filter(channel__name__in=channel).values()
+        for eachChannel in channel:
+            totalCost = MarketingChannelCost.objects.filter(channel__name='987 Radio',).aggregate(Sum('cost'))['cost__sum']
+            totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__gte=startDate,
+                                                       registrationDate__lte=endDate, marketingChannelId__name=eachChannel).values().count()
+            roi = (totalPatientCount * 3888) / totalCost
 
-        return Response(cost)
+            toReturnResponse.append({eachChannel: roi})
+
+        return Response(toReturnResponse)
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()

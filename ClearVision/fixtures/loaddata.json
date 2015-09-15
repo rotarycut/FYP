@@ -109,6 +109,14 @@
         "cost": 2000
     }
   },
+  {
+    "model": "ClearVision.MarketingChannelCost",
+    "fields": {
+        "name": "The Morning Show",
+        "channel": 1,
+        "cost": 3000
+    }
+  },
     {
     "model": "ClearVision.MarketingChannelCost",
     "fields": {
