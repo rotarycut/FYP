@@ -121,9 +121,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             bindto: '#stacked',
             padding: {
                 top: 30,
-                right: 30,
+                right: 15,
                 bottom: 0,
-                left: 50
+                left: 15
             },
             bar: {
                 width: {
@@ -167,6 +167,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     ['Appeared', 'NoShow', 'Cancelled', 'Pending']
                 ],
                 order: null
+            },
+            color: {
+                pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
             }
         });
     };
@@ -331,8 +334,24 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     }
                 }
             },
-            size: {
-                width: 200
+
+            chart: {
+                margin: [0, 0, 0, 0],
+                spacingTop: 0,
+                spacingBottom: 0,
+                spacingLeft: 0,
+                spacingRight: 0
+            },
+            plotOptions: {
+                pie: {
+                    size: '100%',
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+            color: {
+                pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
             }
         });
     };
@@ -378,8 +397,23 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     }
                 }
             },
-            size: {
-                width: 200
+            chart: {
+                margin: [0, 0, 0, 0],
+                spacingTop: 0,
+                spacingBottom: 0,
+                spacingLeft: 0,
+                spacingRight: 0
+            },
+            plotOptions: {
+                pie: {
+                    size: '100%',
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+            color: {
+                pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
             }
         });
     };
@@ -400,7 +434,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             data: {
                 json: data,
                 keys: {
-                    value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others']
+                    value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others', 'xiaxue blog', 'instagram']
                 },
                 type: 'pie',
                 onclick: function (d, element) {
@@ -425,8 +459,24 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     }
                 }
             },
-            size: {
-                width: 200
+
+            chart: {
+                margin: [0, 0, 0, 0],
+                spacingTop: 0,
+                spacingBottom: 0,
+                spacingLeft: 0,
+                spacingRight: 0
+            },
+            plotOptions: {
+                pie: {
+                    size: '100%',
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            },
+            color: {
+                pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
             }
         });
     };
