@@ -568,6 +568,13 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                         $scope.showStackedChart($scope.stackedCustomChartData);
                     });
 
+                $scope.string = "";
+                angular.forEach($scope.listOfSelectedAppointmentTypes, function (appt) {
+                    $scope.string += "apptTypes=";
+                    $scope.string += appt;
+                    $scope.string += '&';
+                });
+
                 $scope.retrieveFirstPieChart($scope.outerTab);
                 $scope.enableCustomFilter = true;
 
