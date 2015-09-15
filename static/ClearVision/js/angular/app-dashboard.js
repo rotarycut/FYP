@@ -45,7 +45,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $scope.marketingChart = c3.generate({
             bindto: '#mktgBarCharts',
             padding: {
-                top: 20,
+                top: 40,
                 right: 50,
                 bottom: 3,
                 left: 40
@@ -306,10 +306,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $scope.RoiChart = c3.generate({
             bindto: '#roiChart',
             padding: {
-                top: 20,
-                right: 25,
+                top: 40,
+                right: 50,
                 bottom: 3,
-                left: 25
+                left: 40
             },
             bar: {
                 width: {

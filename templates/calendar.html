@@ -501,11 +501,9 @@
             <li>Doctor: [[patientDetails.doctorAssigned]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            <li>
-                Reason:
-                <select data-ng-model="selectedReason"
-                        ng-options="reason.reason for reason in cancellationReasons" ng-change="activateModalButtons()">
-                </select>
+            <li>Reason:<select data-ng-model="selectedReason" class=form-control"
+                               ng-options="reason.reason for reason in cancellationReasons"
+                               ng-change="activateModalButtons()"></select>
             </li>
         </ul>
     </div>
@@ -562,8 +560,8 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-success" type="button" ng-click="updateAppointment()">Yes</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
+        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment()">Yes</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
 <!--
