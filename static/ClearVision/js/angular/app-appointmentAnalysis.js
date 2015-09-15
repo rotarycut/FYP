@@ -103,6 +103,17 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             });
     };
 
+    /* check if any month in listing is selected */
+    $scope.checkOtherMonthSelected = function () {
+        var trackMonth = new Date().getMonth() + 1;
+
+        if ($scope.currentMonth != trackMonth) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
 
     /*******************************************************************************
      appointment scheduling stacked chart
@@ -191,10 +202,15 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         // if month input exist in argument, overwrites var currentMonth
         var currentMonth;
 
-        if (month == undefined) {
-            currentMonth = $scope.getCurrentMonth();
+        // if the month listing chosen is not of current month
+        if ($scope.checkOtherMonthSelected()) {
+            currentMonth = $scope.currentMonth;
         } else {
-            currentMonth = month;
+            if (month == undefined) {
+                currentMonth = $scope.getCurrentMonth();
+            } else {
+                currentMonth = month;
+            }
         }
 
         if ($scope.innerTab == 'Appointment Type') {
@@ -296,7 +312,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     /* c3 function to show appointment type pie chart */
     $scope.appointmentTypeChart = function (data) {
 
-        var currentMonth = $scope.getCurrentMonth();
+        var currentMonth;
+        if ($scope.checkOtherMonthSelected()) {
+            currentMonth = $scope.currentMonth;
+        } else {
+            currentMonth = $scope.getCurrentMonth();
+        }
 
         $scope.pieChartAppt = c3.generate({
             bindto: '#pieApptType',
@@ -356,7 +377,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     /* c3 function to show reasons pie chart */
     $scope.reasonsChart = function (data) {
 
-        var currentMonth = $scope.getCurrentMonth();
+        var currentMonth;
+        if ($scope.checkOtherMonthSelected()) {
+            currentMonth = $scope.currentMonth;
+        } else {
+            currentMonth = $scope.getCurrentMonth();
+        }
 
         $scope.pieChartReason = c3.generate({
             bindto: '#pieReason',
@@ -415,7 +441,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     /* c3 function to show marketing channel pie chart */
     $scope.marketingChannelChart = function (data) {
 
-        var currentMonth = $scope.getCurrentMonth();
+        var currentMonth;
+        if ($scope.checkOtherMonthSelected()) {
+            currentMonth = $scope.currentMonth;
+        } else {
+            currentMonth = $scope.getCurrentMonth();
+        }
 
         var pieChartMarketing = c3.generate({
             bindto: '#pieMarketing',

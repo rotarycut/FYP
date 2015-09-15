@@ -13,7 +13,20 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
     /* dropdown multiselect codes --*/
     $scope.channels = ["Andrea Chong Blog", "Facebook Ads", "Email Newsletter", "ABC Magazine", "987 Radio"];
-    $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
+    $scope.savedMonths = [
+        {
+            long: "Sep 15",
+            short: "9"
+        },
+        {
+            long: "Aug 15",
+            short: "8"
+        },
+        {
+            long: "Jul 15",
+            short: "7"
+        }
+    ];
     $scope.savedFilters = ["SocialM", "Magazine", "SEO", "E-commerce"];
 
 
@@ -222,6 +235,12 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
     };
 
+
+    /*******************************************************************************
+     change month data
+     *******************************************************************************/
+
+
     $scope.changeMonthData = function () {
 
         var monthNames = ["January", "February", "March", "April", "May", "June",
@@ -239,6 +258,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
         $scope.getMonthData(index);
     };
+
 
     $scope.getMarketingTimeline = function () {
         $http.get('http://demo4552602.mockable.io/marketingTimeline')
