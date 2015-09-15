@@ -140,7 +140,7 @@
                 <label class="dashboard-listing-lbl">listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#/dashboard/roi" ng-click="">[[month]]</a>
+                        <a href="#/dashboard/roi" ng-click="getMonthData(month.short)">[[month.long]]</a>
                     </li>
                 </ul>
             </div>
