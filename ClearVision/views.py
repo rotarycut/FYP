@@ -2241,3 +2241,10 @@ class ViewAllApptTypes(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         allApptTypes = AppointmentType.objects.all().values()
         return Response(allApptTypes)
+
+class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
+    queryset = MarketingChannels.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        allMarketingChannels = MarketingChannels.objects.all().values()
+        return Response(allMarketingChannels)

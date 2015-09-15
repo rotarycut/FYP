@@ -37,6 +37,7 @@ router.register(r'_api/EditSavedApptTypeCustomFilters', views.EditSavedApptTypeC
 router.register(r'_api/ViewSavedMarketingChannelCustomFilters', views.ViewSavedMarketingChannelCustomFilters)
 router.register(r'_api/EditSavedMarketingChannelCustomFilters', views.EditSavedMarketingChannelCustomFilters)
 router.register(r'_api/ViewAllApptTypes', views.ViewAllApptTypes)
+router.register(r'_api/ViewAllMarketingChannels', views.ViewAllMarketingChannels)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
