@@ -80,11 +80,11 @@
                                 </select>-->
                                 <label class="control-label" style="color: #49708A">Marketing Channel</label>
 
-                                <div class="roi-marketing-listbox">
+                                <div class="roi-marketing-listbox" ng-init="getMarketingChannels()">
                                     <ul style="list-style: none; padding-left: 1%;">
                                         <li ng-class="{channelSelected: channelUnselected}" class="mrkt-list-item"
-                                            ng-repeat="channel in channels" ng-model="channelSelected">
-                                            <label><input type="checkbox" ng-model="channelUnselected">[[channel]]
+                                            ng-repeat="channel in channelObjects" ng-model="channelSelected">
+                                            <label><input type="checkbox" ng-model="channelUnselected">[[channel.name]]
                                             </label>
                                         </li>
                                     </ul>
@@ -140,7 +140,7 @@
                 <label class="dashboard-listing-lbl">listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#/dashboard/roi" ng-click="getMonthData(month.short)">[[month.long]]</a>
+                        <a href="#/dashboard/roi" ng-click="getMonthData(month.short); getTimeLineData(month.short)">[[month.long]]</a>
                     </li>
                 </ul>
             </div>

@@ -6,13 +6,13 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         "July", "August", "September", "October", "November", "December"
     ];
 
-    $scope.initializeChart = function () {
-        var currentMonth = new Date().getMonth() + 1;
-        $scope.getMonthData(currentMonth);
-    };
+    var roi = [
+        {"channelname": "ST Ads", "marketingDollar": 200, "revenueDollar": 3000, "roi": 1000}
+    ];
 
     /* dropdown multiselect codes --*/
-    $scope.channels = ["Andrea Chong Blog", "Facebook Ads", "Email Newsletter", "ABC Magazine", "987 Radio"];
+    $scope.channelObjects = [];
+    $scope.channelLists = [];
     $scope.savedMonths = [
         {
             long: "Sep 15",
@@ -31,7 +31,40 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
 
     /*******************************************************************************
-     retrieve month data
+     Miscellaneous functions
+     *******************************************************************************/
+
+    /* function to initialize chart */
+    $scope.initializeChart = function () {
+        var currentMonth = new Date().getMonth() + 1;
+        $scope.getMonthData(currentMonth);
+        $scope.getTimeLineData(currentMonth);
+    };
+
+    /* filter chart */
+    $scope.filterChart = function () {
+
+        var startDate = $scope.getFormattedDate($scope.datepicker);
+        var endDate = $scope.getFormattedDate($scope.datepicker2);
+
+        console.log(startDate);
+        console.log(endDate);
+    };
+
+    /* function to retrieve all marketing channels */
+    $scope.getMarketingChannels = function () {
+        $http.get('/Clearvision/_api/ViewAllMarketingChannels/')
+            .success(function (data) {
+                angular.forEach(data, function (channel) {
+                    $scope.channelObjects.push(channel);
+                    $scope.channelLists.push(channel.name);
+                })
+            })
+    };
+
+
+    /*******************************************************************************
+     retrieve month data for marketing chart
      *******************************************************************************/
 
 
@@ -43,8 +76,34 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                 console.log($scope.newMonthData);
                 $scope.currentChartMonth = month;
                 $scope.showMarketingChart($scope.newMonthData);
-                $scope.showTimelineChart([], []);
             });
+    };
+
+
+    /*******************************************************************************
+     retrieve month data for time line chart
+     *******************************************************************************/
+
+
+    $scope.getTimeLineData = function (month) {
+        var restRequest = '/Clearvision/_api/analyticsServer/?month=' + month;
+        $http.get(restRequest)
+            .success(function (data) {
+                $scope.newTimeLineData = data;
+                console.log($scope.newTimeLineData);
+                $scope.currentChartMonth = month;
+                $scope.showTimelineChart($scope.newTimeLineData, $scope.channelLists);
+            });
+    };
+
+
+    /*******************************************************************************
+     retrieve month data for roi chart
+     *******************************************************************************/
+
+
+    $scope.getRoiData = function (month) {
+
     };
 
 
@@ -237,38 +296,9 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
 
     /*******************************************************************************
-     change month data
+     show time line chart
      *******************************************************************************/
 
-
-    $scope.changeMonthData = function () {
-
-        var monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-        var count = 1;
-        var index = 0;
-        angular.forEach(monthNames, function (month) {
-
-            if (month === $scope.monthData) {
-                index = count;
-            }
-            count++;
-        })
-
-        $scope.getMonthData(index);
-    };
-
-
-    $scope.getMarketingTimeline = function () {
-        $http.get('http://demo4552602.mockable.io/marketingTimeline')
-            .success(function (data) {
-                $scope.newTimeline = data;
-                $scope.showTimelineChart([]);
-            });
-    };
-
-    //var marketingDateSeries = ['google search', 'facebook ad'];
 
     $scope.showTimelineChart = function (newData, marketingDateSeries) {
         $scope.marketingTimeChart = c3.generate({
@@ -317,9 +347,11 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
     };
 
-    var roi = [
-        {"channelname": "ST Ads", "marketingDollar": 200, "revenueDollar": 3000, "roi": 1000}
-    ];
+
+    /*******************************************************************************
+     show roi chart
+     *******************************************************************************/
+
 
     $scope.showRoiChart = function (newData) {
 
@@ -391,13 +423,35 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     };
 
 
-    $scope.filterChart = function () {
+    /*******************************************************************************
+     change between lead time line & roi tabs
+     *******************************************************************************/
 
-        var startDate = $scope.getFormattedDate($scope.datepicker);
-        var endDate = $scope.getFormattedDate($scope.datepicker2);
+    $scope.showLeadChart = true;
 
-        console.log(startDate);
-        console.log(endDate);
+    /* function to show lead time line tab */
+    $scope.decideShowLead = function () {
+        $scope.showLeadChart = true;
+        $scope.showROIChart = false;
+    };
+
+    /* function to show roi tab */
+    $scope.decideShowROI = function () {
+        $scope.showLeadChart = false;
+        $scope.showROIChart = true;
+    };
+
+
+    /*******************************************************************************
+     placeholder
+     *******************************************************************************/
+
+    $scope.getMarketingTimeline = function () {
+        $http.get('http://demo4552602.mockable.io/marketingTimeline')
+            .success(function (data) {
+                $scope.newTimeline = data;
+                $scope.showTimelineChart([]);
+            });
     };
 
     //$scope.getMonths();
@@ -487,16 +541,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
     $scope.selectedChannels = [];
 
-    $scope.showLeadChart = true;
-    $scope.decideShowLead = function () {
-        $scope.showLeadChart = true;
-        $scope.showROIChart = false;
-    }
-
-    $scope.decideShowROI = function () {
-        $scope.showLeadChart = false;
-        $scope.showROIChart = true;
-    }
 });
 
 
