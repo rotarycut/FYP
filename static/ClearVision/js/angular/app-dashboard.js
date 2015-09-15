@@ -34,8 +34,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
             padding: {
                 top: 20,
                 right: 25,
-                bottom: 0,
-                left: 15
+                bottom: 3,
+                left: 25
             },
             bar: {
                 width: {
@@ -241,10 +241,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $scope.marketingTimeChart = c3.generate({
             bindto: '#timeChart',
             padding: {
-                top: 15,
-                right: 15,
-                bottom: 0,
-                left: 15
+                top: 20,
+                right: 25,
+                bottom: 3,
+                left: 25
             },
             data: {
                 json: newData,
@@ -293,10 +293,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $scope.RoiChart = c3.generate({
             bindto: '#roiChart',
             padding: {
-                top: 10,
-                right: 55,
+                top: 20,
+                right: 25,
                 bottom: 3,
-                left: 55
+                left: 25
             },
             bar: {
                 width: {
