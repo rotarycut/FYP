@@ -1057,7 +1057,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var row = response.data;
                 var rowArr = [];
                 angular.forEach(row, function (appt) {
-                    var rowStr = appt.apptDate + ", " + appt.apptStart + ", " + appt.apptType + " (" + appt.name + ": " + appt.contact + ")";
+                    var rowStr = appt.apptDate + ", " + appt.apptStart + ", " + appt.doctorname + ", " + appt.apptType + " (" + appt.name + ": " + appt.contact + ")";
                     rowArr.push(rowStr)
                 });
                 return rowArr;
@@ -1066,10 +1066,26 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function after selecting an appointment from the search box result */
     $scope.onSelect = function ($item, $model, $label) {
+        // discover which doctor appointment is selected
+        var doctorIndex = $item.indexOf("Dr");
+        var lastCommar = $item.lastIndexOf(",");
+        var doctor = $item.substring(doctorIndex, lastCommar);
+
+        // discover appointment date
         var commarIndex = $item.indexOf(",");
         var date = $item.substring(0, commarIndex);
-        $scope.changeView('agendaDay', 'myCalendar1');
-        $('#drHoCalendar').fullCalendar('gotoDate', date);
+
+        if (doctor == "Dr Ho") {
+            $scope.changeCalendar('myCalendar1', false);
+            $scope.changeView('agendaDay', 'myCalendar1');
+            $('#drHoCalendar').fullCalendar('gotoDate', date);
+        } else if (doctor == "Dr Goh") {
+            $scope.changeCalendar('myCalendar2', false);
+            $scope.changeView('agendaDay', 'myCalendar2');
+            $('#drGohCalendar').fullCalendar('gotoDate', date);
+        }
+
+        // clear the search box text
         $scope.searchText = "";
     };
 
