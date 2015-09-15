@@ -10,9 +10,11 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         {"channelname": "ST Ads", "marketingDollar": 200, "revenueDollar": 3000, "roi": 1000}
     ];
 
-    /* dropdown multiselect codes --*/
+    $scope.isCollapsed = true;
     $scope.channelObjects = [];
     $scope.channelLists = [];
+    $scope.listOfSelectedChannels = [];
+    $scope.listOfSelectedChannelsId = [];
     $scope.savedMonths = [
         {
             long: "Sep 15",
@@ -41,14 +43,62 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
         $scope.getTimeLineData(currentMonth);
     };
 
-    /* filter chart */
-    $scope.filterChart = function () {
+    /* function to format date */
+    $scope.getFormattedDate = function (fullDate) {
+        var year = fullDate.getFullYear();
+
+        var month = fullDate.getMonth() + 1;
+        if (month <= 9) {
+            month = '0' + month;
+        }
+
+        var day = fullDate.getDate();
+        if (day <= 9) {
+            day = '0' + day;
+        }
+
+        var formattedDate = year + '-' + month + '-' + day;
+        return formattedDate;
+    };
+
+    /* run filter */
+    $scope.runFilter = function () {
 
         var startDate = $scope.getFormattedDate($scope.datepicker);
         var endDate = $scope.getFormattedDate($scope.datepicker2);
+        var channelList = $scope.transformChannelsToStr();
+        $scope.getCustomMarketingData(startDate, endDate, channelList);
+    };
 
-        console.log(startDate);
-        console.log(endDate);
+    /* save filter */
+    $scope.saveFilter = function () {
+
+    };
+
+    /* clear filter */
+    $scope.clearFilter = function () {
+        $scope.datepicker = "";
+        $scope.datepicker2 = "";
+
+        angular.forEach($scope.channelObjects, function (channel) {
+            channel.channelUnselected = false;
+        });
+
+        $scope.listOfSelectedChannels.splice(0);
+        $scope.listOfSelectedChannelsId.splice(0);
+    };
+
+    /* toggle selection in filter list box */
+    $scope.toggleSelection = function (channel, channelId) {
+        var id = $scope.listOfSelectedChannels.indexOf(channel);
+
+        if (id > -1) {
+            $scope.listOfSelectedChannels.splice(id, 1);
+            $scope.listOfSelectedChannelsId.splice(id, 1);
+        } else {
+            $scope.listOfSelectedChannels.push(channel);
+            $scope.listOfSelectedChannelsId.push(channelId);
+        }
     };
 
     /* function to retrieve all marketing channels */
@@ -60,6 +110,21 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
                     $scope.channelLists.push(channel.name);
                 })
             })
+    };
+
+    /* function to transform list box selected channels into string */
+    $scope.transformChannelsToStr = function () {
+        var channelsStr = "";
+        var counter = 1;
+        angular.forEach($scope.listOfSelectedChannels, function (channel) {
+            channelsStr += channel;
+
+            if (counter < $scope.listOfSelectedChannels.length) {
+                channelsStr += ',';
+            }
+            counter++;
+        });
+        return channelsStr;
     };
 
 
@@ -104,6 +169,21 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
 
     $scope.getRoiData = function (month) {
 
+    };
+
+
+    /*******************************************************************************
+     retrieve custom data for marketing chart
+     *******************************************************************************/
+
+
+    $scope.getCustomMarketingData = function (startDate, endDate, channelList) {
+        var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelList + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=False&sortValue=Leads';
+
+        $http.get(restRequest)
+            .success(function (data) {
+                $scope.showMarketingChart(data);
+            });
     };
 
 
@@ -470,10 +550,12 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
          });*/
     }
 
-    $scope.isCollapsed = true;
+
+    /*******************************************************************************
+     start of date picker codes
+     *******************************************************************************/
 
 
-    /* --- start of date picker codes --- */
     $scope.datepickers = {
         showDatePicker: false,
         showDatePicker2: false
@@ -492,7 +574,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.toggleMin = function () {
         $scope.minDate = $scope.minDate ? null : new Date();
     };
-    $scope.toggleMin();
 
     $scope.open = function ($event, which) {
 
@@ -509,24 +590,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http) {
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
     /* --- end of date picker codes --- */
-
-    /* function to format date */
-    $scope.getFormattedDate = function (fullDate) {
-        var year = fullDate.getFullYear();
-
-        var month = fullDate.getMonth() + 1;
-        if (month <= 9) {
-            month = '0' + month;
-        }
-
-        var day = fullDate.getDate();
-        if (day <= 9) {
-            day = '0' + day;
-        }
-
-        var formattedDate = year + '-' + month + '-' + day;
-        return formattedDate;
-    };
 
     $scope.test = function (value) {
         alert("YO");
