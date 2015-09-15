@@ -24,7 +24,8 @@ var app = angular.module('calendarDemoApp', [
     'get.notifications',
     'event.click',
     'get.noShow',
-    'add.archive'
+    'add.archive',
+    'post.filter'
 ]);
 
 /* Angular routing */

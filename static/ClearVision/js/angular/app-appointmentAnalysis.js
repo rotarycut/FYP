@@ -1,12 +1,14 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc) {
+
+    postFilterSvc.getScope($scope);
 
     $scope.isCollapsed = true;
     $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
-    $scope.savedFilters = ["Year Start", "Year End", "Two Years"];
     $scope.innerTab = 'Appointment Type';
     $scope.listOfSelectedAppointmentTypes = [];
+    $scope.listOfSelectedAppointmentTypesId = [];
     $scope.outerTab = "Cancelled";
     $scope.sortOptions = ["Appeared", "No Show", "Cancelled", "Pending"];
     $scope.pieDetails = [
@@ -55,13 +57,15 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     };
 
     /* toggle selection for filter list box */
-    $scope.toggleSelection = function (apptType) {
+    $scope.toggleSelection = function (apptType, apptId) {
         var id = $scope.listOfSelectedAppointmentTypes.indexOf(apptType);
 
         if (id > -1) {
             $scope.listOfSelectedAppointmentTypes.splice(id, 1);
+            $scope.listOfSelectedAppointmentTypesId.splice(id,1);
         } else {
             $scope.listOfSelectedAppointmentTypes.push(apptType);
+            $scope.listOfSelectedAppointmentTypesId.push(apptId);
         }
     };
 
@@ -516,7 +520,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         $http.get('/Clearvision/_api/ViewAllApptTypes/')
             .success(function (data) {
                 angular.forEach(data, function (appt) {
-                    $scope.apptTypes.push(appt.name);
+                    $scope.apptTypes.push(appt);
                 });
 
                 $scope.retrieveFirstPieChart('Cancelled');
@@ -534,8 +538,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
     $scope.retrieveCustomStackedChart = function (currentMonth) {
 
-        //console.log($scope.listOfSelectedAppointmentTypes === '[]');
-        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || Object.keys($scope.listOfSelectedAppointmentTypes) == 0) {
+        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
 
             $scope.openErrorModal();
 
@@ -568,6 +571,21 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         }
     };
+
+
+    /*******************************************************************************
+     custom filter codes
+     *******************************************************************************/
+
+
+    $scope.getCustomFilters = function () {
+        $http.get('/Clearvision/_api/ViewSavedApptTypeCustomFilters/')
+            .success(function (data) {
+                $scope.savedFilters = data;
+            })
+    };
+
+    $scope.getCustomFilters();
 
 
     /*******************************************************************************
@@ -618,9 +636,26 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myErrorContent.html',
-            controller: 'AppointmentAnalysisCtrl',
+            controller: 'AppointmentModalCtrl',
             size: size
         });
+    };
+
+    $scope.openSaveFilterModal = function (size) {
+
+        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
+
+            $scope.openErrorModal();
+
+        } else {
+
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'myFilterModalContent.html',
+                controller: 'AppointmentModalCtrl',
+                size: size
+            });
+        }
     };
 
 });
@@ -630,7 +665,15 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
  start of modal controller
  *******************************************************************************/
 
-appCalendar.controller('AppointmentAnalysisCtrl', function ($scope, $modalInstance) {
+appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance, postFilterSvc) {
 
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.postFilter = function () {
+        postFilterSvc.postFilter($scope.filterName);
+        $scope.cancel();
+    }
 
 });
