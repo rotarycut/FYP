@@ -69,7 +69,7 @@
                                      select="renderCalendar([[tab.calendar]]);"
                                      ng-init="initializeAppointments([[tab.initialise]])"
                                      class="heading-rotate"
-                                     ng-click="changeCalendar([[tab.changeCalendar]], [[tab.disable]])"
+                                     ng-click="changeCalendar(tab.changeCalendar, tab.disable)"
                                      active="tab.active" disable="tab.disable">
 
                                     <div class="calendar" ng-model="tab.model" calendar="[[tab.changeCalendar]]"
