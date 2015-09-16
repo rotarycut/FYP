@@ -29,7 +29,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
             short: "7"
         }
     ];
-    $scope.savedFilters = ["SocialM", "Magazine", "SEO", "E-commerce"];
 
 
     /*******************************************************************************
@@ -63,6 +62,10 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
 
     /* run filter */
     $scope.runFilter = function (start, end, channels) {
+
+        console.log(start);
+        console.log(end);
+        console.log(channels);
 
         var fieldsValid = $scope.validateFilterInputs(start, end, channels);
 
@@ -563,8 +566,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
 
     /* function on click of saved filter */
     $scope.runSavedFilter = function (filterId) {
-
-        console.log('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId);
 
         $http.get('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId)
             .success(function (data) {

@@ -92,7 +92,10 @@
                             </div>
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="row" style="padding-top: 22%">
-                                    <button class="btn form-default-btn" ng-click="runFilter()">Run Filter</button>
+                                    <button class="btn form-default-btn"
+                                            ng-click="runFilter(datepicker, datepicker2, listOfSelectedChannels)">Run
+                                        Filter
+                                    </button>
                                     <button class="btn form-default-btn" ng-click="saveFilter()">Save Filter</button>
                                 </div>
                             </div>
@@ -140,7 +143,9 @@
                 <label class="dashboard-listing-lbl">listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#/dashboard/roi" style="font-size: smaller" class="mrkt-month-item" onclick="changeState(this)" ng-click="getMonthData(month.short); getTimeLineData(month.short)">[[month.long]]</a>
+                        <a href="#/dashboard/roi" style="font-size: smaller" class="mrkt-month-item"
+                           onclick="changeState(this)"
+                           ng-click="getMonthData(month.short); getTimeLineData(month.short)">[[month.long]]</a>
                     </li>
                 </ul>
             </div>
@@ -169,13 +174,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-1 saved-filter-list">
+            <div class="col-md-1 saved-filter-list" ng-init="getSavedFilters()">
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
-                        <a href="#" ng-click="" style="font-size: smaller" class="mrkt-month-item" onclick="changeState(this)">[[filter]]</a>
-                        <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-pencil"></i></a>
+                        <a href="#/dashboard/roi" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
+                        <a href="#/dashboard/roi" ng-click="runSavedFilter(filter.id)" style="font-size: smaller"
+                           class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
+                        <a href="#/dashboard/roi" ng-click="" style="font-size: smaller"><i
+                                class="fa fa-pencil"></i></a>
                     </li>
                 </ul>
             </div>
@@ -201,7 +208,8 @@
     function changeState(listSelected) {
         $('.mrkt-month-item').not(this).removeClass('active');
         $(listSelected).focus().addClass('active');
-    };
+    }
+    ;
 
 </script>
 
