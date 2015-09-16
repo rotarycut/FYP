@@ -403,7 +403,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
             bindto: '#timeChart',
             padding: {
                 top: 20,
-                right: 25,
+                right: 50,
                 bottom: 3,
                 left: 45
             },
