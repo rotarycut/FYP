@@ -505,6 +505,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
 
                 marketing_channels = []
 
+
                 for eachObj in date_range:
                     for eachObj2 in marketed_list:
                         if eachObj['date'] == eachObj2['registrationDate'].date():
