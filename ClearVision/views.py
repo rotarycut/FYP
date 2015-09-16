@@ -468,26 +468,11 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     )
                 )
 
-                set_channels = []
-                response_data = list(response_data)
-
                 for eachObj in response_data:
                     leads = eachObj['leads']
                     convert = eachObj['convert']
                     rate = float(convert) / float(leads) * 100
                     eachObj['rate'] = rate
-                    set_channels.append(eachObj['channelname'])
-
-                allmarketingchannels = list(MarketingChannels.objects.all().values())
-
-                for eachchannel in allmarketingchannels:
-                    if eachchannel['name'] not in set_channels:
-                        response_data.append({
-                            "channelname": eachchannel['name'],
-                            "leads": 0,
-                            "convert": 0,
-                            "rate": 0.0
-                        })
 
                 if sortValue == 'Leads':
                     return Response(sorted(response_data, key=itemgetter('leads'), reverse=True))
@@ -504,7 +489,6 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                 date_range = FullYearCalendar.objects.filter(date__gte=startDate, date__lte=endDate).values('date')
 
                 marketing_channels = []
-
 
                 for eachObj in date_range:
                     for eachObj2 in marketed_list:
