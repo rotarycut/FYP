@@ -145,7 +145,7 @@
                     <li ng-repeat="month in savedMonths">
                         <a href="#/dashboard/roi" style="font-size: smaller" class="mrkt-month-item"
                            onclick="changeState(this)"
-                           ng-click="getMonthData(month.short); getTimeLineData(month.short)">[[month.long]]</a>
+                           ng-click="getMonthData(month.short); getTimeLineData(month.short); getRoiData(month.short)">[[month.long]]</a>
                     </li>
                 </ul>
             </div>
