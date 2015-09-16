@@ -588,6 +588,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         endDate = request.query_params.get('endDate')
         channel = request.query_params.getlist('channel')
         default = request.query_params.get('default')
+        month = request.query_params.get('month')
 
         toReturnResponse = []
 
@@ -595,7 +596,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
             allMarketingChannels = MarketingChannels.objects.all().values()
             for eachChannel in allMarketingChannels:
                 totalCost = MarketingChannelCost.objects.filter(channel__name=eachChannel['name'],).aggregate(Sum('cost'))['cost__sum']
-                totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=datetime.now().month,
+                totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
                 if totalCost == 0:
                     toReturnResponse.append({eachChannel['name']: totalPatientCount * 3888, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3888})
