@@ -84,6 +84,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
         $scope.retrieveStackedChart($scope.currentMonth);
         $scope.retrieveFirstPieChart($scope.outerTab, $scope.currentMonth);
+
     };
 
     /* change sort option */

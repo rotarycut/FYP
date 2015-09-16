@@ -140,7 +140,7 @@
                 <label class="dashboard-listing-lbl">listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#/dashboard/roi" ng-click="getMonthData(month.short); getTimeLineData(month.short)">[[month.long]]</a>
+                        <a href="#/dashboard/roi" style="font-size: smaller" ng-click="getMonthData(month.short); getTimeLineData(month.short)">[[month.long]]</a>
                     </li>
                 </ul>
             </div>
@@ -173,7 +173,9 @@
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="#" ng-click="">[[filter]]</a>
+                        <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
+                        <a href="#" ng-click="" style="font-size: smaller">[[filter]]</a>
+                        <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-pencil"></i></a>
                     </li>
                 </ul>
             </div>
@@ -188,6 +190,14 @@
         e.preventDefault();
         $(this).addClass('clicked');
     })
+
+    $('.mrkt-month-item').click(function (e) {
+        alert("show");
+        //$('.saved-filter-items li').not(this).removeClass('active');
+        //e.preventDefault();
+        //$(this).addClass('active');
+    })
+
 </script>
 
 <script type="text/ng-template" id="myErrorContent.html">

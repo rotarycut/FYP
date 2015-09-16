@@ -732,6 +732,11 @@ li .i-slot-label {
     padding-top: 2.2%;
 }
 
+.saved-filter-items li a:focus{
+    color: red;
+    text-decoration: underline;
+}
+
 /* dashboard css ends*/
 
 /* waitlist css*/
