@@ -545,7 +545,14 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                             "rate": 0.0
                         })
 
-                return Response(response_data)
+                if sortValue == 'Leads':
+                    return Response(sorted(response_data, key=itemgetter('leads'), reverse=True))
+                elif sortValue == 'Convert':
+                    return Response(sorted(response_data, key=itemgetter('convert'), reverse=True))
+                elif sortValue == 'Rate':
+                    return Response(sorted(response_data, key=itemgetter('rate'), reverse=True))
+                else:
+                    return Response(response_data)
 
             else:
                 marketed_list = Patient.objects.filter(registrationDate__month=month). \
