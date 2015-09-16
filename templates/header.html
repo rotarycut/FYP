@@ -42,11 +42,14 @@
                 </li> -->
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="">Welcome, {{ user }}</a>
+                </li>
+                <!--
                 <li class="dropdown" ><a href="" data-toggle="dropdown" class="dropdown-toggle">Welcome, {{ user }}</a>
                     <ol class="dropdown-menu">
                         <li><a href="#" ng-href="#/changepw">Change Password</a></li>
                     </ol>
-                </li>
+                </li>-->
                 <li class="dropdown"><a href="#/" data-toggle="dropdown" class="dropdown-toggle" target="_self"
                                         data-ng-click="updateCount()"><i
                         class="fa fa-envelope"></i> <span class="badge"
@@ -56,8 +59,8 @@
                         <li><a href="#/waitlist" ng-repeat="notification in notificationList">[[notification.patientname]]
                             can be swapped!</a>
                         </li>
-                        <li class="divider"></li>
-                        <li><a class="msg-viewall-link" href="#" ng-href="#/msglog">View All</a></li>
+                        <!--<li class="divider"></li>
+                        <li><a class="msg-viewall-link" href="#" ng-href="#/msglog">View All</a></li>-->
                     </ol>
                 </li>
                 <!-- <li><a href="#"><i id="navbar-print-icon" class="fa fa-print"></i></a></li> -->
