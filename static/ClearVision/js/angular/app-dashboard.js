@@ -62,16 +62,27 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
     };
 
     /* run filter */
-    $scope.runFilter = function () {
+    $scope.runFilter = function (start, end, channels) {
 
-        var fieldsValid = $scope.validateFilterInputs($scope.datepicker, $scope.datepicker2, $scope.listOfSelectedChannels);
+        var fieldsValid = $scope.validateFilterInputs(start, end, channels);
 
         if (fieldsValid) {
-            var startDate = $scope.getFormattedDate($scope.datepicker);
-            var endDate = $scope.getFormattedDate($scope.datepicker2);
-            var channelList = $scope.transformChannelsToStr($scope.listOfSelectedChannels);
+            var startDate;
+            var endDate;
+
+            if (start.toString().length > 10 || end.toString().length > 10) {
+                startDate = $scope.getFormattedDate(start);
+                endDate = $scope.getFormattedDate(end);
+            } else {
+                // do not need formatting if it is clicked from a saved filter
+                startDate = start;
+                endDate = end;
+            }
+
+            var channelList = $scope.transformChannelsToStr(channels);
 
             $scope.getCustomMarketingData(startDate, endDate, channelList);
+            $scope.getCustomTimeLineData(startDate, endDate, channelList, channels);
 
         } else {
             // not all filter fields are filled
@@ -161,7 +172,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
 
 
     $scope.getMonthData = function (month) {
-        var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=False&channels=all&month=' + month;
+        var restRequest = '/Clearvision/_api/analyticsServer/?channels=all&month=' + month;
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newMonthData = data;
@@ -208,6 +219,22 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
         $http.get(restRequest)
             .success(function (data) {
                 $scope.showMarketingChart(data);
+            });
+    };
+
+
+    /*******************************************************************************
+     retrieve custom data for time line chart
+     *******************************************************************************/
+
+
+    $scope.getCustomTimeLineData = function (startDate, endDate, channelList, channelArray) {
+
+        var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelList + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=True';
+
+        $http.get(restRequest)
+            .success(function (data) {
+                $scope.showTimelineChart(data, channelArray);
             });
     };
 
@@ -301,84 +328,84 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
                         });
 
                     /*switch (d.x) {
-                        case 0:
-                            $scope.showRoiChart(
-                                [
-                                    {
-                                        "channelname": "Channel News Asia",
-                                        "marketingDollar": 8100,
-                                        "revenueDollar": 15552,
-                                        "roi": 1.92
-                                    }
-                                ]
-                            );
-                            break;
+                     case 0:
+                     $scope.showRoiChart(
+                     [
+                     {
+                     "channelname": "Channel News Asia",
+                     "marketingDollar": 8100,
+                     "revenueDollar": 15552,
+                     "roi": 1.92
+                     }
+                     ]
+                     );
+                     break;
 
-                        case 1:
-                            $scope.showRoiChart(
-                                [
-                                    {
-                                        "channelname": "Referred by Doctor",
-                                        "marketingDollar": 2500,
-                                        "revenueDollar": 19440,
-                                        "roi": 7.62
-                                    }
-                                ]
-                            );
-                            break;
+                     case 1:
+                     $scope.showRoiChart(
+                     [
+                     {
+                     "channelname": "Referred by Doctor",
+                     "marketingDollar": 2500,
+                     "revenueDollar": 19440,
+                     "roi": 7.62
+                     }
+                     ]
+                     );
+                     break;
 
-                        case 2:
-                            $scope.showRoiChart(
-                                [
-                                    {
-                                        "channelname": "Andrea Chong Blog",
-                                        "marketingDollar": 1000,
-                                        "revenueDollar": 19440,
-                                        "roi": 19.44
-                                    }
-                                ]
-                            );
-                            break;
+                     case 2:
+                     $scope.showRoiChart(
+                     [
+                     {
+                     "channelname": "Andrea Chong Blog",
+                     "marketingDollar": 1000,
+                     "revenueDollar": 19440,
+                     "roi": 19.44
+                     }
+                     ]
+                     );
+                     break;
 
-                        case 3:
-                            $scope.showRoiChart(
-                                [
-                                    {
-                                        "channelname": "ST Ads",
-                                        "marketingDollar": 9500,
-                                        "revenueDollar": 19440,
-                                        "roi": 2.04
-                                    }
-                                ]
-                            );
-                            break;
+                     case 3:
+                     $scope.showRoiChart(
+                     [
+                     {
+                     "channelname": "ST Ads",
+                     "marketingDollar": 9500,
+                     "revenueDollar": 19440,
+                     "roi": 2.04
+                     }
+                     ]
+                     );
+                     break;
 
-                        case 4:
-                            $scope.showRoiChart(
-                                [
-                                    {
-                                        "channelname": "Others",
-                                        "marketingDollar": 12000,
-                                        "revenueDollar": 34992,
-                                        "roi": 2.92
-                                    }
-                                ]
-                            );
-                            break;
+                     case 4:
+                     $scope.showRoiChart(
+                     [
+                     {
+                     "channelname": "Others",
+                     "marketingDollar": 12000,
+                     "revenueDollar": 34992,
+                     "roi": 2.92
+                     }
+                     ]
+                     );
+                     break;
 
-                        case 5:
-                            $scope.showRoiChart(
-                                [
-                                    {
-                                        "channelname": "987 Radio",
-                                        "marketingDollar": 21500,
-                                        "revenueDollar": 19440,
-                                        "roi": 0.90
-                                    }
-                                ]
-                            );
-                            break;
-                    }*/
+                     case 5:
+                     $scope.showRoiChart(
+                     [
+                     {
+                     "channelname": "987 Radio",
+                     "marketingDollar": 21500,
+                     "revenueDollar": 19440,
+                     "roi": 0.90
+                     }
+                     ]
+                     );
+                     break;
+                     }*/
 
                 }
 
@@ -518,6 +545,36 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
             }
         });
 
+    };
+
+
+    /*******************************************************************************
+     saved filters
+     *******************************************************************************/
+
+
+    /* function to display list of saved filters */
+    $scope.getSavedFilters = function () {
+        $http.get('/Clearvision/_api/ViewSavedMarketingChannelCustomFilters/')
+            .success(function (data) {
+                $scope.savedFilters = data;
+            });
+    };
+
+    /* function on click of saved filter */
+    $scope.runSavedFilter = function (filterId) {
+
+        console.log('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId);
+
+        $http.get('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId)
+            .success(function (data) {
+                var listOfChannels = [];
+                angular.forEach(data.channelType, function (channel) {
+                    listOfChannels.push(channel.name);
+                });
+
+                $scope.runFilter(data.startDate, data.endDate, listOfChannels);
+            });
     };
 
 
@@ -670,6 +727,7 @@ appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRo
     };
 
 });
+
 
 
 
