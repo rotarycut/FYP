@@ -40,6 +40,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
         var currentMonth = new Date().getMonth() + 1;
         $scope.getMonthData(currentMonth);
         $scope.getTimeLineData(currentMonth);
+        $scope.getRoiData(currentMonth);
     };
 
     /* function to format date */
@@ -207,7 +208,13 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
 
 
     $scope.getRoiData = function (month) {
-
+        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&month=' + month;
+        $http.get(restRequest)
+            .success(function (data) {
+                $scope.newRoiData = data;
+                $scope.currentChartMonth = month;
+                $scope.showRoiChart($scope.newRoiData);
+            });
     };
 
 
@@ -237,7 +244,23 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
 
         $http.get(restRequest)
             .success(function (data) {
-                $scope.showTimelineChart(data, channelArray);
+                $scope.showROIChart(data, channelArray);
+            });
+    };
+
+
+    /*******************************************************************************
+     retrieve custom data for roi chart
+     *******************************************************************************/
+
+
+    $scope.getCustomRoiData = function (startDate, endDate, channelList, channelArray) {
+
+        var restRequest = '/Clearvision/_api/ViewROIChart/?channel=987%20Radio&channel=Others&channel=ST%20Ads&startDate=2015-08-02&endDate=2015-08-05';
+
+        $http.get(restRequest)
+            .success(function (data) {
+                $scope.showROIChart(data, channelArray);
             });
     };
 
@@ -539,7 +562,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
                 keys: {
                     // x: 'name', // it's possible to specify 'x' when category axis
                     x: 'channelname',
-                    value: ['marketingDollar', 'revenueDollar', 'roi']
+                    value: ['Expenditure', 'Revenue', 'roi']
                 },
                 axes: {
                     'roi': 'y2'
