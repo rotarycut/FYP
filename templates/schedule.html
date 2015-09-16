@@ -79,7 +79,8 @@
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
-                                        <li ng-class="{typeSelected: apptTypeSelected.apptType.name}" class="mrkt-list-item"
+                                        <li ng-class="{typeSelected: apptTypeSelected.apptType.name}"
+                                            class="mrkt-list-item"
                                             ng-repeat="apptType in apptTypes">
                                             <label>[[apptType.name]]
                                                 <input type="checkbox"
@@ -142,7 +143,7 @@
                 <label class="dashboard-listing-lbl">Listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#/dashboard/schedule" style="font-size: smaller" ng-click="monthSelection(month)">[[month]]</a>
+                        <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item" onclick="changeState(this)" ng-click="monthSelection(month)">[[month]]</a>
                     </li>
                 </ul>
             </div>
@@ -207,7 +208,7 @@
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
                         <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
-                        <a href="#/dashboard/schedule" style="font-size: smaller" ng-click="activateFilter(filter.id)">[[filter.name]]</a>
+                        <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item" onclick="changeState(this)" ng-click="monthSelection(month)" ng-click="activateFilter(filter.id)">[[filter.name]]</a>
                         <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-pencil"></i></a>
                     </li>
                 </ul>
@@ -226,8 +227,12 @@
         $('.switch-chart-btn').not(this).removeClass('clicked');
         e.preventDefault();
         $(this).addClass('clicked');
-    })
+    });
 
+    function changeState(listSelected) {
+        $('.mrkt-month-item').not(this).removeClass('active');
+        $(listSelected).focus().addClass('active');
+    }
 
 
 </script>
