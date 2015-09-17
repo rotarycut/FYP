@@ -807,8 +807,7 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         apptType = request.query_params.get('apptType')
         docName = request.query_params.get('docName')
 
-        response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName,
-                                                          start__gte=datetime.now().time()). \
+        response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName,). \
             values('start', ).distinct().order_by('start')
 
         timings = []
