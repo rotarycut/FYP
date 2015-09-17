@@ -1,4 +1,5 @@
 import base64
+import copy
 from datetime import timedelta, datetime
 import json
 from operator import itemgetter
@@ -648,11 +649,18 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             filter(title__lte=upperB, title__gte=lowerB, ). \
             values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
 
-        for eachObj in response_data:
+        response_data = list(response_data)
+        response_data_orig = list(response_data)
+
+        for eachObj in response_data_orig:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
             eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
             eachObj['tooltip'] = str(eachObj['title']) + " Patient(s)"
             del eachObj['title']
+
+            heatMapSlotTime = datetime.strptime(eachObj['start'], '%Y-%m-%d %H:%M:%S')
+            if heatMapSlotTime < datetime.now():
+                response_data.remove(eachObj)
 
         return Response(response_data)
 
