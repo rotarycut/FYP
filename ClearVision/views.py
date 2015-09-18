@@ -356,7 +356,6 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).exists():
             AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).delete()
 
-
         """
         if currentAppt.patients.count() == 0:
             currentAppt.delete()
@@ -739,11 +738,16 @@ class iScheduleSwapper(viewsets.ModelViewSet):
         tempAppt.tempPatients.remove(p)
         tempAppt.save()
 
+        updateNewApptToSwapped = AssociatedPatientActions.objects.get(appointment=scheduledAppt, patient=p)
+        updateNewApptToSwapped.appointment = tempAppt
+        updateNewApptToSwapped.save()
+
         Swapper.objects.filter(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt).delete()
 
+        """
         if scheduledAppt.patients.count() == 0:
             scheduledAppt.delete()
-
+        """
         serializedAppt = AppointmentSerializer(tempAppt)
         return Response(serializedAppt.data)
 
