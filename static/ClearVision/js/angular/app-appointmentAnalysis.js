@@ -693,7 +693,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 });
             });
 
-            $scope.editFilterId = filterId;
+        $scope.editFilterId = filterId;
     };
 
 

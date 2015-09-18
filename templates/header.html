@@ -52,8 +52,10 @@
                 </li>-->
                 <li class="dropdown"><a href="#/" data-toggle="dropdown" class="dropdown-toggle" target="_self"
                                         data-ng-click="updateCount()"><i
-                        class="fa fa-envelope"></i> <span class="badge"
-                                                          ng-class="haveNotification? 'notification-badge-red' : 'notification-badge-grey'">[[notificationCount]]</span></a>
+                        class="fa fa-envelope"></i>
+                    <span class="badge"
+                          ng-class="haveNotification? 'notification-badge-red' : 'notification-badge-grey'">[[notificationCount]]
+                    </span></a>
                     <ol class="dropdown-menu">
                         <!-- <li style="color: #1859A8"><h6>&nbsp;You have 1 New Message!</h6></li> -->
                         <li><a href="#/waitlist" ng-repeat="notification in notificationList">[[notification.patientname]]
@@ -74,10 +76,10 @@
 
 <script>
     $('#topmenu li').click(function () {
-        if($(this).attr('class')==="dropdown"){
+        if ($(this).attr('class') === "dropdown") {
             $(this).addClass('selected');
         }
-        else{
+        else {
             $('#topmenu li.dropdown').removeClass('selected')
         }
     });

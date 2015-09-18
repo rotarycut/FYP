@@ -181,7 +181,9 @@
                         <a href="#/dashboard/roi" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
                         <a href="#/dashboard/roi" ng-click="runSavedFilter(filter.id)" style="font-size: smaller"
                            class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
-                        <a href="#/dashboard/roi" ng-click="" style="font-size: smaller"><i
+                        <a href="#/dashboard/roi"
+                           ng-click="openEditFilter(filter.startDate, filter.endDate, filter.id, filter.name)"
+                           style="font-size: smaller"><i
                                 class="fa fa-pencil"></i></a>
                     </li>
                 </ul>
