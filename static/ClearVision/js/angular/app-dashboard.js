@@ -456,7 +456,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
             bindto: '#timeChart',
             padding: {
                 top: 20,
-                right: 40,
+                right: 100,
                 bottom: 3,
                 left: 45
             },
@@ -512,7 +512,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
                 top: 40,
                 right: 170,
                 bottom: 3,
-                left: 55
+                left: 60
             },
             bar: {
                 width: {
