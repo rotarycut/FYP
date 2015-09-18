@@ -1263,6 +1263,26 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
          //$scope.initializeAppointments("Dr Goh");*/
     }, 5000, false);
 
+    /* check time */
+    $scope.checkTiming = function () {
+        var date = new Date();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+
+        var time = $scope.fields.appointmentTime;
+        var colon = time.indexOf(":");
+        var selectedHour = time.substring(0, colon);
+        var selectedMinute = time.substring(colon + 1);
+
+        if (hour > selectedHour || (hour == selectedHour && time > selectedMinute)) {
+            $scope.fields.appointmentTime = "";
+        }
+
+        console.log(selectedHour);
+        console.log(selectedMinute);
+
+    };
+
 });
 
 /* controller for modal instance */

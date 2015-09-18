@@ -90,12 +90,12 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $in
         $timeout(function () {
             $scope.highlight = false;
         }, 3000);
-    }
+    };
 
     $scope.lastThreeSeconds();
 
-    $interval(function () {
+    /*$interval(function () {
         $scope.getNotifications();
-    }, 5000);
+    }, 5000);*/
 
 });

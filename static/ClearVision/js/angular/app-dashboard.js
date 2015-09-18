@@ -601,6 +601,33 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
             });
     };
 
+    /* function to open filter for edit */
+    $scope.openEditFilter = function (startDate, endDate, filterId, filterName) {
+        $scope.isCollapsed = false;
+        $scope.datepicker = startDate;
+        $scope.datepicker2 = endDate;
+        $scope.existingFilterName = filterName;
+
+        $http.get('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId)
+            .success(function (data) {
+                $scope.listOfSelectedChannels = [];
+
+                angular.forEach(data.channelType, function (individualChannel) {
+                    $scope.listOfSelectedChannels.push(individualChannel.name);
+                    $scope.listOfSelectedChannelsId.push(individualChannel.id);
+                });
+
+                angular.forEach($scope.channelObjects, function (channel) {
+                    if ($scope.listOfSelectedChannels.indexOf(channel.name) > -1) {
+                        console.log("YAY");
+                        channel.channelUnselected = true;
+                    }
+                });
+            });
+
+        $scope.editFilterId = filterId;
+    };
+
 
     /*******************************************************************************
      change between lead time line & roi tabs

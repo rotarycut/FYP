@@ -302,7 +302,8 @@
                                  ng-show="form.showFields.time">
                                 <label class="control-label">Time</label>
                                 <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
-                                        data-ng-model="fields.appointmentTime" name="appointmentTime" required>
+                                        data-ng-model="fields.appointmentTime" name="appointmentTime"
+                                        required>
                                 </select>
 
                                 <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
