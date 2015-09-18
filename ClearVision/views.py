@@ -596,20 +596,20 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         if default == 'True':
             allMarketingChannels = MarketingChannels.objects.all().values()
             for eachChannel in allMarketingChannels:
-                totalCost = MarketingChannelCost.objects.filter(channel__name=eachChannel['name'],).aggregate(Sum('cost'))['cost__sum']
+                totalCost = MarketingChannelCost.objects.filter(channel__name=eachChannel['name'], datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
-                if totalCost == 0:
-                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': totalPatientCount * 3888, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3888})
+                if totalCost == None:
+                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': totalPatientCount * 3888, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
                 else:
-                    roi = (totalPatientCount * 3888) / totalCost
-                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3888})
+                    roi = (totalPatientCount * 3388) / totalCost
+                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         else:
             for eachChannel in channel:
                 totalCost = MarketingChannelCost.objects.filter(channel__name__in=channel,).aggregate(Sum('cost'))['cost__sum']
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__gte=startDate,
                                                        registrationDate__lte=endDate, marketingChannelId__name=eachChannel).values().count()
-                roi = (totalPatientCount * 3888) / totalCost
+                roi = (totalPatientCount * 3388) / totalCost
 
                 toReturnResponse.append({'channelname': eachChannel['name'] ,'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3888})
         return Response(toReturnResponse)

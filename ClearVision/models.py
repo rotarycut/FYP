@@ -32,6 +32,7 @@ class MarketingChannelCost(models.Model):
     channel = models.ForeignKey(MarketingChannels)
     cost = models.FloatField()
     name = models.CharField(max_length=500)
+    datePurchased = models.DateField()
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)

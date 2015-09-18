@@ -106,7 +106,8 @@
     "fields": {
         "name": "Muttons at Midnight",
         "channel": 1,
-        "cost": 2000
+        "cost": 2000,
+        "datePurchased": "2015-07-30"
     }
   },
   {
@@ -114,7 +115,8 @@
     "fields": {
         "name": "The Morning Show",
         "channel": 1,
-        "cost": 3000
+        "cost": 3000,
+        "datePurchased": "2015-07-30"
     }
   },
     {
@@ -122,7 +124,8 @@
     "fields": {
         "name": "Andrea's Blog post on lasik health",
         "channel": 2,
-        "cost": 1500
+        "cost": 1500,
+        "datePurchased": "2015-08-30"
     }
   },
     {
@@ -130,7 +133,8 @@
     "fields": {
         "name": "730am news",
         "channel": 3,
-        "cost": 6000
+        "cost": 6000,
+        "datePurchased": "2015-08-30"
     }
   },
     {
@@ -138,7 +142,8 @@
     "fields": {
         "name": "Dr Ho's friends",
         "channel": 4,
-        "cost": 0
+        "cost": 0,
+        "datePurchased": "2015-09-01"
     }
   },
     {
@@ -146,7 +151,8 @@
     "fields": {
         "name": "Classified",
         "channel": 5,
-        "cost": 3000
+        "cost": 3000,
+        "datePurchased": "2015-09-05"
     }
   },
     {
@@ -154,7 +160,8 @@
     "fields": {
         "name": "SEO",
         "channel": 6,
-        "cost": 2400
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
     }
   },
   {
