@@ -1,9 +1,11 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc) {
 
     postFilterSvc.getScope($scope);
+    editFilterSvc.getScope($scope);
 
+    $scope.existingFilterName = "";
     $scope.isCollapsed = true;
     $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
     $scope.innerTab = 'Appointment Type';
@@ -113,6 +115,20 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         } else {
             return false;
         }
+    };
+
+    /* clear filter */
+    $scope.clearFilter = function () {
+        $scope.datepicker = "";
+        $scope.datepicker2 = "";
+
+        angular.forEach($scope.apptTypes, function (apptType) {
+            apptType.naming = false;
+        });
+
+        $scope.existingFilterName = "";
+        $scope.listOfSelectedAppointmentTypes.splice(0);
+        $scope.listOfSelectedAppointmentTypesId.splice(0);
     };
 
 
@@ -610,7 +626,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
      custom filter codes
      *******************************************************************************/
 
-
+    /* function to get custom filter */
     $scope.getCustomFilters = function () {
         $http.get('/Clearvision/_api/ViewSavedApptTypeCustomFilters/')
             .success(function (data) {
@@ -620,20 +636,21 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
     $scope.getCustomFilters();
 
+    /* function to activate filter */
     $scope.activateFilter = function (filterId) {
         $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
             .success(function (data) {
                 $scope.startDate = data.startDate;
                 $scope.endDate = data.endDate;
-                $scope.listOfFilterAppointmentTypes = [];
+                var listOfFilterAppointmentTypes = [];
 
                 angular.forEach(data.apptType, function (individualApptType) {
-                    $scope.listOfFilterAppointmentTypes.push(individualApptType.name);
+                    listOfFilterAppointmentTypes.push(individualApptType.name);
                 });
 
                 $scope.enableCustomFilter = true;
                 $scope.string = "";
-                angular.forEach($scope.listOfFilterAppointmentTypes, function (appt) {
+                angular.forEach(listOfFilterAppointmentTypes, function (appt) {
                     $scope.string += "apptTypes=";
                     $scope.string += appt;
                     $scope.string += '&';
@@ -643,6 +660,40 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 $scope.retrieveFirstPieChart($scope.outerTab);
 
             });
+    };
+
+    /* function to delete filter */
+    $scope.deleteFilter = function (filterId) {
+        $http.delete('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
+            .success(function (data) {
+                $scope.getCustomFilters();
+            })
+    };
+
+    /* function to open filter for edit */
+    $scope.openEditFilter = function (startDate, endDate, filterId, filterName) {
+        $scope.isCollapsed = false;
+        $scope.datepicker = startDate;
+        $scope.datepicker2 = endDate;
+        $scope.existingFilterName = filterName;
+
+        $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
+            .success(function (data) {
+                $scope.listOfSelectedAppointmentTypes = [];
+
+                angular.forEach(data.apptType, function (individualApptType) {
+                    $scope.listOfSelectedAppointmentTypes.push(individualApptType.name);
+                    $scope.listOfSelectedAppointmentTypesId.push(individualApptType.id);
+                });
+
+                angular.forEach($scope.apptTypes, function (apptType) {
+                    if ($scope.listOfSelectedAppointmentTypes.indexOf(apptType.name) > -1) {
+                        apptType.naming = true;
+                    }
+                });
+            });
+
+            $scope.editFilterId = filterId;
     };
 
 
@@ -695,7 +746,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             animation: $scope.animationsEnabled,
             templateUrl: 'myErrorContent.html',
             controller: 'AppointmentModalCtrl',
-            size: size
+            size: size,
+            resolve: {
+                existingFilterName: function () {
+                    return $scope.existingFilterName;
+                }
+            }
         });
     };
 
@@ -711,19 +767,27 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 animation: $scope.animationsEnabled,
                 templateUrl: 'myFilterModalContent.html',
                 controller: 'AppointmentModalCtrl',
-                size: size
+                size: size,
+                resolve: {
+                    existingFilterName: function () {
+                        return $scope.existingFilterName;
+                    }
+                }
             });
         }
     };
 
-});
+})
+;
 
 
 /*******************************************************************************
  start of modal controller
  *******************************************************************************/
 
-appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance, postFilterSvc) {
+appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance, postFilterSvc, editFilterSvc, existingFilterName) {
+
+    $scope.filterName = existingFilterName;
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -732,6 +796,12 @@ appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance,
     $scope.postFilter = function () {
         postFilterSvc.postFilter($scope.filterName);
         $scope.cancel();
-    }
+    };
 
+    /* function to edit filter */
+    $scope.editFilter = function (filterId) {
+
+        editFilterSvc.editFilter($scope.filterName);
+        $scope.cancel();
+    };
 });

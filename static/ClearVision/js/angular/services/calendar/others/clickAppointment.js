@@ -8,9 +8,16 @@ angular.module('event.click', [])
             self._scope = scope;
         };
 
-        self.eventClick = function (appointment) {
+        self.eventClick = function (appointment, isNoShowReschedule) {
 
             if (!self._scope.iSchedule) {
+
+                if (isNoShowReschedule) {
+                    self._scope.isNoShowReschedule = true;
+                } else {
+                    self._scope.isNoShowReschedule = false;
+                }
+
                 clearFormSvc.clearForm();
                 self._scope.alertMessage = (appointment.title + ' was clicked ');
                 self._scope.fields.appointmentId = appointment.id;

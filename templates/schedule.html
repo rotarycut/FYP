@@ -12,7 +12,7 @@
                                 <h5 style="color: #fff">Filter Options</h5>
                             </div>
                             <div class="col-md-1 filter-row-close">
-                                <a data-ng-click="isCollapsed = !isCollapsed"><h5 style="color: #fff"><i
+                                <a data-ng-click="isCollapsed = !isCollapsed; clearFilter();"><h5 style="color: #fff"><i
                                         class="fa fa-times"></i></h5></a>
                             </div>
                         </div>
@@ -79,12 +79,12 @@
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
-                                        <li ng-class="{typeSelected: apptTypeSelected.apptType.name}"
+                                        <li ng-class="{typeSelected: apptType.naming}"
                                             class="mrkt-list-item"
                                             ng-repeat="apptType in apptTypes">
                                             <label>[[apptType.name]]
                                                 <input type="checkbox"
-                                                       ng-model="apptTypeSelected.apptType.name"
+                                                       ng-model="apptType.naming"
                                                        ng-click="toggleSelection(apptType.name, apptType.id)">
                                             </label>
                                         </li>
@@ -143,7 +143,8 @@
                 <label class="dashboard-listing-lbl">Listings</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="month in savedMonths">
-                        <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item" onclick="changeState(this)" ng-click="monthSelection(month)">[[month]]</a>
+                        <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item"
+                           onclick="changeState(this)" ng-click="monthSelection(month)">[[month]]</a>
                     </li>
                 </ul>
             </div>
@@ -207,9 +208,13 @@
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
-                        <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item" onclick="changeState(this)" ng-click="monthSelection(month)" ng-click="activateFilter(filter.id)">[[filter.name]]</a>
-                        <a href="" ng-click="" style="font-size: smaller"><i class="fa fa-pencil"></i></a>
+                        <a href="" ng-click="deleteFilter(filter.id)" style="font-size: smaller"><i
+                                class="fa fa-times"></i></a>
+                        <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item"
+                           onclick="changeState(this)" ng-click="monthSelection(month)"
+                           ng-click="activateFilter(filter.id)">[[filter.name]]</a>
+                        <a href="" ng-click="openEditFilter(filter.startDate, filter.endDate, filter.id, filter.name)"
+                           style="font-size: smaller"><i class="fa fa-pencil"></i></a>
                     </li>
                 </ul>
             </div>
@@ -262,6 +267,7 @@
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" type="button" ng-click="postFilter()">Yes</button>
+        <button class="btn form-submit-btn" type="button" ng-click="editFilter()">Edit</button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>

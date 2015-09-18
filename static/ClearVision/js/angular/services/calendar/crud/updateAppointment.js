@@ -1,5 +1,5 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http, hideFormSvc) {
+    .service('updateAppointmentSvc', function ($http, $location, hideFormSvc) {
 
         var self = this;
         self._scope = {};
@@ -142,6 +142,11 @@ angular.module('update.appointment', [])
                     }
 
                     hideFormSvc.hideForm();
+
+                    if (self._scope.isNoShowReschedule == true) {
+                        $location.path('/queue');
+
+                    }
                 })
 
                 .error(function (data) {

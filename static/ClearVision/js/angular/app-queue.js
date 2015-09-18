@@ -192,7 +192,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
                 var apptDetails = data;
 
                 $timeout(function (data) {
-                    eventClickSvc.eventClick(apptDetails);
+                    eventClickSvc.eventClick(apptDetails, true);
                 }, 1000);
                 console.log("Get appt successfully");
             })
