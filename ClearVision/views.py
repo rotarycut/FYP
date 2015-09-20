@@ -1,3 +1,4 @@
+from audioop import reverse
 import base64
 import copy
 from datetime import timedelta, datetime
@@ -7,7 +8,7 @@ from operator import itemgetter
 import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import Context
 import django_filters
@@ -17,6 +18,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from django_socketio import broadcast, broadcast_channel, NoSocket
+from ClearVision.forms import ChangepwForm
 from .serializers import *
 
 
@@ -2280,3 +2282,33 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         allMarketingChannels = MarketingChannels.objects.all().values()
         return Response(allMarketingChannels)
+
+@login_required
+def change_password(request):
+    if request.method == 'GET':
+        form = ChangepwForm()
+    else:
+        form = ChangepwForm(request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data['oldpassword']
+            if request.user.check_password(old_password):
+                new_password = form.cleaned_data['newpassword']
+                confirm_new_password = form.cleaned_data['confirmnewpassword']
+                if new_password == confirm_new_password:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    return HttpResponseRedirect("success")
+                else:
+                    form.add_error('confirmnewpassword', 'New Passwords Do Not Match')
+                    return render(request, 'registration/changepw.html', {
+                    'form': form,
+                    })
+            else:
+                form.add_error('oldpassword', 'Wrong Old Password')
+                return render(request, 'registration/changepw.html', {
+                'form': form,
+                })
+
+    return render(request, 'registration/changepw.html', {
+        'form': form,
+    })

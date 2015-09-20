@@ -49,7 +49,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "waitlist.html",
             controller: 'waitListCtrl'
         })
-        .when("/changepw", {
+        .when("/changepassword", {
             templateUrl: "changepw.html",
             controller: 'adminCtrl'
         })
