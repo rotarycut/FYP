@@ -1,6 +1,18 @@
 angular.module('appointment.service', [])
     .service('appointmentService', function ($http, $q, $timeout) {
 
+        /* function to retrieve dr ho's appointments */
+        this.getDrHoAppointments = function () {
+            var promises = [this.getDrHoScreenings(), this.getDrHoPreEvaluations(), this.getDrHoSurgeries()];
+            return $q.all(promises);
+        };
+
+        /* function to retrieve dr goh's appointments */
+        this.getDrGohAppointments = function () {
+            var promises = [this.getDrGohScreenings(), this.getDrGohPreEvaluations(), this.getDrGohSurgeries()];
+            return $q.all(promises);
+        };
+
         /* function to retrieve dr ho's screening appointments */
         this.getDrHoScreenings = function () {
 

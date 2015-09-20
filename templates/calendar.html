@@ -64,10 +64,9 @@
                     <div class="row">
 
                         <div class="col-sm-12 cal-tab-clinic">
-                            <tabset type="pills" vertical="true" class="side-tabset">
+                            <tabset type="pills" vertical="true" class="side-tabset" ng-init="initializeAppointments()">
                                 <tab ng-repeat="tab in tabs" heading="[[tab.title]]"
                                      select="renderCalendar([[tab.calendar]]);"
-                                     ng-init="initializeAppointments([[tab.initialise]])"
                                      class="heading-rotate"
                                      ng-click="changeCalendar(tab.changeCalendar, tab.disable, true)"
                                      active="tab.active" disable="tab.disable">
@@ -108,7 +107,7 @@
                                         class="fa fa-stop"></i> Lasik</a>
                                 </li>
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('All', false)"
-                                       data-ng-Dblclick="filterByAppointmentTypes('All', true)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('All')"
                                        class="legend-all" ng-class="legendAllClicked"><i
                                         class="fa fa-stop"></i> Show All</a>
                                 </li>

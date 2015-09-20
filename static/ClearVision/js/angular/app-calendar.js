@@ -4,7 +4,7 @@ var appCalendar = angular.module('app.calendar', ['ngProgress']);
 appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
                                                  searchContact, appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
-                                                 deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc, $interval) {
+                                                 deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc, filterAppointmentSvc, $interval) {
 
     var date = new Date();
     var d = date.getDate();
@@ -19,6 +19,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         className: 'gcal-event',           // an option!
         currentTimezone: 'America/Chicago' // an option!
     };
+
+    /* pass the scope to the post appointment service upon initialization */
+    postAppointmentSvc.getScope($scope);
+    clearFormSvc.getScope($scope);
+    enableIScheduleSvc.getScope($scope);
+    disableIScheduleSvc.getScope($scope);
+    deleteAppointmentSvc.getScope($scope);
+    updateAppointmentSvc.getScope($scope);
+    hideFormSvc.getScope($scope);
+    eventClickSvc.getScope($scope);
+    filterAppointmentSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
@@ -92,6 +103,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         textColor: 'White',
         events: []
     };
+
+    /* event sources array */
+    $scope.doctorHoAppointments = [$scope.drHoLowHeatMap, $scope.drHoMedHeatMap, $scope.drHoHighHeatMap];
+    $scope.doctorGohAppointments = [$scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap];
+
+    $scope.selectedDoctor = {
+        drAppointmentArray: $scope.doctorHoAppointments,
+        drScreening: $scope.drHoScreenings,
+        drPreEval: $scope.drHoPreEvaluations,
+        drSurgery: $scope.drHoSurgeries
+    };
+
     /* --- end of declaration --- */
 
     /* function to get iSchedule */
@@ -143,7 +166,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 31) {
+                    if (count <= 51) {
                         $scope.drGohLowHeatMap.events.push(appointment);
                         $scope.drHoLowHeatMap.events.push(appointment);
 
@@ -204,27 +227,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         eventClickSvc.eventClick(appointment);
     };
 
-    /* alert on Drop */
-    $scope.alertOnDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
-        //$scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
-        $scope.alertMessage = ("Successfully Changed Appointment");
-
-        $timeout(function () {
-            $scope.alertMessage = ("");
-        }, 1000);
-    };
-
-    /* alert on Resize */
-    $scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
-        //$scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-
-        $scope.alertMessage = ("Successfully Re-sized Appointment");
-
-        $timeout(function () {
-            $scope.alertMessage = ("");
-        }, 1000);
-    };
-
     /* add and removes an event source of choice */
     $scope.addRemoveEventSource = function (sources, source) {
         var canAdd = 0;
@@ -237,6 +239,28 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if (canAdd === 0) {
             sources.push(source);
         }
+    };
+
+    /* add an event source of choice only if it does not already exist in the source array */
+    $scope.addEventSource = function (sources, source) {
+        var canAdd = 0;
+        angular.forEach(sources, function (value, key) {
+            if (sources[key] === source) {
+                canAdd = 1;
+            }
+        });
+        if (canAdd === 0) {
+            sources.push(source);
+        }
+    };
+
+    /* removes an event source of choice */
+    $scope.removeEventSource = function (sources, source) {
+        angular.forEach(sources, function (value, key) {
+            if (sources[key] === source) {
+                sources.splice(key, 1);
+            }
+        });
     };
 
     /* add custom event */
@@ -330,122 +354,98 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             eventStartEditable: false,
             eventDurationEditable: false,
             eventClick: $scope.alertOnEventClick,
-            eventDrop: $scope.alertOnDrop,
-            eventResize: $scope.alertOnResize,
             eventRender: $scope.eventRender
         }
     };
 
-    /* changing of calendar language, if we need to use */
-    $scope.changeLang = function () {
-        if ($scope.changeTo === 'Hungarian') {
-            $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-            $scope.changeTo = 'English';
-        } else {
-            $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            $scope.changeTo = 'Hungarian';
-        }
+
+    /*******************************************************************************
+     function to add doctors' appointment sources
+     *******************************************************************************/
+
+
+    $scope.addRemoveDrGohSources = function () {
+        $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohScreenings);
+        $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+        $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+        //$scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohLowHeatMap);
+        //$scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohMedHeatMap);
+        //$scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohHighHeatMap);
     };
 
-    /* event sources array */
-    $scope.doctorHoAppointments = [$scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries, $scope.drHoLowHeatMap, $scope.drHoMedHeatMap, $scope.drHoHighHeatMap];
-    $scope.doctorGohAppointments = [$scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries, $scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap];
+    $scope.addRemoveDrHoSources = function () {
+        $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
+        $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+        $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+        //$scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoLowHeatMap);
+        //$scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoMedHeatMap);
+        //$scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoHighHeatMap);
+    };
 
-    /* function to retrieve doctor's appointments */
 
-    /* function to retrieve dr ho's screening appointments */
-    $scope.getDrHoScreenings = function () {
-        appointmentService.getDrHoScreenings()
-            .then(function (appointments) {
-                angular.forEach(appointments, function (appt) {
-                    $scope.drHoScreenings.events.push(appt);
+    /*******************************************************************************
+     function to retrieve doctors' appointments
+     *******************************************************************************/
+
+
+    /* function to retrieve doctor ho's appointments */
+    $scope.getDrHoAppointments = function () {
+
+        appointmentService.getDrHoAppointments()
+            .then(function (appointmentType) {
+
+                angular.forEach(appointmentType[0], function (screening) {
+                    $scope.drHoScreenings.events.push(screening);
                 });
+
+                angular.forEach(appointmentType[1], function (preEval) {
+                    $scope.drHoPreEvaluations.events.push(preEval);
+                });
+
+                angular.forEach(appointmentType[2], function (surgery) {
+                    $scope.drHoSurgeries.events.push(surgery);
+                });
+
+                $scope.addRemoveDrHoSources();
+
             },
             function (data) {
-                console.log("Failed to retrieve appointments");
+                console.log("Failed to retrieve dr ho appointments");
             });
     };
 
-    /* function to retrieve dr ho's pre-evaluation appointments */
-    $scope.getDrHoPreEvaluations = function () {
-        appointmentService.getDrHoPreEvaluations()
-            .then(function (appointments) {
-                angular.forEach(appointments, function (appt) {
-                    $scope.drHoPreEvaluations.events.push(appt);
+    /* function to retrieve doctor goh's appointments */
+    $scope.getDrGohAppointments = function () {
+
+        appointmentService.getDrGohAppointments()
+            .then(function (appointmentType) {
+
+                angular.forEach(appointmentType[0], function (screening) {
+                    $scope.drGohScreenings.events.push(screening);
                 });
+
+                angular.forEach(appointmentType[1], function (preEval) {
+                    $scope.drGohPreEvaluations.events.push(preEval);
+                });
+
+                angular.forEach(appointmentType[2], function (surgery) {
+                    $scope.drGohSurgeries.events.push(surgery);
+                });
+
+                $scope.addRemoveDrGohSources();
+
             },
             function (data) {
-                console.log("Failed to retrieve appointments");
+                console.log("Failed to retrieve dr goh appointments");
             });
     };
 
-    /* function to retrieve dr ho's surgery appointments */
-    $scope.getDrHoSurgeries = function () {
-        appointmentService.getDrHoSurgeries()
-            .then(function (appointments) {
-                angular.forEach(appointments, function (appt) {
-                    $scope.drHoSurgeries.events.push(appt);
-                });
-            },
-            function (data) {
-                console.log("Failed to retrieve appointments");
-            });
-    };
 
-    /* function to retrieve dr goh's screening appointments */
-    $scope.getDrGohScreenings = function () {
-        appointmentService.getDrGohScreenings()
-            .then(function (appointments) {
-                angular.forEach(appointments, function (appt) {
-                    $scope.drGohScreenings.events.push(appt);
-                });
-            },
-            function (data) {
-                console.log("Failed to retrieve appointments");
-            });
-    };
+    /*******************************************************************************
+     date picker codes
+     *******************************************************************************/
 
-    /* function to retrieve dr goh's pre-evaluation appointments */
-    $scope.getDrGohPreEvaluations = function () {
-        appointmentService.getDrGohPreEvaluations()
-            .then(function (appointments) {
-                angular.forEach(appointments, function (appt) {
-                    $scope.drGohPreEvaluations.events.push(appt);
-                });
-            },
-            function (data) {
-                console.log("Failed to retrieve appointments");
-            });
-    };
 
-    /* function to retrieve dr goh's surgery appointments */
-    $scope.getDrGohSurgeries = function () {
-        appointmentService.getDrGohSurgeries()
-            .then(function (appointments) {
-                angular.forEach(appointments, function (appt) {
-                    $scope.drGohSurgeries.events.push(appt);
-                });
-            },
-            function (data) {
-                console.log("Failed to retrieve appointments");
-            });
-    };
-
-    /* function to splice appointments */
-    $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
-        console.log(appointmentsInType);
-        var appointmentIndex = 0;
-        angular.forEach(appointmentsInType, function (existingAppointment) {
-            if (existingAppointment.id === retrievedAppointmentId) {
-                appointmentsInType.splice(appointmentIndex, 1);
-            }
-            appointmentIndex++;
-        });
-    };
-
-    /* --- start of date picker codes --- */
     $scope.datepickers = {
         showDatePicker: false,
         showDatePicker2: false
@@ -480,9 +480,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
-    /* --- end of date picker codes --- */
 
-    /* initialization when page first loads */
+
+    /*******************************************************************************
+     initialization when page first loads
+     *******************************************************************************/
+
+
     $scope.fields = {};
     $scope.remarkWarning = "Please select a patient";
     $scope.screeningActive = true;
@@ -531,28 +535,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
 
-    $scope.changeCalendar = function (selectedCalendar, isTabDisabled, isCalendarTabChange) {
-
-        // upon change of doctor calendar, splice all events and reload it back
-        if (isCalendarTabChange) {
-            if (selectedCalendar == "myCalendar1") {
-                $scope.drHoScreenings.events.splice(0);
-                $scope.drHoPreEvaluations.events.splice(0);
-                $scope.drHoSurgeries.events.splice(0);
-
-                $scope.getDrHoScreenings();
-                $scope.getDrHoPreEvaluations();
-                $scope.getDrHoSurgeries();
-            } else {
-                $scope.drGohScreenings.events.splice(0);
-                $scope.drGohPreEvaluations.events.splice(0);
-                $scope.drGohSurgeries.events.splice(0);
-
-                $scope.getDrGohScreenings();
-                $scope.getDrGohPreEvaluations();
-                $scope.getDrGohSurgeries();
-            }
-        }
+    $scope.changeCalendar = function (calendarNumber, isTabDisabled, isCalendarTabChange) {
 
         // css changes to make all filters underlined
         $scope.legendScreenClicked = "legend-screen-clicked";
@@ -560,17 +543,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.legendSurgeryClicked = "legend-surgery-clicked";
         $scope.legendAllClicked = "legend-all-clicked";
 
-        // js to make all filters active upon changing of calendar
-        $scope.screeningActive = true;
-        $scope.preEvaluationActive = true;
-        $scope.surgeryActive = true;
-
         if (!isTabDisabled) {
 
-            if (selectedCalendar != undefined) {
+            if (calendarNumber != undefined) {
 
-                $scope.selectedCalendar = selectedCalendar;
-                if (selectedCalendar == "myCalendar1") {
+                $scope.selectedCalendar = calendarNumber;
+                if (calendarNumber == "myCalendar1") {
                     $scope.tabs[1].active = false;
                     $scope.tabs[0].active = true;
 
@@ -585,7 +563,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.tabs[0].active = true;
 
                 } else {
-                    $scope.selectedCalendar = "myCalendar2";
+                    $scope.calendarNumber = "myCalendar2";
                     $scope.tabs[0].active = false;
                     $scope.tabs[1].active = true;
                 }
@@ -595,6 +573,23 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.enableISchedule();
                 }
             }, 500);
+
+
+            if (calendarNumber == "myCalendar1") {
+                $scope.selectedDoctor = {
+                    drAppointmentArray: $scope.doctorHoAppointments,
+                    drScreening: $scope.drHoScreenings,
+                    drPreEval: $scope.drHoPreEvaluations,
+                    drSurgery: $scope.drHoSurgeries
+                };
+            } else {
+                $scope.selectedDoctor = {
+                    drAppointmentArray: $scope.doctorGohAppointments,
+                    drScreening: $scope.drGohScreenings,
+                    drPreEval: $scope.drGohPreEvaluations,
+                    drSurgery: $scope.drGohSurgeries
+                };
+            }
 
         }
     };
@@ -763,248 +758,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to filter by appointment types */
     $scope.filterByAppointmentTypes = function (appointmentType, hidesTheRest) {
+        filterAppointmentSvc.filterByAppointmentTypes(appointmentType, hidesTheRest);
+    };
 
-        switch (appointmentType) {
-            case "Screening" :
-                if (hidesTheRest) {
-                    if (!$scope.screeningActive) {
-                        $scope.legendScreenClicked = "legend-screen";
-                        $scope.legendAllClicked = "legend-all";
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.drHoScreenings.events.splice(0);
-                            $scope.getDrHoScreenings();
-                        } else {
-                            $scope.drGohScreenings.events.splice(0);
-                            $scope.getDrGohScreenings();
-                        }
-                    }
-                    $scope.legendScreenClicked = "legend-screen-clicked";
-                    $scope.legendEvalClicked = "legend-preEval";
-                    $scope.legendSurgeryClicked = "legend-surgery";
-                    $scope.legendAllClicked = "legend-all";
-
-                    if ($scope.selectedCalendar == "myCalendar1") {
-                        $scope.drHoPreEvaluations.events.splice(0);
-                        $scope.drHoSurgeries.events.splice(0);
-                    } else {
-                        $scope.drGohPreEvaluations.events.splice(0);
-                        $scope.drGohSurgeries.events.splice(0);
-                    }
-
-                    $scope.screeningActive = true;
-                    $scope.preEvaluationActive = false;
-                    $scope.surgeryActive = false;
-
-                } else {
-                    if ($scope.screeningActive) {
-                        $scope.legendScreenClicked = "legend-screen";
-                        $scope.legendAllClicked = "legend-all";
-                        $scope.screeningActive = false;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.drHoScreenings.events.splice(0);
-                        } else {
-                            $scope.drGohScreenings.events.splice(0);
-                        }
-
-                    } else {
-                        $scope.legendScreenClicked = "legend-screen-clicked";
-                        $scope.screeningActive = true;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.getDrHoScreenings();
-                        } else {
-                            $scope.getDrGohScreenings();
-                        }
-
-                        if ($scope.preEvaluationActive && $scope.surgeryActive) {
-                            $scope.legendAllClicked = "legend-all-clicked";
-                        }
-                    }
-                }
-                break;
-
-            case "Pre Evaluation":
-                if (hidesTheRest) {
-                    if (!$scope.preEvaluationActive) {
-                        $scope.legendEvalClicked = "legend-preEval";
-                        $scope.legendAllClicked = "legend-all";
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.drHoPreEvaluations.events.splice(0);
-                            $scope.getDrHoPreEvaluations();
-                        } else {
-                            $scope.drGohPreEvaluations.events.splice(0);
-                            $scope.getDrGohPreEvaluations();
-                        }
-                    }
-                    $scope.legendEvalClicked = "legend-preEval-clicked";
-                    $scope.legendScreenClicked = "legend-screen";
-                    $scope.legendSurgeryClicked = "legend-surgery";
-                    $scope.legendAllClicked = "legend-all";
-
-                    if ($scope.selectedCalendar == "myCalendar1") {
-                        $scope.drHoScreenings.events.splice(0);
-                        $scope.drHoSurgeries.events.splice(0);
-                    } else {
-                        $scope.drGohScreenings.events.splice(0);
-                        $scope.drGohSurgeries.events.splice(0);
-                    }
-                    $scope.screeningActive = false;
-                    $scope.preEvaluationActive = true;
-                    $scope.surgeryActive = false;
-
-                } else {
-                    if ($scope.preEvaluationActive) {
-                        $scope.legendEvalClicked = "legend-preEval";
-                        $scope.legendAllClicked = "legend-all";
-                        $scope.preEvaluationActive = false;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.drHoPreEvaluations.events.splice(0);
-                        } else {
-                            $scope.drGohPreEvaluations.events.splice(0);
-                        }
-                    } else {
-                        $scope.legendEvalClicked = "legend-preEval-clicked";
-                        $scope.preEvaluationActive = true;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.getDrHoPreEvaluations();
-                        } else {
-                            $scope.getDrGohPreEvaluations();
-                        }
-
-                        if ($scope.screeningActive && $scope.surgeryActive) {
-                            $scope.legendAllClicked = "legend-all-clicked";
-                        }
-                    }
-                }
-                break;
-
-            case "Surgery":
-                if (hidesTheRest) {
-                    if (!$scope.surgeryActive) {
-                        $scope.legendSurgeryClicked = "legend-surgery";
-                        $scope.legendAllClicked = "legend-all";
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.drHoSurgeries.events.splice(0);
-                            $scope.getDrHoSurgeries();
-                        } else {
-                            $scope.drGohSurgeries.events.splice(0);
-                            $scope.getDrGohSurgeries();
-                        }
-                    }
-                    $scope.legendSurgeryClicked = "legend-surgery-clicked";
-                    $scope.legendEvalClicked = "legend-preEval";
-                    $scope.legendScreenClicked = "legend-screen";
-                    $scope.legendAllClicked = "legend-all";
-
-                    if ($scope.selectedCalendar == "myCalendar1") {
-                        $scope.drHoScreenings.events.splice(0);
-                        $scope.drHoPreEvaluations.events.splice(0);
-                    } else {
-                        $scope.drGohScreenings.events.splice(0);
-                        $scope.drGohPreEvaluations.events.splice(0);
-                    }
-
-                    $scope.screeningActive = false;
-                    $scope.preEvaluationActive = false;
-                    $scope.surgeryActive = true;
-
-                } else {
-                    if ($scope.surgeryActive) {
-                        $scope.legendSurgeryClicked = "legend-surgery";
-                        $scope.legendAllClicked = "legend-all";
-                        $scope.surgeryActive = false;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.drHoSurgeries.events.splice(0);
-                        } else {
-                            $scope.drGohSurgeries.events.splice(0);
-                        }
-
-                    } else {
-                        $scope.legendSurgeryClicked = "legend-surgery-clicked";
-                        $scope.surgeryActive = true;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.getDrHoSurgeries();
-                        } else {
-                            $scope.getDrGohSurgeries();
-                        }
-
-                        if ($scope.screeningActive && $scope.preEvaluationActive) {
-                            $scope.legendAllClicked = "legend-all-clicked";
-                        }
-                    }
-                }
-                break;
-
-            case "All" :
-                if (hidesTheRest) {
-                    //console.log("SHOW ALL");
-                    if (!$scope.screeningActive) {
-                        $scope.legendScreenClicked = "legend-screen-clicked";
-                        $scope.legendAllClicked = "legend-all-clicked";
-                        $scope.screeningActive = true;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.getDrHoScreenings();
-                        } else {
-                            $scope.getDrGohScreenings();
-                        }
-
-                    }
-                    if (!$scope.preEvaluationActive) {
-                        $scope.legendEvalClicked = "legend-preEval-clicked";
-                        $scope.legendAllClicked = "legend-all-clicked";
-                        $scope.preEvaluationActive = true;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.getDrHoPreEvaluations();
-                        } else {
-                            $scope.getDrGohPreEvaluations();
-                        }
-
-                    }
-                    if (!$scope.surgeryActive) {
-                        $scope.legendSurgeryClicked = "legend-surgery-clicked";
-                        $scope.legendAllClicked = "legend-all-clicked";
-                        $scope.surgeryActive = true;
-
-                        if ($scope.selectedCalendar == "myCalendar1") {
-                            $scope.getDrHoSurgeries();
-                        } else {
-                            $scope.getDrGohSurgeries();
-                        }
-                    }
-
-                } else {
-                    //console.log("HIDES ALL");
-                    $scope.legendScreenClicked = "legend-screen";
-                    $scope.legendEvalClicked = "legend-preEval";
-                    $scope.legendSurgeryClicked = "legend-surgery";
-                    $scope.legendAllClicked = "legend-all";
-
-                    if ($scope.selectedCalendar == "myCalendar1") {
-                        $scope.drHoScreenings.events.splice(0);
-                        $scope.drHoPreEvaluations.events.splice(0);
-                        $scope.drHoSurgeries.events.splice(0);
-                    } else {
-                        $scope.drGohScreenings.events.splice(0);
-                        $scope.drGohPreEvaluations.events.splice(0);
-                        $scope.drGohSurgeries.events.splice(0);
-                    }
-
-                    $scope.screeningActive = false;
-                    $scope.preEvaluationActive = false;
-                    $scope.surgeryActive = false;
-                }
-                break;
-        }
+    /* function to change filter legend */
+    $scope.toggleFilter = function (appointmentType, hidesTheRest) {
+        filterAppointmentSvc.toggleFilter(appointmentType, hidesTheRest);
     };
 
     /* function to show waiting fields */
@@ -1015,7 +774,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         } else {
             $scope.showWaitingDate = false;
             $scope.showWaitingTime = false;
-            console.log("HERE");
         }
     };
 
@@ -1169,16 +927,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
-    /* pass the scope to the post appointment service upon initialization */
-    postAppointmentSvc.getScope($scope);
-    clearFormSvc.getScope($scope);
-    enableIScheduleSvc.getScope($scope);
-    disableIScheduleSvc.getScope($scope);
-    deleteAppointmentSvc.getScope($scope);
-    updateAppointmentSvc.getScope($scope);
-    hideFormSvc.getScope($scope);
-    eventClickSvc.getScope($scope);
-
     /* function to search for patient appointments in search box */
     $scope.searchForAppt = function (searchValue) {
         return $http.get('/Clearvision/_api/SearchBar/?search=' + searchValue + '&limit=15')
@@ -1205,11 +953,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var date = $item.substring(0, commarIndex);
 
         if (doctor == "Dr Ho") {
-            $scope.changeCalendar('myCalendar1', false);
+            $scope.changeCalendar(false);
             $scope.changeView('agendaDay', 'myCalendar1');
             $('#drHoCalendar').fullCalendar('gotoDate', date);
         } else if (doctor == "Dr Goh") {
-            $scope.changeCalendar('myCalendar2', false);
+            $scope.changeCalendar(false);
             $scope.changeView('agendaDay', 'myCalendar2');
             $('#drGohCalendar').fullCalendar('gotoDate', date);
         }
@@ -1228,7 +976,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             active: true,
             disable: false,
             model: $scope.doctorHoAppointments
-
         },
         {
             title: 'Dr. Goh',
@@ -1242,26 +989,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     ];
 
     /* initialize calendar appointmnets */
-    $scope.initializeAppointments = function (doctor) {
-        if (doctor == "Dr Ho") {
-            $scope.getDrHoScreenings();
-            $scope.getDrHoPreEvaluations();
-            $scope.getDrHoSurgeries();
-        } else {
-            $scope.getDrGohScreenings();
-            $scope.getDrGohPreEvaluations();
-            $scope.getDrGohSurgeries();
-        }
+    $scope.initializeAppointments = function () {
+        $scope.getDrHoAppointments();
+        $scope.getDrGohAppointments();
     };
-
-    /* test function for interval service */
-    $interval(function () {
-        /*$scope.drHoScreenings.events.splice(0);
-         $scope.drHoPreEvaluations.events.splice(0);
-         $scope.drHoSurgeries.events.splice(0);
-         $scope.initializeAppointments("Dr Ho");
-         //$scope.initializeAppointments("Dr Goh");*/
-    }, 5000, false);
 
     /* check time */
     $scope.checkTiming = function () {
