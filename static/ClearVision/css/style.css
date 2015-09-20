@@ -492,6 +492,10 @@ form.form-search:before {
     opacity: .5;
     z-index: 1000;
 }
+
+input[type=text].date-input-field:disabled {
+    background: #fff;
+}
 /*calendar css ends*/
 
 /*form page csss*/
