@@ -1105,7 +1105,6 @@ def RecordUserActionsTimeOut(request):
     payload_clean = json.loads(payload)
 
     trackerId = payload_clean['trackerId']
-    action = payload_clean['action']
     timeOut = payload_clean['timeOut']
 
     toUpdateTimeOut = UserTracking.objects.get(id=trackerId)
