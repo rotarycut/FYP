@@ -4,7 +4,7 @@ import copy
 from datetime import timedelta, datetime
 import json
 from operator import itemgetter
-
+from django.views.decorators.csrf import csrf_exempt
 import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login
@@ -292,7 +292,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
                                            swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
-                django_socketio.broadcast(serializedExistingAppt.data)
+                django_socketio.broadcast_channel(serializedExistingAppt.data, channel=None)
             return Response(serializedExistingAppt.data)
 
         else:
@@ -1084,6 +1084,7 @@ def ViewAllSMS(request):
 
     return HttpResponse(response_data)
 
+@csrf_exempt
 def RecordUserActionsTimeIn(request):
     payload = request.body
     payload_clean = json.loads(payload)
@@ -1098,6 +1099,7 @@ def RecordUserActionsTimeIn(request):
 
     return HttpResponse('Success')
 
+@csrf_exempt
 def RecordUserActionsTimeOut(request):
     payload = request.body
     payload_clean = json.loads(payload)

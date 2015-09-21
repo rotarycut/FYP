@@ -141,3 +141,6 @@ djcelery.setup_loader()
 BROKER_URL = 'django://'
 
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+
+SOCKETIO_HOST = '127.0.0.1'
+SOCKETIO_PORT = 8000
