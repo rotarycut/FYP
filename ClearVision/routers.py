@@ -1,16 +1,14 @@
 from swampdragon import route_handler
-from swampdragon.route_handler import ModelPubRouter
-from ClearVision.models import *
-from ClearVision.serializers import *
+from swampdragon.route_handler import BaseRouter
+from ClearVision.views import AppointmentWriter
 
 
-class AppointmentRouter(ModelPubRouter):
-    route_name = 'AppointmentCRUD'
-    serializer_class = SDAppointmentSerializer
-    model = Appointment
-    valid_verbs = ['created']
+class AppointmentCUDRouter(BaseRouter):
+    route_name = 'AppointmentCUD'
 
-    def created(self, obj, **kwargs):
-        return ("HELLO")
+    def get_subscription_channels(self, **kwargs):
+        AppointmentWriter()
+        return ['apptinfo']
 
-route_handler.register(AppointmentRouter)
+
+route_handler.register(AppointmentCUDRouter)

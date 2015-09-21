@@ -20,6 +20,7 @@ from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from ClearVision.forms import ChangepwForm
 from .serializers import *
 from django.contrib.auth.models import User
+from swampdragon.pubsub_providers.data_publisher import publish_data
 
 @login_required
 def success(request):
@@ -364,7 +365,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
-
+            publish_data(channel='apptinfo', data=serializedExistingAppt.data)
             return Response(serializedExistingAppt.data)
 
     def update(self, request, *args, **kwargs):
@@ -409,7 +410,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-
+            publish_data(channel='apptinfo', data=serializedExistingFutureAppt.data)
             return Response(serializedExistingFutureAppt.data)
         else:
 
@@ -429,6 +430,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
+            publish_data(channel='apptinfo', data=serializedExistingFutureAppt.data)
             return Response(serializedExistingFutureAppt.data)
 
 
