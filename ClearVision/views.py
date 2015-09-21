@@ -30,7 +30,6 @@ def success(request):
     })
     return render(request, 'success.html', context)
 
-
 def header(request):
     return render(request, 'header.html')
 
@@ -54,8 +53,38 @@ def queue(request):
 def msglog(request):
     return render(request, 'msglog.html')
 
-def changepw(request):
-    return render(request, 'registration/changepw.html')
+
+@login_required
+def changepassword(request):
+    if request.method == 'GET':
+        form = ChangepwForm()
+    else:
+        form = ChangepwForm(request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data['oldpassword']
+            if request.user.check_password(old_password):
+                new_password = form.cleaned_data['newpassword']
+                confirm_new_password = form.cleaned_data['confirmnewpassword']
+                if new_password == confirm_new_password:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    return HttpResponseRedirect("success")
+                else:
+                    form.add_error('confirmnewpassword', 'New Passwords Do Not Match')
+                    return render(request, 'registration/changepw.html', {
+                    'form': form,
+                    })
+            else:
+                form.add_error('oldpassword', 'Wrong Old Password')
+
+                return render(request, 'registration/changepw.html', {
+                'form': form,
+                })
+
+                return HttpResponseRedirect("success/changepw")
+    return render(request, 'registration/changepw.html', {
+        'form': form,
+    })
 
 
 def logout(request):
@@ -2292,32 +2321,4 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
         allMarketingChannels = MarketingChannels.objects.all().values()
         return Response(allMarketingChannels)
 
-@login_required
-def change_password(request):
-    if request.method == 'GET':
-        form = ChangepwForm()
-    else:
-        form = ChangepwForm(request.POST)
-        if form.is_valid():
-            old_password = form.cleaned_data['oldpassword']
-            if request.user.check_password(old_password):
-                new_password = form.cleaned_data['newpassword']
-                confirm_new_password = form.cleaned_data['confirmnewpassword']
-                if new_password == confirm_new_password:
-                    request.user.set_password(new_password)
-                    request.user.save()
-                    return HttpResponseRedirect("success")
-                else:
-                    form.add_error('confirmnewpassword', 'New Passwords Do Not Match')
-                    return render(request, 'registration/changepw.html', {
-                    'form': form,
-                    })
-            else:
-                form.add_error('oldpassword', 'Wrong Old Password')
-                return render(request, 'registration/changepw.html', {
-                'form': form,
-                })
 
-    return render(request, 'registration/changepw.html', {
-        'form': form,
-    })

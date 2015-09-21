@@ -497,7 +497,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.legendScreenClicked = "legend-screen-clicked";
     $scope.legendEvalClicked = "legend-preEval-clicked";
     $scope.legendSurgeryClicked = "legend-surgery-clicked";
-    $scope.legendAllClicked = "legend-all-clicked";
+    $scope.screenIconChange = "fa fa-check-square";
+    $scope.preEvalIconChange = "fa fa-check-square";
+    $scope.surgeryIconChange = "fa fa-check-square";
 
     $scope.form = {
         showForm: false,
@@ -541,7 +543,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.legendScreenClicked = "legend-screen-clicked";
         $scope.legendEvalClicked = "legend-preEval-clicked";
         $scope.legendSurgeryClicked = "legend-surgery-clicked";
-        $scope.legendAllClicked = "legend-all-clicked";
 
         if (!isTabDisabled) {
 

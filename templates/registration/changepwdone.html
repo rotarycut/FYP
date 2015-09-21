@@ -29,6 +29,7 @@
                             <label class="control-label">Old Password:</label></div>
                         <div class="col-sm-3" style="padding-left: 0">
                             <!--<input  class="form-control" type="text" data-ng-model="oldPw">-->
+                            {{ form.oldpassword.errors }}
                             {{ form.oldpassword | add_class:"form-control"}}
                         </div>
                     </div>
@@ -37,6 +38,7 @@
                             <label class="control-label">New Password:</label></div>
                         <div class="col-sm-3" style="padding-left: 0">
                             <!--<input class="form-control" type="text" data-ng-model="newPw">-->
+                            {{ form.newpassword.errors }}
                             {{ form.newpassword | add_class:"form-control"}}
                         </div>
 
@@ -46,6 +48,7 @@
                             <label class="control-label">New Password Confirm:</label></div>
                         <div class="col-sm-3" style="padding-left: 0">
                             <!--<input class="form-control" type="text" data-ng-model="newPwConfirmed">-->
+                            {{ form.confirmnewpassword.errors }}
                             {{ form.confirmnewpassword | add_class:"form-control"}}
                         </div>
                     </div>

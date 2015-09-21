@@ -228,11 +228,11 @@
     background: -moz-linear-gradient(top, #D0E0EB, #70AFC4);
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#D0E0EB), to(#70AFC4));
 }
-#topmenu li:hover .dashboard-submenu
+/*#topmenu li:hover .dashboard-submenu
 {
     left:-358px;
     top:70%;
-}
+}*/
 
 #topmenu li.selected .dashboard-submenu{
     left:-358px;
@@ -393,7 +393,6 @@ ul.legend-ul li{
 .legend-all{
     color: #49708A;
     text-decoration: none;
-    border-bottom: none;
 }
 
 .legend-all:active,
@@ -402,7 +401,6 @@ ul.legend-ul li{
 {
     color: #49708A;
     text-decoration: none;
-    border-bottom: none;
 }
 
 .cal-legend{
@@ -457,22 +455,6 @@ ul.legend-ul li{
     text-decoration: none;
     border-bottom: solid 2px #EA525F;
 }
-
-.legend-all-clicked{
-    color: #49708A;
-    text-decoration: none;
-    border-bottom: solid 2px #49708A;
-}
-
-.legend-all-clicked:active,
-.legend-all-clicked:focus,
-.legend-all-clicked:hover
-{
-    color: #49708A;
-    text-decoration: none;
-    border-bottom: solid 2px #49708A;
-}
-
 
 form.form-search {
     position: relative;

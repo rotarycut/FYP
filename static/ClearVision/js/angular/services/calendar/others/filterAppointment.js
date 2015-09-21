@@ -109,13 +109,15 @@ app.service('filterAppointmentSvc', function () {
                     self.scope.legendScreenClicked = "legend-screen-clicked";
                     self.scope.legendEvalClicked = "legend-preEval";
                     self.scope.legendSurgeryClicked = "legend-surgery";
-                    self.scope.legendAllClicked = "legend-all";
+                    self.scope.screenIconChange = "fa fa-check-square";
 
                 } else {
                     if (self.scope.legendScreenClicked == "legend-screen") {
                         self.scope.legendScreenClicked = "legend-screen-clicked";
+                        self.scope.screenIconChange = "fa fa-check-square";
                     } else {
                         self.scope.legendScreenClicked = "legend-screen";
+                        self.scope.screenIconChange = "fa fa-stop";
                     }
                 }
                 break;
@@ -125,13 +127,15 @@ app.service('filterAppointmentSvc', function () {
                     self.scope.legendScreenClicked = "legend-screen";
                     self.scope.legendEvalClicked = "legend-preEval-clicked";
                     self.scope.legendSurgeryClicked = "legend-surgery";
-                    self.scope.legendAllClicked = "legend-all";
+                    self.scope.preEvalIconChange = "fa fa-check-square";
 
                 } else {
-                    if (self.scope.legendEvalClicked == "legend-screen") {
-                        self.scope.legendEvalClicked = "legend-screen-clicked";
+                    if (self.scope.legendEvalClicked == "legend-preEval") {
+                        self.scope.legendEvalClicked = "legend-preEval-clicked";
+                        self.scope.preEvalIconChange = "fa fa-check-square";
                     } else {
-                        self.scope.legendEvalClicked = "legend-screen";
+                        self.scope.legendEvalClicked = "legend-preEval";
+                        self.scope.preEvalIconChange = "fa fa-stop";
                     }
                 }
                 break;
@@ -141,23 +145,26 @@ app.service('filterAppointmentSvc', function () {
                     self.scope.legendScreenClicked = "legend-screen";
                     self.scope.legendEvalClicked = "legend-preEval";
                     self.scope.legendSurgeryClicked = "legend-surgery-clicked";
-                    self.scope.legendAllClicked = "legend-all";
+                    self.scope.surgeryIconChange = "fa fa-check-square";
 
                 } else {
-                    if (self.scope.legendSurgeryClicked == "legend-screen") {
-                        self.scope.legendSurgeryClicked = "legend-screen-clicked";
+                    if (self.scope.legendSurgeryClicked == "legend-surgery") {
+                        self.scope.legendSurgeryClicked = "legend-surgery-clicked";
+                        self.scope.surgeryIconChange = "fa fa-check-square";
                     } else {
-                        self.scope.legendSurgeryClicked = "legend-screen";
+                        self.scope.legendSurgeryClicked = "legend-surgery";
+                        self.scope.surgeryIconChange = "fa fa-stop";
                     }
                 }
                 break;
 
             case "All" :
-                self.scope.legendScreenClicked = "legend-screen";
-                self.scope.legendEvalClicked = "legend-preEval";
-                self.scope.legendSurgeryClicked = "legend-surgery";
-                self.scope.legendAllClicked = "legend-all-clicked";
-
+                self.scope.legendScreenClicked = "legend-screen-clicked";
+                self.scope.legendEvalClicked = "legend-preEval-clicked";
+                self.scope.legendSurgeryClicked = "legend-surgery-clicked";
+                self.scope.screenIconChange = "fa fa-check-square";
+                self.scope.preEvalIconChange = "fa fa-check-square";
+                self.scope.surgeryIconChange = "fa fa-check-square";
         }
     };
 

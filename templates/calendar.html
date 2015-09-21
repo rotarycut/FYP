@@ -90,26 +90,23 @@
 
                         <div class="cal-legend">
                             <ul class="legend-ul">
-                                <li><a href="#/" class="legend-screen"
+                                <li><a href="#/"
                                        singleclick="filterByAppointmentTypes('Screening', false)"
                                        data-ng-Dblclick="filterByAppointmentTypes('Screening', true)"
-                                       ng-class="legendScreenClicked"><i
-                                        class="fa fa-stop"></i> Screening</a>
+                                       ng-class="legendScreenClicked"><i ng-class="screenIconChange"></i> Screening</a>
                                 </li>
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
                                        data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
-                                       class="legend-preEval" ng-class="legendEvalClicked"><i
-                                        class="fa fa-stop"></i> Pre-Eval</a>
+                                       ng-class="legendEvalClicked"><i
+                                       ng-class="preEvalIconChange"></i> Pre-Eval</a>
                                 </li>
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
                                        data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
-                                       class="legend-surgery" ng-class="legendSurgeryClicked"><i
-                                        class="fa fa-stop"></i> Lasik</a>
+                                       ng-class="legendSurgeryClicked"><i
+                                       ng-class="surgeryIconChange"></i> Lasik</a>
                                 </li>
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('All', false)"
-                                       data-ng-Dblclick="filterByAppointmentTypes('All')"
-                                       class="legend-all" ng-class="legendAllClicked"><i
-                                        class="fa fa-stop"></i> Show All</a>
+                                       data-ng-Dblclick="filterByAppointmentTypes('All')" class="legend-all">Show All</a>
                                 </li>
                             </ul>
                         </div>
