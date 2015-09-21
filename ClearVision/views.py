@@ -1092,7 +1092,6 @@ def RecordUserActionsTimeIn(request):
     currentUser = payload_clean['user']
     action = payload_clean['action']
     timeIn = payload_clean['timeIn']
-    print(currentUser)
     staff = User.objects.get(username=currentUser)
 
     tracker = UserTracking.objects.create(user=staff, action=action, timeOut=None, timeIn=timeIn)
@@ -1107,9 +1106,18 @@ def RecordUserActionsTimeOut(request):
     trackerId = payload_clean['trackerId']
     timeOut = payload_clean['timeOut']
 
-    toUpdateTimeOut = UserTracking.objects.get(id=trackerId)
-    toUpdateTimeOut.timeOut = timeOut
-    toUpdateTimeOut.save()
+    try:
+        action = payload_clean['action']
+        toUpdateTimeOut = UserTracking.objects.get(id=trackerId)
+        toUpdateTimeOut.timeOut = timeOut
+        toUpdateTimeOut.action = action
+        toUpdateTimeOut.save()
+    except KeyError:
+        toUpdateTimeOut = UserTracking.objects.get(id=trackerId)
+        toUpdateTimeOut.timeOut = timeOut
+        toUpdateTimeOut.save()
+
+
 
     return HttpResponse('Success')
 
