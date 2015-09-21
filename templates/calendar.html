@@ -158,7 +158,8 @@
                          ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
-                                ng-model="fields.appointmentType" name="appointmentType" ng-change="enableISchedule()"
+                                ng-model="fields.appointmentType" name="appointmentType"
+                                ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}');"
                                 required>
                         </select>
 
@@ -482,7 +483,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="createAppointment()">Yes</button>
+        <button class="btn form-submit-btn" type="button" ng-click="createAppointment(); recordCreationTimeOut();">Yes</button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>

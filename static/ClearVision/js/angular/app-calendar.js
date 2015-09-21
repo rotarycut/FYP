@@ -575,22 +575,22 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }, 500);
 
             /*
-            if (calendarNumber == "myCalendar1") {
-                $scope.selectedDoctor = {
-                    drAppointmentArray: $scope.doctorHoAppointments,
-                    drScreening: $scope.drHoScreenings,
-                    drPreEval: $scope.drHoPreEvaluations,
-                    drSurgery: $scope.drHoSurgeries
-                };
-            } else {
-                $scope.selectedDoctor = {
-                    drAppointmentArray: $scope.doctorGohAppointments,
-                    drScreening: $scope.drGohScreenings,
-                    drPreEval: $scope.drGohPreEvaluations,
-                    drSurgery: $scope.drGohSurgeries
-                };
-            }
-            */
+             if (calendarNumber == "myCalendar1") {
+             $scope.selectedDoctor = {
+             drAppointmentArray: $scope.doctorHoAppointments,
+             drScreening: $scope.drHoScreenings,
+             drPreEval: $scope.drHoPreEvaluations,
+             drSurgery: $scope.drHoSurgeries
+             };
+             } else {
+             $scope.selectedDoctor = {
+             drAppointmentArray: $scope.doctorGohAppointments,
+             drScreening: $scope.drGohScreenings,
+             drPreEval: $scope.drGohPreEvaluations,
+             drSurgery: $scope.drGohSurgeries
+             };
+             }
+             */
 
         }
     };
@@ -640,6 +640,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.form.showButtons['editForm'] = true;
 
         $scope.enableISchedule();
+    };
+
+    /* function to splice appointments */
+    $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
+        console.log(appointmentsInType);
+        var appointmentIndex = 0;
+        angular.forEach(appointmentsInType, function (existingAppointment) {
+            if (existingAppointment.id === retrievedAppointmentId) {
+                appointmentsInType.splice(appointmentIndex, 1);
+            }
+            appointmentIndex++;
+        });
     };
 
     /* function to navigate to date after selection on date picker */
@@ -846,6 +858,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
 
                     return $scope.fields;
+                },
+                createTracker: function () {
+
+                    return $scope.trackId;
                 }
             }
         });
@@ -1015,11 +1031,34 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     };
 
+    /* function to record create appointment time in */
+    $scope.recordCreationTimeIn = function (userName) {
+
+        var date = new Date();
+        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        var req =
+        {
+            "user": userName,
+            "action": "Create Appt",
+            "timeIn": time
+        };
+
+        $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
+            .success(function (data) {
+                console.log(data);
+                $scope.trackId = data;
+            });
+
+    };
+
+
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, createTracker, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
+    $scope.trackerId = createTracker;
 
     $scope.createAppointment = function () {
         postAppointmentSvc.postAppointment();
@@ -1051,6 +1090,27 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
     $scope.activateModalButtons = function () {
         $scope.showModalButtons = true;
+    };
+
+    /* function to record create appointment time out */
+    $scope.recordCreationTimeOut = function (userName) {
+
+        var date = new Date();
+
+        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        var req =
+        {
+            "timeOut": time,
+            "trackerId": createTracker
+        };
+        console.log(req);
+
+        $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
+            .success(function (data) {
+                console.log(data);
+            });
+
     };
 
 });
