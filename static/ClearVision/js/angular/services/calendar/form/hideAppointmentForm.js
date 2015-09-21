@@ -22,24 +22,26 @@ angular.module('hide.form', [])
             self._scope.showWaitingTime = false;
 
             $timeout(function () {
+
+                for (var field in self._scope.form.showFields) {
+                    self._scope.form.showFields[field] = true;
+                }
+
+                for (var field in self._scope.form.disableFields) {
+                    self._scope.form.disableFields[field] = false;
+                }
+
+                for (var field in self._scope.form.showButtons) {
+                    self._scope.form.showButtons[field] = false;
+                }
+
+                angular.forEach(self._scope.tabs, function (tab) {
+                    tab.disable = false;
+                });
+
                 self._scope.form.showButtons['addAndBlock'] = true;
             }, 800);
 
-            for (var field in self._scope.form.showFields) {
-                self._scope.form.showFields[field] = true;
-            }
-
-            for (var field in self._scope.form.disableFields) {
-                self._scope.form.disableFields[field] = false;
-            }
-
-            for (var field in self._scope.form.showButtons) {
-                self._scope.form.showButtons[field] = false;
-            }
-
-            angular.forEach(self._scope.tabs, function (tab) {
-                tab.disable = false;
-            });
         };
 
     });

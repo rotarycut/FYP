@@ -574,7 +574,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }
             }, 500);
 
-
+            /*
             if (calendarNumber == "myCalendar1") {
                 $scope.selectedDoctor = {
                     drAppointmentArray: $scope.doctorHoAppointments,
@@ -590,6 +590,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     drSurgery: $scope.drGohSurgeries
                 };
             }
+            */
 
         }
     };
@@ -1017,14 +1018,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 });
 
 /* controller for modal instance */
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, postAppointmentSvc, clearFormSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.createAppointment = function () {
         postAppointmentSvc.postAppointment();
         //disableIScheduleSvc.disableISchedule();
         $modalInstance.close();
-        clearFormSvc.clearForm();
     };
 
     $scope.deleteAppointment = function () {
