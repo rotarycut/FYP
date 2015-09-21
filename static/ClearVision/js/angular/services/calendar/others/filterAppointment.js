@@ -110,6 +110,8 @@ app.service('filterAppointmentSvc', function () {
                     self.scope.legendEvalClicked = "legend-preEval";
                     self.scope.legendSurgeryClicked = "legend-surgery";
                     self.scope.screenIconChange = "fa fa-check-square";
+                    self.scope.preEvalIconChange = "fa fa-stop";
+                    self.scope.surgeryIconChange = "fa fa-stop";
 
                 } else {
                     if (self.scope.legendScreenClicked == "legend-screen") {
@@ -128,6 +130,8 @@ app.service('filterAppointmentSvc', function () {
                     self.scope.legendEvalClicked = "legend-preEval-clicked";
                     self.scope.legendSurgeryClicked = "legend-surgery";
                     self.scope.preEvalIconChange = "fa fa-check-square";
+                    self.scope.screenIconChange = "fa fa-stop";
+                    self.scope.surgeryIconChange = "fa fa-stop";
 
                 } else {
                     if (self.scope.legendEvalClicked == "legend-preEval") {
@@ -146,6 +150,8 @@ app.service('filterAppointmentSvc', function () {
                     self.scope.legendEvalClicked = "legend-preEval";
                     self.scope.legendSurgeryClicked = "legend-surgery-clicked";
                     self.scope.surgeryIconChange = "fa fa-check-square";
+                    self.scope.preEvalIconChange = "fa fa-stop";
+                    self.scope.screenIconChange = "fa fa-stop";
 
                 } else {
                     if (self.scope.legendSurgeryClicked == "legend-surgery") {
