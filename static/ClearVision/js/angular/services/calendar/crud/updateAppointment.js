@@ -36,13 +36,9 @@ angular.module('update.appointment', [])
                 "remarks": self._scope.fields.appointmentRemarks
             };
 
-            console.log(updateJson);
-
-            var urlStr = '/Clearvision/_api/appointmentsCUD/' + self._scope.fields.appointmentId;
-            console.log(urlStr);
             var req = {
                 method: 'PATCH',
-                url: urlStr,
+                url: '/Clearvision/_api/appointmentsCUD/' + self._scope.fields.appointmentId,
                 headers: {'Content-Type': 'application/json'},
                 data: updateJson
             };
@@ -50,13 +46,22 @@ angular.module('update.appointment', [])
             $http(req)
                 .success(function (data) {
                     console.log("Successfully updated");
-                    console.log(data);
 
                     var event = data;
 
                     switch (self._scope.fields.appointmentType) {
 
                         case "Screening":
+                            var appointmentIndex = 0;
+                            angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+                                if (screeningAppointment.id === self.scope.fields.appointmentId) {
+
+                                    self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+
+                                }
+                                appointmentIndex++;
+                            });
+
                             self._scope.spliceAppointment(self._scope.doctorScreening.events, event.id);
                             //self._scope.drHoScreenings.events.push(event);
                             break;
