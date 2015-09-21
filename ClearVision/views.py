@@ -17,7 +17,6 @@ from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
-from django_socketio import broadcast, broadcast_channel, NoSocket
 from ClearVision.forms import ChangepwForm
 from .serializers import *
 from django.contrib.auth.models import User
@@ -321,7 +320,6 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
                                            swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
-                django_socketio.broadcast_channel(serializedExistingAppt.data, channel=None)
             return Response(serializedExistingAppt.data)
 
         else:

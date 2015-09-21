@@ -19,7 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^Clearvision/', include('ClearVision.urls')),
     url(r'^Clearvision/admin/', include(admin.site.urls)),
-    url("", include('django_socketio.urls')),
 ]
 
 #Site Header

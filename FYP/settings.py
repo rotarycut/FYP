@@ -43,7 +43,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'djcelery',
     'kombu.transport.django',
-    'django_socketio',
+    'swampdragon',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -142,5 +142,6 @@ BROKER_URL = 'django://'
 
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
-SOCKETIO_HOST = '127.0.0.1'
-SOCKETIO_PORT = 8000
+# SwampDragon settings
+SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
+DRAGON_URL='http://localhost:9999/'

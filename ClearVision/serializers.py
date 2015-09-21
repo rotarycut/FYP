@@ -1,3 +1,5 @@
+from swampdragon.serializers.model_serializer import ModelSerializer
+
 __author__ = 'sherman'
 from rest_framework import serializers
 
@@ -102,3 +104,9 @@ class CustomFilterMarketingChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomFilterMarketingChannel
         depth = 1
+
+
+class SDAppointmentSerializer(ModelSerializer):
+    class Meta:
+        model = 'ClearVision.Appointment'
+        publish_fields = ('apptType', 'patients')
