@@ -20,7 +20,7 @@ from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from django_socketio import broadcast, broadcast_channel, NoSocket
 from ClearVision.forms import ChangepwForm
 from .serializers import *
-
+from django.contrib.auth.models import User
 
 @login_required
 def success(request):
@@ -1092,23 +1092,23 @@ def RecordUserActionsTimeIn(request):
     currentUser = payload_clean['user']
     action = payload_clean['action']
     timeIn = payload_clean['timeIn']
+    print(currentUser)
+    staff = User.objects.get(username=currentUser)
 
-    staff = Staff.objects.get(name=currentUser)
+    tracker = UserTracking.objects.create(user=staff, action=action, timeOut=None, timeIn=timeIn)
 
-    UserTracking.objects.create(user=staff, action=action, timeOut=None, timeIn=timeIn)
-
-    return HttpResponse('Success')
+    return HttpResponse(tracker.id)
 
 @csrf_exempt
 def RecordUserActionsTimeOut(request):
     payload = request.body
     payload_clean = json.loads(payload)
 
-    currentUser = payload_clean['user']
+    trackerId = payload_clean['trackerId']
     action = payload_clean['action']
     timeOut = payload_clean['timeOut']
 
-    toUpdateTimeOut = UserTracking.objects.get(user__name=currentUser, action=action,)
+    toUpdateTimeOut = UserTracking.objects.get(id=trackerId)
     toUpdateTimeOut.timeOut = timeOut
     toUpdateTimeOut.save()
 
