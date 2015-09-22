@@ -1062,17 +1062,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $scope.trackId = "";
 
-
         /* socket programming */
-        $scope.channel = 'apptinfo';
+        $scope.channel = 'createAppt';
 
         $dragon.onReady(function () {
             $dragon.subscribe('AppointmentCUD', $scope.channel, null)
                 .then(function (response) {
-                    console.log(response);
+                    //console.log(response);
                 });
         });
-        console.log($scope.channel);
 
         $dragon.onChannelMessage(function (channels, message) {
             console.log(message.data);
