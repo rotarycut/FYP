@@ -5,7 +5,7 @@ from operator import itemgetter
 from django.views.decorators.csrf import csrf_exempt
 import requests
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import logout_then_login
+from django.contrib.auth.views import logout_then_login, redirect_to_login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import Context
@@ -69,7 +69,7 @@ def changepassword(request):
         if new_password == confirm_new_password:
             request.user.set_password(new_password)
             request.user.save()
-            return logout_then_login(request, 'login')
+            return redirect_to_login(request, 'login')
         else:
             return HttpResponse(json.dumps(error))
     else:
