@@ -7,6 +7,6 @@ class AppointmentCUD(BaseRouter):
     route_name = 'AppointmentCUD'
 
     def get_subscription_channels(self, **kwargs):
-        return ['createAppt', 'updateAppt']
+        return ['createAppt', 'updateAppt', 'deleteAppt']
 
 route_handler.register(AppointmentCUD)
