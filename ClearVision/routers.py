@@ -26,4 +26,6 @@ class PatientQueue(BaseRouter):
         return ['queue']
 
 route_handler.register(AppointmentCreate)
+route_handler.register(AppointmentUpdate)
+route_handler.register(AppointmentDelete)
 route_handler.register(PatientQueue)
