@@ -69,7 +69,7 @@ def changepassword(request):
         if new_password == confirm_new_password:
             request.user.set_password(new_password)
             request.user.save()
-            return HttpResponseRedirect('/Clearvision/login/')
+            return logout_then_login(request, 'login')
         else:
             return HttpResponse(json.dumps(error))
     else:
