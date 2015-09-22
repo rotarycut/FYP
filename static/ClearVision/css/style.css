@@ -17,6 +17,10 @@
     padding-top: 8px;
 }
 
+.label-color{
+    color: #49708A;
+}
+
 .heading-rotate{
     -webkit-transform: rotate(-90deg);
 
