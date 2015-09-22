@@ -61,6 +61,7 @@ def changepassword(request):
     old_password = payload_clean['oldpassword']
 
     error = {'error': 'Wrong old password / New passwords do not match'}
+    success = {'error': 'Success'}
 
     if request.user.check_password(old_password):
         new_password = payload_clean['newpassword']
@@ -68,7 +69,7 @@ def changepassword(request):
         if new_password == confirm_new_password:
             request.user.set_password(new_password)
             request.user.save()
-            return redirect_to_login('login')
+            return HttpResponse(success)
         else:
             return HttpResponse(json.dumps(error))
     else:
