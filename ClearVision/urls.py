@@ -48,7 +48,7 @@ urlpatterns = [
     url(r'^waitlist', views.waitlist),
     url(r'^queue', views.queue),
     url(r'^msglog', views.msglog),
-    url(r'^changepw', views.changepassword),
+    url(r'^_api/changepw', views.changepassword),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^', include(router.urls)),

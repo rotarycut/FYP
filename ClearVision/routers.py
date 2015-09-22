@@ -3,12 +3,10 @@ from swampdragon.route_handler import BaseRouter
 from ClearVision.views import AppointmentWriter
 
 
-class AppointmentCUDRouter(BaseRouter):
+class AppointmentCUD(BaseRouter):
     route_name = 'AppointmentCUD'
 
     def get_subscription_channels(self, **kwargs):
-        AppointmentWriter()
-        return ['apptinfo']
+        return ['createAppt', 'updateAppt']
 
-
-route_handler.register(AppointmentCUDRouter)
+route_handler.register(AppointmentCUD)

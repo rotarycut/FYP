@@ -1,6 +1,4 @@
-from audioop import reverse
 import base64
-import copy
 from datetime import timedelta, datetime
 import json
 from operator import itemgetter
@@ -17,7 +15,6 @@ from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
-from ClearVision.forms import ChangepwForm
 from .serializers import *
 from django.contrib.auth.models import User
 from swampdragon.pubsub_providers.data_publisher import publish_data
@@ -55,37 +52,26 @@ def msglog(request):
 
 
 @login_required
+@csrf_exempt
 def changepassword(request):
-    if request.method == 'GET':
-        form = ChangepwForm()
+    payload = request.body
+    payload_clean = json.loads(payload)
+
+    old_password = payload_clean['oldpassword']
+
+    error = {'error': 'Wrong old password / New passwords do not match'}
+
+    if request.user.check_password(old_password):
+        new_password = payload_clean['newpassword']
+        confirm_new_password = payload_clean['confirmnewpassword']
+        if new_password == confirm_new_password:
+            request.user.set_password(new_password)
+            request.user.save()
+            return HttpResponseRedirect('/success')
+        else:
+            return HttpResponse(json.dumps(error))
     else:
-        form = ChangepwForm(request.POST)
-        if form.is_valid():
-            old_password = form.cleaned_data['oldpassword']
-            if request.user.check_password(old_password):
-                new_password = form.cleaned_data['newpassword']
-                confirm_new_password = form.cleaned_data['confirmnewpassword']
-                if new_password == confirm_new_password:
-                    request.user.set_password(new_password)
-                    request.user.save()
-                    return HttpResponseRedirect("success")
-                else:
-                    form.add_error('confirmnewpassword', 'New Passwords Do Not Match')
-                    return render(request, 'registration/changepw.html', {
-                    'form': form,
-                    })
-            else:
-                form.add_error('oldpassword', 'Wrong Old Password')
-
-                return render(request, 'registration/changepw.html', {
-                'form': form,
-                })
-
-                return HttpResponseRedirect("success/changepw")
-    return render(request, 'registration/changepw.html', {
-        'form': form,
-    })
-
+        return HttpResponse(json.dumps(error))
 
 def logout(request):
     return logout_then_login(request, 'login')
@@ -321,6 +307,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
                                            swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
+            publish_data(channel='createAppt', data=serializedExistingAppt.data)
             return Response(serializedExistingAppt.data)
 
         else:
@@ -365,7 +352,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
-            publish_data(channel='apptinfo', data=serializedExistingAppt.data)
+            publish_data(channel='createAppt', data=serializedExistingAppt.data)
             return Response(serializedExistingAppt.data)
 
     def update(self, request, *args, **kwargs):
@@ -410,7 +397,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-            publish_data(channel='apptinfo', data=serializedExistingFutureAppt.data)
+            publish_data(channel='updateAppt', data=serializedExistingFutureAppt.data)
             return Response(serializedExistingFutureAppt.data)
         else:
 
@@ -430,7 +417,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-            publish_data(channel='apptinfo', data=serializedExistingFutureAppt.data)
+            publish_data(channel='updateAppt', data=serializedExistingFutureAppt.data)
             return Response(serializedExistingFutureAppt.data)
 
 
