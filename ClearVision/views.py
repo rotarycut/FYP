@@ -54,7 +54,6 @@ def changepw(request):
     return render(request, 'registration/changepw.html')
 
 @login_required
-@csrf_exempt
 def changepassword(request):
     payload = request.body
     payload_clean = json.loads(payload)
@@ -69,7 +68,7 @@ def changepassword(request):
         if new_password == confirm_new_password:
             request.user.set_password(new_password)
             request.user.save()
-            return redirect_to_login(request, 'login')
+            return redirect_to_login('login')
         else:
             return HttpResponse(json.dumps(error))
     else:

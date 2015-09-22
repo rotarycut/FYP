@@ -1,5 +1,5 @@
 var appAdmin = angular.module('app.admin', []);
-app.controller('adminCtrl', function($scope,$http) {
+appAdmin.controller('adminCtrl', function($scope,$http) {
 
     $scope.changePassword = function () {
 
@@ -10,7 +10,7 @@ app.controller('adminCtrl', function($scope,$http) {
         })
                 .success(function (data) {
                     console.log("Successful with http post");
-                    console.log(data);
+
                     $scope.errorMessage = data;
                     $scope.oldPw = "";
                     $scope.newPw = "";
@@ -22,3 +22,10 @@ app.controller('adminCtrl', function($scope,$http) {
                 });
         };
 });
+
+appAdmin.config(function ( $httpProvider) {
+   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+});
+
+
