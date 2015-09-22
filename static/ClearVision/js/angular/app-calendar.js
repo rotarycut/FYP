@@ -765,6 +765,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to search for contact */
     $scope.searchContact = function () {
         searchContact.search($scope.fields.patientContact).then(function (response) {
+            console.log(response);
             if (response.data.length !== 0) {
                 $scope.fields.patientName = response.data[0].name;
             } else {
@@ -978,6 +979,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 });
                 return rowArr;
             });
+    };
+
+    /* function to be notified of existing patients */
+    $scope.checkExistingPatient = function (searchValue) {
+        return $http.get('/Clearvision/_api/patients?search=' + searchValue)
+            .then(function (response) {
+
+                var row = response.data;
+
+                angular.forEach(row, function (patient) {
+                    var rowStr = patient.name + ", " + patient.contact;
+                    patient.str = rowStr;
+                });
+
+                return row;
+            });
+    };
+
+    /* on select of patient after keying in contact no */
+    $scope.selectPatient = function ($item, $model, $label, appt) {
+
+        $scope.fields.patientContact = $item.contact;
+        $scope.fields.patientName = $item.name;
+        $scope.fields.marketingChannel = $item.marketingname;
     };
 
     /* function after selecting an appointment from the search box result */
