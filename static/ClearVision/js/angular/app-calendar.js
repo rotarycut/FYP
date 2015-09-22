@@ -620,6 +620,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.fields.patientContact = patient.contact;
                 $scope.fields.marketingChannel = patient.marketingname;
                 $scope.fields.patientId = patient.id;
+                $scope.fields.originalPatientName = patient.name;
+                $scope.fields.originalPatientContact = patient.contact;
             }
         })
         console.log("APPT ID " + $scope.fields.appointmentId);
@@ -921,6 +923,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.fields.remarksIsChanged = true;
                     } else {
                         $scope.fields.remarksIsChanged = false;
+                    }
+                    if ($scope.fields.originalPatientContact !== $scope.fields.patientContact) {
+                        $scope.fields.contactIsChanged = true;
+                    } else {
+                        $scope.fields.contactIsChanged = false;
+                    }
+                    if ($scope.fields.originalPatientName !== $scope.fields.patientName) {
+                        $scope.fields.nameIsChanged = true;
+                    } else {
+                        $scope.fields.nameIsChanged = false;
                     }
 
                     return $scope.fields;

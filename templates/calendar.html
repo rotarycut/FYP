@@ -525,8 +525,8 @@
                 <ul>
                     <p>Original Appointment</p>
                     <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
-                    <li>Contact No: [[patientDetails.patientContact]]</li>
-                    <li>Patient Name: [[patientDetails.patientName]]</li>
+                    <li>Contact No: [[patientDetails.originalPatientContact]]</li>
+                    <li>Patient Name: [[patientDetails.originalPatientName]]</li>
                     <li>Date: [[patientDetails.originalAppointmentDate]]</li>
                     <li>Time: [[patientDetails.originalAppointmentTime]]</li>
                     <li>Doctor: [[patientDetails.doctorAssigned]]</li>
@@ -540,8 +540,12 @@
                     <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
                         [[patientDetails.appointmentType]]
                     </li>
-                    <li>Contact No: [[patientDetails.patientContact]]</li>
-                    <li>Patient Name: [[patientDetails.patientName]]</li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
+                        [[patientDetails.patientContact]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}">Patient Name:
+                        [[patientDetails.patientName]]
+                    </li>
                     <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
                         [[patientDetails.appointmentDate]]
                     </li>
