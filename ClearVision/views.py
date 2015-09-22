@@ -627,7 +627,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
                 if totalCost == None:
-                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': totalPatientCount * 3888, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
+                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': totalPatientCount * 3388, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
                 else:
                     roi = (totalPatientCount * 3388) / totalCost
                     toReturnResponse.append({'channelname': eachChannel['name'],'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
