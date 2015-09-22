@@ -646,7 +646,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to splice appointments */
     $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
-        console.log(appointmentsInType);
         var appointmentIndex = 0;
         angular.forEach(appointmentsInType, function (existingAppointment) {
             if (existingAppointment.id === retrievedAppointmentId) {
@@ -1068,6 +1067,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.foos = [];
     $scope.channelCreate = 'createAppt';
     $scope.channelDelete = 'deleteAppt';
+    $scope.channelUpdate = 'updateAppt';
 
     $dragon.onReady(function () {
 
@@ -1078,6 +1078,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
         $dragon.subscribe('AppointmentDelete', $scope.channelDelete, null)
+            .then(function (response) {
+                //$scope.dataMapper = new DataMapper(response.data);
+                console.log(response);
+            });
+
+        $dragon.subscribe('AppointmentUpdate', $scope.channelUpdate, null)
             .then(function (response) {
                 //$scope.dataMapper = new DataMapper(response.data);
                 console.log(response);
@@ -1097,8 +1103,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
         }
 
-    });
+        else if (channels[0] === "updateAppt") {
+            //updateAppointmentSvc.updateAppointment(message.data, true);
+        }
 
+    });
 
 });
 

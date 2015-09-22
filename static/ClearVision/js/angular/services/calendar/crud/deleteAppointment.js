@@ -160,7 +160,7 @@ angular.module('delete.appointment', [])
 
                 $http(req)
                     .success(function (data) {
-                        console.log("Successfully deleted.");
+                        console.log("Successfully deleted");
 
                         // find out if there will be any patients left after the deletion
                         var urlStr = '/Clearvision/_api/appointments/' + self.scope.fields.appointmentId;

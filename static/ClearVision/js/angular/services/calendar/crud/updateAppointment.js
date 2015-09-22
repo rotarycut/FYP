@@ -8,94 +8,113 @@ angular.module('update.appointment', [])
             self.scope = scope;
         };
 
-        self.updateAppointment = function () {
 
-            console.log(self.scope.selectedDoctor);
+        /*******************************************************************************
+         function to update appointment
+         *******************************************************************************/
 
-            if (self.scope.fields.appointmentRemarks === undefined) {
-                self.scope.fields.appointmentRemarks = "";
-            }
 
-            if (self.scope.fields.doctorAssigned === "Dr Ho") {
-                self.scope.fields.doctorAssigned = "2";
-                self.scope.doctorScreening = self.scope.drHoScreenings;
-                self.scope.doctorPreEval = self.scope.drHoPreEvaluations;
-                self.scope.doctorSurgery = self.scope.drHoSurgeries;
+        self.updateAppointment = function (updateObject, isFromSocket) {
+
+            // check if it is a call from the socket
+            if (isFromSocket) {
+
+
             } else {
-                self.scope.fields.doctorAssigned = "1";
-                self.scope.doctorScreening = self.scope.drGohScreenings;
-                self.scope.doctorPreEval = self.scope.drGohPreEvaluations;
-                self.scope.doctorSurgery = self.scope.drGohSurgeries;
-            }
 
-            var updateJson = {
-                "id": self.scope.fields.patientId,
-                "replacementApptDate": self.scope.fields.appointmentDate,
-                "replacementApptTime": self.scope.fields.appointmentTime,
-                "type": self.scope.fields.appointmentType,
-                "docID": self.scope.fields.doctorAssigned,
-                "clinicID": 1,
-                "remarks": self.scope.fields.appointmentRemarks,
-                "patientName": self.scope.fields.patientName,
-                "patientContact": self.scope.fields.patientContact
-            };
+                // the call is NOT from the socket
 
-            console.log(updateJson);
+                if (self.scope.fields.appointmentRemarks === undefined) {
+                    self.scope.fields.appointmentRemarks = "";
+                }
 
-            var req = {
-                method: 'PATCH',
-                url: '/Clearvision/_api/appointmentsCUD/' + self.scope.fields.appointmentId,
-                headers: {'Content-Type': 'application/json'},
-                data: updateJson
-            };
+                if (self.scope.fields.doctorAssigned === "Dr Ho") {
+                    self.scope.fields.doctorAssigned = "2";
+                    self.scope.doctorScreening = self.scope.drHoScreenings;
+                    self.scope.doctorPreEval = self.scope.drHoPreEvaluations;
+                    self.scope.doctorSurgery = self.scope.drHoSurgeries;
 
-            $http(req)
-                .success(function (data) {
-                    console.log("Successfully updated");
+                } else {
+                    self.scope.fields.doctorAssigned = "1";
+                    self.scope.doctorScreening = self.scope.drGohScreenings;
+                    self.scope.doctorPreEval = self.scope.drGohPreEvaluations;
+                    self.scope.doctorSurgery = self.scope.drGohSurgeries;
+                }
 
-                    var event = data;
+                var updateJson = {
+                    "id": self.scope.fields.patientId,
+                    "replacementApptDate": self.scope.fields.appointmentDate,
+                    "replacementApptTime": self.scope.fields.appointmentTime,
+                    "type": self.scope.fields.appointmentType,
+                    "docID": self.scope.fields.doctorAssigned,
+                    "clinicID": 1,
+                    "remarks": self.scope.fields.appointmentRemarks,
+                    "patientName": self.scope.fields.patientName,
+                    "patientContact": self.scope.fields.patientContact
+                };
 
-                    //console.log(self.scope.fields.appointmentType);
-                    //console.log(self.scope.selectedDoctor);
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/appointmentsCUD/' + self.scope.fields.appointmentId,
+                    headers: {'Content-Type': 'application/json'},
+                    data: updateJson
+                };
 
-                    switch (self.scope.fields.appointmentType) {
+                $http(req)
+                    .success(function (data) {
 
-                        case "Screening":
+                        console.log("Successfully updated");
 
-                            self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, event.id);
-                            self.scope.drHoScreenings.events.push(event);
-                            break;
+                        // handle the update of the newly changed appointment
 
-                        case "Pre Evaluation":
-
-                            self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, event.id);
-                            self.scope.drHoScreenings.events.push(event);
-                            break;
-
-                        case "Surgery":
-
-                            self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, event.id);
-                            self.scope.drHoScreenings.events.push(event);
-                            break;
-                    }
-
-                    // handle the update of the old appointment
-                    if (self.scope.fields.originalAppointmentType !== self.scope.fields.appointmentType) {
-                        console.log("Update old different appointment type");
-                        var id = self.scope.fields.appointmentId;
-
-                        switch (self.scope.fields.originalAppointmentType) {
+                        // check the appointment type of the newly changed appointment
+                        switch (self.scope.fields.appointmentType) {
 
                             case "Screening":
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        self.scope.selectedDoctor.drScreening.events.push(oldAppointment);
-                                    });
+                                // remove the entire newly changed appointment from the calendar
+                                self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, data.id);
+
+                                // add the updated newly changed appointment to the calendar
+                                self.scope.selectedDoctor.drScreening.events.push(data);
                                 break;
 
                             case "Pre Evaluation":
+
+                                self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, data.id);
+                                self.scope.selectedDoctor.drPreEval.events.push(data);
+                                break;
+
+                            case "Surgery":
+
+                                self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, data.id);
+                                self.scope.selectedDoctor.drSurgery.events.push(data);
+                                break;
+                        }
+
+                        // handle the update of the old appointment
+                        var id = self.scope.fields.appointmentId;
+
+                        // check the appointment type of the old appointment
+                        switch (self.scope.fields.originalAppointmentType) {
+
+                            case "Screening":
+
+                                // remove the entire old appointment from the calendar
+                                self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, id);
+
+                                // check if the appointment still has patients after shifting a patient out
+                                $http.get('/Clearvision/_api/appointments/' + id)
+                                    .success(function (oldAppointment) {
+
+                                        // there are still patients, add the updated old appointment back to the calendar
+                                        self.scope.selectedDoctor.drScreening.events.push(oldAppointment);
+                                    });
+
+                                break;
+
+                            case "Pre Evaluation":
+
                                 self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, id);
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
@@ -105,6 +124,7 @@ angular.module('update.appointment', [])
                                 break;
 
                             case "Surgery":
+
                                 self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, id);
 
                                 $http.get('/Clearvision/_api/appointments/' + id)
@@ -113,53 +133,22 @@ angular.module('update.appointment', [])
                                     });
                                 break;
                         }
-                    } else {
-                        console.log("Update old same appointment type");
-                        var id = self.scope.fields.appointmentId;
-                        console.log(self.scope.fields.appointmentType);
 
-                        switch (self.scope.fields.appointmentType) {
+                        // hide the appointment form
+                        hideFormSvc.hideForm();
 
-                            case "Screening":
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        self.scope.selectedDoctor.drScreening.events.push(oldAppointment);
-                                    });
-                                break;
-
-                            case "Pre Evaluation":
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        self.scope.selectedDoctor.drPreEval.events.push(oldAppointment);
-                                    });
-                                break;
-
-                            case "Surgery":
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, id);
-
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        self.scope.selectedDoctor.drSurgery.events.push(oldAppointment);
-                                    });
-                                break;
+                        // if the update is coming from the no show reschedule action
+                        if (self.scope.isNoShowReschedule == true) {
+                            $location.path('/queue');
                         }
-                    }
 
-                    hideFormSvc.hideForm();
+                    })
 
-                    if (self.scope.isNoShowReschedule == true) {
-                        $location.path('/queue');
+                    .error(function (data) {
+                        console.log("Error with updating appointment");
+                    });
 
-                    }
-                })
-
-                .error(function (data) {
-                    console.log("Error with updating appointment");
-                });
+            }
 
         };
 
