@@ -30,6 +30,8 @@ var app = angular.module('calendarDemoApp', [
     'post.roiFilter',
     'edit.filter',
     'filter.appointment',
+    'get.todayAppointments',
+    'get.patientQueue',
     'SwampDragonServices'
 ]);
 

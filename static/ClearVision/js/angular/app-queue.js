@@ -1,31 +1,15 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, $dragon, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc) {
 
     $scope.CurrentDate = new Date();
     $scope.mainTableWidth = "col-md-8";
 
     getNoShowSvc.getScope($scope);
     addToArchiveSvc.getScope($scope);
+    getTodayAppointmentSvc.getScope($scope);
+    getPatientQueueSvc.getScope($scope);
 
-    /*$scope.archives = [
-     {
-     name: 'Ben',
-     contact: '98208578',
-     apptType: 'Pre-eval',
-     doc: 'Dr. Ho',
-     scheduledTime: '2015-08-29, 12:30:00',
-     remarks: 'called 3 times, no answer'
-     },
-     {
-     name: 'Max',
-     contact: '82301384',
-     apptType: 'Surgery',
-     doc: 'Dr. Ho',
-     scheduledTime: '2015-08-25, 10:00:00',
-     remarks: 'appointment cancelled'
-     },
-     ];*/
 
     $scope.totalItems = 24;
     $scope.currentPage = 1;
@@ -42,35 +26,11 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     };
 
     $scope.getTodayAppointments = function () {
-
-        $http.get('/Clearvision/_api/ViewTodayPatients/')
-            .success(function (data) {
-                $scope.patientList = data;
-                angular.forEach($scope.patientList, function (patient) {
-                    if (patient.associatedpatientactions__addedToQueue == false || patient.associatedpatientactions__addedToQueue == true) {
-                        patient.disableButtons = true;
-                    }
-                    else {
-                        patient.disableButtons = false;
-                    }
-                });
-                console.log($scope.patientList);
-                console.log("OK");
-            });
+        getTodayAppointmentSvc.getTodayAppointments();
     };
 
     $scope.getPatientQueue = function () {
-
-        $http.get('/Clearvision/_api/ViewPatientQueue/')
-            .success(function (data) {
-                angular.forEach(data, function (appt) {
-                    var indexOfT = appt.last_modified.indexOf("T") + 1;
-                    var indexOfLastColon = appt.last_modified.lastIndexOf(":");
-                    appt.last_modified = appt.last_modified.substring(indexOfT, indexOfLastColon);
-                });
-
-                $scope.queueList = data;
-            });
+        getPatientQueueSvc.getPatientQueue();
     };
 
     $scope.sortByField = function (field) {
@@ -253,6 +213,32 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     /* --- end of modal codes --- */
 
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+
+    /* socket programming */
+    $scope.channelQueue = 'queue';
+
+    $dragon.onReady(function () {
+
+        $dragon.subscribe('PatientQueue', $scope.channelQueue, null)
+            .then(function (response) {
+                //$scope.dataMapper = new DataMapper(response.data);
+                console.log(response);
+            });
+
+    });
+
+    $dragon.onChannelMessage(function (channels, message) {
+        console.log(channels[0]);
+        console.log(message.data);
+
+        if (channels[0] === "queue") {
+            getTodayAppointmentSvc.getTodayAppointments();
+            getPatientQueueSvc.getPatientQueue();
+            getNoShowSvc.getNoShow();
+        }
+
+    });
 
 });
 

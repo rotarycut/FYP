@@ -5,7 +5,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  searchContact, appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
-                                                 filterAppointmentSvc, $interval, $dragon) {
+                                                 filterAppointmentSvc, $interval, $dragon, getTodayAppointmentSvc, getPatientQueueSvc,
+                                                 getNoShowSvc) {
 
     var date = new Date();
     var d = date.getDate();
