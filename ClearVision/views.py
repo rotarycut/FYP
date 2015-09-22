@@ -369,6 +369,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
         docID = data.get('docID')
         clinicID = data.get('clinicID')
         newRemarks = data.get('remarks')
+        newPatientName = data.get('patientName')
+        newPatientContact = data.get('patientContact')
+
+        patient.name = newPatientName
+        patient.contact = newPatientContact
+        patient.save()
 
         currentAppt.patients.remove(patient)
         currentAppt.save()
