@@ -67,7 +67,7 @@ def changepassword(request):
         if new_password == confirm_new_password:
             request.user.set_password(new_password)
             request.user.save()
-            return HttpResponseRedirect('/success')
+            return HttpResponseRedirect('/login/')
         else:
             return HttpResponse(json.dumps(error))
     else:
