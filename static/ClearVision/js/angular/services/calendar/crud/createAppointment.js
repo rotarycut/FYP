@@ -8,8 +8,48 @@ angular.module('post.appointment', [])
             self.scope = scope;
         };
 
-        self.postAppointment = function () {
+        self.postAppointment = function (createObject, isFromSocket) {
             //var formattedDate = self.scope.getFormattedDate(self.scope.fields.appointmentDate);
+
+            if (isFromSocket) {
+
+                switch (createObject.apptType) {
+
+                    case "Screening":
+                        var appointmentIndex = 0;
+
+                        angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+                            if (screeningAppointment.id === createObject.id) {
+                                self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+                            }
+                            appointmentIndex++;
+                        });
+                        self.scope.selectedDoctor.drScreening.events.push(createObject);
+                        break;
+
+                    case "Pre Evaluation":
+                        var appointmentIndex = 0;
+                        angular.forEach(self.scope.drHoPreEvaluations.events, function (preEvaluationAppointment) {
+                            if (preEvaluationAppointment.id === createObject.id) {
+                                self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
+                            }
+                            appointmentIndex++;
+                        });
+                        self.scope.selectedDoctor.drPreEval.events.push(createObject);
+                        break;
+
+                    case "Surgery":
+                        var appointmentIndex = 0;
+                        angular.forEach(self.scope.drHoSurgeries.events, function (surgeryAppointment) {
+                            if (surgeryAppointment.id === createObject.id) {
+                                self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
+                            }
+                            appointmentIndex++;
+                        });
+                        self.scope.selectedDoctor.drSurgery.events.push(createObject);
+                        break;
+                }
+            }
 
             if (self.scope.fields.appointmentRemarks === undefined) {
                 self.scope.fields.appointmentRemarks = "";

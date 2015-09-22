@@ -1,3 +1,5 @@
+{% load static swampdragon_tags %}
+
 <!DOCTYPE html>
 <html lang="en" ng-app="calendarDemoApp">
 <head>
@@ -28,11 +30,20 @@
     <script src="/static/ClearVision/js/c3.min.js"></script>
     <script src="https://code.angularjs.org/1.3.6/angular-animate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.5/angular-filter.min.js"></script>
+
     {% load staticfiles %}
 
     <script src="{% static "/static/ClearVision/js/angular/directives/angularCalendar.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/angular/directives/ngprogress.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/respond.js" %}"></script>
+
+    <!-- SwampDragon -->
+    {% swampdragon_settings %}
+
+    <script type="text/javascript" src="{% static 'swampdragon/js/dist/swampdragon.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'swampdragon/js/dist/datamapper.js' %}"></script>
+    <script type="text/javascript" src="{% static 'swampdragon/js/angular/services.js' %}"></script>
+    <script type="text/javascript" src="{% static 'swampdragon/js/vendor/sockjs-0.3.4.min.js' %}"></script>
 
     <!-- ANGULAR SCRIPTS -->
     <script src="{% static "/static/ClearVision/js/angular/app.js" %}"></script>
@@ -70,12 +81,18 @@
     <script src="{% static "/static/ClearVision/js/angular/services/analysis/editFilter.js" %}"></script>
     <script src="{% static "/static/ClearVision/js/angular/services/analysis/postRoiFilter.js" %}"></script>
 
+    <!-- Monitor -->
+    <script type="text/javascript" src="{% static 'monitor.js' %}"></script>
+
     <title>{% block title %}Schedule{% endblock %}</title>
+
 </head>
 
 <body>
+
 <div class="app-container">
     {% block content %}{% endblock %}
 </div>
+
 </body>
 </html>

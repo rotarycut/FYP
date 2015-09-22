@@ -28,7 +28,9 @@ var app = angular.module('calendarDemoApp', [
     'post.filter',
     'post.roiFilter',
     'edit.filter',
-    'filter.appointment'
+    'filter.appointment',
+    'SwampDragonServices',
+    'app.monitor'
 ]);
 
 /* Angular routing */

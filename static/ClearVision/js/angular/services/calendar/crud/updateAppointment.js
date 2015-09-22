@@ -10,6 +10,8 @@ angular.module('update.appointment', [])
 
         self.updateAppointment = function () {
 
+            console.log(self._scope.selectedDoctor);
+
             if (self._scope.fields.appointmentRemarks === undefined) {
                 self._scope.fields.appointmentRemarks = "";
             }
@@ -49,9 +51,14 @@ angular.module('update.appointment', [])
 
                     var event = data;
 
+                    console.log(self._scope.fields.appointmentType);
+                    console.log(self.scope.selectedDoctor);
+
                     switch (self._scope.fields.appointmentType) {
 
                         case "Screening":
+
+
                             var appointmentIndex = 0;
                             angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
                                 if (screeningAppointment.id === self.scope.fields.appointmentId) {
@@ -78,73 +85,73 @@ angular.module('update.appointment', [])
                     }
 
                     // handle the update of the old appointment
-                    if (self._scope.fields.originalAppointmentType !== self._scope.fields.appointmentType) {
-                        console.log("Update old different appointment type");
-                        var id = self._scope.fields.appointmentId;
+                    /*if (self._scope.fields.originalAppointmentType !== self._scope.fields.appointmentType) {
+                     console.log("Update old different appointment type");
+                     var id = self._scope.fields.appointmentId;
 
-                        switch (self._scope.fields.originalAppointmentType) {
+                     switch (self._scope.fields.originalAppointmentType) {
 
-                            case "Screening":
-                                self._scope.spliceAppointment(self._scope.doctorScreening.events, id);
+                     case "Screening":
+                     self._scope.spliceAppointment(self._scope.doctorScreening.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        //self._scope.drHoScreenings.events.push(oldAppointment);
-                                    });
-                                break;
+                     $http.get('/Clearvision/_api/appointments/' + id)
+                     .success(function (oldAppointment) {
+                     //self._scope.drHoScreenings.events.push(oldAppointment);
+                     });
+                     break;
 
-                            case "Pre Evaluation":
-                                self._scope.spliceAppointment(self._scope.doctorPreEval.events, id);
+                     case "Pre Evaluation":
+                     self._scope.spliceAppointment(self._scope.doctorPreEval.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        //self._scope.drHoPreEvaluations.events.push(oldAppointment);
-                                    });
-                                break;
+                     $http.get('/Clearvision/_api/appointments/' + id)
+                     .success(function (oldAppointment) {
+                     //self._scope.drHoPreEvaluations.events.push(oldAppointment);
+                     });
+                     break;
 
-                            case "Surgery":
-                                self._scope.spliceAppointment(self._scope.doctorSurgery.events, id);
+                     case "Surgery":
+                     self._scope.spliceAppointment(self._scope.doctorSurgery.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        //self._scope.drHoSurgeries.events.push(oldAppointment)
-                                    });
-                                break;
-                        }
-                    } else {
-                        console.log("Update old same appointment type");
-                        var id = self._scope.fields.appointmentId;
+                     $http.get('/Clearvision/_api/appointments/' + id)
+                     .success(function (oldAppointment) {
+                     //self._scope.drHoSurgeries.events.push(oldAppointment)
+                     });
+                     break;
+                     }
+                     } else {
+                     console.log("Update old same appointment type");
+                     var id = self._scope.fields.appointmentId;
 
-                        switch (self._scope.fields.appointmentType) {
+                     switch (self._scope.fields.appointmentType) {
 
-                            case "Screening":
-                                self._scope.spliceAppointment(self._scope.doctorScreening.events, id);
+                     case "Screening":
+                     self._scope.spliceAppointment(self._scope.doctorScreening.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        //self._scope.drHoScreenings.events.push(oldAppointment);
-                                    });
-                                break;
+                     $http.get('/Clearvision/_api/appointments/' + id)
+                     .success(function (oldAppointment) {
+                     //self._scope.drHoScreenings.events.push(oldAppointment);
+                     });
+                     break;
 
-                            case "Pre Evaluation":
-                                self._scope.spliceAppointment(self._scope.doctorPreEval.events, id);
+                     case "Pre Evaluation":
+                     self._scope.spliceAppointment(self._scope.doctorPreEval.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        //self._scope.drHoPreEvaluations.events.push(oldAppointment);
-                                    });
-                                break;
+                     $http.get('/Clearvision/_api/appointments/' + id)
+                     .success(function (oldAppointment) {
+                     //self._scope.drHoPreEvaluations.events.push(oldAppointment);
+                     });
+                     break;
 
-                            case "Surgery":
-                                self._scope.spliceAppointment(self._scope.doctorSurgery.events, id);
+                     case "Surgery":
+                     self._scope.spliceAppointment(self._scope.doctorSurgery.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        //self._scope.drHoSurgeries.events.push(oldAppointment)
-                                    });
-                                break;
-                        }
-                    }
+                     $http.get('/Clearvision/_api/appointments/' + id)
+                     .success(function (oldAppointment) {
+                     //self._scope.drHoSurgeries.events.push(oldAppointment)
+                     });
+                     break;
+                     }
+                     }*/
 
                     hideFormSvc.hideForm();
 
