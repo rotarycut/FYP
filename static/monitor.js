@@ -5,7 +5,7 @@ swampdragon.onChannelMessage(function (channels, message) {
 });
 
 
-swampdragon.ready(function() {
+swampdragon.ready(function () {
     swampdragon.subscribe('AppointmentCUD', 'createAppt', null);
     swampdragon.subscribe('AppointmentCUD', 'updateAppt', null);
     swampdragon.subscribe('AppointmentCUD', 'deleteAppt', null);
