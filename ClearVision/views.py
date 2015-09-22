@@ -18,6 +18,7 @@ from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from .serializers import *
 from django.contrib.auth.models import User
 from swampdragon.pubsub_providers.data_publisher import publish_data
+from django.conf import settings
 
 @login_required
 def success(request):
@@ -968,6 +969,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
                                                )
+            publish_data(channel=queue, data={})
         else:
             associatedPAction.addedToQueue = False
             associatedPAction.save()
@@ -976,6 +978,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a,
                                                )
+            publish_data(channel='queue', data={})
 
         return HttpResponse("Success")
 

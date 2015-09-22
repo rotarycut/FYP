@@ -20,7 +20,7 @@ class AppointmentDelete(BaseRouter):
         return ['deleteAppt']
 
 class PatientQueue(BaseRouter):
-    route_name = 'patientQueue'
+    route_name = 'PatientQueue'
 
     def get_subscription_channels(self, **kwargs):
         return ['queue']
