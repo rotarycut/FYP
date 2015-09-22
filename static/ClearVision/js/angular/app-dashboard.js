@@ -178,7 +178,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
     };
 
 
-
     /*******************************************************************************
      retrieve custom data for roi chart
      *******************************************************************************/
