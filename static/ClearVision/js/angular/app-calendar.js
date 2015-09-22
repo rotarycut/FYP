@@ -1077,11 +1077,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 console.log(response);
             });
 
-        /*$dragon.subscribe('AppointmentDelete', $scope.channelDelete, null)
+        $dragon.subscribe('AppointmentDelete', $scope.channelDelete, null)
             .then(function (response) {
                 //$scope.dataMapper = new DataMapper(response.data);
                 console.log(response);
-            });*/
+            });
 
     });
 
@@ -1091,6 +1091,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         if (channels[0] === "createAppt") {
             postAppointmentSvc.postAppointment(message.data, true);
+        }
+
+        else if (channels[0] === "deleteAppt") {
+            deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
         }
 
     });

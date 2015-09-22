@@ -18,7 +18,7 @@ angular.module('post.appointment', [])
 
             // check if it is a call from the socket
             if (isFromSocket) {
-
+                console.log(isFromSocket);
                 // check the appointment type of the created appointment
                 switch (createObject.apptType) {
 
@@ -43,6 +43,7 @@ angular.module('post.appointment', [])
 
                     case "Pre Evaluation":
                         var appointmentIndex = 0;
+                        console.log(self.scope.selectedDoctor);
                         console.log("HERE");
                         console.log(createObject);
                         console.log(self.scope.selectedDoctor.drPreEval.events);
@@ -50,7 +51,8 @@ angular.module('post.appointment', [])
 
                             if (preEvaluationAppointment.id === createObject.id) {
                                 console.log("FOUND");
-                                self.scope.drHoPreEvaluations.events.splice(appointmentIndex, 1);
+                                console.log(appointmentIndex);
+                                self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
                             }
                             appointmentIndex++;
                         });
