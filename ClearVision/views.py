@@ -38,6 +38,9 @@ def calendar(request):
 def roi(request):
     return render(request, 'roi.html')
 
+def conversion(request):
+    return render(request, 'conversion.html')
+
 def schedule(request):
     return render(request, 'schedule.html')
 

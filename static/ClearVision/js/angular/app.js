@@ -3,6 +3,7 @@ var app = angular.module('calendarDemoApp', [
     'ui.bootstrap',
     'app.calendar',
     'app.dashboard',
+    'app.conversion',
     'app.appointmentAnalysis',
     'app.waitingList',
     'app.patientQueue',
@@ -42,6 +43,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/dashboard/roi", {
             templateUrl: "roi.html",
             controller: 'DashboardCtrl'
+        })
+        .when("/dashboard/conversion", {
+            templateUrl: "conversion.html",
+            controller: 'ConversionCtrl'
         })
         .when("/dashboard/schedule", {
             templateUrl: "schedule.html",
