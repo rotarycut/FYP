@@ -50,6 +50,8 @@ def queue(request):
 def msglog(request):
     return render(request, 'msglog.html')
 
+def changepw(request):
+    return render(request, 'registration/changepw.html')
 
 @login_required
 @csrf_exempt
