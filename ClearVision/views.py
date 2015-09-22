@@ -227,6 +227,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
                        'scheduledApptDay', 'tempApptDay', 'swappable')
 
             return Response(response_data)
+        serializedExistingAppt = AppointmentSerializer(a)
+        publish_data(channel='deleteAppt', data=serializedExistingAppt.data)
         return Response({})
 
         # else:
