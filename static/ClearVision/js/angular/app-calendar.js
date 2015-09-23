@@ -106,8 +106,26 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         events: []
     };
 
+    $scope.tempLowHeatMap = {
+        color: '#00B499',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.tempMedHeatMap = {
+        color: '#FF9966',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.tempHighHeatMap = {
+        color: '#00B499',
+        textColor: 'White',
+        events: []
+    };
+
     /* event sources array */
-    $scope.doctorHoAppointments = [$scope.drHoLowHeatMap, $scope.drHoMedHeatMap, $scope.drHoHighHeatMap];
+    $scope.doctorHoAppointments = [];
     $scope.doctorGohAppointments = [$scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap];
 
     $scope.selectedDoctor = {
@@ -168,9 +186,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 151) {
-                        $scope.drGohLowHeatMap.events.push(appointment);
-                        $scope.drHoLowHeatMap.events.push(appointment);
+                    if (count <= 351) {
+                        //$scope.drGohLowHeatMap.events.push(appointment);
+                        $scope.tempLowHeatMap.events.push(appointment);
 
                         count++;
                     } else {
@@ -178,34 +196,44 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
 
                 })
+
+                $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempLowHeatMap);
             })
         $http.get(medHeatUrl)
             .success(function (listOfAppointments) {
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 21) {
-                        $scope.drHoMedHeatMap.events.push(appointment);
-                        $scope.drGohMedHeatMap.events.push(appointment);
+                    if (count <= 351) {
+                        //$scope.drHoMedHeatMap.events.push(appointment);
+                        //$scope.drGohMedHeatMap.events.push(appointment);
+                        $scope.tempMedHeatMap.events.push(appointment);
+
                         count++;
                     } else {
                         return;
                     }
                 })
+
+                $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempMedHeatMap);
             })
         $http.get(highHeatUrl)
             .success(function (listOfAppointments) {
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 21) {
-                        $scope.drHoHighHeatMap.events.push(appointment);
-                        $scope.drGohHighHeatMap.events.push(appointment);
+                    if (count <= 351) {
+                        //$scope.drHoHighHeatMap.events.push(appointment);
+                        //$scope.drGohHighHeatMap.events.push(appointment);
+                        $scope.tempHighHeatMap.events.push(appointment);
+
                         count++;
                     } else {
                         return;
                     }
                 })
+
+                $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempHighHeatMap);
             })
     };
 

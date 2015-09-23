@@ -20,12 +20,12 @@ app.service('enableIScheduleSvc', function () {
         self.scope.changeView('month', self.scope.selectedCalendar);
 
         /*
-        if (self.scope.formTitle === 'Create New Appointment' || self.scope.iSchedule === true) {
-            console.log("HEEEEE");
-            console.log(self.scope.fields.appointmentDate);
-            self.scope.getAppointmentTimings(self.scope.fields.appointmentType, '', self.scope.fields.doctorAssigned, 'monday', true);
-        }
-        */
+         if (self.scope.formTitle === 'Create New Appointment' || self.scope.iSchedule === true) {
+         console.log("HEEEEE");
+         console.log(self.scope.fields.appointmentDate);
+         self.scope.getAppointmentTimings(self.scope.fields.appointmentType, '', self.scope.fields.doctorAssigned, 'monday', true);
+         }
+         */
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
             if (!self.scope.iSchedule) {
@@ -43,12 +43,21 @@ app.service('enableIScheduleSvc', function () {
                 //self.scope.getISchedule();
                 self.scope.showFilters = false;
             } else {
-                self.scope.drHoLowHeatMap.events.splice(0);
-                self.scope.drHoMedHeatMap.events.splice(0);
-                self.scope.drHoHighHeatMap.events.splice(0);
-                self.scope.drGohLowHeatMap.events.splice(0);
-                self.scope.drGohMedHeatMap.events.splice(0);
-                self.scope.drGohHighHeatMap.events.splice(0);
+
+                self.scope.addRemoveEventSource(self.scope.doctorHoAppointments, self.scope.tempLowHeatMap);
+                self.scope.addRemoveEventSource(self.scope.doctorHoAppointments, self.scope.tempMedHeatMap);
+                self.scope.addRemoveEventSource(self.scope.doctorHoAppointments, self.scope.tempHighHeatMap);
+
+
+                self.scope.tempLowHeatMap.events.splice(0);
+                self.scope.tempMedHeatMap.events.splice(0);
+                self.scope.tempHighHeatMap.events.splice(0);
+                //self.scope.drHoLowHeatMap.events.splice(0);
+                //self.scope.drHoMedHeatMap.events.splice(0);
+                //self.scope.drHoHighHeatMap.events.splice(0);
+                //self.scope.drGohLowHeatMap.events.splice(0);
+                //self.scope.drGohMedHeatMap.events.splice(0);
+                //self.scope.drGohHighHeatMap.events.splice(0);
                 self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
             }
         }
