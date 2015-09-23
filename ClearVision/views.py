@@ -1014,7 +1014,8 @@ class ViewSwapperTable(viewsets.ModelViewSet):
     serializer_class = SwapperSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = Swapper.objects.all().values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
+        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now()).\
+                                                     values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
                                                      'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
                                                      'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id', 'id')
