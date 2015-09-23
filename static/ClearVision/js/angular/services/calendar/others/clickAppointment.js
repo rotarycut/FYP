@@ -63,8 +63,8 @@ angular.module('event.click', [])
                 self.scope.getAppointmentTimings(appointmentTime);
 
                 // navigate to calendar date
-                $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
-                $('#drHoCalendar').fullCalendar('select', appointment.date);
+                //$('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
+                //$('#drHoCalendar').fullCalendar('select', appointment.date);
 
                 // check if the selected appointment has more than one patient
                 if (self.scope.fields.patientList.length === 1) {

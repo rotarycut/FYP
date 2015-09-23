@@ -117,14 +117,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to get heat map */
     $scope.getHeatMap = function (appointmentType, doctorName) {
-        console.log(appointmentType);
-        console.log(doctorName);
+        console.log("GET HEAT MAP : " + appointmentType);
+        console.log("GET HEAT MAP : " + doctorName);
 
-        var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
-        var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
-        var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=1&timeslotType=' + appointmentType + '&upperB=10&lowerB=4&docName=' + doctorName;
+        var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
+        var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
+        var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=15&lowerB=4&docName=' + doctorName;
 
         console.log(lowHeatUrl);
+        console.log($scope.selectedDoctor);
 
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
@@ -137,12 +138,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                         count++;
                     } else {
-                        return;
+                        //return;
                     }
 
-                })
+                });
 
-                $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempLowHeatMap);
+                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempLowHeatMap);
             });
 
         $http.get(medHeatUrl)
@@ -157,11 +158,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                         count++;
                     } else {
-                        return;
+                        //return;
                     }
-                })
+                });
 
-                $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempMedHeatMap);
+                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempMedHeatMap);
             });
 
         $http.get(highHeatUrl)
@@ -176,11 +177,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                         count++;
                     } else {
-                        return;
+                        //return;
                     }
-                })
+                });
 
-                $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempHighHeatMap);
+                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempHighHeatMap);
             });
 
     };
@@ -284,20 +285,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.getAllPatientsName = function (event, element) {
 
         var strOfPatientNames = "";
-        //var haveToolTip = null;
 
         try {
-            //console.log("IN");
             var tooltip = event.tooltip;
 
-            //haveToolTip = true;
-
         } catch (Exception) {
-            //haveToolTip = false;
             return;
         }
 
-        //console.log(haveToolTip);
         try {
             var listOfPatients = event.patients;
 
@@ -307,9 +302,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
         } catch (Exception) {
-            //console.log("Exception");
+
             strOfPatientNames = event.tooltip;
-            //console.log(strOfPatientNames);
             return strOfPatientNames;
         }
 
@@ -509,63 +503,82 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
 
-    $scope.changeCalendar = function (calendarNumber, isTabDisabled, isCalendarTabChange) {
+
+    /*******************************************************************************
+     function to change calendar
+     *******************************************************************************/
+
+
+    $scope.changeCalendar = function (calendarNumber, tabDisabled, isCalendarTabChange) {
 
         // css changes to make all filters underlined
         $scope.legendScreenClicked = "legend-screen-clicked";
         $scope.legendEvalClicked = "legend-preEval-clicked";
         $scope.legendSurgeryClicked = "legend-surgery-clicked";
 
-        if (!isTabDisabled) {
+        // calendarNumber = myCalendar1
+        // tabDisabled = false
+        // isCalendarTabChange = true
+
+        if (!tabDisabled) {
+
+            // tab is enabled
 
             if (calendarNumber != undefined) {
 
+                // selecting tab in calendar
+
+                // set the selected calendar to the selected doctor's calendar
                 $scope.selectedCalendar = calendarNumber;
+
                 if (calendarNumber == "myCalendar1") {
                     $scope.tabs[1].active = false;
                     $scope.tabs[0].active = true;
+                    $scope.changeSelectedDoctor($scope.doctorHoAppointments, $scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries);
 
                 } else {
                     $scope.tabs[0].active = false;
                     $scope.tabs[1].active = true;
+                    $scope.changeSelectedDoctor($scope.doctorGohAppointments, $scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries);
                 }
+
             } else {
+
+                // selecting doctor in the appointment form drop down menu
+
                 if ($scope.fields.doctorAssigned == "Dr Ho") {
                     $scope.selectedCalendar = "myCalendar1";
                     $scope.tabs[1].active = false;
                     $scope.tabs[0].active = true;
+                    $scope.changeSelectedDoctor($scope.doctorHoAppointments, $scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries);
 
                 } else {
                     $scope.calendarNumber = "myCalendar2";
                     $scope.tabs[0].active = false;
                     $scope.tabs[1].active = true;
+                    $scope.changeSelectedDoctor($scope.doctorGohAppointments, $scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries);
                 }
             }
+
+            // ???
             $timeout(function () {
                 if (isCalendarTabChange == undefined) {
                     $scope.enableISchedule();
                 }
-            }, 500);
-
-            /*
-             if (calendarNumber == "myCalendar1") {
-             $scope.selectedDoctor = {
-             drAppointmentArray: $scope.doctorHoAppointments,
-             drScreening: $scope.drHoScreenings,
-             drPreEval: $scope.drHoPreEvaluations,
-             drSurgery: $scope.drHoSurgeries
-             };
-             } else {
-             $scope.selectedDoctor = {
-             drAppointmentArray: $scope.doctorGohAppointments,
-             drScreening: $scope.drGohScreenings,
-             drPreEval: $scope.drGohPreEvaluations,
-             drSurgery: $scope.drGohSurgeries
-             };
-             }
-             */
+            }, 800);
 
         }
+    };
+
+    /* function to change selected doctor */
+    $scope.changeSelectedDoctor = function (drSourceArray, drScreenings, drPreEval, drSurgery) {
+
+        $scope.selectedDoctor = {
+            drAppointmentArray: drSourceArray,
+            drScreening: drScreenings,
+            drPreEval: drPreEval,
+            drSurgery: drSurgery
+        };
     };
 
     /* function to retrieve list of appointment timings */
@@ -798,152 +811,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         date.active = !date.active;
     };
 
-    /*$scope.dates = [
-     {
-     apptDate: 'Wed 18 Aug 2015',
-     apptTimeslots: [
-     {apptTime: "9am"},
-     {apptTime: "1pm"},
-     {apptTime: "2pm"}
-     ]
-     },
-     {
-     apptDate: 'Fri 21 Aug 2015',
-     apptTimeslots: [
-     {apptTime: "11am"},
-     {apptTime: "2pm"},
-     {apptTime: "5pm"}
-     ]
-     }
-     ];*/
-
     $scope.showLeastPackedSlots = function (date) {
         date.active = !date.active;
     };
-
-    $scope.leastPackSlots = [
-        {
-            apptDate: 'Wed 18 Aug 2015',
-            apptTimeslots: [
-                {apptTime: "9am"},
-                {apptTime: "1pm"},
-                {apptTime: "2pm"}
-            ]
-        },
-        {
-            apptDate: 'Fri 21 Aug 2015',
-            apptTimeslots: [
-                {apptTime: "11am"},
-                {apptTime: "2pm"},
-                {apptTime: "5pm"}
-            ]
-        }
-    ];
-
-    /* --- start of create form submit button modal codes --- */
-    $scope.animationsEnabled = true;
-
-    $scope.openCreateModal = function (size) {
-
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myCreateModalContent.html',
-            controller: 'ModalInstanceCtrl',
-            size: size,
-            resolve: {
-                patientInfo: function () {
-                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-
-                    if ($scope.fields.waitingList === "True") {
-                        $scope.fields.hasWaitList = true;
-                    } else {
-                        $scope.fields.hasWaitList = false;
-                    }
-
-                    return $scope.fields;
-                },
-                createTracker: function () {
-
-                    return $scope.trackId;
-                }
-            }
-        });
-    };
-    /* --- end of modal codes --- */
-
-    /* --- start of edit form delete button modal codes --- */
-    $scope.openDeleteModal = function (size) {
-
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myDeleteModalContent.html',
-            controller: 'ModalInstanceCtrl',
-            size: size,
-            resolve: {
-                patientInfo: function () {
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                }
-            }
-        });
-    };
-    /* --- end of modal codes --- */
-
-    /* --- start of edit form update button modal codes --- */
-    $scope.openUpdateModal = function (size) {
-
-        console.log($scope.selectedDoctor);
-
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myUpdateModalContent.html',
-            controller: 'ModalInstanceCtrl',
-            size: size,
-            resolve: {
-                patientInfo: function () {
-
-                    if ($scope.fields.originalAppointmentDate !== $scope.fields.appointmentDate) {
-                        $scope.fields.dateIsChanged = true;
-                    } else {
-                        $scope.fields.dateIsChanged = false;
-                    }
-                    if ($scope.fields.originalAppointmentTime !== $scope.fields.appointmentTime) {
-                        $scope.fields.timeIsChanged = true;
-                    } else {
-                        $scope.fields.timeIsChanged = false;
-                    }
-                    if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType) {
-                        $scope.fields.typeIsChanged = true;
-                    } else {
-                        $scope.fields.typeIsChanged = false;
-                    }
-                    if ($scope.fields.originalAppointmentRemarks !== $scope.fields.appointmentRemarks) {
-                        $scope.fields.remarksIsChanged = true;
-                    } else {
-                        $scope.fields.remarksIsChanged = false;
-                    }
-                    if ($scope.fields.originalPatientContact !== $scope.fields.patientContact) {
-                        $scope.fields.contactIsChanged = true;
-                    } else {
-                        $scope.fields.contactIsChanged = false;
-                    }
-                    if ($scope.fields.originalPatientName !== $scope.fields.patientName) {
-                        $scope.fields.nameIsChanged = true;
-                    } else {
-                        $scope.fields.nameIsChanged = false;
-                    }
-
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                }
-            }
-        });
-    };
-    /* --- end of modal codes --- */
 
     /* function to validate create appointment */
     $scope.isFormValid = function (isValid) {
@@ -1050,13 +920,23 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     ];
 
-    /* initialize calendar appointmnets */
+
+    /*******************************************************************************
+     initialize calendar appointments
+     *******************************************************************************/
+
+
     $scope.initializeAppointments = function () {
         $scope.getDrHoAppointments();
         $scope.getDrGohAppointments();
     };
 
-    /* check time */
+
+    /*******************************************************************************
+     check timing
+     *******************************************************************************/
+
+
     $scope.checkTiming = function () {
         var date = new Date();
         var hour = date.getHours();
@@ -1076,7 +956,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     };
 
-    /* function to record create appointment time in */
+
+    /*******************************************************************************
+     tracking of user action timings
+     *******************************************************************************/
+
+
+    /* start recording create appointment */
     $scope.recordCreationTimeIn = function (userName) {
 
         var date = new Date();
@@ -1099,8 +985,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.trackId = "";
 
-    /* socket programming */
-    $scope.foos = [];
+
+    /*******************************************************************************
+     socket programming
+     *******************************************************************************/
+
+
     $scope.channelCreate = 'createAppt';
     $scope.channelDelete = 'deleteAppt';
     $scope.channelUpdate = 'updateAppt';
@@ -1109,19 +999,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $dragon.subscribe('AppointmentCreate', $scope.channelCreate, null)
             .then(function (response) {
-                //$scope.dataMapper = new DataMapper(response.data);
                 console.log(response);
             });
 
         $dragon.subscribe('AppointmentDelete', $scope.channelDelete, null)
             .then(function (response) {
-                //$scope.dataMapper = new DataMapper(response.data);
                 console.log(response);
             });
 
         $dragon.subscribe('AppointmentUpdate', $scope.channelUpdate, null)
             .then(function (response) {
-                //$scope.dataMapper = new DataMapper(response.data);
                 console.log(response);
             });
 
@@ -1145,9 +1032,119 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     });
 
+
+    /*******************************************************************************
+     modal codes
+     *******************************************************************************/
+
+    $scope.animationsEnabled = true;
+
+    /* function to open create modal */
+    $scope.openCreateModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myCreateModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    //$scope.fields.appointmentDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+
+                    if ($scope.fields.waitingList === "True") {
+                        $scope.fields.hasWaitList = true;
+                    } else {
+                        $scope.fields.hasWaitList = false;
+                    }
+
+                    return $scope.fields;
+                },
+                createTracker: function () {
+
+                    return $scope.trackId;
+                }
+            }
+        });
+    };
+
+    /* function to open delete modal */
+    $scope.openDeleteModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myDeleteModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                }
+            }
+        });
+    };
+
+    /* function to open update modal */
+    $scope.openUpdateModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myUpdateModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+
+                    if ($scope.fields.originalAppointmentDate !== $scope.fields.appointmentDate) {
+                        $scope.fields.dateIsChanged = true;
+                    } else {
+                        $scope.fields.dateIsChanged = false;
+                    }
+                    if ($scope.fields.originalAppointmentTime !== $scope.fields.appointmentTime) {
+                        $scope.fields.timeIsChanged = true;
+                    } else {
+                        $scope.fields.timeIsChanged = false;
+                    }
+                    if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType) {
+                        $scope.fields.typeIsChanged = true;
+                    } else {
+                        $scope.fields.typeIsChanged = false;
+                    }
+                    if ($scope.fields.originalAppointmentRemarks !== $scope.fields.appointmentRemarks) {
+                        $scope.fields.remarksIsChanged = true;
+                    } else {
+                        $scope.fields.remarksIsChanged = false;
+                    }
+                    if ($scope.fields.originalPatientContact !== $scope.fields.patientContact) {
+                        $scope.fields.contactIsChanged = true;
+                    } else {
+                        $scope.fields.contactIsChanged = false;
+                    }
+                    if ($scope.fields.originalPatientName !== $scope.fields.patientName) {
+                        $scope.fields.nameIsChanged = true;
+                    } else {
+                        $scope.fields.nameIsChanged = false;
+                    }
+
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                }
+            }
+        });
+    };
+
 });
 
-/* controller for modal instance */
+
+/*******************************************************************************
+ controller for modal instance
+ *******************************************************************************/
+
+
 appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, createTracker, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
     $scope.trackerId = createTracker;
