@@ -5,8 +5,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  searchContact, appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
-                                                 filterAppointmentSvc, $interval, $dragon, getTodayAppointmentSvc, getPatientQueueSvc,
-                                                 getNoShowSvc) {
+                                                 filterAppointmentSvc, $interval, $dragon, populatePatientsSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -32,6 +31,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     hideFormSvc.getScope($scope);
     eventClickSvc.getScope($scope);
     filterAppointmentSvc.getScope($scope);
+    populatePatientsSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
@@ -642,39 +642,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to populate patient details upon selection on the edit appointment form */
     $scope.populatePatientDetails = function () {
-        console.log($scope.fields.selectedPatient.name);
-        var patientName = $scope.fields.selectedPatient.name;
-
-        angular.forEach($scope.fields.patientList, function (patient) {
-            if (patientName === patient.name) {
-                $scope.fields.patientName = patient.name;
-                $scope.fields.patientContact = patient.contact;
-                $scope.fields.marketingChannel = patient.marketingname;
-                $scope.fields.patientId = patient.id;
-                $scope.fields.originalPatientName = patient.name;
-                $scope.fields.originalPatientContact = patient.contact;
-            }
-        })
-        console.log("APPT ID " + $scope.fields.appointmentId);
-        var url = '/Clearvision/_api/Remarks/?patient=' + $scope.fields.patientId + '&appt=' + $scope.fields.appointmentId;
-
-        $http.get(url)
-            .success(function (patientAppointment) {
-                $scope.fields.appointmentRemarks = patientAppointment.remarks;
-                $scope.fields.originalAppointmentRemarks = patientAppointment.remarks;
-            })
-
-            .error(function () {
-                console.log("Error getting patient's appointment remarks.");
-            });
-
-        for (var field in $scope.form.showFields) {
-            $scope.form.showFields[field] = true;
-        }
-
-        $scope.form.showButtons['editForm'] = true;
-
-        $scope.enableISchedule();
+        populatePatientsSvc.populatePatientDetails();
     };
 
     /* function to splice appointments */
