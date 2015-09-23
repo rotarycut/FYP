@@ -22,21 +22,19 @@ app.service('enableIScheduleSvc', function () {
             return;
         }
 
-        self.scope.changeView('month', self.scope.selectedCalendar);
-
-        /*
-         if (self.scope.formTitle === 'Create New Appointment' || self.scope.iSchedule === true) {
-         console.log("HEEEEE");
-         console.log(self.scope.fields.appointmentDate);
-         self.scope.getAppointmentTimings(self.scope.fields.appointmentType, '', self.scope.fields.doctorAssigned, 'monday', true);
-         }
-         */
+        // change the calendar view to week view
+        self.scope.changeView('agendaWeek', self.scope.selectedCalendar);
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
+
+            // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
+
+                // iSchedule is not previously enabled
                 self.scope.showHeatMap = true;
                 self.scope.iSchedule = true;
 
+                // remove all the appointments on the calendar
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
@@ -44,28 +42,29 @@ app.service('enableIScheduleSvc', function () {
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
 
+                // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
                 //self.scope.getISchedule();
                 self.scope.showFilters = false;
+
             } else {
 
+                // iSchedule is already enabled
+
+                // remove all the low, medium, high heat map from the source array
                 self.scope.addRemoveEventSource(self.scope.doctorHoAppointments, self.scope.tempLowHeatMap);
                 self.scope.addRemoveEventSource(self.scope.doctorHoAppointments, self.scope.tempMedHeatMap);
                 self.scope.addRemoveEventSource(self.scope.doctorHoAppointments, self.scope.tempHighHeatMap);
 
-
+                // remove all the appointments in each of the low, medium and high heat map
                 self.scope.tempLowHeatMap.events.splice(0);
                 self.scope.tempMedHeatMap.events.splice(0);
                 self.scope.tempHighHeatMap.events.splice(0);
-                //self.scope.drHoLowHeatMap.events.splice(0);
-                //self.scope.drHoMedHeatMap.events.splice(0);
-                //self.scope.drHoHighHeatMap.events.splice(0);
-                //self.scope.drGohLowHeatMap.events.splice(0);
-                //self.scope.drGohMedHeatMap.events.splice(0);
-                //self.scope.drGohHighHeatMap.events.splice(0);
+
+                // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
+
             }
         }
     }
-
 });

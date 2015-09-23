@@ -70,42 +70,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         events: []
     };
 
-    $scope.drHoLowHeatMap = {
-        color: '#00B499',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drHoMedHeatMap = {
-        color: '#E7A83E',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drHoHighHeatMap = {
-        color: '#EA525F',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohLowHeatMap = {
-        color: '#00B499',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohMedHeatMap = {
-        color: '#FF9966',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohHighHeatMap = {
-        color: '#EA525F',
-        textColor: 'White',
-        events: []
-    };
-
     $scope.tempLowHeatMap = {
         color: '#00B499',
         textColor: 'White',
@@ -126,7 +90,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* event sources array */
     $scope.doctorHoAppointments = [];
-    $scope.doctorGohAppointments = [$scope.drGohLowHeatMap, $scope.drGohMedHeatMap, $scope.drGohHighHeatMap];
+    $scope.doctorGohAppointments = [];
 
     $scope.selectedDoctor = {
         drAppointmentArray: $scope.doctorHoAppointments,
@@ -149,25 +113,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.appointments.push(appointment);
                 });
             })
-    };
-
-    /* function to retrieve low heat map for iSchedule */
-    $scope.getLowHeatMap = function () {
-
-        $http.get('http://demo4552602.mockable.io/lowHeatmap')
-            .success(function (listOfAppointments) {
-                var lowHeatMap = listOfAppointments;
-
-                $timeout(function () {
-                    angular.forEach(lowHeatMap, function (appointment) {
-                        $scope.lowHeatMap.events.push(appointment);
-                    })
-                }, 200);
-
-            })
-            .error(function () {
-                console.log("Error getting low heat map");
-            });
     };
 
     /* function to get heat map */
@@ -198,7 +143,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 })
 
                 $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempLowHeatMap);
-            })
+            });
+
         $http.get(medHeatUrl)
             .success(function (listOfAppointments) {
                 var count = 0;
@@ -216,7 +162,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 })
 
                 $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempMedHeatMap);
-            })
+            });
+
         $http.get(highHeatUrl)
             .success(function (listOfAppointments) {
                 var count = 0;
@@ -234,7 +181,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 })
 
                 $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.tempHighHeatMap);
-            })
+            });
+
     };
 
     /* event source that calls a function on every view switch */
@@ -398,18 +346,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohScreenings);
         $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
         $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-        //$scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohLowHeatMap);
-        //$scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohMedHeatMap);
-        //$scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohHighHeatMap);
     };
 
     $scope.addRemoveDrHoSources = function () {
         $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
         $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
         $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-        //$scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoLowHeatMap);
-        //$scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoMedHeatMap);
-        //$scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoHighHeatMap);
     };
 
 
