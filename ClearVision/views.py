@@ -1043,6 +1043,14 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
         return HttpResponse('Success')
 
+    def destroy(self, request, *args, **kwargs):
+        data = request.data
+
+        swapperId = data.get('swapperId')
+
+        Swapper.objects.get(id=swapperId).delete()
+        return Response('Success')
+
 
 class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
