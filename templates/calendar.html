@@ -157,7 +157,7 @@
                         <label class="control-label">Appointment Type</label>
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
                                 ng-model="fields.appointmentType" name="appointmentType"
-                                ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}');"
+                                ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings();"
                                 required>
                         </select>
 
@@ -175,7 +175,7 @@
                         <label class="control-label">Doctor</label>
                         <select class="form-control" ng-options="doc for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor" ng-change="changeCalendar();"
+                                ng-disabled="form.disableFields.doctor" ng-change="changeCalendar(); getAppointmentTimings();"
                                 required>
                         </select>
 
@@ -284,7 +284,7 @@
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
                                            show-button-bar="false"
-                                           ng-change="navigateToDate()"
+                                           ng-change="navigateToDate(); getAppointmentTimings();"
                                            ng-disabled="true"
                                             />
 

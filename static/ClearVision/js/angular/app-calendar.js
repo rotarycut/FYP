@@ -168,7 +168,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 51) {
+                    if (count <= 151) {
                         $scope.drGohLowHeatMap.events.push(appointment);
                         $scope.drHoLowHeatMap.events.push(appointment);
 
@@ -599,15 +599,74 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve list of appointment timings */
-    $scope.getAppointmentTimings = function (apptType, apptTime, doctorAssigned) {
+    $scope.getAppointmentTimings = function () {
 
-        $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctorAssigned)
-            .success(function (listOfTimings) {
-                console.log(listOfTimings);
-                $scope.listOfAppointmentTimings = listOfTimings;
-                $scope.fields.appointmentTime = apptTime;
-                console.log(apptTime);
-            });
+        var apptType = $scope.fields.appointmentType;
+        var doctor = $scope.fields.doctorAssigned;
+        var date = $scope.fields.appointmentDate;
+
+        if (apptType != undefined && doctor != undefined && date != undefined) {
+
+            var d = new Date(date);
+
+            var currentDay = new Date();
+            var isCurrentDay;
+
+            if (currentDay.toDateString() === d.toDateString()) {
+                isCurrentDay = "True";
+            } else {
+                isCurrentDay = "False";
+            }
+
+            switch (d.getDay()) {
+
+                case 0:
+
+                    d = "Sunday";
+                    break;
+
+                case 1:
+
+                    d = "Monday";
+                    break;
+
+                case 2:
+
+                    d = "Tuesday";
+                    break;
+
+                case 3:
+
+                    d = "Wednesday";
+                    break;
+
+                case 4:
+
+                    d = "Thursday";
+                    break;
+
+                case 5:
+
+                    d = "Friday";
+                    break;
+
+                case 6:
+
+                    d = "Saturday";
+                    break;
+
+            }
+
+            $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctor + "&day=" + d + "&today=" + isCurrentDay)
+                .success(function (listOfTimings) {
+
+                    $scope.listOfAppointmentTimings = listOfTimings;
+                    //$scope.fields.appointmentTime = apptTime;
+                    //console.log(apptTime);
+                });
+
+        }
+
     };
 
     /* function to populate patient details upon selection on the edit appointment form */

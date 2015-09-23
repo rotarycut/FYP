@@ -122,11 +122,11 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.mainTableWidth = "col-md-10";
     };
 
-    $scope.revertFromQueue = function (apptId, patientContact) {
+    $scope.revertFromQueue = function (apptId, patientId) {
 
         $http.post('/Clearvision/_api/ViewPatientQueue/', {
             "apptId": apptId,
-            "patient": patientContact
+            "patient": patientId
         })
             .success(function (data) {
                 console.log("Success reverting");

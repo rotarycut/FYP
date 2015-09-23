@@ -19,10 +19,13 @@ app.service('enableIScheduleSvc', function () {
 
         self.scope.changeView('month', self.scope.selectedCalendar);
 
-
+        /*
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.iSchedule === true) {
-            self.scope.getAppointmentTimings(self.scope.fields.appointmentType, '', self.scope.fields.doctorAssigned);
+            console.log("HEEEEE");
+            console.log(self.scope.fields.appointmentDate);
+            self.scope.getAppointmentTimings(self.scope.fields.appointmentType, '', self.scope.fields.doctorAssigned, 'monday', true);
         }
+        */
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
             if (!self.scope.iSchedule) {
