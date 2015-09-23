@@ -2,6 +2,7 @@ var appPatientQueue = angular.module('app.patientQueue', []);
 
 appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, $dragon, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc) {
 
+    $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     $scope.CurrentDate = new Date();
     $scope.mainTableWidth = "col-md-8";
 
@@ -9,7 +10,6 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     addToArchiveSvc.getScope($scope);
     getTodayAppointmentSvc.getScope($scope);
     getPatientQueueSvc.getScope($scope);
-
 
     $scope.totalItems = 24;
     $scope.currentPage = 1;
@@ -21,23 +21,42 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     $scope.orderByField = 'timeBucket__start';
     $scope.reverseSort = false;
 
-    $scope.getNoShow = function () {
-        getNoShowSvc.getNoShow();
-    };
 
+    /*******************************************************************************
+     function to get
+     *******************************************************************************/
+
+
+    /* function to get today appointments */
     $scope.getTodayAppointments = function () {
         getTodayAppointmentSvc.getTodayAppointments();
     };
 
+    /* function to get patient queue */
     $scope.getPatientQueue = function () {
         getPatientQueueSvc.getPatientQueue();
     };
 
-    $scope.sortByField = function (field) {
-        $scope.orderByField = field;
-        $scope.reverseSort = !$scope.reverseSort;
+    /* function to get no show */
+    $scope.getNoShow = function () {
+        getNoShowSvc.getNoShow();
     };
 
+    /* function to get archive */
+    $scope.getArchive = function () {
+        $http.get('/Clearvision/_api/ViewArchive/')
+            .success(function (data) {
+                $scope.archiveList = data;
+            });
+    };
+
+
+    /*******************************************************************************
+     function to add
+     *******************************************************************************/
+
+
+    /* function to add to queue */
     $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
 
         if (doctor === "Dr Ho") {
@@ -62,11 +81,9 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
                 $scope.getTodayAppointments();
                 $scope.getPatientQueue();
             });
-
-        console.log($scope.postToQueue);
-
     };
 
+    /* function to add to no show */
     $scope.addToNoShow = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
 
         if (doctor === "Dr Ho") {
@@ -95,13 +112,34 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         console.log($scope.postToNoShow);
     };
 
-    $scope.getArchive = function () {
 
-        $http.get('/Clearvision/_api/ViewArchive/')
+    /*******************************************************************************
+     function to revert
+     *******************************************************************************/
+
+
+    $scope.revertFromQueue = function (apptId, patientId) {
+
+        $http.post('/Clearvision/_api/ViewPatientQueue/', {
+            "apptId": apptId,
+            "patient": patientId
+        })
             .success(function (data) {
-                $scope.archiveList = data;
+                console.log("Success reverting");
+                $scope.getTodayAppointments();
+                $scope.getPatientQueue();
+                $scope.getNoShow();
+            })
+            .error(function (data) {
+                console.log("Error reverting");
             });
     };
+
+
+    /*******************************************************************************
+     placeholder
+     *******************************************************************************/
+
 
     $scope.showQueue = true;
     $scope.showApptList = function () {
@@ -122,21 +160,9 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.mainTableWidth = "col-md-10";
     };
 
-    $scope.revertFromQueue = function (apptId, patientId) {
-
-        $http.post('/Clearvision/_api/ViewPatientQueue/', {
-            "apptId": apptId,
-            "patient": patientId
-        })
-            .success(function (data) {
-                console.log("Success reverting");
-                $scope.getTodayAppointments();
-                $scope.getPatientQueue();
-                $scope.getNoShow();
-            })
-            .error(function (data) {
-                console.log("Error reverting");
-            });
+    $scope.sortByField = function (field) {
+        $scope.orderByField = field;
+        $scope.reverseSort = !$scope.reverseSort;
     };
 
     $scope.rescheduleAppointment = function (appointmentId) {
@@ -172,7 +198,12 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         }
     };
 
-    /* --- start of edit form delete button modal codes --- */
+
+    /*******************************************************************************
+     modal codes
+     *******************************************************************************/
+
+
     $scope.animationsEnabled = true;
 
     $scope.openRemarksModal = function (id, remarks, size) {
@@ -210,12 +241,13 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             }
         });
     }
-    /* --- end of modal codes --- */
-
-    $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 
-    /* socket programming */
+    /*******************************************************************************
+     socket programming
+     *******************************************************************************/
+
+
     $scope.channelQueue = 'queue';
 
     $dragon.onReady(function () {
@@ -242,9 +274,22 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
 });
 
-/* controller for modal instance */
+
+/*******************************************************************************
+ controller for modal instance
+ *******************************************************************************/
+
+
 appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalInstance, remarkInfo, appointmentId, $http, getNoShowSvc, addToArchiveSvc) {
+
     $scope.remarkDetails = remarkInfo;
+    $scope.id = appointmentId;
+
+
+    /*******************************************************************************
+     function to post remarks
+     *******************************************************************************/
+
 
     $scope.postRemarks = function () {
 
@@ -259,11 +304,21 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
             });
     };
 
+
+    /*******************************************************************************
+     function to cancel
+     *******************************************************************************/
+
+
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
-    $scope.id = appointmentId;
+
+    /*******************************************************************************
+     function to add to archive
+     *******************************************************************************/
+
 
     $scope.addToArchive = function (attendedAppointmentId) {
         console.log(attendedAppointmentId);
@@ -271,7 +326,12 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
         $scope.cancel();
     };
 
-    /* function to receive cancellation reasons */
+
+    /*******************************************************************************
+     function to retrieve cancellation reasons
+     *******************************************************************************/
+
+
     $scope.retrieveCancellationReasons = function () {
         $http.get('/Clearvision/_api/ViewCancellationReasons/')
             .success(function (data) {
@@ -279,7 +339,15 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
             })
     };
 
+
+    /*******************************************************************************
+     function to activate modal buttons
+     *******************************************************************************/
+
+
     $scope.activateModalButtons = function () {
         $scope.showModalButtons = true;
     };
+
+
 });

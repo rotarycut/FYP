@@ -121,6 +121,7 @@ angular.module('post.appointment', [])
                     "tempTime": self.scope.fields.waitingTime
                 })
                     .success(function (data) {
+
                         console.log("Successful with http post");
 
                         // check the appointment type of the created appointment
