@@ -2,37 +2,47 @@ angular.module('event.click', [])
     .service('eventClickSvc', function (clearFormSvc, $timeout) {
 
         var self = this;
-        self._scope = {};
+        self.scope = {};
 
         self.getScope = function (scope) {
-            self._scope = scope;
+            self.scope = scope;
         };
+
+
+        /*******************************************************************************
+         function on event click
+         *******************************************************************************/
+
 
         self.eventClick = function (appointment, isNoShowReschedule) {
 
-            if (!self._scope.iSchedule) {
+            // check if iSchedule is already enabled
+            if (!self.scope.iSchedule) {
 
+                // iSchedule is not previously enabled
+
+                // check if it is coming from no show reschedule
                 if (isNoShowReschedule) {
-                    self._scope.isNoShowReschedule = true;
+                    self.scope.isNoShowReschedule = true;
                 } else {
-                    self._scope.isNoShowReschedule = false;
+                    self.scope.isNoShowReschedule = false;
                 }
 
+                // clear the appointment form
                 clearFormSvc.clearForm();
-                self._scope.alertMessage = (appointment.title + ' was clicked ');
-                self._scope.fields.appointmentId = appointment.id;
-                self._scope.fields.patientList = appointment.patients;
-                self._scope.fields.appointmentType = appointment.apptType;
-                self._scope.fields.appointmentDate = appointment.date;
 
+                // set variable fields to form
+                self.scope.fields.appointmentId = appointment.id;
+                self.scope.fields.patientList = appointment.patients;
+                self.scope.fields.appointmentType = appointment.apptType;
+                self.scope.fields.appointmentDate = appointment.date;
+
+                // set doctor assigned
                 if (appointment.doctor === 1) {
-                    self._scope.fields.doctorAssigned = "Dr Goh";
+                    self.scope.fields.doctorAssigned = "Dr Goh";
                 } else if (appointment.doctor === 2) {
-                    self._scope.fields.doctorAssigned = "Dr Ho";
+                    self.scope.fields.doctorAssigned = "Dr Ho";
                 }
-
-                self._scope.fields.originalAppointmentType = appointment.apptType;
-                self._scope.fields.originalAppointmentDate = appointment.date;
 
                 try {
                     var appointmentFullDateTime = appointment._start._i;
@@ -44,40 +54,49 @@ angular.module('event.click', [])
                 var colonIndex = appointmentFullDateTime.lastIndexOf(":");
                 var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
 
-                console.log(appointmentTime);
-                self._scope.fields.originalAppointmentTime = appointmentTime;
-                self._scope.getAppointmentTimings(self._scope.fields.appointmentType, appointmentTime, self._scope.fields.doctorAssigned);
+                // set variables of original form fields
+                self.scope.fields.originalAppointmentType = appointment.apptType;
+                self.scope.fields.originalAppointmentDate = appointment.date;
+                self.scope.fields.originalAppointmentTime = appointmentTime;
 
+                // set variable of appointment timings
+                self.scope.getAppointmentTimings(appointmentTime);
+
+                // navigate to calendar date
                 $('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
                 $('#drHoCalendar').fullCalendar('select', appointment.date);
 
-                if (self._scope.fields.patientList.length === 1) {
-                    self._scope.showForm('EditOnePatient');
+                // check if the selected appointment has more than one patient
+                if (self.scope.fields.patientList.length === 1) {
+
+                    // selected appointment has only one patient
+                    self.scope.showForm('EditOnePatient');
 
                     $timeout(function () {
-                        self._scope.fields.selectedPatient = appointment.patients[0];
-                        self._scope.populatePatientDetails();
+                        self.scope.fields.selectedPatient = appointment.patients[0];
+                        self.scope.populatePatientDetails();
                     }, 1000);
 
-                    //console.log(appointment.patients[0].name);
                 } else {
-                    self._scope.showForm('Edit');
+
+                    // selected appointment has more than one patient
+                    self.scope.showForm('Edit');
                 }
 
-                /*var noOfPatients = appointment.patients.length;
-
-                 if (noOfPatients === 1) {
-                 console.log("1 patient");
-                 $scope.fields.selectedPatient = appointment.patients[0].name;
-                 console.log($scope.fields.selectedPatient);
-                 }*/
-
             } else {
-                self._scope.fields.appointmentDate = appointment.date;
+
+                // iSchedule is already enabled
+
+                // populate the date field on selection of other heat map date time
+                self.scope.fields.appointmentDate = appointment.date;
+
                 var appointmentFullDateTime = appointment.start._i;
                 var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
                 var colonIndex = appointmentFullDateTime.lastIndexOf(":");
-                self._scope.fields.appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+                var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+
+                // populate the time field on selection of other heat map date time
+                self.scope.getAppointmentTimings(appointmentTime);
             }
 
         };

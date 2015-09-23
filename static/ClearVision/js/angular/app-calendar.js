@@ -569,7 +569,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve list of appointment timings */
-    $scope.getAppointmentTimings = function () {
+    $scope.getAppointmentTimings = function (populateTiming) {
 
         var apptType = $scope.fields.appointmentType;
         var doctor = $scope.fields.doctorAssigned;
@@ -631,12 +631,13 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 .success(function (listOfTimings) {
 
                     $scope.listOfAppointmentTimings = listOfTimings;
-                    //$scope.fields.appointmentTime = apptTime;
-                    //console.log(apptTime);
+
+                    if (populateTiming != undefined) {
+                        $scope.fields.appointmentTime = populateTiming;
+                    }
                 });
 
         }
-
     };
 
     /* function to populate patient details upon selection on the edit appointment form */
