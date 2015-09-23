@@ -969,7 +969,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
                                                )
-            publish_data(channel=queue, data={})
+            publish_data(channel='queue', data={})
         else:
             associatedPAction.addedToQueue = False
             associatedPAction.save()
