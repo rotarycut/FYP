@@ -45,5 +45,19 @@
         1
       ]
     }
+  },
+  {
+    "model": "ClearVision.Doctor",
+    "pk": 3,
+
+    "fields": {
+      "name": "Optometrist",
+      "phoneModel": "Apple",
+      "calDavAccount": "example3@abc.com",
+      "contact": "9031451",
+      "clinic": [
+        1
+      ]
+    }
   }
 ]

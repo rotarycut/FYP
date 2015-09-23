@@ -267,7 +267,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                    registrationDate=datetime.now())
 
         p = Patient.objects.get(contact=patientContact, name=patientName)
-        apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate).id
+        apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate, doctors=docID).id
 
         if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType).exists():
 
@@ -289,7 +289,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             if isWaitingList == 'True':
 
                 tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType,
-                                                                      date=tempApptDate).id
+                                                                      date=tempApptDate, doctors=docID).id
 
                 if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket,
                                               apptType=apptType).exists():
@@ -332,7 +332,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             if isWaitingList == 'True':
 
                 tempApptTimeBucketID = AvailableTimeSlots.objects.get(start=tempApptTimeBucket, timeslotType=apptType,
-                                                                      date=tempApptDate).id
+                                                                      date=tempApptDate, doctors=docID).id
 
                 if Appointment.objects.filter(date=tempApptDate, timeBucket__start=tempApptTimeBucket,
                                               apptType=apptType).exists():
@@ -394,7 +394,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         """
 
         apptTimeBucketID = AvailableTimeSlots.objects.filter(start=futureApptTimeBucket, date=futureApptDate,
-                                                             timeslotType=apptType)
+                                                             timeslotType=apptType, doctors=docID)
 
         if Appointment.objects.filter(date=futureApptDate, timeBucket__start=futureApptTimeBucket,
                                       apptType=apptType, timeBucket__id=apptTimeBucketID).exists():
