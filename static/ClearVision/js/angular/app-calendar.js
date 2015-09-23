@@ -1018,17 +1018,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         console.log(channels[0]);
         console.log(message.data);
 
-        if (channels[0] === "createAppt") {
-            postAppointmentSvc.postAppointment(message.data, true);
-        }
+        $timeout(function () {
+            if (channels[0] === "createAppt") {
+                postAppointmentSvc.postAppointment(message.data, true);
+            }
 
-        else if (channels[0] === "deleteAppt") {
-            deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
-        }
+            else if (channels[0] === "deleteAppt") {
+                deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
+            }
 
-        else if (channels[0] === "updateAppt") {
-            //updateAppointmentSvc.updateAppointment(message.data, true);
-        }
+            else if (channels[0] === "updateAppt") {
+                //updateAppointmentSvc.updateAppointment(message.data, true);
+            }
+        }, 5000);
 
     });
 
