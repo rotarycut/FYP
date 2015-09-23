@@ -783,7 +783,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $timeout(function () {
             $scope.form.showForm = true;
-        }, 800);
+        }, 600);
 
         angular.forEach($scope.tabs, function (tab) {
             tab.disable = true;

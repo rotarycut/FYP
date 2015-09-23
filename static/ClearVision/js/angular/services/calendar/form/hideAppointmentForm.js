@@ -40,7 +40,7 @@ angular.module('hide.form', [])
                 });
 
                 self._scope.form.showButtons['addAndBlock'] = true;
-            }, 800);
+            }, 600);
 
         };
 

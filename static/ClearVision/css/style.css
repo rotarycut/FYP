@@ -297,7 +297,7 @@ ul.legend-ul li{
     -webkit-transition-timing-function: ease-in-out;
     -webkit-transition-delay: 0s;
     -webkit-transition: width 3s;
-    transition: width 0.8s;
+    transition: width 0.6s;
 }
 
 .left-content-resize{
@@ -308,7 +308,7 @@ ul.legend-ul li{
     -webkit-transition-duration: 1s;
     -webkit-transition-timing-function: ease-in-out;
     -webkit-transition: width 3s;
-    transition: width 0.8s;
+    transition: width 0.6s;
     -webkit-transition-delay: 0s;
 }
 

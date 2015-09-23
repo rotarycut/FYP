@@ -7,8 +7,13 @@ app.service('enableIScheduleSvc', function () {
 
     self.getScope = function (scope) {
         self.scope = scope;
-
     };
+
+
+    /*******************************************************************************
+     function to enable iSchedule
+     *******************************************************************************/
+
 
     self.enableISchedule = function () {
 
