@@ -1002,6 +1002,7 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         apptType = request.query_params.get('apptType')
         docName = request.query_params.get('docName')
         day = request.query_params.get('day')
+        today = request.query_params.get('today')
 
         response_data = []
 
@@ -1059,9 +1060,10 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         response_data = list(response_data)
         response_data_orig = list(response_data)
 
-        for eachObj in response_data_orig:
-            if eachObj['start'] < datetime.now().time():
-                response_data.remove(eachObj)
+        if today == 'True':
+            for eachObj in response_data_orig:
+                if eachObj['start'] < datetime.now().time():
+                    response_data.remove(eachObj)
 
         timings = []
 
@@ -1267,6 +1269,7 @@ class PatientQueue(viewsets.ModelViewSet):
         associatedPAction.addedToQueue = None
         associatedPAction.save()
 
+        publish_data(channel='queue', data={})
         return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
@@ -1357,8 +1360,6 @@ def RecordUserActionsTimeOut(request):
         toUpdateTimeOut = UserTracking.objects.get(id=trackerId)
         toUpdateTimeOut.timeOut = timeOut
         toUpdateTimeOut.save()
-
-
 
     return HttpResponse('Success')
 
