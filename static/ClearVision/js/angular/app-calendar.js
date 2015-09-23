@@ -83,7 +83,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.tempHighHeatMap = {
-        color: '#00B499',
+        color: '#EA525F',
         textColor: 'White',
         events: []
     };
@@ -1018,6 +1018,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         console.log(channels[0]);
         console.log(message.data);
 
+
         $timeout(function () {
             if (channels[0] === "createAppt") {
                 postAppointmentSvc.postAppointment(message.data, true);
@@ -1030,7 +1031,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             else if (channels[0] === "updateAppt") {
                 //updateAppointmentSvc.updateAppointment(message.data, true);
             }
-        }, 5000);
+
+        }, 3000);
 
     });
 
@@ -1038,6 +1040,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /*******************************************************************************
      modal codes
      *******************************************************************************/
+
 
     $scope.animationsEnabled = true;
 

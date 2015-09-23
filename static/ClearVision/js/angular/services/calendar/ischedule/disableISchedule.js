@@ -43,7 +43,7 @@ app.service('disableIScheduleSvc', function ($timeout) {
                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
 
 
-            }, 2000);
+            }, 1000);
 
             self.scope.showFilters = true;
         }
