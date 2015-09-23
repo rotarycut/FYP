@@ -1,5 +1,6 @@
 import base64
 from datetime import timedelta, datetime
+from itertools import chain
 import json
 from operator import itemgetter
 from django.views.decorators.csrf import csrf_exempt
@@ -668,10 +669,14 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         lowerB = request.query_params.get('lowerB')
         docName = request.query_params.get('docName')
 
-        response_data = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
-                                                        date__gte=datetime.now(),
-                                                        availabletimeslots__timeslotType=type,
-                                                        availabletimeslots__doctors__name=docName). \
+        response_data = []
+
+        if type == 'Surgery':
+            monday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Monday',
+                                                            availabletimeslots__start__in=settings.MONDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -679,6 +684,153 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             annotate(apptId=F('availabletimeslots__appointment__id')). \
             filter(title__lte=upperB, title__gte=lowerB, ). \
             values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            tuesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Tuesday',
+                                                            availabletimeslots__start__in=settings.TUESDAY_SLOTS_SURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            wednesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Wednesday',
+                                                            availabletimeslots__start__in=settings.WEDNESDAY_SLOTS_SURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            thursday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Thursday',
+                                                            availabletimeslots__start__in=settings.THURSDAY_SLOTS_SURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            friday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Friday',
+                                                            availabletimeslots__start__in=settings.FRIDAY_SLOTS_SURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            saturday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Saturday',
+                                                            availabletimeslots__start__in=settings.SATURDAY_SLOTS_SURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            response_data = chain(monday, tuesday, wednesday, thursday, friday, saturday)
+        else:
+            monday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Monday',
+                                                            availabletimeslots__start__in=settings.MONDAY_SLOTS_NONSURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            tuesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Tuesday',
+                                                            availabletimeslots__start__in=settings.TUESDAY_SLOTS_NONSURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            wednesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Wednesday',
+                                                            availabletimeslots__start__in=settings.WEDNESDAY_SLOTS_NONSURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            thursday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Thursday',
+                                                            availabletimeslots__start__in=settings.THURSDAY_SLOTS_NONSURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            friday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Friday',
+                                                            availabletimeslots__start__in=settings.FRIDAY_SLOTS_NONSURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            saturday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
+                                                            date__gte=datetime.now(),
+                                                            availabletimeslots__timeslotType=type,
+                                                            availabletimeslots__doctors__name=docName, day='Saturday',
+                                                            availabletimeslots__start__in=settings.SATURDAY_SLOTS_NONSURGERY). \
+            annotate(title=Count('availabletimeslots__appointment__patients')). \
+            annotate(timeslotType=F('availabletimeslots__timeslotType')). \
+            annotate(start=F('availabletimeslots__start')). \
+            annotate(end=F('availabletimeslots__end')). \
+            annotate(apptId=F('availabletimeslots__appointment__id')). \
+            filter(title__lte=upperB, title__gte=lowerB, ). \
+            values('day', 'date', 'start', 'end', 'apptId', 'timeslotType', 'title').order_by('date', 'start')
+
+            response_data = chain(monday, tuesday, wednesday, thursday, friday, saturday)
 
         response_data = list(response_data)
         response_data_orig = list(response_data)
@@ -692,7 +844,6 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             heatMapSlotTime = datetime.strptime(eachObj['start'], '%Y-%m-%d %H:%M:%S')
             if heatMapSlotTime < datetime.now():
                 response_data.remove(eachObj)
-
         return Response(response_data)
 
 
@@ -850,9 +1001,67 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         apptType = request.query_params.get('apptType')
         docName = request.query_params.get('docName')
+        day = request.query_params.get('day')
 
-        response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName,). \
-            values('start', ).distinct().order_by('start')
+        response_data = []
+
+        if apptType == 'Surgery':
+            if day == 'Monday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.MONDAY_SLOTS_SURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Tuesday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.TUESDAY_SLOTS_SURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Wednesday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.WEDNESDAY_SLOTS_SURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Thursday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.THURSDAY_SLOTS_SURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Friday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.FRIDAY_SLOTS_SURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Saturday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.SATURDAY_SLOTS_SURGERY). \
+                    values('start', ).distinct().order_by('start')
+        else:
+            if day == 'Monday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.MONDAY_SLOTS_NONSURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Tuesday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.TUESDAY_SLOTS_NONSURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Wednesday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.WEDNESDAY_SLOTS_NONSURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Thursday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.THURSDAY_SLOTS_NONSURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Friday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.FRIDAY_SLOTS_NONSURGERY). \
+                    values('start', ).distinct().order_by('start')
+            elif day == 'Saturday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
+                                                                  start__in=settings.SATURDAY_SLOTS_NONSURGERY). \
+                    values('start', ).distinct().order_by('start')
+
+        response_data = list(response_data)
+        response_data_orig = list(response_data)
+
+        for eachObj in response_data_orig:
+            if eachObj['start'] < datetime.now().time():
+                response_data.remove(eachObj)
 
         timings = []
 

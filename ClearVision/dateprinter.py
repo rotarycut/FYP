@@ -238,68 +238,38 @@ for months in range(0, 13):
 
 
 totalTimeslots = []
-doctors = [2]
+doctors = [2,1]
 doctors1 = [1]
 
 startTime = datetime.datetime(100, 1, 1, 9, 00)
 
 for j in blank:
-    for k in range(1, 3):
+    for k in range(1, 19):
         totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
         {"timeslotType": "Screening", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
         "date": str(j), "doctors": doctors}})
         startTime = startTime + datetime.timedelta(minutes=30)
     startTime = datetime.datetime(100, 1, 1, 9, 00)
 
-startTime = datetime.datetime(100, 1, 1, 10, 00)
+startTime = datetime.datetime(100, 1, 1, 9, 00)
 
 for j in blank:
-    for k in range(1, 3):
-        totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
-        {"timeslotType": "Screening", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
-        "date": str(j), "doctors": doctors1}})
-        startTime = startTime + datetime.timedelta(minutes=30)
-    startTime = datetime.datetime(100, 1, 1, 10, 00)
-
-startTime = datetime.datetime(100, 1, 1, 12, 00)
-
-for j in blank:
-    for k in range(1, 3):
+    for k in range(1, 19):
         totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
         {"timeslotType": "Pre Evaluation", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
         "date": str(j), "doctors": doctors}})
         startTime = startTime + datetime.timedelta(minutes=30)
-    startTime = datetime.datetime(100, 1, 1, 12, 00)
+    startTime = datetime.datetime(100, 1, 1, 9, 00)
 
-startTime = datetime.datetime(100, 1, 1, 13, 00)
-
-for j in blank:
-    for k in range(1, 3):
-        totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
-        {"timeslotType": "Pre Evaluation", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
-        "date": str(j), "doctors": doctors1}})
-        startTime = startTime + datetime.timedelta(minutes=30)
-    startTime = datetime.datetime(100, 1, 1, 13, 00)
-
-startTime = datetime.datetime(100, 1, 1, 15, 00)
+startTime = datetime.datetime(100, 1, 1, 9, 00)
 
 for j in blank:
-    for k in range(1, 3):
+    for k in range(1, 19):
         totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
         {"timeslotType": "Surgery", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
         "date": str(j), "doctors": doctors}})
         startTime = startTime + datetime.timedelta(minutes=30)
-    startTime = datetime.datetime(100, 1, 1, 15, 00)
-
-startTime = datetime.datetime(100, 1, 1, 16, 00)
-
-for j in blank:
-    for k in range(1, 3):
-        totalTimeslots.append({"model": "ClearVision.AvailableTimeSlots", "fields":
-        {"timeslotType": "Surgery", "start": str(startTime.time()), "end": str((startTime + datetime.timedelta(minutes=30)).time()),
-        "date": str(j), "doctors": doctors1}})
-        startTime = startTime + datetime.timedelta(minutes=30)
-    startTime = datetime.datetime(100, 1, 1, 16, 00)
+    startTime = datetime.datetime(100, 1, 1, 9, 00)
 
 
 dump.write(str(totalTimeslots).replace("'", "\""))
