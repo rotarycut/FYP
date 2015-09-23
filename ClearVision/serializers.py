@@ -105,6 +105,11 @@ class CustomFilterMarketingChannelSerializer(serializers.ModelSerializer):
         model = CustomFilterMarketingChannel
         depth = 1
 
+class CustomFilterROISerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomFilterROI
+        depth = 1
 
 class SDAppointmentSerializer(ModelSerializer):
     class Meta:

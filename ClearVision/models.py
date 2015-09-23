@@ -29,6 +29,10 @@ class CustomFilterMarketingChannel(models.Model):
     endDate = models.DateField("End Date")
     channelType = models.ManyToManyField(MarketingChannels)
 
+class CustomFilterROI(models.Model):
+    name = models.CharField(max_length=200)
+    channelType = models.ManyToManyField(MarketingChannels)
+
 class MarketingChannelCost(models.Model):
     channel = models.ForeignKey(MarketingChannels)
     cost = models.FloatField()

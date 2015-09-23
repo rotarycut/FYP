@@ -617,8 +617,6 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannelCost.objects.none()
 
     def list(self, request, *args, **kwargs):
-        startDate = request.query_params.get('startDate')
-        endDate = request.query_params.get('endDate')
         channel = request.query_params.getlist('channel')
         default = request.query_params.get('default')
         month = request.query_params.get('month')
@@ -632,19 +630,69 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
                 if totalCost == None:
-                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': totalPatientCount * 3388, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
+                    toReturnResponse.append({'channelname': eachChannel['name'], 'roi': totalPatientCount * 3388, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
                 else:
                     roi = (totalPatientCount * 3388) / totalCost
-                    toReturnResponse.append({'channelname': eachChannel['name'],'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
+                    toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         else:
             for eachChannel in channel:
-                totalCost = MarketingChannelCost.objects.filter(channel__name__in=channel,).aggregate(Sum('cost'))['cost__sum']
-                totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__gte=startDate,
-                                                       registrationDate__lte=endDate, marketingChannelId__name=eachChannel).values().count()
+                totalCost = MarketingChannelCost.objects.filter(channel__name__in=channel, datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
+                totalPatientCount = Patient.objects.filter(conversion=True, marketingChannelId__name=eachChannel,
+                                                           registrationDate__month=month).values().count()
                 roi = (totalPatientCount * 3388) / totalCost
 
-                toReturnResponse.append({'channelname': eachChannel['name'] ,'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3888})
+                toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         return Response(toReturnResponse)
+
+class ViewSavedROICustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilterROI.objects.none()
+    serializer_class = CustomFilterROISerializer
+
+    def list(self, request, *args, **kwargs):
+        response_data = CustomFilterROI.objects.all().values()
+        return Response(response_data)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        name = payload.get('name')
+        channelTypes = payload.get('channelTypes')
+
+        newCustomFilter = CustomFilterROI.objects.create(name=name,)
+        newCustomFilter.channelType = channelTypes
+
+        return Response("Success")
+
+class EditSavedROICustomFilters(viewsets.ModelViewSet):
+    queryset = CustomFilterROI.objects.all()
+    serializer_class = CustomFilterROISerializer
+
+    def list(self, request, *args, **kwargs):
+        id = request.query_params.get('id')
+
+        customfilter = CustomFilterROI.objects.get(id=id)
+
+        return Response(CustomFilterROISerializer(customfilter).data)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        customfilterID = payload.get('customfilterID')
+        name = payload.get('name')
+        channelTypes = payload.get('channelTypes')
+
+        customfilter = CustomFilterROI.objects.get(id=customfilterID)
+        customfilter.name = name
+        customfilter.save()
+        customfilter.channelType = channelTypes
+        customfilter.save()
+
+        return Response("Success")
+
+    def destroy(self, request, *args, **kwargs):
+        CustomFilterROI.objects.get(id=self.get_object().id).delete()
+
+        return Response("Success")
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()
