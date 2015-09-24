@@ -74,6 +74,29 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $in
             })
     };
 
+    $scope.deleteWaitList = function (swapperId) {
+        var req = {
+            method: 'DELETE',
+            url: '/Clearvision/_api/ViewSwapperTable/',
+            headers: {'Content-Type': 'application/json'},
+            data: {
+                "swapperId": swapperId
+            }
+        };
+
+        $http(req)
+            .success(function (data) {
+
+                // there are still patients in the appointment after the deletion
+                $log.info("Successfully deleted wait list appointment");
+
+                // reloads wait list appointments
+                $scope.listOfWaitingAppointments.splice(0);
+                $scope.getWaitListAppointments();
+
+            });
+    };
+
     $scope.getNotifications = function () {
         getNotificationsSvc.getNotifications();
     };
@@ -95,7 +118,7 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $in
     $scope.lastThreeSeconds();
 
     /*$interval(function () {
-        $scope.getNotifications();
-    }, 5000);*/
+     $scope.getNotifications();
+     }, 5000);*/
 
 });
