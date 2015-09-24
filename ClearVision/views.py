@@ -269,7 +269,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         p = Patient.objects.get(contact=patientContact, name=patientName)
         apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate, doctors=docID).id
 
-        if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType).exists():
+        if Appointment.objects.filter(date=apptDate, timeBucket__start=apptTimeBucket, apptType=apptType, doctor=docID).exists():
 
             existingAppt = Appointment.objects.get(date=apptDate, timeBucket=apptTimeBucketID, apptType=apptType)
 
