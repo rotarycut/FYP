@@ -42,10 +42,6 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
 
-                console.log("iSCHEDULE NOT ENABLED");
-                console.log(self.scope.doctorHoAppointments);
-                console.log(self.scope.doctorGohAppointments);
-
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
                 //self.scope.getISchedule();
@@ -71,13 +67,6 @@ app.service('enableIScheduleSvc', function ($timeout) {
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
-
-                $timeout(function () {
-                    console.log("iSCHEDULE ALREADY ENABLED");
-                    console.log(self.scope.doctorHoAppointments);
-                    console.log(self.scope.doctorGohAppointments);
-
-                }, 3000);
 
             }
         }

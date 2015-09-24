@@ -1,5 +1,5 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http, disableIScheduleSvc, clearFormSvc) {
+    .service('postAppointmentSvc', function ($http, $log, disableIScheduleSvc, clearFormSvc) {
 
         var self = this;
         self.scope = {};
@@ -122,7 +122,7 @@ angular.module('post.appointment', [])
                 })
                     .success(function (data) {
 
-                        console.log("Successful with http post");
+                        $log.info("Successful with creating appointment");
 
                         // check the appointment type of the created appointment
                         /*switch (self.scope.fields.appointmentType) {
@@ -188,7 +188,8 @@ angular.module('post.appointment', [])
                     })
 
                     .error(function (data) {
-                        console.log("Error with http post");
+
+                        $log.error("Error creating appointment");
                     });
 
             }

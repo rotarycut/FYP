@@ -5,7 +5,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  searchContact, appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
-                                                 filterAppointmentSvc, $interval, $dragon, populatePatientsSvc) {
+                                                 filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log) {
 
     var date = new Date();
     var d = date.getDate();
@@ -117,15 +117,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to get heat map */
     $scope.getHeatMap = function (appointmentType, doctorName) {
-        console.log("GET HEAT MAP : " + appointmentType);
-        console.log("GET HEAT MAP : " + doctorName);
 
         var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
         var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
         var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=15&lowerB=4&docName=' + doctorName;
-
-        console.log(lowHeatUrl);
-        console.log($scope.selectedDoctor);
 
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
@@ -644,7 +639,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 .success(function (listOfTimings) {
 
                     $scope.listOfAppointmentTimings = listOfTimings;
-
+                    console.log(populateTiming);
                     if (populateTiming != undefined) {
                         $scope.fields.appointmentTime = populateTiming;
                     }
@@ -977,7 +972,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
-                console.log(data);
+                //console.log(data);
                 $scope.trackId = data;
             });
 
@@ -1015,24 +1010,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     });
 
     $dragon.onChannelMessage(function (channels, message) {
-        console.log(channels[0]);
-        console.log(message.data);
-
 
         $timeout(function () {
             if (channels[0] === "createAppt") {
+                $log.info("Receiving socket request to create appointment");
                 postAppointmentSvc.postAppointment(message.data, true);
             }
 
             else if (channels[0] === "deleteAppt") {
+                $log.info("Receiving socket request to delete appointment");
                 deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
             }
 
             else if (channels[0] === "updateAppt") {
+                $log.info("Receiving socket request to update appointment");
                 //updateAppointmentSvc.updateAppointment(message.data, true);
             }
 
-        }, 3000);
+        }, 5000);
 
     });
 
