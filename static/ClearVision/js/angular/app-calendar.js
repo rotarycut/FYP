@@ -491,6 +491,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
+    $scope.disableSearchBox = false;
+
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
@@ -500,6 +502,63 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
 
+    /* function to show appointment form */
+    $scope.showForm = function (formType) {
+        $scope.scaleDownCalendar = true;
+        $scope.progressbar.start();
+        $scope.progressbar.complete();
+
+        $timeout(function () {
+            $scope.form.showForm = true;
+        }, 600);
+
+        angular.forEach($scope.tabs, function (tab) {
+            tab.disable = true;
+        });
+
+        if (formType === 'Create') {
+            // Perform these operations when showing the create appointment form
+            $scope.formTitle = "Create New Appointment";
+            $scope.showPatientList = false;
+            $scope.form.showButtons['createForm'] = true;
+            $scope.form.showButtons['addAndBlock'] = false;
+
+        } else if (formType === 'Edit') {
+            // Perform these operations when showing the edit appointment form
+            $scope.showPatientList = true;
+            $scope.formTitle = "Edit Appointment";
+
+            for (var field in $scope.form.showFields) {
+                $scope.form.showFields[field] = false;
+            }
+            for (var field in $scope.form.disableFields) {
+                $scope.form.disableFields[field] = true;
+            }
+            for (var field in $scope.form.showButtons) {
+                $scope.form.showButtons[field] = false;
+            }
+
+        } else if (formType == 'EditOnePatient') {
+
+            // Perform these operations when editing an appointment with only 1 patient
+            $scope.showPatientList = true;
+            $scope.formTitle = "Edit Appointment";
+
+            for (var field in $scope.form.showFields) {
+                $scope.form.showFields[field] = true;
+            }
+            for (var field in $scope.form.disableFields) {
+                $scope.form.disableFields[field] = true;
+            }
+            for (var field in $scope.form.showButtons) {
+                $scope.form.showButtons[field] = false;
+            }
+            $scope.form.showButtons['editForm'] = true;
+
+        } else {
+            // Do nothing
+        }
+    };
 
     /*******************************************************************************
      function to change calendar
@@ -627,64 +686,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         var formattedDate = year + '-' + month + '-' + day;
         return formattedDate;
-    };
-
-    /* function to show appointment form */
-    $scope.showForm = function (formType) {
-        $scope.scaleDownCalendar = true;
-        $scope.progressbar.start();
-        $scope.progressbar.complete();
-
-        $timeout(function () {
-            $scope.form.showForm = true;
-        }, 600);
-
-        angular.forEach($scope.tabs, function (tab) {
-            tab.disable = true;
-        });
-
-        if (formType === 'Create') {
-            // Perform these operations when showing the create appointment form
-            $scope.formTitle = "Create New Appointment";
-            $scope.showPatientList = false;
-            $scope.form.showButtons['createForm'] = true;
-            $scope.form.showButtons['addAndBlock'] = false;
-
-        } else if (formType === 'Edit') {
-            // Perform these operations when showing the edit appointment form
-            $scope.showPatientList = true;
-            $scope.formTitle = "Edit Appointment";
-
-            for (var field in $scope.form.showFields) {
-                $scope.form.showFields[field] = false;
-            }
-            for (var field in $scope.form.disableFields) {
-                $scope.form.disableFields[field] = true;
-            }
-            for (var field in $scope.form.showButtons) {
-                $scope.form.showButtons[field] = false;
-            }
-
-        } else if (formType == 'EditOnePatient') {
-
-            // Perform these operations when editing an appointment with only 1 patient
-            $scope.showPatientList = true;
-            $scope.formTitle = "Edit Appointment";
-
-            for (var field in $scope.form.showFields) {
-                $scope.form.showFields[field] = true;
-            }
-            for (var field in $scope.form.disableFields) {
-                $scope.form.disableFields[field] = true;
-            }
-            for (var field in $scope.form.showButtons) {
-                $scope.form.showButtons[field] = false;
-            }
-            $scope.form.showButtons['editForm'] = true;
-
-        } else {
-            // Do nothing
-        }
     };
 
     /* function to hide appointment form */
@@ -909,6 +910,28 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .success(function (data) {
                 //console.log(data);
                 $log.info("Start recording of creating appointment..");
+                $scope.trackId = data;
+            });
+
+    };
+
+    /* start recording update appointment */
+    $scope.recordUpdateTimeIn = function (userName) {
+
+        var date = new Date();
+        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        var req =
+        {
+            "user": userName,
+            "action": "",
+            "timeIn": time
+        };
+
+        $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
+            .success(function (data) {
+                //console.log(data);
+                $log.info("Start recording of editing / deleting appointment..");
                 $scope.trackId = data;
             });
 

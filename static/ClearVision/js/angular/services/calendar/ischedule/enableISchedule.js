@@ -27,6 +27,9 @@ app.service('enableIScheduleSvc', function ($timeout) {
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
 
+            // disable search box when iSchedule is enabled
+            self.scope.disableSearchBox = true;
+
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
 
