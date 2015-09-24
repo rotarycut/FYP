@@ -1,6 +1,6 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, updateNotificationCountSvc, getNotificationsSvc) {
+appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc) {
 
     updateNotificationCountSvc.getScope($scope);
     getNotificationsSvc.getScope($scope);
@@ -76,8 +76,8 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $in
 
     $scope.deleteWaitList = function (swapperId) {
         var req = {
-            method: 'DELETE',
-            url: '/Clearvision/_api/ViewSwapperTable/',
+            method: 'POST',
+            url: '/Clearvision/_api/EditSwapperTable/',
             headers: {'Content-Type': 'application/json'},
             data: {
                 "swapperId": swapperId
