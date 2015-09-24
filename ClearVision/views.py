@@ -1001,7 +1001,7 @@ class SearchBarFilter(viewsets.ReadOnlyModelViewSet):
                                 annotate(doctorname=F('patients__timeBucket__appointment__doctor__name')). \
                                 exclude(apptId=None). \
                                 values('apptId', 'contact', 'name', 'apptStart', 'apptDate', 'doctorname', 'apptType').\
-                                order_by('apptDate')[:limit]
+                                order_by('-apptDate')[:limit]
 
             return Response(response_data)
         else:
