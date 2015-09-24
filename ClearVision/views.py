@@ -1116,12 +1116,12 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         """
         response_data = list(response_data)
         response_data_orig = list(response_data)
-        """
+
         if today == 'True':
             for eachObj in response_data_orig:
                 if eachObj['start'] < datetime.now().time():
                     response_data.remove(eachObj)
-
+        """
         timings = []
 
         for eachObj in response_data:
