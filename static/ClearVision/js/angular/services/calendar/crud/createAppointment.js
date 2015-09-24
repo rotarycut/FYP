@@ -125,60 +125,54 @@ angular.module('post.appointment', [])
                         $log.info("Successful with creating appointment");
 
                         // check the appointment type of the created appointment
-                        /*switch (self.scope.fields.appointmentType) {
+                        switch (self.scope.fields.appointmentType) {
 
-                         case "Screening":
-                         var appointmentIndex = 0;
+                            case "Screening":
+                                var appointmentIndex = 0;
 
-                         // loop through all the screening events of the selected doctor
-                         angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+                                // loop through all the screening events of the selected doctor
+                                angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
 
-                         // find if the created appointment is in the existing pool of screening events
-                         if (screeningAppointment.id === data.id) {
+                                    // find if the created appointment is in the existing pool of screening events
+                                    if (screeningAppointment.id === data.id) {
 
-                         // remove the entire appointment from the calendar
-                         self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
-                         }
-                         appointmentIndex++;
-                         });
+                                        // remove the entire appointment from the calendar
+                                        self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+                                    }
+                                    appointmentIndex++;
+                                });
 
-                         // add the updated appointment with addition of patient back into the calendar
-                         self.scope.selectedDoctor.drScreening.events.push(data);
-                         break;
+                                // add the updated appointment with addition of patient back into the calendar
+                                self.scope.selectedDoctor.drScreening.events.push(data);
+                                break;
 
-                         case "Pre Evaluation":
-                         var appointmentIndex = 0;
+                            case "Pre Evaluation":
+                                var appointmentIndex = 0;
 
-                         angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
+                                angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
 
-                         if (preEvaluationAppointment.id === data.id) {
-                         self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
-                         }
-                         appointmentIndex++;
-                         });
+                                    if (preEvaluationAppointment.id === data.id) {
+                                        self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
+                                    }
+                                    appointmentIndex++;
+                                });
 
-                         self.scope.selectedDoctor.drPreEval.events.push(data);
-                         break;
+                                self.scope.selectedDoctor.drPreEval.events.push(data);
+                                break;
 
-                         case "Surgery":
-                         var appointmentIndex = 0;
-                         angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
+                            case "Surgery":
+                                var appointmentIndex = 0;
+                                angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
 
-                         if (surgeryAppointment.id === data.id) {
-                         self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
-                         }
-                         appointmentIndex++;
-                         });
+                                    if (surgeryAppointment.id === data.id) {
+                                        self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
+                                    }
+                                    appointmentIndex++;
+                                });
 
-                         self.scope.selectedDoctor.drSurgery.events.push(data);
-                         break;
-                         }*/
-
-                        // disable iSchedule
-                        //disableIScheduleSvc.disableISchedule();
-
-                        // clear the appointment form
-                        //clearFormSvc.clearForm();
+                                self.scope.selectedDoctor.drSurgery.events.push(data);
+                                break;
+                        }
 
                         // disable iSchedule
                         disableIScheduleSvc.disableISchedule();

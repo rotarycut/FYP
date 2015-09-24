@@ -639,7 +639,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 .success(function (listOfTimings) {
 
                     $scope.listOfAppointmentTimings = listOfTimings;
-                    console.log(populateTiming);
+
                     if (populateTiming != undefined) {
                         $scope.fields.appointmentTime = populateTiming;
                     }
@@ -973,6 +973,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
                 //console.log(data);
+                $log.info("Start recording of creating appointment..");
                 $scope.trackId = data;
             });
 
@@ -986,7 +987,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    $scope.channelCreate = 'createAppt';
+    /*$scope.channelCreate = 'createAppt';
     $scope.channelDelete = 'deleteAppt';
     $scope.channelUpdate = 'updateAppt';
 
@@ -1029,7 +1030,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         }, 5000);
 
-    });
+    });*/
 
 
     /*******************************************************************************
@@ -1145,7 +1146,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
  *******************************************************************************/
 
 
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, patientInfo, createTracker, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
     $scope.trackerId = createTracker;
 
@@ -1193,11 +1194,10 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
             "timeOut": time,
             "trackerId": createTracker
         };
-        console.log(req);
 
         $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
             .success(function (data) {
-                console.log(data);
+                $log.info("End recording of creating appointment");
             });
 
     };

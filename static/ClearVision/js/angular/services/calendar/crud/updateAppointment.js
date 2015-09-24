@@ -1,5 +1,5 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http, $location, hideFormSvc) {
+    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc) {
 
         var self = this;
         self.scope = {};
@@ -63,7 +63,7 @@ angular.module('update.appointment', [])
                 $http(req)
                     .success(function (data) {
 
-                        console.log("Successfully updated");
+                        $log.info("Successful with updating appointment");
 
                         // handle the update of the newly changed appointment
 
@@ -145,7 +145,7 @@ angular.module('update.appointment', [])
                     })
 
                     .error(function (data) {
-                        console.log("Error with updating appointment");
+                        $log.error("Error with updating appointment");
                     });
 
             }
