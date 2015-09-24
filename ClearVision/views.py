@@ -1340,8 +1340,14 @@ def recievemsg(request):
 
     message = payload['Text']
     messageArray = message.split()
-    messagePt1 = messageArray[0]
-    messagePt2 = messageArray[1]
+    messagePt1 = messageArray[1]
+
+    try:
+        messagePt2 = messageArray[2]
+    except IndexError:
+        WronglyRepliedSMS.objects.create(text=message, origin=payload['Sender'])
+        return HttpResponse('SMS reply not configured')
+
     origin = payload['Sender']
 
     origin = origin[2:]
@@ -1375,7 +1381,8 @@ def recievemsg(request):
 
         return HttpResponse('Success')
     else:
-        return HttpResponse('Reply not configured')
+        WronglyRepliedSMS.objects.create(text=message, origin=origin)
+        return HttpResponse('SMS reply not configured')
 
 def ViewAllSMS(request):
     encoded = base64.b64encode('AnthonyS:ClearVision2')
