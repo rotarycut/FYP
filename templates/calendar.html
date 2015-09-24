@@ -176,7 +176,8 @@
                         <label class="control-label">Doctor</label>
                         <select class="form-control" ng-options="doc for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor" ng-change="changeCalendar(); getAppointmentTimings();"
+                                ng-disabled="form.disableFields.doctor"
+                                ng-change="changeCalendar(); getAppointmentTimings();"
                                 required>
                         </select>
 
@@ -211,9 +212,10 @@
                                 <label class="control-label">Contact No.</label>
                                 <input type="text" class="form-control" data-ng-model="fields.patientContact"
                                        ng-disabled="form.disableFields.contact" name="patientContact" autocomplete="off"
-                                       ng-pattern="/[689]\d\d\d\d\d\d\d/" ng-maxlength="8"
+                                       ng-pattern="/^[0-9]{1,20}$/" ng-maxlength="20"
                                        typeahead="appt.str for appt in checkExistingPatient($viewValue)"
-                                       typeahead-min-length="8" typeahead-on-select='selectPatient($item, $model, $label)'
+                                       typeahead-min-length="8"
+                                       typeahead-on-select='selectPatient($item, $model, $label)'
                                        required>
 
                                 <div ng-show="appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)"

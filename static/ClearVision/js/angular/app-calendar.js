@@ -906,6 +906,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             "timeIn": time
         };
 
+        console.log(req);
+
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
                 //console.log(data);
