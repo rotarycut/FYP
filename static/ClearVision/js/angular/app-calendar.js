@@ -987,7 +987,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    /*$scope.channelCreate = 'createAppt';
+    $scope.channelCreate = 'createAppt';
     $scope.channelDelete = 'deleteAppt';
     $scope.channelUpdate = 'updateAppt';
 
@@ -995,24 +995,21 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $dragon.subscribe('AppointmentCreate', $scope.channelCreate, null)
             .then(function (response) {
-                console.log(response);
             });
 
         $dragon.subscribe('AppointmentDelete', $scope.channelDelete, null)
             .then(function (response) {
-                console.log(response);
             });
 
         $dragon.subscribe('AppointmentUpdate', $scope.channelUpdate, null)
             .then(function (response) {
-                console.log(response);
             });
 
     });
 
     $dragon.onChannelMessage(function (channels, message) {
 
-        $timeout(function () {
+        /*$timeout(function () {
             if (channels[0] === "createAppt") {
                 $log.info("Receiving socket request to create appointment");
                 postAppointmentSvc.postAppointment(message.data, true);
@@ -1028,9 +1025,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 //updateAppointmentSvc.updateAppointment(message.data, true);
             }
 
-        }, 5000);
+        }, 5000);*/
 
-    });*/
+    });
 
 
     /*******************************************************************************
