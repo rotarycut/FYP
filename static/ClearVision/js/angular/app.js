@@ -33,7 +33,8 @@ var app = angular.module('calendarDemoApp', [
     'get.todayAppointments',
     'get.patientQueue',
     'SwampDragonServices',
-    'populate.patients'
+    'populate.patients',
+    'get.timings'
 ]);
 
 /* Angular routing */

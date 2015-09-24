@@ -5,7 +5,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  searchContact, appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
-                                                 filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log) {
+                                                 filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log,
+                                                 getApptTimingsSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -32,6 +33,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     eventClickSvc.getScope($scope);
     filterAppointmentSvc.getScope($scope);
     populatePatientsSvc.getScope($scope);
+    getApptTimingsSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
@@ -578,85 +580,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to retrieve list of appointment timings */
     $scope.getAppointmentTimings = function (populateTiming, isWaitList) {
-
-        var apptType = $scope.fields.appointmentType;
-        var doctor = $scope.fields.doctorAssigned;
-        var date = $scope.fields.appointmentDate;
-
-        if (isWaitList) {
-            date = $scope.fields.waitingDate;
-        }
-
-        if (apptType != undefined && doctor != undefined && date != undefined) {
-
-            var d = new Date(date);
-
-            var currentDay = new Date();
-            var isCurrentDay;
-
-            if (currentDay.toDateString() === d.toDateString()) {
-                isCurrentDay = "True";
-            } else {
-                isCurrentDay = "False";
-            }
-
-            switch (d.getDay()) {
-
-                case 0:
-
-                    d = "Sunday";
-                    break;
-
-                case 1:
-
-                    d = "Monday";
-                    break;
-
-                case 2:
-
-                    d = "Tuesday";
-                    break;
-
-                case 3:
-
-                    d = "Wednesday";
-                    break;
-
-                case 4:
-
-                    d = "Thursday";
-                    break;
-
-                case 5:
-
-                    d = "Friday";
-                    break;
-
-                case 6:
-
-                    d = "Saturday";
-                    break;
-
-            }
-
-            $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctor + "&day=" + d + "&today=" + isCurrentDay)
-                .success(function (listOfTimings) {
-
-                    if (isWaitList) {
-                        $scope.listOfWaitlistTimings = listOfTimings;
-
-                    } else {
-                        $scope.listOfAppointmentTimings = listOfTimings;
-
-                        if (populateTiming != undefined) {
-                            $scope.fields.appointmentTime = populateTiming;
-                        }
-
-                    }
-
-                });
-
-        }
+        getApptTimingsSvc.getAppointmentTimings(populateTiming, isWaitList);
     };
 
     /* function to populate patient details upon selection on the edit appointment form */
