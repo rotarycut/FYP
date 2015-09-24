@@ -577,11 +577,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve list of appointment timings */
-    $scope.getAppointmentTimings = function (populateTiming) {
+    $scope.getAppointmentTimings = function (populateTiming, isWaitList) {
 
         var apptType = $scope.fields.appointmentType;
         var doctor = $scope.fields.doctorAssigned;
         var date = $scope.fields.appointmentDate;
+
+        if (isWaitList) {
+            date = $scope.fields.waitingDate;
+        }
 
         if (apptType != undefined && doctor != undefined && date != undefined) {
 
@@ -638,11 +642,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctor + "&day=" + d + "&today=" + isCurrentDay)
                 .success(function (listOfTimings) {
 
-                    $scope.listOfAppointmentTimings = listOfTimings;
+                    if (isWaitList) {
+                        $scope.listOfWaitlistTimings = listOfTimings;
 
-                    if (populateTiming != undefined) {
-                        $scope.fields.appointmentTime = populateTiming;
+                    } else {
+                        $scope.listOfAppointmentTimings = listOfTimings;
+
+                        if (populateTiming != undefined) {
+                            $scope.fields.appointmentTime = populateTiming;
+                        }
+
                     }
+
                 });
 
         }
@@ -1010,22 +1021,22 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $dragon.onChannelMessage(function (channels, message) {
 
         /*$timeout(function () {
-            if (channels[0] === "createAppt") {
-                $log.info("Receiving socket request to create appointment");
-                postAppointmentSvc.postAppointment(message.data, true);
-            }
+         if (channels[0] === "createAppt") {
+         $log.info("Receiving socket request to create appointment");
+         postAppointmentSvc.postAppointment(message.data, true);
+         }
 
-            else if (channels[0] === "deleteAppt") {
-                $log.info("Receiving socket request to delete appointment");
-                deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
-            }
+         else if (channels[0] === "deleteAppt") {
+         $log.info("Receiving socket request to delete appointment");
+         deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
+         }
 
-            else if (channels[0] === "updateAppt") {
-                $log.info("Receiving socket request to update appointment");
-                //updateAppointmentSvc.updateAppointment(message.data, true);
-            }
+         else if (channels[0] === "updateAppt") {
+         $log.info("Receiving socket request to update appointment");
+         //updateAppointmentSvc.updateAppointment(message.data, true);
+         }
 
-        }, 5000);*/
+         }, 5000);*/
 
     });
 

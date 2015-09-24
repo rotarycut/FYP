@@ -284,7 +284,7 @@
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
                                            show-button-bar="false"
-                                           ng-change="navigateToDate(); getAppointmentTimings();"
+                                           ng-change="navigateToDate(); getAppointmentTimings('',false);"
                                            ng-disabled="true"
                                             />
 
@@ -353,8 +353,9 @@
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
                                            show-button-bar="false"
-                                           ng-change="formatWaitingListDate()"
+                                           ng-change="formatWaitingListDate(); getAppointmentTimings('',true);"
                                            ng-required="showWaitingDate"
+                                           ng-disabled="true"
                                             />
 
                                             <span class="input-group-btn">
@@ -370,7 +371,7 @@
                             <div class="col-sm-4 form-animation" date-div ng-show="showWaitingTime"
                                  ng-class="{'has-error': appointmentForm.waitListTime.$invalid && (appointmentForm.waitListTime.$touched || appointmentForm.$submitted)}">
                                 <label class="control-label">Time</label>
-                                <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
+                                <select class="form-control" ng-options="appt for appt in listOfWaitlistTimings"
                                         data-ng-model="fields.waitingTime" name="waitListTime"
                                         ng-required="showWaitingTime">
                                 </select>
