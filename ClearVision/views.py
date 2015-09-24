@@ -1400,9 +1400,8 @@ def RecordUserActionsTimeIn(request):
     currentUser = payload_clean['user']
     action = payload_clean['action']
     timeIn = payload_clean['timeIn']
-    staff = User.objects.get(username=currentUser)
 
-    tracker = UserTracking.objects.create(user=staff, action=action, timeOut=None, timeIn=timeIn)
+    tracker = UserTracking.objects.create(user=currentUser, action=action, timeOut=None, timeIn=timeIn)
 
     return HttpResponse(tracker.id)
 

@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 class CancellationReason(models.Model):
     reason = models.CharField(max_length=300)
@@ -139,7 +138,7 @@ class Blacklist(models.Model):
     patient = models.ForeignKey(Patient)
 
 class UserTracking(models.Model):
-    user = models.ForeignKey(User)
+    user = models.CharField(max_length=500)
     action = models.CharField(max_length=500)
     timeIn = models.TimeField()
     timeOut = models.TimeField(null=True)
