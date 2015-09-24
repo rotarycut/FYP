@@ -1043,7 +1043,11 @@ class ViewSwapperTable(viewsets.ModelViewSet):
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
         return HttpResponse('Success')
 
-    def destroy(self, request, *args, **kwargs):
+class EditSwapperTable(viewsets.ModelViewSet):
+    queryset = Swapper.objects.none()
+    serializer_class = SwapperSerializer
+
+    def create(self, request, *args, **kwargs):
         data = request.data
 
         swapperId = data.get('swapperId')
