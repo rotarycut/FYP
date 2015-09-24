@@ -2,11 +2,11 @@ var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
 appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
-                                                 searchContact, appointmentService, ngProgressFactory, $modal,
+                                                 appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
                                                  filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log,
-                                                 getApptTimingsSvc) {
+                                                 getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -34,6 +34,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     filterAppointmentSvc.getScope($scope);
     populatePatientsSvc.getScope($scope);
     getApptTimingsSvc.getScope($scope);
+    showFormSvc.getScope($scope);
+    searchAppointmentsSvc.getScope($scope);
+    checkExistingPatientSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
@@ -492,7 +495,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.disableSearchBox = false;
-
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
@@ -504,61 +506,55 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to show appointment form */
     $scope.showForm = function (formType) {
-        $scope.scaleDownCalendar = true;
-        $scope.progressbar.start();
-        $scope.progressbar.complete();
-
-        $timeout(function () {
-            $scope.form.showForm = true;
-        }, 600);
-
-        angular.forEach($scope.tabs, function (tab) {
-            tab.disable = true;
-        });
-
-        if (formType === 'Create') {
-            // Perform these operations when showing the create appointment form
-            $scope.formTitle = "Create New Appointment";
-            $scope.showPatientList = false;
-            $scope.form.showButtons['createForm'] = true;
-            $scope.form.showButtons['addAndBlock'] = false;
-
-        } else if (formType === 'Edit') {
-            // Perform these operations when showing the edit appointment form
-            $scope.showPatientList = true;
-            $scope.formTitle = "Edit Appointment";
-
-            for (var field in $scope.form.showFields) {
-                $scope.form.showFields[field] = false;
-            }
-            for (var field in $scope.form.disableFields) {
-                $scope.form.disableFields[field] = true;
-            }
-            for (var field in $scope.form.showButtons) {
-                $scope.form.showButtons[field] = false;
-            }
-
-        } else if (formType == 'EditOnePatient') {
-
-            // Perform these operations when editing an appointment with only 1 patient
-            $scope.showPatientList = true;
-            $scope.formTitle = "Edit Appointment";
-
-            for (var field in $scope.form.showFields) {
-                $scope.form.showFields[field] = true;
-            }
-            for (var field in $scope.form.disableFields) {
-                $scope.form.disableFields[field] = true;
-            }
-            for (var field in $scope.form.showButtons) {
-                $scope.form.showButtons[field] = false;
-            }
-            $scope.form.showButtons['editForm'] = true;
-
-        } else {
-            // Do nothing
-        }
+        showFormSvc.showForm(formType);
     };
+
+    /* function to retrieve list of appointment timings */
+    $scope.getAppointmentTimings = function (populateTiming, isWaitList) {
+        getApptTimingsSvc.getAppointmentTimings(populateTiming, isWaitList);
+    };
+
+    /* function to populate patient details upon selection on the edit appointment form */
+    $scope.populatePatientDetails = function () {
+        populatePatientsSvc.populatePatientDetails();
+    };
+
+    /* function to hide appointment form */
+    $scope.hideForm = function () {
+        hideFormSvc.hideForm();
+    };
+
+    /* function to clear form */
+    $scope.clearForm = function () {
+        clearFormSvc.clearForm();
+        disableIScheduleSvc.disableISchedule();
+    };
+
+    /* function to enable iSchedule */
+    $scope.enableISchedule = function () {
+        enableIScheduleSvc.enableISchedule();
+    };
+
+    /* function to filter by appointment types */
+    $scope.filterByAppointmentTypes = function (appointmentType, hidesTheRest) {
+        filterAppointmentSvc.filterByAppointmentTypes(appointmentType, hidesTheRest);
+    };
+
+    /* function to change filter legend */
+    $scope.toggleFilter = function (appointmentType, hidesTheRest) {
+        filterAppointmentSvc.toggleFilter(appointmentType, hidesTheRest);
+    };
+
+    /* function to search for patient appointments in search box */
+    $scope.searchForAppt = function (searchValue) {
+        return searchAppointmentsSvc.searchForAppt(searchValue);
+    };
+
+    /* function to be notified of existing patients when typing contact number on form */
+    $scope.checkExistingPatient = function (searchValue) {
+        return checkExistingPatientSvc.checkExistingPatient(searchValue);
+    };
+
 
     /*******************************************************************************
      function to change calendar
@@ -637,16 +633,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         };
     };
 
-    /* function to retrieve list of appointment timings */
-    $scope.getAppointmentTimings = function (populateTiming, isWaitList) {
-        getApptTimingsSvc.getAppointmentTimings(populateTiming, isWaitList);
-    };
-
-    /* function to populate patient details upon selection on the edit appointment form */
-    $scope.populatePatientDetails = function () {
-        populatePatientsSvc.populatePatientDetails();
-    };
-
     /* function to splice appointments */
     $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
         var appointmentIndex = 0;
@@ -688,45 +674,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         return formattedDate;
     };
 
-    /* function to hide appointment form */
-    $scope.hideForm = function () {
-        hideFormSvc.hideForm();
-    };
 
-    /* function to clear form */
-    $scope.clearForm = function () {
-        clearFormSvc.clearForm();
-        disableIScheduleSvc.disableISchedule();
-    };
+    /*******************************************************************************
+     function to show waiting fields on form
+     *******************************************************************************/
 
-    /* function to enable iSchedule */
-    $scope.enableISchedule = function () {
-        enableIScheduleSvc.enableISchedule();
-    };
 
-    /* function to search for contact */
-    $scope.searchContact = function () {
-        searchContact.search($scope.fields.patientContact).then(function (response) {
-            console.log(response);
-            if (response.data.length !== 0) {
-                $scope.fields.patientName = response.data[0].name;
-            } else {
-                $scope.fields.patientName = "";
-            }
-        });
-    };
-
-    /* function to filter by appointment types */
-    $scope.filterByAppointmentTypes = function (appointmentType, hidesTheRest) {
-        filterAppointmentSvc.filterByAppointmentTypes(appointmentType, hidesTheRest);
-    };
-
-    /* function to change filter legend */
-    $scope.toggleFilter = function (appointmentType, hidesTheRest) {
-        filterAppointmentSvc.toggleFilter(appointmentType, hidesTheRest);
-    };
-
-    /* function to show waiting fields */
     $scope.showWaitingFields = function (showFields) {
         if (showFields === 'yes') {
             $scope.showWaitingDate = true;
@@ -745,6 +698,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.showLeastPackedSlots = function (date) {
         date.active = !date.active;
     };
+
+
+    /*******************************************************************************
+     form validations
+     *******************************************************************************/
+
 
     /* function to validate create appointment */
     $scope.isFormValid = function (isValid) {
@@ -766,53 +725,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         }
     };
 
-    /* function to search for patient appointments in search box */
-    $scope.searchForAppt = function (searchValue) {
-        return $http.get('/Clearvision/_api/SearchBar/?search=' + searchValue + '&limit=15')
-            .then(function (response) {
-                var row = response.data;
-                var rowArr = [];
-                angular.forEach(row, function (appt) {
-                    var rowStr = appt.apptDate + ", " + appt.apptStart + ", " + appt.doctorname + ", " + appt.apptType + " (" + appt.name + ": " + appt.contact + ")";
-                    rowArr.push(rowStr)
-                });
-                return rowArr;
-            });
-    };
 
-    /* function to be notified of existing patients when typing contact number on form */
-    $scope.checkExistingPatient = function (searchValue) {
-        return $http.get('/Clearvision/_api/patients?search=' + searchValue)
-            .then(function (response) {
+    /*******************************************************************************
+     on select of patient after keying in contact no
+     *******************************************************************************/
 
-                var row = response.data;
 
-                // for both create and edit form, display a list of matching patients for the particular contact number
-                angular.forEach(row, function (patient) {
-                    var rowStr = patient.name + ", " + patient.contact;
-                    patient.str = rowStr;
-                });
-
-                // only for the create appointment form
-                if ($scope.formTitle == "Create New Appointment") {
-
-                    // if the contact number typed is no longer matching to that of the patient
-                    if (response.data.length == 0) {
-
-                        // no patient found for this contact number, clear patient name & marketing channel, enable marketing channel
-                        $scope.form.disableFields.marketingChannel = false;
-                        $scope.fields.patientName = "";
-                        $scope.fields.marketingChannel = "";
-                    }
-
-                }
-
-                return row;
-
-            });
-    };
-
-    /* on select of patient after keying in contact no */
     $scope.selectPatient = function ($item, $model, $label, appt) {
 
         $scope.fields.patientContact = $item.contact;
@@ -823,7 +741,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.form.disableFields.marketingChannel = true;
     };
 
-    /* function after selecting an appointment from the search box result */
+
+    /*******************************************************************************
+     function after selecting an appointment from the search box result
+     *******************************************************************************/
+
+
     $scope.onSelect = function ($item, $model, $label) {
         // discover which doctor appointment is selected
         var doctorIndex = $item.indexOf("Dr");
@@ -834,21 +757,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var commarIndex = $item.indexOf(",");
         var date = $item.substring(0, commarIndex);
 
+        console.log(doctor);
+
         if (doctor == "Dr Ho") {
-            $scope.changeCalendar(false);
+            console.log("INSIDE");
             $scope.changeView('agendaDay', 'myCalendar1');
             $('#drHoCalendar').fullCalendar('gotoDate', date);
+            $scope.changeCalendar('', false);
         } else if (doctor == "Dr Goh") {
-            $scope.changeCalendar(false);
+
             $scope.changeView('agendaDay', 'myCalendar2');
             $('#drGohCalendar').fullCalendar('gotoDate', date);
+            $scope.changeCalendar('', false);
         }
 
         // clear the search box text
         $scope.searchText = "";
     };
 
-    /* calendar tab set */
+
+    /*******************************************************************************
+     initialize calendar doctor tabs
+     *******************************************************************************/
+
+
     $scope.tabs = [
         {
             title: 'Dr. Ho',
@@ -1179,13 +1111,3 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
     };
 
 });
-
-/* service to search for patient's details based on contact */
-appCalendar.service('searchContact', ['$http', function ($http) {
-    return {
-        search: function (contact) {
-            var url = '/Clearvision/_api/patients/?search=' + contact;
-            return $http.get(url);
-        }
-    }
-}]);
