@@ -780,19 +780,35 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    /* function to be notified of existing patients */
+    /* function to be notified of existing patients when typing contact number on form */
     $scope.checkExistingPatient = function (searchValue) {
         return $http.get('/Clearvision/_api/patients?search=' + searchValue)
             .then(function (response) {
 
                 var row = response.data;
 
+                // for both create and edit form, display a list of matching patients for the particular contact number
                 angular.forEach(row, function (patient) {
                     var rowStr = patient.name + ", " + patient.contact;
                     patient.str = rowStr;
                 });
 
+                // only for the create appointment form
+                if ($scope.formTitle == "Create New Appointment") {
+
+                    // if the contact number typed is no longer matching to that of the patient
+                    if (response.data.length == 0) {
+
+                        // no patient found for this contact number, clear patient name & marketing channel, enable marketing channel
+                        $scope.form.disableFields.marketingChannel = false;
+                        $scope.fields.patientName = "";
+                        $scope.fields.marketingChannel = "";
+                    }
+
+                }
+
                 return row;
+
             });
     };
 
@@ -802,6 +818,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.fields.patientContact = $item.contact;
         $scope.fields.patientName = $item.name;
         $scope.fields.marketingChannel = $item.marketingname;
+
+        // disable marketing channel field on select of patient
+        $scope.form.disableFields.marketingChannel = true;
     };
 
     /* function after selecting an appointment from the search box result */

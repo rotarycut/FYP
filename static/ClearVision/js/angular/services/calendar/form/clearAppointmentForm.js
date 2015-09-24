@@ -14,6 +14,9 @@ angular.module('clear.form', [])
             self._scope.appointmentForm.$setUntouched();
             self._scope.listOfAppointmentTimings = [];
             self._scope.disableSearchBox = false;
+
+            // enable the marketing channel field, needed when marketing channel field is disabled after selecting an existing patient
+            self._scope.form.disableFields.marketingChannel = false;
         };
 
     });
