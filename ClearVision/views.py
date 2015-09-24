@@ -1113,10 +1113,10 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
                 response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors__name=docName, date__day=day,
                                                                   start__in=settings.SATURDAY_SLOTS_NONSURGERY). \
                     values('start', ).distinct().order_by('start')
-
+        """
         response_data = list(response_data)
         response_data_orig = list(response_data)
-
+        """
         if today == 'True':
             for eachObj in response_data_orig:
                 if eachObj['start'] < datetime.now().time():
