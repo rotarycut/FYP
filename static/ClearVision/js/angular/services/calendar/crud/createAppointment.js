@@ -33,13 +33,13 @@ angular.module('post.appointment', [])
 
                                 // remove the entire appointment from the calendar
                                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
-                                self.scope.drHoScreenings.events.splice(appointmentIndex, 1);
+                                self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
                             }
                             appointmentIndex++;
                         });
 
                         // add the updated appointment with addition of patient back into the calendar
-                        self.scope.drHoScreenings.events.push(createObject);
+                        self.scope.selectedDoctor.drScreening.events.push(createObject);
                         self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
                         break;
 
