@@ -37,7 +37,8 @@ var app = angular.module('calendarDemoApp', [
     'get.timings',
     'show.form',
     'search.appointments',
-    'check.existingPatient'
+    'check.existingPatient',
+    'change.calendar'
 ]);
 
 /* Angular routing */
