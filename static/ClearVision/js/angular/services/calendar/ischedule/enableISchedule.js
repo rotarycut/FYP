@@ -23,7 +23,7 @@ app.service('enableIScheduleSvc', function ($timeout) {
         }
 
         // change the calendar view to week view
-        //self.scope.changeView('agendaWeek', self.scope.selectedCalendar);
+        self.scope.changeView('agendaWeek', self.scope.selectedCalendar);
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
 
