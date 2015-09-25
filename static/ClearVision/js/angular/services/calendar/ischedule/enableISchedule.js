@@ -25,6 +25,16 @@ app.service('enableIScheduleSvc', function ($timeout) {
         // change the calendar view to week view
         self.scope.changeView('agendaWeek', self.scope.selectedCalendar);
 
+        // navigate the calendar to current date once heat map is enabled
+        if (self.scope.selectedCalendar == 'myCalendar1') {
+
+            $('#drHoCalendar').fullCalendar('gotoDate', new Date());
+        } else {
+
+            $('#drGohCalendar').fullCalendar('gotoDate', new Date());
+        }
+
+
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
 
             // disable search box when iSchedule is enabled
