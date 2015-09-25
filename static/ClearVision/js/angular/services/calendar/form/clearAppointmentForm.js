@@ -1,5 +1,5 @@
 angular.module('clear.form', [])
-    .service('clearFormSvc', function () {
+    .service('clearFormSvc', function (disableIScheduleSvc) {
 
         var self = this;
         self._scope = {};
@@ -9,6 +9,11 @@ angular.module('clear.form', [])
         };
 
         self.clearForm = function (scope) {
+
+            if (self._scope.formTitle == "Create New Appointment") {
+                disableIScheduleSvc.disableISchedule();
+            }
+
             self._scope.fields = {};
             self._scope.appointmentForm.$setPristine();
             self._scope.appointmentForm.$setUntouched();
