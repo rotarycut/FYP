@@ -527,7 +527,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to clear form */
     $scope.clearForm = function () {
         clearFormSvc.clearForm();
-        disableIScheduleSvc.disableISchedule();
+        //disableIScheduleSvc.disableISchedule();
     };
 
     /* function to enable iSchedule */

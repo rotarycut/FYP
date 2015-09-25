@@ -23,16 +23,19 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.iSchedule = false;
 
             // remove all the low, medium, high heat map from the source array
-            self.scope.removeEventSource(self.scope.selectedDoctor.drAppointmentArray, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.selectedDoctor.drAppointmentArray, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.selectedDoctor.drAppointmentArray, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
 
             $timeout(function () {
 
                 // remove all the appointments in each of the low, medium and high heat map
-                self.scope.tempLowHeatMap.events.splice(0,self.scope.tempLowHeatMap.events.length);
-                self.scope.tempMedHeatMap.events.splice(0,self.scope.tempMedHeatMap.events.length);
-                self.scope.tempHighHeatMap.events.splice(0,self.scope.tempHighHeatMap.events.length);
+                self.scope.tempLowHeatMap.events.splice(0, self.scope.tempLowHeatMap.events.length);
+                self.scope.tempMedHeatMap.events.splice(0, self.scope.tempMedHeatMap.events.length);
+                self.scope.tempHighHeatMap.events.splice(0, self.scope.tempHighHeatMap.events.length);
 
                 // add all the appointments on the calendar
                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
