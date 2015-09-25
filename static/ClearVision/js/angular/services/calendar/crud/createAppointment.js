@@ -32,7 +32,6 @@ angular.module('post.appointment', [])
                             if (screeningAppointment.id === createObject.id) {
 
                                 // remove the entire appointment from the calendar
-                                self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
                                 self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
                             }
                             appointmentIndex++;
@@ -40,7 +39,6 @@ angular.module('post.appointment', [])
 
                         // add the updated appointment with addition of patient back into the calendar
                         self.scope.selectedDoctor.drScreening.events.push(createObject);
-                        self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
                         break;
 
                     case "Pre Evaluation":

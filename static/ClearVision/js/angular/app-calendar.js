@@ -561,63 +561,78 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    $scope.changeCalendar = function (calendarNumber, tabDisabled, isCalendarTabChange) {
+    $scope.changeCalendar = function (calendarNumber, tabDisabled, doctorDropDown) {
+
+        // change calendar function could be called from search box, calendar tab click, form drop down
 
         // css changes to make all filters underlined
         $scope.legendScreenClicked = "legend-screen-clicked";
         $scope.legendEvalClicked = "legend-preEval-clicked";
         $scope.legendSurgeryClicked = "legend-surgery-clicked";
 
-        // calendarNumber = myCalendar1
-        // tabDisabled = false
-        // isCalendarTabChange = true
 
-        if (!tabDisabled) {
+        // check if the the clicking on the calendar tab is when the the appointment form is shown / tabs are disabled
+        if (tabDisabled) {
 
-            // tab is enabled
+            // appointment form is shown, tabs are disabled
 
-            if (calendarNumber != undefined) {
+            // should not doing anything when clicking on the calendar tabs now
 
-                // selecting tab in calendar
+            // check if it is a doctor drop down selection
+            if (doctorDropDown) {
 
-                // set the selected calendar to the selected doctor's calendar
-                $scope.selectedCalendar = calendarNumber;
+                // set global variable calendar number
+                if ($scope.fields.doctorAssigned == 'Dr Ho') {
+                    $scope.selectedCalendar = 'myCalendar1';
+                } else {
+                    $scope.selectedCalendar = 'myCalendar2';
+                }
 
-                if (calendarNumber == "myCalendar1") {
+                // check if the drop down selection is for which doctor
+                if ($scope.selectedCalendar == "myCalendar1") {
+
+                    // selected dr ho on drop down field
                     $scope.tabs[1].active = false;
                     $scope.tabs[0].active = true;
                     $scope.changeSelectedDoctor($scope.doctorHoAppointments, $scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries);
 
                 } else {
+
+                    // selected dr goh on drop down field
                     $scope.tabs[0].active = false;
                     $scope.tabs[1].active = true;
                     $scope.changeSelectedDoctor($scope.doctorGohAppointments, $scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries);
                 }
+
+                // enable iSchedule
+                $timeout(function () {
+                    $scope.enableISchedule();
+                }, 500);
+
+            }
+
+        } else {
+
+            // appointment form is hidden, tabs are enabled
+
+            // set global variable calendar number
+            $scope.selectedCalendar = calendarNumber;
+
+            // check if the tab click is on which doctor tab || selected search result is for which doctor appointment
+            if ($scope.selectedCalendar == "myCalendar1") {
+
+                // clicked on doctor ho calendar tab || selected search result of dr ho appointment
+                $scope.tabs[1].active = false;
+                $scope.tabs[0].active = true;
+                $scope.changeSelectedDoctor($scope.doctorHoAppointments, $scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries);
 
             } else {
 
-                // selecting doctor in the appointment form drop down menu
-
-                if ($scope.fields.doctorAssigned == "Dr Ho") {
-                    $scope.selectedCalendar = "myCalendar1";
-                    $scope.tabs[1].active = false;
-                    $scope.tabs[0].active = true;
-                    $scope.changeSelectedDoctor($scope.doctorHoAppointments, $scope.drHoScreenings, $scope.drHoPreEvaluations, $scope.drHoSurgeries);
-
-                } else {
-                    $scope.calendarNumber = "myCalendar2";
-                    $scope.tabs[0].active = false;
-                    $scope.tabs[1].active = true;
-                    $scope.changeSelectedDoctor($scope.doctorGohAppointments, $scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries);
-                }
+                // clicked on doctor goh calendar tab || selected search result of dr goh appointment
+                $scope.tabs[0].active = false;
+                $scope.tabs[1].active = true;
+                $scope.changeSelectedDoctor($scope.doctorGohAppointments, $scope.drGohScreenings, $scope.drGohPreEvaluations, $scope.drGohSurgeries);
             }
-
-            // ???
-            $timeout(function () {
-                if (isCalendarTabChange == undefined) {
-                    $scope.enableISchedule();
-                }
-            }, 800);
 
         }
     };
@@ -748,6 +763,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     $scope.onSelect = function ($item, $model, $label) {
+
         // discover which doctor appointment is selected
         var doctorIndex = $item.indexOf("Dr");
         var lastCommar = $item.lastIndexOf(",");
@@ -757,18 +773,26 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var commarIndex = $item.indexOf(",");
         var date = $item.substring(0, commarIndex);
 
-        console.log(doctor);
 
+        // check if the selected appointment is dr ho or dr goh appointment
         if (doctor == "Dr Ho") {
-            console.log("INSIDE");
+
+            // change the calendar view to the day view
             $scope.changeView('agendaDay', 'myCalendar1');
+
+            // navigate the calendar to the appointment date
             $('#drHoCalendar').fullCalendar('gotoDate', date);
-            $scope.changeCalendar('', false);
+
+            // change the calendar tab and set variables, doesnt matter if it is edit >1 patients and showing patient list since giving default false
+            $scope.changeCalendar('myCalendar1', false);
+
         } else if (doctor == "Dr Goh") {
 
             $scope.changeView('agendaDay', 'myCalendar2');
             $('#drGohCalendar').fullCalendar('gotoDate', date);
-            $scope.changeCalendar('', false);
+            $scope.changeCalendar('myCalendar2', false);
+
+            //$scope.changeCalendar('', false);
         }
 
         // clear the search box text
@@ -856,8 +880,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             "action": "Create Appt",
             "timeIn": time
         };
-
-        console.log(req);
 
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
