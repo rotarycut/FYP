@@ -320,8 +320,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 center: '',
                 right: 'today prev,next'
             },
-            minTime: "08:00",
-            maxTime: "21:00",
+            minTime: "09:00",
+            maxTime: "18:00",
             fixedWeekCount: false,
             eventStartEditable: false,
             eventDurationEditable: false,
@@ -661,8 +661,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to navigate to date after selection on date picker */
     $scope.navigateToDate = function () {
         var selectedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
-        $('#drHoCalendar').fullCalendar('gotoDate', selectedDate);
+
+        // navigate the calendar to current date once heat map is enabled
+        if ($scope.selectedCalendar == 'myCalendar1') {
+
+            $('#drHoCalendar').fullCalendar('gotoDate', selectedDate);
+        } else {
+
+            $('#drGohCalendar').fullCalendar('gotoDate', selectedDate);
+        }
+
         $scope.fields.appointmentDate = selectedDate;
+
     };
 
     /* function to format waiting list date */
