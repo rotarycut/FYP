@@ -160,3 +160,42 @@ WEDNESDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
 THURSDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
 FRIDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
 SATURDAY_SLOTS_SURGERY =[]
+
+
+from django.apps import AppConfig
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import date, datetime
+from ClearVision.models import *
+import requests
+import base64
+
+def sendSMS():
+    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today()).values('patients', 'patients__name',
+                                                                                             'patients__gender', 'timeBucket__date',
+                                                                                             'timeBucket__start', 'apptType', 'id',
+                                                                                             'timeBucket', 'doctor__name', 'clinic',
+                                                                                             'doctor').\
+            exclude(patients__isnull=True)
+
+    numbersToSend = []
+
+    for eachObj in today_patient_data:
+        numbersToSend.append([eachObj['patients__name'], eachObj['patients'], eachObj['timeBucket__start']])
+
+    encoded = base64.b64encode('AnthonyS:ClearVision2')
+    headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+    for eachNumberToSendSMS in numbersToSend:
+        payload = {'from': 'Clearvision', 'to': '65'+eachNumberToSendSMS[1],
+                   'text': 'Hi ' + eachNumberToSendSMS[0] +
+                           ', please be reminded of your Appointment with us tomorrow at ' + str(eachNumberToSendSMS[2])}
+
+        requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
+
+def test():
+    print('Tick! The time is: %s' % datetime.now())
+
+scheduler = BackgroundScheduler()
+#scheduler.add_job(test, 'cron', hour=12, minute=48, max_instances=1)
+scheduler.add_job(test, 'cron', hour=20, minute=20)
+scheduler.start()
