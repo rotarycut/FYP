@@ -389,7 +389,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)}"
-                         ng-show="form.showFields.marketingChannel">
+                         ng-show="form.showFields.marketingChannel" ng-init="getMarketingChannels();">
 
                         <label class="control-label">Marketing Channels</label>
 

@@ -1,6 +1,6 @@
 var appConversion = angular.module('app.conversion', []);
 
-appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, postRoiFilterSvc) {
+appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, postRoiFilterSvc, getMarketingChannelsSvc) {
 
     postRoiFilterSvc.getScope($scope);
     $scope.isCollapsed = true;
@@ -137,13 +137,16 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
 
     /* function to retrieve all marketing channels */
     $scope.getMarketingChannels = function () {
-        $http.get('/Clearvision/_api/ViewAllMarketingChannels/')
-            .success(function (data) {
-                angular.forEach(data, function (channel) {
+
+        getMarketingChannelsSvc.getMarketingChannels()
+            .then(function (listOfChannels) {
+
+                angular.forEach(listOfChannels, function (channel) {
                     $scope.channelObjects.push(channel);
                     $scope.channelLists.push(channel.name);
-                })
-            })
+                });
+
+            });
     };
 
     /* function to transform list box selected channels into string */
@@ -770,8 +773,6 @@ appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRo
     };
 
 });
-
-
 
 
 /**

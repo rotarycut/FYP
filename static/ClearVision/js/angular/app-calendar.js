@@ -7,7 +7,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
                                                  filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
-                                                 changeCalendarSvc) {
+                                                 changeCalendarSvc, getMarketingChannelsSvc) {
 
     var date = new Date();
     var d = date.getDate();
@@ -500,11 +500,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
     //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
-    $scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
+    //$scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
+    $scope.listOfMarketingChannels = [];
     $scope.listOfDoctors = ["Dr Ho", "Dr Goh"];
     $scope.selectedCalendar = "myCalendar1";
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
+
+    /* function to retrieve all marketing channels */
+    $scope.getMarketingChannels = function () {
+        getMarketingChannelsSvc.getMarketingChannels()
+            .then(function (listOfChannels) {
+
+                angular.forEach(listOfChannels, function (channel) {
+                    $scope.listOfMarketingChannels.push(channel.name);
+                });
+
+            });
+    };
 
     /* function to show appointment form */
     $scope.showForm = function (formType) {
