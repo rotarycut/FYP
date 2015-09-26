@@ -887,7 +887,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $timeout(function () {
             if (channels[0] === "createAppt") {
-                $log.info("Receiving socket request to create appointment");
+                $log.debug("Receiving socket request to create appointment");
 
                 $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
                 $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
@@ -910,7 +910,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
 
             else if (channels[0] === "deleteAppt") {
-                $log.info("Receiving socket request to delete appointment");
+                $log.debug("Receiving socket request to delete appointment");
 
                 $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
                 $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
@@ -933,7 +933,25 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
 
             else if (channels[0] === "updateAppt") {
-                $log.info("Receiving socket request to update appointment");
+                $log.debug("Receiving socket request to update appointment");
+
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohScreenings);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+
+                $scope.drHoScreenings.events.splice(0, $scope.drHoScreenings.events.length);
+                $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+                $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+                $scope.drGohScreenings.events.splice(0, $scope.drGohScreenings.events.length);
+                $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+                $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+
+                $scope.getDrHoAppointments();
+                $scope.getDrGohAppointments();
+
                 //updateAppointmentSvc.updateAppointment(message.data, true);
             }
 
