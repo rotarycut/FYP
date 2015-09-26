@@ -6,7 +6,5 @@ swampdragon.onChannelMessage(function (channels, message) {
 
 
 swampdragon.ready(function () {
-    swampdragon.subscribe('AppointmentCUD', 'createAppt', null);
-    swampdragon.subscribe('AppointmentCUD', 'updateAppt', null);
-    swampdragon.subscribe('AppointmentCUD', 'deleteAppt', null);
+    swampdragon.subscribe('AppointmentCreate', 'createAppt', null);
 });

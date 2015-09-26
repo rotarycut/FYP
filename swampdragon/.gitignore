@@ -1,0 +1,16 @@
+*.log
+*.pot
+*.pyc
+.idea/
+dev.sqlite3
+static_root/
+media/
+build/
+.coverage
+SwampDragon.egg*
+pubpypi.sh
+node_modules/
+dist/SwampDragon-*
+.tox/
+
+chat_example/swampdragon

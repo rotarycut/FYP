@@ -145,6 +145,15 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 # SwampDragon settings
 SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
 DRAGON_URL='http://localhost:9999/'
+"""
+import redis
+import urlparse
+redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+SWAMP_DRAGON_REDIS_HOST = redis_url.hostname
+SWAMP_DRAGON_REDIS_PORT = redis_url.port
+SWAMP_DRAGON_REDIS_PASS = redis_url.password
+"""
+#############
 
 #Timetable settings
 MONDAY_SLOTS_NONSURGERY = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00']
