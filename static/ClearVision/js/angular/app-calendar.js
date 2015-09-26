@@ -911,7 +911,25 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             else if (channels[0] === "deleteAppt") {
                 $log.info("Receiving socket request to delete appointment");
-                deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
+
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohScreenings);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+
+                $scope.drHoScreenings.events.splice(0, $scope.drHoScreenings.events.length);
+                $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+                $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+                $scope.drGohScreenings.events.splice(0, $scope.drGohScreenings.events.length);
+                $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+                $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+
+                $scope.getDrHoAppointments();
+                $scope.getDrGohAppointments();
+
+                //deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
             }
 
             else if (channels[0] === "updateAppt") {
