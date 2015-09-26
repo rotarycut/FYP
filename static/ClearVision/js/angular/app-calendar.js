@@ -581,7 +581,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         changeCalendarSvc.changeSelectedDoctor(drSourceArray, drScreenings, drPreEval, drSurgery);
     };
 
-
     /* function to splice appointments */
     $scope.spliceAppointment = function (appointmentsInType, retrievedAppointmentId) {
         var appointmentIndex = 0;
@@ -694,7 +693,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $scope.fields.patientContact = $item.contact;
         $scope.fields.patientName = $item.name;
-        $scope.fields.marketingChannel = $item.marketingname;
+        $scope.fields.marketingChannel = $scope.listOfMarketingChannels[$item.marketingChannelId - 1];
 
         // disable marketing channel field on select of patient
         $scope.form.disableFields.marketingChannel = true;
@@ -827,7 +826,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
-                //console.log(data);
+
                 $log.info("Start recording of creating appointment..");
                 $scope.trackId = data;
             });
@@ -886,23 +885,41 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $dragon.onChannelMessage(function (channels, message) {
 
-        /*$timeout(function () {
-         if (channels[0] === "createAppt") {
-         $log.info("Receiving socket request to create appointment");
-         postAppointmentSvc.postAppointment(message.data, true);
-         }
+        $timeout(function () {
+            if (channels[0] === "createAppt") {
+                $log.info("Receiving socket request to create appointment");
 
-         else if (channels[0] === "deleteAppt") {
-         $log.info("Receiving socket request to delete appointment");
-         deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
-         }
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoScreenings);
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+                $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohScreenings);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+                $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
 
-         else if (channels[0] === "updateAppt") {
-         $log.info("Receiving socket request to update appointment");
-         //updateAppointmentSvc.updateAppointment(message.data, true);
-         }
+                $scope.drHoScreenings.events.splice(0, $scope.drHoScreenings.events.length);
+                $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+                $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+                $scope.drGohScreenings.events.splice(0, $scope.drGohScreenings.events.length);
+                $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+                $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
 
-         }, 5000);*/
+                $scope.getDrHoAppointments();
+                $scope.getDrGohAppointments();
+
+                //postAppointmentSvc.postAppointment(message.data, true);
+            }
+
+            else if (channels[0] === "deleteAppt") {
+                $log.info("Receiving socket request to delete appointment");
+                deleteAppointmentSvc.deleteAppointment("reason", message.data, true);
+            }
+
+            else if (channels[0] === "updateAppt") {
+                $log.info("Receiving socket request to update appointment");
+                //updateAppointmentSvc.updateAppointment(message.data, true);
+            }
+
+        }, 5000);
 
     });
 
