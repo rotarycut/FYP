@@ -456,6 +456,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     $scope.fields = {};
+    //$scope.fields.marketingChannel = {};
+    //$scope.fields.marketingChannel.name = "";
     $scope.remarkWarning = "Please select a patient";
     $scope.screeningActive = true;
     $scope.preEvaluationActive = true;
@@ -513,7 +515,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .then(function (listOfChannels) {
 
                 angular.forEach(listOfChannels, function (channel) {
-                    $scope.listOfMarketingChannels.push(channel.name);
+                    $scope.listOfMarketingChannels.push(channel);
                 });
 
             });

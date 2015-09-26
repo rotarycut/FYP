@@ -24,7 +24,7 @@ angular.module('populate.patients', [])
                 if (patientName === patient.name) {
                     self.scope.fields.patientName = patient.name;
                     self.scope.fields.patientContact = patient.contact;
-                    self.scope.fields.marketingChannel = patient.marketingname;
+                    self.scope.fields.marketingChannel = self.scope.listOfMarketingChannels[patient.marketingChannelId - 1];
                     self.scope.fields.patientId = patient.id;
                     self.scope.fields.originalPatientName = patient.name;
                     self.scope.fields.originalPatientContact = patient.contact;
