@@ -30,5 +30,37 @@
   },
   "model": "djcelery.crontabschedule",
   "pk": 2
+},
+  {
+  "fields": {
+    "task": "ClearVision.tasks.clearPatientQueue",
+    "name": "clearPatientQueue",
+    "exchange": null,
+    "last_run_at": null,
+    "args": "[]",
+    "enabled": true,
+    "routing_key": null,
+    "crontab": 3,
+    "interval": null,
+    "queue": null,
+    "total_run_count": 0,
+    "expires": null,
+    "kwargs": "{}",
+    "date_changed": "2015-09-25T19:40:16.253",
+    "description": ""
+  },
+  "model": "djcelery.periodictask",
+  "pk": 4
+},
+{
+  "fields": {
+    "month_of_year": "*",
+    "day_of_week": "*",
+    "hour": "22",
+    "minute": "00",
+    "day_of_month": "*"
+  },
+  "model": "djcelery.crontabschedule",
+  "pk": 3
 }
 ]

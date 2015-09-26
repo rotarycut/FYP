@@ -122,7 +122,7 @@ class AttendedAppointment(models.Model):
     doctor = models.ForeignKey(Doctor)
     clinic = models.ForeignKey(Clinic)
     timeBucket = models.ForeignKey(AvailableTimeSlots)
-    attended = models.BooleanField()
+    attended = models.NullBooleanField()
     originalAppt = models.ForeignKey(Appointment)
     remarks = models.CharField(max_length=1000, blank=True)
 

@@ -5,6 +5,10 @@ import requests
 import base64
 
 @task()
+def clearPatientQueue():
+    AttendedAppointment.objects.filter(attended=True).update(attended=None)
+
+@task()
 def sendSMS():
     today_patient_data = Appointment.objects.filter(timeBucket__date=date.today()).values('patients', 'patients__name',
                                                                                              'patients__gender', 'timeBucket__date',

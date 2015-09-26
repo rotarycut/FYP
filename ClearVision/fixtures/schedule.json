@@ -16,8 +16,8 @@
 },
 {
   "fields": {
-    "task": "ClearVision.tasks.sendSMS",
-    "name": "sendSMS",
+    "task": "ClearVision.tasks.test",
+    "name": "test",
     "exchange": null,
     "last_run_at": null,
     "args": "[]",
