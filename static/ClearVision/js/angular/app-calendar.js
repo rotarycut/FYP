@@ -315,7 +315,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* config object */
     $scope.uiConfig = {
         calendar: {
-            height: 650,
+            height: 470,
             editable: true,
             header: {
                 left: 'title',

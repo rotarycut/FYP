@@ -272,7 +272,7 @@
 
 ul.legend-ul{
     text-align: center;
-    margin-bottom: 2px;
+    margin-bottom: 7px;
     margin-top: 7px;
 }
 ul.legend-ul li{
@@ -411,7 +411,7 @@ ul.legend-ul li{
     background: #D0E0EB;
     border: dotted 1px #777777;
     border-radius: 4px;
-    margin-top: 1px;
+    margin-top: 2px;
 }
 
 .legend-screen-clicked{
