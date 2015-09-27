@@ -253,6 +253,24 @@
     padding-right: 3%;
 }
 
+.dashboard-submenu li.active{
+    padding-left: 3%;
+    padding-right: 3%;
+    background-color: #e7e7e7;
+    text-decoration: none;
+}
+
+.dashboard-submenu li a:hover,
+.dashboard-submenu li a:focus,
+.dashboard-submenu li.active a,
+.dashboard-submenu li.active a:hover,
+.dashboard-submenu li.active a:focus{
+    text-decoration: none;
+    color:#70AFC4;
+    background-color: k#e7e7e7;
+}
+
+
 /*navbar css ends*/
 
 /*calendar csss*/
