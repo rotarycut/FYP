@@ -85,6 +85,11 @@
                 $('#topmenu li.dropdown').removeClass('selected')
             }
         });
+        $('li.dropdown ul li').click(function (e) {
+
+            $(this).parent().parent().addClass('selected');
+
+        });
     //});
 
 </script>
