@@ -1,7 +1,8 @@
 var appConversion = angular.module('app.conversion', []);
 
-appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, postRoiFilterSvc, getMarketingChannelsSvc) {
+appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, postRoiFilterSvc, getMarketingChannelsSvc,$route) {
 
+    $scope.$route = $route;
     postRoiFilterSvc.getScope($scope);
     $scope.isCollapsed = true;
     $scope.channelObjects = [];

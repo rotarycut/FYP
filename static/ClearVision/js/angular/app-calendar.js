@@ -7,8 +7,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
                                                  filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
-                                                 changeCalendarSvc, getMarketingChannelsSvc) {
-
+                                                 changeCalendarSvc, getMarketingChannelsSvc,$route) {
+    $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();

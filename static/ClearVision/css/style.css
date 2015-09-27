@@ -243,6 +243,11 @@
     top:70%;
 }
 
+/*#topmenu li.selected {
+    background-color: transparent;
+    text-decoration: underline;
+}*/
+
 .dashboard-submenu li{
     padding-left: 3%;
     padding-right: 3%;

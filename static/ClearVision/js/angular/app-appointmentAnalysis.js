@@ -1,7 +1,8 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc,$route) {
 
+    $scope.$route = $route;
     postFilterSvc.getScope($scope);
     editFilterSvc.getScope($scope);
 

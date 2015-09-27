@@ -1,7 +1,8 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc) {
+appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc,$route) {
 
+    $scope.$route = $route;
     updateNotificationCountSvc.getScope($scope);
     getNotificationsSvc.getScope($scope);
 

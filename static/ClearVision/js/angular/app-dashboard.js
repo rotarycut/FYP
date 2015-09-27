@@ -1,7 +1,8 @@
 var appDashboard = angular.module('app.dashboard', []);
 
-appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRoiFilterSvc) {
+appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRoiFilterSvc,$route) {
 
+    $scope.$route = $route;
     postRoiFilterSvc.getScope($scope);
     $scope.isCollapsed = true;
     $scope.showROIChart = true;

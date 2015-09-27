@@ -47,23 +47,28 @@ app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "calendar.html",
-            controller: 'CalendarCtrl'
+            controller: 'CalendarCtrl',
+            activetab: ''
         })
         .when("/dashboard/roi", {
             templateUrl: "roi.html",
-            controller: 'DashboardCtrl'
+            controller: 'DashboardCtrl',
+            activetab: 'dashboard/roi'
         })
         .when("/dashboard/conversion", {
             templateUrl: "conversion.html",
-            controller: 'ConversionCtrl'
+            controller: 'ConversionCtrl',
+            activetab: 'dashboard/conversion'
         })
         .when("/dashboard/schedule", {
             templateUrl: "schedule.html",
-            controller: 'AppointmentAnalysisCtrl'
+            controller: 'AppointmentAnalysisCtrl',
+            activetab: 'dashboard/schedule'
         })
         .when("/waitlist", {
             templateUrl: "waitlist.html",
-            controller: 'waitListCtrl'
+            controller: 'waitListCtrl',
+            activetab: 'waitlist'
         })
         .when("/changepw", {
             templateUrl: "changepw.html",
@@ -71,7 +76,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/queue", {
             templateUrl: "queue.html",
-            controller: 'QueueCtrl'
+            controller: 'QueueCtrl',
+            activetab: 'queue'
         })
         .when("/msglog", {
             templateUrl: "msglog.html",
