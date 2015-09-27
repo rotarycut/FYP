@@ -100,7 +100,12 @@ angular.module('get.timings', [])
                             self.scope.listOfAppointmentTimings = listOfTimings;
 
                             if (populateTiming != undefined) {
+
                                 self.scope.fields.appointmentTime = populateTiming;
+                            } else {
+
+                                // important to set this when editing form, changing from screening to surgery, must clear time from the previous scope that validation check will work
+                                self.scope.fields.appointmentTime = '';
                             }
 
                         }
