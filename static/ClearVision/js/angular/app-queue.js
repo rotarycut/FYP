@@ -109,7 +109,6 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
                 $scope.getPatientQueue();
             });
 
-        console.log($scope.postToNoShow);
     };
 
 
@@ -320,7 +319,7 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
 
 
     $scope.addToArchive = function (attendedAppointmentId) {
-        console.log(attendedAppointmentId);
+        //console.log(attendedAppointmentId);
         addToArchiveSvc.addToArchive(attendedAppointmentId, $scope.selectedReason.id);
         $scope.cancel();
     };

@@ -60,7 +60,7 @@ angular.module('change.calendar', [])
                     // enable iSchedule
                     $timeout(function () {
                         self.scope.enableISchedule();
-                    }, 500);
+                    }, 0);
 
                 }
 

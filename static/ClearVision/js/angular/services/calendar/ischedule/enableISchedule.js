@@ -22,18 +22,21 @@ app.service('enableIScheduleSvc', function ($timeout) {
             return;
         }
 
+        // disable appointment type and doctor field to be changed while loading heat map
+        self.scope.disabledApptType = true;
+        self.scope.form.disableFields.doctor = true;
+
         // change the calendar view to week view
         self.scope.changeView('agendaWeek', self.scope.selectedCalendar);
 
         // navigate the calendar to current date once heat map is enabled
         /*if (self.scope.selectedCalendar == 'myCalendar1') {
 
-            $('#drHoCalendar').fullCalendar('gotoDate', new Date());
-        } else {
+         $('#drHoCalendar').fullCalendar('gotoDate', new Date());
+         } else {
 
-            $('#drGohCalendar').fullCalendar('gotoDate', new Date());
-        }*/
-
+         $('#drGohCalendar').fullCalendar('gotoDate', new Date());
+         }*/
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
 

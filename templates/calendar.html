@@ -159,6 +159,7 @@
                         <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
                                 ng-model="fields.appointmentType" name="appointmentType"
                                 ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings();"
+                                ng-disabled="disabledApptType"
                                 required>
                         </select>
 
