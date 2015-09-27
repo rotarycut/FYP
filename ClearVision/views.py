@@ -385,6 +385,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
         currentAppt.save()
         oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.id)
 
+        if currentAppt.apptType != apptType:
+            tempApptSwapperObj = Swapper.objects.filter(patient=patient, scheduledAppt=currentAppt,)
+            tempApptSwapperObj.delete()
+
         if AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).exists():
             AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).delete()
 
