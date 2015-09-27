@@ -136,11 +136,18 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 STATIC_ROOT = 'ClearVision/static'
 """
 
+# Celery Settings
 import djcelery
 djcelery.setup_loader()
-BROKER_URL = 'redis://localhost:6379/0'
-
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+BROKER_URL = 'redis://localhost:6379/0'
+"""
+import redis
+import urlparse
+redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
+BROKER_URL = 'redis://:' + redis_url.password + '@' + redis_url.hostname + ':' + redis_url.port + '/0'
+"""
+##############
 
 # SwampDragon settings
 SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
