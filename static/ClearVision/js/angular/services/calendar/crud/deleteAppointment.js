@@ -156,11 +156,8 @@ angular.module('delete.appointment', [])
                     .success(function (data) {
                         $log.info("Successful with deleting appointment");
 
-                        // hide the appointment form
-                        hideFormSvc.hideForm();
-
                         // find out if there will be any patients left after the deletion
-                        /*var urlStr = '/Clearvision/_api/appointments/' + self.scope.fields.appointmentId;
+                        var urlStr = '/Clearvision/_api/appointments/' + self.scope.fields.appointmentId;
 
                         $http.get(urlStr)
                             .success(function (data) {
@@ -281,7 +278,7 @@ angular.module('delete.appointment', [])
                                 // hide the appointment form
                                 hideFormSvc.hideForm();
 
-                            });*/
+                            });
 
                     })
 

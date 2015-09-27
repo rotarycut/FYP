@@ -65,18 +65,10 @@ angular.module('update.appointment', [])
 
                         $log.info("Successful with updating appointment");
 
-                        // hide the appointment form
-                        hideFormSvc.hideForm();
-
-                        // if the update is coming from the no show reschedule action
-                        if (self.scope.isNoShowReschedule == true) {
-                            $location.path('/queue');
-                        }
-
                         // handle the update of the newly changed appointment
 
                         // check the appointment type of the newly changed appointment
-                        /*switch (self.scope.fields.appointmentType) {
+                        switch (self.scope.fields.appointmentType) {
 
                             case "Screening":
 
@@ -148,7 +140,7 @@ angular.module('update.appointment', [])
                         // if the update is coming from the no show reschedule action
                         if (self.scope.isNoShowReschedule == true) {
                             $location.path('/queue');
-                        }*/
+                        }
 
                     })
 
