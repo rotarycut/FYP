@@ -5,7 +5,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  appointmentService, ngProgressFactory, $modal,
                                                  postAppointmentSvc, clearFormSvc, enableIScheduleSvc, disableIScheduleSvc,
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
-                                                 filterAppointmentSvc, $interval, $dragon, populatePatientsSvc, $log,
+                                                 filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc,$route) {
     $scope.$route = $route;
@@ -834,7 +834,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* start recording update appointment */
-    $scope.recordUpdateTimeIn = function (userName) {
+    $scope.recordUpdateDeleteTimeIn = function (userName) {
 
         var date = new Date();
         var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -867,7 +867,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.channelDelete = 'deleteAppt';
     $scope.channelUpdate = 'updateAppt';
 
-    $dragon.onReady(function () {
+    /*$dragon.onReady(function () {
 
         $dragon.subscribe('AppointmentCreate', $scope.channelCreate, null)
             .then(function (response) {
@@ -957,7 +957,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         }, 5000);
 
-    });
+    });*/
 
 
     /*******************************************************************************
@@ -1125,6 +1125,48 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
         $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
             .success(function (data) {
                 $log.info("End recording of creating appointment");
+            });
+
+    };
+
+    /* function to record edit appointment time out */
+    $scope.recordEditTimeOut = function (userName) {
+
+        var date = new Date();
+
+        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        var req =
+        {
+            "timeOut": time,
+            "trackerId": createTracker,
+            "action": "Edit Appt"
+        };
+
+        $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
+            .success(function (data) {
+                $log.info("End recording of editing appointment");
+            });
+
+    };
+
+    /* function to record delete appointment time out */
+    $scope.recordDeleteTimeOut = function (userName) {
+
+        var date = new Date();
+
+        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+        var req =
+        {
+            "timeOut": time,
+            "trackerId": createTracker,
+            "action": "Delete Appt"
+        };
+
+        $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
+            .success(function (data) {
+                $log.info("End recording of deleting appointment");
             });
 
     };

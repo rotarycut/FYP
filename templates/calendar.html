@@ -516,7 +516,8 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" ng-show="showModalButtons" type="button" ng-click="deleteAppointment()">Yes
+        <button class="btn form-submit-btn" ng-show="showModalButtons" type="button"
+                ng-click="deleteAppointment(); recordDeleteTimeOut();">Yes
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
@@ -571,7 +572,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment()">Yes</button>
+        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment(); recordEditTimeOut();">Yes</button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>

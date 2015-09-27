@@ -1,6 +1,6 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, $dragon, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc) {
 
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     $scope.CurrentDate = new Date();
@@ -240,7 +240,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
                 }
             }
         });
-    }
+    };
 
 
     /*******************************************************************************
@@ -248,7 +248,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
      *******************************************************************************/
 
 
-    $scope.channelQueue = 'queue';
+    /*$scope.channelQueue = 'queue';
 
     $dragon.onReady(function () {
 
@@ -270,7 +270,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             getNoShowSvc.getNoShow();
         }
 
-    });
+    });*/
 
 });
 

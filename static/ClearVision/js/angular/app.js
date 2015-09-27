@@ -32,7 +32,6 @@ var app = angular.module('calendarDemoApp', [
     'filter.appointment',
     'get.todayAppointments',
     'get.patientQueue',
-    'SwampDragonServices',
     'populate.patients',
     'get.timings',
     'show.form',

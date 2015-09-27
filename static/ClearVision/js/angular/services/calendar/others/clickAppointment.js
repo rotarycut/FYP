@@ -19,6 +19,9 @@ angular.module('event.click', [])
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
 
+                // record edit / delete timing
+                self.scope.recordUpdateDeleteTimeIn('Sherman');
+
                 // iSchedule is not previously enabled
 
                 // check if it is coming from no show reschedule
