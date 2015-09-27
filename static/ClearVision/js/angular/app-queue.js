@@ -165,22 +165,21 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.reverseSort = !$scope.reverseSort;
     };
 
-    $scope.rescheduleAppointment = function (appointmentId) {
+    $scope.rescheduleAppointment = function (appointmentId, patientName) {
         $location.path('/');
-
-        $scope.getNoShowAppointment(appointmentId);
+        $scope.getNoShowAppointment(appointmentId, patientName);
     };
 
     //function to call backend api to get appointment details
-    $scope.getNoShowAppointment = function (apptId) {
+    $scope.getNoShowAppointment = function (apptId, patientName) {
         $http.get('/Clearvision/_api/appointments/' + apptId)
             .success(function (data) {
                 var apptDetails = data;
 
                 $timeout(function (data) {
-                    eventClickSvc.eventClick(apptDetails, true);
+                    eventClickSvc.eventClick(apptDetails, true, patientName);
                 }, 1000);
-                console.log("Get appt successfully");
+
             })
             .error(function (data) {
                 console.log("error");
@@ -250,27 +249,27 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
     /*$scope.channelQueue = 'queue';
 
-    $dragon.onReady(function () {
+     $dragon.onReady(function () {
 
-        $dragon.subscribe('PatientQueue', $scope.channelQueue, null)
-            .then(function (response) {
-                //$scope.dataMapper = new DataMapper(response.data);
-                console.log(response);
-            });
+     $dragon.subscribe('PatientQueue', $scope.channelQueue, null)
+     .then(function (response) {
+     //$scope.dataMapper = new DataMapper(response.data);
+     console.log(response);
+     });
 
-    });
+     });
 
-    $dragon.onChannelMessage(function (channels, message) {
-        console.log(channels[0]);
-        console.log(message.data);
+     $dragon.onChannelMessage(function (channels, message) {
+     console.log(channels[0]);
+     console.log(message.data);
 
-        if (channels[0] === "queue") {
-            getTodayAppointmentSvc.getTodayAppointments();
-            getPatientQueueSvc.getPatientQueue();
-            getNoShowSvc.getNoShow();
-        }
+     if (channels[0] === "queue") {
+     getTodayAppointmentSvc.getTodayAppointments();
+     getPatientQueueSvc.getPatientQueue();
+     getNoShowSvc.getNoShow();
+     }
 
-    });*/
+     });*/
 
 });
 

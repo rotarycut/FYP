@@ -14,7 +14,7 @@ angular.module('event.click', [])
          *******************************************************************************/
 
 
-        self.eventClick = function (appointment, isNoShowReschedule) {
+        self.eventClick = function (appointment, isNoShowReschedule, noShowPatientName) {
 
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
@@ -82,9 +82,36 @@ angular.module('event.click', [])
 
                 } else {
 
-                    // selected appointment has more than one patient
-                    self.scope.showForm('Edit');
+                    if (isNoShowReschedule) {
+
+                        // always show edit form and populate when it is coming from no show list, even tho have more than one patient in appointment
+
+                        // selected from no show list is for a unique patient
+                        self.scope.showForm('EditOnePatient');
+
+                        // index of selected patient in the drop down list
+                        var indexOfPatient = 0;
+
+                        // loop through the patient list and find the selected patient object
+                        angular.forEach(self.scope.fields.patientList, function (patient) {
+                            if (noShowPatientName === patient.name) {
+                                indexOfPatient++;
+                            }
+                        });
+
+                        $timeout(function () {
+                            self.scope.fields.selectedPatient = appointment.patients[indexOfPatient];
+                            self.scope.populatePatientDetails();
+                        }, 1000);
+
+                    } else {
+
+                        // selected appointment has more than one patient
+                        self.scope.showForm('Edit');
+                    }
+
                 }
+
 
             } else {
 
