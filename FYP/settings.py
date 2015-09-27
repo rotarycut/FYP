@@ -144,7 +144,7 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
 # SwampDragon settings
 SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
-DRAGON_URL='http://localhost:9999/'
+DRAGON_URL = 'http://localhost:9999'
 """
 import redis
 import urlparse
