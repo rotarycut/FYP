@@ -477,7 +477,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             data: {
                 json: data,
                 keys: {
-                    value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others', 'xiaxue blog', 'instagram']
+                    value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others']
                 },
                 type: 'pie',
                 onclick: function (d, element) {
