@@ -140,13 +140,8 @@ STATIC_ROOT = 'staticfiles'
 import djcelery
 djcelery.setup_loader()
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-BROKER_URL = 'redis://localhost:6379/0'
-"""
-import redis
-import urlparse
-redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-BROKER_URL = 'redis://:' + str(redis_url.password) + '@' + str(redis_url.hostname) + ':' + str(redis_url.port) + '/0'
-"""
+#BROKER_URL = 'redis://localhost:6379/0'
+BROKER_URL=os.environ['REDIS_URL']
 ##############
 
 # SwampDragon settings
