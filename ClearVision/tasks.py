@@ -1,5 +1,5 @@
 from celery import task
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from ClearVision.models import *
 import requests
 import base64
@@ -10,11 +10,11 @@ def clearPatientQueue():
 
 @task()
 def sendSMS():
-    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today()).values('patients', 'patients__name',
-                                                                                             'patients__gender', 'timeBucket__date',
-                                                                                             'timeBucket__start', 'apptType', 'id',
-                                                                                             'timeBucket', 'doctor__name', 'clinic',
-                                                                                             'doctor').\
+    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today() + timedelta(days=2)).values('patients', 'patients__name',
+                                                                                                              'patients__gender', 'timeBucket__date',
+                                                                                                              'timeBucket__start', 'apptType', 'id',
+                                                                                                              'timeBucket', 'doctor__name', 'clinic',
+                                                                                                              'doctor').\
             exclude(patients__isnull=True)
 
     numbersToSend = []
