@@ -6,7 +6,7 @@ import base64
 
 @task()
 def clearPatientQueue():
-    AttendedAppointment.objects.filter(attended=True).update(attended=None)
+    print("Patient Queue Executed")
 
 @task()
 def sendSMS():
