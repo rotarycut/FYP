@@ -18,7 +18,6 @@ from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from .serializers import *
 from django.contrib.auth.models import User
-from swampdragon.pubsub_providers.data_publisher import publish_data
 from django.conf import settings
 import pusher
 pusher = pusher.Pusher(
