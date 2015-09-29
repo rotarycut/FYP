@@ -123,7 +123,7 @@ angular.module('post.appointment', [])
                         $log.info("Successful with creating appointment");
 
                         // check the appointment type of the created appointment
-                        switch (self.scope.fields.appointmentType) {
+                        /*switch (self.scope.fields.appointmentType) {
 
                             case "Screening":
                                 var appointmentIndex = 0;
@@ -170,7 +170,7 @@ angular.module('post.appointment', [])
 
                                 self.scope.selectedDoctor.drSurgery.events.push(data);
                                 break;
-                        }
+                        }*/
 
                         // disable iSchedule
                         disableIScheduleSvc.disableISchedule();

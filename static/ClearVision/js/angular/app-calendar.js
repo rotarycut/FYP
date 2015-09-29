@@ -977,6 +977,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
          break;
          }
          }*/
+
+        postAppointmentSvc.postAppointment(appointment.message, true);
+
         console.log("IN PUSHER CREATE");
         console.log(appointment);
     });
