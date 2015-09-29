@@ -1,3 +1,2 @@
 celerybeat: python manage.py celery beat --loglevel=INFO
 celeryworker: python manage.py celery worker --loglevel=INFO
-swampdragon: python server.py
