@@ -13,8 +13,8 @@
     var pusher = new Pusher('6cb577c1e7b97150346b', {
       encrypted: true
     });
-    var channel = pusher.subscribe('test_channel');
-    channel.bind('my_event', function(data) {
+    var channel = pusher.subscribe('appointmentsCUD');
+    channel.bind('createAppt', function(data) {
       alert(data.message);
     });
   </script>
