@@ -348,4 +348,5 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
     };
 
 
+
 });

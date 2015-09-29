@@ -7,7 +7,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
-                                                 changeCalendarSvc, getMarketingChannelsSvc, $route) {
+                                                 changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -149,10 +149,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 // enable appointment type field to be change only after loading heat map completely
                 $scope.disabledApptType = false;
-                if ($scope.formTitle != "Edit Appointment") {
-                    $scope.form.disableFields.doctor = false;
-                }
-
+                $scope.form.disableFields.doctor = false;
             });
 
         $http.get(medHeatUrl)
@@ -966,6 +963,45 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      }, 5000);
 
      });*/
+
+
+    /*******************************************************************************
+     pusher
+     *******************************************************************************/
+
+
+    Pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
+        /*for (var i = 0; i < $scope.patientList.length; i++) {
+         if ($scope.patientList[i].id === appointment.id) {
+         $scope.patientList[i] = appointment;
+         break;
+         }
+         }*/
+        console.log("IN PUSHER CREATE");
+        console.log(appointment);
+    });
+
+    Pusher.subscribe('appointmentsCUD', 'updateAppt', function (appointment) {
+        /*for (var i = 0; i < $scope.patientList.length; i++) {
+         if ($scope.patientList[i].id === appointment.id) {
+         $scope.patientList[i] = appointment;
+         break;
+         }
+         }*/
+        console.log("IN PUSHER UPDATE");
+        console.log(appointment);
+    });
+
+    Pusher.subscribe('appointmentsCUD', 'deleteAppt', function (appointment) {
+        /*for (var i = 0; i < $scope.patientList.length; i++) {
+         if ($scope.patientList[i].id === appointment.id) {
+         $scope.patientList[i] = appointment;
+         break;
+         }
+         }*/
+        console.log("IN PUSHER DELETE");
+        console.log(appointment);
+    });
 
 
     /*******************************************************************************

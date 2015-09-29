@@ -38,7 +38,8 @@ var app = angular.module('calendarDemoApp', [
     'search.appointments',
     'check.existingPatient',
     'change.calendar',
-    'get.marketingChannels'
+    'get.marketingChannels',
+    'doowb.angular-pusher'
 ]);
 
 /* Angular routing */
@@ -92,6 +93,14 @@ app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
 });
+
+app.config(['PusherServiceProvider',
+    function (PusherServiceProvider) {
+        PusherServiceProvider
+            .setToken('6cb577c1e7b97150346b')
+            .setOptions({});
+    }
+]);
 
 //remove ng-scope and ng-bining class from html
 /*app.config(['$compileProvider', function ($compileProvider) {
