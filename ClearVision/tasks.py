@@ -29,8 +29,8 @@ def sendSMS():
 
         # 'from' field has max length of 11 characters
 
-        payload = {'from': 'Clearvision', 'to': '65'+eachNumberToSendSMS[1],
-                   'text': 'Hi ' + eachNumberToSendSMS[0] +
+        payload = {'from': 'Clearvision', 'to': '65'+ str(eachNumberToSendSMS[1]),
+                   'text': 'Hi ' + str(eachNumberToSendSMS[0]) +
                            ', please be reminded of your Appointment with us tomorrow at ' + str(eachNumberToSendSMS[2])}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
