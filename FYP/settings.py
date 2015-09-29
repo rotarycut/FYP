@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'djcelery',
     'kombu.transport.django',
     'swampdragon',
+    'pusher',
 )
 
 MIDDLEWARE_CLASSES = (

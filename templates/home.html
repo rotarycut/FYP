@@ -1,20 +1,21 @@
-{% load static swampdragon_tags %}
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
+<head>
+  <title>Pusher Test</title>
+  <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+  <script>
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('6cb577c1e7b97150346b', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('test_channel');
+    channel.bind('my_event', function(data) {
+      alert(data.message);
+    });
+  </script>
 </head>
-<body>
-
-<h2 id="sent"></h2>
-
-<!-- SwampDragon -->
-{% swampdragon_settings %}
-<script type="text/javascript" src="{% static 'swampdragon/js/dist/swampdragon.min.js' %}"></script>
-
-<!-- Monitor -->
-<script type="text/javascript" src="{% static 'monitor.js' %}"></script>
-
-</body>
-</html>

@@ -20,6 +20,14 @@ from .serializers import *
 from django.contrib.auth.models import User
 from swampdragon.pubsub_providers.data_publisher import publish_data
 from django.conf import settings
+import pusher
+pusher = pusher.Pusher(
+                app_id='144985',
+                key='6cb577c1e7b97150346b',
+                secret='e960c0e8a1aefdb7d282',
+                ssl=True,
+                port=443
+            )
 
 @login_required
 def success(request):
@@ -235,7 +243,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
             return Response(response_data)
         serializedExistingAppt = AppointmentSerializer(a)
-        publish_data(channel='deleteAppt', data=serializedExistingAppt.data)
+        pusher.trigger('appointmentsCUD', 'deleteAppt', {'message': json.dumps(serializedExistingAppt.data)})
         return Response({})
 
         # else:
@@ -316,7 +324,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
                                            swappable=False, hasRead=False).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
-            publish_data(channel='createAppt', data=serializedExistingAppt.data)
+
+            pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)})
             return Response(serializedExistingAppt.data)
 
         else:
@@ -361,7 +370,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
-            publish_data(channel='createAppt', data=serializedExistingAppt.data)
+            pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)})
             return Response(serializedExistingAppt.data)
 
     def update(self, request, *args, **kwargs):
@@ -416,7 +425,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-            publish_data(channel='updateAppt', data=serializedExistingFutureAppt.data)
+            pusher.trigger('appointmentsCUD', 'updateAppt', {'message': json.dumps(serializedExistingFutureAppt.data)})
             return Response(serializedExistingFutureAppt.data)
         else:
 
@@ -436,7 +445,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-            publish_data(channel='updateAppt', data=serializedExistingFutureAppt.data)
+            pusher.trigger('appointmentsCUD', 'updateAppt', {'message': json.dumps(serializedExistingFutureAppt.data)})
             return Response(serializedExistingFutureAppt.data)
 
 
