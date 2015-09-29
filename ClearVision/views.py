@@ -1254,7 +1254,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
                                                )
-            publish_data(channel='queue', data={})
+            pusher.trigger('queue', 'addToQueue', {'message': {}})
         else:
             associatedPAction.addedToQueue = False
             associatedPAction.save()
@@ -1263,7 +1263,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a,
                                                )
-            publish_data(channel='queue', data={})
+            pusher.trigger('queue', 'noShow', {'message': {}})
 
         return HttpResponse("Success")
 
@@ -1343,7 +1343,7 @@ class PatientQueue(viewsets.ModelViewSet):
         associatedPAction.addedToQueue = None
         associatedPAction.save()
 
-        publish_data(channel='queue', data={})
+        pusher.trigger('queue', 'removeFromQueue', {'message': {}})
         return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
