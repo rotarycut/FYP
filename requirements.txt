@@ -15,6 +15,7 @@ greenlet==0.4.9
 gunicorn==19.3.0
 kombu==3.0.26
 psycopg2==2.6.1
+pusher==1.2.3
 pytz==2015.4
 requests==2.7.0
 sphinx-me==0.3
