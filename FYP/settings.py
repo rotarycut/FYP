@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'djcelery',
     'kombu.transport.django',
-    'swampdragon',
     'pusher',
 )
 
@@ -144,11 +143,11 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 BROKER_URL = 'redis://localhost:6379/0'
 #BROKER_URL=os.environ['REDIS_URL']
 ##############
-
+"""
 # SwampDragon settings
 SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
 DRAGON_URL = 'http://localhost:9999'
-"""
+
 import redis
 import urlparse
 redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
