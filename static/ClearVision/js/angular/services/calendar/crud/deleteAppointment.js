@@ -156,129 +156,132 @@ angular.module('delete.appointment', [])
                     .success(function (data) {
                         $log.info("Successful with deleting appointment");
 
+                        // hide the appointment form
+                        hideFormSvc.hideForm();
+
                         // find out if there will be any patients left after the deletion
-                        var urlStr = '/Clearvision/_api/appointments/' + self.scope.fields.appointmentId;
+                        /*var urlStr = '/Clearvision/_api/appointments/' + self.scope.fields.appointmentId;
 
-                        $http.get(urlStr)
-                            .success(function (data) {
+                         $http.get(urlStr)
+                         .success(function (data) {
 
-                                // there are still patients in the appointment after the deletion
-                                $log.warn("There still exist patients in the appointment");
+                         // there are still patients in the appointment after the deletion
+                         $log.warn("There still exist patients in the appointment");
 
-                                // check the appointment type of the deleted appointment
-                                switch (self.scope.fields.appointmentType) {
+                         // check the appointment type of the deleted appointment
+                         switch (self.scope.fields.appointmentType) {
 
-                                    case "Screening":
-                                        var appointmentIndex = 0;
+                         case "Screening":
+                         var appointmentIndex = 0;
 
-                                        // loop through all the screening events of the selected doctor
-                                        angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+                         // loop through all the screening events of the selected doctor
+                         angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
 
-                                            // find the appointment to be deleted
-                                            if (screeningAppointment.id === self.scope.fields.appointmentId) {
+                         // find the appointment to be deleted
+                         if (screeningAppointment.id === self.scope.fields.appointmentId) {
 
-                                                // remove the entire appointment from the calendar
-                                                self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+                         // remove the entire appointment from the calendar
+                         self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
 
-                                            }
-                                            appointmentIndex++;
-                                        });
+                         }
+                         appointmentIndex++;
+                         });
 
-                                        // add the updated appointment minus the deleted patient back into the calendar
-                                        self.scope.selectedDoctor.drScreening.events.push(data);
-                                        break;
+                         // add the updated appointment minus the deleted patient back into the calendar
+                         self.scope.selectedDoctor.drScreening.events.push(data);
+                         break;
 
-                                    case "Pre Evaluation":
-                                        var appointmentIndex = 0;
+                         case "Pre Evaluation":
+                         var appointmentIndex = 0;
 
-                                        angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
+                         angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
 
-                                            if (preEvaluationAppointment.id === self.scope.fields.appointmentId) {
+                         if (preEvaluationAppointment.id === self.scope.fields.appointmentId) {
 
-                                                self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
+                         self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
 
-                                            }
-                                            appointmentIndex++;
-                                        });
+                         }
+                         appointmentIndex++;
+                         });
 
-                                        self.scope.selectedDoctor.drPreEval.events.push(data);
-                                        break;
+                         self.scope.selectedDoctor.drPreEval.events.push(data);
+                         break;
 
-                                    case "Surgery":
-                                        var appointmentIndex = 0;
+                         case "Surgery":
+                         var appointmentIndex = 0;
 
-                                        angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
+                         angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
 
-                                            if (surgeryAppointment.id === self.scope.fields.appointmentId) {
+                         if (surgeryAppointment.id === self.scope.fields.appointmentId) {
 
-                                                self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
+                         self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
 
-                                            }
-                                            appointmentIndex++;
-                                        });
+                         }
+                         appointmentIndex++;
+                         });
 
-                                        self.scope.selectedDoctor.drSurgery.events.push(data);
-                                        break;
-                                }
+                         self.scope.selectedDoctor.drSurgery.events.push(data);
+                         break;
+                         }
 
-                                // hide the appointment form
-                                hideFormSvc.hideForm();
+                         // hide the appointment form
+                         hideFormSvc.hideForm();
 
-                            })
-                            .error(function (data) {
+                         })
+                         .error(function (data) {
 
-                                // there are NO patients in the appointment after the deletion
-                                $log.warn("No more patients left in the appointment");
+                         // there are NO patients in the appointment after the deletion
+                         $log.warn("No more patients left in the appointment");
 
-                                switch (self.scope.fields.appointmentType) {
+                         switch (self.scope.fields.appointmentType) {
 
-                                    case "Screening":
-                                        var appointmentIndex = 0;
+                         case "Screening":
+                         var appointmentIndex = 0;
 
-                                        angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+                         angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
 
-                                            if (screeningAppointment.id === self.scope.fields.appointmentId) {
+                         if (screeningAppointment.id === self.scope.fields.appointmentId) {
 
-                                                self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+                         self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
 
-                                            }
-                                            appointmentIndex++;
-                                        });
-                                        break;
+                         }
+                         appointmentIndex++;
+                         });
+                         break;
 
-                                    case "Pre Evaluation":
-                                        var appointmentIndex = 0;
+                         case "Pre Evaluation":
+                         var appointmentIndex = 0;
 
-                                        angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
+                         angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
 
-                                            if (preEvaluationAppointment.id === self.scope.fields.appointmentId) {
+                         if (preEvaluationAppointment.id === self.scope.fields.appointmentId) {
 
-                                                self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
+                         self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
 
-                                            }
-                                            appointmentIndex++;
-                                        });
-                                        break;
+                         }
+                         appointmentIndex++;
+                         });
+                         break;
 
-                                    case "Surgery":
-                                        var appointmentIndex = 0;
+                         case "Surgery":
+                         var appointmentIndex = 0;
 
-                                        angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
+                         angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
 
-                                            if (surgeryAppointment.id === self.scope.fields.appointmentId) {
+                         if (surgeryAppointment.id === self.scope.fields.appointmentId) {
 
-                                                self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+                         self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
 
-                                            }
-                                            appointmentIndex++;
-                                        });
-                                        break;
-                                }
+                         }
+                         appointmentIndex++;
+                         });
+                         break;
+                         }
 
-                                // hide the appointment form
-                                hideFormSvc.hideForm();
+                         // hide the appointment form
+                         hideFormSvc.hideForm();
 
-                            });
+                         });*/
 
                     })
 
