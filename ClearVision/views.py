@@ -1356,7 +1356,7 @@ class PatientQueue(viewsets.ModelViewSet):
 def recievemsg(request):
     payload = request.GET
 
-    message = payload['Text']
+    message = payload['text']
     messageArray = message.split()
 
     try:
@@ -1371,7 +1371,7 @@ def recievemsg(request):
         WronglyRepliedSMS.objects.create(text=message, origin=payload['Sender'])
         return HttpResponse('SMS reply not configured')
 
-    origin = payload['Sender']
+    origin = payload['sender']
 
     origin = origin[2:]
 
