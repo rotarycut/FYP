@@ -97,7 +97,7 @@
                             </div>
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="row" style="padding-top: 22%">
-                                    <button class="btn form-default-btn" ng-click="retrieveCustomStackedChart()">Run
+                                    <button class="btn form-default-btn" ng-click="getCustomStackedChart()">Run
                                         Filter
                                     </button>
                                     <button class="btn form-default-btn" ng-click="openSaveFilterModal()">Save Filter
@@ -163,13 +163,13 @@
                     </div>
                     <div class="col-md-6" style="padding-top: 2.5px; padding-left: 0.5%;">
                         <button class="btn btn-sm switch-chart-btn clicked"
-                                ng-click="retrieveFirstPieChart('Cancelled')">Cancelled Appointments
+                                ng-click="getFirstPieChart('Cancelled')">Cancelled Appointments
                         </button>
-                        <button class="btn btn-sm switch-chart-btn" ng-click="retrieveFirstPieChart('NoShow')">
+                        <button class="btn btn-sm switch-chart-btn" ng-click="getFirstPieChart('NoShow')">
                             No Show Appointments
                         </button>
                         <button class="btn btn-sm switch-chart-btn"
-                                ng-click="retrieveFirstPieChart('Combined')">Combined Appointments
+                                ng-click="getFirstPieChart('Combined')">Combined Appointments
                         </button>
                     </div>
                     <div class="col-md-1 col-md-offset-3 graph-function-col">
@@ -217,8 +217,8 @@
                         <a href="" ng-click="deleteFilter(filter.id)" style="font-size: smaller"><i
                                 class="fa fa-times"></i></a>
                         <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item"
-                           onclick="changeState(this)" ng-click="monthSelection(month)"
-                           ng-click="activateFilter(filter.id)">[[filter.name]]</a>
+                           onclick="changeState(this)"
+                           ng-click="activateFilter(filter.id); monthSelection(month);">[[filter.name]]</a>
                         <a href="" ng-click="openEditFilter(filter.startDate, filter.endDate, filter.id, filter.name)"
                            style="font-size: smaller"><i class="fa fa-pencil"></i></a>
                     </li>

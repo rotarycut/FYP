@@ -1,7 +1,7 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc, $route,
-                                                                    getStackedChartSvc, getPieChartSvc) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, $log, postFilterSvc, editFilterSvc, $route,
+                                                                    getStackedChartSvc, getPieChartSvc, getCustomStackedChartSvc, scheduleCustomFilterSvc) {
 
     $scope.$route = $route;
 
@@ -10,6 +10,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     editFilterSvc.getScope($scope);
     getStackedChartSvc.getScope($scope);
     getPieChartSvc.getScope($scope);
+    getCustomStackedChartSvc.getScope($scope);
+    scheduleCustomFilterSvc.getScope($scope);
 
     /* define variables */
     $scope.existingFilterName = "";
@@ -91,7 +93,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         }
 
         $scope.retrieveStackedChart($scope.currentMonth);
-        $scope.retrieveFirstPieChart($scope.outerTab, $scope.currentMonth);
+        getPieChartSvc.getFirstPieChart($scope.outerTab, $scope.currentMonth);
 
     };
 
@@ -155,6 +157,16 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
     /* call to retrieve stacked chart */
     $scope.retrieveStackedChart($scope.getCurrentMonth());
+
+
+    /*******************************************************************************
+     custom appointment scheduling stacked chart
+     *******************************************************************************/
+
+
+    $scope.getCustomStackedChart = function (currentMonth, isSavedFilter) {
+        getCustomStackedChartSvc.getCustomStackedChart(currentMonth, isSavedFilter);
+    };
 
 
     /*******************************************************************************
@@ -383,7 +395,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             $scope.pieDetails[1].sequence = 2;
             $scope.pieDetails[2].sequence = 1;
         }
-        $scope.retrieveFirstPieChart($scope.outerTab);
+        getPieChartSvc.getFirstPieChart($scope.outerTab);
     };
 
 
@@ -410,132 +422,32 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 
 
     /*******************************************************************************
-     custom appointment scheduling stacked chart
-     *******************************************************************************/
-
-
-    $scope.retrieveCustomStackedChart = function (currentMonth, isSavedFilter) {
-
-        // if it is coming from a saved filter
-        if (isSavedFilter) {
-
-            $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
-                .success(function (data) {
-                    $scope.stackedCustomChartData = data;
-                    //console.log(data);
-                    $scope.showStackedChart($scope.stackedCustomChartData);
-                });
-
-        } else {
-
-            if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
-
-                $scope.openErrorModal();
-
-            } else {
-
-                $scope.sortSelected = "Turn Up";
-                $scope.startDate = $scope.getFormattedDate($scope.datepicker);
-                $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
-
-                //console.log($scope.listOfSelectedAppointmentTypes);
-                //console.log($scope.string);
-
-                $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
-                    .success(function (data) {
-                        $scope.stackedCustomChartData = data;
-                        //console.log(data);
-                        $scope.showStackedChart($scope.stackedCustomChartData);
-                    });
-
-                $scope.string = "";
-                angular.forEach($scope.listOfSelectedAppointmentTypes, function (appt) {
-                    $scope.string += "apptTypes=";
-                    $scope.string += appt;
-                    $scope.string += '&';
-                });
-
-                $scope.retrieveFirstPieChart($scope.outerTab);
-                $scope.enableCustomFilter = true;
-
-            }
-        }
-
-    };
-
-
-    /*******************************************************************************
      custom filter codes
      *******************************************************************************/
 
+
     /* function to get custom filter */
     $scope.getCustomFilters = function () {
-        $http.get('/Clearvision/_api/ViewSavedApptTypeCustomFilters/')
-            .success(function (data) {
-                $scope.savedFilters = data;
-            })
+        scheduleCustomFilterSvc.getCustomFilters();
     };
-
     $scope.getCustomFilters();
+
 
     /* function to activate filter */
     $scope.activateFilter = function (filterId) {
-        $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
-            .success(function (data) {
-                $scope.startDate = data.startDate;
-                $scope.endDate = data.endDate;
-                var listOfFilterAppointmentTypes = [];
-
-                angular.forEach(data.apptType, function (individualApptType) {
-                    listOfFilterAppointmentTypes.push(individualApptType.name);
-                });
-
-                $scope.enableCustomFilter = true;
-                $scope.string = "";
-                angular.forEach(listOfFilterAppointmentTypes, function (appt) {
-                    $scope.string += "apptTypes=";
-                    $scope.string += appt;
-                    $scope.string += '&';
-                });
-
-                $scope.retrieveCustomStackedChart("", true);
-                $scope.retrieveFirstPieChart($scope.outerTab);
-
-            });
+        scheduleCustomFilterSvc.activateFilter(filterId);
     };
+
 
     /* function to delete filter */
     $scope.deleteFilter = function (filterId) {
-        $http.delete('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
-            .success(function (data) {
-                $scope.getCustomFilters();
-            })
+        scheduleCustomFilterSvc.deleteFilter(filterId);
     };
+
 
     /* function to open filter for edit */
     $scope.openEditFilter = function (startDate, endDate, filterId, filterName) {
-        $scope.isCollapsed = false;
-        $scope.datepicker = startDate;
-        $scope.datepicker2 = endDate;
-        $scope.existingFilterName = filterName;
-
-        $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
-            .success(function (data) {
-                $scope.listOfSelectedAppointmentTypes = [];
-
-                angular.forEach(data.apptType, function (individualApptType) {
-                    $scope.listOfSelectedAppointmentTypes.push(individualApptType.name);
-                    $scope.listOfSelectedAppointmentTypesId.push(individualApptType.id);
-                });
-
-                angular.forEach($scope.apptTypes, function (apptType) {
-                    if ($scope.listOfSelectedAppointmentTypes.indexOf(apptType.name) > -1) {
-                        apptType.naming = true;
-                    }
-                });
-            });
-
-        $scope.editFilterId = filterId;
+        scheduleCustomFilterSvc.openEditFilter(startDate, endDate, filterId, filterName);
     };
 
 
@@ -642,6 +554,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
 /*******************************************************************************
  start of modal controller
  *******************************************************************************/
+
 
 appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance, postFilterSvc, editFilterSvc, existingFilterName) {
 
