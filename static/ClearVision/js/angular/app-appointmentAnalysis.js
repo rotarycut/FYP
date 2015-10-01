@@ -16,7 +16,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     /* define variables */
     $scope.existingFilterName = "";
     $scope.isCollapsed = true;
-    $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
+    $scope.savedMonths = ["Oct 15", "Sep 15", "Aug 15", "Jul 15"];
     $scope.innerTab = 'Appointment Type';
     $scope.listOfSelectedAppointmentTypes = [];
     $scope.listOfSelectedAppointmentTypesId = [];
@@ -84,7 +84,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.monthSelection = function (selectedMonth) {
         $scope.enableCustomFilter = false;
 
-        if (selectedMonth == "Sep 15") {
+        if (selectedMonth == "Oct 15") {
+            $scope.currentMonth = 10;
+        } else if (selectedMonth == "Sep 15") {
             $scope.currentMonth = 9;
         } else if (selectedMonth == "Aug 15") {
             $scope.currentMonth = 8;
@@ -164,8 +166,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
      *******************************************************************************/
 
 
-    $scope.getCustomStackedChart = function (currentMonth, isSavedFilter) {
-        getCustomStackedChartSvc.getCustomStackedChart(currentMonth, isSavedFilter);
+    $scope.getCustomStackedChart = function (isSavedFilter) {
+        getCustomStackedChartSvc.getCustomStackedChart(isSavedFilter);
     };
 
 
