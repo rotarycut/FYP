@@ -2680,5 +2680,7 @@ class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
         date = request.query_params.get('date')
         doctor = request.query_params.get('docID')
 
-        BlockDates.objects.filter(doctor=doctor, start__lte=date, end=date)
-
+        if BlockDates.objects.filter(doctor=doctor, start__lte=date, end__gte=date).exists():
+            return Response(True)
+        else:
+            return Response(False)
