@@ -2625,7 +2625,7 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
         return Response(allMarketingChannels)
 
 class CalendarBlocker(viewsets.ModelViewSet):
-    queryset = None
+    queryset = CalendarBlocker.objects.none()
 
     def list(self, request, *args, **kwargs):
         futureCalendarBlockers = CalendarBlocker.objects.filter(start__gte=datetime.now()).values()
