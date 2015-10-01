@@ -18,6 +18,7 @@ angular.module('show.form', [])
 
             // scale down the size of the calendar
             self.scope.scaleDownCalendar = true;
+            self.scope.form.showButtons['addAndBlock'] = false;
 
             // show the progress bar
             self.scope.progressbar.start();
@@ -40,7 +41,7 @@ angular.module('show.form', [])
                 self.scope.formTitle = "Create New Appointment";
                 self.scope.showPatientList = false;
                 self.scope.form.showButtons['createForm'] = true;
-                self.scope.form.showButtons['addAndBlock'] = false;
+
 
             } else if (formType === 'Edit') {
 
@@ -78,6 +79,32 @@ angular.module('show.form', [])
             } else {
                 // do nothing
             }
+
+        };
+
+        /* block appointment time form */
+        self.showBlockForm = function () {
+
+            // scale down the size of the calendar
+            self.scope.scaleDownCalendar = true;
+            self.scope.form.showButtons['addAndBlock'] = false;
+
+            // show the progress bar
+            self.scope.progressbar.start();
+            self.scope.progressbar.complete();
+
+            // show form only after 600ms
+            $timeout(function () {
+                self.scope.form.showBlockForm = true;
+            }, 600);
+
+            // disabled both doctor's calendar tabs
+            angular.forEach(self.scope.tabs, function (tab) {
+                tab.disable = true;
+            });
+
+            // perform these operations when showing the create appointment form
+                self.scope.formTitle = "Block Off Time";
 
         };
 

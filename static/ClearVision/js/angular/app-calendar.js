@@ -112,7 +112,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.getISchedule = function () {
 
         $scope.appointments = [];
-        var url = '/Clearvision/_api/iSchedule/?limit=5&daysAhead=7&timeslotType=' + $scope.fields.appointmentType + '&upperB=5&docName=Dr%20Ho'
+        var url = '/Clearvision/_api/iSchedule/?limit=5&daysAhead=7&timeslotType=' + 'Screening' + '&upperB=5&docName=Dr%20Ho'
 
         $http.get(url)
             .success(function (listOfAppointments) {
@@ -478,6 +478,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.form = {
         showForm: false,
+        showBlockForm: false,
         showFields: {
             appointmentType: true,
             contact: true,
@@ -527,6 +528,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to show appointment form */
+    $scope.showBlockForm = function () {
+        showFormSvc.showBlockForm();
+    };
+
+    /* function to show block form */
     $scope.showForm = function (formType) {
         showFormSvc.showForm(formType);
     };
@@ -1158,6 +1164,12 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
             .success(function (data) {
                 $log.info("End recording of deleting appointment");
             });
+
+    };
+
+    /* temp for block form */
+    $scope.showBlockForm = function () {
+
 
     };
 

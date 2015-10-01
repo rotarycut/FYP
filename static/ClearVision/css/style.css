@@ -188,7 +188,7 @@
 
 .navbar.navbar-default.navbar-fixed-top{   /*to be changed*/
     background: #D0E0EB;
-    border-bottom: dotted 2px #70AFC4;
+    border-bottom: solid 1px #70AFC4;
 }
 .nav.navbar-nav.navbar-right > li > a{
     color: #70AFC4;
@@ -525,9 +525,9 @@ input[type=text].date-input-field:disabled {
     float: left;
 }
 
-.form-row.form-content-row{
+.form-content-row{
     overflow-y: auto;
-    height: 83vh;
+    height: 84vh;
 }
 
 #i-slots-date li{
@@ -953,6 +953,14 @@ table.mailbox-tbl > tbody > tr:hover{
 }
 
 /* msglog page css ends */
+
+/* block form css starts */
+.right-content-block{
+    /*display: none;*/
+    display: inline-block;
+    float: left;
+}
+/* block form css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {
     -webkit-transform:translateY(0px);
