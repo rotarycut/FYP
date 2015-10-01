@@ -21,7 +21,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.listOfSelectedAppointmentTypes = [];
     $scope.listOfSelectedAppointmentTypesId = [];
     $scope.outerTab = "Cancelled";
-    $scope.sortOptions = ["Appeared", "No Show", "Cancelled", "Pending"];
+    $scope.sortOptions = ["Turn Up", "No Show", "Cancelled", "Undecided"];
     $scope.pieDetails = [
         {
             pieName: 'pieApptType',
