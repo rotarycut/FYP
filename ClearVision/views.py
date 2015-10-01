@@ -1516,13 +1516,13 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
                 toReturnResponse.append(toAdd)
 
         if sortValue == 'Turn Up':
-            return Response(sorted(toReturnResponse, key=itemgetter('Appeared'), reverse=True))
+            return Response(sorted(toReturnResponse, key=itemgetter('Turn Up'), reverse=True))
         elif sortValue == 'No Show':
-            return Response(sorted(toReturnResponse, key=itemgetter('NoShow'), reverse=True))
+            return Response(sorted(toReturnResponse, key=itemgetter('No Show'), reverse=True))
         elif sortValue == 'Cancelled':
             return Response(sorted(toReturnResponse, key=itemgetter('Cancelled'), reverse=True))
         elif sortValue == 'Undecided':
-            return Response(sorted(toReturnResponse, key=itemgetter('Pending'), reverse=True))
+            return Response(sorted(toReturnResponse, key=itemgetter('Undecided'), reverse=True))
         else:
             return Response(toReturnResponse)
 
@@ -2678,4 +2678,7 @@ class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         date = request.query_params.get('date')
+        doctor = request.query_params.get('docID')
+
+        BlockDates.objects.filter(doctor=doctor, start__lte=date, end=date)
 
