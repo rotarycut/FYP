@@ -2630,6 +2630,10 @@ class CalendarBlocker(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now()).values()
+
+        for eachObj in futureCalendarBlockers:
+            eachObj['rendering'] = 'background'
+
         return Response(futureCalendarBlockers)
 
     def create(self, request, *args, **kwargs):
