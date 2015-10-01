@@ -3,9 +3,12 @@ var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc, $route) {
 
     $scope.$route = $route;
+
+    /* get scope in services */
     postFilterSvc.getScope($scope);
     editFilterSvc.getScope($scope);
 
+    /* define variables */
     $scope.existingFilterName = "";
     $scope.isCollapsed = true;
     $scope.savedMonths = ["Sep 15", "Aug 15", "Jul 15"];
@@ -76,7 +79,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.monthSelection = function (selectedMonth) {
         $scope.enableCustomFilter = false;
 
-        var month;
         if (selectedMonth == "Sep 15") {
             $scope.currentMonth = 9;
         } else if (selectedMonth == "Aug 15") {
@@ -240,21 +242,21 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartApptTypeTab/?month=' + currentMonth + '&piechartType=' + type;
             }
 
-            console.log("Query: " + queryString);
+            //console.log("Query: " + queryString);
 
             $http.get(queryString)
                 .success(function (data) {
-                    console.log(data);
+                    //console.log(data);
                     if (Object.keys(data).length == 0) {
                         // there is zero cancelled appointment
-                        console.log("There is zero cancelled appointment");
+                        //console.log("There is zero cancelled appointment");
                         $scope.showNoAppointmentRemark = true;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     } else {
                         // there is at least one cancelled appointment
-                        console.log("There is at least one cancelled appointment");
+                        //console.log("There is at least one cancelled appointment");
                         $scope.showNoAppointmentRemark = false;
                         $scope.appointmentTypeChart(data);
                         $scope.reasonsChart([]);
@@ -262,7 +264,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     }
                 })
                 .error(function (data) {
-                    console.log("Error");
+                    //console.log("Error");
                 });
 
         } else if ($scope.innerTab == 'Reasons') {
@@ -274,20 +276,20 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartReasonsTab/?month=' + currentMonth + '&piechartType=' + type;
             }
 
-            console.log("Query: " + queryString);
+            //console.log("Query: " + queryString);
 
             $http.get(queryString)
                 .success(function (data) {
                     if (Object.keys(data).length == 0) {
                         // there is zero cancelled appointment
-                        console.log("There is zero cancelled appointment");
+                        //console.log("There is zero cancelled appointment");
                         $scope.showNoAppointmentRemark = true;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     } else {
                         // there is at least one cancelled appointment
-                        console.log("There is at least one cancelled appointment!!");
+                        //console.log("There is at least one cancelled appointment!!");
                         $scope.showNoAppointmentRemark = false;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart(data);
@@ -304,20 +306,20 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 queryString = '/Clearvision/_api/ViewAppointmentAnalysisPiechartMarketingChannelsTab/?month=' + currentMonth + '&piechartType=' + type;
             }
 
-            console.log("Query: " + queryString);
+            //console.log("Query: " + queryString);
 
             $http.get(queryString)
                 .success(function (data) {
                     if (Object.keys(data).length == 0) {
                         // there is zero cancelled appointment
-                        console.log("There is zero cancelled appointment");
+                        //("There is zero cancelled appointment");
                         $scope.showNoAppointmentRemark = true;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart([]);
                         $scope.marketingChannelChart([]);
                     } else {
                         // there is at least one cancelled appointment
-                        console.log("There is at least one cancelled appointment!!");
+                        //console.log("There is at least one cancelled appointment!!");
                         $scope.showNoAppointmentRemark = false;
                         $scope.appointmentTypeChart([]);
                         $scope.reasonsChart([]);
@@ -358,7 +360,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     if ($scope.enableCustomFilter) {
                         $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?customFilter=True&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate + '&apptType=' + chosenField)
                             .success(function (data) {
-                                console.log("custom part pie for " + chosenField);
+                                //console.log("custom part pie for " + chosenField);
                                 $scope.reasonsChart(data[1])
                                 $scope.marketingChannelChart(data[0]);
                             })
@@ -366,7 +368,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     } else {
                         $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&apptType=' + chosenField)
                             .success(function (data) {
-                                console.log(data);
+                                //console.log(data);
                                 $scope.reasonsChart(data[1])
                                 $scope.marketingChannelChart(data[0]);
                             })
@@ -423,7 +425,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     if ($scope.enableCustomFilter) {
                         $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?customFilter=True&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate + '&reason=' + chosenField)
                             .success(function (data) {
-                                console.log("custom part pie for " + chosenField);
+                                //console.log("custom part pie for " + chosenField);
                                 $scope.appointmentTypeChart(data[0])
                                 $scope.marketingChannelChart(data[1]);
                             })
@@ -431,7 +433,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     } else {
                         $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&reason=' + chosenField)
                             .success(function (data) {
-                                console.log(data);
+                                //console.log(data);
                                 $scope.appointmentTypeChart(data[0])
                                 $scope.marketingChannelChart(data[1]);
                             })
@@ -487,7 +489,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     if ($scope.enableCustomFilter) {
                         $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?customFilter=True&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate + '&channel=' + chosenField)
                             .success(function (data) {
-                                console.log("custom part pie for " + chosenField);
+                                //console.log("custom part pie for " + chosenField);
                                 $scope.appointmentTypeChart(data[0]);
                                 $scope.reasonsChart(data[1]);
                             })
@@ -495,7 +497,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     } else {
                         $http.get('/Clearvision/_api/ViewAppointmentAnalysisPartPieApptType/?month=' + currentMonth + '&pieChartTab=' + $scope.outerTab + '&pieChart=' + $scope.innerTab + '&channel=' + chosenField)
                             .success(function (data) {
-                                console.log(data);
+                                //console.log(data);
                                 $scope.appointmentTypeChart(data[0]);
                                 $scope.reasonsChart(data[1]);
                             })
@@ -582,11 +584,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
                 .success(function (data) {
                     $scope.stackedCustomChartData = data;
-                    console.log(data);
+                    //console.log(data);
                     $scope.showStackedChart($scope.stackedCustomChartData);
                 });
 
         } else {
+
             if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
 
                 $scope.openErrorModal();
@@ -597,13 +600,13 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 $scope.startDate = $scope.getFormattedDate($scope.datepicker);
                 $scope.endDate = $scope.getFormattedDate($scope.datepicker2);
 
-                console.log($scope.listOfSelectedAppointmentTypes);
-                console.log($scope.string);
+                //console.log($scope.listOfSelectedAppointmentTypes);
+                //console.log($scope.string);
 
                 $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'startDate=' + $scope.startDate + '&endDate=' + $scope.endDate)
                     .success(function (data) {
                         $scope.stackedCustomChartData = data;
-                        console.log(data);
+                        //console.log(data);
                         $scope.showStackedChart($scope.stackedCustomChartData);
                     });
 
@@ -719,20 +722,14 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
         $scope.datePickerCalendar = null;
     };
 
-    $scope.toggleMin = function () {
-        $scope.minStartDate = $scope.minStartDate ? null : new Date();
-        $scope.minEndDate = $scope.minEndDate ? null : new Date();
-    };
-    $scope.toggleMin();
-
     $scope.toggleEndDate = function () {
 
-        if ($scope.datepicker != null) {
+        if ($scope.datepicker != null && $scope.datepicker != "") {
             var startDate = $scope.getFormattedDate($scope.datepicker);
             $scope.minEndDate = new Date(startDate);
         }
 
-        if ($scope.datepicker2 != null) {
+        if ($scope.datepicker2 != null && $scope.datepicker2 != "") {
             var endDate = $scope.getFormattedDate($scope.datepicker2)
             $scope.maxStartDate = new Date(endDate);
         }

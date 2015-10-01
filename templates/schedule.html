@@ -12,7 +12,7 @@
                                 <h5 style="color: #fff">Filter Options</h5>
                             </div>
                             <div class="col-md-1 filter-row-close">
-                                <a data-ng-click="isCollapsed = !isCollapsed; clearFilter();"><h5 style="color: #fff"><i
+                                <a data-ng-click="isCollapsed = !isCollapsed"><h5 style="color: #fff"><i
                                         class="fa fa-times"></i></h5></a>
                             </div>
                         </div>
@@ -101,6 +101,8 @@
                                         Filter
                                     </button>
                                     <button class="btn form-default-btn" ng-click="openSaveFilterModal()">Save Filter
+                                    </button>
+                                    <button class="btn form-default-btn" ng-click="clearFilter()">Clear
                                     </button>
                                 </div>
                             </div>
@@ -269,8 +271,14 @@
         <textarea class="form-control" rows="3" data-ng-model="filterName"></textarea>
     </div>
 
+    <div class="alert alert-danger" ng-show="filterName.length > 8">
+        Filter name cannot have more than 8 characters.
+    </div>
+
     <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="postFilter()">Yes</button>
+        <button class="btn form-submit-btn" type="button" ng-show="filterName.length <= 8 && filterName.length > 0"
+                ng-click="postFilter()">Yes
+        </button>
         <button class="btn form-submit-btn" type="button" ng-click="editFilter()">Edit</button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
