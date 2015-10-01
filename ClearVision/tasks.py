@@ -10,7 +10,7 @@ def clearPatientQueue():
 
 @task()
 def sendSMS():
-    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today() + timedelta(days=2)).values('patients', 'patients__name',
+    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today() + timedelta(days=2)).values('patients__contact', 'patients__name',
                                                                                                               'patients__gender', 'timeBucket__date',
                                                                                                               'timeBucket__start', 'apptType', 'id',
                                                                                                               'timeBucket', 'doctor__name', 'clinic',
@@ -20,7 +20,7 @@ def sendSMS():
     numbersToSend = []
 
     for eachObj in today_patient_data:
-        numbersToSend.append([eachObj['patients__name'], eachObj['patients'], eachObj['timeBucket__start']])
+        numbersToSend.append([eachObj['patients__name'], eachObj['patients__contact'], eachObj['timeBucket__start'], eachObj['timeBucket__date']])
 
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -29,8 +29,7 @@ def sendSMS():
 
         # 'from' field has max length of 11 characters
 
-        payload = {'from': 'Clearvision', 'to': '65'+ str(eachNumberToSendSMS[1]),
+        payload = {'from': 'Clearvision', 'to': '65' + str(eachNumberToSendSMS[1]),
                    'text': 'Hi ' + str(eachNumberToSendSMS[0]) +
-                           ', please be reminded of your Appointment with us tomorrow at ' + str(eachNumberToSendSMS[2])}
-
+                           ', please be reminded of your Appointment on ' + str(eachNumberToSendSMS[3]) + ' at ' + str(eachNumberToSendSMS[2])}
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)

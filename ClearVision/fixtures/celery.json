@@ -24,8 +24,8 @@
   "fields": {
     "month_of_year": "*",
     "day_of_week": "*",
-    "hour": "11",
-    "minute": "00",
+    "hour": "17",
+    "minute": "34",
     "day_of_month": "*"
   },
   "model": "djcelery.crontabschedule",
