@@ -1,6 +1,6 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
-appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc,$route) {
+appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, postFilterSvc, editFilterSvc, $route) {
 
     $scope.$route = $route;
     postFilterSvc.getScope($scope);
@@ -720,16 +720,33 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     };
 
     $scope.toggleMin = function () {
-        $scope.minDate = $scope.minDate ? null : new Date();
+        $scope.minStartDate = $scope.minStartDate ? null : new Date();
+        $scope.minEndDate = $scope.minEndDate ? null : new Date();
     };
     $scope.toggleMin();
 
+    $scope.toggleEndDate = function () {
+
+        if ($scope.datepicker != null) {
+            var startDate = $scope.getFormattedDate($scope.datepicker);
+            $scope.minEndDate = new Date(startDate);
+        }
+
+        if ($scope.datepicker2 != null) {
+            var endDate = $scope.getFormattedDate($scope.datepicker2)
+            $scope.maxStartDate = new Date(endDate);
+        }
+    };
     $scope.open = function ($event, which) {
 
         $event.preventDefault();
         $event.stopPropagation();
 
         $scope.datepickers[which] = true;
+
+        if (which == 'showDatePicker') {
+            $scope.datepickers.showDatePicker2 = false;
+        }
     };
     $scope.dateOptions = {
         formatYear: 'yy',
