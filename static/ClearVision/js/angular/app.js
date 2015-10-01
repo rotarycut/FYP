@@ -42,7 +42,8 @@ var app = angular.module('calendarDemoApp', [
     'doowb.angular-pusher',
     'get.stackedChart',
     'get.pieChart',
-    'get.customStackedChart'
+    'get.customStackedChart',
+    'schedule.customFilter'
 ]);
 
 /* Angular routing */
