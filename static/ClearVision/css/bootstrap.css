@@ -5021,7 +5021,7 @@ a.badge:focus {
   margin-bottom: 12px;
   /*color: inherit;*/
   background-color: #ebebeb;
-  border: dotted 2px #70AFC4;
+  border: solid 1px #70AFC4;
 }
 /*.ijumbotron {
   margin-top: 8px;

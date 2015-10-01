@@ -11,9 +11,11 @@ angular.module('hide.form', [])
 
         self.hideForm = function () {
 
-
+            self._scope.form.showFormBtns = true;
             self._scope.scaleDownCalendar = false;
+
             self._scope.form.showForm = false;
+            self._scope.form.showBlockForm = false;
             //$scope.disableISchedule();
             clearFormSvc.clearForm();
             disableIScheduleSvc.disableISchedule();
@@ -38,8 +40,8 @@ angular.module('hide.form', [])
                 angular.forEach(self._scope.tabs, function (tab) {
                     tab.disable = false;
                 });
-
                 self._scope.form.showButtons['addAndBlock'] = true;
+
             }, 600);
 
         };

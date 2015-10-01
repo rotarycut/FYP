@@ -35,14 +35,14 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-sm-offset-2 animation-buttons" id="top-content-btngrp"
+                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp"
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary form-btn" ng-click="showForm('Create')"><i
                                     class="fa fa-plus-circle"></i> Add Appointment
                             </button>
-                            <!--<button type="button" class="btn btn-primary form-btn"><i class="fa fa-ban"></i> Block
-                            </button>-->
+                            <button type="button" class="btn btn-primary form-btn" ng-click="showBlockForm()"><i class="fa fa-ban"></i> Block
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
     </div>
     <!--col for top content, cal content and legend content ends-->
 
-    <!-- col for form content -->
+    <!-- col for appointment form content -->
     <div class="col-sm-4 right-content" ng-show="form.showForm">
         <!-- row for form content -->
         <div class="row form-row">
@@ -135,7 +135,7 @@
                 <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
         </div>
-        <div class="row form-row form-content-row">
+        <div class="row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
                 <form class="form-horizontal" id="edit-form-patients" name="appointmentForm" novalidate>
 
@@ -240,24 +240,23 @@
                         </div>
                     </div>
 
-                    <!-- <div class="form-group col-sm-12 ischeduleForm" ng-show="form.showFields.earliestAvl">
-                        <label class="control-label">Next Earliest Availablility</label>
+                    <!--<div class="form-group col-sm-12 ischeduleForm" ng-show="form.showFields.earliestAvl">
+                        <label class="control-label" ng-init="getISchedule()">Next Earliest Availablility</label>
                         <ol id="i-slots-date" class="list-group">
-                            <li class="list-group-item" ng-repeat="appt in appointments | unique: 'start'"
-                                data-ng-click="showTimeList(date)">
-                                <label class="i-slot-label">[[appt.start]] </label> -->
-
-                    <!--<ol>
+                            <li class="list-group-item" ng-repeat="appt in appointments">
+                                [[appt.date]]
+                                <label class="i-slot-label">[[appt.date]]</label>
+                    <ol>
                         <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
                             <label>[[time.apptTime]]</label>
                         </li>
-                    </ol>-->
+                    </ol>
 
-                    <!-- </li>
+                     </li>
                 </ol>
-            </div> -->
+            </div>
 
-                    <!-- <div class="form-group col-sm-12 ischeduleForm">
+                     <div class="form-group col-sm-12 ischeduleForm">
                         <label class="control-label">Least Packed Slots</label>
                         <ol id="i-slots-date" class="list-group">
                             <li class="list-group-item" ng-repeat="date in leastPackSlots"
@@ -270,7 +269,7 @@
                                 </ol>
                             </li>
                         </ol>
-                    </div> -->
+                    </div>-->
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
@@ -453,6 +452,148 @@
                                         type="reset"
                                         data-ng-click="hideForm()">Cancel
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- col for form content ends -->
+    </div>
+    <!-- col for block form content -->
+    <div class="col-sm-4 right-content-block" ng-show="form.showBlockForm">
+        <!-- row for form content -->
+        <div class="row form-row">
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()"><i
+                        class="fa fa-chevron-left"></i> Back
+                </button>
+            </div>
+            <div class="col-sm-7 col-sm-offset-1">
+                <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
+            </div>
+        </div>
+        <div class="row form-row form-content-row">
+            <div class="col-sm-12 add-appt-formgrp">
+                <form class="form-horizontal" id="edit-form-patients" name="appointmentForm" novalidate>
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row">
+                            <div class="col-sm-8 date-div form-animation" ng-show="form.showFields.datepicker">
+                                <label class="control-label">Start Date</label>
+
+                                <p class="input-group">
+                                    <input type="text"
+                                           class="form-control date-input-field"
+                                           datepicker-popup="[[ format ]]"
+                                           name="datePickerCalendar"
+                                           ng-model="fields.blockDateStart"
+                                           is-open="datepickers.showDatePicker"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                           ng-change="navigateToDate(); getAppointmentTimings('',false);"
+                                           ng-disabled="true"
+                                            />
+
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default"
+                                                        ng-click="open($event,'showDatePicker')">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                </p>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="checkbox" style="padding-top:28px;">
+                                    <input type="checkbox" ng-model="blockOneDay"><h5>One Day</h5>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row">
+                            <div class="col-sm-8 date-div form-animation" ng-show="form.showFields.datepicker">
+                                <label class="control-label">End Date</label>
+
+                                <p class="input-group">
+                                    <input type="text"
+                                           class="form-control date-input-field"
+                                           datepicker-popup="[[ format ]]"
+                                           name="datePickerCalendar"
+                                           ng-model="fields.blockDateEnd"
+                                           is-open="datepickers.showDatePicker"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                           ng-change="navigateToDate(); getAppointmentTimings('',false);"
+                                           ng-disabled="true"
+                                            />
+
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default"
+                                                        ng-click="open($event,'showDatePicker')">
+                                                    <i class="fa fa-calendar"></i>
+                                                </button>
+                                            </span>
+                                </p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row">
+                            <div class="col-sm-6 form-animation" date-div
+                                 ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}"
+                                 >
+                                <label class="control-label">Start Time</label>
+                                <select class="form-control" ng-options=""
+                                        data-ng-model="fields.blockTimeStart"
+                                        required>
+                                </select>
+                                <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Invalid time
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-animation" date-div
+                                 ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}"
+                                 >
+                                <label class="control-label">End Time</label>
+                                <select class="form-control" ng-options=""
+                                        data-ng-model="fields.blockTimeEnd"
+                                        required>
+                                </select>
+                                <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
+                                     class="help-block">
+                                    Invalid time
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showFields.remarks">
+                        <label class="control-label">Remarks</label>
+                        <textarea class="form-control" rows="3" data-ng-model="fields.appointmentRemarks"
+                                  placeholder="Optional" name="appointmentRemarks">
+                        </textarea>
+                    </div>
+
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row subcontent-row">
+                            <div class="col-sm-4">
+                                <button class="btn form-submit-btn"
+                                        data-ng-click="">Block Off Time
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row subcontent-row">
+                            <div class="col-sm-8">
+                                <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments blocked</a>
                             </div>
                         </div>
                     </div>
