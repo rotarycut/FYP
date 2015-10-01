@@ -39,7 +39,9 @@ var app = angular.module('calendarDemoApp', [
     'check.existingPatient',
     'change.calendar',
     'get.marketingChannels',
-    'doowb.angular-pusher'
+    'doowb.angular-pusher',
+    'get.stackedChart',
+    'get.pieChart'
 ]);
 
 /* Angular routing */
