@@ -3,6 +3,7 @@ from datetime import timedelta, datetime
 from itertools import chain
 import json
 from operator import itemgetter
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 import requests
 from django.contrib.auth.decorators import login_required
@@ -1357,7 +1358,12 @@ def recievemsg(request):
 
     message = payload['Text']
     messageArray = message.split()
-    messagePt1 = messageArray[1]
+
+    try:
+        messagePt1 = messageArray[1]
+    except IndexError:
+        WronglyRepliedSMS.objects.create(text=message, origin=payload['Sender'])
+        return HttpResponse('SMS reply not configured')
 
     try:
         messagePt2 = messageArray[2]
@@ -1369,7 +1375,11 @@ def recievemsg(request):
 
     origin = origin[2:]
 
-    swap = Swapper.objects.get(id=messagePt2)
+    try:
+        swap = Swapper.objects.get(id=messagePt2)
+    except ObjectDoesNotExist:
+        return HttpResponse('Invalid Parameters')
+
     p = swap.patient
     scheduledApptId = swap.scheduledAppt_id
     tempApptId = swap.tempAppt_id
