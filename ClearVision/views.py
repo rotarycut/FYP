@@ -2625,10 +2625,11 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
         return Response(allMarketingChannels)
 
 class CalendarBlocker(viewsets.ModelViewSet):
-    queryset = CalendarBlocker.objects.none()
+    queryset = BlockDates.objects.none()
+    serializer_class = CalendarBlockerSerializer
 
     def list(self, request, *args, **kwargs):
-        futureCalendarBlockers = CalendarBlocker.objects.filter(start__gte=datetime.now()).values()
+        futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now()).values()
         return Response(futureCalendarBlockers)
 
     def create(self, request, *args, **kwargs):
@@ -2637,8 +2638,9 @@ class CalendarBlocker(viewsets.ModelViewSet):
         start = payload.get('start')
         end = payload.get('end')
         remarks = payload.get('remarks')
+        doctor = payload.get('doctor')
 
-        CalendarBlocker.objects.create(start=start, end=end, remarks=remarks)
+        BlockDates.objects.create(start=start, end=end, remarks=remarks, doctor=Doctor.objects.get(id=doctor))
 
         return Response('Create Success')
 
@@ -2648,10 +2650,13 @@ class CalendarBlocker(viewsets.ModelViewSet):
         start = payload.get('start')
         end = payload.get('end')
         remarks = payload.get('remarks')
+        doctor = payload.get('doctor')
 
-        toUpdate = CalendarBlocker.objects.get(id=self.get_object().id)
+        toUpdate = BlockDates.objects.get(id=self.get_object().id)
         toUpdate.start = start
         toUpdate.end = end
         toUpdate.remarks = remarks
+        toUpdate.doctor = doctor
+        toUpdate.save()
 
         return Response('Update Success')

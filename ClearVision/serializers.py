@@ -115,3 +115,9 @@ class SDAppointmentSerializer(ModelSerializer):
     class Meta:
         model = 'ClearVision.Appointment'
         publish_fields = ('apptType', 'patients')
+
+class CalendarBlockerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BlockDates
+        depth = 1
