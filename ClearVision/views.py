@@ -2625,11 +2625,15 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
         return Response(allMarketingChannels)
 
 class CalendarBlocker(viewsets.ModelViewSet):
-    queryset = BlockDates.objects.none()
+    queryset = BlockDates.objects.all()
     serializer_class = CalendarBlockerSerializer
 
     def list(self, request, *args, **kwargs):
         futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now()).values()
+
+        for eachObj in futureCalendarBlockers:
+            eachObj['rendering'] = 'background'
+
         return Response(futureCalendarBlockers)
 
     def create(self, request, *args, **kwargs):
@@ -2672,6 +2676,10 @@ class CalendarBlocker(viewsets.ModelViewSet):
         toUpdate.save()
 
         return Response('Update Success')
+
+    def destroy(self, request, *args, **kwargs):
+        BlockDates.objects.get(id=self.get_object().id).delete()
+        return Response('Success')
 
 class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
     queryset = BlockDates.objects.none()
