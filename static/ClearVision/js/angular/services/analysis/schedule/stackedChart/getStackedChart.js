@@ -63,11 +63,11 @@ angular.module('get.stackedChart', [])
                     keys: {
                         // x: 'name', // it's possible to specify 'x' when category axis
                         x: 'apptType',
-                        value: ['Appeared', 'NoShow', 'Cancelled', 'Pending']
+                        value: ['Turn Up', 'No Show', 'Cancelled', 'Undecided']
                     },
                     type: 'bar',
                     groups: [
-                        ['Appeared', 'NoShow', 'Cancelled', 'Pending']
+                        ['Turn Up', 'No Show', 'Cancelled', 'Undecided']
                     ],
                     order: null
                 }
