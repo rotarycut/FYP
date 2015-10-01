@@ -2624,4 +2624,34 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
         allMarketingChannels = MarketingChannels.objects.all().values()
         return Response(allMarketingChannels)
 
+class CalendarBlocker(viewsets.ModelViewSet):
+    queryset = None
 
+    def list(self, request, *args, **kwargs):
+        futureCalendarBlockers = CalendarBlocker.objects.filter(start__gte=datetime.now()).values()
+        return Response(futureCalendarBlockers)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        start = payload.get('start')
+        end = payload.get('end')
+        remarks = payload.get('remarks')
+
+        CalendarBlocker.objects.create(start=start, end=end, remarks=remarks)
+
+        return Response('Create Success')
+
+    def update(self, request, *args, **kwargs):
+        payload = request.data
+
+        start = payload.get('start')
+        end = payload.get('end')
+        remarks = payload.get('remarks')
+
+        toUpdate = CalendarBlocker.objects.get(id=self.get_object().id)
+        toUpdate.start = start
+        toUpdate.end = end
+        toUpdate.remarks = remarks
+
+        return Response('Update Success')

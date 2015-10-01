@@ -161,3 +161,8 @@ class WronglyRepliedSMS(models.Model):
     text = models.CharField(max_length=1000)
     origin = models.CharField(max_length=100)
     datetime = models.DateTimeField(auto_now=True)
+
+class CalendarBlocker(models.Model):
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    remarks = models.CharField(max_length=1000)

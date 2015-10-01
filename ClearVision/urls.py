@@ -41,6 +41,7 @@ router.register(r'_api/ViewSavedMarketingChannelCustomFilters', views.ViewSavedM
 router.register(r'_api/EditSavedMarketingChannelCustomFilters', views.EditSavedMarketingChannelCustomFilters)
 router.register(r'_api/ViewAllApptTypes', views.ViewAllApptTypes)
 router.register(r'_api/ViewAllMarketingChannels', views.ViewAllMarketingChannels)
+router.register(r'_api/CalendarBlocker', views.CalendarBlocker)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
