@@ -2635,8 +2635,14 @@ class CalendarBlocker(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         payload = request.data
 
-        start = payload.get('start')
-        end = payload.get('end')
+        startDate = payload.get('startDate')
+        startTime = payload.get('startTime')
+        start = startDate + ' ' + startTime
+
+        endDate = payload.get('endDate')
+        endTime = payload.get('endTime')
+        end = endDate + ' ' + endTime
+
         remarks = payload.get('remarks')
         doctor = payload.get('doctor')
 
@@ -2647,8 +2653,14 @@ class CalendarBlocker(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         payload = request.data
 
-        start = payload.get('start')
-        end = payload.get('end')
+        startDate = payload.get('startDate')
+        startTime = payload.get('startTime')
+        start = startDate + ' ' + startTime
+
+        endDate = payload.get('endDate')
+        endTime = payload.get('endTime')
+        end = endDate + ' ' + endTime
+
         remarks = payload.get('remarks')
         doctor = payload.get('doctor')
 
