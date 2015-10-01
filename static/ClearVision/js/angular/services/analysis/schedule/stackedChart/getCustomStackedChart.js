@@ -52,7 +52,6 @@ angular.module('get.customStackedChart', [])
                     $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + self.scope.string + 'startDate=' + self.scope.startDate + '&endDate=' + self.scope.endDate)
                         .success(function (data) {
                             self.scope.stackedCustomChartData = data;
-                            //console.log(data);
                             self.scope.showStackedChart(self.scope.stackedCustomChartData);
                         });
 

@@ -95,6 +95,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         events: []
     };
 
+    $scope.blockedHeatMap = {
+        color: '#000000',
+        textColor: 'White',
+        events: []
+    };
+
     /* event sources array */
     $scope.doctorHoAppointments = [];
     $scope.doctorGohAppointments = [];
@@ -128,6 +134,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
         var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
         var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=15&lowerB=4&docName=' + doctorName;
+        var blockUrl = '/Clearvision/_api/CalendarBlocker/';
 
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
@@ -188,6 +195,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 });
 
                 $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempHighHeatMap);
+            });
+
+        $http.get(blockUrl)
+            .sucess(function (listOfBlockedTimeSlots) {
+                angular.forEach(listOfBlockedTimeSlots, function (timeSlot) {
+                    $scope.blockedHeatMap.events.push(timeSlot);
+                });
+                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.blockedHeatMap);
             });
 
     };
