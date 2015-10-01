@@ -71,14 +71,17 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.tempLowHeatMap.events.splice(0, self.scope.tempLowHeatMap.events.length);
                 self.scope.tempMedHeatMap.events.splice(0, self.scope.tempMedHeatMap.events.length);
                 self.scope.tempHighHeatMap.events.splice(0, self.scope.tempHighHeatMap.events.length);
+                self.scope.blockedHeatMap.events.splice(0, self.scope.blockedHeatMap.events.length);
 
                 // remove all the low, medium, high heat map from the source array
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempLowHeatMap);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempMedHeatMap);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempHighHeatMap);
+                self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.blockedHeatMap);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempLowHeatMap);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
+                self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.blockedHeatMap);
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);

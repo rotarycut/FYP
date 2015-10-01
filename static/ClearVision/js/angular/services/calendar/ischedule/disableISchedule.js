@@ -30,7 +30,7 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempLowHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.blockedHeatMap);
+            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.blockedHeatMap);
 
             $timeout(function () {
 
