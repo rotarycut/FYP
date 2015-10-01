@@ -96,7 +96,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.blockedHeatMap = {
-        color: '#000000',
+        color: '#181818   ',
         textColor: 'White',
         events: []
     };
@@ -198,8 +198,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
         $http.get(blockUrl)
-            .sucess(function (listOfBlockedTimeSlots) {
+            .success(function (listOfBlockedTimeSlots) {
                 angular.forEach(listOfBlockedTimeSlots, function (timeSlot) {
+
                     $scope.blockedHeatMap.events.push(timeSlot);
                 });
                 $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.blockedHeatMap);

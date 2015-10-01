@@ -26,9 +26,11 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempLowHeatMap);
             self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempMedHeatMap);
             self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.blockedHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempLowHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.blockedHeatMap);
 
             $timeout(function () {
 
@@ -36,6 +38,7 @@ app.service('disableIScheduleSvc', function ($timeout) {
                 self.scope.tempLowHeatMap.events.splice(0, self.scope.tempLowHeatMap.events.length);
                 self.scope.tempMedHeatMap.events.splice(0, self.scope.tempMedHeatMap.events.length);
                 self.scope.tempHighHeatMap.events.splice(0, self.scope.tempHighHeatMap.events.length);
+                self.scope.blockedHeatMap.events.splice(0, self.scope.blockedHeatMap.events.length);
 
                 // add all the appointments on the calendar
                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
