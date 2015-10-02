@@ -283,6 +283,7 @@
                                                show-button-bar="false"
                                                ng-change="navigateToDate(); getAppointmentTimings('',false);"
                                                ng-disabled="true"
+                                               date-disabled="disabled(date, mode)"
                                                required/>
 
                                                 <span class="input-group-btn">
@@ -360,6 +361,7 @@
                                            ng-change="formatWaitingListDate(); getAppointmentTimings('',true);"
                                            ng-required="showWaitingDate"
                                            ng-disabled="true"
+                                           date-disabled="disabled(date, mode)"
                                             />
 
                                             <span class="input-group-btn">
@@ -526,6 +528,7 @@
                                                show-button-bar="false"
                                                ng-change="formatBlockStartDate()"
                                                ng-disabled="true"
+                                               date-disabled="disabled(date, mode)"
                                                required/>
 
                                         <span class="input-group-btn">
@@ -581,6 +584,7 @@
                                                show-button-bar="false"
                                                ng-change="formatBlockEndDate()"
                                                ng-disabled="true"
+                                               date-disabled="disabled(date, mode)"
                                                required/>
 
                                         <span class="input-group-btn">

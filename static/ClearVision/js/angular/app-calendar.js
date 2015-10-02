@@ -443,7 +443,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         showDatePicker2: false
     };
     $scope.disabled = function (date, mode) {
-        return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 7 ) );
+        return ( mode === 'day' && (date.getDay() === 0));
     };
     $scope.today = function () {
         $scope.datePickerCalendar = new Date();
