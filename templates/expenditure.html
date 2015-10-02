@@ -3,18 +3,21 @@
     <div class="col-md-9">
         <div class="row chart-title-row">
             <div class="col-md-4">
-                <h5 style="color: #49708A">Expenditure Summary</h5>
+                <h5 class="label-color"><i class="fa fa-list-alt"></i> Expenditure Summary</h5>
             </div>
-            <div class="col-md-2 col-md-offset-6">
+            <div class="col-md-3 col-md-offset-5">
                 <select class="form-control" data-ng-model="sortByOption">
-                    <option value="" disabled selected>---Sort By---</option>
+                    <option value="" disabled selected class="dropdown-default-option">---Select Month---</option>
                 </select>
             </div>
         </div>
         <div class="row expenditure-table-row">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-5">
-                    <h4 style="color:#49708A;">September</h4>
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                <span class="tag label tag-label">
+                    <span>Sep</span>
+                    <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+                </span>
                 </div>
             </div>
             <div class="row">
@@ -24,28 +27,49 @@
                             <th>S/N</th>
                             <th>Marketing Channel</th>
                             <th>Spent</th>
+                            <th colspan="2">Actions</th>
                         </tr>
                         <tr>
                             <td>1</td>
                             <td>ST Print Ads</td>
                             <td>$1,000</td>
+                            <td><a class="pull-right edit-no-show"
+                                       ng-click="">
+                                        <i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="remove-from-queue"
+                                       ng-click="">
+                                    <i class="fa fa-times"></i></a></td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>Facebook</td>
                             <td>$200</td>
+                            <td><a class="pull-right edit-no-show"
+                                       ng-click="">
+                                        <i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="remove-from-queue"
+                                       ng-click="">
+                                    <i class="fa fa-times"></i></a></td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>Blogger DreaChong</td>
                             <td>$800</td>
+                            <td><a class="pull-right edit-no-show"
+                                       ng-click="">
+                                        <i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a class="remove-from-queue"
+                                       ng-click="">
+                                    <i class="fa fa-times"></i></a></td>
                         </tr>
                     </table>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <h4><span class="label total-spent-label" style="display: inline-block">Total Spent: $2,200</span></h4>
+                <div class="col-md-12" style="text-align: right">
+                    <h4><span class="label total-spent-label"
+                              style="display: inline-block">Total Spent: <span class="totalSpent-label"> $2,200</span></span>
+                    </h4>
                 </div>
             </div>
         </div>
@@ -55,21 +79,55 @@
     <div class="col-md-3">
         <div class="row chart-title-row">
             <div class="col-md-12">
-                <span><i class="fa fa-plus-circle label-color" style="display:inline-block;"></i><h5 class="label-color" style="display: inline-block">Add Expenditure</h5></span>
-            </div>
-            <div class="col-md-12">
-                <form class="form-horizontal" name="expenditureForm" novalidate>
-                    <div class="col-md-3">
-
-                    </div>
-                    <div class="col-md-3">
-
-                    </div>
-                </form>
+                <h5 class="label-color"><i class="fa fa-plus-square"></i> Add Expenditure</h5>
             </div>
         </div>
         <div class="row expenditure-table-row">
+            <div class="col-md-12">
+                <form class="form-horizontal" name="expenditureForm" novalidate>
+                    <div class="row subcontent-row">
+                        <div class="col-md-3">
+                            <label class="control-label label-color">Month:</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select class="form-control" ng-options="mth for mth in months"
+                                    data-ng-model="expenditureMth" name="expenditureMth">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row subcontent-row">
+                        <div class="col-md-3">
+                            <label class="control-label label-color">Channel:</label>
+                        </div>
+                        <div class="col-md-9">
+                            <select class="form-control" ng-options="mth for mth in months"
+                                    data-ng-model="expenditureChannel" name="expenditureChannel">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row subcontent-row">
 
+                        <div class="col-md-3">
+                            <label class="control-label label-color">Amount:</label>
+                        </div>
+                        <div class="col-md-9">
+                            <!--<input type="text" class="form-control" data-ng-model="spentAmt"
+                                   name="spentAmt"
+                                   required>-->
+                            <form class="form-search form-inline">
+                                <input type="text" style="padding-left: 26px;" class="form-control"
+                                       placeholder="Search"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row subcontent-row">
+
+                        <div class="col-md-12" style="text-align: right">
+                            <button class="btn form-submit-btn" ng-click="">Add New</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <!-- col for input and month filter ends -->

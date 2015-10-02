@@ -44,7 +44,8 @@ var app = angular.module('calendarDemoApp', [
     'get.pieChart',
     'get.customStackedChart',
     'schedule.customFilter',
-    'post.blocker'
+    'post.blocker',
+    'app.expenditure'
 ]);
 
 /* Angular routing */

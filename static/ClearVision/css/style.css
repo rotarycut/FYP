@@ -13,6 +13,10 @@
     height: 100vh;
 }
 
+.dropdown-default-option{
+    text-align: center;
+}
+
 .dashboard-content-row{
     padding-top: 10%;
     height: 100vh;
@@ -25,6 +29,7 @@
 .label-color{
     color: #49708A;
 }
+
 
 .heading-rotate{
     -webkit-transform: rotate(-90deg);
@@ -887,6 +892,10 @@ table.apptlist-main-tbl > tbody > tr > td{
     border-left: solid 1px #49708A;
 }
 
+.tag-label{
+    background-color: #70AFC4;
+}
+
 /* queue page css ends*/
 
 /* msglog page css */
@@ -984,6 +993,36 @@ table.mailbox-tbl > tbody > tr:hover{
 
 .total-spent-label{
     background-color: #49708A;
+}
+
+.label-highlight-color{
+    color: #E79285;
+    text-decoration: underline;
+    font-size: large;
+}
+.tag {
+  font-size: 14px;
+  padding: .3em .4em .4em;
+  margin: 0 .1em;
+}
+.tag a {
+  color: #bbb;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.tag a:hover {
+  opacity: 1.0
+}
+.tag .remove {
+  vertical-align: bottom;
+  top: 0;
+}
+.tag a {
+  margin: 0 0 0 .3em;
+}
+.tag a .glyphicon-white {
+  color: #fff;
+  margin-bottom: 2px;
 }
 /* expenditure form css ends */
 

@@ -1,8 +1,8 @@
 /**
  * Created by carinahu on 10/2/15.
  */
-var appDashboard = angular.module('app.dashboard', []);
+var appExpenditure = angular.module('app.expenditure', []);
 
-appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal,$route) {
-
+appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal,$route) {
+    $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct","Nov","Dec"];
 });
