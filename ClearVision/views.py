@@ -1253,6 +1253,8 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
                                                )
+            p.conversion = True
+            p.save()
             pusher.trigger('queue', 'addToQueue', {'message': {}})
         else:
             associatedPAction.addedToQueue = False
@@ -1341,6 +1343,9 @@ class PatientQueue(viewsets.ModelViewSet):
         associatedPAction = AssociatedPatientActions.objects.get(appointment__id=apptId, patient=p)
         associatedPAction.addedToQueue = None
         associatedPAction.save()
+
+        p.conversion = False
+        p.save()
 
         pusher.trigger('queue', 'removeFromQueue', {'message': {}})
         return HttpResponse("Success")
