@@ -173,10 +173,10 @@
                     <!-- Assigned doctor -->
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
-                         ng-show="form.showFields.doctor">
+                         ng-show="form.showFields.doctor" ng-init="getAllDoctors()">
 
                         <label class="control-label">Doctor</label>
-                        <select class="form-control" ng-options="doc for doc in listOfDoctors"
+                        <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
                                 ng-disabled="form.disableFields.doctor"
                                 ng-change="changeCalendar('', true, true); getAppointmentTimings();"
@@ -471,13 +471,19 @@
                         class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
-            <div class="col-sm-7 col-sm-offset-1">
+            <div class="col-sm-6 col-sm-offset-1">
                 <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
+            <div class="col-sm-3" style="padding-left: 0px;">
+                <h5 class="hide-blockform-label" tooltip="Hide this form" data-ng-click="isHidden = !isHidden;">
+                    Hide
+                </h5>
+            </div>
+
         </div>
         <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <form class="form-horizontal" id="edit-form-patients" name="blockForm" novalidate>
+                <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate ng-show="!isHidden">
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)}">
                         <label class="control-label">Doctor</label>
@@ -499,17 +505,17 @@
                                 <label class="control-label">Start Date</label>
 
                                 <p class="input-group">
-                                        <input type="text"
-                                               class="form-control"
-                                               datepicker-popup="[[ format ]]"
-                                               name="blockDateStart"
-                                               ng-model="fields.blockDateStart"
-                                               is-open="datepickers.showDatePicker"
-                                               min-date="minDate"
-                                               datepicker-options="dateOptions"
-                                               show-button-bar="false"
-                                               placeholder="Start Date"
-                                                />
+                                    <input type="text"
+                                           class="form-control"
+                                           datepicker-popup="[[ format ]]"
+                                           name="blockDateStart"
+                                           ng-model="fields.blockDateStart"
+                                           is-open="datepickers.showDatePicker"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                           placeholder="Start Date"
+                                            />
 
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
@@ -517,7 +523,7 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                                    </p>
+                                </p>
 
                             </div>
                             <div class="col-sm-4">
@@ -535,17 +541,17 @@
                                 <label class="control-label">End Date</label>
 
                                 <p class="input-group">
-                                        <input type="text"
-                                               class="form-control"
-                                               datepicker-popup="[[ format ]]"
-                                               name="blockDateEnd"
-                                               ng-model="fields.blockDateEnd"
-                                               is-open="datepickers.showDatePicker2"
-                                               min-date="minDate"
-                                               datepicker-options="dateOptions"
-                                               show-button-bar="false"
-                                               placeholder="End Date"
-                                                />
+                                    <input type="text"
+                                           class="form-control"
+                                           datepicker-popup="[[ format ]]"
+                                           name="blockDateEnd"
+                                           ng-model="fields.blockDateEnd"
+                                           is-open="datepickers.showDatePicker2"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                           placeholder="End Date"
+                                            />
 
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
@@ -553,7 +559,7 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                                    </p>
+                                </p>
 
                             </div>
 
@@ -607,15 +613,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
-                        <div class="row subcontent-row">
-                            <div class="col-sm-8">
-                                <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
-                                    blocked</a>
-                            </div>
+                </form>
+                <div class="form-group col-sm-12 add-appt-formgrp">
+                    <div class="row subcontent-row">
+                        <div class="col-sm-8">
+                            <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
+                                blocked</a>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <!-- col for form content ends -->

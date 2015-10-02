@@ -35,7 +35,7 @@ angular.module('change.calendar', [])
                 if (doctorDropDown) {
 
                     // set global variable calendar number
-                    if (self.scope.fields.doctorAssigned == 'Dr Ho') {
+                    if (self.scope.fields.doctorAssigned.name == 'Dr Ho') {
                         self.scope.selectedCalendar = 'myCalendar1';
                     } else {
                         self.scope.selectedCalendar = 'myCalendar2';

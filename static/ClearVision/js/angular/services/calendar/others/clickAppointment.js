@@ -39,13 +39,7 @@ angular.module('event.click', [])
                 self.scope.fields.patientList = appointment.patients;
                 self.scope.fields.appointmentType = appointment.apptType;
                 self.scope.fields.appointmentDate = appointment.date;
-
-                // set doctor assigned
-                if (appointment.doctor === 1) {
-                    self.scope.fields.doctorAssigned = "Dr Goh";
-                } else if (appointment.doctor === 2) {
-                    self.scope.fields.doctorAssigned = "Dr Ho";
-                }
+                self.scope.fields.doctorAssigned = self.scope.listOfDoctors[appointment.doctor.id - 1];
 
                 try {
                     var appointmentFullDateTime = appointment._start._i;

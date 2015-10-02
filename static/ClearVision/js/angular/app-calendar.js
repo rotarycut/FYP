@@ -130,12 +130,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to get heat map */
-    $scope.getHeatMap = function (appointmentType, doctorName) {
+    $scope.getHeatMap = function (appointmentType, doctorId) {
 
-        var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorName;
-        var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorName;
-        var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=15&lowerB=4&docName=' + doctorName;
-        var blockUrl = '/Clearvision/_api/CalendarBlocker/';
+        var lowHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=1&lowerB=0&docName=' + doctorId;
+        var medHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=3&lowerB=2&docName=' + doctorId;
+        var highHeatUrl = '/Clearvision/_api/HeatMap/?monthsAhead=2&timeslotType=' + appointmentType + '&upperB=15&lowerB=4&docName=' + doctorId;
+        var blockUrl = '/Clearvision/_api/CalendarBlocker/?doctor=' + doctorId;
 
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
@@ -204,6 +204,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                     $scope.blockedHeatMap.events.push(timeSlot);
                 });
+
                 $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.blockedHeatMap);
             });
 
@@ -493,6 +494,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.preEvalIconChange = "fa fa-check-square";
     $scope.surgeryIconChange = "fa fa-check-square";
     $scope.disabledApptType = false;
+    $scope.hideFormToggle = true;
 
     $scope.form = {
         showForm: false,
@@ -528,7 +530,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.operationTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
     //$scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
     $scope.listOfMarketingChannels = [];
-    $scope.listOfDoctors = ["Dr Ho", "Dr Goh"];
+    $scope.listOfDoctors = [];
     $scope.selectedCalendar = "myCalendar1";
     $scope.drHoCalendar = true;
     $scope.drGohCalendar = false;
@@ -659,6 +661,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         var formattedDate = year + '-' + month + '-' + day;
         return formattedDate;
+    };
+
+    /* function to get all the doctors */
+    $scope.getAllDoctors = function () {
+        $http.get('/Clearvision/_api/doctors/')
+            .success(function (data) {
+                $scope.listOfDoctors = data;
+            });
     };
 
 
@@ -1211,7 +1221,6 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
             });
 
     };
-
 
 
 });
