@@ -2,31 +2,31 @@
   {
     "model": "ClearVision.CancellationReason",
     "fields": {
-        "reason": "Change Clinic"
+        "reason": "Patient chose another clinic"
     }
   },
   {
     "model": "ClearVision.CancellationReason",
     "fields": {
-        "reason": "Not doing lasik"
+        "reason": "Patient will schedule again"
     }
   },
   {
     "model": "ClearVision.CancellationReason",
     "fields": {
-        "reason": "Schedule later appointment"
+        "reason": "Patient do not want to do LASIK anymore"
+    }
+  },
+  {
+    "model": "ClearVision.CancellationReason",
+    "fields": {
+        "reason": "Too expensive"
     }
   },
   {
     "model": "ClearVision.CancellationReason",
     "fields": {
         "reason": "Others"
-    }
-  },
-  {
-    "model": "ClearVision.CancellationReason",
-    "fields": {
-        "reason": "Change of mind"
     }
   },
   {
@@ -50,25 +50,19 @@
   {
     "model": "ClearVision.AppointmentType",
     "fields": {
-        "name": "Post Surgery 1"
+        "name": "Post Surgery"
     }
   },
   {
     "model": "ClearVision.AppointmentType",
     "fields": {
-        "name": "Post Surgery 2"
-    }
-  },
-  {
-    "model": "ClearVision.AppointmentType",
-    "fields": {
-        "name": "General Eyecare"
+        "name": "Eyecare"
     }
   },
   {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "Muttons at Midnight",
+        "name": "Google Ads",
         "cost": 2000,
         "datePurchased": "2015-07-30"
     }
@@ -76,7 +70,7 @@
   {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "The Morning Show",
+        "name": "Google Search",
         "cost": 3000,
         "datePurchased": "2015-07-30"
     }
@@ -84,7 +78,7 @@
     {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "Andrea's Blog post on lasik health",
+        "name": "Blogger DreaChong",
         "cost": 1500,
         "datePurchased": "2015-08-30"
     }
@@ -92,7 +86,7 @@
     {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "730am news",
+        "name": "Blogger Sophie Willocq",
         "cost": 6000,
         "datePurchased": "2015-08-30"
     }
@@ -100,7 +94,7 @@
     {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "Dr Ho's friends",
+        "name": "Blogger BeautifulLadieu",
         "cost": 0,
         "datePurchased": "2015-09-01"
     }
@@ -108,7 +102,7 @@
     {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "Classified",
+        "name": "SCM Exhibition",
         "cost": 3000,
         "datePurchased": "2015-09-05"
     }
@@ -116,12 +110,163 @@
     {
     "model": "ClearVision.MarketingChannels",
     "fields": {
-        "name": "SEO",
+        "name": "Facebook",
         "cost": 2400,
         "datePurchased": "2015-09-11"
     }
   },
-
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "SG Brides",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "ST Print Ad",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "CV Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Epilasik Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Lasik Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "LasikSurgery Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Talk",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "ECC Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Cataract Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "EasternEye Website",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Word of Mouth",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Ex/ Current Patient",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Chinese Swimming Club Magazine",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "NSMEN Magazine",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "HomeTeamNS Magazine",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Events",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Wanbao",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "SMU Event",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
+  {
+    "model": "ClearVision.MarketingChannels",
+    "fields": {
+        "name": "Frontline Magazine",
+        "cost": 2400,
+        "datePurchased": "2015-09-11"
+    }
+  },
   {
     "model": "ClearVision.Staff",
     "pk": 1,
