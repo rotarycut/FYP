@@ -80,7 +80,7 @@ class AvailableTimeSlots(models.Model):
     start = models.TimeField("Start Time")
     end = models.TimeField("End Time")
     date = models.ForeignKey(FullYearCalendar,)
-    doctors = models.ManyToManyField(Doctor)
+    doctors = models.ForeignKey(Doctor)
 
     def __str__(self):
         return self.start
