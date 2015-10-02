@@ -175,70 +175,59 @@
 
                     <!-- Assigned doctor -->
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
                          ng-show="form.showFields.doctor" ng-init="getAllDoctors()">
 
                         <label class="control-label">Doctor</label>
-                        <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
-                                ng-model="fields.doctorAssigned" name="doctorAssigned"
-                                ng-disabled="form.disableFields.doctor"
-                                ng-change="changeCalendar('', true, true); getAppointmentTimings();"
-                                required>
-                        </select>
 
-                        <!-- <div class="row">
-                            <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="2"
-                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
-                                              ng-required="!doctorAssigned">
-                                    Dr.Ho
-                                </label>
-                            </div>
-                            <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="fields.doctorAssigned" value="1"
-                                              ng-disabled="form.disableFields.doctor" name="doctorAssigned"
-                                              ng-required="!doctorAssigned">
-                                    Dr.Goh
-                                </label>
-                            </div>
-                        </div> -->
+                        <div ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}">
+                            <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
+                                    ng-model="fields.doctorAssigned" name="doctorAssigned"
+                                    ng-disabled="form.disableFields.doctor"
+                                    ng-change="changeCalendar('', true, true); getAppointmentTimings();"
+                                    required>
+                            </select>
 
-                        <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
-                             class="help-block">
-                            Please select a doctor
+                            <div ng-show="appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)"
+                                 class="help-block">
+                                Please select a doctor
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-6 form-animation"
-                                 ng-class="{'has-error': appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)}"
-                                 ng-show="form.showFields.contact">
+                            <div class="col-sm-6 form-animation" ng-show="form.showFields.contact">
                                 <label class="control-label">Contact No.</label>
-                                <input type="text" class="form-control" data-ng-model="fields.patientContact"
-                                       ng-disabled="form.disableFields.contact" name="patientContact" autocomplete="off"
-                                       ng-pattern="/^[0-9]{1,20}$/" ng-maxlength="20"
-                                       typeahead="appt.str for appt in checkExistingPatient($viewValue)"
-                                       typeahead-min-length="7"
-                                       typeahead-on-select='selectPatient($item, $model, $label)'
-                                       required>
 
-                                <div ng-show="appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)"
-                                     class="help-block">
-                                    Invalid Number
+                                <div ng-class="{'has-error': appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)}">
+                                    <input type="text" class="form-control" data-ng-model="fields.patientContact"
+                                           ng-disabled="form.disableFields.contact" name="patientContact"
+                                           autocomplete="off"
+                                           ng-pattern="/^[0-9]{1,20}$/" ng-maxlength="20"
+                                           typeahead="appt.str for appt in checkExistingPatient($viewValue)"
+                                           typeahead-min-length="7"
+                                           typeahead-on-select='selectPatient($item, $model, $label)'
+                                           required>
+
+                                    <div ng-show="appointmentForm.patientContact.$invalid && (appointmentForm.patientContact.$touched || appointmentForm.$submitted)"
+                                         class="help-block">
+                                        Invalid Number
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 form-animation"
-                                 ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}"
-                                 ng-show="form.showFields.name">
-                                <label class="control-label">Patient Name</label>
-                                <input type="text" class="form-control" data-ng-model="fields.patientName"
-                                       ng-disabled="form.disableFields.patientName" name="patientName"
-                                       autocomplete="off" required>
 
-                                <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
-                                     class="help-block">
-                                    Please enter a name
+                            <div class="col-sm-6 form-animation" ng-show="form.showFields.name">
+                                <label class="control-label">Patient Name</label>
+
+                                <div ng-class="{'has-error': appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)}">
+                                    <input type="text" class="form-control" data-ng-model="fields.patientName"
+                                           ng-disabled="form.disableFields.patientName" name="patientName"
+                                           autocomplete="off" required>
+
+                                    <div ng-show="appointmentForm.patientName.$invalid && (appointmentForm.patientName.$touched || appointmentForm.$submitted)"
+                                         class="help-block">
+                                        Please enter a name
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -250,17 +239,17 @@
                             <li class="list-group-item" ng-repeat="appt in appointments">
                                 [[appt.date]]
                                 <label class="i-slot-label">[[appt.date]]</label>
-                    <ol>
-                        <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
-                            <label>[[time.apptTime]]</label>
-                        </li>
-                    </ol>
+                                <ol>
+                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
+                                        <label>[[time.apptTime]]</label>
+                                    </li>
+                                </ol>
 
-                     </li>
-                </ol>
-            </div>
+                            </li>
+                        </ol>
+                    </div>
 
-                     <div class="form-group col-sm-12 ischeduleForm">
+                    <div class="form-group col-sm-12 ischeduleForm">
                         <label class="control-label">Least Packed Slots</label>
                         <ol id="i-slots-date" class="list-group">
                             <li class="list-group-item" ng-repeat="date in leastPackSlots"
@@ -278,44 +267,53 @@
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-8 date-div form-animation" ng-show="form.showFields.datepicker">
+
                                 <label class="control-label">Date</label>
 
-                                <p class="input-group">
-                                    <input type="text"
-                                           class="form-control date-input-field"
-                                           datepicker-popup="[[ format ]]"
-                                           name="datePickerCalendar"
-                                           ng-model="fields.appointmentDate"
-                                           is-open="datepickers.showDatePicker"
-                                           min-date="minDate"
-                                           datepicker-options="dateOptions"
-                                           show-button-bar="false"
-                                           ng-change="navigateToDate(); getAppointmentTimings('',false);"
-                                           ng-disabled="true"
-                                            />
+                                <div ng-class="{'has-error': appointmentForm.datePickerCalendar.$invalid && (appointmentForm.datePickerCalendar.$touched || appointmentForm.$submitted)}">
+                                    <p class="input-group">
+                                        <input type="text"
+                                               class="form-control date-input-field"
+                                               datepicker-popup="[[ format ]]"
+                                               name="datePickerCalendar"
+                                               ng-model="fields.appointmentDate"
+                                               is-open="datepickers.showDatePicker"
+                                               min-date="minDate"
+                                               datepicker-options="dateOptions"
+                                               show-button-bar="false"
+                                               ng-change="navigateToDate(); getAppointmentTimings('',false);"
+                                               ng-disabled="true"
+                                               required/>
 
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default"
-                                                        ng-click="open($event,'showDatePicker')">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                </p>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            ng-click="open($event,'showDatePicker')">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </button>
+                                                </span>
+                                    </p>
 
+                                    <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
+                                         class="help-block">
+                                        Invalid date
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="col-sm-4 form-animation" date-div
-                                 ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}"
-                                 ng-show="form.showFields.time">
-                                <label class="control-label">Time</label>
-                                <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
-                                        data-ng-model="fields.appointmentTime" name="appointmentTime"
-                                        required>
-                                </select>
+                            <div class="col-sm-4 form-animation" date-div ng-show="form.showFields.time">
 
-                                <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
-                                     class="help-block">
-                                    Invalid time
+                                <label class="control-label">Time</label>
+
+                                <div ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}">
+                                    <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
+                                            data-ng-model="fields.appointmentTime" name="appointmentTime"
+                                            required>
+                                    </select>
+
+                                    <div ng-show="appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)"
+                                         class="help-block">
+                                        Invalid time
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -391,20 +389,21 @@
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-class="{'has-error': appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)}"
                          ng-show="form.showFields.marketingChannel" ng-init="getMarketingChannels();">
 
                         <label class="control-label">Marketing Channels</label>
 
-                        <select class="form-control" data-ng-model="fields.marketingChannel"
-                                ng-disabled="form.disableFields.marketingChannel"
-                                ng-options="channel as channel.name for channel in listOfMarketingChannels"
-                                name="marketingChannel" required>
-                        </select>
+                        <div ng-class="{'has-error': appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)}">
+                            <select class="form-control" data-ng-model="fields.marketingChannel"
+                                    ng-disabled="form.disableFields.marketingChannel"
+                                    ng-options="channel as channel.name for channel in listOfMarketingChannels"
+                                    name="marketingChannel" required>
+                            </select>
 
-                        <div ng-show="appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)"
-                             class="help-block">
-                            Please select a marketing channel
+                            <div ng-show="appointmentForm.marketingChannel.$invalid && (appointmentForm.marketingChannel.$touched || appointmentForm.$submitted)"
+                                 class="help-block">
+                                Please select a marketing channel
+                            </div>
                         </div>
                     </div>
 
@@ -482,7 +481,7 @@
         <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
                 <div class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
-                      ng-show="!isHidden">
+                     ng-show="!isHidden">
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="checkbox" style="padding-left: 18px;">
                             <input type="checkbox" ng-model="blockFullDayFlag"><h5>Block entire day</h5>
@@ -536,6 +535,7 @@
                                         data-ng-model="blockFields.blockTimeStart"
                                         required>
                                 </select>
+
                                 <div ng-show="blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)"
                                      class="help-block">
                                     Invalid time
@@ -620,191 +620,192 @@
                             </div>
                         </div>
                     </div>
-                </form>
-                <div class="form-group col-sm-12 add-appt-formgrp">
-                    <div class="row subcontent-row">
-                        <div class="col-sm-8">
-                            <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
-                                blocked</a>
+                    </form>
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row subcontent-row">
+                            <div class="col-sm-8">
+                                <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
+                                    blocked</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- col for form content ends -->
-    </div>
-</div>
-
-<!-- row for entire app content ends-->
-<div class="clearfix"></div>
-
-
-<script type="text/ng-template" id="myCreateModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Confirm creation of appointment?</h3>
-    </div>
-
-    <div class="modal-body">
-        <ul>
-            <li>Appointment Type: [[patientDetails.appointmentType]]</li>
-            <li>Contact No: [[patientDetails.patientContact]]</li>
-            <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate]]</li>
-            <li>Time: [[patientDetails.appointmentTime]]</li>
-            <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
-            <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
-            <li>Doctor: [[patientDetails.doctorAssigned]]</li>
-            <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-        </ul>
-    </div>
-
-    <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="createAppointment(); recordCreationTimeOut();">Yes
-        </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-    </div>
-</script>
-
-<script type="text/ng-template" id="myDeleteModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Confirm deletion?</h3>
-    </div>
-
-    <div class="modal-body" ng-init="retrieveCancellationReasons()">
-        <ul>
-            <li>Appointment Type: [[patientDetails.appointmentType]]</li>
-            <li>Contact No: [[patientDetails.patientContact]]</li>
-            <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate]]</li>
-            <li>Time: [[patientDetails.appointmentTime]]</li>
-            <li>Doctor: [[patientDetails.doctorAssigned]]</li>
-            <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            <li>Reason:<select data-ng-model="selectedReason" class=form-control"
-                               ng-options="reason.reason for reason in cancellationReasons"
-                               ng-change="activateModalButtons()"></select>
-            </li>
-        </ul>
-    </div>
-
-    <div class="modal-footer">
-        <button class="btn form-submit-btn" ng-show="showModalButtons" type="button"
-                ng-click="deleteAppointment(); recordDeleteTimeOut();">Yes
-        </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-    </div>
-</script>
-
-<script type="text/ng-template" id="myUpdateModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Confirm update?</h3>
-    </div>
-
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-sm-6">
-                <ul>
-                    <p>Original Appointment</p>
-                    <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
-                    <li>Contact No: [[patientDetails.originalPatientContact]]</li>
-                    <li>Patient Name: [[patientDetails.originalPatientName]]</li>
-                    <li>Date: [[patientDetails.originalAppointmentDate]]</li>
-                    <li>Time: [[patientDetails.originalAppointmentTime]]</li>
-                    <li>Doctor: [[patientDetails.doctorAssigned]]</li>
-                    <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                    <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
-                </ul>
-            </div>
-            <div class="col-sm-6">
-                <ul>
-                    <p>Updated Appointment</p>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
-                        [[patientDetails.appointmentType]]
-                    </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
-                        [[patientDetails.patientContact]]
-                    </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}">Patient Name:
-                        [[patientDetails.patientName]]
-                    </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
-                        [[patientDetails.appointmentDate]]
-                    </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
-                        [[patientDetails.appointmentTime]]
-                    </li>
-                    <li>Doctor: [[patientDetails.doctorAssigned]]</li>
-                    <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
-                        [[patientDetails.appointmentRemarks]]
-                    </li>
-                </ul>
-            </div>
+            <!-- col for form content ends -->
         </div>
     </div>
 
-    <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment(); recordEditTimeOut();">Yes
-        </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-    </div>
-</script>
+    <!-- row for entire app content ends-->
+    <div class="clearfix"></div>
 
-<script type="text/ng-template" id="myBlockedAppointmentModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Warning</h3>
-    </div>
 
-    <div class="modal-body">
-        <ul>
-            <li>Appointment chosen is blocked</li>
-        </ul>
-    </div>
+    <script type="text/ng-template" id="myCreateModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm creation of appointment?</h3>
+        </div>
 
-    <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="populateDateTimeFields(appointment);">Continue
-        </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-    </div>
-</script>
+        <div class="modal-body">
+            <ul>
+                <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+                <li>Contact No: [[patientDetails.patientContact]]</li>
+                <li>Patient Name: [[patientDetails.patientName]]</li>
+                <li>Date: [[patientDetails.appointmentDate]]</li>
+                <li>Time: [[patientDetails.appointmentTime]]</li>
+                <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
+                <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
+                <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+                <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+            </ul>
+        </div>
 
-<script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Confirm block time slot?</h3>
-    </div>
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button" ng-click="createAppointment(); recordCreationTimeOut();">
+                Yes
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
 
-    <div class="modal-body">
-        <ul>
-            <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-            <li>Start Date: [[blockDetails.blockDateStart]]</li>
-            <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-            <li>End Date: [[blockDetails.blockDateEnd]]</li>
-            <li>End Time: [[blockDetails.blockTimeEnd]]</li>
-            <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
-        </ul>
-    </div>
+    <script type="text/ng-template" id="myDeleteModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm deletion?</h3>
+        </div>
 
-    <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button"
-                ng-click="postBlockTimeSlots(blockDetails.doctorToBlock.id,
+        <div class="modal-body" ng-init="retrieveCancellationReasons()">
+            <ul>
+                <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+                <li>Contact No: [[patientDetails.patientContact]]</li>
+                <li>Patient Name: [[patientDetails.patientName]]</li>
+                <li>Date: [[patientDetails.appointmentDate]]</li>
+                <li>Time: [[patientDetails.appointmentTime]]</li>
+                <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+                <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+                <li>Reason:<select data-ng-model="selectedReason" class=form-control"
+                                   ng-options="reason.reason for reason in cancellationReasons"
+                                   ng-change="activateModalButtons()"></select>
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" ng-show="showModalButtons" type="button"
+                    ng-click="deleteAppointment(); recordDeleteTimeOut();">Yes
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myUpdateModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm update?</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ul>
+                        <p>Original Appointment</p>
+                        <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
+                        <li>Contact No: [[patientDetails.originalPatientContact]]</li>
+                        <li>Patient Name: [[patientDetails.originalPatientName]]</li>
+                        <li>Date: [[patientDetails.originalAppointmentDate]]</li>
+                        <li>Time: [[patientDetails.originalAppointmentTime]]</li>
+                        <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                        <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+                        <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <ul>
+                        <p>Updated Appointment</p>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
+                            [[patientDetails.appointmentType]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
+                            [[patientDetails.patientContact]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}">Patient Name:
+                            [[patientDetails.patientName]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
+                            [[patientDetails.appointmentDate]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
+                            [[patientDetails.appointmentTime]]
+                        </li>
+                        <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                        <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
+                            [[patientDetails.appointmentRemarks]]
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button" ng-click="updateAppointment(); recordEditTimeOut();">Yes
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myBlockedAppointmentModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Warning</h3>
+        </div>
+
+        <div class="modal-body">
+            <ul>
+                <li>Appointment chosen is blocked</li>
+            </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button" ng-click="populateDateTimeFields(appointment);">Continue
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm block time slot?</h3>
+        </div>
+
+        <div class="modal-body">
+            <ul>
+                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
+                <li>Start Date: [[blockDetails.blockDateStart]]</li>
+                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
+                <li>End Date: [[blockDetails.blockDateEnd]]</li>
+                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
+                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+            </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button"
+                    ng-click="postBlockTimeSlots(blockDetails.doctorToBlock.id,
                         blockDetails.blockDateStart,
                         blockDetails.blockTimeStart,
                         blockDetails.blockDateEnd,
                         blockDetails.blockTimeEnd,
                         blockDetails.blockFormRemarks);">Continue
-        </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-    </div>
-</script>
-<!--
-<script>
-    $('.cal-view-btn').click(function (e) {
-        $('.cal-view-btn').not(this).removeClass('active');
-        e.preventDefault();
-        $(this).addClass('active');
-    })
-</script>-->
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <!--
+    <script>
+        $('.cal-view-btn').click(function (e) {
+            $('.cal-view-btn').not(this).removeClass('active');
+            e.preventDefault();
+            $(this).addClass('active');
+        })
+    </script>-->
 
 
 
