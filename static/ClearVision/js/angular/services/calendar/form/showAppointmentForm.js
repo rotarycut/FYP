@@ -103,11 +103,6 @@ angular.module('show.form', [])
                 self.scope.form.showBlockForm = true;
             }, 600);
 
-            // disabled both doctor's calendar tabs
-            angular.forEach(self.scope.tabs, function (tab) {
-                tab.disable = true;
-            });
-
             // perform these operations when showing the create appointment form
             self.scope.formTitle = "Block Off Time";
 

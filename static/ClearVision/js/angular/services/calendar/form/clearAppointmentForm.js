@@ -25,9 +25,11 @@ angular.module('clear.form', [])
         };
 
 
-        self.clearBlockForm = function (scope) {
+        self.clearBlockForm = function () {
 
             self._scope.blockFields = {};
+            self._scope.blockForm.$setPristine();
+            self._scope.blockForm.$setUntouched();
         };
 
     });

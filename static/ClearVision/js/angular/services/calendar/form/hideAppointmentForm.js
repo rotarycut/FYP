@@ -46,4 +46,27 @@ angular.module('hide.form', [])
 
         };
 
+
+        self.hideBlockForm = function () {
+
+            self._scope.form.showFormBtns = true;
+            self._scope.scaleDownCalendar = false;
+
+            self._scope.form.showForm = false;
+            self._scope.form.showBlockForm = false;
+
+            clearFormSvc.clearBlockForm();
+
+            $timeout(function () {
+
+                for (var field in self._scope.form.showFields) {
+                    self._scope.form.showFields[field] = true;
+                }
+
+                self._scope.form.showButtons['addAndBlock'] = true;
+
+            }, 600);
+
+        }
+
     });

@@ -574,6 +574,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         hideFormSvc.hideForm();
     };
 
+    /* function to hide block form */
+    $scope.hideBlockForm = function () {
+        hideFormSvc.hideBlockForm();
+    };
+
     /* function to clear appointment form */
     $scope.clearForm = function () {
         clearFormSvc.clearForm();
@@ -1211,7 +1216,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
  *******************************************************************************/
 
 
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo, clearFormSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.trackerId = createTracker;
@@ -1323,6 +1328,10 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
     /* function to post block time slot */
     $scope.postBlockTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
 
+        if (remarks == undefined) {
+            remarks = "";
+        }
+
         var postObj = {
             "remarks": remarks,
             "startDate": startDate,
@@ -1335,6 +1344,7 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
         $http.post('/Clearvision/_api/CalendarBlocker/', postObj)
             .success(function (data) {
                 console.log("Successfully blocked time slot");
+                clearFormSvc.clearBlockForm();
             })
             .error(function (data) {
                 console.log("Error in blocking time slot");

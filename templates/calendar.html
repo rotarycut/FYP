@@ -469,7 +469,7 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()">
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideBlockForm()">
                     <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
@@ -480,67 +480,84 @@
         </div>
         <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <div class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
-                     ng-show="!isHidden">
+                <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
+                      ng-show="!isHidden">
+
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="checkbox" style="padding-left: 18px;">
-                            <input type="checkbox" ng-model="blockFields.blockFullDayFlag" ng-change="blockDay(blockFields.blockFullDayFlag)"><h5>Block entire day</h5>
+                            <input type="checkbox" ng-model="blockFields.blockFullDayFlag"
+                                   ng-change="blockDay(blockFields.blockFullDayFlag)"><h5>Block entire day</h5>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-class="{'has-error': blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)}">
-                        <label class="control-label">Doctor</label>
-                        <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
-                                ng-model="blockFields.doctorToBlock" name="doctorToBlock"
-                                required>
-                        </select>
 
-                        <div ng-show="blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)"
-                             class="help-block">
-                            Please select a doctor
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation">
+
+                        <label class="control-label">Doctor</label>
+
+                        <div ng-class="{'has-error': blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)}">
+                            <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
+                                    ng-model="blockFields.doctorToBlock" name="doctorToBlock"
+                                    required>
+                            </select>
+
+                            <div ng-show="blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)"
+                                 class="help-block">
+                                Please select a doctor
+                            </div>
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-8 date-div form-animation">
+
                                 <label class="control-label">Start Date</label>
 
-                                <p class="input-group">
-                                    <input type="text"
-                                           class="form-control date-input-field"
-                                           datepicker-popup="[[ format ]]"
-                                           name="blockDateStart"
-                                           ng-model="blockFields.blockDateStart"
-                                           is-open="datepickers.showDatePicker"
-                                           min-date="minDate"
-                                           datepicker-options="dateOptions"
-                                           show-button-bar="false"
-                                           ng-change="formatBlockStartDate()"
-                                           ng-disabled="true"
-                                            />
+                                <div ng-class="{'has-error': blockForm.blockDateStart.$invalid && (blockForm.blockDateStart.$touched || blockForm.$submitted)}">
+                                    <p class="input-group">
+                                        <input type="text"
+                                               class="form-control date-input-field"
+                                               datepicker-popup="[[ format ]]"
+                                               name="blockDateStart"
+                                               ng-model="blockFields.blockDateStart"
+                                               is-open="datepickers.showDatePicker"
+                                               min-date="minDate"
+                                               datepicker-options="dateOptions"
+                                               show-button-bar="false"
+                                               ng-change="formatBlockStartDate()"
+                                               ng-disabled="true"
+                                               required/>
 
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="open($event,'showDatePicker')">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default"
+                                                    ng-click="open($event,'showDatePicker')">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </p>
+
+                                    <div ng-show="blockForm.blockDateStart.$invalid && (blockForm.blockDateStart.$touched || blockForm.$submitted)"
+                                         class="help-block">
+                                        Invalid Date
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-4 form-animation" date-div
-                                 ng-class="{'has-error': blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)}">
+
+                            <div class="col-sm-4 form-animation" date-div>
 
                                 <label class="control-label">Start Time</label>
-                                <select class="form-control" ng-options="appt for appt in operationTimings"
-                                        data-ng-model="blockFields.blockTimeStart"
-                                        required>
-                                </select>
 
-                                <div ng-show="blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)"
-                                     class="help-block">
-                                    Invalid time
+                                <div ng-class="{'has-error': blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)}">
+                                    <select class="form-control" ng-options="appt for appt in operationTimings"
+                                            data-ng-model="blockFields.blockTimeStart" name="blockTimeStart"
+                                            required>
+                                    </select>
+
+                                    <div ng-show="blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)"
+                                         class="help-block">
+                                        Invalid time
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -551,42 +568,50 @@
 
                                 <label class="control-label">End Date</label>
 
-                                <p class="input-group">
-                                    <input type="text"
-                                           class="form-control date-input-field"
-                                           datepicker-popup="[[ format ]]"
-                                           name="blockDateEnd"
-                                           ng-model="blockFields.blockDateEnd"
-                                           is-open="datepickers.showDatePicker2"
-                                           min-date="minDate"
-                                           datepicker-options="dateOptions"
-                                           show-button-bar="false"
-                                           ng-change="formatBlockEndDate()"
-                                           ng-disabled="true"
-                                            />
+                                <div ng-class="{'has-error': blockForm.blockDateEnd.$invalid && (blockForm.blockDateEnd.$touched || blockForm.$submitted)}">
+                                    <p class="input-group">
+                                        <input type="text"
+                                               class="form-control date-input-field"
+                                               datepicker-popup="[[ format ]]"
+                                               name="blockDateEnd"
+                                               ng-model="blockFields.blockDateEnd"
+                                               is-open="datepickers.showDatePicker2"
+                                               min-date="minDate"
+                                               datepicker-options="dateOptions"
+                                               show-button-bar="false"
+                                               ng-change="formatBlockEndDate()"
+                                               ng-disabled="true"
+                                               required/>
 
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                ng-click="open($event,'showDatePicker2')">
-                                            <i class="fa fa-calendar"></i>
-                                        </button>
-                                    </span>
-                                </p>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default"
+                                                    ng-click="open($event,'showDatePicker2')">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </p>
 
+                                    <div ng-show="blockForm.blockDateEnd.$invalid && (blockForm.blockDateEnd.$touched || blockForm.$submitted)"
+                                         class="help-block">
+                                        Invalid Date
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="col-sm-4 form-animation" date-div
-                                 ng-class="{'has-error': blockForm.blockTimeEnd.$invalid && (blockForm.blockTimeEnd.$touched || blockForm.$submitted)}">
+                            <div class="col-sm-4 form-animation" date-div>
 
                                 <label class="control-label">End Time</label>
-                                <select class="form-control" ng-options="appt for appt in operationTimings"
-                                        data-ng-model="blockFields.blockTimeEnd"
-                                        required>
-                                </select>
 
-                                <div ng-show="blockForm.blockTimeEnd.$invalid && (blockForm.blockTimeEnd.$touched || blockForm.$submitted)"
-                                     class="help-block">
-                                    Invalid time
+                                <div ng-class="{'has-error': blockForm.blockTimeEnd.$invalid && (blockForm.blockTimeEnd.$touched || blockForm.$submitted)}">
+                                    <select class="form-control" ng-options="appt for appt in operationTimings"
+                                            data-ng-model="blockFields.blockTimeEnd" name="blockTimeEnd"
+                                            required>
+                                    </select>
+
+                                    <div ng-show="blockForm.blockTimeEnd.$invalid && (blockForm.blockTimeEnd.$touched || blockForm.$submitted)"
+                                         class="help-block">
+                                        Invalid time
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -599,6 +624,7 @@
                                   name="blockFormRemarks">
                         </textarea>
                     </div>
+
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
@@ -607,7 +633,7 @@
                                         type="reset"><img class="reset-icon">
                                 </button>
                             </div>
-                            <div class="col-sm-3 col-sm-offset-2" style="padding-right: 10%";>
+                            <div class="col-sm-3 col-sm-offset-2" style="padding-right: 10%" ;>
                                 <button class="btn form-submit-btn"
                                         data-ng-click="isBlockFormValid(blockForm.$valid)">Block Off Time
                                 </button>
@@ -615,21 +641,21 @@
                             <div class="col-sm-2 col-sm-offset-2">
                                 <button class="btn form-cancel-btn"
                                         type="reset"
-                                        data-ng-click="hideForm()">Cancel
+                                        data-ng-click="hideBlockForm()">Cancel
                                 </button>
                             </div>
                         </div>
                     </div>
-                    </form>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
-                        <div class="row subcontent-row">
-                            <div class="col-sm-8">
-                                <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
-                                    blocked</a>
-                            </div>
+                </form>
+                <div class="form-group col-sm-12 add-appt-formgrp">
+                    <div class="row subcontent-row">
+                        <div class="col-sm-8">
+                            <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
+                                blocked</a>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
             <!-- col for form content ends -->
         </div>
