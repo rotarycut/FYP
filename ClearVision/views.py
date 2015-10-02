@@ -638,7 +638,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         if default == 'True':
             allMarketingChannels = MarketingChannels.objects.all().values()
             for eachChannel in allMarketingChannels:
-                totalCost = MarketingChannels.objects.filter(channel__name=eachChannel['name'], datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
+                totalCost = MarketingChannels.objects.filter(datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
                 if totalCost == None:
