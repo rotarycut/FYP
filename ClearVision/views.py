@@ -736,7 +736,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             monday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Monday',
+                                                            availabletimeslots__doctors=docName, day='Monday',
                                                             availabletimeslots__start__in=settings.MONDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -749,7 +749,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             tuesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Tuesday',
+                                                            availabletimeslots__doctors=docName, day='Tuesday',
                                                             availabletimeslots__start__in=settings.TUESDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -762,7 +762,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             wednesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Wednesday',
+                                                            availabletimeslots__doctors=docName, day='Wednesday',
                                                             availabletimeslots__start__in=settings.WEDNESDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -775,7 +775,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             thursday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Thursday',
+                                                            availabletimeslots__doctors=docName, day='Thursday',
                                                             availabletimeslots__start__in=settings.THURSDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -788,7 +788,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             friday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Friday',
+                                                            availabletimeslots__doctors=docName, day='Friday',
                                                             availabletimeslots__start__in=settings.FRIDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -801,7 +801,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             saturday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Saturday',
+                                                            availabletimeslots__doctors=docName, day='Saturday',
                                                             availabletimeslots__start__in=settings.SATURDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -816,7 +816,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             monday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Monday',
+                                                            availabletimeslots__doctors=docName, day='Monday',
                                                             availabletimeslots__start__in=settings.MONDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -829,7 +829,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             tuesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Tuesday',
+                                                            availabletimeslots__doctors=docName, day='Tuesday',
                                                             availabletimeslots__start__in=settings.TUESDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -842,7 +842,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             wednesday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Wednesday',
+                                                            availabletimeslots__doctors=docName, day='Wednesday',
                                                             availabletimeslots__start__in=settings.WEDNESDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -855,7 +855,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             thursday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Thursday',
+                                                            availabletimeslots__doctors=docName, day='Thursday',
                                                             availabletimeslots__start__in=settings.THURSDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -868,7 +868,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             friday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Friday',
+                                                            availabletimeslots__doctors=docName, day='Friday',
                                                             availabletimeslots__start__in=settings.FRIDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
@@ -881,7 +881,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             saturday = FullYearCalendar.objects.filter(date__lte=datetime.now() + timedelta(days=monthsAhead * 30),
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
-                                                            availabletimeslots__doctors__name=docName, day='Saturday',
+                                                            availabletimeslots__doctors=docName, day='Saturday',
                                                             availabletimeslots__start__in=settings.SATURDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
