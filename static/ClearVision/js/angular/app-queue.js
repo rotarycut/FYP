@@ -1,6 +1,6 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc, Pusher, $log) {
 
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     $scope.CurrentDate = new Date();
@@ -246,29 +246,32 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
      *******************************************************************************/
 
 
-    /*$scope.channelQueue = 'queue';
+    Pusher.subscribe('queue', 'addToQueue', function (appointment) {
 
-     $dragon.onReady(function () {
+        $log.debug("Receiving socket request to add to queue");
+        getTodayAppointmentSvc.getTodayAppointments();
+        getPatientQueueSvc.getPatientQueue();
+        getNoShowSvc.getNoShow();
 
-     $dragon.subscribe('PatientQueue', $scope.channelQueue, null)
-     .then(function (response) {
-     //$scope.dataMapper = new DataMapper(response.data);
-     console.log(response);
-     });
+    });
 
-     });
+    Pusher.subscribe('queue', 'noShow', function (appointment) {
 
-     $dragon.onChannelMessage(function (channels, message) {
-     console.log(channels[0]);
-     console.log(message.data);
+        $log.debug("Receiving socket request to add to no show");
+        getTodayAppointmentSvc.getTodayAppointments();
+        getPatientQueueSvc.getPatientQueue();
+        getNoShowSvc.getNoShow();
 
-     if (channels[0] === "queue") {
-     getTodayAppointmentSvc.getTodayAppointments();
-     getPatientQueueSvc.getPatientQueue();
-     getNoShowSvc.getNoShow();
-     }
+    });
 
-     });*/
+    Pusher.subscribe('queue', 'removeFromQueue', function (appointment) {
+
+        $log.debug("Receiving socket request to revert from queue or no show");
+        getTodayAppointmentSvc.getTodayAppointments();
+        getPatientQueueSvc.getPatientQueue();
+        getNoShowSvc.getNoShow();
+
+    });
 
 });
 
@@ -346,7 +349,6 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
     $scope.activateModalButtons = function () {
         $scope.showModalButtons = true;
     };
-
 
 
 });
