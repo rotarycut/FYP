@@ -173,10 +173,10 @@
                     <!-- Assigned doctor -->
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': appointmentForm.doctorAssigned.$invalid && (appointmentForm.doctorAssigned.$touched || appointmentForm.$submitted)}"
-                         ng-show="form.showFields.doctor">
+                         ng-show="form.showFields.doctor" ng-init="getAllDoctors()">
 
                         <label class="control-label">Doctor</label>
-                        <select class="form-control" ng-options="doc for doc in listOfDoctors"
+                        <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
                                 ng-model="fields.doctorAssigned" name="doctorAssigned"
                                 ng-disabled="form.disableFields.doctor"
                                 ng-change="changeCalendar('', true, true); getAppointmentTimings();"
@@ -499,17 +499,17 @@
                                 <label class="control-label">Start Date</label>
 
                                 <p class="input-group">
-                                        <input type="text"
-                                               class="form-control"
-                                               datepicker-popup="[[ format ]]"
-                                               name="blockDateStart"
-                                               ng-model="fields.blockDateStart"
-                                               is-open="datepickers.showDatePicker"
-                                               min-date="minDate"
-                                               datepicker-options="dateOptions"
-                                               show-button-bar="false"
-                                               placeholder="Start Date"
-                                                />
+                                    <input type="text"
+                                           class="form-control"
+                                           datepicker-popup="[[ format ]]"
+                                           name="blockDateStart"
+                                           ng-model="fields.blockDateStart"
+                                           is-open="datepickers.showDatePicker"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                           placeholder="Start Date"
+                                            />
 
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
@@ -517,7 +517,7 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                                    </p>
+                                </p>
 
                             </div>
                             <div class="col-sm-4">
@@ -535,17 +535,17 @@
                                 <label class="control-label">End Date</label>
 
                                 <p class="input-group">
-                                        <input type="text"
-                                               class="form-control"
-                                               datepicker-popup="[[ format ]]"
-                                               name="blockDateEnd"
-                                               ng-model="fields.blockDateEnd"
-                                               is-open="datepickers.showDatePicker2"
-                                               min-date="minDate"
-                                               datepicker-options="dateOptions"
-                                               show-button-bar="false"
-                                               placeholder="End Date"
-                                                />
+                                    <input type="text"
+                                           class="form-control"
+                                           datepicker-popup="[[ format ]]"
+                                           name="blockDateEnd"
+                                           ng-model="fields.blockDateEnd"
+                                           is-open="datepickers.showDatePicker2"
+                                           min-date="minDate"
+                                           datepicker-options="dateOptions"
+                                           show-button-bar="false"
+                                           placeholder="End Date"
+                                            />
 
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default"
@@ -553,7 +553,7 @@
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
-                                    </p>
+                                </p>
 
                             </div>
 

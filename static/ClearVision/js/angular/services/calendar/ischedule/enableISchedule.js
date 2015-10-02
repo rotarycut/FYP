@@ -59,7 +59,7 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
 
                 // get heat map for chosen appointment type and doctor
-                self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
+                self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned.id);
                 //self.scope.getISchedule();
                 self.scope.showFilters = false;
 
@@ -84,7 +84,7 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.blockedHeatMap);
 
                 // get heat map for chosen appointment type and doctor
-                self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned);
+                self.scope.getHeatMap(self.scope.fields.appointmentType, self.scope.fields.doctorAssigned.id);
 
             }
         }
