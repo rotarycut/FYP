@@ -479,6 +479,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     $scope.fields = {};
+    $scope.blockFields = {};
     //$scope.fields.marketingChannel = {};
     //$scope.fields.marketingChannel.name = "";
     $scope.remarkWarning = "Please select a patient";
@@ -527,7 +528,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.disableSearchBox = false;
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
-    $scope.operationTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
+    $scope.operationTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"];
     //$scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
     $scope.listOfMarketingChannels = [];
     $scope.listOfDoctors = [];
@@ -681,6 +682,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
+    /* function to format block date */
+    $scope.formatBlockStartDate = function () {
+        $scope.blockFields.blockDateStart = $scope.getFormattedDate($scope.blockFields.blockDateStart);
+    };
+
+    $scope.formatBlockEndDate = function () {
+        $scope.blockFields.blockDateEnd = $scope.getFormattedDate($scope.blockFields.blockDateEnd);
+    };
+
 
     /*******************************************************************************
      function to show waiting fields on form
@@ -734,7 +744,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.isBlockFormValid = function (isValid) {
         if (isValid) {
-            $scope.openBlockModal('lg');
+            $scope.openBlockedConfirmationModal('lg');
         } else {
             console.log("Invalid form");
             // do nothing
@@ -1036,6 +1046,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 },
                 appointment: function () {
                     return '';
+                },
+                blockInfo: function () {
+                    return "";
                 }
             }
         });
@@ -1058,6 +1071,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 },
                 appointment: function () {
                     return '';
+                },
+                blockInfo: function () {
+                    return "";
                 }
             }
         });
@@ -1112,6 +1128,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 },
                 appointment: function () {
                     return '';
+                },
+                blockInfo: function () {
+                    return "";
                 }
             }
         });
@@ -1134,6 +1153,34 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 },
                 appointment: function () {
                     return appointment;
+                },
+                blockInfo: function () {
+                    return "";
+                }
+            }
+        });
+    };
+
+    /* function to open blocked confirmation modal */
+    $scope.openBlockedConfirmationModal = function (size, appointment) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myBlockedConfirmationModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                },
+                appointment: function () {
+                    return appointment;
+                },
+                blockInfo: function () {
+                    return $scope.blockFields;
                 }
             }
         });
@@ -1147,12 +1194,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
  *******************************************************************************/
 
 
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo) {
     $scope.patientDetails = patientInfo;
 
     $scope.trackerId = createTracker;
 
     $scope.appointment = appointment;
+
+    $scope.blockDetails = blockInfo;
 
     $scope.createAppointment = function () {
         postAppointmentSvc.postAppointment();
@@ -1253,5 +1302,28 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
         eventClickSvc.populateDateTimeFields(appointment);
         $scope.cancel();
     };
+
+    /* function to post block time slot */
+    $scope.postBlockTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
+
+        var postObj = {
+            "remarks": remarks,
+            "startDate": startDate,
+            "startTime": startTime,
+            "endDate": endDate,
+            "endTime": endTime,
+            "doctor": doctorId
+        };
+
+        $http.post('/Clearvision/_api/CalendarBlocker/', postObj)
+            .success(function (data) {
+                console.log("Successfully blocked time slot");
+            })
+            .error(function (data) {
+                console.log("Error in blocking time slot");
+            });
+
+        $scope.cancel();
+    }
 
 });

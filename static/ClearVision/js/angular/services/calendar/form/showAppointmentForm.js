@@ -104,7 +104,7 @@ angular.module('show.form', [])
             });
 
             // perform these operations when showing the create appointment form
-                self.scope.formTitle = "Block Off Time";
+            self.scope.formTitle = "Block Off Time";
 
         };
 
