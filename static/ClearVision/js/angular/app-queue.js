@@ -78,8 +78,8 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToQueue)
             .success(function (result) {
                 console.log("Added to queue successfully.")
-                $scope.getTodayAppointments();
-                $scope.getPatientQueue();
+                //$scope.getTodayAppointments();
+                //$scope.getPatientQueue();
             });
     };
 
@@ -105,8 +105,8 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToNoShow)
             .success(function (result) {
                 console.log("Added to no show successfully.")
-                $scope.getTodayAppointments();
-                $scope.getPatientQueue();
+                //$scope.getTodayAppointments();
+                //$scope.getPatientQueue();
             });
 
     };
@@ -125,9 +125,9 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         })
             .success(function (data) {
                 console.log("Success reverting");
-                $scope.getTodayAppointments();
-                $scope.getPatientQueue();
-                $scope.getNoShow();
+                //$scope.getTodayAppointments();
+                //$scope.getPatientQueue();
+                //$scope.getNoShow();
             })
             .error(function (data) {
                 console.log("Error reverting");
