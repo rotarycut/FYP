@@ -82,7 +82,7 @@ angular.module('show.form', [])
 
         };
 
-        /* block appointment time form */
+        /* blocker appointment time form */
         self.showBlockForm = function () {
 
             // scale down the size of the calendar

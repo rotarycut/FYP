@@ -1229,7 +1229,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
       $tip
         .detach()
-        .css({ top: 0, left: 0, display: 'block' })
+        .css({ top: 0, left: 0, display: 'blocker' })
         .addClass(placement)
 
       this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)

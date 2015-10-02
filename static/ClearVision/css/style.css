@@ -954,13 +954,13 @@ table.mailbox-tbl > tbody > tr:hover{
 
 /* msglog page css ends */
 
-/* block form css starts */
+/* blocker form css starts */
 .right-content-block{
     /*display: none;*/
     display: inline-block;
     float: left;
 }
-/* block form css ends */
+/* blocker form css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {
     -webkit-transform:translateY(0px);

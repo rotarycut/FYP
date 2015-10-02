@@ -7,7 +7,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
-                                                 changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher) {
+                                                 changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -25,6 +25,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
+    postBlockerSvc.getScope($scope);
     clearFormSvc.getScope($scope);
     enableIScheduleSvc.getScope($scope);
     disableIScheduleSvc.getScope($scope);
@@ -524,7 +525,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.disableSearchBox = false;
     /* different lists to populate form. will subsequently get from backend */
     $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
-    //$scope.listOfAppointmentTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
+    $scope.operationTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
     //$scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
     $scope.listOfMarketingChannels = [];
     $scope.listOfDoctors = ["Dr Ho", "Dr Goh"];
@@ -549,7 +550,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         showFormSvc.showBlockForm();
     };
 
-    /* function to show block form */
+    /* function to show blocker form */
     $scope.showForm = function (formType) {
         showFormSvc.showForm(formType);
     };
@@ -705,6 +706,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.isEditFormValid = function (isValid) {
         if (isValid) {
             $scope.openUpdateModal('lg');
+        } else {
+            console.log("Invalid form");
+            // do nothing
+        }
+    };
+
+    $scope.isBlockFormValid = function (isValid) {
+        if (isValid) {
+            $scope.openBlockModal('lg');
         } else {
             console.log("Invalid form");
             // do nothing
@@ -980,6 +990,23 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.animationsEnabled = true;
 
+    /* function to open blocker time slot modal */
+    $scope.openBlockModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myBlockModalContent.html',
+            controller: 'BlockModalInstanceCtrl',
+            size: size,
+            resolve: {
+                blockedTimeInfo: function () {
+
+                    return $scope.fields;
+                }
+            }
+        });
+    };
+
     /* function to open create modal */
     $scope.openCreateModal = function (size) {
 
@@ -1088,6 +1115,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
     $scope.patientDetails = patientInfo;
+
     $scope.trackerId = createTracker;
 
     $scope.createAppointment = function () {
@@ -1184,10 +1212,24 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
     };
 
-    /* temp for block form */
-    $scope.showBlockForm = function () {
 
 
+});
+
+
+appCalendar.controller('BlockModalInstanceCtrl', function ($scope, $http, $modalInstance, postBlockerSvc, blockedTimeInfo) {
+
+    $scope.blockedTimeDetails = blockedTimeInfo;
+
+
+    $scope.createBlockTimeSlots = function () {
+        postBlockerSvc.postBlockTimeSlots();
+        //disableIScheduleSvc.disableISchedule();
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
     };
 
 });
