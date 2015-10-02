@@ -471,13 +471,19 @@
                         class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
-            <div class="col-sm-7 col-sm-offset-1">
+            <div class="col-sm-6 col-sm-offset-1">
                 <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
+            <div class="col-sm-3" style="padding-left: 0px;">
+                <h5 class="hide-blockform-label" tooltip="Hide this form" data-ng-click="isHidden = !isHidden;">
+                    Hide
+                </h5>
+            </div>
+
         </div>
         <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <form class="form-horizontal" id="edit-form-patients" name="blockForm" novalidate>
+                <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate ng-show="!isHidden">
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)}">
                         <label class="control-label">Doctor</label>
@@ -607,15 +613,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
-                        <div class="row subcontent-row">
-                            <div class="col-sm-8">
-                                <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
-                                    blocked</a>
-                            </div>
+                </form>
+                <div class="form-group col-sm-12 add-appt-formgrp">
+                    <div class="row subcontent-row">
+                        <div class="col-sm-8">
+                            <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
+                                blocked</a>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <!-- col for form content ends -->

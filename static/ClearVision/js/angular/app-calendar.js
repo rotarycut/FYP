@@ -494,6 +494,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.preEvalIconChange = "fa fa-check-square";
     $scope.surgeryIconChange = "fa fa-check-square";
     $scope.disabledApptType = false;
+    $scope.hideFormToggle = true;
 
     $scope.form = {
         showForm: false,

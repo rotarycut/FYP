@@ -960,6 +960,15 @@ table.mailbox-tbl > tbody > tr:hover{
     display: inline-block;
     float: left;
 }
+
+.hide-blockform-label input[type=checkbox]{
+    position: absolute;
+    display: none;
+}
+.hide-blockform-label{
+    text-decoration: underline;
+    cursor: pointer;
+}
 /* blocker form css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {
