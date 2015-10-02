@@ -144,7 +144,6 @@ angular.module('event.click', [])
 
                     });
 
-
             }
 
         };
