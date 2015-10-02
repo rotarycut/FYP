@@ -467,12 +467,13 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()"><i
-                        class="fa fa-chevron-left"></i> Back
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()" ng-show="!isHidden">
+                    <i
+                            class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
             <div class="col-sm-6 col-sm-offset-1">
-                <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
+                <h5 class="form-title" style="font-weight: bold" ng-show="!isHidden">[[formTitle]]</h5>
             </div>
             <div class="col-sm-3" style="padding-left: 0px;">
                 <h5 class="hide-blockform-label" tooltip="Hide this form" data-ng-click="isHidden = !isHidden;">
@@ -483,7 +484,13 @@
         </div>
         <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate ng-show="!isHidden">
+                <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
+                      ng-show="!isHidden">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation">
+                        <div class="checkbox" style="padding-left: 18px;">
+                            <input type="checkbox" ng-model="blockFullDayFlag"><h5>Block entire day</h5>
+                        </div>
+                    </div>
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-class="{'has-error': blockForm.doctorToBlock.$invalid && (blockForm.doctorToBlock.$touched || blockForm.$submitted)}">
                         <label class="control-label">Doctor</label>
@@ -526,12 +533,20 @@
                                 </p>
 
                             </div>
-                            <div class="col-sm-4">
-                                <div class="checkbox" style="padding-top:28px;">
-                                    <input type="checkbox" ng-model="blockOneDay"><h5>One Day</h5>
+                            <div class="col-sm-4 form-animation" date-div
+                                 ng-class="{'has-error': blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)}"
+                                    >
+                                <label class="control-label">Start Time</label>
+                                <select class="form-control" ng-options="appt for appt in operationTimings"
+                                        data-ng-model="fields.blockTimeStart"
+                                        required>
+                                </select>
+
+                                <div ng-show="blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)"
+                                     class="help-block">
+                                    Invalid time
                                 </div>
                             </div>
-
 
                         </div>
                     </div>
@@ -562,26 +577,7 @@
                                 </p>
 
                             </div>
-
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
-                        <div class="row">
-                            <div class="col-sm-6 form-animation" date-div
-                                 ng-class="{'has-error': blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)}"
-                                    >
-                                <label class="control-label">Start Time</label>
-                                <select class="form-control" ng-options="appt for appt in operationTimings"
-                                        data-ng-model="fields.blockTimeStart"
-                                        required>
-                                </select>
-
-                                <div ng-show="blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)"
-                                     class="help-block">
-                                    Invalid time
-                                </div>
-                            </div>
-                            <div class="col-sm-6 form-animation" date-div
+                            <div class="col-sm-4 form-animation" date-div
                                  ng-class="{'has-error': blockForm.blockTimeEnd.$invalid && (blockForm.blockTimeEnd.$touched || blockForm.$submitted)}"
                                     >
                                 <label class="control-label">End Time</label>
@@ -597,10 +593,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp">
+                        <div class="row">
+
+
+                        </div>
+                    </div>
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showFields.remarks">
                         <label class="control-label">Remarks</label>
                         <textarea class="form-control" rows="3" data-ng-model="fields.blockFormRemarks"
-                                  placeholder="Optional" name="blockFormRemarks">
+                                  name="blockFormRemarks">
                         </textarea>
                     </div>
 
