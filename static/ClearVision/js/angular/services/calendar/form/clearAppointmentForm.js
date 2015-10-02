@@ -24,4 +24,10 @@ angular.module('clear.form', [])
             self._scope.form.disableFields.marketingChannel = false;
         };
 
+
+        self.clearBlockForm = function (scope) {
+
+            self._scope.blockFields = {};
+        };
+
     });

@@ -484,7 +484,7 @@
                      ng-show="!isHidden">
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="checkbox" style="padding-left: 18px;">
-                            <input type="checkbox" ng-model="blockFullDayFlag"><h5>Block entire day</h5>
+                            <input type="checkbox" ng-model="blockFields.blockFullDayFlag" ng-change="blockDay(blockFields.blockFullDayFlag)"><h5>Block entire day</h5>
                         </div>
                     </div>
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
@@ -603,7 +603,7 @@
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default btn-sm"
-                                        data-ng-click="clearForm()"
+                                        data-ng-click="clearBlockForm()"
                                         type="reset"><img class="reset-icon">
                                 </button>
                             </div>

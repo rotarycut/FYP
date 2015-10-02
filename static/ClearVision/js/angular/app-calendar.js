@@ -574,9 +574,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         hideFormSvc.hideForm();
     };
 
-    /* function to clear form */
+    /* function to clear appointment form */
     $scope.clearForm = function () {
         clearFormSvc.clearForm();
+    };
+
+    /* function to clear block form */
+    $scope.clearBlockForm = function () {
+        clearFormSvc.clearBlockForm();
     };
 
     /* function to enable iSchedule */
@@ -690,6 +695,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.formatBlockEndDate = function () {
         $scope.blockFields.blockDateEnd = $scope.getFormattedDate($scope.blockFields.blockDateEnd);
+    };
+
+    /* function for checkbox to block full day */
+    $scope.blockDay = function (checkBoxIsTick) {
+        if (checkBoxIsTick) {
+            $scope.blockFields.blockTimeStart = "09:00";
+            $scope.blockFields.blockTimeEnd = "18:00";
+        } else {
+            $scope.blockFields.blockTimeStart = "";
+            $scope.blockFields.blockTimeEnd = "";
+        }
     };
 
 
