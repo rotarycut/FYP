@@ -66,10 +66,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="text-align: right">
+                <div class="col-md-12">
+                    <div class="col-md-8" style="text-align: left">
+                        <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                    </div>
+                    <div class="col-md-4" style="text-align: right">
                     <h4><span class="label total-spent-label"
                               style="display: inline-block">Total Spent: <span class="totalSpent-label"> $2,200</span></span>
                     </h4>
+                        </div>
                 </div>
             </div>
         </div>
