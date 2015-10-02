@@ -154,7 +154,6 @@ class DoctorFilter(django_filters.FilterSet):
 
 
 class DoctorList(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
