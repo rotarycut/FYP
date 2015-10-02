@@ -636,24 +636,25 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         toReturnResponse = []
 
         if default == 'True':
-            allMarketingChannels = MarketingChannels.objects.all().values()
+            allMarketingChannels = MarketingChannels.objects.filter(datePurchased__month=month).values()
             for eachChannel in allMarketingChannels:
-                totalCost = MarketingChannels.objects.filter(datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
+                totalCost = eachChannel['cost']
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
-                if totalCost == None:
-                    toReturnResponse.append({'channelname': eachChannel['name'], 'roi': totalPatientCount * 3388, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
-                else:
-                    roi = (totalPatientCount * 3388) / totalCost
-                    toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
+
+                roi = (totalPatientCount * 3388) / totalCost
+                toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         else:
             for eachChannel in channel:
-                totalCost = MarketingChannels.objects.filter(channel__name__in=channel, datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
-                totalPatientCount = Patient.objects.filter(conversion=True, marketingChannelId__name=eachChannel,
+                try:
+                    totalCost = MarketingChannels.objects.get(name=eachChannel, datePurchased__month=month).cost
+                    totalPatientCount = Patient.objects.filter(conversion=True, marketingChannelId__name=eachChannel,
                                                            registrationDate__month=month).values().count()
-                roi = (totalPatientCount * 3388) / totalCost
+                    roi = (totalPatientCount * 3388) / totalCost
 
-                toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
+                    toReturnResponse.append({'channelname': eachChannel, 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
+                except ObjectDoesNotExist:
+                    continue
         return Response(toReturnResponse)
 
 class ViewSavedROICustomFilters(viewsets.ModelViewSet):
