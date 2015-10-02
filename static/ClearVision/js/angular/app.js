@@ -70,6 +70,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'AppointmentAnalysisCtrl',
             activetab: 'dashboard/schedule'
         })
+        .when("/dashboard/expenditure", {
+            templateUrl: "expenditure.html",
+            controller: 'MarketingExpenditureCtrl',
+            activetab: 'dashboard/expenditure'
+        })
         .when("/waitlist", {
             templateUrl: "waitlist.html",
             controller: 'waitListCtrl',

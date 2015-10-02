@@ -470,26 +470,18 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()" ng-show="!isHidden">
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()">
                     <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
 
             <div class="col-sm-6 col-sm-offset-1">
-                <h5 class="form-title" style="font-weight: bold" ng-show="!isHidden">[[formTitle]]</h5>
+                <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
-
-            <div class="col-sm-3" style="padding-left: 0px;">
-                <h5 class="hide-blockform-label" tooltip="Hide this form" data-ng-click="isHidden = !isHidden;">
-                    Hide
-                </h5>
-            </div>
-
         </div>
-
         <div class="row form-row form-content-row">
             <div class="col-sm-12 add-appt-formgrp">
-                <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
+                <div class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
                       ng-show="!isHidden">
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="checkbox" style="padding-left: 18px;">
@@ -509,7 +501,6 @@
                             Please select a doctor
                         </div>
                     </div>
-
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
                             <div class="col-sm-8 date-div form-animation">
@@ -517,7 +508,7 @@
 
                                 <p class="input-group">
                                     <input type="text"
-                                           class="form-control"
+                                           class="form-control date-input-field"
                                            datepicker-popup="[[ format ]]"
                                            name="blockDateStart"
                                            ng-model="blockFields.blockDateStart"
@@ -537,7 +528,6 @@
                                     </span>
                                 </p>
                             </div>
-
                             <div class="col-sm-4 form-animation" date-div
                                  ng-class="{'has-error': blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)}">
 
@@ -546,7 +536,6 @@
                                         data-ng-model="blockFields.blockTimeStart"
                                         required>
                                 </select>
-
                                 <div ng-show="blockForm.blockTimeStart.$invalid && (blockForm.blockTimeStart.$touched || blockForm.$submitted)"
                                      class="help-block">
                                     Invalid time
@@ -564,7 +553,7 @@
 
                                 <p class="input-group">
                                     <input type="text"
-                                           class="form-control"
+                                           class="form-control date-input-field"
                                            datepicker-popup="[[ format ]]"
                                            name="blockDateEnd"
                                            ng-model="blockFields.blockDateEnd"
@@ -610,18 +599,28 @@
                                   name="blockFormRemarks">
                         </textarea>
                     </div>
-
-                    <div class="form-group col-sm-12 add-appt-formgrp">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="row subcontent-row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-1">
+                                <button class="btn btn-default btn-sm"
+                                        data-ng-click="clearForm()"
+                                        type="reset"><img class="reset-icon">
+                                </button>
+                            </div>
+                            <div class="col-sm-3 col-sm-offset-2">
                                 <button class="btn form-submit-btn"
                                         data-ng-click="isBlockFormValid(blockForm.$valid)">Block Off Time
+                                </button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-2">
+                                <button class="btn form-cancel-btn"
+                                        type="reset"
+                                        data-ng-click="hideForm()">Cancel
                                 </button>
                             </div>
                         </div>
                     </div>
                 </form>
-
                 <div class="form-group col-sm-12 add-appt-formgrp">
                     <div class="row subcontent-row">
                         <div class="col-sm-8">
@@ -630,7 +629,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!-- col for form content ends -->

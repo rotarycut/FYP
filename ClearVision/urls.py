@@ -53,6 +53,7 @@ urlpatterns = [
     url(r'^roi', views.roi),
     url(r'^conversion', views.conversion),
     url(r'^schedule', views.schedule),
+    url(r'^expenditure', views.expenditure),
     url(r'^waitlist', views.waitlist),
     url(r'^queue', views.queue),
     url(r'^msglog', views.msglog),

@@ -54,6 +54,9 @@ def conversion(request):
 def schedule(request):
     return render(request, 'schedule.html')
 
+def expenditure(request):
+    return render(request, 'expenditure.html')
+
 def waitlist(request):
     return render(request, 'waitlist.html')
 

@@ -13,6 +13,11 @@
     height: 100vh;
 }
 
+.dashboard-content-row{
+    padding-top: 10%;
+    height: 100vh;
+}
+
 .subcontent-row{
     padding-top: 8px;
 }
@@ -741,16 +746,13 @@ li .i-slot-label {
     outline: 0;
 }
 
-.filter-row{
-    padding-top: 2.2%;
-}
-
 .mrkt-month-item.active{
     text-decoration:underline;
     font-weight: bold;
 }
 
 /* dashboard css ends*/
+
 
 /* waitlist css*/
 
@@ -970,6 +972,20 @@ table.mailbox-tbl > tbody > tr:hover{
     cursor: pointer;
 }
 /* blocker form css ends */
+
+/* expenditure form css */
+
+.expenditure-table-row{
+    border: solid 1px #49708A;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-right: 0.5%
+}
+
+.total-spent-label{
+    background-color: #49708A;
+}
+/* expenditure form css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {
     -webkit-transform:translateY(0px);
