@@ -645,7 +645,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $scope.fields.waitingDate = $scope.getFormattedDate($scope.fields.waitingDate);
     };
 
-    /* function to format date */
+    /* function to get format date */
     $scope.getFormattedDate = function (fullDate) {
         var year = fullDate.getFullYear();
 
@@ -661,6 +661,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         var formattedDate = year + '-' + month + '-' + day;
         return formattedDate;
+    };
+
+    /* function to get format time */
+    $scope.getFormattedTime = function (fullTime) {
+
+        var lastSpaceIndex = fullTime.lastIndexOf(" ");
+
+        var formattedTime = fullTime.substring(lastSpaceIndex);
+
+        return formattedTime;
     };
 
     /* function to get all the doctors */
@@ -1000,23 +1010,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.animationsEnabled = true;
 
-    /* function to open blocker time slot modal */
-    $scope.openBlockModal = function (size) {
-
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myBlockModalContent.html',
-            controller: 'BlockModalInstanceCtrl',
-            size: size,
-            resolve: {
-                blockedTimeInfo: function () {
-
-                    return $scope.fields;
-                }
-            }
-        });
-    };
-
     /* function to open create modal */
     $scope.openCreateModal = function (size) {
 
@@ -1040,6 +1033,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 createTracker: function () {
 
                     return $scope.trackId;
+                },
+                appointment: function () {
+                    return '';
                 }
             }
         });
@@ -1059,6 +1055,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 },
                 createTracker: function () {
                     return $scope.trackId;
+                },
+                appointment: function () {
+                    return '';
                 }
             }
         });
@@ -1110,6 +1109,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 },
                 createTracker: function () {
                     return $scope.trackId;
+                },
+                appointment: function () {
+                    return '';
+                }
+            }
+        });
+    };
+
+    /* function to open blocked appointment notification modal */
+    $scope.openBlockedModal = function (size, appointment) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myBlockedAppointmentModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                },
+                appointment: function () {
+                    return appointment;
                 }
             }
         });
@@ -1123,10 +1147,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
  *******************************************************************************/
 
 
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.trackerId = createTracker;
+
+    $scope.appointment = appointment;
 
     $scope.createAppointment = function () {
         postAppointmentSvc.postAppointment();
@@ -1222,23 +1248,10 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
     };
 
-
-});
-
-
-appCalendar.controller('BlockModalInstanceCtrl', function ($scope, $http, $modalInstance, postBlockerSvc, blockedTimeInfo) {
-
-    $scope.blockedTimeDetails = blockedTimeInfo;
-
-
-    $scope.createBlockTimeSlots = function () {
-        postBlockerSvc.postBlockTimeSlots();
-        //disableIScheduleSvc.disableISchedule();
-        $modalInstance.close();
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+    /* function to populate date time fields even thought heat map is blocked */
+    $scope.populateDateTimeFields = function (appointment) {
+        eventClickSvc.populateDateTimeFields(appointment);
+        $scope.cancel();
     };
 
 });

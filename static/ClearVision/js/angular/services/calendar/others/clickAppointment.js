@@ -1,5 +1,5 @@
 angular.module('event.click', [])
-    .service('eventClickSvc', function (clearFormSvc, $timeout) {
+    .service('eventClickSvc', function (clearFormSvc, $timeout, $http) {
 
         var self = this;
         self.scope = {};
@@ -111,18 +111,56 @@ angular.module('event.click', [])
 
                 // iSchedule is already enabled
 
-                // populate the date field on selection of other heat map date time
-                self.scope.fields.appointmentDate = appointment.date;
+                // check if the heat map appointment is blocked
 
-                var appointmentFullDateTime = appointment.start._i;
-                var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
-                var colonIndex = appointmentFullDateTime.lastIndexOf(":");
-                var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+                var appointmentDate = self.scope.getFormattedDate(appointment.start._d);
+                var appointmentStartTime = self.scope.getFormattedTime(appointment.start._i);
+                var appointmentEndTime = self.scope.getFormattedTime(appointment.end._i);
 
-                // populate the time field on selection of other heat map date time
-                self.scope.getAppointmentTimings(appointmentTime);
+                $http.get('/Clearvision/_api/ViewDoctorBlockedTime/?date=' + appointmentDate + '' + appointmentStartTime + '&docID=' + self.scope.fields.doctorAssigned.id)
+                    .success(function (data) {
+
+                        if (data == false) {
+                            // appointment is not blocked
+
+                            // additional check to make sure appointment end time is not blocked too
+                            $http.get('/Clearvision/_api/ViewDoctorBlockedTime/?date=' + appointmentDate + '' + appointmentEndTime + '&docID=' + self.scope.fields.doctorAssigned.id)
+                                .success(function (data) {
+
+                                    if (data == false) {
+                                        // appointment is not blocked
+                                        self.populateDateTimeFields(appointment);
+
+                                    } else {
+                                        // appointment is blocked
+                                        self.scope.openBlockedModal('sm', appointment);
+                                    }
+                                });
+
+                        } else {
+                            // appointment is blocked
+                            self.scope.openBlockedModal('sm', appointment);
+                        }
+
+                    });
+
+
             }
 
         };
+
+        self.populateDateTimeFields = function (appointment) {
+
+            // populate the date field on selection of other heat map date time
+            self.scope.fields.appointmentDate = appointment.date;
+
+            var appointmentFullDateTime = appointment.start._i;
+            var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
+            var colonIndex = appointmentFullDateTime.lastIndexOf(":");
+            var appointmentTime = appointmentFullDateTime.substring(spaceIndex, colonIndex);
+
+            // populate the time field on selection of other heat map date time
+            self.scope.getAppointmentTimings(appointmentTime);
+        }
 
     });

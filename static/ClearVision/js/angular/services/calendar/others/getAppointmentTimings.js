@@ -89,7 +89,7 @@ angular.module('get.timings', [])
                 }
 
                 // make the call to get the appointment timings
-                $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctor + "&day=" + d + "&today=" + isCurrentDay)
+                $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctor.id + "&day=" + d + "&today=" + isCurrentDay)
                     .success(function (listOfTimings) {
 
                         // check if it is getting the appointment timings from the wait list date
