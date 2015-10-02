@@ -2629,12 +2629,30 @@ class CalendarBlocker(viewsets.ModelViewSet):
     serializer_class = CalendarBlockerSerializer
 
     def list(self, request, *args, **kwargs):
-        futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now()).values()
+        doctor = request.query_params.get('doctor')
+        if doctor == 'all':
+            futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now()).values()
 
-        for eachObj in futureCalendarBlockers:
-            eachObj['rendering'] = 'background'
+            for eachObj in futureCalendarBlockers:
+                eachObj['rendering'] = 'background'
 
-        return Response(futureCalendarBlockers)
+            return Response(futureCalendarBlockers)
+        elif doctor == '1':
+            futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now(), doctor=doctor).values()
+
+            for eachObj in futureCalendarBlockers:
+                eachObj['rendering'] = 'background'
+
+            return Response(futureCalendarBlockers)
+
+        elif doctor == '2':
+            futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now(), doctor=doctor).values()
+
+            for eachObj in futureCalendarBlockers:
+                eachObj['rendering'] = 'background'
+
+            return Response(futureCalendarBlockers)
+        return Response({})
 
     def create(self, request, *args, **kwargs):
         payload = request.data
