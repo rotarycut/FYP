@@ -70,6 +70,7 @@ class Doctor(models.Model):
     calDavAccount = models.CharField(max_length=50)
     contact = models.CharField(max_length=50)
     clinic = models.ManyToManyField(Clinic)
+    apptType = models.ManyToManyField(AppointmentType)
 
     def __str__(self):
         return self.name

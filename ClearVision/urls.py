@@ -44,6 +44,7 @@ router.register(r'_api/ViewAllMarketingChannels', views.ViewAllMarketingChannels
 router.register(r'_api/CalendarBlocker', views.CalendarBlocker)
 router.register(r'_api/ViewDoctorBlockedTime', views.ViewDoctorBlockedTime)
 router.register(r'_api/InputMarketingChannelCost', views.InputMarketingChannelCost)
+router.register(r'_api/DoctorApptTypes', views.DoctorApptTypes)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),

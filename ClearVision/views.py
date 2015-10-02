@@ -2753,3 +2753,13 @@ class InputMarketingChannelCost(viewsets.ModelViewSet):
         MarketingChannels.objects.get(id=self.get_object().id).delete()
 
         return Response('Delete Success')
+
+class DoctorApptTypes(viewsets.ReadOnlyModelViewSet):
+    queryset = Doctor.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        doctorID = request.query_params.get('doctorID')
+
+        apptTypes = Doctor.objects.filter(id=doctorID).values('apptType__name')
+
+        return Response(apptTypes)
