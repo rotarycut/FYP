@@ -10,7 +10,7 @@ angular.module('show.form', [])
 
 
         /*******************************************************************************
-         function to show appointment
+         function to show appointment form
          *******************************************************************************/
 
 
@@ -81,6 +81,11 @@ angular.module('show.form', [])
             }
 
         };
+
+
+        /*******************************************************************************
+         function to show block form
+         *******************************************************************************/
 
         /* blocker appointment time form */
         self.showBlockForm = function () {

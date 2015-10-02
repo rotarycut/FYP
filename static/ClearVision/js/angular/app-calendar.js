@@ -351,7 +351,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             eventDurationEditable: false,
             eventClick: $scope.alertOnEventClick,
             eventRender: $scope.eventRender,
-            allDaySlot: false
+            allDaySlot: false,
+            slotEventOverlap: false
         }
     };
 

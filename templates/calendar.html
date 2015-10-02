@@ -154,19 +154,22 @@
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-show="form.showFields.appointmentType"
-                         ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
-                        <label class="control-label">Appointment Type</label>
-                        <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
-                                ng-model="fields.appointmentType" name="appointmentType"
-                                ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings();"
-                                ng-disabled="disabledApptType"
-                                required>
-                        </select>
+                         ng-show="form.showFields.appointmentType">
 
-                        <div ng-show="appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)"
-                             class="help-block">
-                            Please select an appointment type
+                        <label class="control-label">Appointment Type</label>
+
+                        <div ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
+                            <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
+                                    ng-model="fields.appointmentType" name="appointmentType"
+                                    ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings();"
+                                    ng-disabled="disabledApptType"
+                                    required>
+                            </select>
+
+                            <div ng-show="appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)"
+                                 class="help-block">
+                                Please select an appointment type
+                            </div>
                         </div>
                     </div>
 
@@ -522,8 +525,8 @@
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
                                            show-button-bar="false"
-                                           placeholder="Start Date"
                                            ng-change="formatBlockStartDate()"
+                                           ng-disabled="true"
                                             />
 
                                     <span class="input-group-btn">
@@ -569,8 +572,8 @@
                                            min-date="minDate"
                                            datepicker-options="dateOptions"
                                            show-button-bar="false"
-                                           placeholder="End Date"
                                            ng-change="formatBlockEndDate()"
+                                           ng-disabled="true"
                                             />
 
                                     <span class="input-group-btn">
