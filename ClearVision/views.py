@@ -626,7 +626,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                 return Response(date_range)
 
 class ViewROIChart(viewsets.ReadOnlyModelViewSet):
-    queryset = MarketingChannelCost.objects.none()
+    queryset = MarketingChannels.objects.none()
 
     def list(self, request, *args, **kwargs):
         channel = request.query_params.getlist('channel')
@@ -638,7 +638,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         if default == 'True':
             allMarketingChannels = MarketingChannels.objects.all().values()
             for eachChannel in allMarketingChannels:
-                totalCost = MarketingChannelCost.objects.filter(channel__name=eachChannel['name'], datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
+                totalCost = MarketingChannels.objects.filter(channel__name=eachChannel['name'], datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
                 if totalCost == None:
@@ -648,7 +648,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                     toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         else:
             for eachChannel in channel:
-                totalCost = MarketingChannelCost.objects.filter(channel__name__in=channel, datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
+                totalCost = MarketingChannels.objects.filter(channel__name__in=channel, datePurchased__month=month).aggregate(Sum('cost'))['cost__sum']
                 totalPatientCount = Patient.objects.filter(conversion=True, marketingChannelId__name=eachChannel,
                                                            registrationDate__month=month).values().count()
                 roi = (totalPatientCount * 3388) / totalCost
@@ -2711,9 +2711,40 @@ class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
             return Response(False)
 
 class InputMarketingChannelCost(viewsets.ModelViewSet):
-    queryset = MarketingChannelCost.objects.all()
+    queryset = MarketingChannels.objects.all()
     serializer_class = InputMarketingChannelCostSerializer
 
     def list(self, request, *args, **kwargs):
-        allChannels = MarketingChannelCost.objects.all().values()
+        allChannels = MarketingChannels.objects.all().values()
         return Response(allChannels)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        name = payload.get('name')
+        cost = payload.get('cost')
+        date = payload.get('date')
+
+        MarketingChannels.objects.create(name=name, cost=cost, datePurchased=date)
+
+        return Response('Create Success')
+
+    def update(self, request, *args, **kwargs):
+        payload = request.data
+
+        name = payload.get('name')
+        cost = payload.get('cost')
+        date = payload.get('date')
+
+        toUpdate = MarketingChannels.objects.get(id=self.get_object().id)
+        toUpdate.name = name
+        toUpdate.cost = cost
+        toUpdate.datePurchased = date
+        toUpdate.save()
+
+        return Response('Update Success')
+
+    def destroy(self, request, *args, **kwargs):
+        MarketingChannels.objects.get(id=self.get_object().id).delete()
+
+        return Response('Delete Success')

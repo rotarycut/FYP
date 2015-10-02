@@ -120,5 +120,5 @@ class CalendarBlockerSerializer(serializers.ModelSerializer):
 class InputMarketingChannelCostSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = MarketingChannelCost
+        model = MarketingChannels
         depth = 1

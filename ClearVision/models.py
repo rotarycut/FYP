@@ -20,7 +20,9 @@ class FullYearCalendar(models.Model):
         return str(self.date)
 
 class MarketingChannels(models.Model):
-    name = models.CharField(max_length=350)
+    name = models.CharField(max_length=500)
+    cost = models.FloatField()
+    datePurchased = models.DateField()
 
 class CustomFilterMarketingChannel(models.Model):
     name = models.CharField(max_length=200)
@@ -31,12 +33,6 @@ class CustomFilterMarketingChannel(models.Model):
 class CustomFilterROI(models.Model):
     name = models.CharField(max_length=200)
     channelType = models.ManyToManyField(MarketingChannels)
-
-class MarketingChannelCost(models.Model):
-    channel = models.ForeignKey(MarketingChannels)
-    cost = models.FloatField()
-    name = models.CharField(max_length=500)
-    datePurchased = models.DateField()
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)

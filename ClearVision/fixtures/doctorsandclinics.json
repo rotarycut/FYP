@@ -19,7 +19,7 @@
   },
   {
     "model": "ClearVision.Doctor",
-    "pk": 1,
+    "pk": 2,
 
     "fields": {
       "name": "Dr Goh",
@@ -34,7 +34,7 @@
   },
   {
     "model": "ClearVision.Doctor",
-    "pk": 2,
+    "pk": 1,
 
     "fields": {
       "name": "Dr Ho",
