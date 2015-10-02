@@ -2709,3 +2709,11 @@ class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
             return Response(True)
         else:
             return Response(False)
+
+class InputMarketingChannelCost(viewsets.ModelViewSet):
+    queryset = MarketingChannelCost.objects.all()
+    serializer_class = InputMarketingChannelCostSerializer
+
+    def list(self, request, *args, **kwargs):
+        allChannels = MarketingChannelCost.objects.all().values()
+        return Response(allChannels)

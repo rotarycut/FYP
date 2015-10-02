@@ -37,7 +37,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Appointment
-        depth = 0
+        depth = 1
         fields = ('id', 'apptType', 'title', 'date', 'start', 'end', 'doctor', 'patients', 'tempPatients')
 
     def get_title(self, appointment):
@@ -111,13 +111,14 @@ class CustomFilterROISerializer(serializers.ModelSerializer):
         model = CustomFilterROI
         depth = 1
 
-class SDAppointmentSerializer(ModelSerializer):
-    class Meta:
-        model = 'ClearVision.Appointment'
-        publish_fields = ('apptType', 'patients')
-
 class CalendarBlockerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BlockDates
+        depth = 1
+
+class InputMarketingChannelCostSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MarketingChannelCost
         depth = 1
