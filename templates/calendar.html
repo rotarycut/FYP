@@ -637,12 +637,33 @@
                                         type="reset"><img class="reset-icon">
                                 </button>
                             </div>
-                            <div class="col-sm-3 col-sm-offset-2" style="padding-right: 10%" ;>
+                            <div class="col-sm-3 col-sm-offset-2" style="padding-right: 10%">
                                 <button class="btn form-submit-btn"
                                         data-ng-click="isBlockFormValid(blockForm.$valid)">Block Off Time
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-2">
+                                <button class="btn form-cancel-btn"
+                                        type="reset"
+                                        data-ng-click="hideBlockForm()">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- button group for edit and delete -->
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation">
+                        <div class="row subcontent-row">
+                            <div class="col-sm-1">
+                                <button class="btn btn-default"
+                                        data-ng-click=""><i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-4">
+                                <button class="btn form-submit-btn"
+                                        data-ng-click="isBlockFormValid(blockForm.$valid)">Update
+                                </button>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-1">
                                 <button class="btn form-cancel-btn"
                                         type="reset"
                                         data-ng-click="hideBlockForm()">Cancel
@@ -833,7 +854,7 @@
 
     <script type="text/ng-template" id="myBlockedTimeSlotListModal.html">
         <div class="modal-header">
-            <h4 class="modal-title"><i class="fa fa-calendar-times-o"></i> List of Blocked Timeslots</h4>
+            <h4 class="modal-title"><i class="fa fa-calendar"></i> List of Blocked Timeslots</h4>
         </div>
 
         <div class="modal-body" ng-init="getListOfBlockedAppointments()">
