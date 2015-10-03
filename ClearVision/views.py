@@ -2752,7 +2752,7 @@ class CalendarBlocker(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         BlockDates.objects.get(id=self.get_object().id).delete()
-        return Response('Success')
+        return Response('Delete Success')
 
 class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
     queryset = BlockDates.objects.none()
