@@ -1031,7 +1031,8 @@ class ViewSwapperTable(viewsets.ModelViewSet):
     serializer_class = SwapperSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now(), inbox=False).\
+        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now(), inbox=False,
+                                                     tempAppt__timeBucket__date__gte=datetime.now()).\
                                                      values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
                                                      'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
@@ -1071,7 +1072,7 @@ class ViewSwappedPatientsInInbox(viewsets.ReadOnlyModelViewSet):
     queryset = Swapper.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now(), inbox=True).\
+        response_data = Swapper.objects.all().filter(inbox=True,).\
                                                      values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
                                                      'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
