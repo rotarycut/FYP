@@ -14,20 +14,27 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav" id="topmenu">
-                <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i class="fa fa-calendar"></i> Calendar</a></li>
+                <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
+                        class="fa fa-calendar"></i> Calendar</a></li>
                 <!--<li class="active"><a href="#">Home</a></li>-->
-                <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#" ng-href="#/waitlist"><i class="fa fa-user-times"></i> Wait List</a></li>
+                <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#" ng-href="#/waitlist"><i
+                        class="fa fa-user-times"></i> Wait List</a></li>
                 <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
                 <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/conversion"><i
                         class="fa fa-bar-chart"></i> Dashboard <b class="caret"></b></a>
                     <ul class="list-inline dashboard-submenu">
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/schedule'}"><a href="#/dashboard/schedule">Appointments Scheduled</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/conversion'}"><a href="#/dashboard/conversion">Conversion Analysis</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/roi'}"><a href="#/dashboard/roi">ROI Analysis</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/expenditure'}"><a href="#/dashboard/expenditure">Expenditure Form</a></li>
+                        <li ng-class="{active: $route.current.activetab == 'dashboard/schedule'}"><a
+                                href="#/dashboard/schedule">Appointments Scheduled</a></li>
+                        <li ng-class="{active: $route.current.activetab == 'dashboard/conversion'}"><a
+                                href="#/dashboard/conversion">Conversion Analysis</a></li>
+                        <li ng-class="{active: $route.current.activetab == 'dashboard/roi'}"><a href="#/dashboard/roi">ROI
+                            Analysis</a></li>
+                        <li ng-class="{active: $route.current.activetab == 'dashboard/expenditure'}"><a
+                                href="#/dashboard/expenditure">Expenditure Form</a></li>
                     </ul>
                 </li>
-                <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i class="fa fa-clock-o"></i> Queue</a></li>
+                <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i
+                        class="fa fa-clock-o"></i> Queue</a></li>
 
 
                 <!-- <li class="dropdown">
@@ -75,44 +82,37 @@
 <!--navbar end-->
 
 <script>
-        $('#topmenu li a').click(function (e) {
+    $('#topmenu li a').click(function (e) {
 
-            if ($(this).parent().attr('class') === "dropdown") {
-                $(this).parent().addClass('selected');
-            }
-            else {
-                $('#topmenu li.dropdown').removeClass('selected')
-            }
-        });
-        $('li.dropdown ul li').click(function (e) {
+        if ($(this).parent().attr('class') === "dropdown") {
+            $(this).parent().addClass('selected');
+        }
+        else {
+            $('#topmenu li.dropdown').removeClass('selected')
+        }
+    });
+    $('li.dropdown ul li').click(function (e) {
 
-            $(this).parent().parent().addClass('selected');
+        $(this).parent().parent().addClass('selected');
 
-        });
+    });
 </script>
 
 <!-- template for notification messages -->
 <script type="text/ng-template" id="angular-notify.html">
     <div class="cg-notify-message" ng-class="[$classes,
-    $position === 'center' ? 'cg-notify-message-center' : '',
-    $position === 'left' ? 'cg-notify-message-left' : '',
-    $position === 'right' ? 'cg-notify-message-right' : '']"
-    ng-style="{'margin-left': $centerMargin}">
+        $position === 'center' ? 'cg-notify-message-center' : '',
+        $position === 'left' ? 'cg-notify-message-left' : '',
+        $position === 'right' ? 'cg-notify-message-right' : '']"
+         ng-style="{'margin-left': $centerMargin}">
 
-    <div ng-show="!$messageTemplate">
-        {{message}}
+        <div ng-show="$messageTemplate" class="cg-notify-message-template"></div>
+
+        <button type="button" class="cg-notify-close" ng-click="$close()">
+            <span aria-hidden="true">&times;</span>
+            <span class="cg-notify-sr-only">Close</span>
+        </button>
     </div>
-
-    <div ng-show="$messageTemplate" class="cg-notify-message-template">
-
-    </div>
-
-    <button type="button" class="cg-notify-close" ng-click="$close()">
-        <span aria-hidden="true">&times;</span>
-        <span class="cg-notify-sr-only">Close</span>
-    </button>
-
-</div>
 </script>
 
 

@@ -1,5 +1,5 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http, $log, disableIScheduleSvc, clearFormSvc) {
+    .service('postAppointmentSvc', function ($http, $log, disableIScheduleSvc, clearFormSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -121,6 +121,8 @@ angular.module('post.appointment', [])
                     .success(function (data) {
 
                         $log.info("Successful with creating appointment");
+
+                        showNotificationsSvc.notifySuccessTemplate();
 
                         // check the appointment type of the created appointment
                         /*switch (self.scope.fields.appointmentType) {
