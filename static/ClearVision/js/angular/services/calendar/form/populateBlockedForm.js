@@ -30,6 +30,7 @@ angular.module('populate.blockedForm', [])
             self.scope.blockFields.blockDateEnd = endDate;
             self.scope.blockFields.blockTimeEnd = endTime;
             self.scope.blockFields.blockFormRemarks = blockedAppointment.remarks;
+            self.scope.blockFields.blockFormId = blockedAppointment.id;
 
             blockedAppointment.blockDateStart = startDate;
             blockedAppointment.blockTimeStart = startTime;

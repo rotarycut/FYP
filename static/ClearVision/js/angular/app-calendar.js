@@ -1465,32 +1465,42 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
     };
 
     /* function to update blocked time slots */
-    $scope.updateBlockedTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
+    $scope.updateBlockedTimeSlots = function () {
 
-        if (remarks == undefined) {
-            remarks = "";
+        if ($scope.blockDetails.remarks == undefined) {
+            $scope.blockDetails.remarks = "";
         }
 
-        var updateObj = {
-            "remarks": remarks,
-            "startDate": startDate,
-            "startTime": startTime,
-            "endDate": endDate,
-            "endTime": endTime,
-            "doctor": doctorId
+        var updateJson = {
+            "remarks": $scope.blockDetails.remarks,
+            "startDate": $scope.blockDetails.blockDateStart,
+            "startTime": $scope.blockDetails.blockTimeStart,
+            "endDate": $scope.blockDetails.blockDateEnd,
+            "endTime": $scope.blockDetails.blockTimeEnd,
+            "doctor": $scope.blockDetails.doctorToBlock.id
         };
 
-        $http.post('/Clearvision/_api/CalendarBlocker/', updateObj)
+        console.log(updateJson);
+        console.log($scope.blockDetails.blockFormId);
+
+        var req = {
+            method: 'PATCH',
+            url: '/Clearvision/_api/CalendarBlocker/' + $scope.blockDetails.blockFormId,
+            headers: {'Content-Type': 'application/json'},
+            data: updateJson
+        };
+
+        $http(req)
             .success(function (data) {
-                console.log("Successfully blocked time slot");
+                console.log("Successfully updated time slot");
                 clearFormSvc.clearBlockForm();
             })
             .error(function (data) {
-                console.log("Error in blocking time slot");
+                console.log("Error in updating blocked time slot");
             });
 
         $scope.cancel();
-    };
 
+    };
 
 });
