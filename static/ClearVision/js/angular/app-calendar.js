@@ -525,7 +525,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         showButtons: {
             createForm: false,
             editForm: false,
-            addAndBlock: true
+            addAndBlock: true,
+            createBlockForm: true,
+            editBlockForm: false
         }
     };
 
@@ -770,6 +772,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.isBlockFormValid = function (isValid) {
         if (isValid) {
             $scope.openBlockedConfirmationModal('lg');
+        } else {
+            console.log("Invalid form");
+            // do nothing
+        }
+    };
+
+    $scope.isEditBlockFormValid = function (isValid) {
+        if (isValid) {
+            $scope.openUpdateBlockModal('lg');
         } else {
             console.log("Invalid form");
             // do nothing
@@ -1211,6 +1222,63 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         });
     };
 
+    /* function to open update blocked time slots modal */
+    $scope.openUpdateBlockModal = function (size, appointment) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myUpdateBlockModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                },
+                appointment: function () {
+                    return appointment;
+                },
+                blockInfo: function () {
+
+                    if ($scope.blockFields.originalBlockForm.doctor__name !== $scope.blockFields.doctorToBlock.name) {
+                        $scope.blockFields.doctorIsChanged = true;
+                    } else {
+                        $scope.blockFields.doctorIsChanged = false;
+                    }
+                    if ($scope.blockFields.originalBlockForm.blockDateStart !== $scope.blockFields.blockDateStart) {
+                        $scope.blockFields.startDateIsChanged = true;
+                    } else {
+                        $scope.blockFields.startDateIsChanged = false;
+                    }
+                    if ($scope.blockFields.originalBlockForm.blockTimeStart !== $scope.blockFields.blockTimeStart) {
+                        $scope.blockFields.startTimeIsChanged = true;
+                    } else {
+                        $scope.blockFields.startTimeIsChanged = false;
+                    }
+                    if ($scope.blockFields.originalBlockForm.blockDateEnd !== $scope.blockFields.blockDateEnd) {
+                        $scope.blockFields.endDateIsChanged = true;
+                    } else {
+                        $scope.blockFields.endDateIsChanged = false;
+                    }
+                    if ($scope.blockFields.originalBlockForm.blockTimeEnd !== $scope.blockFields.blockTimeEnd) {
+                        $scope.blockFields.endTimeIsChanged = true;
+                    } else {
+                        $scope.blockFields.endTimeIsChanged = false;
+                    }
+                    if ($scope.blockFields.originalBlockForm.remarks !== $scope.blockFields.blockFormRemarks) {
+                        $scope.blockFields.remarksIsChanged = true;
+                    } else {
+                        $scope.blockFields.remarksIsChanged = false;
+                    }
+
+                    return $scope.blockFields;
+                }
+            }
+        });
+    };
+
     /* function to open list of blocked time slots modal */
     $scope.openBlockedTimeSlotListModal = function (size) {
 
@@ -1395,5 +1463,34 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
         populateBlockedFormSvc.populateBlockForm(blockedAppt);
         $scope.cancel();
     };
+
+    /* function to update blocked time slots */
+    $scope.updateBlockedTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
+
+        if (remarks == undefined) {
+            remarks = "";
+        }
+
+        var updateObj = {
+            "remarks": remarks,
+            "startDate": startDate,
+            "startTime": startTime,
+            "endDate": endDate,
+            "endTime": endTime,
+            "doctor": doctorId
+        };
+
+        $http.post('/Clearvision/_api/CalendarBlocker/', updateObj)
+            .success(function (data) {
+                console.log("Successfully blocked time slot");
+                clearFormSvc.clearBlockForm();
+            })
+            .error(function (data) {
+                console.log("Error in blocking time slot");
+            });
+
+        $scope.cancel();
+    };
+
 
 });

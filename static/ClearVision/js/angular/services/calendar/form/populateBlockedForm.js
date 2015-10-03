@@ -11,6 +11,9 @@ angular.module('populate.blockedForm', [])
 
         self.populateBlockForm = function (blockedAppointment) {
 
+            self.scope.form.showButtons.createBlockForm = false;
+            self.scope.form.showButtons.editBlockForm = true;
+
             var tStartIndex = blockedAppointment.start.indexOf("T");
             var lastStartColon = blockedAppointment.start.lastIndexOf(":");
             var startDate = blockedAppointment.start.substring(0, tStartIndex);
@@ -27,6 +30,13 @@ angular.module('populate.blockedForm', [])
             self.scope.blockFields.blockDateEnd = endDate;
             self.scope.blockFields.blockTimeEnd = endTime;
             self.scope.blockFields.blockFormRemarks = blockedAppointment.remarks;
+
+            blockedAppointment.blockDateStart = startDate;
+            blockedAppointment.blockTimeStart = startTime;
+            blockedAppointment.blockDateEnd = endDate;
+            blockedAppointment.blockTimeEnd = endTime;
+
+            self.scope.blockFields.originalBlockForm = blockedAppointment;
 
         };
 
