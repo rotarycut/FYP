@@ -764,7 +764,12 @@ li .i-slot-label {
 table.waitlist-main-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-    border: dotted 2px #70AFC4;
+    border: solid 2px #ebebeb;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
 
 }
 
@@ -772,6 +777,7 @@ table.waitlist-main-tbl > tbody > tr > th{
     background-color: #D0E0EB;
     color: #49708A;
     text-align: center;
+
 }
 table.waitlist-main-tbl > tbody > tr > td{
     text-align: center;
@@ -796,7 +802,7 @@ table.waitlist-action-tbl > tbody > tr > td{
 table.waitlist-swap-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-    border: dotted 2px #70AFC4;
+    border: solid 2px #70AFC4;
 }
 
 table.waitlist-swap-tbl > tbody > tr > th{
@@ -980,6 +986,43 @@ table.mailbox-tbl > tbody > tr:hover{
     text-decoration: underline;
     cursor: pointer;
 }
+
+table.all-blockedslots-tbl{
+    margin-top: 10px;
+    background-color: #ebebeb;
+    border: solid 0.5px #ebebeb;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table.all-blockedslots-tbl > tbody > tr > th{
+    background-color: #D0E0EB;
+    color: #49708A;
+    text-align: center;
+}
+
+table.all-blockedslots-tbl > tbody > tr > th:first-child{
+    border-radius: 7px 0 0 0;
+}
+
+table.all-blockedslots-tbl > tbody > tr > th:last-child{
+    border-radius: 0 7px 0 0;
+}
+
+table.all-blockedslots-tbl > tbody > tr:last-child td:first-child {
+    border-radius: 0 0 0 7px;
+}
+table.all-blockedslots-tbl > tbody > tr:last-child td:last-child {
+    border-radius: 0 0 7px 0;
+}
+
+table.all-blockedslots-tbl > tbody > tr > td{
+    text-align: center;
+}
+
 /* blocker form css ends */
 
 /* expenditure form css */
