@@ -1454,7 +1454,7 @@ def recievemsg(request):
         WronglyRepliedSMS.objects.create(text=message, origin=origin)
         return HttpResponse('SMS reply not configured')
 
-def ViewRecievedSMS(request):
+def ViewReceivedSMS(request):
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
 
