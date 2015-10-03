@@ -651,15 +651,16 @@
                         </div>
                     </div>
                 </form>
+
                 <div class="form-group col-sm-12 add-appt-formgrp">
                     <div class="row subcontent-row">
                         <div class="col-sm-8">
-                            <a href="" style="color: #49708A"><i class="fa fa-search-plus"></i> View appointments
-                                blocked</a>
+                            <a ng-href="#/" style="color: #49708A"
+                               ng-click="openBlockedTimeSlotListModal('lg')">
+                                <i class="fa fa-search-plus"></i> View appointments blocked</a>
                         </div>
                     </div>
                 </div>
-                </form>
             </div>
             <!-- col for form content ends -->
         </div>
@@ -825,6 +826,35 @@
                         blockDetails.blockTimeEnd,
                         blockDetails.blockFormRemarks);">Continue
             </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myBlockedTimeSlotListModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">List of blocked time slots</h3>
+        </div>
+
+        <div class="modal-body" ng-init="getListOfBlockedAppointments()">
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Doc</th>
+                    <th>Remarks</th>
+                </tr>
+                <tr ng-repeat="blockedAppt in listOfBlockedAppointments">
+                    <td>[[$index + 1]]</td>
+                    <td>[[blockedAppt.start]]</td>
+                    <td>[[blockedAppt.end]]</td>
+                    <td>[[blockedAppt.doctor_id]]</td>
+                    <td>[[blockedAppt.remarks]]</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="modal-footer">
             <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
         </div>
     </script>

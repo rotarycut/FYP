@@ -1,4 +1,4 @@
-var appCalendar = angular.module('app.calendar', []);
+var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
 appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
@@ -1208,6 +1208,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         });
     };
 
+    /* function to open list of blocked time slots modal */
+    $scope.openBlockedTimeSlotListModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myBlockedTimeSlotListModal.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return '';
+                },
+                createTracker: function () {
+                    return '';
+                },
+                appointment: function () {
+                    return '';
+                },
+                blockInfo: function () {
+                    return '';
+                }
+            }
+        });
+    };
+
     /****====== Notification ======****/
     //$scope.msg = 'Hello! This is a sample message!';
     $scope.template = 'angular-notify.html';
@@ -1410,8 +1435,15 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
             });
 
         $scope.cancel();
-    }
-});
+    };
+
+    /* function to get a list of blocked appointments */
+    $scope.getListOfBlockedAppointments = function () {
+        $http.get('/Clearvision/_api/CalendarBlocker/?doctor=all')
+            .success(function (data) {
+                $scope.listOfBlockedAppointments = data;
+            });
+    };
 
 
 
