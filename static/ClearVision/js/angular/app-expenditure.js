@@ -30,6 +30,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         .success(function (data) {
 
             $scope.marketingChannels = data;
+
         })
         .error(function () {
 
