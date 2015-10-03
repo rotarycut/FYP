@@ -2745,7 +2745,7 @@ class CalendarBlocker(viewsets.ModelViewSet):
         toUpdate.start = start
         toUpdate.end = end
         toUpdate.remarks = remarks
-        toUpdate.doctor = doctor
+        toUpdate.doctor = Doctor.objects.get(id=doctor)
         toUpdate.save()
 
         return Response('Update Success')
