@@ -732,7 +732,7 @@
                 <li>Patient Name: [[patientDetails.patientName]]</li>
                 <li>Date: [[patientDetails.appointmentDate]]</li>
                 <li>Time: [[patientDetails.appointmentTime]]</li>
-                <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
                 <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                 <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
                 <li>Reason:<select data-ng-model="selectedReason" class=form-control"
@@ -765,7 +765,7 @@
                         <li>Patient Name: [[patientDetails.originalPatientName]]</li>
                         <li>Date: [[patientDetails.originalAppointmentDate]]</li>
                         <li>Time: [[patientDetails.originalAppointmentTime]]</li>
-                        <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                        <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
                         <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                         <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
                     </ul>
@@ -788,7 +788,7 @@
                         <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
                             [[patientDetails.appointmentTime]]
                         </li>
-                        <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                        <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
                         <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                         <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
                             [[patientDetails.appointmentRemarks]]

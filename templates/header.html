@@ -12,14 +12,14 @@
             </button>
             <a class="navbar-brand" ng-href="#/"><img id="navbar-logo" class="img-responsive"></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse" ng-init="getNumberOfSwappableAppointments()">
             <ul class="nav navbar-nav" id="topmenu">
                 <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
                         class="fa fa-calendar"></i> Calendar</a></li>
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#" ng-href="#/waitlist"><i
                         class="fa fa-user-times"></i> Wait List <span class="badge"
-                          ng-class="haveNotification? 'notification-badge-red' : 'notification-badge-grey'">[[notificationCount]]
+                          ng-class="haveNotification? 'notification-badge-red' : 'notification-badge-grey'">[[noOfSwappableAppts]]
                     </span></a></li>
                 <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
                 <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/conversion"><i
