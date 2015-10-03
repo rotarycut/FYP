@@ -655,7 +655,7 @@
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
-                                        data-ng-click=""><i class="fa fa-trash"></i>
+                                        data-ng-click="openDeleteBlockedFormModal()"><i class="fa fa-trash"></i>
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
@@ -930,6 +930,30 @@
 
         <div class="modal-footer">
             <button class="btn form-submit-btn" type="button" ng-click="updateBlockedTimeSlots()">Yes
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myDeleteBlockedModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm deletion?</h3>
+        </div>
+
+        <div class="modal-body">
+            <ul>
+                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
+                <li>Start Date: [[blockDetails.blockDateStart]]</li>
+                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
+                <li>End Date: [[blockDetails.blockDateEnd]]</li>
+                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
+                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+            </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button"
+                    ng-click="deleteBlockTimeSlots();">Yes
             </button>
             <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
         </div>

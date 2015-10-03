@@ -1304,6 +1304,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         });
     };
 
+    /* function to open delete blocked form modal */
+    $scope.openDeleteBlockedFormModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myDeleteBlockedModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                },
+                appointment: function () {
+                    return '';
+                },
+                blockInfo: function () {
+                    return $scope.blockFields;
+                }
+            }
+        });
+    };
+
 });
 
 
@@ -1501,6 +1526,31 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
         $scope.cancel();
 
+    };
+
+
+    /* function to delete block time slot */
+    $scope.deleteBlockTimeSlots = function () {
+
+        var deleteJson = {
+            "remarks": $scope.blockDetails.remarks,
+            "startDate": $scope.blockDetails.blockDateStart,
+            "startTime": $scope.blockDetails.blockTimeStart,
+            "endDate": $scope.blockDetails.blockDateEnd,
+            "endTime": $scope.blockDetails.blockTimeEnd,
+            "doctor": $scope.blockDetails.doctorToBlock.id
+        };
+
+        $http.post('/Clearvision/_api/CalendarBlocker/', deleteJson)
+            .success(function (data) {
+                console.log("Successfully deleted time slot");
+                clearFormSvc.clearBlockForm();
+            })
+            .error(function (data) {
+                console.log("Error in deleting time slot");
+            });
+
+        $scope.cancel();
     };
 
 });
