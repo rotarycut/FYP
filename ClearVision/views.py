@@ -310,7 +310,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.save()
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False).save()
+                                           swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -324,7 +324,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                                                apptType=apptType)
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False).save()
+                                           swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)})
@@ -354,7 +354,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.save()
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False).save()
+                                           swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -368,7 +368,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                                                apptType=apptType)
 
                     Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False).save()
+                                           swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
@@ -989,8 +989,9 @@ class iScheduleSwapper(viewsets.ModelViewSet):
         updateNewApptToSwapped.appointment = tempAppt
         updateNewApptToSwapped.save()
 
-        Swapper.objects.filter(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt).delete()
-
+        swapperObj = Swapper.objects.get(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt)
+        swapperObj.inbox = True
+        swapperObj.save()
         """
         if scheduledAppt.patients.count() == 0:
             scheduledAppt.delete()
@@ -1030,11 +1031,12 @@ class ViewSwapperTable(viewsets.ModelViewSet):
     serializer_class = SwapperSerializer
 
     def list(self, request, *args, **kwargs):
-        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now()).\
+        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now(), inbox=False).\
                                                      values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
                                                      'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
                                                      'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
-                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id', 'id')
+                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id', 'id',
+                                                     'sentSMS', 'sentSMSTime')
 
         return Response(response_data)
 
@@ -1057,7 +1059,26 @@ class ViewSwapperTable(viewsets.ModelViewSet):
                 '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply swap<<space>>' + str(swapperID) + ' to swap appointments.'}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
+
+        swapperObj = Swapper.objects.get(id=swapperID)
+        swapperObj.sentSMS = True
+        swapperObj.sentSMSTime = datetime.now()
+        swapperObj.save()
+
         return HttpResponse('Success')
+
+class ViewSwappedPatientsInInbox(viewsets.ReadOnlyModelViewSet):
+    queryset = Swapper.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now(), inbox=True).\
+                                                     values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
+                                                     'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
+                                                     'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
+                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id', 'id',
+                                                     'sentSMS', 'sentSMSTime')
+
+        return Response(response_data)
 
 class EditSwapperTable(viewsets.ModelViewSet):
     queryset = Swapper.objects.none()
@@ -1068,9 +1089,14 @@ class EditSwapperTable(viewsets.ModelViewSet):
 
         swapperId = data.get('swapperId')
 
-        Swapper.objects.get(id=swapperId).delete()
-        return Response('Success')
+        swapperObj = Swapper.objects.get(id=swapperId)
+        patient = swapperObj.patient
+        tempAppt = swapperObj.tempAppt
 
+        tempAppt.tempPatients.remove(patient)
+
+        swapperObj.delete()
+        return Response('Success')
 
 class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
