@@ -1532,16 +1532,7 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
     /* function to delete block time slot */
     $scope.deleteBlockTimeSlots = function () {
 
-        var deleteJson = {
-            "remarks": $scope.blockDetails.remarks,
-            "startDate": $scope.blockDetails.blockDateStart,
-            "startTime": $scope.blockDetails.blockTimeStart,
-            "endDate": $scope.blockDetails.blockDateEnd,
-            "endTime": $scope.blockDetails.blockTimeEnd,
-            "doctor": $scope.blockDetails.doctorToBlock.id
-        };
-
-        $http.post('/Clearvision/_api/CalendarBlocker/', deleteJson)
+        $http.delete('/Clearvision/_api/CalendarBlocker/' + $scope.blockDetails.blockFormId)
             .success(function (data) {
                 console.log("Successfully deleted time slot");
                 clearFormSvc.clearBlockForm();

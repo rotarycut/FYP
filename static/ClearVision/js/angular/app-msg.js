@@ -20,12 +20,62 @@ appMsgLog.controller('msgCtrl', function ($scope, $http, $modal) {
         $scope.animationsEnabled = true;
 
         var modalInstance = $modal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'myComposeModalContent.html',
-          controller: 'ComposeModalInstanceCtrl',
-          size: size,
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myComposeModalContent.html',
+            controller: 'ComposeModalInstanceCtrl',
+            size: size
         });
-  };
+    };
+
+    /* function to get a list of received sms */
+    $scope.getReceivedSms = function () {
+
+        $http.get('/Clearvision/_api/ViewReceivedSMS')
+            .success(function (data) {
+
+                $scope.listOfReceivedSms = data.results;
+            });
+    };
+
+    /* function to get a list of sent sms */
+    $scope.getSentSms = function () {
+
+        $http.get('/Clearvision/_api/ViewSentSMS')
+            .success(function (data) {
+
+                $scope.listOfSentSms = data.results;
+            });
+    };
+
+    /* function to get a list of swappable appointments */
+    $scope.getSwappedAppointments = function () {
+
+        $http.get('/Clearvision/_api/ViewSwappedPatientsInInbox')
+            .success(function (data) {
+
+                $scope.listOfSwappableAppointments = data;
+                console.log(data);
+            });
+    };
+
+
+    $scope.showReceivedSms = function () {
+        $scope.receivedSmsView = true;
+        $scope.sentSmsView = false;
+        $scope.swapAppointmentView = false;
+    };
+
+    $scope.showSentSms = function () {
+        $scope.receivedSmsView = false;
+        $scope.sentSmsView = true;
+        $scope.swapAppointmentView = false;
+    };
+
+    $scope.showSwappedAppointments = function () {
+        $scope.receivedSmsView = false;
+        $scope.sentSmsView = false;
+        $scope.swapAppointmentView = true;
+    };
 
 });
 
