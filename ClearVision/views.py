@@ -1067,6 +1067,19 @@ class ViewSwapperTable(viewsets.ModelViewSet):
 
         return HttpResponse('Success')
 
+class ViewSwappedPatientsInInbox(viewsets.ReadOnlyModelViewSet):
+    queryset = Swapper.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        response_data = Swapper.objects.all().filter(scheduledAppt__timeBucket__date__gte=datetime.now(), inbox=True).\
+                                                     values('tempAppt__timeBucket__date', 'tempAppt__timeBucket__start',
+                                                     'scheduledAppt__timeBucket__date', 'scheduledAppt__timeBucket__start',
+                                                     'patient__contact', 'patient_id', 'scheduledAppt__apptType', 'swappable',
+                                                     'scheduledAppt__doctor__name', 'patient__name', 'tempAppt_id', 'scheduledAppt_id', 'id',
+                                                     'sentSMS', 'sentSMSTime')
+
+        return Response(response_data)
+
 class EditSwapperTable(viewsets.ModelViewSet):
     queryset = Swapper.objects.none()
     serializer_class = SwapperSerializer
