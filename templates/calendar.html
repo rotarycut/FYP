@@ -629,7 +629,7 @@
                         </textarea>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="">
+                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.showButtons.createBlockForm">
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default btn-sm"
@@ -651,16 +651,16 @@
                         </div>
                     </div>
                     <!-- button group for edit and delete -->
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="">
+                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.showButtons.editBlockForm">
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
-                                        data-ng-click=""><i class="fa fa-trash"></i>
+                                        data-ng-click="openDeleteBlockedFormModal()"><i class="fa fa-trash"></i>
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-4">
                                 <button class="btn form-submit-btn"
-                                        data-ng-click="isBlockFormValid(blockForm.$valid)">Update
+                                        data-ng-click="isEditBlockFormValid(blockForm.$valid)">Update
                                 </button>
                             </div>
                             <div class="col-sm-2 col-sm-offset-1">
@@ -881,6 +881,81 @@
 
         <div class="modal-footer">
             <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myUpdateBlockModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm update?</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ul>
+                        <p>Original Blocked Time Slots</p>
+                        <li>Doctor: [[blockDetails.originalBlockForm.doctor__name]]</li>
+                        <li>Start Date: [[blockDetails.originalBlockForm.blockDateStart]]</li>
+                        <li>Start Time: [[blockDetails.originalBlockForm.blockTimeStart]]</li>
+                        <li>End Date: [[blockDetails.originalBlockForm.blockDateEnd]]</li>
+                        <li>End Time: [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
+                        <li>Remarks: [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <ul>
+                        <p>Updated Blocked Time Slots</p>
+                        <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }">Doctor:
+                            [[blockDetails.doctorToBlock.name]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}">Start Date:
+                            [[blockDetails.blockDateStart]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}">Start Time:
+                            [[blockDetails.blockTimeStart]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}">End Date:
+                            [[blockDetails.blockDateEnd]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}">End Time:
+                            [[blockDetails.blockTimeEnd]]
+                        </li>
+                        <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}">Remarks:
+                            [[blockDetails.blockFormRemarks]]
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button" ng-click="updateBlockedTimeSlots()">Yes
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="myDeleteBlockedModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm deletion?</h3>
+        </div>
+
+        <div class="modal-body">
+            <ul>
+                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
+                <li>Start Date: [[blockDetails.blockDateStart]]</li>
+                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
+                <li>End Date: [[blockDetails.blockDateEnd]]</li>
+                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
+                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+            </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button"
+                    ng-click="deleteBlockTimeSlots();">Yes
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
         </div>
     </script>
     <!--
