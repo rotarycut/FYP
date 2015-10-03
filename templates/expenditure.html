@@ -12,69 +12,63 @@
             </div>
         </div>
         <div class="row expenditure-table-row">
-            <div class="row subcontent-row">
-                <div class="col-md-12">
-                <span class="tag label tag-label">
-                    <span>Sep</span>
-                    <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
-                </span>
-                </div>
+            <div class="col-md-12">
+                <table class="table table-striped waitlist-main-tbl">
+                    <tr>
+                        <th>S/N</th>
+                        <th>Marketing Channel</th>
+                        <th>Spent</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>ST Print Ads</td>
+                        <td>$1,000</td>
+                        <td><a class="pull-right edit-no-show"
+                               ng-click="">
+                            <i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a class="remove-from-queue"
+                               ng-click="">
+                            <i class="fa fa-times"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Facebook</td>
+                        <td>$200</td>
+                        <td><a class="pull-right edit-no-show"
+                               ng-click="">
+                            <i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a class="remove-from-queue"
+                               ng-click="">
+                            <i class="fa fa-times"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Blogger DreaChong</td>
+                        <td>$800</td>
+                        <td><a class="pull-right edit-no-show"
+                               ng-click="">
+                            <i class="fa fa-pencil-square-o"></i></a></td>
+                        <td><a class="remove-from-queue"
+                               ng-click="">
+                            <i class="fa fa-times"></i></a></td>
+                    </tr>
+                </table>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-striped waitlist-main-tbl">
-                        <tr>
-                            <th>S/N</th>
-                            <th>Marketing Channel</th>
-                            <th>Spent</th>
-                            <th colspan="2">Actions</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>ST Print Ads</td>
-                            <td>$1,000</td>
-                            <td><a class="pull-right edit-no-show"
-                                       ng-click="">
-                                        <i class="fa fa-pencil-square-o"></i></a></td>
-                            <td><a class="remove-from-queue"
-                                       ng-click="">
-                                    <i class="fa fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Facebook</td>
-                            <td>$200</td>
-                            <td><a class="pull-right edit-no-show"
-                                       ng-click="">
-                                        <i class="fa fa-pencil-square-o"></i></a></td>
-                            <td><a class="remove-from-queue"
-                                       ng-click="">
-                                    <i class="fa fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Blogger DreaChong</td>
-                            <td>$800</td>
-                            <td><a class="pull-right edit-no-show"
-                                       ng-click="">
-                                        <i class="fa fa-pencil-square-o"></i></a></td>
-                            <td><a class="remove-from-queue"
-                                       ng-click="">
-                                    <i class="fa fa-times"></i></a></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-8" style="text-align: left">
-                        <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+                        <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage"
+                                    class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
+                                    first-text="&laquo;" last-text="&raquo;"></pagination>
                     </div>
                     <div class="col-md-4" style="text-align: right">
-                    <h4><span class="label total-spent-label"
-                              style="display: inline-block">Total Spent: <span class="totalSpent-label"> $2,200</span></span>
-                    </h4>
-                        </div>
+                        <h4><span class="label total-spent-label"
+                                  style="display: inline-block">Total Spent: <span
+                                class="totalSpent-label"> $2,200</span></span>
+                        </h4>
+                    </div>
                 </div>
             </div>
         </div>

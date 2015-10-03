@@ -45,7 +45,9 @@ var app = angular.module('calendarDemoApp', [
     'get.customStackedChart',
     'schedule.customFilter',
     'post.blocker',
-    'app.expenditure'
+    'app.expenditure',
+    'ngProgress',
+    'cgNotify'
 ]);
 
 /* Angular routing */
