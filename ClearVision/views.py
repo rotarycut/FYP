@@ -2761,7 +2761,9 @@ class InputMarketingChannelCost(viewsets.ModelViewSet):
     serializer_class = InputMarketingChannelCostSerializer
 
     def list(self, request, *args, **kwargs):
-        allChannels = MarketingChannels.objects.all().values()
+        month = request.query_params.get('month')
+
+        allChannels = MarketingChannels.objects.filter(datePurchased__month=month).values()
         return Response(allChannels)
 
     def create(self, request, *args, **kwargs):
