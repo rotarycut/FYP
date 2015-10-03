@@ -24,7 +24,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         $scope.newChannelBtn = true;
     };
 
-
     $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=09&year=2015')
