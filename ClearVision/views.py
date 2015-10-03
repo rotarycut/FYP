@@ -2771,8 +2771,9 @@ class InputMarketingChannelCost(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
+        year = request.query_params.get('year')
 
-        allChannels = MarketingChannels.objects.filter(datePurchased__month=month).values()
+        allChannels = MarketingChannels.objects.filter(datePurchased__month=month, datePurchased__year=year).values()
         return Response(allChannels)
 
     def create(self, request, *args, **kwargs):
