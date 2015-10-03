@@ -2647,14 +2647,14 @@ class CalendarBlocker(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         doctor = request.query_params.get('doctor')
         if doctor == 'all':
-            futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now()).values()
+            futureCalendarBlockers = BlockDates.objects.filter(end__gte=datetime.now()).values()
 
             for eachObj in futureCalendarBlockers:
                 eachObj['rendering'] = 'background'
 
             return Response(futureCalendarBlockers)
         elif doctor == '1':
-            futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now(), doctor=doctor).values()
+            futureCalendarBlockers = BlockDates.objects.filter(end__gte=datetime.now(), doctor=doctor).values()
 
             for eachObj in futureCalendarBlockers:
                 eachObj['rendering'] = 'background'
@@ -2662,7 +2662,7 @@ class CalendarBlocker(viewsets.ModelViewSet):
             return Response(futureCalendarBlockers)
 
         elif doctor == '2':
-            futureCalendarBlockers = BlockDates.objects.filter(start__gte=datetime.now(), doctor=doctor).values()
+            futureCalendarBlockers = BlockDates.objects.filter(end__gte=datetime.now(), doctor=doctor).values()
 
             for eachObj in futureCalendarBlockers:
                 eachObj['rendering'] = 'background'
