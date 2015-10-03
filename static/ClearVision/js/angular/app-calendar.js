@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
-                                                 showNotificationsSvc) {
+                                                 showNotificationsSvc, populateBlockedFormSvc) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -42,6 +42,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     checkExistingPatientSvc.getScope($scope);
     changeCalendarSvc.getScope($scope);
     showNotificationsSvc.getScope($scope);
+    populateBlockedFormSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
@@ -1243,7 +1244,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
  *******************************************************************************/
 
 
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo, clearFormSvc) {
+appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo, clearFormSvc, populateBlockedFormSvc) {
     $scope.patientDetails = patientInfo;
 
     $scope.trackerId = createTracker;
@@ -1386,6 +1387,13 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
             .success(function (data) {
                 $scope.listOfBlockedAppointments = data;
             });
+    };
+
+    /* function to populate block form */
+    $scope.populateBlockForm = function (blockedAppt) {
+
+        populateBlockedFormSvc.populateBlockForm(blockedAppt);
+        $scope.cancel();
     };
 
 });

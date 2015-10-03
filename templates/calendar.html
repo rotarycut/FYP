@@ -706,7 +706,7 @@
                 <li>Time: [[patientDetails.appointmentTime]]</li>
                 <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
                 <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
-                <li>Doctor: [[patientDetails.doctorAssigned]]</li>
+                <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
                 <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                 <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
             </ul>
@@ -871,11 +871,10 @@
                     <td>[[$index + 1]]</td>
                     <td>[[blockedAppt.start]]</td>
                     <td>[[blockedAppt.end]]</td>
-                    <td>[[blockedAppt.doctor_id]]</td>
+                    <td>[[blockedAppt.doctor__name]]</td>
                     <td>[[blockedAppt.remarks]]</td>
-                    <td><a class="edit-no-show"
-                               ng-click="">
-                            <i class="fa fa-pencil-square-o"></i></a></td>
+                    <td><a class="edit-no-show" ng-click="populateBlockForm(blockedAppt)">
+                        <i class="fa fa-pencil-square-o"></i></a></td>
                 </tr>
             </table>
         </div>

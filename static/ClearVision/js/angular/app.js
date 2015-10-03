@@ -48,7 +48,8 @@ var app = angular.module('calendarDemoApp', [
     'app.expenditure',
     'ngProgress',
     'cgNotify',
-    'show.notifications'
+    'show.notifications',
+    'populate.blockedForm'
 ]);
 
 /* Angular routing */
