@@ -7,7 +7,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  deleteAppointmentSvc, updateAppointmentSvc, hideFormSvc, eventClickSvc,
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
-                                                 changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc, notify) {
+                                                 changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
+                                                 showNotificationsSvc) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -40,6 +41,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     searchAppointmentsSvc.getScope($scope);
     checkExistingPatientSvc.getScope($scope);
     changeCalendarSvc.getScope($scope);
+    showNotificationsSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoScreenings = {
@@ -1233,65 +1235,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         });
     };
 
-    /****====== Notification ======****/
-        //$scope.msg = 'Hello! This is a sample message!';
-    $scope.template = 'angular-notify.html';
-
-    $scope.positions = ['center', 'left', 'right'];
-    $scope.position = $scope.positions[0];
-
-    $scope.duration = 2000;
-
-    /*$scope.demo = function(){
-     notify({
-     message: $scope.msg,
-     classes: $scope.classes,
-     templateUrl: $scope.template,
-     position: $scope.position,
-     duration: $scope.duration
-     });
-     };*/
-
-    $scope.closeAll = function () {
-        notify.closeAll();
-    };
-
-    $scope.notifySuccessTemplate = function () {
-
-        var messageTemplate = '<span>Appointment created successfully!</span>';
-
-        notify({
-            messageTemplate: messageTemplate,
-            classes: $scope.classes,
-            //classes: warningClass,
-            scope: $scope,
-            templateUrl: $scope.template,
-            position: $scope.position,
-        });
-
-    };
-
-    $scope.notifyErrorTemplate = function () {
-
-        var messageTemplate = '<span>Time slots blocked!</span>';
-        var warningClass = "cg-notify-message-warning";
-
-        notify({
-            messageTemplate: messageTemplate,
-            //classes: $scope.classes,
-            classes: warningClass,
-            scope: $scope,
-            templateUrl: $scope.template,
-            position: $scope.position,
-        });
-
-    };
-
-    /*$scope.clickedLink = function(){
-     notify('You clicked a link!');
-     };*/
-
-    /****====== Notification ======****/
 });
 
 
