@@ -1419,11 +1419,19 @@ def recievemsg(request):
         WronglyRepliedSMS.objects.create(text=message, origin=origin)
         return HttpResponse('SMS reply not configured')
 
-def ViewAllSMS(request):
+def ViewRecievedSMS(request):
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
 
     response_data = requests.get("https://api.infobip.com/sms/1/inbox/logs", headers=headers)
+
+    return HttpResponse(response_data)
+
+def ViewSentSMS(request):
+    encoded = base64.b64encode('AnthonyS:ClearVision2')
+    headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+    response_data = requests.get("https://api.infobip.com/sms/1/logs", headers=headers)
 
     return HttpResponse(response_data)
 
