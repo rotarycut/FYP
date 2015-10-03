@@ -29,8 +29,10 @@
 .label-color{
     color: #49708A;
 }
-
-
+.endcontent-row{
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
 .heading-rotate{
     -webkit-transform: rotate(-90deg);
 
@@ -764,21 +766,35 @@ li .i-slot-label {
 table.waitlist-main-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-    border: solid 2px #ebebeb;
+    border: solid 0.5px #ebebeb;
     border-radius: 8px;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-collapse: separate;
     border-spacing: 0;
-
 }
 
 table.waitlist-main-tbl > tbody > tr > th{
     background-color: #D0E0EB;
     color: #49708A;
     text-align: center;
-
 }
+
+table.waitlist-main-tbl > tbody > tr > th:first-child{
+    border-radius: 7px 0 0 0;
+}
+
+table.waitlist-main-tbl > tbody > tr > th:last-child{
+    border-radius: 0 7px 0 0;
+}
+
+table.waitlist-main-tbl > tbody > tr:last-child td:first-child {
+    border-radius: 0 0 0 7px;
+}
+table.waitlist-main-tbl > tbody > tr:last-child td:last-child {
+    border-radius: 0 0 7px 0;
+}
+
 table.waitlist-main-tbl > tbody > tr > td{
     text-align: center;
 }
@@ -802,7 +818,12 @@ table.waitlist-action-tbl > tbody > tr > td{
 table.waitlist-swap-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-    border: solid 2px #70AFC4;
+    border: solid 0.5px #ebebeb;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 table.waitlist-swap-tbl > tbody > tr > th{
@@ -810,8 +831,17 @@ table.waitlist-swap-tbl > tbody > tr > th{
     color: #49708A;
     text-align: center;
 }
+
+table.waitlist-swap-tbl > tbody > tr > th:only-child{
+    border-radius: 7px 7px 0 0;
+}
+
+table.waitlist-swap-tbl > tbody > tr:last-child td:only-child{
+    border-radius: 0 0 7px 7px;
+}
+
 table.waitlist-swap-tbl > tbody > tr > td{
-    text-align: left;
+    text-align: center;
 }
 
 .cannotSwap{
@@ -1066,6 +1096,25 @@ table.all-blockedslots-tbl > tbody > tr > td{
 .tag a .glyphicon-white {
   color: #fff;
   margin-bottom: 2px;
+}
+
+form.form-expenditure-amt {
+    position: relative;
+}
+
+
+form.form-expenditure-amt:before {
+    content:'';
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-image: url(http://getbootstrap.com/2.3.2/assets/img/glyphicons-halflings.png);
+    background-position: -48px 0;
+    position: absolute;
+    top:8px;
+    left:8px;
+    opacity: .5;
+    z-index: 1000;
 }
 
 
