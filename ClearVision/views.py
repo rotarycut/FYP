@@ -1237,6 +1237,15 @@ class ViewNotifications(viewsets.ModelViewSet):
 
         return HttpResponse(status=200)
 
+class ViewSwappableNumber(viewsets.ReadOnlyModelViewSet):
+    queryset = Swapper.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        number = Swapper.objects.filter(inbox=False, swappable=True, scheduledAppt__timeBucket__date__gte=datetime.now(),
+                                        tempAppt__timeBucket__date__gte=datetime.now()).count()
+
+        return Response(number)
+
 class ViewTodayPatients(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
     serializer_class = AppointmentSerializer
