@@ -4,5 +4,26 @@
 var appExpenditure = angular.module('app.expenditure', []);
 
 appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal,$route) {
-    $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct","Nov","Dec"];
+
+    $scope.channelDropdown = true;
+    $scope.channelTextbox= false;
+    $scope.selectChannelBtn= false;
+    $scope.newChannelBtn = true;
+
+    $scope.showAddNewChannel = function () {
+        $scope.channelDropdown = false;
+        $scope.channelTextbox = true;
+        $scope.selectChannelBtn = true;
+        $scope.newChannelBtn = false;
+    };
+
+    $scope.showSelectChannel = function () {
+        $scope.channelDropdown = true;
+        $scope.channelTextbox = false;
+        $scope.selectChannelBtn = false;
+        $scope.newChannelBtn = true;
+   };
+
+
 });
+
