@@ -3,11 +3,11 @@
  */
 var appExpenditure = angular.module('app.expenditure', []);
 
-appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal,$route) {
+appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal, $route) {
 
     $scope.channelDropdown = true;
-    $scope.channelTextbox= false;
-    $scope.selectChannelBtn= false;
+    $scope.channelTextbox = false;
+    $scope.selectChannelBtn = false;
     $scope.newChannelBtn = true;
 
     $scope.showAddNewChannel = function () {
@@ -22,8 +22,18 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         $scope.channelTextbox = false;
         $scope.selectChannelBtn = false;
         $scope.newChannelBtn = true;
-   };
+    };
 
+
+    $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=09&year=2015')
+        .success(function (data) {
+
+            $scope.marketingChannels = data;
+        })
+        .error(function () {
+
+        });
 
 });
-

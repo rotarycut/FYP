@@ -11,8 +11,8 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <select class="form-control" data-ng-model="sortByOption">
-                    <option value="" disabled selected class="dropdown-default-option">Month</option>
+                <select class="form-control" data-ng-model="sortByOption" ng-options="mth for mth in months"
+                        selected class="dropdown-default-option"> Month
                 </select>
             </div>
         </div>
@@ -25,32 +25,10 @@
                         <th>Spent</th>
                         <th colspan="2">Actions</th>
                     </tr>
-                    <tr>
+                    <tr ng-repeat="channel in marketingChannels">
                         <td>1</td>
                         <td>ST Print Ads</td>
                         <td>$1,000</td>
-                        <td><a class="pull-right edit-no-show"
-                               ng-click="">
-                            <i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a class="remove-from-queue"
-                               ng-click="">
-                            <i class="fa fa-times"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Facebook</td>
-                        <td>$200</td>
-                        <td><a class="pull-right edit-no-show"
-                               ng-click="">
-                            <i class="fa fa-pencil-square-o"></i></a></td>
-                        <td><a class="remove-from-queue"
-                               ng-click="">
-                            <i class="fa fa-times"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Blogger DreaChong</td>
-                        <td>$800</td>
                         <td><a class="pull-right edit-no-show"
                                ng-click="">
                             <i class="fa fa-pencil-square-o"></i></a></td>
