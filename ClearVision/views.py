@@ -2817,3 +2817,17 @@ class DoctorApptTypes(viewsets.ReadOnlyModelViewSet):
         apptTypes = Doctor.objects.filter(id=doctorID).values('apptType__name')
 
         return Response(apptTypes)
+
+class ViewWaitlistAppt(viewsets.ReadOnlyModelViewSet):
+    queryset = Swapper.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        appointmentId = request.query_params.get('appointmentId')
+        patientId = request.query_params.get('patientId')
+
+        swapperObj = Swapper.objects.get(scheduledAppt=appointmentId, patient=patientId)
+
+        waitlistAppt = swapperObj.tempAppt
+        waitlistAppt = AppointmentSerializer(waitlistAppt)
+        return Response(waitlistAppt.data)
+
