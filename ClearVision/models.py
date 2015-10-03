@@ -111,6 +111,9 @@ class Swapper(models.Model):
     swappable = models.BooleanField()
     hasRead = models.BooleanField()
     creationTime = models.DateTimeField(auto_now=True)
+    inbox = models.BooleanField(default=False)
+    sentSMS = models.BooleanField(default=False)
+    sentSMSTime = models.DateTimeField(null=True)
 
 class AttendedAppointment(models.Model):
     apptType = models.CharField(max_length=200)
