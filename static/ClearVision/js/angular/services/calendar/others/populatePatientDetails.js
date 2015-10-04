@@ -1,5 +1,5 @@
 angular.module('populate.patients', [])
-    .service('populatePatientsSvc', function ($http, enableIScheduleSvc) {
+    .service('populatePatientsSvc', function ($http, $timeout, enableIScheduleSvc) {
 
         var self = this;
         self.scope = {};
@@ -48,6 +48,41 @@ angular.module('populate.patients', [])
                     console.log("Error getting patient's appointment remarks.");
                 });
 
+            // api to get wait list details for the selected patient
+            var waitListUrl = '/Clearvision/_api/ViewWaitlistAppt/?appointmentId=' + self.scope.fields.appointmentId + '&patientId=' + self.scope.fields.patientId;
+
+            $http.get(waitListUrl)
+                .success(function (waitListAppointment) {
+
+                    if (Object.keys(waitListAppointment).length == 0) {
+                        self.scope.fields.waitingList = "False";
+                        self.scope.showWaitingFields('no');
+                        self.scope.form.disableFields.waitListCheckbox = true;
+                    } else {
+                        // patient has a wait list appointment
+                        self.scope.fields.waitingList = "True";
+                        self.scope.showWaitingFields('yes');
+                        self.scope.form.disableFields.waitListCheckbox = true;
+                        self.scope.form.disableFields.waitListTime = true;
+
+                        self.scope.fields.waitingDate = waitListAppointment.date;
+                        var waitingTime = self.scope.getFormattedTime(waitListAppointment.start);
+                        var lastIndexOfColon = waitingTime.lastIndexOf(":");
+                        waitingTime = waitingTime.substring(0, lastIndexOfColon);
+
+                        // get appointment timings of wait list appointment
+                        self.scope.getAppointmentTimings('', true);
+
+                        $timeout(function () {
+                            self.scope.fields.waitingTime = waitingTime.trim();
+                        }, 2000);
+
+                    }
+
+                })
+                .error(function () {
+                    console.log("Error getting patient's waitlist appointment")
+                });
 
             // show the form fields upon selection on the drop down menu
             for (var field in self.scope.form.showFields) {

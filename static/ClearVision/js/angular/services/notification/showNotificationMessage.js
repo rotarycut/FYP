@@ -21,9 +21,9 @@ angular.module('show.notifications', [])
             notify.closeAll();
         };
 
-        self.notifySuccessTemplate = function () {
+        self.notifySuccessTemplate = function (message) {
 
-            var messageTemplate = '<span>Appointment created successfully!</span>';
+            var messageTemplate = '<span>' + message + '</span>';
 
             notify({
                 messageTemplate: messageTemplate,
@@ -36,9 +36,9 @@ angular.module('show.notifications', [])
 
         };
 
-        self.notifyErrorTemplate = function () {
+        self.notifyErrorTemplate = function (message) {
 
-            var messageTemplate = '<span>Time slots blocked!</span>';
+            var messageTemplate = '<span>' + message + '</span>';
             var warningClass = "cg-notify-message-warning";
 
             notify({

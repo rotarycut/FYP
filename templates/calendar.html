@@ -329,13 +329,15 @@
                         <div class="row">
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="True"
-                                              ng-change="showWaitingFields('yes')" name="waitList">
+                                              ng-change="showWaitingFields('yes')" name="waitList"
+                                              ng-disabled="form.disableFields.waitListCheckbox">
                                     Yes
                                 </label>
                             </div>
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="False"
-                                              ng-change="showWaitingFields('no')" name="waitList">
+                                              ng-change="showWaitingFields('no')" name="waitList"
+                                              ng-disabled="form.disableFields.waitListCheckbox">
                                     No
                                 </label>
                             </div>
@@ -379,6 +381,7 @@
                                 <label class="control-label">Time</label>
                                 <select class="form-control" ng-options="appt for appt in listOfWaitlistTimings"
                                         data-ng-model="fields.waitingTime" name="waitListTime"
+                                        ng-disabled="form.disableFields.waitListTime"
                                         ng-required="showWaitingTime">
                                 </select>
 

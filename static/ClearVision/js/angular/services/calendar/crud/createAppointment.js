@@ -122,7 +122,7 @@ angular.module('post.appointment', [])
 
                         $log.info("Successful with creating appointment");
 
-                        showNotificationsSvc.notifySuccessTemplate();
+                        showNotificationsSvc.notifySuccessTemplate('Appointment created successfully');
 
                         // check the appointment type of the created appointment
                         /*switch (self.scope.fields.appointmentType) {

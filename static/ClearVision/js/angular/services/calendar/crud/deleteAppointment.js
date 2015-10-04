@@ -1,5 +1,5 @@
 angular.module('delete.appointment', [])
-    .service('deleteAppointmentSvc', function ($http, $log, hideFormSvc, getNotificationsSvc) {
+    .service('deleteAppointmentSvc', function ($http, $log, hideFormSvc, getNotificationsSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -158,6 +158,8 @@ angular.module('delete.appointment', [])
 
                         // hide the appointment form
                         hideFormSvc.hideForm();
+
+                        showNotificationsSvc.notifySuccessTemplate('Appointment deleted successfully');
 
                         // find out if there will be any patients left after the deletion
                         /*var urlStr = '/Clearvision/_api/appointments/' + self.scope.fields.appointmentId;

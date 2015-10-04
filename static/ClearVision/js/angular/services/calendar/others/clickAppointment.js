@@ -20,7 +20,7 @@ angular.module('event.click', [])
             if (!self.scope.iSchedule) {
 
                 // record edit / delete timing
-                self.scope.recordUpdateDeleteTimeIn('Sherman');
+                self.scope.recordUpdateDeleteTimeIn('Admin');
 
                 // iSchedule is not previously enabled
 
