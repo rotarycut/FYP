@@ -913,14 +913,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.onSelect = function ($item, $model, $label) {
 
         // discover which doctor appointment is selected
-        var doctorIndex = $item.indexOf("Dr");
         var lastCommar = $item.lastIndexOf(",");
-        var doctor = $item.substring(doctorIndex, lastCommar);
+        var formatStr = $item.substring(0, lastCommar);
+        var secondLastCommar = formatStr.lastIndexOf(",", formatStr);
+        var doctor = $item.substring(secondLastCommar + 2, lastCommar);
 
         // discover appointment date
         var commarIndex = $item.indexOf(",");
         var date = $item.substring(0, commarIndex);
-
 
         // check if the selected appointment is dr ho or dr goh appointment
         if (doctor == "Dr Ho") {
@@ -941,6 +941,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.changeCalendar('myCalendar2', false);
 
             //$scope.changeCalendar('', false);
+        } else if (doctor == "Optometrist") {
+
+            $scope.changeView('agendaDay', 'myCalendar3');
+            $('#optomCalendar').fullCalendar('gotoDate', date);
+            $scope.changeCalendar('myCalendar3', false);
+
         }
 
         // clear the search box text
