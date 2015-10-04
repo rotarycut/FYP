@@ -162,7 +162,7 @@
                             <select class="form-control"
                                     ng-options="appt as appt.name for appt in listOfAppointmentTypes"
                                     ng-model="fields.appointmentType" name="appointmentType"
-                                    ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings(); getDoctorList();"
+                                    ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings(); getDoctorAppointmentTypes();"
                                     ng-disabled="disabledApptType"
                                     required>
                             </select>

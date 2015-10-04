@@ -721,11 +721,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to get list of doctor based on appointment type chosen */
-    $scope.getDoctorList = function () {
-        /*$http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=')
-         .success(function (listOfDoctors) {
+    $scope.getDoctorAppointmentTypes = function () {
 
-         });*/
+        var apptTypeId = $scope.convertAppointmentNameToId($scope.fields.appointmentType.name);
+
+        $http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=' + apptTypeId)
+            .success(function (listOfDoctors) {
+                $scope.listOfDoctors = listOfDoctors;
+            });
     };
 
     /* function to get list of appointment types */
