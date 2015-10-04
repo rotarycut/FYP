@@ -49,7 +49,7 @@ angular.module('change.calendar', [])
                         self.scope.tabs[0].active = true;
                         self.scope.tabs[1].active = false;
                         self.scope.tabs[2].active = false;
-                        self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries);
+                        self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries, '', self.scope.drHoPostSurgeries);
 
                     } else if (self.scope.selectedCalendar == "myCalendar2") {
 
@@ -57,7 +57,7 @@ angular.module('change.calendar', [])
                         self.scope.tabs[0].active = false;
                         self.scope.tabs[1].active = true;
                         self.scope.tabs[2].active = false;
-                        self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries);
+                        self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '', self.scope.drGohPostSurgeries);
 
                     } else if (self.scope.selectedCalendar == "myCalendar3") {
 
@@ -65,7 +65,7 @@ angular.module('change.calendar', [])
                         self.scope.tabs[0].active = false;
                         self.scope.tabs[1].active = false;
                         self.scope.tabs[2].active = true;
-                        self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '');
+                        self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '', self.scope.optomEyeCare, '');
 
                     }
 
@@ -90,7 +90,7 @@ angular.module('change.calendar', [])
                     self.scope.tabs[0].active = true;
                     self.scope.tabs[1].active = false;
                     self.scope.tabs[2].active = false;
-                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries, '');
+                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries, '', self.scope.drHoPostSurgeries);
 
                 } else if (self.scope.selectedCalendar == "myCalendar2") {
 
@@ -98,7 +98,7 @@ angular.module('change.calendar', [])
                     self.scope.tabs[0].active = false;
                     self.scope.tabs[1].active = true;
                     self.scope.tabs[2].active = false;
-                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '');
+                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '', self.scope.drGohPostSurgeries);
 
                 } else if (self.scope.selectedCalendar == "myCalendar3") {
 
@@ -106,7 +106,7 @@ angular.module('change.calendar', [])
                     self.scope.tabs[0].active = false;
                     self.scope.tabs[1].active = false;
                     self.scope.tabs[2].active = true;
-                    self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '', self.scope.optomEyeCare);
+                    self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '', self.scope.optomEyeCare, '');
                 }
 
             }
@@ -119,14 +119,15 @@ angular.module('change.calendar', [])
          *******************************************************************************/
 
 
-        self.changeSelectedDoctor = function (drSourceArray, drScreenings, drPreEval, drSurgery, drEyeCare) {
+        self.changeSelectedDoctor = function (drSourceArray, drScreenings, drPreEval, drSurgery, drEyeCare, drPostSurgery) {
 
             self.scope.selectedDoctor = {
                 drAppointmentArray: drSourceArray,
                 drScreening: drScreenings,
                 drPreEval: drPreEval,
                 drSurgery: drSurgery,
-                drEyeCare: drEyeCare
+                drEyeCare: drEyeCare,
+                drPostSurgery: drPostSurgery
             };
 
         };

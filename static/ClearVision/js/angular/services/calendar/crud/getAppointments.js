@@ -3,13 +3,13 @@ angular.module('appointment.service', [])
 
         /* function to retrieve dr ho's appointments */
         this.getDrHoAppointments = function () {
-            var promises = [this.getDrHoPreEvaluations(), this.getDrHoSurgeries()];
+            var promises = [this.getDrHoPreEvaluations(), this.getDrHoSurgeries(), this.getDrHoPostSurgeries()];
             return $q.all(promises);
         };
 
         /* function to retrieve dr goh's appointments */
         this.getDrGohAppointments = function () {
-            var promises = [this.getDrGohPreEvaluations(), this.getDrGohSurgeries()];
+            var promises = [this.getDrGohPreEvaluations(), this.getDrGohSurgeries(), this.getDrGohPostSurgeries()];
             return $q.all(promises);
         };
 
@@ -20,22 +20,22 @@ angular.module('appointment.service', [])
         };
 
         /* function to retrieve dr ho's screening appointments */
-        this.getDrHoScreenings = function () {
+        this.getDrHoPostSurgeries = function () {
 
             var defer = $q.defer();
 
-            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Screening')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Ho&apptType=Post%20Surgery')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
-                        var drHoScreenings = listOfAppointments;
-                        defer.resolve(drHoScreenings);
+                        var drHoPostSurgeries = listOfAppointments;
+                        defer.resolve(drHoPostSurgeries);
                     }, 100);
                 })
 
                 .error(function () {
                     defer.reject("http get failed");
-                    console.log("Error getting Dr Ho's screening appointments");
+                    console.log("Error getting Dr Ho's post surgeries appointments");
                 });
 
             return defer.promise;
@@ -86,22 +86,22 @@ angular.module('appointment.service', [])
         };
 
         /* function to retrieve dr goh's screening appointments */
-        this.getDrGohScreenings = function () {
+        this.getDrGohPostSurgeries = function () {
 
             var defer = $q.defer();
 
-            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Goh&apptType=Screening')
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Dr%20Goh&apptType=Post%20Surgery')
 
                 .success(function (listOfAppointments) {
                     $timeout(function () {
-                        var drGohScreenings = listOfAppointments;
-                        defer.resolve(drGohScreenings);
+                        var drHoPostSurgeries = listOfAppointments;
+                        defer.resolve(drHoPostSurgeries);
                     }, 100);
                 })
 
                 .error(function () {
                     defer.reject("http get failed");
-                    console.log("Error getting Dr Goh's screening appointments");
+                    console.log("Error getting Dr Goh's post surgeries appointments");
                 });
 
             return defer.promise;

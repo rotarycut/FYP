@@ -47,8 +47,10 @@ app.service('disableIScheduleSvc', function ($timeout) {
                 // add all the appointments on the calendar
                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
+                self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPostSurgeries);
                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
+                self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPostSurgeries);
                 self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
                 self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomEyeCare);
 

@@ -53,8 +53,10 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 // remove all the appointments on the calendar
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
+                self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoPostSurgeries);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
+                self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohPostSurgeries);
                 self.scope.removeEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
                 self.scope.removeEventSource(self.scope.optomAppointments, self.scope.optomEyeCare);
 
