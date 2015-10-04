@@ -2812,11 +2812,11 @@ class DoctorApptTypes(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.all()
 
     def list(self, request, *args, **kwargs):
-        doctorID = request.query_params.get('doctorID')
+        apptTypeID = request.query_params.get('apptTypeID')
 
-        apptTypes = Doctor.objects.filter(id=doctorID).values('apptType__name')
+        doctors = AppointmentType.objects.filter(id=apptTypeID).values('doctor')
 
-        return Response(apptTypes)
+        return Response(doctors)
 
 class ViewWaitlistAppt(viewsets.ReadOnlyModelViewSet):
     queryset = Swapper.objects.none()
