@@ -23,7 +23,6 @@ angular.module('change.calendar', [])
             self.scope.legendEvalClicked = "legend-preEval-clicked";
             self.scope.legendSurgeryClicked = "legend-surgery-clicked";
 
-
             // check if the the clicking on the calendar tab is when the the appointment form is shown / tabs are disabled
             if (tabDisabled) {
 

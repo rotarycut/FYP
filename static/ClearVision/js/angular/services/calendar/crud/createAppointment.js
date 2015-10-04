@@ -97,16 +97,10 @@ angular.module('post.appointment', [])
                     self.scope.fields.waitingTime = "";
                 }
 
-                if (self.scope.fields.doctorAssigned === "Dr Ho") {
-                    self.scope.fields.doctorAssigned = "2";
-                } else {
-                    self.scope.fields.doctorAssigned = "1";
-                }
-
                 $http.post('/Clearvision/_api/appointmentsCUD/', {
                     "apptType": self.scope.fields.appointmentType.name,
                     "date": self.scope.fields.appointmentDate,
-                    "docID": self.scope.fields.doctorAssigned,
+                    "docID": self.scope.fields.doctorAssigned.id,
                     "clinicID": 1,
                     "contact": self.scope.fields.patientContact,
                     "name": self.scope.fields.patientName,
