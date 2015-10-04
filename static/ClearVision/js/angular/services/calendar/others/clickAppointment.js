@@ -124,8 +124,11 @@ angular.module('event.click', [])
 
                         if (data == false) {
                             // appointment is not blocked
+                            self.populateDateTimeFields(appointment);
 
-                            // additional check to make sure appointment end time is not blocked too
+                        } else {
+
+                            // additional check to make sure appointment end time is blocked too
                             $http.get('/Clearvision/_api/ViewDoctorBlockedTime/?date=' + appointmentDate + '' + appointmentEndTime + '&docID=' + self.scope.fields.doctorAssigned.id)
                                 .success(function (data) {
 
@@ -139,9 +142,6 @@ angular.module('event.click', [])
                                     }
                                 });
 
-                        } else {
-                            // appointment is blocked
-                            self.scope.openBlockedModal('sm', appointment);
                         }
 
                     });
