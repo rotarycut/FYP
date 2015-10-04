@@ -46,49 +46,49 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoPreEvaluations = {
-        color: '#FFA480',
+        color: '#81D8D0',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoSurgeries = {
-        color: '#EA525F',
+        color: '#E56E94',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoPostSurgeries = {
-        color: '#CCCC00',
+        color: '#F9966B',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohPreEvaluations = {
-        color: '#FFA480',
+        color: '#81D8D0',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohSurgeries = {
-        color: '#EA525F',
+        color: '#E56E94',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohPostSurgeries = {
-        color: '#CCCC00',
+        color: '#F9966B',
         textColor: 'White',
         events: []
     };
 
     $scope.optomScreenings = {
-        color: '#E7A83E',
+        color: '#E77471',
         textColor: 'White',
         events: []
     };
 
     $scope.optomEyeCare = {
-        color: '#000000',
+        color: '#4EE2EC',
         textColor: 'White',
         events: []
     };
@@ -536,11 +536,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.legendScreenClicked = "legend-screen-clicked";
     $scope.legendEvalClicked = "legend-preEval-clicked";
     $scope.legendSurgeryClicked = "legend-surgery-clicked";
+    $scope.legendPostOpClicked = "legend-postop-clicked";
+    $scope.legendEyecareClicked = "legend-eyecare-clicked";
     $scope.screenIconChange = "fa fa-check-square";
     $scope.preEvalIconChange = "fa fa-check-square";
     $scope.surgeryIconChange = "fa fa-check-square";
+    $scope.postOpIconChange = "fa fa-check-square";
+    $scope.eyecareIconChange = "fa fa-check-square";
     $scope.disabledApptType = false;
     $scope.hideFormToggle = true;
+    $scope.showDoctorLegend = true;
+    $scope.showOptomLegend = false;
 
     $scope.form = {
         showForm: false,

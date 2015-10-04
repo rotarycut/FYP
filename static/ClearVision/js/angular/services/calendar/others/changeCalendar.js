@@ -23,6 +23,8 @@ angular.module('change.calendar', [])
             self.scope.legendEvalClicked = "legend-preEval-clicked";
             self.scope.legendSurgeryClicked = "legend-surgery-clicked";
 
+
+
             // check if the the clicking on the calendar tab is when the the appointment form is shown / tabs are disabled
             if (tabDisabled) {
 
@@ -86,6 +88,9 @@ angular.module('change.calendar', [])
                 // check if the tab click is on which doctor tab || selected search result is for which doctor appointment
                 if (self.scope.selectedCalendar == "myCalendar1") {
 
+                    //change legend for dr ho calendar
+                    self.scope.showDoctorLegend = true;
+                    self.scope.showOptomLegend = false;
                     // clicked on doctor ho calendar tab || selected search result of dr ho appointment
                     self.scope.tabs[0].active = true;
                     self.scope.tabs[1].active = false;
@@ -94,6 +99,10 @@ angular.module('change.calendar', [])
 
                 } else if (self.scope.selectedCalendar == "myCalendar2") {
 
+                    //change legend for dr goh calendar
+                    self.scope.showDoctorLegend = true;
+                    self.scope.showOptomLegend = false;
+
                     // clicked on doctor goh calendar tab || selected search result of dr goh appointment
                     self.scope.tabs[0].active = false;
                     self.scope.tabs[1].active = true;
@@ -101,6 +110,10 @@ angular.module('change.calendar', [])
                     self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '', self.scope.drGohPostSurgeries);
 
                 } else if (self.scope.selectedCalendar == "myCalendar3") {
+
+                    //change legend for optom calendar
+                    self.scope.showDoctorLegend = false;
+                    self.scope.showOptomLegend = true;
 
                     // clicked on optom calendar tab || selected search result of dr goh appointment
                     self.scope.tabs[0].active = false;

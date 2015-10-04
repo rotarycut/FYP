@@ -74,13 +74,17 @@
     margin-right: 0;
     padding-bottom: 30px;
     padding-right: 0;
+    padding-top: 2%;
 }
 
 .side-tabset > ul.nav >li > a{
     padding: 5px 5px 5px 5px;
+    background-color: #EBF4FA;
+
 }
 
 .side-tabset > ul.nav >li > a:focus,
+.side-tabset > ul.nav >li.active > a,
 .side-tabset > ul.nav >li.active > a:hover
 {
     padding: 5px 5px 5px 5px;
@@ -384,7 +388,7 @@ ul.legend-ul li{
 }
 
 .legend-screen{
-    color: #E7AB3E;
+    color: #E77471;
     text-decoration: none;
     border-bottom: none;
 }
@@ -393,13 +397,13 @@ ul.legend-ul li{
 .legend-screen:active
 .legend-screen:hover
 {
-    color: #E7AB3E;
+    color: #E77471;
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-preEval{
-    color: #FFA480;
+    color: #81D8D0;
     text-decoration: none;
     border-bottom: none;
 
@@ -408,14 +412,14 @@ ul.legend-ul li{
 .legend-preEval:focus,
 .legend-preEval:hover
 {
-    color: #FFA480;
+    color: #81D8D0;
     text-decoration: none;
     border-bottom: none;
 
 }
 
 .legend-surgery{
-    color: #EA525F;
+    color: #E56E94;
     text-decoration: none;
     border-bottom: none;
 }
@@ -424,7 +428,37 @@ ul.legend-ul li{
 .legend-surgery:focus,
 .legend-surgery:hover
 {
-    color: #EA525F;
+    color: #E56E94;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.legend-postop{
+    color: #F9966B;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.legend-postop:focus,
+.legend-postop:active
+.legend-postop:hover
+{
+    color: #F9966B;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.legend-eyecare{
+    color: #4EE2EC;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.legend-eyecare:focus,
+.legend-eyecare:active
+.legend-eyecare:hover
+{
+    color: #4EE2EC;
     text-decoration: none;
     border-bottom: none;
 }
@@ -450,49 +484,79 @@ ul.legend-ul li{
 }
 
 .legend-screen-clicked{
-    color: #E7AB3E;
+    color: #E77471;
     text-decoration: none;
-    border-bottom: solid 2px #E7AB3E;
+    border-bottom: solid 2px #E77471;
 }
 
 .legend-screen-clicked:active,
 .legend-screen-clicked:focus,
 .legend-screen-clicked:hover
 {
-    color: #E7AB3E;
+    color: #E77471;
     text-decoration: none;
-    border-bottom: solid 2px #E7AB3E;
+    border-bottom: solid 2px #E77471;
 }
 
 
 .legend-preEval-clicked{
-    color: #FFA480;
+    color: #81D8D0;
     text-decoration: none;
-    border-bottom: solid 2px #FFA480;
+    border-bottom: solid 2px #81D8D0;
 }
 
 .legend-preEval-clicked:active,
 .legend-preEval-clicked:focus,
 .legend-preEval-clicked:hover
 {
-    color: #FFA480;
+    color: #81D8D0;
     text-decoration: none;
-    border-bottom: solid 2px #FFA480;
+    border-bottom: solid 2px #81D8D0;
 }
 
 .legend-surgery-clicked{
-    color: #EA525F;
+    color: #E56E94;
     text-decoration: none;
-    border-bottom: solid 2px #EA525F;
+    border-bottom: solid 2px #E56E94;
 }
 
 .legend-surgery-clicked:active,
 .legend-surgery-clicked:focus,
 .legend-surgery-clicked:hover
 {
-    color: #EA525F;
+    color: #E56E94;
     text-decoration: none;
-    border-bottom: solid 2px #EA525F;
+    border-bottom: solid 2px #E56E94;
+}
+
+.legend-postop-clicked{
+    color: #F9966B;
+    text-decoration: none;
+    border-bottom: solid 2px #F9966B;
+}
+
+.legend-postop-clicked:active,
+.legend-postop-clicked:focus,
+.legend-postop-clicked:hover
+{
+    color: #F9966B;
+    text-decoration: none;
+    border-bottom: solid 2px #F9966B;
+}
+
+.legend-eyecare-clicked{
+    color: #4EE2EC;
+    text-decoration: none;
+    border-bottom: solid 2px #4EE2EC;
+}
+
+.legend-eyecare-clicked:active,
+.legend-eyecare-clicked:focus,
+.legend-eyecare-clicked:hover
+{
+    color: #4EE2EC;
+    text-decoration: none;
+    border-bottom: solid 2px #4EE2EC;
 }
 
 form.form-search {

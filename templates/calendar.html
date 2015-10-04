@@ -89,14 +89,9 @@
                         <!--sd-->
                     </div>
                     <div class="row" ng-show="showFilters">
-
-                        <div class="cal-legend">
+                        <!-- legend for doctors -->
+                        <div class="cal-legend" ng-show="showDoctorLegend">
                             <ul class="legend-ul">
-                                <li><a href="#/"
-                                       singleclick="filterByAppointmentTypes('Screening', false)"
-                                       data-ng-Dblclick="filterByAppointmentTypes('Screening', true)"
-                                       ng-class="legendScreenClicked"><i ng-class="screenIconChange"></i> Screening</a>
-                                </li>
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
                                        data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
                                        ng-class="legendEvalClicked"><i
@@ -106,6 +101,30 @@
                                        data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
                                        ng-class="legendSurgeryClicked"><i
                                         ng-class="surgeryIconChange"></i> Lasik</a>
+                                </li>
+                                <li><a href="#/" singleclick="filterByAppointmentTypes('Post Operation', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('Post Operation', true)"
+                                       ng-class="legendPostOpClicked"><i
+                                        ng-class="postOpIconChange"></i> Post Surgery</a>
+                                </li>
+                                <li><a href="#/" singleclick="filterByAppointmentTypes('All', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('All')" class="legend-all">Show
+                                    All</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- legend for optometrist -->
+                        <div class="cal-legend" ng-show="showFilters">
+                            <ul class="legend-ul" ng-show="showOptomLegend">
+                                <li><a href="#/"
+                                       singleclick="filterByAppointmentTypes('Screening', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('Screening', true)"
+                                       ng-class="legendScreenClicked"><i ng-class="screenIconChange"></i> Screening</a>
+                                </li>
+                                <li><a href="#/" singleclick="filterByAppointmentTypes('Eyecare', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('Eyecare', true)"
+                                       ng-class="legendEyecareClicked"><i
+                                        ng-class="eyecareIconChange"></i> Eyecare</a>
                                 </li>
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('All', false)"
                                        data-ng-Dblclick="filterByAppointmentTypes('All')" class="legend-all">Show
