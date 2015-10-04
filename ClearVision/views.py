@@ -2839,8 +2839,7 @@ class DoctorApptTypes(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         apptTypeID = request.query_params.get('apptTypeID')
 
-        doctors = AppointmentType.objects.filter(id=apptTypeID).values('doctor', 'doctor__name', 'doctor__calDavAccount',
-                                                                       )
+        doctors = Doctor.objects.filter(apptType=apptTypeID).values()
 
         return Response(doctors)
 
