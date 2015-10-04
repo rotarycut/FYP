@@ -55,8 +55,8 @@ angular.module('hide.form', [])
             self._scope.form.showForm = false;
             self._scope.form.showBlockForm = false;
 
-            self._scope.form.showButtons.createBlockForm = true;
-            self._scope.form.showButtons.editBlockForm = false;
+            self._scope.form.showBlcokButtons.createBlockForm = true;
+            self._scope.form.showBlcokButtons.editBlockForm = false;
 
             clearFormSvc.clearBlockForm();
 

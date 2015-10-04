@@ -251,7 +251,7 @@
 }*/
 
 #topmenu li.selected .dashboard-submenu{
-    left:-358px;
+    left:-382px;
     top:70%;
 }
 
@@ -895,19 +895,40 @@ table.waitlist-swap-tbl > tbody > tr > td{
 table.queuelist-main-tbl{
     margin-top: 10px;
     background-color: #ebebeb;
-
+    border: solid 0.5px #ebebeb;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 table.queuelist-main-tbl > tbody > tr > th{
     background-color: #70AFC4;
-    color: #FFF;
-    text-align: center;
-}
-table.queuelist-main-tbl > tbody > tr > td {
+    color: #fff;
     text-align: center;
 }
 
-table.apptlist-main-tbl{
+table.queuelist-main-tbl > tbody > tr > th:first-child{
+    border-radius: 7px 0 0 0;
+}
+
+table.queuelist-main-tbl > tbody > tr > th:last-child{
+    border-radius: 0 7px 0 0;
+}
+
+table.queuelist-main-tbl > tbody > tr:last-child td:first-child {
+    border-radius: 0 0 0 7px;
+}
+table.queuelist-main-tbl > tbody > tr:last-child td:last-child {
+    border-radius: 0 0 7px 0;
+}
+
+table.queuelist-main-tbl > tbody > tr > td{
+    text-align: center;
+}
+
+/*table.apptlist-main-tbl{
     border: dotted 2px #70AFC4;
 
 }
@@ -919,7 +940,7 @@ table.apptlist-main-tbl > tbody > tr > th{
 }
 table.apptlist-main-tbl > tbody > tr > td{
     text-align: center;
-}
+}*/
 
 
 .ver-divider{
@@ -1117,6 +1138,41 @@ form.form-expenditure-amt:before {
     z-index: 1000;
 }
 
+table.expenditure-main-tbl{
+    margin-top: 10px;
+    background-color: #ebebeb;
+    border: solid 0.5px #ebebeb;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table.expenditure-main-tbl > tbody > tr > th{
+    background-color: #D0E0EB;
+    color: #49708A;
+    text-align: center;
+}
+
+table.expenditure-main-tbl > tbody > tr > th:first-child{
+    border-radius: 7px 0 0 0;
+}
+
+table.expenditure-main-tbl > tbody > tr > th:last-child{
+    border-radius: 0 7px 0 0;
+}
+
+table.expenditure-main-tbl > tbody > tr:last-child td:first-child {
+    border-radius: 0 0 0 7px;
+}
+table.expenditure-main-tbl > tbody > tr:last-child td:last-child {
+    border-radius: 0 0 7px 0;
+}
+
+table.expenditure-main-tbl > tbody > tr > td{
+    text-align: center;
+}
 
 /* expenditure form css ends */
 

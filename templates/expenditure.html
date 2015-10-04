@@ -6,26 +6,26 @@
                 <h5 class="label-color"><i class="fa fa-list-alt"></i> Expenditure Summary</h5>
             </div>
             <div class="col-md-2">
-                <select class="form-control" data-ng-model="sortByOption">
+                <select class="form-control" data-ng-model="expenditureYear">
                     <option value="" disabled selected class="dropdown-default-option">Year</option>
                 </select>
             </div>
             <div class="col-md-2">
-                <select class="form-control" data-ng-model="sortByOption" ng-options="mth for mth in months"
-                        selected class="dropdown-default-option"> Month
+                <select class="form-control" data-ng-model="expenditureMonth" ng-options="mth for mth in months">
+                    <option value="" disabled selected class="dropdown-default-option">Month</option>
                 </select>
             </div>
         </div>
-        <div class="row expenditure-table-row">
+        <div class="row expenditure-table-row" ng-init="getListOfMarketingExpenditures()">
             <div class="col-md-12">
-                <table class="table table-striped waitlist-main-tbl">
+                <table class="table table-striped expenditure-main-tbl">
                     <tr>
                         <th>S/N</th>
                         <th>Marketing Channel</th>
                         <th>Spent</th>
                         <th colspan="2">Actions</th>
                     </tr>
-                    <tr ng-repeat="channel in marketingChannels">
+                    <tr ng-repeat="channel in filteredChannels">
                         <td>[[$index + 1]]</td>
                         <td>[[channel.name]]</td>
                         <td>[[channel.cost]]</td>
@@ -38,21 +38,18 @@
                     </tr>
                 </table>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-8" style="text-align: left">
-                        <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage"
-                                    class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;"
-                                    first-text="&laquo;" last-text="&raquo;"></pagination>
-                    </div>
-                    <div class="col-md-4" style="text-align: right">
-                        <h4><span class="label total-spent-label"
-                                  style="display: inline-block">Total Spent: <span
-                                class="totalSpent-label"> $2,200</span></span>
-                        </h4>
-                    </div>
-                </div>
+            <div class="col-md-12" style="text-align: center">
+                <pagination
+                        ng-model="currentPage"
+                        total-items="marketingChannels.length"
+                        boundary-links="false">
+                </pagination>
+                <!--<div class="col-md-4" style="text-align: right">
+                    <h4><span class="label total-spent-label"
+                              style="display: inline-block">Total Spent: <span
+                            class="totalSpent-label"> $2,200</span></span>
+                    </h4>
+                </div>-->
             </div>
         </div>
     </div>
@@ -61,7 +58,7 @@
     <div class="col-md-3">
         <div class="row chart-title-row">
             <div class="col-md-12">
-                <h5 class="label-color"><i class="fa fa-plus-square"></i> Add Expenditure</h5>
+                <h5 class="label-color"><i class="fa fa-calculator"></i> Add Expenditure</h5>
             </div>
         </div>
         <div class="row expenditure-table-row">
@@ -71,13 +68,14 @@
                         <div class="col-md-3">
                             <label class="control-label label-color">Channel:</label>
                         </div>
-                        <div class="col-md-9" ng-show="channelDropdown">
-                            <select class="form-control" ng-options="mth for mth in months"
+                        <div class="col-md-9" ng-show="channelDropdown" ng-init="getMarketingChannels();">
+                            <select class="form-control"
+                                    ng-options="channel as channel.name for channel in listOfMarketingChannels"
                                     data-ng-model="expenditureChannel" name="expenditureChannel">
                             </select>
                         </div>
                         <div class="col-md-9" ng-show="channelTextbox">
-                            <input type="text" class="form-control" data-ng-model="spentAmt"
+                            <input type="text" class="form-control" data-ng-model="expenditureChannel"
                                    name="spentAmt" placeholder="Enter new channel"
                                    required>
                         </div>
@@ -91,20 +89,21 @@
                                    name="spentAmt"
                                    required>-->
                             <form class="form-expenditure-amt form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control"/>
+                                <input type="text" style="padding-left: 26px;" class="form-control"
+                                       data-ng-model="expenditureSpent"/>
                             </form>
                         </div>
                     </div>
                     <div class="row endcontent-row">
                         <div class="col-md-3" ng-show="newChannelBtn">
-                            <button class="btn form-cancel-btn" data-ng-click="showAddNewChannel()">New Channel</button>
+                            <button class="btn form-cancel-btn" data-ng-click="showAddNewChannel()"><i class="fa fa-plus-square"></i> New Channel</button>
                         </div>
                         <div class="col-md-3" ng-show="selectChannelBtn">
                             <button class="btn form-cancel-btn" data-ng-click="showSelectChannel()">Existing Channels
                             </button>
                         </div>
                         <div class="col-md-2 col-md-offset-4">
-                            <button class="btn form-submit-btn" ng-click="">Add New</button>
+                            <button class="btn form-submit-btn" ng-click="addNewExpenditure()">Add New</button>
                         </div>
                     </div>
                 </form>

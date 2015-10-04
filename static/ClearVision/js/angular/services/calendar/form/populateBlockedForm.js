@@ -11,8 +11,8 @@ angular.module('populate.blockedForm', [])
 
         self.populateBlockForm = function (blockedAppointment) {
 
-            self.scope.form.showButtons.createBlockForm = false;
-            self.scope.form.showButtons.editBlockForm = true;
+            self.scope.form.showBlcokButtons.createBlockForm = false;
+            self.scope.form.showBlcokButtons.editBlockForm = true;
 
             var tStartIndex = blockedAppointment.start.indexOf("T");
             var lastStartColon = blockedAppointment.start.lastIndexOf(":");

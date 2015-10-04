@@ -526,8 +526,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             createForm: false,
             editForm: false,
             addAndBlock: true,
+        },
+        showBlcokButtons:{
             createBlockForm: true,
-            editBlockForm: false
+            editBlockForm: false,
         }
     };
 
