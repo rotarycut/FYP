@@ -1459,6 +1459,27 @@ def recievemsg(request):
         WronglyRepliedSMS.objects.create(text=message, origin=origin)
         return HttpResponse('SMS reply not configured')
 
+@csrf_exempt
+def SendAdHocSMS(request):
+    payload = json.loads(request.body)
+    target = payload.get('target')
+    message = payload.get('message')
+    hello = payload.get('hello')
+    print(hello)
+
+    if target is None:
+        return HttpResponse('Failure')
+    elif message is None:
+        return HttpResponse('Failure')
+
+    encoded = base64.b64encode('AnthonyS:ClearVision2')
+    headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+    payload = {'from': 'Clearvision', 'to': '65' + target, 'text': message}
+
+    requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
+
+    return HttpResponse('Success')
+
 def ViewReceivedSMS(request):
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
@@ -2838,4 +2859,3 @@ class ViewWaitlistAppt(viewsets.ReadOnlyModelViewSet):
         waitlistAppt = swapperObj.tempAppt
         waitlistAppt = AppointmentSerializer(waitlistAppt)
         return Response(waitlistAppt.data)
-

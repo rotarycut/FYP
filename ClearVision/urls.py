@@ -69,6 +69,7 @@ urlpatterns = [
     url(r'^_api/recieveSMS', views.recievemsg,),
     url(r'^_api/ViewReceivedSMS', views.ViewReceivedSMS,),
     url(r'^_api/ViewSentSMS', views.ViewSentSMS,),
+    url(r'^_api/SendAdHocSMS', views.SendAdHocSMS,),
     url(r'^_api/UserTrackingTimeIn', views.RecordUserActionsTimeIn,),
     url(r'^_api/UserTrackingTimeOut', views.RecordUserActionsTimeOut,),
 ]
