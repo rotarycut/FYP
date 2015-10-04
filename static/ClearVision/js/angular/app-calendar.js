@@ -769,6 +769,20 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=' + apptTypeId)
             .success(function (listOfDoctors) {
                 $scope.listOfDoctors = listOfDoctors;
+
+                // make sure that the doctor field is previously filled
+                if ($scope.fields.doctorAssigned != undefined) {
+
+                    // if appointment type field is changed, but the doctor is still present in the new rendered list, should still display the doctor
+                    var indexOfDoctorInList = 0;
+                    angular.forEach(listOfDoctors, function (doctor) {
+                        if (doctor.id === $scope.fields.doctorAssigned.id) {
+                            $scope.fields.doctorAssigned = $scope.listOfDoctors[indexOfDoctorInList];
+                        }
+                        indexOfDoctorInList++;
+                    });
+                }
+
             });
     };
 
@@ -1028,7 +1042,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
 
-                $log.info("Start recording of creating appointment..");
+                //$log.info("Start recording of creating appointment..");
                 $scope.trackId = data;
             });
 
@@ -1050,7 +1064,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
             .success(function (data) {
                 //console.log(data);
-                $log.info("Start recording of editing / deleting appointment..");
+                //$log.info("Start recording of editing / deleting appointment..");
                 $scope.trackId = data;
             });
 
@@ -1505,7 +1519,7 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
         $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
             .success(function (data) {
-                $log.info("End recording of creating appointment");
+                //$log.info("End recording of creating appointment");
             });
 
     };
@@ -1526,7 +1540,7 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
         $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
             .success(function (data) {
-                $log.info("End recording of editing appointment");
+                //$log.info("End recording of editing appointment");
             });
 
     };
@@ -1547,7 +1561,7 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
         $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
             .success(function (data) {
-                $log.info("End recording of deleting appointment");
+                //$log.info("End recording of deleting appointment");
             });
 
     };
