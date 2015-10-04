@@ -527,7 +527,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             editForm: false,
             addAndBlock: true,
         },
-        showBlcokButtons:{
+        showBlcokButtons: {
             createBlockForm: true,
             editBlockForm: false,
         }
@@ -1179,7 +1179,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     } else {
                         $scope.fields.timeIsChanged = false;
                     }
-                    if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType) {
+                    if ($scope.fields.originalAppointmentType !== $scope.fields.appointmentType.name) {
                         $scope.fields.typeIsChanged = true;
                     } else {
                         $scope.fields.typeIsChanged = false;

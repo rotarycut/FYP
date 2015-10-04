@@ -1,5 +1,5 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc) {
+    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -45,7 +45,7 @@ angular.module('update.appointment', [])
                     "id": self.scope.fields.patientId,
                     "replacementApptDate": self.scope.fields.appointmentDate,
                     "replacementApptTime": self.scope.fields.appointmentTime,
-                    "type": self.scope.fields.appointmentType,
+                    "type": self.scope.fields.appointmentType.name,
                     "docID": self.scope.fields.doctorAssigned,
                     "clinicID": 1,
                     "remarks": self.scope.fields.appointmentRemarks,
@@ -73,82 +73,84 @@ angular.module('update.appointment', [])
                             $location.path('/queue');
                         }
 
+                        showNotificationsSvc.notifySuccessTemplate('Appointment updated successfully');
+
                         // handle the update of the newly changed appointment
 
                         // check the appointment type of the newly changed appointment
                         /*switch (self.scope.fields.appointmentType) {
 
-                            case "Screening":
+                         case "Screening":
 
-                                // remove the entire newly changed appointment from the calendar
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, data.id);
+                         // remove the entire newly changed appointment from the calendar
+                         self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, data.id);
 
-                                // add the updated newly changed appointment to the calendar
-                                self.scope.selectedDoctor.drScreening.events.push(data);
-                                break;
+                         // add the updated newly changed appointment to the calendar
+                         self.scope.selectedDoctor.drScreening.events.push(data);
+                         break;
 
-                            case "Pre Evaluation":
+                         case "Pre Evaluation":
 
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, data.id);
-                                self.scope.selectedDoctor.drPreEval.events.push(data);
-                                break;
+                         self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, data.id);
+                         self.scope.selectedDoctor.drPreEval.events.push(data);
+                         break;
 
-                            case "Surgery":
+                         case "Surgery":
 
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, data.id);
-                                self.scope.selectedDoctor.drSurgery.events.push(data);
-                                break;
-                        }
+                         self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, data.id);
+                         self.scope.selectedDoctor.drSurgery.events.push(data);
+                         break;
+                         }
 
-                        // handle the update of the old appointment
-                        var id = self.scope.fields.appointmentId;
+                         // handle the update of the old appointment
+                         var id = self.scope.fields.appointmentId;
 
-                        // check the appointment type of the old appointment
-                        switch (self.scope.fields.originalAppointmentType) {
+                         // check the appointment type of the old appointment
+                         switch (self.scope.fields.originalAppointmentType) {
 
-                            case "Screening":
+                         case "Screening":
 
-                                // remove the entire old appointment from the calendar
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, id);
+                         // remove the entire old appointment from the calendar
+                         self.scope.spliceAppointment(self.scope.selectedDoctor.drScreening.events, id);
 
-                                // check if the appointment still has patients after shifting a patient out
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
+                         // check if the appointment still has patients after shifting a patient out
+                         $http.get('/Clearvision/_api/appointments/' + id)
+                         .success(function (oldAppointment) {
 
-                                        // there are still patients, add the updated old appointment back to the calendar
-                                        self.scope.selectedDoctor.drScreening.events.push(oldAppointment);
-                                    });
+                         // there are still patients, add the updated old appointment back to the calendar
+                         self.scope.selectedDoctor.drScreening.events.push(oldAppointment);
+                         });
 
-                                break;
+                         break;
 
-                            case "Pre Evaluation":
+                         case "Pre Evaluation":
 
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, id);
+                         self.scope.spliceAppointment(self.scope.selectedDoctor.drPreEval.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        self.scope.selectedDoctor.drPreEval.events.push(oldAppointment);
-                                    });
-                                break;
+                         $http.get('/Clearvision/_api/appointments/' + id)
+                         .success(function (oldAppointment) {
+                         self.scope.selectedDoctor.drPreEval.events.push(oldAppointment);
+                         });
+                         break;
 
-                            case "Surgery":
+                         case "Surgery":
 
-                                self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, id);
+                         self.scope.spliceAppointment(self.scope.selectedDoctor.drSurgery.events, id);
 
-                                $http.get('/Clearvision/_api/appointments/' + id)
-                                    .success(function (oldAppointment) {
-                                        self.scope.selectedDoctor.drSurgery.events.push(oldAppointment)
-                                    });
-                                break;
-                        }
+                         $http.get('/Clearvision/_api/appointments/' + id)
+                         .success(function (oldAppointment) {
+                         self.scope.selectedDoctor.drSurgery.events.push(oldAppointment)
+                         });
+                         break;
+                         }
 
-                        // hide the appointment form
-                        hideFormSvc.hideForm();
+                         // hide the appointment form
+                         hideFormSvc.hideForm();
 
-                        // if the update is coming from the no show reschedule action
-                        if (self.scope.isNoShowReschedule == true) {
-                            $location.path('/queue');
-                        }*/
+                         // if the update is coming from the no show reschedule action
+                         if (self.scope.isNoShowReschedule == true) {
+                         $location.path('/queue');
+                         }*/
 
                     })
 
