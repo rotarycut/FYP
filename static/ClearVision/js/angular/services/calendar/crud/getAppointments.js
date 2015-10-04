@@ -15,7 +15,7 @@ angular.module('appointment.service', [])
 
         /* function to  retrieve optom's appointments */
         this.getOptomAppointments = function () {
-            var promises = [this.getOptomScreenings()];
+            var promises = [this.getOptomScreenings(), this.getOptomEyeCare()];
             return $q.all(promises);
         };
 
@@ -168,6 +168,28 @@ angular.module('appointment.service', [])
                 .error(function () {
                     defer.reject("http get failed");
                     console.log("Error getting Optom's screening appointments");
+                });
+
+            return defer.promise;
+        };
+
+        /* function to retrieve optom's screening appointments */
+        this.getOptomEyeCare = function () {
+
+            var defer = $q.defer();
+
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Optometrist&apptType=Eyecare')
+
+                .success(function (listOfAppointments) {
+                    $timeout(function () {
+                        var optomEyeCare = listOfAppointments;
+                        defer.resolve(optomEyeCare);
+                    }, 100);
+                })
+
+                .error(function () {
+                    defer.reject("http get failed");
+                    console.log("Error getting Optom's eye care appointments");
                 });
 
             return defer.promise;

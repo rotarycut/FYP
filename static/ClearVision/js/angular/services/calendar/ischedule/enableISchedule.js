@@ -56,6 +56,7 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
                 self.scope.removeEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
+                self.scope.removeEventSource(self.scope.optomAppointments, self.scope.optomEyeCare);
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);

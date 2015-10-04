@@ -90,7 +90,7 @@ angular.module('change.calendar', [])
                     self.scope.tabs[0].active = true;
                     self.scope.tabs[1].active = false;
                     self.scope.tabs[2].active = false;
-                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries);
+                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries, '');
 
                 } else if (self.scope.selectedCalendar == "myCalendar2") {
 
@@ -98,15 +98,15 @@ angular.module('change.calendar', [])
                     self.scope.tabs[0].active = false;
                     self.scope.tabs[1].active = true;
                     self.scope.tabs[2].active = false;
-                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries);
+                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '');
 
                 } else if (self.scope.selectedCalendar == "myCalendar3") {
 
-                    // clicked on doctor goh calendar tab || selected search result of dr goh appointment
+                    // clicked on optom calendar tab || selected search result of dr goh appointment
                     self.scope.tabs[0].active = false;
                     self.scope.tabs[1].active = false;
                     self.scope.tabs[2].active = true;
-                    self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '');
+                    self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '', self.scope.optomEyeCare);
                 }
 
             }
@@ -119,13 +119,14 @@ angular.module('change.calendar', [])
          *******************************************************************************/
 
 
-        self.changeSelectedDoctor = function (drSourceArray, drScreenings, drPreEval, drSurgery) {
+        self.changeSelectedDoctor = function (drSourceArray, drScreenings, drPreEval, drSurgery, drEyeCare) {
 
             self.scope.selectedDoctor = {
                 drAppointmentArray: drSourceArray,
                 drScreening: drScreenings,
                 drPreEval: drPreEval,
-                drSurgery: drSurgery
+                drSurgery: drSurgery,
+                drEyeCare: drEyeCare
             };
 
         };

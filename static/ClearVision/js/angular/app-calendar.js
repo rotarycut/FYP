@@ -45,12 +45,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     populateBlockedFormSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
-    $scope.drHoScreenings = {
-        color: '#E7A83E',
-        textColor: 'White',
-        events: []
-    };
-
     $scope.drHoPreEvaluations = {
         color: '#FFA480',
         textColor: 'White',
@@ -59,12 +53,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.drHoSurgeries = {
         color: '#EA525F',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohScreenings = {
-        color: '#E7A83E',
         textColor: 'White',
         events: []
     };
@@ -83,6 +71,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.optomScreenings = {
         color: '#E7A83E',
+        textColor: 'White',
+        events: []
+    };
+
+    $scope.optomEyeCare = {
+        color: '#000000',
         textColor: 'White',
         events: []
     };
@@ -118,9 +112,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.selectedDoctor = {
         drAppointmentArray: $scope.doctorHoAppointments,
-        drScreening: $scope.drHoScreenings,
+        drScreening: '',
         drPreEval: $scope.drHoPreEvaluations,
-        drSurgery: $scope.drHoSurgeries
+        drSurgery: $scope.drHoSurgeries,
+        drEyeCare: ''
     };
 
     /* --- end of declaration --- */
@@ -384,6 +379,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.addRemoveOptomSources = function () {
         $scope.addRemoveEventSource($scope.optomAppointments, $scope.optomScreenings);
+        $scope.addRemoveEventSource($scope.optomAppointments, $scope.optomEyeCare);
     };
 
 
@@ -444,6 +440,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 angular.forEach(appointmentType[0], function (screening) {
                     $scope.optomScreenings.events.push(screening);
+                });
+
+                angular.forEach(appointmentType[1], function (eyeCare) {
+                    $scope.optomEyeCare.events.push(eyeCare);
                 });
 
                 $scope.addRemoveOptomSources();
@@ -1053,12 +1053,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
             $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+            $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
             $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
             $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
             $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
             $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+            $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
             $scope.getDrHoAppointments();
             $scope.getDrGohAppointments();
@@ -1079,12 +1081,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
             $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+            $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
             $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
             $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
             $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
             $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+            $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
             $scope.getDrHoAppointments();
             $scope.getDrGohAppointments();
@@ -1105,12 +1109,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
             $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+            $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
             $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
             $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
             $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
             $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+            $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
             $scope.getDrHoAppointments();
             $scope.getDrGohAppointments();
