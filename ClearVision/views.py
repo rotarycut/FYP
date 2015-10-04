@@ -244,6 +244,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                        'scheduledApptDay', 'tempApptDay', 'swappable')
 
             return Response(response_data)
+
         serializedExistingAppt = AppointmentSerializer(a)
         pusher.trigger('appointmentsCUD', 'deleteAppt', {'message': json.dumps(serializedExistingAppt.data)})
         return Response({})
@@ -395,6 +396,9 @@ class AppointmentWriter(viewsets.ModelViewSet):
         currentAppt.patients.remove(patient)
         currentAppt.save()
         oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.id)
+
+        if currentAppt.tempPatients.count() >= 1:
+            Swapper.objects.filter(patient=currentAppt.tempPatients.first(), tempAppt=currentAppt).update(swappable=True)
 
         if currentAppt.apptType != apptType:
             tempApptSwapperObj = Swapper.objects.filter(patient=patient, scheduledAppt=currentAppt,)
@@ -2814,7 +2818,8 @@ class DoctorApptTypes(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         apptTypeID = request.query_params.get('apptTypeID')
 
-        doctors = AppointmentType.objects.filter(id=apptTypeID).values('doctor')
+        doctors = AppointmentType.objects.filter(id=apptTypeID).values('doctor', 'doctor__name', 'doctor__calDavAccount',
+                                                                       )
 
         return Response(doctors)
 
