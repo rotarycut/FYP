@@ -154,14 +154,15 @@
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
-                         ng-show="form.showFields.appointmentType">
+                         ng-show="form.showFields.appointmentType" ng-init="getListOfAppointmentTypes()">
 
                         <label class="control-label">Appointment Type</label>
 
                         <div ng-class="{'has-error': appointmentForm.appointmentType.$invalid && (appointmentForm.appointmentType.$touched || appointmentForm.$submitted)}">
-                            <select class="form-control" ng-options="appt for appt in listOfAppointmentTypes"
+                            <select class="form-control"
+                                    ng-options="appt as appt.name for appt in listOfAppointmentTypes"
                                     ng-model="fields.appointmentType" name="appointmentType"
-                                    ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings();"
+                                    ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings(); getDoctorList();"
                                     ng-disabled="disabledApptType"
                                     required>
                             </select>
@@ -702,7 +703,7 @@
 
         <div class="modal-body">
             <ul>
-                <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+                <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
                 <li>Contact No: [[patientDetails.patientContact]]</li>
                 <li>Patient Name: [[patientDetails.patientName]]</li>
                 <li>Date: [[patientDetails.appointmentDate]]</li>
@@ -730,7 +731,7 @@
 
         <div class="modal-body" ng-init="retrieveCancellationReasons()">
             <ul>
-                <li>Appointment Type: [[patientDetails.appointmentType]]</li>
+                <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
                 <li>Contact No: [[patientDetails.patientContact]]</li>
                 <li>Patient Name: [[patientDetails.patientName]]</li>
                 <li>Date: [[patientDetails.appointmentDate]]</li>
@@ -763,7 +764,7 @@
                 <div class="col-sm-6">
                     <ul>
                         <p>Original Appointment</p>
-                        <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
+                        <li>Appointment Type: [[patientDetails.originalAppointmentType.name]]</li>
                         <li>Contact No: [[patientDetails.originalPatientContact]]</li>
                         <li>Patient Name: [[patientDetails.originalPatientName]]</li>
                         <li>Date: [[patientDetails.originalAppointmentDate]]</li>
@@ -777,7 +778,7 @@
                     <ul>
                         <p>Updated Appointment</p>
                         <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
-                            [[patientDetails.appointmentType]]
+                            [[patientDetails.appointmentType.name]]
                         </li>
                         <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
                             [[patientDetails.patientContact]]

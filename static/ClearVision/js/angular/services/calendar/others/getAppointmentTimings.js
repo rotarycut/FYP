@@ -17,7 +17,7 @@ angular.module('get.timings', [])
         self.getAppointmentTimings = function (populateTiming, isWaitList) {
 
             // retrieve appointment form fields
-            var apptType = self.scope.fields.appointmentType;
+            var apptType = self.scope.fields.appointmentType.name;
             var doctor = self.scope.fields.doctorAssigned;
             var date = self.scope.fields.appointmentDate;
 

@@ -37,7 +37,9 @@ angular.module('event.click', [])
                 // set variable fields to form
                 self.scope.fields.appointmentId = appointment.id;
                 self.scope.fields.patientList = appointment.patients;
-                self.scope.fields.appointmentType = appointment.apptType;
+
+                var appointmentId = self.scope.convertAppointmentNameToId(appointment.apptType);
+                self.scope.fields.appointmentType = self.scope.listOfAppointmentTypes[appointmentId - 1];
                 self.scope.fields.appointmentDate = appointment.date;
                 self.scope.fields.doctorAssigned = self.scope.listOfDoctors[appointment.doctor.id - 1];
 

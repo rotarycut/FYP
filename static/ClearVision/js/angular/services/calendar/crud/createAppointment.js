@@ -104,7 +104,7 @@ angular.module('post.appointment', [])
                 }
 
                 $http.post('/Clearvision/_api/appointmentsCUD/', {
-                    "apptType": self.scope.fields.appointmentType,
+                    "apptType": self.scope.fields.appointmentType.name,
                     "date": self.scope.fields.appointmentDate,
                     "docID": self.scope.fields.doctorAssigned,
                     "clinicID": 1,

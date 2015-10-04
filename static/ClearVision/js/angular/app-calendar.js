@@ -535,7 +535,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.disableSearchBox = false;
     /* different lists to populate form. will subsequently get from backend */
-    $scope.listOfAppointmentTypes = ["Screening", "Pre Evaluation", "Surgery"];
+    $scope.listOfAppointmentTypes = [];
     $scope.operationTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"];
     //$scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];
     $scope.listOfMarketingChannels = [];
@@ -717,6 +717,47 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         } else {
             $scope.blockFields.blockTimeStart = "";
             $scope.blockFields.blockTimeEnd = "";
+        }
+    };
+
+    /* function to get list of doctor based on appointment type chosen */
+    $scope.getDoctorList = function () {
+        /*$http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=')
+         .success(function (listOfDoctors) {
+
+         });*/
+    };
+
+    /* function to get list of appointment types */
+    $scope.getListOfAppointmentTypes = function () {
+        $http.get('/Clearvision/_api/ViewAllApptTypes/')
+            .success(function (listOfAppointmentTypes) {
+                $scope.listOfAppointmentTypes = listOfAppointmentTypes;
+            });
+    };
+
+    /* function to convert appointment name to appointment id */
+    $scope.convertAppointmentNameToId = function (appointmentName) {
+        switch (appointmentName) {
+            case "Screening":
+                return 1;
+                break;
+
+            case "Pre Evaluation":
+                return 2;
+                break;
+
+            case "Surgery":
+                return 3;
+                break;
+
+            case "Post Surgery":
+                return 4;
+                break;
+
+            case "Eyecare":
+                return 5;
+                break;
         }
     };
 
