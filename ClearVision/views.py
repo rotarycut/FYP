@@ -1579,7 +1579,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
                 totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate, timeBucket__timeslotType=eachApptType).values('patients').count()
                 totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate, cancelled=True, appointment__timeBucket__timeslotType=eachApptType).values().count()
 
-                toAdd = {'apptType': eachApptType, 'Turn Up': tillNowAttended, 'No Show': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Undecided': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
+                toAdd = {'apptType': eachApptType, 'Turn Up': tillNowAttended, 'No Show': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth}
                 toReturnResponse.append(toAdd)
         else:
 
@@ -1589,7 +1589,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
                 totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).exclude(patients=None).values('patients').count()
                 totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
 
-                toAdd = {'apptType': eachApptType['name'], 'Turn Up': tillNowAttended, 'No Show': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth, 'Undecided': totalPatientsForMonth-tillNowBlacklisted-tillNowAttended}
+                toAdd = {'apptType': eachApptType['name'], 'Turn Up': tillNowAttended, 'No Show': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth}
                 toReturnResponse.append(toAdd)
 
         if sortValue == 'Turn Up':
@@ -1598,8 +1598,6 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
             return Response(sorted(toReturnResponse, key=itemgetter('No Show'), reverse=True))
         elif sortValue == 'Cancelled':
             return Response(sorted(toReturnResponse, key=itemgetter('Cancelled'), reverse=True))
-        elif sortValue == 'Undecided':
-            return Response(sorted(toReturnResponse, key=itemgetter('Undecided'), reverse=True))
         else:
             return Response(toReturnResponse)
 
