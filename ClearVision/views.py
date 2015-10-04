@@ -2825,7 +2825,10 @@ class ViewWaitlistAppt(viewsets.ReadOnlyModelViewSet):
         appointmentId = request.query_params.get('appointmentId')
         patientId = request.query_params.get('patientId')
 
-        swapperObj = Swapper.objects.get(scheduledAppt=appointmentId, patient=patientId)
+        try:
+            swapperObj = Swapper.objects.get(scheduledAppt=appointmentId, patient=patientId)
+        except ObjectDoesNotExist:
+            return Response({})
 
         waitlistAppt = swapperObj.tempAppt
         waitlistAppt = AppointmentSerializer(waitlistAppt)
