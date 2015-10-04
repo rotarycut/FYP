@@ -31,6 +31,10 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
             self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.blockedHeatMap);
+            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.blockedHeatMap);
 
             $timeout(function () {
 
@@ -41,12 +45,11 @@ app.service('disableIScheduleSvc', function ($timeout) {
                 self.scope.blockedHeatMap.events.splice(0, self.scope.blockedHeatMap.events.length);
 
                 // add all the appointments on the calendar
-                self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
-                self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohScreenings);
                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
+                self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
 
                 // re render doctors calendars
                 $('#drHoCalendar').fullCalendar('refetchEvents');

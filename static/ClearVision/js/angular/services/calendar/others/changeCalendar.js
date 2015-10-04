@@ -36,24 +36,37 @@ angular.module('change.calendar', [])
                     // set global variable calendar number
                     if (self.scope.fields.doctorAssigned.name == 'Dr Ho') {
                         self.scope.selectedCalendar = 'myCalendar1';
-                    } else {
+                    } else if (self.scope.fields.doctorAssigned.name == 'Dr Goh') {
                         self.scope.selectedCalendar = 'myCalendar2';
+                    } else if (self.scope.fields.doctorAssigned.name == 'Optometrist') {
+                        self.scope.selectedCalendar = 'myCalendar3';
                     }
 
                     // check if the drop down selection is for which doctor
                     if (self.scope.selectedCalendar == "myCalendar1") {
 
                         // selected dr ho on drop down field
-                        self.scope.tabs[1].active = false;
                         self.scope.tabs[0].active = true;
-                        self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, self.scope.drHoScreenings, self.scope.drHoPreEvaluations, self.scope.drHoSurgeries);
+                        self.scope.tabs[1].active = false;
+                        self.scope.tabs[2].active = false;
+                        self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries);
 
-                    } else {
+                    } else if (self.scope.selectedCalendar == "myCalendar2") {
 
                         // selected dr goh on drop down field
                         self.scope.tabs[0].active = false;
                         self.scope.tabs[1].active = true;
-                        self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, self.scope.drGohScreenings, self.scope.drGohPreEvaluations, self.scope.drGohSurgeries);
+                        self.scope.tabs[2].active = false;
+                        self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries);
+
+                    } else if (self.scope.selectedCalendar == "myCalendar3") {
+
+                        // selected optom on drop down field
+                        self.scope.tabs[0].active = false;
+                        self.scope.tabs[1].active = false;
+                        self.scope.tabs[2].active = true;
+                        self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '');
+
                     }
 
                     // enable iSchedule
@@ -74,16 +87,26 @@ angular.module('change.calendar', [])
                 if (self.scope.selectedCalendar == "myCalendar1") {
 
                     // clicked on doctor ho calendar tab || selected search result of dr ho appointment
-                    self.scope.tabs[1].active = false;
                     self.scope.tabs[0].active = true;
-                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, self.scope.drHoScreenings, self.scope.drHoPreEvaluations, self.scope.drHoSurgeries);
+                    self.scope.tabs[1].active = false;
+                    self.scope.tabs[2].active = false;
+                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries);
 
-                } else {
+                } else if (self.scope.selectedCalendar == "myCalendar2") {
 
                     // clicked on doctor goh calendar tab || selected search result of dr goh appointment
                     self.scope.tabs[0].active = false;
                     self.scope.tabs[1].active = true;
-                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, self.scope.drGohScreenings, self.scope.drGohPreEvaluations, self.scope.drGohSurgeries);
+                    self.scope.tabs[2].active = false;
+                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries);
+
+                } else if (self.scope.selectedCalendar == "myCalendar3") {
+
+                    // clicked on doctor goh calendar tab || selected search result of dr goh appointment
+                    self.scope.tabs[0].active = false;
+                    self.scope.tabs[1].active = false;
+                    self.scope.tabs[2].active = true;
+                    self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '');
                 }
 
             }

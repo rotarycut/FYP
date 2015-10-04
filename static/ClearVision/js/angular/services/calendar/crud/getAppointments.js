@@ -3,13 +3,19 @@ angular.module('appointment.service', [])
 
         /* function to retrieve dr ho's appointments */
         this.getDrHoAppointments = function () {
-            var promises = [this.getDrHoScreenings(), this.getDrHoPreEvaluations(), this.getDrHoSurgeries()];
+            var promises = [this.getDrHoPreEvaluations(), this.getDrHoSurgeries()];
             return $q.all(promises);
         };
 
         /* function to retrieve dr goh's appointments */
         this.getDrGohAppointments = function () {
-            var promises = [this.getDrGohScreenings(), this.getDrGohPreEvaluations(), this.getDrGohSurgeries()];
+            var promises = [this.getDrGohPreEvaluations(), this.getDrGohSurgeries()];
+            return $q.all(promises);
+        };
+
+        /* function to  retrieve optom's appointments */
+        this.getOptomAppointments = function () {
+            var promises = [this.getOptomScreenings()];
             return $q.all(promises);
         };
 
@@ -140,6 +146,28 @@ angular.module('appointment.service', [])
                 .error(function () {
                     defer.reject("http get failed");
                     console.log("Error getting Dr Goh's surgery appointments");
+                });
+
+            return defer.promise;
+        };
+
+        /* function to retrieve optom's screening appointments */
+        this.getOptomScreenings = function () {
+
+            var defer = $q.defer();
+
+            $http.get('/Clearvision/_api/appointments/?doctor__name=Optometrist&apptType=Screening')
+
+                .success(function (listOfAppointments) {
+                    $timeout(function () {
+                        var optomScreenings = listOfAppointments;
+                        defer.resolve(optomScreenings);
+                    }, 100);
+                })
+
+                .error(function () {
+                    defer.reject("http get failed");
+                    console.log("Error getting Optom's screening appointments");
                 });
 
             return defer.promise;

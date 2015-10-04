@@ -16,6 +16,11 @@ angular.module('get.timings', [])
 
         self.getAppointmentTimings = function (populateTiming, isWaitList) {
 
+            // if doctor is selected first before appointment type
+            if (self.scope.fields.appointmentType == undefined) {
+                return;
+            }
+
             // retrieve appointment form fields
             var apptType = self.scope.fields.appointmentType.name;
             var doctor = self.scope.fields.doctorAssigned;

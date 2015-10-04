@@ -51,12 +51,11 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.iSchedule = true;
 
                 // remove all the appointments on the calendar
-                self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoScreenings);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
-                self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohScreenings);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
+                self.scope.removeEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);
@@ -82,6 +81,10 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
                 self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.blockedHeatMap);
+                self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempLowHeatMap);
+                self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempMedHeatMap);
+                self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempHighHeatMap);
+                self.scope.removeEventSource(self.scope.optomAppointments, self.scope.blockedHeatMap);
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);
