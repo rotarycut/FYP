@@ -159,8 +159,9 @@ class DoctorFilter(django_filters.FilterSet):
 class DoctorList(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
+    filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter,)
     search_fields = ('name',)
+    ordering = ('id',)
     filter_class = DoctorFilter
 
 
