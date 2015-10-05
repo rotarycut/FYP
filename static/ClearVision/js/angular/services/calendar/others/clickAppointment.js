@@ -128,7 +128,7 @@ angular.module('event.click', [])
 
                         } else {
 
-                            // additional check to make sure appointment end time is blocked too
+                            // additional check to make sure appointment end time isblocked too
                             $http.get('/Clearvision/_api/ViewDoctorBlockedTime/?date=' + appointmentDate + '' + appointmentEndTime + '&docID=' + self.scope.fields.doctorAssigned.id)
                                 .success(function (data) {
 

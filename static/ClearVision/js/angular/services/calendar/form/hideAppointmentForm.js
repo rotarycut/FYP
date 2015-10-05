@@ -23,6 +23,9 @@ angular.module('hide.form', [])
             self._scope.showWaitingDate = false;
             self._scope.showWaitingTime = false;
 
+            // refresh all doctors to default
+            self._scope.getAllDoctors();
+
             $timeout(function () {
 
                 for (var field in self._scope.form.showFields) {
