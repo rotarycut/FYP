@@ -2699,7 +2699,7 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannels.objects.none()
 
     def list(self, request, *args, **kwargs):
-        allMarketingChannels = MarketingChannels.objects.all().values()
+        allMarketingChannels = MarketingChannels.objects.all().order_by('name').values()
         return Response(allMarketingChannels)
 
 class CalendarBlocker(viewsets.ModelViewSet):
