@@ -5,11 +5,12 @@ import requests
 import base64
 
 @task()
-def clearPatientQueue():
+def sendPreSurgery():
     print("Patient Queue Executed")
 
 @task()
 def sendSMS():
+    """
     today_patient_data = Appointment.objects.filter(timeBucket__date=date.today() + timedelta(days=2)).values('patients__contact', 'patients__name',
                                                                                                               'patients__gender', 'timeBucket__date',
                                                                                                               'timeBucket__start', 'apptType', 'id',
@@ -33,3 +34,5 @@ def sendSMS():
                    'text': 'Hi ' + str(eachNumberToSendSMS[0]) +
                            ', please be reminded of your Appointment on ' + str(eachNumberToSendSMS[3]) + ' at ' + str(eachNumberToSendSMS[2])}
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
+    """
+    print("SendSMS Executed")
