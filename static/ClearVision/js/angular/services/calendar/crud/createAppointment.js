@@ -97,22 +97,6 @@ angular.module('post.appointment', [])
                     self.scope.fields.waitingTime = "";
                 }
 
-                console.log({
-                    "apptType": self.scope.fields.appointmentType.name,
-                    "date": self.scope.fields.appointmentDate,
-                    "docID": self.scope.fields.doctorAssigned.id,
-                    "clinicID": 1,
-                    "contact": self.scope.fields.patientContact,
-                    "name": self.scope.fields.patientName,
-                    "gender": "Male",
-                    "channelID": self.scope.fields.marketingChannel.id.toString(),
-                    "time": self.scope.fields.appointmentTime,
-                    "remarks": self.scope.fields.appointmentRemarks,
-                    "waitingListFlag": self.scope.fields.waitingList,
-                    "tempDate": self.scope.fields.waitingDate,
-                    "tempTime": self.scope.fields.waitingTime
-                });
-
                 $http.post('/Clearvision/_api/appointmentsCUD/', {
                     "apptType": self.scope.fields.appointmentType.name,
                     "date": self.scope.fields.appointmentDate,
