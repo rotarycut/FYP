@@ -830,7 +830,7 @@ li .i-slot-label {
 
 table.waitlist-main-tbl{
     margin-top: 10px;
-    background-color: #ebebeb;
+    background-color: #fff;
     border: solid 0.5px #ebebeb;
     border-radius: 8px;
     -moz-border-radius: 8px;
@@ -959,7 +959,7 @@ table.waitlist-swap-tbl > tbody > tr > td{
 
 table.queuelist-main-tbl{
     margin-top: 10px;
-    background-color: #ebebeb;
+    background-color: #fff;
     border: solid 0.5px #ebebeb;
     border-radius: 8px;
     -moz-border-radius: 8px;
