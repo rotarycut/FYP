@@ -24,7 +24,6 @@ angular.module('change.calendar', [])
             self.scope.legendSurgeryClicked = "legend-surgery-clicked";
 
 
-
             // check if the the clicking on the calendar tab is when the the appointment form is shown / tabs are disabled
             if (tabDisabled) {
 
@@ -77,6 +76,11 @@ angular.module('change.calendar', [])
                     }, 0);
 
                 }
+
+                // re render doctors calendars
+                $('#drHoCalendar').fullCalendar('refetchEvents');
+                $('#drGohCalendar').fullCalendar('refetchEvents');
+                $('#optomCalendar').fullCalendar('refetchEvents');
 
             } else {
 

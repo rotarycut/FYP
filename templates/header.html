@@ -18,8 +18,8 @@
                         class="fa fa-calendar"></i> Calendar</a></li>
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#" ng-href="#/waitlist"><i
-                        class="fa fa-exchange"></i> Swap List <span class="badge"
-                          ng-class="haveNotification? 'notification-badge-red' : 'notification-badge-grey'">[[noOfSwappableAppts]]
+                        class="fa fa-exchange"></i> Swap List <span
+                        class="badge notification-badge-green">[[noOfSwappableAppts]]
                     </span></a></li>
                 <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
                 <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/conversion"><i
@@ -62,7 +62,7 @@
                 <li class="dropdown"><a href="#/" data-toggle="dropdown" class="dropdown-toggle" target="_self"
                                         data-ng-click="updateCount()"><i
                         class="fa fa-envelope"></i>
-                    </a>
+                </a>
                     <ol class="dropdown-menu">
                         <!-- <li style="color: #1859A8"><h6>&nbsp;You have 1 New Message!</h6></li> -->
                         <li><a href="#/waitlist" ng-repeat="notification in notificationList">[[notification.patientname]]
