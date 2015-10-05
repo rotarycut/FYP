@@ -159,7 +159,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 351) {
+                    if (count <= 651) {
                         //$scope.drGohLowHeatMap.events.push(appointment);
                         $scope.tempLowHeatMap.events.push(appointment);
 
@@ -183,7 +183,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 351) {
+                    if (count <= 651) {
                         //$scope.drHoMedHeatMap.events.push(appointment);
                         //$scope.drGohMedHeatMap.events.push(appointment);
                         $scope.tempMedHeatMap.events.push(appointment);
@@ -202,7 +202,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
                     //appointment.title = appointment.patientcount + " patient(s)";
-                    if (count <= 351) {
+                    if (count <= 651) {
                         //$scope.drHoHighHeatMap.events.push(appointment);
                         //$scope.drGohHighHeatMap.events.push(appointment);
                         $scope.tempHighHeatMap.events.push(appointment);
@@ -707,9 +707,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         if ($scope.selectedCalendar == 'myCalendar1') {
 
             $('#drHoCalendar').fullCalendar('gotoDate', selectedDate);
-        } else {
+        } else if ($scope.selectedCalendar == 'myCalendar2') {
 
             $('#drGohCalendar').fullCalendar('gotoDate', selectedDate);
+        } else {
+
+            $('#optomCalendar').fullCalendar('gotoDate', selectedDate);
         }
 
         $scope.fields.appointmentDate = selectedDate;
