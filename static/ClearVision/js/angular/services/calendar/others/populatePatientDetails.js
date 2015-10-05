@@ -64,6 +64,7 @@ angular.module('populate.patients', [])
                         self.scope.showWaitingFields('yes');
                         self.scope.form.disableFields.waitListCheckbox = true;
                         self.scope.form.disableFields.waitListTime = true;
+                        self.scope.form.disableFields.waitListDateBtn = true;
 
                         self.scope.fields.waitingDate = waitListAppointment.date;
                         var waitingTime = self.scope.getFormattedTime(waitListAppointment.start);
