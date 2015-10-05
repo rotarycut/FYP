@@ -1,7 +1,8 @@
 var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
 appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $http, $modal, $log, postFilterSvc, editFilterSvc, $route,
-                                                                    getStackedChartSvc, getPieChartSvc, getCustomStackedChartSvc, scheduleCustomFilterSvc) {
+                                                                    getStackedChartSvc, getPieChartSvc, getCustomStackedChartSvc, scheduleCustomFilterSvc,
+                                                                    getMarketingChannelsSvc) {
 
     $scope.$route = $route;
 
@@ -292,6 +293,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                     }
                 }
             },
+
             chart: {
                 margin: [0, 0, 0, 0],
                 spacingTop: 0,
@@ -331,7 +333,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
             data: {
                 json: data,
                 keys: {
-                    value: ['987 Radio', 'Andrea Chong Blog', 'Channel News Asia', 'Referred by Doctor', 'ST Ads', 'Others']
+                    value: $scope.listOfMarketingChannels
                 },
                 type: 'pie',
                 onclick: function (d, element) {
@@ -357,6 +359,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
                 }
             },
 
+            legend: {
+                show: false
+            },
             chart: {
                 margin: [0, 0, 0, 0],
                 spacingTop: 0,
@@ -421,6 +426,28 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl', function ($scope, $htt
     $scope.apptTypes = [];
     $scope.listOfApptTypes = [];
     $scope.retrieveAppointmentTypes();
+
+
+    /*******************************************************************************
+     retrieve marketing channels
+     *******************************************************************************/
+
+
+    $scope.retrieveMarketingChannels = function () {
+
+        getMarketingChannelsSvc.getMarketingChannels()
+            .then(function (listOfMarketingChannels) {
+
+                angular.forEach(listOfMarketingChannels, function (channel) {
+                    $scope.marketingChannels.push(channel);
+                    $scope.listOfMarketingChannels.push(channel.name);
+                });
+            });
+    };
+
+    $scope.marketingChannels = [];
+    $scope.listOfMarketingChannels = [];
+    $scope.retrieveMarketingChannels();
 
 
     /*******************************************************************************
