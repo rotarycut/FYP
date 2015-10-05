@@ -1398,7 +1398,7 @@ class PatientQueue(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         response_data = AttendedAppointment.objects.filter(attended=True, timeBucket__date=datetime.now().date(),
                                                            timeBucket__date__gte=datetime.today()).\
-            values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified', 'remarks')
+            values('patient_id', 'patient__name', 'originalAppt_id', 'last_modified', 'remarks', 'patient__contact')
 
         return Response(response_data)
 
