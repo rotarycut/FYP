@@ -147,8 +147,9 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()"><i
-                        class="fa fa-chevron-left"></i> Back
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()"
+                        ng-disabled="form.disableFields.backBtn">
+                    <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
             <div class="col-sm-7 col-sm-offset-1">
@@ -182,7 +183,7 @@
                                     ng-options="appt as appt.name for appt in listOfAppointmentTypes"
                                     ng-model="fields.appointmentType" name="appointmentType"
                                     ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings(); getDoctorAppointmentTypes();"
-                                    ng-disabled="disabledApptType"
+                                    ng-disabled="form.disableFields.disabledApptType"
                                     required>
                             </select>
 
@@ -495,7 +496,7 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideBlockForm()">
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideBlockForm()" ng-disabled="">
                     <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>

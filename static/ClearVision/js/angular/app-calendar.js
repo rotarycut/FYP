@@ -173,8 +173,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempLowHeatMap);
 
                 // enable appointment type field to be change only after loading heat map completely
-                $scope.disabledApptType = false;
+                $scope.form.disableFields.disabledApptType = false;
                 $scope.form.disableFields.doctor = false;
+                $scope.form.disableFields.backBtn = false;
             });
 
         $http.get(medHeatUrl)
