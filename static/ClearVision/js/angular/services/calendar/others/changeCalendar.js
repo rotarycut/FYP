@@ -126,6 +126,11 @@ angular.module('change.calendar', [])
                     self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '', self.scope.optomEyeCare, '');
                 }
 
+                // re render doctors calendars
+                $('#drHoCalendar').fullCalendar('refetchEvents');
+                $('#drGohCalendar').fullCalendar('refetchEvents');
+                $('#optomCalendar').fullCalendar('refetchEvents');
+
             }
 
         };
