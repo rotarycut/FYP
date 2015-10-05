@@ -1059,7 +1059,7 @@ class ViewSwapperTable(viewsets.ModelViewSet):
 
         encoded = base64.b64encode('AnthonyS:ClearVision2')
         headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
-        payload = {'from': 'Clearvision', 'to': '65' + patientContact, 'text': 'Hi ' + patientName +
+        payload = {'from': '6583517576', 'to': '65' + patientContact, 'text': 'Hi ' + patientName +
                 ', Swap is possible for ' + apptType.upper() + '.\nPreferred: ' + preferredApptDate + ', ' + preferredApptTime +
                 '.\nScheduled: ' + scheduledApptDate + ', ' + scheduledApptTime + '.\nReply swap<<space>>' + str(swapperID) + ' to swap appointments.'}
 
@@ -1442,14 +1442,16 @@ def recievemsg(request):
         tempAppt.tempPatients.remove(p)
         tempAppt.save()
 
-        Swapper.objects.filter(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt).delete()
+        swapperObj = Swapper.objects.get(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt)
+        swapperObj.inbox = True
+        swapperObj.save()
 
         if scheduledAppt.patients.count() == 0:
             scheduledAppt.delete()
 
         encoded = base64.b64encode('AnthonyS:ClearVision2')
         headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
-        payload = {'from': 'Clearvision', 'to': '65' + origin, 'text': 'Hi ' + p.name +
+        payload = {'from': '6583517576', 'to': '65' + origin, 'text': 'Hi ' + p.name +
                 ', \'swap\'  ' + messagePt2 + '\'acknowledged on ' + str(datetime.now())}
 
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
@@ -1474,7 +1476,7 @@ def SendAdHocSMS(request):
 
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
-    payload = {'from': 'Clearvision', 'to': '65' + target, 'text': message}
+    payload = {'from': '6583517576', 'to': '65' + target, 'text': message}
 
     requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
 

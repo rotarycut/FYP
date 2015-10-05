@@ -18,6 +18,7 @@ psycopg2==2.6.1
 pusher==1.2.3
 cffi==1.2.1
 cryptography==1.0.2
+newrelic==2.56.0.42
 pytz==2015.4
 requests==2.7.0
 sphinx-me==0.3
