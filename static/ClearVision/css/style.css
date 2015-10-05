@@ -320,12 +320,13 @@ ul.legend-ul li{
     padding-right: 20px;
 }
 
-.fc-view-container{
+/*.fc-view-container{
     height: 68vh; !important;
     width: 100% !important;
     overflow-x: hidden;
     overflow-y: auto;
-}
+}*/
+
 
 .left-content{
     float: left;

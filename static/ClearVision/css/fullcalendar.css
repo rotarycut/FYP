@@ -766,6 +766,8 @@ a.fc-more:hover {
 	-webkit-box-sizing: content-box;
 	   -moz-box-sizing: content-box;
 	        box-sizing: content-box;
+	height: auto;
+	overflow-y: auto;
 }
 
 .fc-view, /* scope positioning and z-index's for everything within the view */
@@ -884,6 +886,9 @@ a.fc-more:hover {
 
 /* TimeGrid Structure
 --------------------------------------------------------------------------------------------------*/
+.fc-time-grid-container{
+	height: auto !important;
+}
 
 .fc-time-grid-container, /* so scroll container's z-index is below all-day */
 .fc-time-grid { /* so slats/bg/content/etc positions get scoped within here */
