@@ -17,11 +17,11 @@ angular.module('populate.patients', [])
         self.populatePatientDetails = function () {
 
             // determine selected patient in drop down
-            var patientName = self.scope.fields.selectedPatient.name;
+            var patientId = self.scope.fields.selectedPatient.id;
 
             // loop through the patient list and find the selected patient object
             angular.forEach(self.scope.fields.patientList, function (patient) {
-                if (patientName === patient.name) {
+                if (patientId === patient.id) {
                     self.scope.fields.patientName = patient.name;
                     self.scope.fields.patientContact = patient.contact;
                     self.scope.fields.marketingChannel = self.scope.listOfMarketingChannels[patient.marketingChannelId - 1];
