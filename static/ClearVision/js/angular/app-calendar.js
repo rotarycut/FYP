@@ -404,7 +404,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     /* function to retrieve doctor ho's appointments */
-    $scope.getDrHoAppointments = function () {
+    $scope.getDrHoAppointments = function (callFromSocket) {
 
         appointmentService.getDrHoAppointments()
             .then(function (appointmentType) {
@@ -421,7 +421,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.drHoPostSurgeries.events.push(postSurgery);
                 });
 
-                $scope.addRemoveDrHoSources();
+                if (!callFromSocket) {
+                    // is not a call from socket
+                    $scope.addRemoveDrHoSources();
+                }
 
             },
             function (data) {
@@ -430,7 +433,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve doctor goh's appointments */
-    $scope.getDrGohAppointments = function () {
+    $scope.getDrGohAppointments = function (callFromSocket) {
 
         appointmentService.getDrGohAppointments()
             .then(function (appointmentType) {
@@ -447,7 +450,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.drGohPostSurgeries.events.push(postSurgery);
                 });
 
-                $scope.addRemoveDrGohSources();
+                if (!callFromSocket) {
+                    // is not a call from socket
+                    $scope.addRemoveDrGohSources();
+                }
 
             },
             function (data) {
@@ -456,7 +462,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve doctor goh's appointments */
-    $scope.getOptomAppointments = function () {
+    $scope.getOptomAppointments = function (callFromSocket) {
 
         appointmentService.getOptomAppointments()
             .then(function (appointmentType) {
@@ -469,7 +475,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.optomEyeCare.events.push(eyeCare);
                 });
 
-                $scope.addRemoveOptomSources();
+                if (!callFromSocket) {
+                    // is not a call from socket
+                    $scope.addRemoveOptomSources();
+                }
 
             },
             function (data) {
@@ -1115,11 +1124,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
             $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-            $scope.getDrHoAppointments();
-            $scope.getDrGohAppointments();
-            $scope.getOptomAppointments();
+            $scope.getDrHoAppointments($scope.iSchedule);
+            $scope.getDrGohAppointments($scope.iSchedule);
+            $scope.getOptomAppointments($scope.iSchedule);
 
-        }, 5000);
+        }, 3500);
 
     });
 
@@ -1147,11 +1156,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
             $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-            $scope.getDrHoAppointments();
-            $scope.getDrGohAppointments();
-            $scope.getOptomAppointments();
+            $scope.getDrHoAppointments($scope.iSchedule);
+            $scope.getDrGohAppointments($scope.iSchedule);
+            $scope.getOptomAppointments($scope.iSchedule);
 
-        }, 5000);
+
+        }, 3500);
 
     });
 
@@ -1161,6 +1171,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $log.debug("Receiving socket request to delete appointment");
 
+            // heat map is disabled when socket sends in some data
             $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
             $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
             $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
@@ -1179,11 +1190,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
             $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-            $scope.getDrHoAppointments();
-            $scope.getDrGohAppointments();
-            $scope.getOptomAppointments();
+            $scope.getDrHoAppointments($scope.iSchedule);
+            $scope.getDrGohAppointments($scope.iSchedule);
+            $scope.getOptomAppointments($scope.iSchedule);
 
-        }, 5000);
+        }, 3500);
 
     });
 
