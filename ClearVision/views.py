@@ -2840,7 +2840,7 @@ class DoctorApptTypes(viewsets.ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         apptTypeID = request.query_params.get('apptTypeID')
 
-        doctors = Doctor.objects.filter(apptType=apptTypeID).values()
+        doctors = Doctor.objects.filter(apptType=apptTypeID).order_by('id').values()
 
         return Response(doctors)
 
