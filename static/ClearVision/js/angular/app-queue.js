@@ -164,19 +164,19 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.reverseSort = !$scope.reverseSort;
     };
 
-    $scope.rescheduleAppointment = function (appointmentId, patientName) {
+    $scope.rescheduleAppointment = function (appointmentId, patientId) {
         $location.path('/');
-        $scope.getNoShowAppointment(appointmentId, patientName);
+        $scope.getNoShowAppointment(appointmentId, patientId);
     };
 
     //function to call backend api to get appointment details
-    $scope.getNoShowAppointment = function (apptId, patientName) {
+    $scope.getNoShowAppointment = function (apptId, patientId) {
         $http.get('/Clearvision/_api/appointments/' + apptId)
             .success(function (data) {
                 var apptDetails = data;
 
                 $timeout(function (data) {
-                    eventClickSvc.eventClick(apptDetails, true, patientName);
+                    eventClickSvc.eventClick(apptDetails, true, patientId);
                 }, 1000);
 
             })

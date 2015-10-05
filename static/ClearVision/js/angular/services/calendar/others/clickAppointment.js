@@ -14,7 +14,7 @@ angular.module('event.click', [])
          *******************************************************************************/
 
 
-        self.eventClick = function (appointment, isNoShowReschedule, noShowPatientName) {
+        self.eventClick = function (appointment, isNoShowReschedule, noShowPatientId) {
 
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
@@ -87,16 +87,18 @@ angular.module('event.click', [])
 
                         // index of selected patient in the drop down list
                         var indexOfPatient = 0;
+                        var patientIndex = 0;
 
                         // loop through the patient list and find the selected patient object
                         angular.forEach(self.scope.fields.patientList, function (patient) {
-                            if (noShowPatientName === patient.name) {
-                                indexOfPatient++;
+                            if (noShowPatientId === patient.id) {
+                                patientIndex = indexOfPatient;
                             }
+                            indexOfPatient++;
                         });
 
                         $timeout(function () {
-                            self.scope.fields.selectedPatient = appointment.patients[indexOfPatient];
+                            self.scope.fields.selectedPatient = appointment.patients[patientIndex];
                             self.scope.populatePatientDetails();
                         }, 1000);
 
