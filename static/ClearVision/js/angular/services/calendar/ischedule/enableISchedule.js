@@ -25,7 +25,7 @@ app.service('enableIScheduleSvc', function ($timeout) {
         // disable appointment type and doctor field to be changed while loading heat map & back button
         self.scope.form.disableFields.disabledApptType = true;
         self.scope.form.disableFields.doctor = true;
-        self.scope.form.disableFields.backBtn = true;
+        self.scope.form.backBtn = true;
 
         // change the calendar view to week view
         self.scope.changeView('agendaWeek', self.scope.selectedCalendar);
