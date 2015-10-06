@@ -1,10 +1,11 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc, $route) {
+appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc, $route, getSwapApptsSvc) {
 
     $scope.$route = $route;
     updateNotificationCountSvc.getScope($scope);
     getNotificationsSvc.getScope($scope);
+    getSwapApptsSvc.getScope($scope);
 
     $scope.getWaitListAppointments = function () {
 
@@ -120,15 +121,7 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $in
 
     /* function to show number of appointments that can be swapped */
     $scope.getNumberOfSwappableAppointments = function () {
-
-        $http.get('/Clearvision/_api/ViewSwappableNumber/')
-            .success(function (data) {
-                $scope.noOfSwappableAppts = data;
-            })
-            .error(function (data) {
-
-            });
-
+        getSwapApptsSvc.getNumberOfSwappableAppointments();
     };
 
     /*$interval(function () {

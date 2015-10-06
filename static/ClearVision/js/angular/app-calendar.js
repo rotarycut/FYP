@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
-                                                 showNotificationsSvc, populateBlockedFormSvc) {
+                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -1163,6 +1163,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.getDrGohAppointments($scope.iSchedule);
             $scope.getOptomAppointments($scope.iSchedule);
 
+            getSwapApptsSvc.getNumberOfSwappableAppointments();
 
         }, 3500);
 
@@ -1196,6 +1197,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.getDrHoAppointments($scope.iSchedule);
             $scope.getDrGohAppointments($scope.iSchedule);
             $scope.getOptomAppointments($scope.iSchedule);
+
+            getSwapApptsSvc.getNumberOfSwappableAppointments();
 
         }, 3500);
 

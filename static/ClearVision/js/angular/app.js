@@ -49,7 +49,8 @@ var app = angular.module('calendarDemoApp', [
     'ngProgress',
     'cgNotify',
     'show.notifications',
-    'populate.blockedForm'
+    'populate.blockedForm',
+    'get.swappableAppointments'
 ]);
 
 /* Angular routing */
