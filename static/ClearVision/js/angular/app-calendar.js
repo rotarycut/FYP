@@ -52,7 +52,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.drHoSurgeries = {
-        color: '#92C7C7',
+        color: '#D16587',
         textColor: 'White',
         events: []
     };
@@ -70,7 +70,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.drGohSurgeries = {
-        color: '#92C7C7',
+        color: '#D16587',
         textColor: 'White',
         events: []
     };

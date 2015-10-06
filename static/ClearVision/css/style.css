@@ -421,7 +421,7 @@ ul.legend-ul li{
 }
 
 .legend-surgery{
-    color: #92C7C7;
+    color: #D16587;
     text-decoration: none;
     border-bottom: none;
 }
@@ -430,7 +430,7 @@ ul.legend-ul li{
 .legend-surgery:focus,
 .legend-surgery:hover
 {
-    color: #92C7C7;
+    color: #D16587;
     text-decoration: none;
     border-bottom: none;
 }
@@ -517,18 +517,18 @@ ul.legend-ul li{
 }
 
 .legend-surgery-clicked{
-    color: #92C7C7;
+    color: #D16587;
     text-decoration: none;
-    border-bottom: solid 2px #92C7C7;
+    border-bottom: solid 2px #D16587;
 }
 
 .legend-surgery-clicked:active,
 .legend-surgery-clicked:focus,
 .legend-surgery-clicked:hover
 {
-    color: #92C7C7;
+    color: #D16587;
     text-decoration: none;
-    border-bottom: solid 2px #92C7C7;
+    border-bottom: solid 2px #D16587;
 }
 
 .legend-postop-clicked{
