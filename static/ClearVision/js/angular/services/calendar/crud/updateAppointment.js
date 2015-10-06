@@ -68,6 +68,8 @@ angular.module('update.appointment', [])
                         // hide the appointment form
                         hideFormSvc.hideForm();
 
+                        showNotificationsSvc.notifySuccessTemplate('Appointment updated successfully');
+
                         // if the update is coming from the no show reschedule action
                         if (self.scope.isNoShowReschedule == true) {
                             $location.path('/queue');
