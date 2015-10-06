@@ -1309,6 +1309,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     } else {
                         $scope.fields.nameIsChanged = false;
                     }
+                    if ($scope.fields.originalAppointmentDoctor !== $scope.fields.doctorAssigned.name) {
+                        $scope.fields.doctorIsChanged = true;
+                    } else {
+                        $scope.fields.doctorIsChanged = false;
+                    }
 
                     return $scope.fields;
                 },
