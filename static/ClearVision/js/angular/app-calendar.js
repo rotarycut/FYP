@@ -46,37 +46,37 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
     $scope.drHoPreEvaluations = {
-        color: '#81D8D0',
+        color: '#737CA1',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoSurgeries = {
-        color: '#E56E94',
+        color: '#92C7C7',
         textColor: 'White',
         events: []
     };
 
     $scope.drHoPostSurgeries = {
-        color: '#F9966B',
+        color: '#F2BB66',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohPreEvaluations = {
-        color: '#81D8D0',
+        color: '#737CA1',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohSurgeries = {
-        color: '#E56E94',
+        color: '#92C7C7',
         textColor: 'White',
         events: []
     };
 
     $scope.drGohPostSurgeries = {
-        color: '#F9966B',
+        color: '#F2BB66',
         textColor: 'White',
         events: []
     };
@@ -88,7 +88,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     $scope.optomEyeCare = {
-        color: '#4EE2EC',
+        color: '#827839',
         textColor: 'White',
         events: []
     };
