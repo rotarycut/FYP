@@ -790,7 +790,7 @@
                         <li>Patient Name: [[patientDetails.originalPatientName]]</li>
                         <li>Date: [[patientDetails.originalAppointmentDate]]</li>
                         <li>Time: [[patientDetails.originalAppointmentTime]]</li>
-                        <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
+                        <li>Doctor: [[patientDetails.originalAppointmentDoctor]]</li>
                         <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                         <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
                     </ul>
@@ -813,7 +813,9 @@
                         <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
                             [[patientDetails.appointmentTime]]
                         </li>
-                        <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
+                        <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}">Doctor:
+                            [[patientDetails.doctorAssigned.name]]
+                        </li>
                         <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                         <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
                             [[patientDetails.appointmentRemarks]]

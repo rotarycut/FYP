@@ -57,6 +57,7 @@ angular.module('event.click', [])
                 self.scope.fields.originalAppointmentType = appointment.apptType;
                 self.scope.fields.originalAppointmentDate = appointment.date;
                 self.scope.fields.originalAppointmentTime = appointmentTime;
+                self.scope.fields.originalAppointmentDoctor = appointment.doctor.name;
 
                 // set variable of appointment timings
                 self.scope.getAppointmentTimings(appointmentTime);
