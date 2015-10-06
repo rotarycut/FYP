@@ -1446,10 +1446,10 @@ def recievemsg(request):
         swapperObj = Swapper.objects.get(patient=p, tempAppt=tempAppt, scheduledAppt=scheduledAppt)
         swapperObj.inbox = True
         swapperObj.save()
-
+        """
         if scheduledAppt.patients.count() == 0:
             scheduledAppt.delete()
-
+        """
         encoded = base64.b64encode('AnthonyS:ClearVision2')
         headers = {'Authorization': 'Basic ' + encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
         payload = {'from': '6583517576', 'to': '65' + origin, 'text': 'Hi ' + p.name +
