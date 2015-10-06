@@ -758,7 +758,7 @@ a.fc-more:hover {
 /* View Structure
 --------------------------------------------------------------------------------------------------*/
 .fc-view-container{
-	/*height: 68vh;*/
+	height: 68vh;
 	overflow-y: auto;
 }
 
