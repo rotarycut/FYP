@@ -47,6 +47,7 @@ router.register(r'_api/CalendarBlocker', views.CalendarBlocker)
 router.register(r'_api/ViewDoctorBlockedTime', views.ViewDoctorBlockedTime)
 router.register(r'_api/InputMarketingChannelCost', views.InputMarketingChannelCost)
 router.register(r'_api/DoctorApptTypes', views.DoctorApptTypes)
+router.register(r'_api/ApptTypeDoctors', views.ApptTypeDoctors)
 router.register(r'_api/ViewWaitlistAppt', views.ViewWaitlistAppt)
 
 urlpatterns = [
