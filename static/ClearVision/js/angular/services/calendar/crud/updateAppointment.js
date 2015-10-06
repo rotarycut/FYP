@@ -1,5 +1,5 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc) {
+    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
