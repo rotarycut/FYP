@@ -355,7 +355,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* config object */
     $scope.uiConfig = {
         calendar: {
-        //height: 500,
+            //height: 500,
             editable: true,
             header: {
                 left: 'title',
@@ -1639,7 +1639,15 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
     $scope.getListOfBlockedAppointments = function () {
         $http.get('/Clearvision/_api/CalendarBlocker/?doctor=all')
             .success(function (data) {
+
                 $scope.listOfBlockedAppointments = data;
+
+                angular.forEach($scope.listOfBlockedAppointments, function (blockedAppt) {
+
+                    blockedAppt.start = blockedAppt.start.replace('T', ', ');
+                    blockedAppt.end = blockedAppt.end.replace('T', ', ');
+                });
+
             });
     };
 
