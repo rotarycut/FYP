@@ -1,6 +1,6 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc, $route, getSwapApptsSvc) {
+appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc, $route, getSwapApptsSvc, showNotificationsSvc) {
 
     $scope.$route = $route;
     updateNotificationCountSvc.getScope($scope);
@@ -73,6 +73,7 @@ appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $in
 
                 $scope.listOfWaitingAppointments.splice(0);
                 $scope.getWaitListAppointments();
+                showNotificationsSvc.notifySuccessTemplate('SMS sent successfully');
             })
     };
 

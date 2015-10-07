@@ -1163,7 +1163,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.getDrGohAppointments($scope.iSchedule);
             $scope.getOptomAppointments($scope.iSchedule);
 
-            getSwapApptsSvc.getNumberOfSwappableAppointments();
+            $timeout(function () {
+                getSwapApptsSvc.getNumberOfSwappableAppointments();
+            }, 2000);
 
         }, 3500);
 
@@ -1198,7 +1200,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.getDrGohAppointments($scope.iSchedule);
             $scope.getOptomAppointments($scope.iSchedule);
 
-            getSwapApptsSvc.getNumberOfSwappableAppointments();
+            $timeout(function () {
+                getSwapApptsSvc.getNumberOfSwappableAppointments();
+            }, 2000);
+
 
         }, 3500);
 
