@@ -18,7 +18,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.currentPage = pageNo;
     };
 
-    $scope.orderByField = 'timeBucket__start';
+    $scope.orderByField = 'associatedpatientactions__appointment__timeBucket__start';
     $scope.reverseSort = false;
 
 
@@ -170,13 +170,13 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     };
 
     //function to call backend api to get appointment details
-    $scope.getNoShowAppointment = function (apptId, patientId) {
+    $scope.getNoShowAppointment = function (apptId, patientName) {
         $http.get('/Clearvision/_api/appointments/' + apptId)
             .success(function (data) {
                 var apptDetails = data;
 
                 $timeout(function (data) {
-                    eventClickSvc.eventClick(apptDetails, true, patientId);
+                    eventClickSvc.eventClick(apptDetails, true, patientName);
                 }, 1000);
 
             })
