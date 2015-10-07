@@ -19,34 +19,39 @@
                         <table class="table waitlist-main-tbl">
                             <tr>
                                 <th>
-                                    <a href="#/queue" ng-click="sortByField('patients__name')">Name
+                                    <a href="#/queue" ng-click="sortByField('associatedpatientactions__patient__name')">Name
                                     </a>
-                                    <span ng-show="orderByField == 'patients__name'">
+                                    <span ng-show="orderByField == 'associatedpatientactions__patient__name'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
                                 </th>
                                 <th>Contact</th>
                                 <th>
-                                    <a href="#/queue" ng-click="sortByField('apptType')">Appt Type
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__appointment__apptType')">Appt
+                                        Type
                                     </a>
-                                    <span ng-show="orderByField == 'apptType'">
+                                    <span ng-show="orderByField == 'associatedpatientactions__appointment__apptType'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
                                 </th>
                                 <th>
-                                    <a href="#/queue" ng-click="sortByField('doctor__name')">Doc
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__appointment__doctor__name')">Doc
                                     </a>
-                                    <span ng-show="orderByField == 'doctor__name'">
+                                    <span ng-show="orderByField == 'associatedpatientactions__appointment__doctor__name'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
                                 </th>
                                 <th>
-                                    <a href="#/queue" ng-click="sortByField('timeBucket__start')">Scheduled Time
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__appointment__timeBucket__start')">Scheduled
+                                        Time
                                     </a>
-                                    <span ng-show="orderByField == 'timeBucket__start'">
+                                    <span ng-show="orderByField == 'associatedpatientactions__appointment__timeBucket__start'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>

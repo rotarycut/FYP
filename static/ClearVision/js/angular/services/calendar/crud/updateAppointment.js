@@ -1,5 +1,5 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc) {
+    .service('updateAppointmentSvc', function ($http, $log, $location, hideFormSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -67,6 +67,8 @@ angular.module('update.appointment', [])
 
                         // hide the appointment form
                         hideFormSvc.hideForm();
+
+                        showNotificationsSvc.notifySuccessTemplate('Appointment updated successfully');
 
                         // if the update is coming from the no show reschedule action
                         if (self.scope.isNoShowReschedule == true) {

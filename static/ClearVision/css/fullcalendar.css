@@ -682,7 +682,7 @@ a.fc-more:hover {
 	position: static;
 	margin-bottom: 0.5em;
 	margin-top:-2.5em;
-	margin-left: 250px;
+	margin-left: 28%;
 
 }
 
@@ -690,7 +690,7 @@ a.fc-more:hover {
 	float: left;
 	display: inline-block;
 	position: relative;
-	width: 293px;
+	/*width: 293px;*/
 
 }
 
@@ -757,6 +757,10 @@ a.fc-more:hover {
 
 /* View Structure
 --------------------------------------------------------------------------------------------------*/
+.fc-view-container{
+	height: 68vh;
+	overflow-y: auto;
+}
 
 /* undo twitter bootstrap's box-sizing rules. normalizes positioning techniques */
 /* don't do this for the toolbar because we'll want bootstrap to style those buttons as some pt */
@@ -766,7 +770,6 @@ a.fc-more:hover {
 	-webkit-box-sizing: content-box;
 	   -moz-box-sizing: content-box;
 	        box-sizing: content-box;
-	height: auto;
 	/*overflow-y: auto;*/
 }
 

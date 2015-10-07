@@ -35,7 +35,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-sm-offset-2" id="top-content-btngrp"
+                    <div class="col-sm-4 col-sm-offset-1" id="top-content-btngrp"
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary form-btn" ng-click="showForm('Create')"><i
@@ -146,13 +146,13 @@
     <div class="col-sm-4 right-content" ng-show="form.showForm">
         <!-- row for form content -->
         <div class="row form-row">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideForm()"
                         ng-disabled="form.backBtn">
                     <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
-            <div class="col-sm-7 col-sm-offset-1">
+            <div class="col-sm-9">
                 <h5 class="form-title" style="font-weight: bold">[[formTitle]]</h5>
             </div>
         </div>
@@ -444,18 +444,18 @@
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-show="form.showButtons.createForm">
                         <div class="row subcontent-row">
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <button class="btn btn-default btn-sm"
                                         data-ng-click="clearForm()"
                                         type="reset"><img class="reset-icon">
                                 </button>
                             </div>
-                            <div class="col-sm-2 col-sm-offset-4">
+                            <div class="col-sm-4 col-sm-offset-1">
                                 <button class="btn form-submit-btn"
                                         data-ng-click="isFormValid(appointmentForm.$valid);">Submit
                                 </button>
                             </div>
-                            <div class="col-sm-2 col-sm-offset-1">
+                            <div class="col-sm-4">
                                 <button class="btn form-cancel-btn"
                                         type="reset"
                                         data-ng-click="hideForm()">Cancel
@@ -467,17 +467,17 @@
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
                          ng-show="form.showButtons.editForm">
                         <div class="row subcontent-row">
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <button class="btn btn-default"
                                         data-ng-click="openDeleteModal('lg')"><i class="fa fa-trash"></i>
                                 </button>
                             </div>
-                            <div class="col-sm-2 col-sm-offset-4">
+                            <div class="col-sm-4 col-sm-offset-1">
                                 <button class="btn form-submit-btn"
                                         data-ng-click="isEditFormValid(appointmentForm.$valid);">Update
                                 </button>
                             </div>
-                            <div class="col-sm-2 col-sm-offset-1">
+                            <div class="col-sm-4">
                                 <button class="btn form-cancel-btn"
                                         type="reset"
                                         data-ng-click="hideForm()">Cancel
@@ -536,7 +536,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-8 date-div form-animation">
+                            <div class="col-sm-7 date-div form-animation">
 
                                 <label class="control-label">Start Date</label>
 
@@ -571,7 +571,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-animation" date-div>
+                            <div class="col-sm-5 form-animation" date-div>
 
                                 <label class="control-label">Start Time</label>
 
@@ -592,7 +592,7 @@
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
-                            <div class="col-sm-8 date-div form-animation">
+                            <div class="col-sm-7 date-div form-animation">
 
                                 <label class="control-label">End Date</label>
 
@@ -627,7 +627,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-animation" date-div>
+                            <div class="col-sm-5 form-animation" date-div>
 
                                 <label class="control-label">End Time</label>
 
@@ -700,7 +700,7 @@
 
                 <div class="form-group col-sm-12 add-appt-formgrp">
                     <div class="row subcontent-row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-12">
                             <a ng-href="#/" style="color: #49708A"
                                ng-click="openBlockedTimeSlotListModal('lg')">
                                 <i class="fa fa-search-plus"></i> View appointments blocked</a>

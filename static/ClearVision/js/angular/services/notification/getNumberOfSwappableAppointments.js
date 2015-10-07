@@ -13,6 +13,8 @@ angular.module('get.swappableAppointments', [])
             $http.get('/Clearvision/_api/ViewSwappableNumber/')
                 .success(function (data) {
                     self.scope.noOfSwappableAppts = data;
+
+                    console.log(data);
                 })
                 .error(function (data) {
 

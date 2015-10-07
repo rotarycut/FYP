@@ -113,19 +113,20 @@
     padding-top: 10%;
 }
 #login-container-logo{
-    margin-left: 25%;
-    margin-right: 25%;
-    padding-left: 9%;
-    padding-right: 9%;
+    margin-left: 32%;
+
+    /*padding-left: 9%;
+    padding-right: 9%;*/
     padding-bottom: 2%;
     content: url(../img/ClearVision_logo.png);
     clear: both;
 }
 .login-form {
-    margin-left: 20%;
+    margin-left: 17%;
     margin-right: 20%;
     background: #eeeeee;
     border-radius:5px;
+    width:70%;
 }
 .btn.btn-primary.btn-lg.btn-block {
     background: #1859A8;
@@ -404,7 +405,7 @@ ul.legend-ul li{
 }
 
 .legend-preEval{
-    color: #81D8D0;
+    color: #737CA1;
     text-decoration: none;
     border-bottom: none;
 
@@ -413,14 +414,14 @@ ul.legend-ul li{
 .legend-preEval:focus,
 .legend-preEval:hover
 {
-    color: #81D8D0;
+    color: #737CA1;
     text-decoration: none;
     border-bottom: none;
 
 }
 
 .legend-surgery{
-    color: #E56E94;
+    color: #D16587;
     text-decoration: none;
     border-bottom: none;
 }
@@ -429,13 +430,13 @@ ul.legend-ul li{
 .legend-surgery:focus,
 .legend-surgery:hover
 {
-    color: #E56E94;
+    color: #D16587;
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-postop{
-    color: #F9966B;
+    color: #F2BB66;
     text-decoration: none;
     border-bottom: none;
 }
@@ -444,13 +445,13 @@ ul.legend-ul li{
 .legend-postop:active
 .legend-postop:hover
 {
-    color: #F9966B;
+    color: #F2BB66;
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-eyecare{
-    color: #4EE2EC;
+    color: #827839;
     text-decoration: none;
     border-bottom: none;
 }
@@ -459,7 +460,7 @@ ul.legend-ul li{
 .legend-eyecare:active
 .legend-eyecare:hover
 {
-    color: #4EE2EC;
+    color: #827839;
     text-decoration: none;
     border-bottom: none;
 }
@@ -501,63 +502,63 @@ ul.legend-ul li{
 
 
 .legend-preEval-clicked{
-    color: #81D8D0;
+    color: #737CA1;
     text-decoration: none;
-    border-bottom: solid 2px #81D8D0;
+    border-bottom: solid 2px #737CA1;
 }
 
 .legend-preEval-clicked:active,
 .legend-preEval-clicked:focus,
 .legend-preEval-clicked:hover
 {
-    color: #81D8D0;
+    color: #737CA1;
     text-decoration: none;
-    border-bottom: solid 2px #81D8D0;
+    border-bottom: solid 2px #737CA1;
 }
 
 .legend-surgery-clicked{
-    color: #E56E94;
+    color: #D16587;
     text-decoration: none;
-    border-bottom: solid 2px #E56E94;
+    border-bottom: solid 2px #D16587;
 }
 
 .legend-surgery-clicked:active,
 .legend-surgery-clicked:focus,
 .legend-surgery-clicked:hover
 {
-    color: #E56E94;
+    color: #D16587;
     text-decoration: none;
-    border-bottom: solid 2px #E56E94;
+    border-bottom: solid 2px #D16587;
 }
 
 .legend-postop-clicked{
-    color: #F9966B;
+    color: #F2BB66;
     text-decoration: none;
-    border-bottom: solid 2px #F9966B;
+    border-bottom: solid 2px #F2BB66;
 }
 
 .legend-postop-clicked:active,
 .legend-postop-clicked:focus,
 .legend-postop-clicked:hover
 {
-    color: #F9966B;
+    color: #F2BB66;
     text-decoration: none;
-    border-bottom: solid 2px #F9966B;
+    border-bottom: solid 2px #F2BB66;
 }
 
 .legend-eyecare-clicked{
-    color: #4EE2EC;
+    color: #827839;
     text-decoration: none;
-    border-bottom: solid 2px #4EE2EC;
+    border-bottom: solid 2px #827839;
 }
 
 .legend-eyecare-clicked:active,
 .legend-eyecare-clicked:focus,
 .legend-eyecare-clicked:hover
 {
-    color: #4EE2EC;
+    color: #827839;
     text-decoration: none;
-    border-bottom: solid 2px #4EE2EC;
+    border-bottom: solid 2px #827839;
 }
 
 form.form-search {
@@ -604,7 +605,7 @@ input[type=text].date-input-field:disabled {
 
 .form-content-row{
     overflow-y: auto;
-    height: auto;
+    max-height: 83vh;
 }
 
 #i-slots-date li{
@@ -1021,6 +1022,11 @@ table.apptlist-main-tbl > tbody > tr > td{
 /* queue page css ends*/
 
 /* msglog page css */
+
+.mailbox-msg-content{
+    height: 80vh;
+    overflow-y: auto;
+}
 
 .mailbox-folders{
     list-style: none;
