@@ -11,7 +11,8 @@
                     <div class="col-sm-2 top-content-search">
                         <div>
                             <form class="form-search form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                <input type="text" style="padding-left: 26px;" class="form-control"
+                                       placeholder="Search"
                                        ng-model="searchText"
                                        typeahead="appt for appt in searchForAppt($viewValue)"
                                        typeahead-loading="loadingLocations" typeahead-no-results="noResults"
@@ -21,6 +22,7 @@
                         </div>
                         <!-- /input-group -->
                     </div>
+
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary cal-view-btn"
@@ -35,6 +37,7 @@
                             </button>
                         </div>
                     </div>
+
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-btngrp"
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
@@ -66,7 +69,8 @@
                     <div class="row">
 
                         <div class="col-sm-12 cal-tab-clinic">
-                            <tabset type="pills" vertical="true" class="side-tabset" ng-init="initializeAppointments()">
+                            <tabset type="pills" vertical="true" class="side-tabset"
+                                    ng-init="initializeAppointments()">
                                 <tab ng-repeat="tab in tabs" heading="[[tab.title]]"
                                      select="renderCalendar([[tab.calendar]]);"
                                      class="heading-rotate"
@@ -327,7 +331,8 @@
                                 <label class="control-label">Time</label>
 
                                 <div ng-class="{'has-error': appointmentForm.appointmentTime.$invalid && (appointmentForm.appointmentTime.$touched || appointmentForm.$submitted)}">
-                                    <select class="form-control" ng-options="appt for appt in listOfAppointmentTimings"
+                                    <select class="form-control"
+                                            ng-options="appt for appt in listOfAppointmentTimings"
                                             data-ng-model="fields.appointmentTime" name="appointmentTime"
                                             required>
                                     </select>
@@ -434,7 +439,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation" ng-show="form.showFields.remarks">
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation"
+                         ng-show="form.showFields.remarks">
                         <label class="control-label">Remarks</label>
                         <textarea class="form-control" rows="3" data-ng-model="fields.appointmentRemarks"
                                   placeholder="Optional" name="appointmentRemarks">
@@ -496,7 +502,8 @@
         <!-- row for form content -->
         <div class="row form-row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideBlockForm()" ng-disabled="">
+                <button type="button" class="btn btn-sm form-submit-btn" data-ng-click="hideBlockForm()"
+                        ng-disabled="">
                     <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
@@ -654,7 +661,8 @@
                         </textarea>
                     </div>
 
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.showBlcokButtons.createBlockForm">
+                    <div class="form-group col-sm-12 add-appt-formgrp"
+                         ng-show="form.showBlcokButtons.createBlockForm">
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default btn-sm"
@@ -676,7 +684,8 @@
                         </div>
                     </div>
                     <!-- button group for edit and delete -->
-                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.showBlcokButtons.editBlockForm">
+                    <div class="form-group col-sm-12 add-appt-formgrp"
+                         ng-show="form.showBlcokButtons.editBlockForm">
                         <div class="row subcontent-row">
                             <div class="col-sm-1">
                                 <button class="btn btn-default"
@@ -711,288 +720,294 @@
             <!-- col for form content ends -->
         </div>
     </div>
+</div>
+
+<treasure-overlay-spinner active='spinner.active'>
+</treasure-overlay-spinner>
+
+<!-- row for entire app content ends-->
+<div class="clearfix"></div>
 
 
-    <!-- row for entire app content ends-->
-    <div class="clearfix"></div>
+<script type="text/ng-template" id="myCreateModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm creation of appointment?</h3>
+    </div>
 
+    <div class="modal-body">
+        <ul>
+            <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
+            <li>Contact No: [[patientDetails.patientContact]]</li>
+            <li>Patient Name: [[patientDetails.patientName]]</li>
+            <li>Date: [[patientDetails.appointmentDate]]</li>
+            <li>Time: [[patientDetails.appointmentTime]]</li>
+            <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
+            <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
+            <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
+            <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+        </ul>
+    </div>
 
-    <script type="text/ng-template" id="myCreateModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm creation of appointment?</h3>
-        </div>
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button"
+                ng-click="createAppointment(); recordCreationTimeOut();">
+            Yes
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
 
-        <div class="modal-body">
-            <ul>
-                <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
-                <li>Contact No: [[patientDetails.patientContact]]</li>
-                <li>Patient Name: [[patientDetails.patientName]]</li>
-                <li>Date: [[patientDetails.appointmentDate]]</li>
-                <li>Time: [[patientDetails.appointmentTime]]</li>
-                <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
-                <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
-                <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
-                <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            </ul>
-        </div>
+<script type="text/ng-template" id="myDeleteModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm deletion?</h3>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" type="button" ng-click="createAppointment(); recordCreationTimeOut();">
-                Yes
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-        </div>
-    </script>
+    <div class="modal-body" ng-init="retrieveCancellationReasons()">
+        <ul>
+            <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
+            <li>Contact No: [[patientDetails.patientContact]]</li>
+            <li>Patient Name: [[patientDetails.patientName]]</li>
+            <li>Date: [[patientDetails.appointmentDate]]</li>
+            <li>Time: [[patientDetails.appointmentTime]]</li>
+            <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
+            <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+            <li>Reason:<select data-ng-model="selectedReason" class=form-control"
+                               ng-options="reason.reason for reason in cancellationReasons"
+                               ng-change="activateModalButtons()"></select>
+            </li>
+        </ul>
+    </div>
 
-    <script type="text/ng-template" id="myDeleteModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm deletion?</h3>
-        </div>
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" ng-show="showModalButtons" type="button"
+                ng-click="deleteAppointment(); recordDeleteTimeOut();">Yes
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
 
-        <div class="modal-body" ng-init="retrieveCancellationReasons()">
-            <ul>
-                <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
-                <li>Contact No: [[patientDetails.patientContact]]</li>
-                <li>Patient Name: [[patientDetails.patientName]]</li>
-                <li>Date: [[patientDetails.appointmentDate]]</li>
-                <li>Time: [[patientDetails.appointmentTime]]</li>
-                <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
-                <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-                <li>Reason:<select data-ng-model="selectedReason" class=form-control"
-                                   ng-options="reason.reason for reason in cancellationReasons"
-                                   ng-change="activateModalButtons()"></select>
-                </li>
-            </ul>
-        </div>
+<script type="text/ng-template" id="myUpdateModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm update?</h3>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" ng-show="showModalButtons" type="button"
-                    ng-click="deleteAppointment(); recordDeleteTimeOut();">Yes
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-        </div>
-    </script>
-
-    <script type="text/ng-template" id="myUpdateModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm update?</h3>
-        </div>
-
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <ul>
-                        <p>Original Appointment</p>
-                        <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
-                        <li>Contact No: [[patientDetails.originalPatientContact]]</li>
-                        <li>Patient Name: [[patientDetails.originalPatientName]]</li>
-                        <li>Date: [[patientDetails.originalAppointmentDate]]</li>
-                        <li>Time: [[patientDetails.originalAppointmentTime]]</li>
-                        <li>Doctor: [[patientDetails.originalAppointmentDoctor]]</li>
-                        <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                        <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul>
-                        <p>Updated Appointment</p>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
-                            [[patientDetails.appointmentType.name]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
-                            [[patientDetails.patientContact]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}">Patient Name:
-                            [[patientDetails.patientName]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
-                            [[patientDetails.appointmentDate]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
-                            [[patientDetails.appointmentTime]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}">Doctor:
-                            [[patientDetails.doctorAssigned.name]]
-                        </li>
-                        <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                        <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
-                            [[patientDetails.appointmentRemarks]]
-                        </li>
-                    </ul>
-                </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <ul>
+                    <p>Original Appointment</p>
+                    <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
+                    <li>Contact No: [[patientDetails.originalPatientContact]]</li>
+                    <li>Patient Name: [[patientDetails.originalPatientName]]</li>
+                    <li>Date: [[patientDetails.originalAppointmentDate]]</li>
+                    <li>Time: [[patientDetails.originalAppointmentTime]]</li>
+                    <li>Doctor: [[patientDetails.originalAppointmentDoctor]]</li>
+                    <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+                    <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <ul>
+                    <p>Updated Appointment</p>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
+                        [[patientDetails.appointmentType.name]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
+                        [[patientDetails.patientContact]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}">Patient Name:
+                        [[patientDetails.patientName]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
+                        [[patientDetails.appointmentDate]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
+                        [[patientDetails.appointmentTime]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}">Doctor:
+                        [[patientDetails.doctorAssigned.name]]
+                    </li>
+                    <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
+                        [[patientDetails.appointmentRemarks]]
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" type="button" ng-click="updateAppointment(); recordEditTimeOut();">Yes
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-        </div>
-    </script>
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment(); recordEditTimeOut();">
+            Yes
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
 
-    <script type="text/ng-template" id="myBlockedAppointmentModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Warning</h3>
-        </div>
+<script type="text/ng-template" id="myBlockedAppointmentModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Warning</h3>
+    </div>
 
-        <div class="modal-body">
-            <ul>
-                <li>Appointment chosen is blocked</li>
-            </ul>
-        </div>
+    <div class="modal-body">
+        <ul>
+            <li>Appointment chosen is blocked</li>
+        </ul>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" type="button" ng-click="populateDateTimeFields(appointment);">Continue
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="populateDateTimeFields(appointment);">
+            Continue
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
 
-    <script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm block time slot?</h3>
-        </div>
+<script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm block time slot?</h3>
+    </div>
 
-        <div class="modal-body">
-            <ul>
-                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-                <li>Start Date: [[blockDetails.blockDateStart]]</li>
-                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-                <li>End Date: [[blockDetails.blockDateEnd]]</li>
-                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
-                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
-            </ul>
-        </div>
+    <div class="modal-body">
+        <ul>
+            <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
+            <li>Start Date: [[blockDetails.blockDateStart]]</li>
+            <li>Start Time: [[blockDetails.blockTimeStart]]</li>
+            <li>End Date: [[blockDetails.blockDateEnd]]</li>
+            <li>End Time: [[blockDetails.blockTimeEnd]]</li>
+            <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+        </ul>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" type="button"
-                    ng-click="postBlockTimeSlots(blockDetails.doctorToBlock.id,
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button"
+                ng-click="postBlockTimeSlots(blockDetails.doctorToBlock.id,
                         blockDetails.blockDateStart,
                         blockDetails.blockTimeStart,
                         blockDetails.blockDateEnd,
                         blockDetails.blockTimeEnd,
                         blockDetails.blockFormRemarks);">Continue
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
 
-    <script type="text/ng-template" id="myBlockedTimeSlotListModal.html">
-        <div class="modal-header">
-            <h4 class="modal-title"><i class="fa fa-calendar"></i> List of Blocked Timeslots</h4>
-        </div>
+<script type="text/ng-template" id="myBlockedTimeSlotListModal.html">
+    <div class="modal-header">
+        <h4 class="modal-title"><i class="fa fa-calendar"></i> List of Blocked Timeslots</h4>
+    </div>
 
-        <div class="modal-body" ng-init="getListOfBlockedAppointments()">
-            <table class="table table-striped all-blockedslots-tbl">
-                <tr>
-                    <th>#</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Doc</th>
-                    <th>Remarks</th>
-                    <th>Action</th>
-                </tr>
-                <tr ng-repeat="blockedAppt in listOfBlockedAppointments">
-                    <td>[[$index + 1]]</td>
-                    <td>[[blockedAppt.start]]</td>
-                    <td>[[blockedAppt.end]]</td>
-                    <td>[[blockedAppt.doctor__name]]</td>
-                    <td>[[blockedAppt.remarks]]</td>
-                    <td><a class="edit-no-show" ng-click="populateBlockForm(blockedAppt)">
-                        <i class="fa fa-pencil-square-o"></i></a></td>
-                </tr>
-            </table>
-        </div>
+    <div class="modal-body" ng-init="getListOfBlockedAppointments()">
+        <table class="table table-striped all-blockedslots-tbl">
+            <tr>
+                <th>#</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Doc</th>
+                <th>Remarks</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="blockedAppt in listOfBlockedAppointments">
+                <td>[[$index + 1]]</td>
+                <td>[[blockedAppt.start]]</td>
+                <td>[[blockedAppt.end]]</td>
+                <td>[[blockedAppt.doctor__name]]</td>
+                <td>[[blockedAppt.remarks]]</td>
+                <td><a class="edit-no-show" ng-click="populateBlockForm(blockedAppt)">
+                    <i class="fa fa-pencil-square-o"></i></a></td>
+            </tr>
+        </table>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-        </div>
-    </script>
+    <div class="modal-footer">
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
 
-    <script type="text/ng-template" id="myUpdateBlockModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm update?</h3>
-        </div>
+<script type="text/ng-template" id="myUpdateBlockModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm update?</h3>
+    </div>
 
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <ul>
-                        <p>Original Blocked Time Slots</p>
-                        <li>Doctor: [[blockDetails.originalBlockForm.doctor__name]]</li>
-                        <li>Start Date: [[blockDetails.originalBlockForm.blockDateStart]]</li>
-                        <li>Start Time: [[blockDetails.originalBlockForm.blockTimeStart]]</li>
-                        <li>End Date: [[blockDetails.originalBlockForm.blockDateEnd]]</li>
-                        <li>End Time: [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
-                        <li>Remarks: [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul>
-                        <p>Updated Blocked Time Slots</p>
-                        <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }">Doctor:
-                            [[blockDetails.doctorToBlock.name]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}">Start Date:
-                            [[blockDetails.blockDateStart]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}">Start Time:
-                            [[blockDetails.blockTimeStart]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}">End Date:
-                            [[blockDetails.blockDateEnd]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}">End Time:
-                            [[blockDetails.blockTimeEnd]]
-                        </li>
-                        <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}">Remarks:
-                            [[blockDetails.blockFormRemarks]]
-                        </li>
-                    </ul>
-                </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <ul>
+                    <p>Original Blocked Time Slots</p>
+                    <li>Doctor: [[blockDetails.originalBlockForm.doctor__name]]</li>
+                    <li>Start Date: [[blockDetails.originalBlockForm.blockDateStart]]</li>
+                    <li>Start Time: [[blockDetails.originalBlockForm.blockTimeStart]]</li>
+                    <li>End Date: [[blockDetails.originalBlockForm.blockDateEnd]]</li>
+                    <li>End Time: [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
+                    <li>Remarks: [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <ul>
+                    <p>Updated Blocked Time Slots</p>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }">Doctor:
+                        [[blockDetails.doctorToBlock.name]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}">Start Date:
+                        [[blockDetails.blockDateStart]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}">Start Time:
+                        [[blockDetails.blockTimeStart]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}">End Date:
+                        [[blockDetails.blockDateEnd]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}">End Time:
+                        [[blockDetails.blockTimeEnd]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}">Remarks:
+                        [[blockDetails.blockFormRemarks]]
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" type="button" ng-click="updateBlockedTimeSlots()">Yes
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-        </div>
-    </script>
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button" ng-click="updateBlockedTimeSlots()">Yes
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
 
-    <script type="text/ng-template" id="myDeleteBlockedModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm deletion?</h3>
-        </div>
+<script type="text/ng-template" id="myDeleteBlockedModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirm deletion?</h3>
+    </div>
 
-        <div class="modal-body">
-            <ul>
-                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-                <li>Start Date: [[blockDetails.blockDateStart]]</li>
-                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-                <li>End Date: [[blockDetails.blockDateEnd]]</li>
-                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
-                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
-            </ul>
-        </div>
+    <div class="modal-body">
+        <ul>
+            <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
+            <li>Start Date: [[blockDetails.blockDateStart]]</li>
+            <li>Start Time: [[blockDetails.blockTimeStart]]</li>
+            <li>End Date: [[blockDetails.blockDateEnd]]</li>
+            <li>End Time: [[blockDetails.blockTimeEnd]]</li>
+            <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+        </ul>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn form-submit-btn" type="button"
-                    ng-click="deleteBlockTimeSlots();">Yes
-            </button>
-            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
-        </div>
-    </script>
-    <!--
-    <script>
-        $('.cal-view-btn').click(function (e) {
-            $('.cal-view-btn').not(this).removeClass('active');
-            e.preventDefault();
-            $(this).addClass('active');
-        })
-    </script>-->
+    <div class="modal-footer">
+        <button class="btn form-submit-btn" type="button"
+                ng-click="deleteBlockTimeSlots();">Yes
+        </button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+    </div>
+</script>
+<!--
+<script>
+    $('.cal-view-btn').click(function (e) {
+        $('.cal-view-btn').not(this).removeClass('active');
+        e.preventDefault();
+        $(this).addClass('active');
+    })
+</script>-->
 
 
 

@@ -59,6 +59,8 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     /* function to add to queue */
     $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
 
+        $scope.queueSpinner = true;
+
         if (doctor === "Dr Ho") {
             doctor = 2;
         } else {
@@ -80,6 +82,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
                 console.log("Added to queue successfully.")
                 //$scope.getTodayAppointments();
                 //$scope.getPatientQueue();
+                $scope.queueSpinner = false;
             });
     };
 
@@ -119,12 +122,15 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
     $scope.revertFromQueue = function (apptId, patientId) {
 
+        $scope.queueSpinner = true;
+
         $http.post('/Clearvision/_api/ViewPatientQueue/', {
             "apptId": apptId,
             "patient": patientId
         })
             .success(function (data) {
                 console.log("Success reverting");
+                $scope.queueSpinner = false;
                 //$scope.getTodayAppointments();
                 //$scope.getPatientQueue();
                 //$scope.getNoShow();

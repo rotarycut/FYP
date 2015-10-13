@@ -50,7 +50,8 @@ var app = angular.module('calendarDemoApp', [
     'cgNotify',
     'show.notifications',
     'populate.blockedForm',
-    'get.swappableAppointments'
+    'get.swappableAppointments',
+    'treasure-overlay-spinner'
 ]);
 
 /* Angular routing */
@@ -117,6 +118,14 @@ app.config(['PusherServiceProvider',
             .setOptions({});
     }
 ]);
+
+angular.module('calendarDemoApp').run(run);
+run.$inject = ['$rootScope'];
+
+function run($rootScope) {
+    $rootScope.spinner = {active: true};
+}
+
 
 //remove ng-scope and ng-bining class from html
 /*app.config(['$compileProvider', function ($compileProvider) {

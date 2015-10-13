@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
-                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc) {
+                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc, $rootScope) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -425,6 +425,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     // is not a call from socket
                     $scope.addRemoveDrHoSources();
                 }
+
+                $rootScope.spinner.active = false;
 
             },
             function (data) {
