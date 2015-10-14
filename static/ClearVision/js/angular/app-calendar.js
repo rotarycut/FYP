@@ -301,6 +301,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* change calendar view */
     $scope.changeView = function (view, calendar) {
+        $scope.currentView = view;
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
 
