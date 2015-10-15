@@ -9,6 +9,7 @@ var app = angular.module('calendarDemoApp', [
     'app.patientQueue',
     'app.msgLog',
     'app.admin',
+    'app.config',
     'ngRoute',
     'single.click',
     'appointment.service',
@@ -99,6 +100,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when("/msglog", {
             templateUrl: "msglog.html",
             controller: 'msgCtrl'
+        })
+        .when("/settings", {
+            templateUrl: "settings.html",
+            controller: 'configCtrl'
         })
         .otherwise({
             redirectTo: '/'

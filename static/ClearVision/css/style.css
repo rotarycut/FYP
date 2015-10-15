@@ -113,10 +113,7 @@
     padding-top: 10%;
 }
 #login-container-logo{
-    margin-left: 32%;
-
-    /*padding-left: 9%;
-    padding-right: 9%;*/
+    margin-left: 35%;
     padding-bottom: 2%;
     content: url(../img/ClearVision_logo.png);
     clear: both;
@@ -1030,7 +1027,7 @@ table.apptlist-main-tbl > tbody > tr > td{
 
 .mailbox-folders{
     list-style: none;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .mailbox-row{
@@ -1246,6 +1243,47 @@ table.expenditure-main-tbl > tbody > tr > td{
 }
 
 /* expenditure form css ends */
+
+/* app configuration css starts */
+
+.config-side-col {
+    background-color: #e2ecf3;
+    border-radius: 6px;
+    height: 90vh;
+}
+
+.config-sidemenu-item{
+    font-size: 11.5pt;
+}
+
+.config-saveall-row{
+    color: #70AFC4;
+    padding-left: 20px;
+    font-weight: 200;
+    text-decoration: underline;
+}
+
+li.config-sidemenu-row.active:after,
+li.config-sidemenu-row:hover::after {
+    content: '';
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    right: -20px;
+    top:10px;
+    color: #fff;
+    border-bottom: 20px solid transparent;
+    border-top: 20px solid transparent;
+    border-left: 20px solid #ebe9d0;
+}
+
+.config-sidemenu-row{
+    margin-top: 15px;
+    padding-left: 10px;
+}
+
+/* app configuration css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {
     -webkit-transform:translateY(0px);
