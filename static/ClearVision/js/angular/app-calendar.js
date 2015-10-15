@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
-                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc, $rootScope) {
+                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $parse) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -403,37 +403,41 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      function to retrieve doctors' appointments
      *******************************************************************************/
 
+    /* function to retrieve all doctors' appointments */
+    $scope.getDoctorAppointments = function (doctor, appointmentTypeArray, eventArray, doctorSource) {
 
-    /* function to retrieve doctor ho's appointments */
-    $scope.getDrHoAppointments = function (callFromSocket) {
-
-        appointmentService.getDrHoAppointments()
+        appointmentService.getDoctorAppointments(doctor, appointmentTypeArray)
             .then(function (appointmentType) {
 
-                angular.forEach(appointmentType[0], function (preEval) {
-                    $scope.drHoPreEvaluations.events.push(preEval);
+                var count = 0;
+
+                // loop through the event array, eg: drHoPreEvaluations, drHoSurgeries, drHoPostSurgeries
+                angular.forEach(eventArray, function (eventType) {
+
+                    // loop through the appointments for appointment type
+                    angular.forEach(appointmentType[count].data, function (appointment) {
+
+                        // for each event object, push all the appointments in the various appointment types
+                        $scope[eventType].events.push(appointment);
+                    });
+
+                    count++;
                 });
 
-                angular.forEach(appointmentType[1], function (surgery) {
-                    $scope.drHoSurgeries.events.push(surgery);
-                });
-
-                angular.forEach(appointmentType[2], function (postSurgery) {
-                    $scope.drHoPostSurgeries.events.push(postSurgery);
-                });
-
-                if (!callFromSocket) {
-                    // is not a call from socket
-                    $scope.addRemoveDrHoSources();
-                }
+                $timeout(function () {
+                    $scope[doctorSource]();
+                    //$scope.addRemoveDrHoSources();
+                }, 0);
 
                 $rootScope.spinner.active = false;
 
-            },
-            function (data) {
-                console.log("Failed to retrieve dr ho appointments");
+            }, function (data) {
+
+                $log.error("Failed to retrieve promises for doctors' appointments.");
             });
+
     };
+
 
     /* function to retrieve doctor goh's appointments */
     $scope.getDrGohAppointments = function (callFromSocket) {
@@ -461,31 +465,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             },
             function (data) {
                 console.log("Failed to retrieve dr goh appointments");
-            });
-    };
-
-    /* function to retrieve doctor goh's appointments */
-    $scope.getOptomAppointments = function (callFromSocket) {
-
-        appointmentService.getOptomAppointments()
-            .then(function (appointmentType) {
-
-                angular.forEach(appointmentType[0], function (screening) {
-                    $scope.optomScreenings.events.push(screening);
-                });
-
-                angular.forEach(appointmentType[1], function (eyeCare) {
-                    $scope.optomEyeCare.events.push(eyeCare);
-                });
-
-                if (!callFromSocket) {
-                    // is not a call from socket
-                    $scope.addRemoveOptomSources();
-                }
-
-            },
-            function (data) {
-                console.log("Failed to retrieve optom appointments");
             });
     };
 
@@ -1018,9 +997,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     $scope.initializeAppointments = function () {
-        $scope.getDrHoAppointments();
-        $scope.getDrGohAppointments();
-        $scope.getOptomAppointments();
+
+        $scope.getDoctorAppointments('Dr Ho', ['Pre Evaluation', 'Surgery', 'Post Surgery'], ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries'], 'addRemoveDrHoSources');
+
+        //$scope.getDrHoAppointments();
+        //$scope.getDrGohAppointments();
+        //$scope.getOptomAppointments();
     };
 
 
