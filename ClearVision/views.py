@@ -1236,10 +1236,44 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
         apptType = request.query_params.get('apptType')
         docName = request.query_params.get('docName')
         day = request.query_params.get('day')
-        today = request.query_params.get('today')
 
         response_data = []
 
+        doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName, apptType__name=apptType)
+
+        MONDAY_SLOTS = filter(None, doctordaytimeslot.monday.split(','))
+        TUESDAY_SLOTS = filter(None, doctordaytimeslot.tuesday.split(','))
+        WEDNESDAY_SLOTS = filter(None, doctordaytimeslot.wednesday.split(','))
+        THURSDAY_SLOTS = filter(None, doctordaytimeslot.thursday.split(','))
+        FRIDAY_SLOTS = filter(None, doctordaytimeslot.friday.split(','))
+        SATURDAY_SLOTS = filter(None, doctordaytimeslot.saturday.split(','))
+
+        if day == 'Monday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
+                                                                  start__in=MONDAY_SLOTS). \
+                    values('start', ).distinct().order_by('start')
+        elif day == 'Tuesday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
+                                                                  start__in=TUESDAY_SLOTS). \
+                    values('start', ).distinct().order_by('start')
+        elif day == 'Wednesday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
+                                                                  start__in=WEDNESDAY_SLOTS). \
+                    values('start', ).distinct().order_by('start')
+        elif day == 'Thursday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
+                                                                  start__in=THURSDAY_SLOTS). \
+                    values('start', ).distinct().order_by('start')
+        elif day == 'Friday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
+                                                                  start__in=FRIDAY_SLOTS). \
+                    values('start', ).distinct().order_by('start')
+        elif day == 'Saturday':
+                response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
+                                                                  start__in=SATURDAY_SLOTS). \
+                    values('start', ).distinct().order_by('start')
+
+        """
         if apptType == 'Surgery':
             if day == 'Monday':
                 response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
@@ -1290,7 +1324,7 @@ class ViewApptTimeslots(viewsets.ReadOnlyModelViewSet):
                 response_data = AvailableTimeSlots.objects.filter(timeslotType=apptType, doctors=docName, date__day=day,
                                                                   start__in=settings.SATURDAY_SLOTS_NONSURGERY). \
                     values('start', ).distinct().order_by('start')
-        """
+
         response_data = list(response_data)
         response_data_orig = list(response_data)
 
