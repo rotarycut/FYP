@@ -938,6 +938,24 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                 response_data.remove(eachObj)
         return Response(response_data)
 
+class DoctorTimeSlot(viewsets.ModelViewSet):
+    queryset = DoctorDayTimeSlots.objects.none()
+    serializer_class = DoctorTimeSlotSerializer
+
+    def list(self, request, *args, **kwargs):
+        doctorId = request.query_params.get('doctorId')
+
+        doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=doctorId)
+
+        monday = doctordaytimeslot.monday
+        tuesday = doctordaytimeslot.tuesday
+        wednesday = doctordaytimeslot.wednesday
+        thursday = doctordaytimeslot.thursday
+        friday = doctordaytimeslot.friday
+        saturday = doctordaytimeslot.saturday
+
+        return Response({"monday": monday, "tuesday": tuesday, "wednesday": wednesday,
+                         "thursday": thursday, "friday": friday, "saturday": saturday})
 
 class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()

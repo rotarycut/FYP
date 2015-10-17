@@ -122,3 +122,9 @@ class InputMarketingChannelCostSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketingChannels
         depth = 1
+
+class DoctorTimeSlotSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DoctorDayTimeSlots
+        depth = 1
