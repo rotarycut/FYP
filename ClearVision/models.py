@@ -71,6 +71,7 @@ class Doctor(models.Model):
     contact = models.CharField(max_length=50)
     clinic = models.ManyToManyField(Clinic)
     apptType = models.ManyToManyField(AppointmentType)
+    isDoctor = models.NullBooleanField()
 
     def __str__(self):
         return self.name
@@ -167,3 +168,12 @@ class BlockDates(models.Model):
     end = models.DateTimeField()
     remarks = models.CharField(max_length=1000)
     doctor = models.ForeignKey(Doctor)
+
+class DoctorDayTimeSlots(models.Model):
+    doctor = models.ForeignKey(Doctor)
+    monday = models.CharField(max_length=5000)
+    tuesday = models.CharField(max_length=5000)
+    wednesday = models.CharField(max_length=5000)
+    thursday = models.CharField(max_length=5000)
+    friday = models.CharField(max_length=5000)
+    saturday = models.CharField(max_length=5000)

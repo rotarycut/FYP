@@ -740,6 +740,27 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         lowerB = request.query_params.get('lowerB')
         docName = request.query_params.get('docName')
 
+        isDoctor = Doctor.objects.get(id=docName).isDoctor
+
+        if isDoctor:
+            doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName)
+
+            MONDAY_SLOTS_SURGERY = doctordaytimeslot.monday.split(',')
+            TUESDAY_SLOTS_SURGERY = doctordaytimeslot.tuesday.split(',')
+            WEDNESDAY_SLOTS_SURGERY = doctordaytimeslot.wednesday.split(',')
+            THURSDAY_SLOTS_SURGERY = doctordaytimeslot.thursday.split(',')
+            FRIDAY_SLOTS_SURGERY = doctordaytimeslot.friday.split(',')
+            SATURDAY_SLOTS_SURGERY = doctordaytimeslot.saturday.split(',')
+        else:
+            doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName)
+
+            MONDAY_SLOTS_NONSURGERY = doctordaytimeslot.monday.split(',')
+            TUESDAY_SLOTS_NONSURGERY = doctordaytimeslot.tuesday.split(',')
+            WEDNESDAY_SLOTS_NONSURGERY = doctordaytimeslot.wednesday.split(',')
+            THURSDAY_SLOTS_NONSURGERY = doctordaytimeslot.thursday.split(',')
+            FRIDAY_SLOTS_NONSURGERY = doctordaytimeslot.friday.split(',')
+            SATURDAY_SLOTS_NONSURGERY = doctordaytimeslot.saturday.split(',')
+
         response_data = []
 
         if type == 'Surgery':
@@ -747,7 +768,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Monday',
-                                                            availabletimeslots__start__in=settings.MONDAY_SLOTS_SURGERY). \
+                                                            availabletimeslots__start__in=MONDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -760,7 +781,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Tuesday',
-                                                            availabletimeslots__start__in=settings.TUESDAY_SLOTS_SURGERY). \
+                                                            availabletimeslots__start__in=TUESDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -773,7 +794,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Wednesday',
-                                                            availabletimeslots__start__in=settings.WEDNESDAY_SLOTS_SURGERY). \
+                                                            availabletimeslots__start__in=WEDNESDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -786,7 +807,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Thursday',
-                                                            availabletimeslots__start__in=settings.THURSDAY_SLOTS_SURGERY). \
+                                                            availabletimeslots__start__in=THURSDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -799,7 +820,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Friday',
-                                                            availabletimeslots__start__in=settings.FRIDAY_SLOTS_SURGERY). \
+                                                            availabletimeslots__start__in=FRIDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -812,7 +833,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Saturday',
-                                                            availabletimeslots__start__in=settings.SATURDAY_SLOTS_SURGERY). \
+                                                            availabletimeslots__start__in=SATURDAY_SLOTS_SURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -827,7 +848,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Monday',
-                                                            availabletimeslots__start__in=settings.MONDAY_SLOTS_NONSURGERY). \
+                                                            availabletimeslots__start__in=MONDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -840,7 +861,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Tuesday',
-                                                            availabletimeslots__start__in=settings.TUESDAY_SLOTS_NONSURGERY). \
+                                                            availabletimeslots__start__in=TUESDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -853,7 +874,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Wednesday',
-                                                            availabletimeslots__start__in=settings.WEDNESDAY_SLOTS_NONSURGERY). \
+                                                            availabletimeslots__start__in=WEDNESDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -866,7 +887,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Thursday',
-                                                            availabletimeslots__start__in=settings.THURSDAY_SLOTS_NONSURGERY). \
+                                                            availabletimeslots__start__in=THURSDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -879,7 +900,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Friday',
-                                                            availabletimeslots__start__in=settings.FRIDAY_SLOTS_NONSURGERY). \
+                                                            availabletimeslots__start__in=FRIDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
@@ -892,7 +913,7 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
                                                             date__gte=datetime.now(),
                                                             availabletimeslots__timeslotType=type,
                                                             availabletimeslots__doctors=docName, day='Saturday',
-                                                            availabletimeslots__start__in=settings.SATURDAY_SLOTS_NONSURGERY). \
+                                                            availabletimeslots__start__in=SATURDAY_SLOTS_NONSURGERY). \
             annotate(title=Count('availabletimeslots__appointment__patients')). \
             annotate(timeslotType=F('availabletimeslots__timeslotType')). \
             annotate(start=F('availabletimeslots__start')). \
