@@ -156,10 +156,11 @@ class ClinicList(viewsets.ModelViewSet):
                               fridayStart=fridayStart, fridayEnd=fridayEnd,
                               saturdayStart=saturdayStart, saturdayEnd=saturdayEnd)
 
+        return Response("Successfully created Clinic")
+
     def update(self, request, *args, **kwargs):
         payload = request.data
 
-        clinicId = payload.get('clinicId')
         name = payload.get('name')
         mondayStart = payload.get('mondayStart')
         mondayEnd = payload.get('mondayEnd')
@@ -174,7 +175,7 @@ class ClinicList(viewsets.ModelViewSet):
         saturdayStart = payload.get('saturdayStart')
         saturdayEnd = payload.get('saturdayEnd')
 
-        editClinic = Clinic.objects.get(id=clinicId)
+        editClinic = Clinic.objects.get(id=self.get_object().id)
 
         editClinic.name = name
         editClinic.mondayStart = mondayStart
@@ -189,6 +190,8 @@ class ClinicList(viewsets.ModelViewSet):
         editClinic.fridayEnd = fridayEnd
         editClinic.saturdayStart = saturdayStart
         editClinic.saturdayEnd = saturdayEnd
+
+        editClinic.save()
 
         return Response("Successfully edited a Clinic")
 
