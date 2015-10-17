@@ -1,4 +1,5 @@
 import base64
+from collections import OrderedDict
 from datetime import timedelta, datetime
 from itertools import chain
 import json
@@ -955,8 +956,14 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
         friday = doctordaytimeslot.friday
         saturday = doctordaytimeslot.saturday
 
-        return Response({"monday": monday.split(','), "tuesday": tuesday.split(','), "wednesday": wednesday.split(','),
-                         "thursday": thursday.split(','), "friday": friday.split(','), "saturday": saturday.split(',')})
+        monSat = [monday.split(','), tuesday.split(','), wednesday.split(','), thursday.split(','), friday.split(','), saturday.split(',')]
+
+        return Response(monSat)
+
+    def update(self, request, *args, **kwargs):
+        payload = request.data
+
+
 
 class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
