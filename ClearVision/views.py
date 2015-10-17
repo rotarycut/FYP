@@ -801,23 +801,23 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         isDoctor = Doctor.objects.get(id=docName).isDoctor
 
         if isDoctor:
-            doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName)
+            doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName, apptType__name=type)
 
-            MONDAY_SLOTS_SURGERY = doctordaytimeslot.monday.split(',')
-            TUESDAY_SLOTS_SURGERY = doctordaytimeslot.tuesday.split(',')
-            WEDNESDAY_SLOTS_SURGERY = doctordaytimeslot.wednesday.split(',')
-            THURSDAY_SLOTS_SURGERY = doctordaytimeslot.thursday.split(',')
-            FRIDAY_SLOTS_SURGERY = doctordaytimeslot.friday.split(',')
-            SATURDAY_SLOTS_SURGERY = doctordaytimeslot.saturday.split(',')
+            MONDAY_SLOTS_SURGERY = filter(None, doctordaytimeslot.monday.split(','))
+            TUESDAY_SLOTS_SURGERY = filter(None, doctordaytimeslot.tuesday.split(','))
+            WEDNESDAY_SLOTS_SURGERY = filter(None, doctordaytimeslot.wednesday.split(','))
+            THURSDAY_SLOTS_SURGERY = filter(None, doctordaytimeslot.thursday.split(','))
+            FRIDAY_SLOTS_SURGERY = filter(None, doctordaytimeslot.friday.split(','))
+            SATURDAY_SLOTS_SURGERY = filter(None, doctordaytimeslot.saturday.split(','))
         else:
-            doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName)
+            doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=docName, apptType__name=type)
 
-            MONDAY_SLOTS_NONSURGERY = doctordaytimeslot.monday.split(',')
-            TUESDAY_SLOTS_NONSURGERY = doctordaytimeslot.tuesday.split(',')
-            WEDNESDAY_SLOTS_NONSURGERY = doctordaytimeslot.wednesday.split(',')
-            THURSDAY_SLOTS_NONSURGERY = doctordaytimeslot.thursday.split(',')
-            FRIDAY_SLOTS_NONSURGERY = doctordaytimeslot.friday.split(',')
-            SATURDAY_SLOTS_NONSURGERY = doctordaytimeslot.saturday.split(',')
+            MONDAY_SLOTS_NONSURGERY = filter(None, doctordaytimeslot.monday.split(','))
+            TUESDAY_SLOTS_NONSURGERY = filter(None, doctordaytimeslot.tuesday.split(','))
+            WEDNESDAY_SLOTS_NONSURGERY = filter(None, doctordaytimeslot.wednesday.split(','))
+            THURSDAY_SLOTS_NONSURGERY = filter(None, doctordaytimeslot.thursday.split(','))
+            FRIDAY_SLOTS_NONSURGERY = filter(None, doctordaytimeslot.friday.split(','))
+            SATURDAY_SLOTS_NONSURGERY = filter(None, doctordaytimeslot.saturday.split(','))
 
         response_data = []
 
