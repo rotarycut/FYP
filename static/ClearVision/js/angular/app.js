@@ -101,8 +101,8 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "msglog.html",
             controller: 'msgCtrl'
         })
-        .when("/settings", {
-            templateUrl: "settings.html",
+        .when("/adminconfig", {
+            templateUrl: "adminconfig.html",
             controller: 'configCtrl'
         })
         .otherwise({

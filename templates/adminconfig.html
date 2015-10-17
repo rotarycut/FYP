@@ -1,0 +1,119 @@
+<div class="row content-row">
+    <div class="col-md-2 config-side-col">
+        <div class="row subcontent-row">
+            <ul class="config-sidemenu-ul">
+                <li class="row config-sidemenu-row">
+                    <a href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-hospital-o"></i> Clinic</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-user-md"></i> Doctors</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-calendar-o"></i> Calendar</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-commenting"></i> SMS</a>
+                </li>
+                <li class="row config-sidemenu-row activetab">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-sticky-note"></i> Appointment
+                        Types</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-saveall-row" ng-click="">Save All Changes</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10 config-main-col">
+        <section id="clinic-config">
+        <div class="row subcontent-row">
+            <div class="col-md-12">
+                <h4><span class="label label-section-config">Clinic Settings</span></h4>
+            </div>
+        </div>
+        <div class="row subcontent-row">
+            <div class="col-md-4" style="padding-right: 0;">
+                <label class="control-label label-color">Clinic Name:</label>
+                <input type="text" class="form-control" data-ng-model="clinicName"
+                       name="clinicName"
+                       required>
+            </div>
+        </div>
+        <div class="row subcontent-row">
+            <div class="col-md-12" style="padding-right: 0;">
+                <label class="control-label label-color">Operating Hours:</label>
+                <table class="table table-bordered clinic-config-table">
+                    <tbody>
+                    <tr>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week" data-trigger="hover">
+                                Sunday
+                            </div>
+                            <textarea class="form-control date-input-field" placeholder="Closed" disabled></textarea><br/>
+                            <a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week">
+                                Monday
+                            </div>
+                            <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                            <a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week">
+                                Tuesday
+                            </div>
+                            <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                            <a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week">
+                                Wednesday
+                            </div>
+                            <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                            <a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week">
+                                Thursday
+                            </div>
+                            <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                            <a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week">
+                                Friday
+                            </div>
+                            <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                            <a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                        <td class="operating-hr-td">
+                            <div class="day-of-week">
+                                Saturday
+                            </div>
+                            <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/><a class="edit-opt-hr"
+                                           ng-click="">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            </section>
+    </div>
+
+
+</div>

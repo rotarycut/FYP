@@ -66,8 +66,8 @@ def queue(request):
 def msglog(request):
     return render(request, 'msglog.html')
 
-def settings(request):
-    return render(request, 'settings.html')
+def adminconfig(request):
+    return render(request, 'adminconfig.html')
 
 def changepw(request):
     return render(request, 'registration/changepw.html')

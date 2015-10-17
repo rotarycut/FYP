@@ -63,7 +63,7 @@ urlpatterns = [
     url(r'^msglog', views.msglog),
     url(r'^_api/changepw', views.changepassword),
     url(r'^changepw', views.changepw),
-    url(r'^settings', views.settings),
+    url(r'^adminconfig', views.adminconfig),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^', include(router.urls)),
