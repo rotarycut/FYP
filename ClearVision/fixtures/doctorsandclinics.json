@@ -4,8 +4,18 @@
     "pk": 1,
     "fields": {
         "name": "Mount E",
-        "startHr": "08:00:00",
-        "endHr": "20:00:00"
+        "mondayStart": "09:00:00",
+        "mondayEnd": "19:00:00",
+        "tuesdayStart": "09:00:00",
+        "tuesdayEnd": "19:00:00",
+        "wednesdayStart": "09:00:00",
+        "wednesdayEnd": "19:00:00",
+        "thursdayStart": "09:00:00",
+        "thursdayEnd": "19:00:00",
+        "fridayStart": "09:00:00",
+        "fridayEnd": "19:00:00",
+        "saturdayStart": "09:00:00",
+        "saturdayEnd": "19:00:00"
     }
   },
   {
@@ -13,8 +23,18 @@
     "pk": 2,
     "fields": {
         "name": "Clearvision Clinic",
-        "startHr": "07:00:00",
-        "endHr": "19:00:00"
+        "mondayStart": "09:00:00",
+        "mondayEnd": "19:00:00",
+        "tuesdayStart": "09:00:00",
+        "tuesdayEnd": "19:00:00",
+        "wednesdayStart": "09:00:00",
+        "wednesdayEnd": "19:00:00",
+        "thursdayStart": "09:00:00",
+        "thursdayEnd": "19:00:00",
+        "fridayStart": "09:00:00",
+        "fridayEnd": "19:00:00",
+        "saturdayStart": "09:00:00",
+        "saturdayEnd": "19:00:00"
     }
   },
     {

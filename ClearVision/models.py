@@ -50,8 +50,18 @@ class Patient(models.Model):
 
 class Clinic(models.Model):
     name = models.CharField(max_length=50)
-    startHr = models.TimeField("Clinic Opening")
-    endHr = models.TimeField("Clinic Closing")
+    mondayStart = models.TimeField()
+    mondayEnd = models.TimeField()
+    tuesdayStart = models.TimeField()
+    tuesdayEnd = models.TimeField()
+    wednesdayStart = models.TimeField()
+    wednesdayEnd = models.TimeField()
+    thursdayStart = models.TimeField()
+    thursdayEnd = models.TimeField()
+    fridayStart = models.TimeField()
+    fridayEnd = models.TimeField()
+    saturdayStart = models.TimeField()
+    saturdayEnd = models.TimeField()
 
     def __str__(self):
         return self.name

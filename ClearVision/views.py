@@ -118,6 +118,7 @@ class PatientList(viewsets.ModelViewSet):
 
 
 # API for Clinics
+"""
 class ClinicFilter(django_filters.FilterSet):
     start_time = django_filters.TimeFilter(name="startHr", lookup_type='lte')
     end_time = django_filters.TimeFilter(name="endHr", lookup_type='gte')
@@ -125,16 +126,71 @@ class ClinicFilter(django_filters.FilterSet):
     class Meta:
         model = Clinic
         fields = ['start_time', 'end_time']
-
+"""
 
 class ClinicList(viewsets.ModelViewSet):
-    renderer_classes = (JSONRenderer,)
     queryset = Clinic.objects.all()
     serializer_class = ClinicSerializer
-    filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
-    search_fields = ('name',)
-    filter_class = ClinicFilter
 
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        name = payload.get('name')
+        mondayStart = payload.get('mondayStart')
+        mondayEnd = payload.get('mondayEnd')
+        tuesdayStart = payload.get('tuesdayStart')
+        tuesdayEnd = payload.get('tuesdayEnd')
+        wednesdayStart = payload.get('wednesdayStart')
+        wednesdayEnd = payload.get('wednesdayEnd')
+        thursdayStart = payload.get('thursdayStart')
+        thursdayEnd = payload.get('thursdayEnd')
+        fridayStart = payload.get('fridayStart')
+        fridayEnd = payload.get('fridayEnd')
+        saturdayStart = payload.get('saturdayStart')
+        saturdayEnd = payload.get('saturdayEnd')
+
+        Clinic.objects.create(name=name, mondayStart=mondayStart, mondayEnd=mondayEnd,
+                              tuesdayStart=tuesdayStart, tuesdayEnd=tuesdayEnd,
+                              wednesdayStart=wednesdayStart, wednesdayEnd=wednesdayEnd,
+                              thursdayStart=thursdayStart, thursdayEnd=thursdayEnd,
+                              fridayStart=fridayStart, fridayEnd=fridayEnd,
+                              saturdayStart=saturdayStart, saturdayEnd=saturdayEnd)
+
+    def update(self, request, *args, **kwargs):
+        payload = request.data
+
+        clinicId = payload.get('clinicId')
+        name = payload.get('name')
+        mondayStart = payload.get('mondayStart')
+        mondayEnd = payload.get('mondayEnd')
+        tuesdayStart = payload.get('tuesdayStart')
+        tuesdayEnd = payload.get('tuesdayEnd')
+        wednesdayStart = payload.get('wednesdayStart')
+        wednesdayEnd = payload.get('wednesdayEnd')
+        thursdayStart = payload.get('thursdayStart')
+        thursdayEnd = payload.get('thursdayEnd')
+        fridayStart = payload.get('fridayStart')
+        fridayEnd = payload.get('fridayEnd')
+        saturdayStart = payload.get('saturdayStart')
+        saturdayEnd = payload.get('saturdayEnd')
+
+        editClinic = Clinic.objects.get(id=clinicId)
+
+        editClinic.name = name
+        editClinic.mondayStart = mondayStart
+        editClinic.mondayEnd = mondayEnd
+        editClinic.tuesdayStart = tuesdayStart
+        editClinic.tuesdayEnd = tuesdayEnd
+        editClinic.wednesdayStart = wednesdayStart
+        editClinic.wednesdayEnd = wednesdayEnd
+        editClinic.thursdayStart = thursdayStart
+        editClinic.thursdayEnd = thursdayEnd
+        editClinic.fridayStart = fridayStart
+        editClinic.fridayEnd = fridayEnd
+        editClinic.saturdayStart = saturdayStart
+        editClinic.saturdayEnd = saturdayEnd
+
+        return Response("Successfully edited a Clinic")
 
 # API for Staff
 
