@@ -1,5 +1,4 @@
 import base64
-from collections import OrderedDict
 from datetime import timedelta, datetime
 from itertools import chain
 import json
@@ -19,7 +18,6 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from .serializers import *
-from django.contrib.auth.models import User
 from django.conf import settings
 import pusher
 pusher = pusher.Pusher(
