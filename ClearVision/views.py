@@ -171,12 +171,11 @@ class DoctorList(viewsets.ModelViewSet):
 # API for Appointment
 
 class AppointmentFilter(django_filters.FilterSet):
-    appt_time_range_start = django_filters.TimeFilter(name="start", lookup_type='lte')
-    appt_time_range_end = django_filters.TimeFilter(name="start", lookup_type='gte')
+    month = django_filters.CharFilter(name='timeBucket__date__date', lookup_type='month')
 
     class Meta:
         model = Appointment
-        fields = ['patients', 'doctor__name', 'clinic', 'appt_time_range_start', 'appt_time_range_end', 'apptType']
+        fields = ['patients', 'doctor__name', 'clinic', 'month', 'apptType']
 
 
 class AppointmentList(viewsets.ModelViewSet):
