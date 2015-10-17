@@ -171,6 +171,7 @@ class BlockDates(models.Model):
 
 class DoctorDayTimeSlots(models.Model):
     doctor = models.ForeignKey(Doctor)
+    apptType = models.ForeignKey(AppointmentType)
     monday = models.CharField(max_length=5000)
     tuesday = models.CharField(max_length=5000)
     wednesday = models.CharField(max_length=5000)

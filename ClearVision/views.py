@@ -944,8 +944,9 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         doctorId = request.query_params.get('doctorId')
+        apptType = request.query_params.get('apptType')
 
-        doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=doctorId)
+        doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=doctorId, apptType=apptType)
 
         monday = doctordaytimeslot.monday
         tuesday = doctordaytimeslot.tuesday

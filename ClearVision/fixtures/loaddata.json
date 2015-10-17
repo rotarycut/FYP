@@ -30,36 +30,6 @@
     }
   },
   {
-    "model": "ClearVision.AppointmentType",
-    "fields": {
-        "name": "Screening"
-    }
-  },
-  {
-    "model": "ClearVision.AppointmentType",
-    "fields": {
-        "name": "Pre Evaluation"
-    }
-  },
-  {
-    "model": "ClearVision.AppointmentType",
-    "fields": {
-        "name": "Surgery"
-    }
-  },
-  {
-    "model": "ClearVision.AppointmentType",
-    "fields": {
-        "name": "Post Surgery"
-    }
-  },
-  {
-    "model": "ClearVision.AppointmentType",
-    "fields": {
-        "name": "Eyecare"
-    }
-  },
-  {
     "model": "ClearVision.MarketingChannels",
     "fields": {
         "name": "Google Ads",
