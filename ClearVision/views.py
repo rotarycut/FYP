@@ -954,8 +954,8 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
         friday = doctordaytimeslot.friday
         saturday = doctordaytimeslot.saturday
 
-        return Response({"monday": monday, "tuesday": tuesday, "wednesday": wednesday,
-                         "thursday": thursday, "friday": friday, "saturday": saturday})
+        return Response({"monday": monday.split(','), "tuesday": tuesday.split(','), "wednesday": wednesday.split(','),
+                         "thursday": thursday.split(','), "friday": friday.split(','), "saturday": saturday.split(',')})
 
 class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
