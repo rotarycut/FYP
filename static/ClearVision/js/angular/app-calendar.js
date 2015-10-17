@@ -15,6 +15,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var m = date.getMonth();
     var y = date.getFullYear();
 
+    $scope.dynamicPopover = {
+    content: 'Hello, World!',
+    templateUrl: 'myPopoverTemplate.html',
+    title: 'Title'
+  };
+
     $scope.changeTo = 'Hungarian';
 
     /* event source that pulls from google.com */
