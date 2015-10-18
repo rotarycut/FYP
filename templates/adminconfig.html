@@ -51,7 +51,8 @@
                                 </div>
                                 <textarea class="form-control date-input-field" placeholder="Closed"
                                           disabled></textarea><br/>
-                                <a class="edit-opt-hr" ng-click="">
+                                <a class="edit-opt-hr" ng-click="" uib-popover-template="dynamicPopover.templateUrl"
+                                   popover-title="Edit Operating Hours" data-toggle="popover">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
                             </td>
                             <td class="operating-hr-td">
@@ -127,7 +128,8 @@
                 <div class="col-md-12">
                     <ul class="doc-config-viewtabs">
                         <li class="doctors-tab"><a href="" data-ng-click="showDocView()">Doctors ([[noOfDocs]])</a></li>
-                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Appointment Types</a></li>
+                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Appointment Types</a>
+                        </li>
                         <hr ng-class="docConfigActiveTab">
                     </ul>
                 </div>
@@ -160,16 +162,20 @@
                                     <div class="day-of-week">
                                         Doctor Ho.
                                     </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                        <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                        <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                    </ul>
-                                </div><br/>
+                                    <div class="doc-appts-listbox" ng-init="">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
+                                                                                   ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
+                                                                                  ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
+                                                                                       ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <br/>
                                     <a class="edit-opt-hr" ng-click="">
                                         <i class="fa fa-plus-circle"></i> New Appointment Type</a>
                                 </td>
@@ -177,16 +183,20 @@
                                     <div class="day-of-week">
                                         Doctor Goh.
                                     </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                        <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                        <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                    </ul>
-                                </div><br/>
+                                    <div class="doc-appts-listbox" ng-init="">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
+                                                                                   ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
+                                                                                  ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
+                                                                                       ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <br/>
                                     <a class="edit-opt-hr" ng-click="">
                                         <i class="fa fa-plus-circle"></i> New Appointment Type</a>
                                 </td>
@@ -194,14 +204,17 @@
                                     <div class="day-of-week">
                                         Optometrist
                                     </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">Screening <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                        <li class="mrkt-list-item">Eyecare <a class="remove-doc-appt-type"
-                                           ng-click=""><i class="fa fa-times"></i></a></li>
-                                    </ul>
-                                </div><br/>
+                                    <div class="doc-appts-listbox" ng-init="">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item">Screening <a class="remove-doc-appt-type"
+                                                                                    ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Eyecare <a class="remove-doc-appt-type"
+                                                                                  ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <br/>
                                     <a class="edit-opt-hr" ng-click="">
                                         <i class="fa fa-plus-circle"></i> New Appointment Type</a>
                                 </td>
@@ -213,16 +226,18 @@
             </div>
         </section>
     </div>
-
-    <!--<button uib-popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" type="button" class="btn btn-default" data-toggle="popover">Popover With Template</button>-->
-
 </div>
 
-
-<script type="text/ng-template" id="myPopoverTemplate.html">
+<script type="text/ng-template" id="editOptHourTemplate.html">
     <div>{{ dynamicPopover.content }}</div>
     <div class="form-group">
-        <label>Popup Title:</label>
-        <input type="text" ng-model="dynamicPopover.title" class="form-control">
+        <label>Starting Time</label>
+        <input type="text" ng-model="newOptTimeStart" class="form-control">
+        <label>Closing Time</label>
+        <input type="text" ng-model="newOptTimeEnd" class="form-control">
+    </div>
+    <div style="text-align: right">
+        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-cancel-btn">Cancel</button>
     </div>
 </script>

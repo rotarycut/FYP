@@ -4,7 +4,7 @@ appConfig.controller('configCtrl', function ($scope, $http) {
 
     $scope.dynamicPopover = {
         content: 'Hello, World!',
-        templateUrl: 'myPopoverTemplate.html',
+        templateUrl: 'editOptHourTemplate.html',
         title: 'Title'
     };
 
