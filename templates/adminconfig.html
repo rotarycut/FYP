@@ -126,28 +126,85 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="doc-config-viewtabs">
-                        <li class="doctors-tab"><a href="">Doctors ([[noOfDocs]])</a></li>
-                        <li class="doc-appts-tab"><a href="">Appointment Types</a></li>
-                        <hr/>
+                        <li class="doctors-tab"><a href="" data-ng-click="showDocView()">Doctors ([[noOfDocs]])</a></li>
+                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Appointment Types</a></li>
+                        <hr ng-class="docConfigActiveTab">
                     </ul>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="doc-config-form">
+                    <div class="doc-config-form" ng-show="showDocConfigForm">
                         <table class="table">
                             <tbody>
                             <tr ng-repeat="doc in listOfDoctors">
                                 <td>[[$index + 1]]</td>
                                 <td>[[doc]]</td>
                                 <td><a
-                                    class="edit-opt-hr"
-                                    ng-click="">
-                                <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
-                                <a
-                                    class="edit-opt-hr"
-                                    ng-click="">
-                                <i class="fa fa-minus-circle"></i> Remove</a></td>
+                                        class="edit-opt-hr"
+                                        ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
+                                    <a
+                                            class="edit-opt-hr"
+                                            ng-click="">
+                                        <i class="fa fa-minus-circle"></i> Remove</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="doc-appt-config-form" ng-show="showDocApptConfigForm">
+                        <table class="table table-bordered clinic-config-table">
+                            <tbody>
+                            <tr>
+                                <td class="operating-hr-td">
+                                    <div class="day-of-week">
+                                        Doctor Ho.
+                                    </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                        <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                        <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                    </ul>
+                                </div><br/>
+                                    <a class="edit-opt-hr" ng-click="">
+                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                </td>
+                                <td class="operating-hr-td">
+                                    <div class="day-of-week">
+                                        Doctor Goh.
+                                    </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                        <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                        <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                    </ul>
+                                </div><br/>
+                                    <a class="edit-opt-hr" ng-click="">
+                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                </td>
+                                <td class="operating-hr-td">
+                                    <div class="day-of-week">
+                                        Optometrist
+                                    </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">Screening <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                        <li class="mrkt-list-item">Eyecare <a class="remove-doc-appt-type"
+                                           ng-click=""><i class="fa fa-times"></i></a></li>
+                                    </ul>
+                                </div><br/>
+                                    <a class="edit-opt-hr" ng-click="">
+                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

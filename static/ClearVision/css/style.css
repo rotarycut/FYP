@@ -1298,6 +1298,19 @@ ul.config-sidemenu-ul {
     font-weight: 200;
 }
 
+.doc-appts-listbox{
+    border: solid 1px #70AFC4;
+    border-radius: 4px;
+    height: 78px;
+    overflow-y: auto;
+}
+.remove-doc-appt-type{
+    margin-left: 2px;
+    color: grey;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 /*li.config-sidemenu-row {
     border-bottom: 1px solid black;
     display: block;
@@ -1409,7 +1422,7 @@ li.config-sidemenu-row {
     transition: .3s ease-in-out;
 }*/
 
-hr{
+hr.doctors-tab-active{
     height: .26rem;
     width: 68px;
     margin: 0;
@@ -1418,11 +1431,17 @@ hr{
     transition: .3s ease-in-out;
 }
 
-
-.doc-appts-tab:hover ~ hr{
+hr.doc-appt-tab-active{
     width: 130px;
     margin-left: 95px;
+    height: .26rem;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
 }
+
 
 .arrow-down{
     width: 40px;
@@ -1436,6 +1455,11 @@ hr{
     color: #E79285;
     border: solid 2px #E79285;
     background-color: #fff;
+}
+
+.arrow-down:hover {
+    color: #fff;
+    background-color: #E79285;
 }
 
 .doc-config-viewtabs{
