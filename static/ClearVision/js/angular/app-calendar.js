@@ -16,10 +16,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var y = date.getFullYear();
 
     $scope.dynamicPopover = {
-    content: 'Hello, World!',
-    templateUrl: 'myPopoverTemplate.html',
-    title: 'Title'
-  };
+        content: 'Hello, World!',
+        templateUrl: 'myPopoverTemplate.html',
+        title: 'Title'
+    };
 
     $scope.changeTo = 'Hungarian';
 
@@ -383,96 +383,187 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     /*******************************************************************************
-     function to add doctors' appointment sources
+     get list of doctors variables
      *******************************************************************************/
 
 
-    $scope.addRemoveDrGohSources = function () {
-        $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-        $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-        $scope.addRemoveEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-    };
+    $scope.allDoctorsVariables = [
+        {
+            doctorName: 'Dr Ho',
+            appointmentTypeArray: ['Pre Evaluation', 'Surgery', 'Post Surgery'],
+            doctorAppointmentSource: $scope.doctorHoAppointments,
+            appointmentTypeSourceArray: ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries'],
+            calendarTag: 0
+        },
+        {
+            doctorName: 'Dr Goh',
+            appointmentTypeArray: ['Pre Evaluation', 'Surgery', 'Post Surgery'],
+            doctorAppointmentSource: $scope.doctorGohAppointments,
+            appointmentTypeSourceArray: ['drGohPreEvaluations', 'drGohSurgeries', 'drGohPostSurgeries'],
+            calendarTag: 1
+        },
+        {
+            doctorName: 'Optometrist',
+            appointmentTypeArray: ['Screening', 'Eye Care'],
+            doctorAppointmentSource: $scope.optomAppointments,
+            appointmentTypeSourceArray: ['optomScreenings', 'optomEyeCare'],
+            calendarTag: 2
+        }
+    ];
 
-    $scope.addRemoveDrHoSources = function () {
-        $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-        $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-        $scope.addRemoveEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-    };
 
-    $scope.addRemoveOptomSources = function () {
-        $scope.addRemoveEventSource($scope.optomAppointments, $scope.optomScreenings);
-        $scope.addRemoveEventSource($scope.optomAppointments, $scope.optomEyeCare);
+    /*******************************************************************************
+     set selected doctor
+     *******************************************************************************/
+
+
+    $scope.chosenDoctor = $scope.allDoctorsVariables[0];
+
+
+    /*******************************************************************************
+     initialize calendar appointments
+     *******************************************************************************/
+
+
+    $scope.initializeAppointments = function () {
+
+        $scope.getDoctorAppointments(
+            $scope.chosenDoctor.doctorName,
+            $scope.chosenDoctor.appointmentTypeArray,
+            $scope.chosenDoctor.doctorAppointmentSource,
+            $scope.chosenDoctor.appointmentTypeSourceArray
+        );
     };
 
 
     /*******************************************************************************
-     function to retrieve doctors' appointments
+     function to add/remove appointment type source to doctors' appointment source
      *******************************************************************************/
 
-    /* function to retrieve all doctors' appointments */
-    $scope.getDoctorAppointments = function (doctor, appointmentTypeArray, eventArray, doctorSource) {
 
-        appointmentService.getDoctorAppointments(doctor, appointmentTypeArray)
-            .then(function (appointmentType) {
+    $scope.addToDoctorSource = function (doctorAppointmentSource, appointmentTypeSourceArray) {
+
+        // example parameters
+        // doctorAppointmentSource : $scope.doctorHoAppointments
+        // appointmentTypeSourceArray : [drHoPreEvaluations, drHoSurgeries, drHoPostSurgeries]
+
+        angular.forEach(appointmentTypeSourceArray, function (appointmentType) {
+
+            $scope.addEventSource(doctorAppointmentSource, $scope[appointmentType]);
+        });
+    };
+
+    $scope.removeFromDoctorSource = function (doctorAppointmentSource, appointmentTypeSourceArray, clearAppointmentSource) {
+
+        // example parameters
+        // doctorAppointmentSource : $scope.doctorHoAppointments
+        // appointmentTypeSourceArray : [drHoPreEvaluations, drHoSurgeries, drHoPostSurgeries]
+        // clearAppointmentSource : true
+
+        angular.forEach(appointmentTypeSourceArray, function (appointmentType) {
+
+            $scope.removeEventSource(doctorAppointmentSource, $scope[appointmentType]);
+
+            if (clearAppointmentSource) {
+
+                // if true, clear all the appointments in the appointment type source
+                var lengthOfAppointmentTypeSource = $scope[appointmentType].events.length;
+                $scope[appointmentType].events.splice(0, lengthOfAppointmentTypeSource);
+            }
+        });
+    };
+
+
+    /*******************************************************************************
+     function to retrieve doctor's appointments
+     *******************************************************************************/
+
+
+    $scope.getDoctorAppointments = function (doctorName, appointmentTypeArray, doctorAppointmentSource, appointmentTypeSourceArray) {
+
+        // example parameters
+        // doctorName : 'Dr Ho'
+        // appointmentTypeArray :  ['Pre Evaluation', 'Surgery', 'Post Surgery']
+        // doctorAppointmentSource : $scope.doctorHoAppointments
+        // appointmentTypeSourceArray : ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries']
+
+        // activate loading spinner
+        $rootScope.spinner = {active: true};
+
+        appointmentService.getDoctorAppointments(doctorName, appointmentTypeArray)
+            .then(function (retrievedAppointments) {
 
                 var count = 0;
 
-                // loop through the event array, eg: drHoPreEvaluations, drHoSurgeries, drHoPostSurgeries
-                angular.forEach(eventArray, function (eventType) {
+                // loop through the appointment type source array, eg: drHoPreEvaluations, drHoSurgeries, drHoPostSurgeries
+                angular.forEach(appointmentTypeSourceArray, function (source) {
 
-                    // loop through the appointments for appointment type
-                    angular.forEach(appointmentType[count].data, function (appointment) {
+                    // loop through the appointments for each appointment type
+                    angular.forEach(retrievedAppointments[count].data, function (appointment) {
 
-                        // for each event object, push all the appointments in the various appointment types
-                        $scope[eventType].events.push(appointment);
+                        // for each appointment type source object, push in all the respective appointments
+                        $scope[source].events.push(appointment);
                     });
 
                     count++;
                 });
 
                 $timeout(function () {
-                    $scope[doctorSource]();
-                    //$scope.addRemoveDrHoSources();
+
+                    // add the appointment type source to the doctor appointment source
+                    // $scope.drHoSurgery into $scope.doctorHoAppointments
+                    $scope.addToDoctorSource(doctorAppointmentSource, appointmentTypeSourceArray);
                 }, 0);
 
+                // de-active spinner once the appointments are loaded into the calendar
                 $rootScope.spinner.active = false;
 
             }, function (data) {
 
+                $rootScope.spinner.active = false;
                 $log.error("Failed to retrieve promises for doctors' appointments.");
             });
 
     };
 
 
-    /* function to retrieve doctor goh's appointments */
-    $scope.getDrGohAppointments = function (callFromSocket) {
+    /*******************************************************************************
+     initialize calendar doctor tabs
+     *******************************************************************************/
 
-        appointmentService.getDrGohAppointments()
-            .then(function (appointmentType) {
 
-                angular.forEach(appointmentType[0], function (preEval) {
-                    $scope.drGohPreEvaluations.events.push(preEval);
-                });
-
-                angular.forEach(appointmentType[1], function (surgery) {
-                    $scope.drGohSurgeries.events.push(surgery);
-                });
-
-                angular.forEach(appointmentType[2], function (postSurgery) {
-                    $scope.drGohPostSurgeries.events.push(postSurgery);
-                });
-
-                if (!callFromSocket) {
-                    // is not a call from socket
-                    $scope.addRemoveDrGohSources();
-                }
-
-            },
-            function (data) {
-                console.log("Failed to retrieve dr goh appointments");
-            });
-    };
+    $scope.tabs = [
+        {
+            title: 'Dr. Ho',
+            calendar: 'drHoCalendar',
+            initialise: 'Dr Ho',
+            changeCalendar: 'myCalendar1',
+            active: true,
+            disable: false,
+            model: $scope.doctorHoAppointments,
+            tag: 0
+        },
+        {
+            title: 'Dr. Goh',
+            calendar: 'drGohCalendar',
+            initialise: 'Dr Goh',
+            changeCalendar: 'myCalendar2',
+            active: false,
+            disable: false,
+            model: $scope.doctorGohAppointments,
+            tag: 1
+        },
+        {
+            title: 'Optom',
+            calendar: 'optomCalendar',
+            initialise: 'Optom',
+            changeCalendar: 'myCalendar3',
+            active: false,
+            disable: false,
+            model: $scope.optomAppointments,
+            tag: 2
+        }
+    ];
 
 
     /*******************************************************************************
@@ -958,57 +1049,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         // clear the search box text
         $scope.searchText = "";
-    };
-
-
-    /*******************************************************************************
-     initialize calendar doctor tabs
-     *******************************************************************************/
-
-
-    $scope.tabs = [
-        {
-            title: 'Dr. Ho',
-            calendar: 'drHoCalendar',
-            initialise: 'Dr Ho',
-            changeCalendar: 'myCalendar1',
-            active: true,
-            disable: false,
-            model: $scope.doctorHoAppointments
-        },
-        {
-            title: 'Dr. Goh',
-            calendar: 'drGohCalendar',
-            initialise: 'Dr Goh',
-            changeCalendar: 'myCalendar2',
-            active: false,
-            disable: false,
-            model: $scope.doctorGohAppointments
-        },
-        {
-            title: 'Optom',
-            calendar: 'optomCalendar',
-            initialise: 'Optom',
-            changeCalendar: 'myCalendar3',
-            active: false,
-            disable: false,
-            model: $scope.optomAppointments
-        }
-    ];
-
-
-    /*******************************************************************************
-     initialize calendar appointments
-     *******************************************************************************/
-
-
-    $scope.initializeAppointments = function () {
-
-        $scope.getDoctorAppointments('Dr Ho', ['Pre Evaluation', 'Surgery', 'Post Surgery'], ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries'], 'addRemoveDrHoSources');
-
-        //$scope.getDrHoAppointments();
-        //$scope.getDrGohAppointments();
-        //$scope.getOptomAppointments();
     };
 
 
