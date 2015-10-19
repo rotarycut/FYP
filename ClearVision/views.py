@@ -3,6 +3,9 @@ from datetime import timedelta, datetime
 from itertools import chain
 import json
 from operator import itemgetter
+import os
+import sys
+import subprocess
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 import requests
@@ -225,8 +228,56 @@ class DoctorList(viewsets.ModelViewSet):
     ordering = ('id',)
     filter_class = DoctorFilter
 
+    def create(self, request, *args, **kwargs):
+        payload = request.data
 
-# API for Appointment
+        name = payload.get('name')
+        phoneModel = payload.get('phoneModel')
+        calDavAccount = payload.get('calDavAccount')
+        contact =payload.get('contact')
+        isDoctor = payload.get('isDoctor')
+
+        Doctor.objects.create(name=name, phoneModel=phoneModel, calDavAccount=calDavAccount, contact=contact, isDoctor=isDoctor)
+
+        doc = Doctor.objects.get(name=name, phoneModel=phoneModel, calDavAccount=calDavAccount, contact=contact, isDoctor=isDoctor)
+
+        clinic = payload.get('clinic')
+        apptType = payload.get('apptType')
+
+        for eachClinic in clinic:
+            doc.clinic.add(Clinic.objects.get(id=eachClinic))
+
+        apptTypeChars = []
+        for eachApptType in apptType:
+            appointmentType = AppointmentType.objects.get(id=eachApptType)
+            doc.apptType.add(appointmentType)
+            apptTypeChars.append(appointmentType.name)
+
+        for eachApptTypeName in apptTypeChars:
+            year = datetime.today().year
+
+            command = "python ClearVision/AvailableTimeSlotsGenerator.py " + str(year) + " " + str(doc.id) + " \"" + eachApptTypeName + "\""
+            os.system(command)
+
+            command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
+            os.system(command)
+
+        return Response('Doctor created successfully')
+
+def WriteDatabaseFullYear(request):
+    payload = request.GET
+
+    year = payload['year']
+
+    command = "python ClearVision/loadCalendarData.py " + year
+
+    os.system(command)
+
+    command = "python manage.py loaddata calendardump"
+
+    os.system(command)
+
+    return HttpResponse("Success")
 
 class AppointmentFilter(django_filters.FilterSet):
     month = django_filters.CharFilter(name='timeBucket__date__date', lookup_type='month')
@@ -924,7 +975,7 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
 
         return Response(monSat)
 
-    def create(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         payload = request.data
 
         apptType = payload.get('apptType')

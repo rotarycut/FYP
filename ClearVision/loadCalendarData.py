@@ -1,13 +1,16 @@
+import sys
+
 __author__ = 'sherman'
 import datetime
 import calendar
 import json
 
 ###settings###
-year = 2015
+year = sys.argv[1]
+year = int(year)
 ###settings###
 
-dump = open("fixtures/calendardump.json", "w+")
+dump = open("ClearVision/fixtures/calendardump.json", "w+")
 c = calendar.TextCalendar()
 
 blank = []
