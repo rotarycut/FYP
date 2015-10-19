@@ -236,17 +236,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* event source that calls a function on every view switch */
     $scope.eventsF = function (start, end, timezone, callback) {
-        var s = new Date(start).getTime() / 1000;
-        var e = new Date(end).getTime() / 1000;
-        var m = new Date(start).getMonth();
-        var events = [{
-            title: 'Feed Me ' + m,
-            start: s + (50000),
-            end: s + (100000),
-            allDay: false,
-            className: ['customFeed']
-        }];
-        callback(events);
+        console.log("HELLO");
+        /*var s = new Date(start).getTime() / 1000;
+         var e = new Date(end).getTime() / 1000;
+         var m = new Date(start).getMonth();
+         var events = [{
+         title: 'Feed Me ' + m,
+         start: s + (50000),
+         end: s + (100000),
+         allDay: false,
+         className: ['customFeed']
+         }];
+         callback(events);*/
     };
 
     /* alert on eventClick */
@@ -431,7 +432,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.chosenDoctor.doctorName,
             $scope.chosenDoctor.appointmentTypeArray,
             $scope.chosenDoctor.doctorAppointmentSource,
-            $scope.chosenDoctor.appointmentTypeSourceArray
+            $scope.chosenDoctor.appointmentTypeSourceArray,
+            $rootScope.month
         );
     };
 
@@ -451,6 +453,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $scope.addEventSource(doctorAppointmentSource, $scope[appointmentType]);
         });
+
+        //$scope.addEventSource(doctorAppointmentSource, $scope.eventsF);
     };
 
     $scope.removeFromDoctorSource = function (doctorAppointmentSource, appointmentTypeSourceArray, clearAppointmentSource) {
@@ -479,18 +483,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    $scope.getDoctorAppointments = function (doctorName, appointmentTypeArray, doctorAppointmentSource, appointmentTypeSourceArray) {
+    $scope.getDoctorAppointments = function (doctorName, appointmentTypeArray, doctorAppointmentSource, appointmentTypeSourceArray, month) {
 
         // example parameters
         // doctorName : 'Dr Ho'
         // appointmentTypeArray :  ['Pre Evaluation', 'Surgery', 'Post Surgery']
         // doctorAppointmentSource : $scope.doctorHoAppointments
         // appointmentTypeSourceArray : ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries']
+        // month : 09
 
         // activate loading spinner
         $rootScope.spinner = {active: true};
 
-        appointmentService.getDoctorAppointments(doctorName, appointmentTypeArray)
+        appointmentService.getDoctorAppointments(doctorName, appointmentTypeArray, month)
             .then(function (retrievedAppointments) {
 
                 var count = 0;

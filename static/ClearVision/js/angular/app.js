@@ -121,15 +121,20 @@ app.config(['PusherServiceProvider', function (PusherServiceProvider) {
     PusherServiceProvider
         .setToken('6cb577c1e7b97150346b')
         .setOptions({});
-}
-]);
+}]);
 
-angular.module('calendarDemoApp').run(run);
-run.$inject = ['$rootScope'];
+app.run(function ($rootScope) {
+    var date = new Date();
+    $rootScope.month = date.getMonth() + 1;
+});
 
-function run($rootScope) {
-    $rootScope.spinner = {active: true};
-}
+
+//angular.module('calendarDemoApp').run(run);
+//run.$inject = ['$rootScope'];
+
+//function run($rootScope) {
+//    $rootScope.spinner = {active: true};
+//}
 
 
 //remove ng-scope and ng-bining class from html

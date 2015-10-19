@@ -118,7 +118,8 @@ angular.module('change.calendar', [])
                     self.scope.chosenDoctor.doctorName,
                     self.scope.chosenDoctor.appointmentTypeArray,
                     self.scope.chosenDoctor.doctorAppointmentSource,
-                    self.scope.chosenDoctor.appointmentTypeSourceArray
+                    self.scope.chosenDoctor.appointmentTypeSourceArray,
+                    date.getMonth() + 1
                 );
 
                 //change legend for dr ho calendar
