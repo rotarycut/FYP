@@ -84,8 +84,6 @@ angular.module('change.calendar', [])
 
             } else {
 
-                // appointment form is hidden, tabs are enabled
-
                 // remove current selected doctor appointment source and splice all the appointments
                 self.scope.removeFromDoctorSource(
                     self.scope.chosenDoctor.doctorAppointmentSource,
@@ -94,13 +92,21 @@ angular.module('change.calendar', [])
                 );
 
                 // de-activate current calendar tag
-                self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = false;
+                //self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = false;
+
+                // get date of old appointment calendar
+                var oldDoctorCalendar = '#' + self.scope.tabs[self.scope.chosenDoctor.calendarTag].calendar;
+                var date = $(oldDoctorCalendar).fullCalendar('getDate')._d;
 
                 // change chosen doctor
                 self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
 
+                // tag date of old calendar to newly selected calendar
+                var newDoctorCalendar = '#' + self.scope.tabs[calendarNumber].calendar;
+                $(newDoctorCalendar).fullCalendar('gotoDate', date);
+
                 // activate the newly selected calendar tag
-                self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = true;
+                //self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = true;
 
                 // get newly selected doctor appointments and add them into the source
                 self.scope.getDoctorAppointments(
