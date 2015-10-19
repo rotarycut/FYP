@@ -62,6 +62,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             .error(function () {
 
             });
+
+
     };
 
 });
