@@ -26,13 +26,16 @@
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('agendaDay', selectedCalendar)">Day
+                                    ng-click="changeView('agendaDay', tabs[chosenDoctor.calendarTag].changeCalendar)">
+                                Day
                             </button>
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('agendaWeek', selectedCalendar)">Week
+                                    ng-click="changeView('agendaWeek', tabs[chosenDoctor.calendarTag].changeCalendar)">
+                                Week
                             </button>
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('month', selectedCalendar)">Month
+                                    ng-click="changeView('month', tabs[chosenDoctor.calendarTag].changeCalendar)">
+                                Month
                             </button>
                         </div>
                     </div>

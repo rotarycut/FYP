@@ -117,12 +117,11 @@ app.config(function ($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 });
 
-app.config(['PusherServiceProvider',
-    function (PusherServiceProvider) {
-        PusherServiceProvider
-            .setToken('6cb577c1e7b97150346b')
-            .setOptions({});
-    }
+app.config(['PusherServiceProvider', function (PusherServiceProvider) {
+    PusherServiceProvider
+        .setToken('6cb577c1e7b97150346b')
+        .setOptions({});
+}
 ]);
 
 angular.module('calendarDemoApp').run(run);
