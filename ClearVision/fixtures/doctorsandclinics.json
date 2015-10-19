@@ -4,8 +4,18 @@
     "pk": 1,
     "fields": {
         "name": "Mount E",
-        "startHr": "08:00:00",
-        "endHr": "20:00:00"
+        "mondayStart": "09:00:00",
+        "mondayEnd": "19:00:00",
+        "tuesdayStart": "09:00:00",
+        "tuesdayEnd": "19:00:00",
+        "wednesdayStart": "09:00:00",
+        "wednesdayEnd": "19:00:00",
+        "thursdayStart": "09:00:00",
+        "thursdayEnd": "19:00:00",
+        "fridayStart": "09:00:00",
+        "fridayEnd": "19:00:00",
+        "saturdayStart": "09:00:00",
+        "saturdayEnd": "19:00:00"
     }
   },
   {
@@ -13,8 +23,48 @@
     "pk": 2,
     "fields": {
         "name": "Clearvision Clinic",
-        "startHr": "07:00:00",
-        "endHr": "19:00:00"
+        "mondayStart": "09:00:00",
+        "mondayEnd": "19:00:00",
+        "tuesdayStart": "09:00:00",
+        "tuesdayEnd": "19:00:00",
+        "wednesdayStart": "09:00:00",
+        "wednesdayEnd": "19:00:00",
+        "thursdayStart": "09:00:00",
+        "thursdayEnd": "19:00:00",
+        "fridayStart": "09:00:00",
+        "fridayEnd": "19:00:00",
+        "saturdayStart": "09:00:00",
+        "saturdayEnd": "19:00:00"
+    }
+  },
+    {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Screening"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Pre Evaluation"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Surgery"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Post Surgery"
+    }
+  },
+  {
+    "model": "ClearVision.AppointmentType",
+    "fields": {
+        "name": "Eyecare"
     }
   },
   {
@@ -34,7 +84,8 @@
         2,
         3,
         4
-      ]
+      ],
+      "isDoctor": true
     }
   },
   {
@@ -53,7 +104,8 @@
         2,
         3,
         4
-      ]
+      ],
+      "isDoctor": true
     }
   },
   {
@@ -71,7 +123,120 @@
       "apptType": [
         1,
         5
-      ]
+      ],
+      "isDoctor": false
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 1,
+      "apptType": 2,
+      "monday": "11:00:00,16:30:00",
+      "tuesday": "11:00:00,16:30:00",
+      "wednesday": "11:00:00,16:30:00",
+      "thursday": "11:00:00,16:30:00",
+      "friday": "11:00:00,16:30:00",
+      "saturday": ""
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 1,
+      "apptType": 3,
+      "monday": "11:00:00,16:30:00",
+      "tuesday": "11:00:00,16:30:00",
+      "wednesday": "11:00:00,16:30:00",
+      "thursday": "11:00:00,16:30:00",
+      "friday": "11:00:00,16:30:00",
+      "saturday": ""
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 1,
+      "apptType": 4,
+      "monday": "11:00:00,16:30:00",
+      "tuesday": "11:00:00,16:30:00",
+      "wednesday": "11:00:00,16:30:00",
+      "thursday": "11:00:00,16:30:00",
+      "friday": "11:00:00,16:30:00",
+      "saturday": ""
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 2,
+      "apptType": 2,
+      "monday": "11:00:00,16:30:00",
+      "tuesday": "11:00:00,16:30:00",
+      "wednesday": "11:00:00,16:30:00",
+      "thursday": "11:00:00,16:30:00",
+      "friday": "11:00:00,16:30:00",
+      "saturday": ""
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 2,
+      "apptType": 3,
+      "monday": "11:00:00,16:30:00",
+      "tuesday": "11:00:00,16:30:00",
+      "wednesday": "11:00:00,16:30:00",
+      "thursday": "11:00:00,16:30:00",
+      "friday": "11:00:00,16:30:00",
+      "saturday": ""
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 2,
+      "apptType": 4,
+      "monday": "11:00:00,16:30:00",
+      "tuesday": "11:00:00,16:30:00",
+      "wednesday": "11:00:00,16:30:00",
+      "thursday": "11:00:00,16:30:00",
+      "friday": "11:00:00,16:30:00",
+      "saturday": ""
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 3,
+      "apptType": 1,
+      "monday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00",
+      "tuesday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00,14:00:00,14:30:00,15:00:00,15:30:00",
+      "wednesday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00",
+      "thursday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00,14:00:00,14:30:00,15:00:00,15:30:00",
+      "friday": "14:00:00,14:30:00,15:00:00,15:30:00",
+      "saturday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00"
+    }
+  },
+  {
+    "model": "ClearVision.DoctorDayTimeSlots",
+
+    "fields": {
+      "doctor": 3,
+      "apptType": 5,
+      "monday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00",
+      "tuesday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00,14:00:00,14:30:00,15:00:00,15:30:00",
+      "wednesday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00",
+      "thursday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00,14:00:00,14:30:00,15:00:00,15:30:00",
+      "friday": "14:00:00,14:30:00,15:00:00,15:30:00",
+      "saturday": "09:00:00,09:30:00,10:00:00,10:30:00,11:00:00"
     }
   }
 ]

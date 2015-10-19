@@ -1,5 +1,5 @@
 angular.module('change.calendar', [])
-    .service('changeCalendarSvc', function ($timeout) {
+    .service('changeCalendarSvc', function ($timeout, appointmentService) {
 
         var self = this;
         self.scope = {};
@@ -84,67 +84,42 @@ angular.module('change.calendar', [])
 
             } else {
 
-                // appointment form is hidden, tabs are enabled
+                // remove current selected doctor appointment source and splice all the appointments
+                self.scope.removeFromDoctorSource(
+                    self.scope.chosenDoctor.doctorAppointmentSource,
+                    self.scope.chosenDoctor.appointmentTypeSourceArray,
+                    true
+                );
 
-                // set global variable calendar number
-                self.scope.selectedCalendar = calendarNumber;
+                // de-activate current calendar tag
+                //self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = false;
 
-                // check if the tab click is on which doctor tab || selected search result is for which doctor appointment
-                if (self.scope.selectedCalendar == "myCalendar1") {
+                // get date of old appointment calendar
+                var oldDoctorCalendar = '#' + self.scope.tabs[self.scope.chosenDoctor.calendarTag].calendar;
+                var date = $(oldDoctorCalendar).fullCalendar('getDate')._d;
 
-                    //change legend for dr ho calendar
-                    self.scope.showDoctorLegend = true;
-                    self.scope.showOptomLegend = false;
-                    // clicked on doctor ho calendar tab || selected search result of dr ho appointment
-                    self.scope.tabs[0].active = true;
-                    self.scope.tabs[1].active = false;
-                    self.scope.tabs[2].active = false;
-                    console.log(self.scope.currentView);
-                    self.scope.testDate = $('#drHoCalendar').fullCalendar('getDate');
-                    console.log(self.scope.testDate._d);
-                    self.scope.changeView(self.scope.currentView, 'myCalendar1');
-                    $('#drHoCalendar').fullCalendar('gotoDate', self.scope.testDate);
-                    self.scope.changeSelectedDoctor(self.scope.doctorHoAppointments, '', self.scope.drHoPreEvaluations, self.scope.drHoSurgeries, '', self.scope.drHoPostSurgeries);
+                // change chosen doctor
+                self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
 
-                } else if (self.scope.selectedCalendar == "myCalendar2") {
+                // tag date of old calendar to newly selected calendar
+                var newDoctorCalendar = '#' + self.scope.tabs[calendarNumber].calendar;
+                $(newDoctorCalendar).fullCalendar('gotoDate', date);
 
-                    //change legend for dr goh calendar
-                    self.scope.showDoctorLegend = true;
-                    self.scope.showOptomLegend = false;
+                // activate the newly selected calendar tag
+                //self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = true;
 
-                    // clicked on doctor goh calendar tab || selected search result of dr goh appointment
-                    self.scope.tabs[0].active = false;
-                    self.scope.tabs[1].active = true;
-                    self.scope.tabs[2].active = false;
-                    console.log(self.scope.currentView);
-                    var date = $('#drGohCalendar').fullCalendar('getDate');
-                    console.log(self.scope.testDate._d);
-                    self.scope.changeView(self.scope.currentView, 'myCalendar2');
-                    $('#drGohCalendar').fullCalendar('gotoDate', self.scope.testDate);
-                    self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '', self.scope.drGohPostSurgeries);
+                // get newly selected doctor appointments and add them into the source
+                self.scope.getDoctorAppointments(
+                    self.scope.chosenDoctor.doctorName,
+                    self.scope.chosenDoctor.appointmentTypeArray,
+                    self.scope.chosenDoctor.doctorAppointmentSource,
+                    self.scope.chosenDoctor.appointmentTypeSourceArray
+                );
 
-                } else if (self.scope.selectedCalendar == "myCalendar3") {
-
-                    //change legend for optom calendar
-                    self.scope.showDoctorLegend = false;
-                    self.scope.showOptomLegend = true;
-
-                    // clicked on optom calendar tab || selected search result of dr goh appointment
-                    self.scope.tabs[0].active = false;
-                    self.scope.tabs[1].active = false;
-                    self.scope.tabs[2].active = true;
-                    console.log(self.scope.currentView);
-                    var date = $('#optomCalendar').fullCalendar('getDate');
-                    console.log(self.scope.testDate._d);
-                    self.scope.changeView(self.scope.currentView, 'myCalendar3');
-                    $('#optomCalendar').fullCalendar('gotoDate', self.scope.testDate);
-                    self.scope.changeSelectedDoctor(self.scope.optomAppointments, self.scope.optomScreenings, '', '', self.scope.optomEyeCare, '');
-                }
-
-                // re render doctors calendars
-                $('#drHoCalendar').fullCalendar('refetchEvents');
-                $('#drGohCalendar').fullCalendar('refetchEvents');
-                $('#optomCalendar').fullCalendar('refetchEvents');
+                //change legend for dr ho calendar
+                //self.scope.showDoctorLegend = true;
+                //self.scope.showOptomLegend = false;
+                //self.scope.changeSelectedDoctor(self.scope.doctorGohAppointments, '', self.scope.drGohPreEvaluations, self.scope.drGohSurgeries, '', self.scope.drGohPostSurgeries);
 
             }
 
@@ -169,6 +144,5 @@ angular.module('change.calendar', [])
             };
 
         };
-
 
     });

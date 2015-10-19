@@ -1,0 +1,286 @@
+<div class="row content-row">
+    <div class="col-md-2 config-side-col">
+        <div class="row subcontent-row">
+            <ul class="config-sidemenu-ul">
+                <li class="row config-sidemenu-row">
+                    <a href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-hospital-o"></i> Clinic</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-user-md"></i> Doctors</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-calendar-o"></i> Calendar</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-commenting"></i> SMS</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-sidemenu-item" ng-click=""><i class="fa fa-sticky-note"></i> Appointment
+                        Types</a>
+                </li>
+                <li class="row config-sidemenu-row">
+                    <a ng-href="" class="config-saveall-row" ng-click="">Save All Changes</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-10 config-main-col">
+        <section id="clinic-config">
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <h4><span class="label label-section-config">Clinic Settings</span></h4>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <div class="col-md-4" style="padding-right: 0;">
+                    <label class="control-label label-color">Clinic Name:</label>
+                    <input type="text" class="form-control" data-ng-model="clinicName"
+                           name="clinicName"
+                           required>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <div class="col-md-12" style="padding-right: 0;">
+                    <label class="control-label label-color">Operating Hours:</label>
+                    <table class="table table-bordered clinic-config-table">
+                        <tbody>
+                        <tr>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week" data-trigger="hover">
+                                    Sunday
+                                </div>
+                                <textarea class="form-control date-input-field" placeholder="Closed"
+                                          disabled></textarea><br/>
+                                <a class="edit-opt-hr" ng-click="" uib-popover-template="dynamicPopover.templateUrl"
+                                   popover-title="Edit Operating Hours" data-toggle="popover"
+                                   popover-placement="bottom">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Monday
+                                </div>
+                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                                <a class="edit-opt-hr"
+                                   ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Tuesday
+                                </div>
+                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                                <a class="edit-opt-hr"
+                                   ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Wednesday
+                                </div>
+                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                                <a class="edit-opt-hr"
+                                   ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Thursday
+                                </div>
+                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                                <a class="edit-opt-hr"
+                                   ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Friday
+                                </div>
+                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
+                                <a class="edit-opt-hr"
+                                   ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Saturday
+                                </div>
+                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/><a
+                                    class="edit-opt-hr"
+                                    ng-click="">
+                                <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <div class="arrow-down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
+        <section id="doctors-config">
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <h4><span class="label label-section-config">Doctors Settings</span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="doc-config-viewtabs">
+                        <li class="doctors-tab"><a href="" data-ng-click="showDocView()">Doctors ([[noOfDocs]])</a></li>
+                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Appointment Types</a>
+                        </li>
+                        <hr ng-class="docConfigActiveTab">
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="doc-config-form" ng-show="showDocConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="doc in listOfDoctors">
+                                <td>[[$index + 1]]</td>
+                                <td>[[doc]]</td>
+                                <td><a
+                                        class="edit-opt-hr"
+                                        ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
+                                    <a
+                                            class="edit-opt-hr"
+                                            ng-click="">
+                                        <i class="fa fa-minus-circle"></i> Remove</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="doc-appt-config-form" ng-show="showDocApptConfigForm">
+                        <table class="table table-bordered clinic-config-table">
+                            <tbody>
+                            <tr>
+                                <td class="operating-hr-td">
+                                    <div class="day-of-week">
+                                        Doctor Ho.
+                                    </div>
+                                    <div class="doc-appts-listbox" ng-init="">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
+                                                                                   ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
+                                                                                  ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
+                                                                                       ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <br/>
+                                    <a class="edit-opt-hr" ng-click="">
+                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                </td>
+                                <td class="operating-hr-td">
+                                    <div class="day-of-week">
+                                        Doctor Goh.
+                                    </div>
+                                    <div class="doc-appts-listbox" ng-init="">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
+                                                                                   ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
+                                                                                  ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
+                                                                                       ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <br/>
+                                    <a class="edit-opt-hr" ng-click="">
+                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                </td>
+                                <td class="operating-hr-td">
+                                    <div class="day-of-week">
+                                        Optometrist
+                                    </div>
+                                    <div class="doc-appts-listbox" ng-init="">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item">Screening <a class="remove-doc-appt-type"
+                                                                                    ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item">Eyecare <a class="remove-doc-appt-type"
+                                                                                  ng-click=""><i
+                                                    class="fa fa-times"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <br/>
+                                    <a class="edit-opt-hr" ng-click="">
+                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="arrow-down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
+        <section id="calendar-config">
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <h4><span class="label label-section-config">Calendar Settings</span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="cal-config-viewtabs">
+                        <li class="appt-color-tab"><a href="" data-ng-click="showApptColorView()">Appointment Colors</a>
+                        </li>
+                        <li class="heatmap-color-tab"><a href="" data-ng-click="showHeatmapView()">Heatmap</a></li>
+                        <hr ng-class="calConfigActiveTab">
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="doc-config-form" ng-show="showApptColorConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="appt in listOfApptTypes">
+                                <td>[[$index + 1]]</td>
+                                <td>[[appt.apptType]]</td>
+                                <td><i class="fa fa-circle fa-lg" ng-class=""></i> [[appt.color]]</td>
+                                <td><a
+                                        class="edit-opt-hr"
+                                        ng-click="" colorpicker type="button" colorpicker-position="top" ng-model="nonInput.color">
+                                    <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script type="text/ng-template" id="editOptHourTemplate.html">
+    <div class="form-group">
+        <label>Starting Time</label>
+        <select class="form-control" ng-options="time in listOfAvailableTiming"
+                data-ng-model="newOptTimeStart" name="waitListTime">
+        </select>
+        <label>Closing Time</label>
+        <select class="form-control" ng-options="time in listOfAvailableTiming"
+                data-ng-model="newOptTimeEnd" name="waitListTime">
+        </select>
+    </div>
+    <div style="text-align: right">
+        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-cancel-btn">Cancel</button>
+    </div>
+</script>

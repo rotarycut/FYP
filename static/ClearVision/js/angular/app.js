@@ -14,6 +14,7 @@ var app = angular.module('calendarDemoApp', [
     'single.click',
     'appointment.service',
     'ngAnimate',
+    'colorpicker.module',
     'angular.filter',
     'post.appointment',
     'clear.form',
@@ -101,8 +102,8 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "msglog.html",
             controller: 'msgCtrl'
         })
-        .when("/settings", {
-            templateUrl: "settings.html",
+        .when("/adminconfig", {
+            templateUrl: "adminconfig.html",
             controller: 'configCtrl'
         })
         .otherwise({

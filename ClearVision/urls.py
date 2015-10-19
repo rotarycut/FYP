@@ -17,6 +17,7 @@ router.register(r'_api/ViewSavedROICustomFilters', views.ViewSavedROICustomFilte
 router.register(r'_api/EditSavedROICustomFilters', views.EditSavedROICustomFilters)
 router.register(r'_api/Remarks', views.RemarksFinder)
 router.register(r'_api/HeatMap', views.AppointmentHeatMap)
+router.register(r'_api/DoctorTimeSlot', views.DoctorTimeSlot)
 router.register(r'_api/TimeSlots', views.AvaliableTimeSlots)
 router.register(r'_api/Swapper', views.iScheduleSwapper)
 router.register(r'_api/SearchBar', views.SearchBarFilter)
@@ -63,7 +64,7 @@ urlpatterns = [
     url(r'^msglog', views.msglog),
     url(r'^_api/changepw', views.changepassword),
     url(r'^changepw', views.changepw),
-    url(r'^settings', views.settings),
+    url(r'^adminconfig', views.adminconfig),
     url(r'^success', views.success, name='success'),
     url(r'^logout', views.logout, name='logout'),
     url(r'^', include(router.urls)),
