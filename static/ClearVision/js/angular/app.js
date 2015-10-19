@@ -14,6 +14,7 @@ var app = angular.module('calendarDemoApp', [
     'single.click',
     'appointment.service',
     'ngAnimate',
+    'colorpicker.module',
     'angular.filter',
     'post.appointment',
     'clear.form',

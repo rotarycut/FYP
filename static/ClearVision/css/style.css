@@ -1478,10 +1478,20 @@ hr.doc-appt-tab-active{
     text-decoration: none;
 }
 
-.doc-config-form ul{
+.cal-config-viewtabs{
     list-style-type: none;
     padding-left: 0;
     margin-top: 2%;
+
+}
+.cal-config-viewtabs li {
+    display: inline;
+    margin-right: 3%;
+}
+.cal-config-viewtabs li a,
+.cal-config-viewtabs li a:hover,
+.cal-config-viewtabs li a.active{
+    text-decoration: none;
 }
 
 .doc-config-form table{
@@ -1493,6 +1503,37 @@ hr.doc-appt-tab-active{
     text-align: center;
 }
 
+.cal-config-viewtabs{
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 2%;
+}
+
+hr.appt-color-tab-active{
+    height: .24rem;
+    width: 128px;
+    margin: 0;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+}
+
+hr.heatmap-color-tab-active{
+    width: 130px;
+    margin-left: 95px;
+    height: .26rem;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.activate-colorpicker{
+    font-size: small;
+    color: grey;
+    cursor: pointer;
+}
 /* app configuration css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {

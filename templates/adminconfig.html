@@ -52,7 +52,8 @@
                                 <textarea class="form-control date-input-field" placeholder="Closed"
                                           disabled></textarea><br/>
                                 <a class="edit-opt-hr" ng-click="" uib-popover-template="dynamicPopover.templateUrl"
-                                   popover-title="Edit Operating Hours" data-toggle="popover">
+                                   popover-title="Edit Operating Hours" data-toggle="popover"
+                                   popover-placement="bottom">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
                             </td>
                             <td class="operating-hr-td">
@@ -225,16 +226,58 @@
                 </div>
             </div>
         </section>
+        <div class="arrow-down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
+        <section id="calendar-config">
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <h4><span class="label label-section-config">Calendar Settings</span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="cal-config-viewtabs">
+                        <li class="appt-color-tab"><a href="" data-ng-click="showApptColorView()">Appointment Colors</a>
+                        </li>
+                        <li class="heatmap-color-tab"><a href="" data-ng-click="showHeatmapView()">Heatmap</a></li>
+                        <hr ng-class="calConfigActiveTab">
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="doc-config-form" ng-show="showApptColorConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="appt in listOfApptTypes">
+                                <td>[[$index + 1]]</td>
+                                <td>[[appt.apptType]]</td>
+                                <td><i class="fa fa-circle fa-lg" ng-class=""></i> [[appt.color]]</td>
+                                <td><a
+                                        class="edit-opt-hr"
+                                        ng-click="" colorpicker type="button" colorpicker-position="top" ng-model="nonInput.color">
+                                    <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
 <script type="text/ng-template" id="editOptHourTemplate.html">
-    <div>{{ dynamicPopover.content }}</div>
     <div class="form-group">
         <label>Starting Time</label>
-        <input type="text" ng-model="newOptTimeStart" class="form-control">
+        <select class="form-control" ng-options="time in listOfAvailableTiming"
+                data-ng-model="newOptTimeStart" name="waitListTime">
+        </select>
         <label>Closing Time</label>
-        <input type="text" ng-model="newOptTimeEnd" class="form-control">
+        <select class="form-control" ng-options="time in listOfAvailableTiming"
+                data-ng-model="newOptTimeEnd" name="waitListTime">
+        </select>
     </div>
     <div style="text-align: right">
         <button class="btn-sm form-submit-btn">Update</button>
