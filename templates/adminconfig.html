@@ -51,7 +51,8 @@
                                 </div>
                                 <textarea class="form-control date-input-field" placeholder="Closed"
                                           disabled></textarea><br/>
-                                <a class="edit-opt-hr" ng-click="" uib-popover-template="dynamicPopover.templateUrl"
+                                <a class="edit-opt-hr" ng-click=""
+                                   popover-template="dynamicPopover.editOptHr.templateUrl"
                                    popover-title="Edit Operating Hours" data-toggle="popover"
                                    popover-placement="bottom">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
@@ -253,10 +254,15 @@
                             <tr ng-repeat="appt in listOfApptTypes">
                                 <td>[[$index + 1]]</td>
                                 <td>[[appt.apptType]]</td>
-                                <td><i class="fa fa-circle fa-lg" ng-class=""></i> [[appt.color]]</td>
+                                <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
+                                                                  ng-style="{'color': appt.color}"></i></h5><h5
+                                        style="margin-bottom: 0;"> [[appt.color]]</h5></td>
                                 <td><a
                                         class="edit-opt-hr"
-                                        ng-click="" colorpicker type="button" colorpicker-position="top" ng-model="nonInput.color">
+                                        ng-click=""
+                                        popover-template="dynamicPopover.editApptColor.templateUrl"
+                                        popover-title="Edit Appointment Color" data-toggle="popover"
+                                        popover-placement="top">
                                     <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
                             </tr>
                             </tbody>
@@ -278,6 +284,20 @@
         <select class="form-control" ng-options="time in listOfAvailableTiming"
                 data-ng-model="newOptTimeEnd" name="waitListTime">
         </select>
+    </div>
+    <div style="text-align: right">
+        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-cancel-btn">Cancel</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="editApptTypeColorTemplate.html">
+    <div class="form-group">
+        <a class="edit-opt-hr"
+           ng-click="" colorpicker type="button" colorpicker-position="bottom" ng-model="nonInput.color">
+            <i class="fa fa-eyedropper"></i> Open Color Picker</a><br/>
+        <i class="fa fa-circle fa-lg"
+           ng-style="{'color': nonInput.color}"></i> [[nonInput.color]]
     </div>
     <div style="text-align: right">
         <button class="btn-sm form-submit-btn">Update</button>

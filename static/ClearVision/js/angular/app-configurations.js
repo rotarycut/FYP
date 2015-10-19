@@ -3,9 +3,15 @@ var appConfig = angular.module('app.config', []);
 appConfig.controller('configCtrl', function ($scope, $http) {
 
     $scope.dynamicPopover = {
-        content: 'Hello, World!',
-        templateUrl: 'editOptHourTemplate.html',
-        title: 'Title'
+        editOptHr:{
+            templateUrl: 'editOptHourTemplate.html',
+            title: 'Title'
+        },
+        editApptColor:{
+            templateUrl: 'editApptTypeColorTemplate.html',
+            title: 'Title'
+        }
+
     };
 
     $scope.showDocConfigForm = true;
