@@ -51,10 +51,10 @@
                                 </div>
                                 <textarea class="form-control date-input-field" placeholder="Closed"
                                           disabled></textarea><br/>
-                                <a class="edit-opt-hr" ng-click=""
+                                <a class="edit-opt-hr"
                                    popover-template="dynamicPopover.editOptHr.templateUrl"
-                                   popover-title="Edit Operating Hours" data-toggle="popover"
-                                   popover-placement="bottom">
+                                   popover-title="Edit Operating Hours" data-ng-click="dynamicPopover.editOptHr.open()"
+                                   popover-placement="bottom" popover-is-open="dynamicPopover.editOptHr.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
                             </td>
                             <td class="operating-hr-td">
@@ -127,13 +127,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <ul class="doc-config-viewtabs">
                         <li class="doctors-tab"><a href="" data-ng-click="showDocView()">Doctors ([[noOfDocs]])</a></li>
                         <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Appointment Types</a>
                         </li>
                         <hr ng-class="docConfigActiveTab">
                     </ul>
+                </div>
+                <div class="col-md-3 right-block">
+                    <button class="btn form-submit-btn">Add New Doctor</button>
                 </div>
             </div>
             <div class="row">
@@ -146,10 +149,11 @@
                                 <td>[[doc]]</td>
                                 <td><a
                                         class="edit-opt-hr"
-                                        ng-click="">
+                                        popover-template="dynamicPopover.editDoc.templateUrl"
+                                   popover-title="Edit Doctor Name" data-ng-click="dynamicPopover.editDoc.open(); dynamicPopover.editDoc.editDocName(doc)"
+                                   popover-placement="bottom" popover-is-open="dynamicPopover.editDoc.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
-                                    <a
-                                            class="edit-opt-hr"
+                                    <a class="edit-opt-hr"
                                             ng-click="">
                                         <i class="fa fa-minus-circle"></i> Remove</a></td>
                             </tr>
@@ -255,14 +259,16 @@
                                 <td>[[$index + 1]]</td>
                                 <td>[[appt.apptType]]</td>
                                 <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
-                                                                  ng-style="{'color': appt.color}"></i></h5><h5
-                                        style="margin-bottom: 0;"> [[appt.color]]</h5></td>
+                                                                  ng-style="{'color': appt.color}"></i></h5>
+                                    [[appt.color]]
+                                </td>
                                 <td><a
                                         class="edit-opt-hr"
                                         ng-click=""
                                         popover-template="dynamicPopover.editApptColor.templateUrl"
-                                        popover-title="Edit Appointment Color" data-toggle="popover"
-                                        popover-placement="top">
+                                        popover-title="Edit Appointment Color"
+                                        data-ng-click="dynamicPopover.editApptColor.open()"
+                                        popover-placement="top" popover-is-open="dynamicPopover.editApptColor.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
                             </tr>
                             </tbody>
@@ -276,30 +282,47 @@
 
 <script type="text/ng-template" id="editOptHourTemplate.html">
     <div class="form-group">
-        <label>Starting Time</label>
+        <label>Starting Time:</label>
         <select class="form-control" ng-options="time in listOfAvailableTiming"
                 data-ng-model="newOptTimeStart" name="waitListTime">
         </select>
-        <label>Closing Time</label>
+        <label>Closing Time:</label>
         <select class="form-control" ng-options="time in listOfAvailableTiming"
                 data-ng-model="newOptTimeEnd" name="waitListTime">
         </select>
     </div>
-    <div style="text-align: right">
+    <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
-        <button class="btn-sm form-cancel-btn">Cancel</button>
+        <button class="btn-sm form-cancel-btn" data-ng-click="dynamicPopover.editOptHr.close()">Cancel</button>
     </div>
 </script>
 
 <script type="text/ng-template" id="editApptTypeColorTemplate.html">
     <div class="form-group">
+        <input colorpicker data-ng-model="hexPicker.color" type="text" class="form-control"
+               placeholder="Enter Hex Code"/>
+        <h5 class="label-color center-block">Or</h5>
         <a class="edit-opt-hr"
            ng-click="" colorpicker type="button" colorpicker-position="bottom" ng-model="nonInput.color">
-            <i class="fa fa-eyedropper"></i> Open Color Picker</a><br/>
+            <i class="fa fa-eyedropper"></i> Open Color Picker</a>
+    </div>
+    <div class="form-group">
+        <label style="font-weight: 200">New Color: </label>
         <i class="fa fa-circle fa-lg"
            ng-style="{'color': nonInput.color}"></i> [[nonInput.color]]
     </div>
-    <div style="text-align: right">
+    <div class="right-block">
+        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-cancel-btn">Cancel</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="editDocNameTemplate.html">
+    <div class="form-group">
+        <label>Doctor's Name on Calendar:</label>
+        <input type="text" class="form-control " data-ng-model="docNameOnCal"/>
+    </div>
+    <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
         <button class="btn-sm form-cancel-btn">Cancel</button>
     </div>

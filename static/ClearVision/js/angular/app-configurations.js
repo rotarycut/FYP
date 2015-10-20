@@ -1,15 +1,25 @@
 var appConfig = angular.module('app.config', []);
 
 appConfig.controller('configCtrl', function ($scope, $http) {
-
     $scope.dynamicPopover = {
         editOptHr:{
+            isOpen: false,
             templateUrl: 'editOptHourTemplate.html',
-            title: 'Title'
+            open: function(){
+                $scope.dynamicPopover.editOptHr.isOpen = true;
+            },
+            close: function () {
+                $scope.dynamicPopover.editOptHr.isOpen = false;
+            }
         },
         editApptColor:{
             templateUrl: 'editApptTypeColorTemplate.html',
-            title: 'Title'
+        },
+        editDoc:{
+            templateUrl: 'editDocNameTemplate.html',
+            editDocName: function(doctor){
+                $scope.docNameOnCal = doctor;
+            },
         }
 
     };

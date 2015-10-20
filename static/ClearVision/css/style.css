@@ -30,6 +30,14 @@
     color: #49708A;
 }
 
+.center-block{
+    text-align: center;
+}
+
+.right-block{
+    text-align: right;
+}
+
 .endcontent-row {
     padding-top: 8px;
     padding-bottom: 6px;
