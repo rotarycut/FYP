@@ -1,5 +1,5 @@
 angular.module('change.calendar', [])
-    .service('changeCalendarSvc', function ($timeout, appointmentService) {
+    .service('changeCalendarSvc', function ($timeout, $rootScope, appointmentService) {
 
         var self = this;
         self.scope = {};
@@ -85,6 +85,9 @@ angular.module('change.calendar', [])
             } else {
 
                 // appointment form is hidden, tabs are enabled
+
+                // activate loading spinner
+                $rootScope.spinner = {active: true};
 
                 // remove current selected doctor appointment source and splice all the appointments
                 self.scope.removeFromDoctorSource(

@@ -235,19 +235,42 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* event source that calls a function on every view switch */
-    $scope.eventsF = function (start, end, timezone, callback) {
-        console.log("HELLO");
-        /*var s = new Date(start).getTime() / 1000;
-         var e = new Date(end).getTime() / 1000;
-         var m = new Date(start).getMonth();
-         var events = [{
-         title: 'Feed Me ' + m,
-         start: s + (50000),
-         end: s + (100000),
-         allDay: false,
-         className: ['customFeed']
-         }];
-         callback(events);*/
+    $scope.calendarTracker = function (start, end, timezone, callback) {
+
+        console.log(start._d);
+        console.log(end._d);
+
+        var currentMonth;
+        var startMonth = start._d.getMonth() + 1;
+        var endMonth = end._d.getMonth() + 1;
+
+        if (endMonth - startMonth == 2) {
+            currentMonth = (startMonth + endMonth) / 2;
+
+        } else if (startMonth - endMonth > 2) {
+            currentMonth = 1;
+
+        } else if (endMonth - startMonth > 2) {
+            currentMonth = 12;
+
+        } else {
+            currentMonth = startMonth;
+        }
+        console.log(startMonth);
+        console.log(endMonth);
+        console.log(currentMonth);
+
+        var s = new Date(start).getTime() / 1000;
+        var e = new Date(end).getTime() / 1000;
+        var m = new Date(start).getMonth();
+        var events = [{
+            title: 'Feed Me ' + m,
+            start: s + (50000),
+            end: s + (100000),
+            allDay: false,
+            className: ['customFeed']
+        }];
+        callback(events);
     };
 
     /* alert on eventClick */
@@ -323,6 +346,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* render tooltip */
     $scope.eventRender = function (event, element, view) {
+
+        //console.log(event.start._d.getMonth());
+        //console.log(view.start._d.getMonth());
+        //if (event.start._d.getMonth() !== view.start._d.getMonth()) {console.log("FALSE"); return false;}
+
         var strOfPatientNames = $scope.getAllPatientsName(event);
         element.attr({
             'tooltip': strOfPatientNames,
@@ -378,7 +406,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             eventClick: $scope.alertOnEventClick,
             eventRender: $scope.eventRender,
             allDaySlot: false,
-            slotEventOverlap: false
+            slotEventOverlap: false,
+            firstDay: 1
         }
     };
 
@@ -454,7 +483,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.addEventSource(doctorAppointmentSource, $scope[appointmentType]);
         });
 
-        //$scope.addEventSource(doctorAppointmentSource, $scope.eventsF);
+        $scope.addEventSource(doctorAppointmentSource, $scope.calendarTracker);
     };
 
     $scope.removeFromDoctorSource = function (doctorAppointmentSource, appointmentTypeSourceArray, clearAppointmentSource) {
@@ -475,6 +504,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope[appointmentType].events.splice(0, lengthOfAppointmentTypeSource);
             }
         });
+
+        $scope.removeEventSource(doctorAppointmentSource, $scope.calendarTracker);
     };
 
 
@@ -522,6 +553,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 // de-active spinner once the appointments are loaded into the calendar
                 $rootScope.spinner.active = false;
+
 
             }, function (data) {
 
