@@ -86,19 +86,6 @@ angular.module('change.calendar', [])
 
                 // appointment form is hidden, tabs are enabled
 
-                // activate loading spinner
-                $rootScope.spinner = {active: true};
-
-                // remove current selected doctor appointment source and splice all the appointments
-                self.scope.removeFromDoctorSource(
-                    self.scope.chosenDoctor.doctorAppointmentSource,
-                    self.scope.chosenDoctor.appointmentTypeSourceArray,
-                    true
-                );
-
-                // de-activate current calendar tag
-                //self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = false;
-
                 // get date of old appointment calendar
                 var oldDoctorCalendar = '#' + self.scope.tabs[self.scope.chosenDoctor.calendarTag].calendar;
                 var date = $(oldDoctorCalendar).fullCalendar('getDate')._d;
@@ -113,17 +100,6 @@ angular.module('change.calendar', [])
                 // tag view of old calendar to newly selected calendar
                 self.scope.changeView(self.scope.currentView, self.scope.tabs[calendarNumber].changeCalendar);
 
-                // activate the newly selected calendar tag
-                //self.scope.tabs[self.scope.chosenDoctor.calendarTag].active = true;
-
-                // get newly selected doctor appointments and add them into the source
-                self.scope.getDoctorAppointments(
-                    self.scope.chosenDoctor.doctorName,
-                    self.scope.chosenDoctor.appointmentTypeArray,
-                    self.scope.chosenDoctor.doctorAppointmentSource,
-                    self.scope.chosenDoctor.appointmentTypeSourceArray,
-                    date.getMonth() + 1
-                );
 
                 //change legend for dr ho calendar
                 //self.scope.showDoctorLegend = true;

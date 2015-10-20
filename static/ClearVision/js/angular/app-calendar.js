@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
-                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $parse) {
+                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -235,30 +235,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* event source that calls a function on every view switch */
-    $scope.calendarTracker = function (start, end, timezone, callback) {
-
-        console.log(start._d);
-        console.log(end._d);
-
-        var currentMonth;
-        var startMonth = start._d.getMonth() + 1;
-        var endMonth = end._d.getMonth() + 1;
-
-        if (endMonth - startMonth == 2) {
-            currentMonth = (startMonth + endMonth) / 2;
-
-        } else if (startMonth - endMonth > 2) {
-            currentMonth = 1;
-
-        } else if (endMonth - startMonth > 2) {
-            currentMonth = 12;
-
-        } else {
-            currentMonth = startMonth;
-        }
-        console.log(startMonth);
-        console.log(endMonth);
-        console.log(currentMonth);
+    $scope.eventF = function (start, end, timezone, callback) {
 
         var s = new Date(start).getTime() / 1000;
         var e = new Date(end).getTime() / 1000;
@@ -407,8 +384,46 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             eventRender: $scope.eventRender,
             allDaySlot: false,
             slotEventOverlap: false,
-            firstDay: 1
+            firstDay: 1,
+            viewRender: function (view, element) {
+
+                var doctorCalendar = '#' + $scope.tabs[$scope.chosenDoctor.calendarTag].calendar;
+
+                var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
+                var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
+                calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+                var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
+                var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
+
+                $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+            }
         }
+    };
+
+
+    $scope.trackCalendar = function (currentView, startDate, endDate) {
+
+        // example parameters
+        // currentView : 'agendaWeek'
+        // startDate : '2015-10-01'
+        // endDate : '2015-10-31'
+
+        $scope.removeFromDoctorSource(
+            $scope.chosenDoctor.doctorAppointmentSource,
+            $scope.chosenDoctor.appointmentTypeSourceArray,
+            true
+        );
+
+        $scope.getDoctorAppointments(
+            $scope.chosenDoctor.doctorId,
+            $scope.chosenDoctor.appointmentTypeArray,
+            $scope.chosenDoctor.doctorAppointmentSource,
+            $scope.chosenDoctor.appointmentTypeSourceArray,
+            startDate,
+            endDate
+        );
+
     };
 
 
@@ -419,21 +434,21 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.allDoctorsVariables = [
         {
-            doctorName: 'Dr Ho',
+            doctorId: '1',
             appointmentTypeArray: ['Pre Evaluation', 'Surgery', 'Post Surgery'],
             doctorAppointmentSource: $scope.doctorHoAppointments,
             appointmentTypeSourceArray: ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries'],
             calendarTag: 0
         },
         {
-            doctorName: 'Dr Goh',
+            doctorId: '2',
             appointmentTypeArray: ['Pre Evaluation', 'Surgery', 'Post Surgery'],
             doctorAppointmentSource: $scope.doctorGohAppointments,
             appointmentTypeSourceArray: ['drGohPreEvaluations', 'drGohSurgeries', 'drGohPostSurgeries'],
             calendarTag: 1
         },
         {
-            doctorName: 'Optometrist',
+            doctorId: '3',
             appointmentTypeArray: ['Screening', 'Eye Care'],
             doctorAppointmentSource: $scope.optomAppointments,
             appointmentTypeSourceArray: ['optomScreenings', 'optomEyeCare'],
@@ -448,23 +463,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     $scope.chosenDoctor = $scope.allDoctorsVariables[0];
-
-
-    /*******************************************************************************
-     initialize calendar appointments
-     *******************************************************************************/
-
-
-    $scope.initializeAppointments = function () {
-
-        $scope.getDoctorAppointments(
-            $scope.chosenDoctor.doctorName,
-            $scope.chosenDoctor.appointmentTypeArray,
-            $scope.chosenDoctor.doctorAppointmentSource,
-            $scope.chosenDoctor.appointmentTypeSourceArray,
-            $rootScope.month
-        );
-    };
 
 
     /*******************************************************************************
@@ -483,7 +481,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.addEventSource(doctorAppointmentSource, $scope[appointmentType]);
         });
 
-        $scope.addEventSource(doctorAppointmentSource, $scope.calendarTracker);
     };
 
     $scope.removeFromDoctorSource = function (doctorAppointmentSource, appointmentTypeSourceArray, clearAppointmentSource) {
@@ -505,7 +502,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
         });
 
-        $scope.removeEventSource(doctorAppointmentSource, $scope.calendarTracker);
     };
 
 
@@ -514,19 +510,21 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    $scope.getDoctorAppointments = function (doctorName, appointmentTypeArray, doctorAppointmentSource, appointmentTypeSourceArray, month) {
+    $scope.getDoctorAppointments = function (doctorId, appointmentTypeArray, doctorAppointmentSource, appointmentTypeSourceArray, startDate, endDate) {
 
         // example parameters
-        // doctorName : 'Dr Ho'
+        // doctorName : 1'
         // appointmentTypeArray :  ['Pre Evaluation', 'Surgery', 'Post Surgery']
         // doctorAppointmentSource : $scope.doctorHoAppointments
         // appointmentTypeSourceArray : ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries']
-        // month : 09
+        // startDate : '2015-01-01'
+        // endDate : '2015-01-31'
+        // year : '2015'
 
         // activate loading spinner
         $rootScope.spinner = {active: true};
 
-        appointmentService.getDoctorAppointments(doctorName, appointmentTypeArray, month)
+        appointmentService.getDoctorAppointments(doctorId, appointmentTypeArray, startDate, endDate)
             .then(function (retrievedAppointments) {
 
                 var count = 0;

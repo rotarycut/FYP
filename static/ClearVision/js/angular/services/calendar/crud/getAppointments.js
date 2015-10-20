@@ -3,13 +3,13 @@ angular.module('appointment.service', [])
     .service('appointmentService', function ($http, $q, $timeout, $log) {
 
         /* function to get appointments for respective doctor and appointment types */
-        this.getDoctorAppointments = function (doctor, appointmentTypeArray, month) {
+        this.getDoctorAppointments = function (doctorId, appointmentTypeArray, startDate, endDate) {
 
             var promises = [];
 
             angular.forEach(appointmentTypeArray, function (appointmentType) {
 
-                promises.push($http.get('/Clearvision/_api/appointments/?doctor__name=' + doctor + '&apptType=' + appointmentType + '&month=' + month)
+                promises.push($http.get('/Clearvision/_api/appointments/?startDate=' + startDate + '&endDate=' + endDate + '&doctor=' + doctorId + '&apptType=' + appointmentType)
                         .success(function (listOfAppointments) {
 
                             return listOfAppointments;
