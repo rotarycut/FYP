@@ -280,11 +280,13 @@ def WriteDatabaseFullYear(request):
     return HttpResponse("Success")
 
 class AppointmentFilter(django_filters.FilterSet):
-    month = django_filters.CharFilter(name='timeBucket__date__date', lookup_type='month')
+    startDate = django_filters.DateFilter(name='timeBucket__date__date', lookup_type='gte',)
+    endDate = django_filters.CharFilter(name='timeBucket__date__date', lookup_type='lte',)
+    year = django_filters.CharFilter(name='timeBucket__date__date', lookup_type='year')
 
     class Meta:
         model = Appointment
-        fields = ['patients', 'doctor__name', 'clinic', 'month', 'apptType']
+        fields = {'patients', 'doctor', 'clinic', 'year', 'endDate', 'apptType', 'startDate'}
 
 
 class AppointmentList(viewsets.ModelViewSet):
@@ -293,7 +295,18 @@ class AppointmentList(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
     filter_class = AppointmentFilter
-    search_fields = ('^patients__contact', '^patients__name')
+
+    """
+    def list(self, request, *args, **kwargs):
+        startMonth = request.query_params.get('startMonth')
+        endMonth = request.query_params.get('endMonth')
+        doctor = request.query_params.get('doctor')
+        year = request.query_params.get('year')
+        apptType = request.query_params.get('apptType')
+
+        Appointment.objects.exclude(patients=None).filter(timeBucket__date__month=startMonth)
+    """
+
 
 
 # API for Appointment to Create, Update & Delete
