@@ -188,3 +188,11 @@ class DoctorDayTimeSlots(models.Model):
     thursday = models.CharField(max_length=5000)
     friday = models.CharField(max_length=5000)
     saturday = models.CharField(max_length=5000)
+
+class CalendarColorSettings(models.Model):
+    apptType = models.ForeignKey(AppointmentType)
+    hex = models.CharField(max_length=100)
+
+class HeatMapColorSettings(models.Model):
+    range = models.CharField(max_length=100)
+    hex = models.CharField(max_length=100)
