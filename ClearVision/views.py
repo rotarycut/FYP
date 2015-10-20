@@ -1011,8 +1011,9 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
         friday = payload.get('friday')
         saturday = payload.get('saturday')
 
-        DoctorDayTimeSlots.objects.create(doctor=doctorId, apptType=apptType, monday=monday, tuesday=tuesday, wednesday=wednesday,
-                                          thursday=thursday, friday=friday, saturday=saturday)
+        DoctorDayTimeSlots.objects.create(doctor=Doctor.objects.get(id=doctorId), apptType=AppointmentType.objects.get(id=apptType),
+                                          monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
+                                          friday=friday, saturday=saturday)
 
         return Response('Successfully created Appointment Timings')
 
