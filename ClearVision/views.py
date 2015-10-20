@@ -999,6 +999,23 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
 
         return Response('Successfully edited Appointment Timings')
 
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        apptType = payload.get('apptType')
+        doctorId = payload.get('doctorId')
+        monday = payload.get('monday')
+        tuesday = payload.get('tuesday')
+        wednesday = payload.get('wednesday')
+        thursday = payload.get('thursday')
+        friday = payload.get('friday')
+        saturday = payload.get('saturday')
+
+        DoctorDayTimeSlots.objects.create(doctor=doctorId, apptType=apptType, monday=monday, tuesday=tuesday, wednesday=wednesday,
+                                          thursday=thursday, friday=friday, saturday=saturday)
+
+        return Response('Successfully created Appointment Timings')
+
 class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
