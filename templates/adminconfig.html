@@ -135,7 +135,7 @@
                         <hr ng-class="docConfigActiveTab">
                     </ul>
                 </div>
-                <div class="col-md-3 right-block">
+                <div class="col-md-3 right-block" ng-show="showAddNewDocBtn">
                     <button class="btn form-submit-btn">Add New Doctor</button>
                 </div>
             </div>
@@ -241,13 +241,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <ul class="cal-config-viewtabs">
                         <li class="appt-color-tab"><a href="" data-ng-click="showApptColorView()">Appointment Colors</a>
                         </li>
                         <li class="heatmap-color-tab"><a href="" data-ng-click="showHeatmapView()">Heatmap</a></li>
                         <hr ng-class="calConfigActiveTab">
                     </ul>
+                </div>
+                <div class="col-md-3 right-block" ng-show="showAddNewRngBtn">
+                    <button class="btn form-submit-btn">Add New Range</button>
                 </div>
             </div>
             <div class="row">
@@ -274,6 +277,29 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="doc-config-form" ng-show="showHeatmapColorConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="rng in listOfHeatmapRange">
+                                <td>[[$index + 1]]</td>
+                                <td><label>[[rng.range]]</label></td>
+                                <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
+                                                                  ng-style="{'color': rng.color}"></i></h5>
+                                    [[rng.color]]
+                                </td>
+                                <td><a
+                                        class="edit-opt-hr"
+                                        popover-template="dynamicPopover.editHeatmap.templateUrl"
+                                   popover-title="Edit Heatmap" data-ng-click="dynamicPopover.editHeatmap.open(); dynamicPopover.editHeatmap.editHeatmapRng(rng.range)"
+                                   popover-placement="bottom" popover-is-open="dynamicPopover.editHeatmap.isOpen">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
+                                    <a class="edit-opt-hr"
+                                            ng-click="">
+                                        <i class="fa fa-minus-circle"></i> Remove</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -283,11 +309,11 @@
 <script type="text/ng-template" id="editOptHourTemplate.html">
     <div class="form-group">
         <label>Starting Time:</label>
-        <select class="form-control" ng-options="time in listOfAvailableTiming"
+        <select class="form-control" ng-options="time for time in listOfAvailableTiming"
                 data-ng-model="newOptTimeStart" name="waitListTime">
         </select>
         <label>Closing Time:</label>
-        <select class="form-control" ng-options="time in listOfAvailableTiming"
+        <select class="form-control" ng-options="time for time in listOfAvailableTiming"
                 data-ng-model="newOptTimeEnd" name="waitListTime">
         </select>
     </div>
@@ -321,6 +347,26 @@
     <div class="form-group">
         <label>Doctor's Name on Calendar:</label>
         <input type="text" class="form-control " data-ng-model="docNameOnCal"/>
+    </div>
+    <div class="right-block">
+        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-cancel-btn">Cancel</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="editHeatmapRngTemplate.html">
+    <div class="form-group">
+        <label>Range (No. of Appointments):</label>
+        <div class="row">
+            <div class="col-md-3" style="padding-right: 0">
+        <select class="form-control" ng-options="opt for opt in listOfOperants"
+                data-ng-model="heatmapRngOperant">
+        </select>
+                </div>
+            <div class="col-md-9">
+        <input type="text" class="form-control" data-ng-model="heatmapNoOfAppts"/>
+                </div>
+            </div>
     </div>
     <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>

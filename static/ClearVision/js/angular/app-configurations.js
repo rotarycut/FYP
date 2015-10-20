@@ -20,16 +20,22 @@ appConfig.controller('configCtrl', function ($scope, $http) {
             editDocName: function(doctor){
                 $scope.docNameOnCal = doctor;
             },
+        },
+        editHeatmap:{
+            templateUrl: 'editHeatmapRngTemplate.html',
+            editHeatmapRng: function(range){
+                $scope.heatmapNoOfAppts = range;
+            },
         }
-
     };
-
+    $scope.showAddNewRngBtn = false;
+    $scope.showAddNewDocBtn = true;
     $scope.showDocConfigForm = true;
     $scope.showDocApptConfigForm = false;
     $scope.showApptColorConfigForm = true;
-    $scope.docConfigActiveTab = "doctors-tab-active"
-    $scope.calConfigActiveTab = "appt-color-tab-active"
-
+    $scope.docConfigActiveTab = "doctors-tab-active";
+    $scope.calConfigActiveTab = "appt-color-tab-active";
+    $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
     $scope.listOfDoctors = ["Doctor Ho", "Doctor Goh", "Optometrist"];
     $scope.listOfApptTypes = [
         {apptType: "Screening",
@@ -48,27 +54,45 @@ appConfig.controller('configCtrl', function ($scope, $http) {
          color: "#827839"}
     ];
 
+    $scope.listOfHeatmapRange = [
+        {range: "= 1",
+         color: "#00B499"},
+
+        {range: "= 2 - 3",
+         color: "#FF9966"},
+
+        {range: ">= 4",
+         color: "#EA525F"}
+    ];
+
     $scope.noOfDocs = $scope.listOfDoctors.length;
 
     $scope.showDocView = function(){
         $scope.showDocConfigForm = true;
         $scope.showDocApptConfigForm = false;
-        $scope.docConfigActiveTab = "doctors-tab-active"
+        $scope.docConfigActiveTab = "doctors-tab-active";
+        $scope.showAddNewDocBtn = true;
     };
 
     $scope.showDocApptView = function() {
         $scope.showDocConfigForm = false;
         $scope.showDocApptConfigForm = true;
-        $scope.docConfigActiveTab = "doc-appt-tab-active"
+        $scope.docConfigActiveTab = "doc-appt-tab-active";
+        $scope.showAddNewDocBtn = false;
     };
 
     $scope.showApptColorView = function(){
         $scope.showApptColorConfigForm = true;
+        $scope.showHeatmapColorConfigForm = false;
         $scope.calConfigActiveTab = "appt-color-tab-active"
+        $scope.showAddNewRngBtn = false;
     }
 
     $scope.showHeatmapView = function(){
+        $scope.showApptColorConfigForm = false;
+        $scope.showHeatmapColorConfigForm = true;
         $scope.calConfigActiveTab = "heatmap-color-tab-active"
+        $scope.showAddNewRngBtn = true;
     }
 
 });

@@ -1441,7 +1441,7 @@ hr.doctors-tab-active{
 
 hr.doc-appt-tab-active{
     width: 130px;
-    margin-left: 95px;
+    margin-left: 90px;
     height: .26rem;
     background: #E79285;
     border: none;
@@ -1527,8 +1527,8 @@ hr.appt-color-tab-active{
 }
 
 hr.heatmap-color-tab-active{
-    width: 130px;
-    margin-left: 95px;
+    width: 70px;
+    margin-left: 150px;
     height: .26rem;
     background: #E79285;
     border: none;
