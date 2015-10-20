@@ -1044,10 +1044,6 @@ table.apptlist-main-tbl > tbody > tr > td{
     border-left: solid 1px #49708A;
 }
 
-.tag-label {
-    background-color: #70AFC4;
-}
-
 /* queue page css ends*/
 
 /* msglog page css */
@@ -1185,46 +1181,6 @@ table.all-blockedslots-tbl > tbody > tr > td {
     margin-right: 0.5%
 }
 
-.total-spent-label {
-    background-color: #49708A;
-}
-
-.label-highlight-color {
-    color: #E79285;
-    text-decoration: underline;
-    font-size: large;
-}
-
-.tag {
-    font-size: 14px;
-    padding: .3em .4em .4em;
-    margin: 0 .1em;
-}
-
-.tag a {
-    color: #bbb;
-    cursor: pointer;
-    opacity: 0.6;
-}
-
-.tag a:hover {
-    opacity: 1.0
-}
-
-.tag .remove {
-    vertical-align: bottom;
-    top: 0;
-}
-
-.tag a {
-    margin: 0 0 0 .3em;
-}
-
-.tag a .glyphicon-white {
-    color: #fff;
-    margin-bottom: 2px;
-}
-
 form.form-expenditure-amt {
     position: relative;
 }
@@ -1319,38 +1275,6 @@ ul.config-sidemenu-ul {
     opacity: 0.5;
 }
 
-/*li.config-sidemenu-row {
-    border-bottom: 1px solid black;
-    display: block;
-    position: relative;
-    text-align: center;
-    margin-top: 15px;
-    padding-left: 10px;
-    text-align: -webkit-match-parent;
-}
-
-li.config-sidemenu-row.activetab,
-li.config-sidemenu-row:hover {
-    background: white;
-    font-weight: bold;
-}
-
-li.config-sidemenu-row.activetab:after,
-li.config-sidemenu-row:hover::after {
-    content: '';
-    width: 0;
-    height: 0;
-    display: block;
-    position: absolute;
-    right: -10px;
-    top: 0;
-    color: #fff;
-    border-bottom: 20px solid transparent;
-    border-top: 20px solid transparent;
-    border-left: 20px solid #70AFC4;
-    overflow-clip: none;
-}*/
-
 li.row.config-sidemenu-row.activetab:after,
 li.config-sidemenu-row:hover::after {
     content: '';
@@ -1417,18 +1341,6 @@ li.config-sidemenu-row {
     font-weight: 200;
     padding-top: 5px;
 }
-
-
-/*hr {
-    display: block;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
-    border-style: inset;
-    border-width: 1px;
-    transition: .3s ease-in-out;
-}*/
 
 hr.doctors-tab-active{
     height: .26rem;
@@ -1542,6 +1454,17 @@ hr.heatmap-color-tab-active{
     color: grey;
     cursor: pointer;
 }
+
+.appt-timeslot-listbox{
+    width: 120px
+    overflow-y: auto;
+}
+
+.appt-timeslot-label{
+    background-color: #bed4e3;
+
+}
+
 /* app configuration css ends */
 
 .repeated-item.ng-enter, .repeated-item.ng-move {

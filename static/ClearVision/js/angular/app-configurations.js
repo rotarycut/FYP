@@ -26,6 +26,9 @@ appConfig.controller('configCtrl', function ($scope, $http) {
             editHeatmapRng: function(range){
                 $scope.heatmapNoOfAppts = range;
             },
+        },
+        editApptTimeslot:{
+            templateUrl: 'editApptTimeslotTemplate.html',
         }
     };
     $scope.showAddNewRngBtn = false;
@@ -37,6 +40,8 @@ appConfig.controller('configCtrl', function ($scope, $http) {
     $scope.calConfigActiveTab = "appt-color-tab-active";
     $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
     $scope.listOfDoctors = ["Doctor Ho", "Doctor Goh", "Optometrist"];
+    $scope.listOfTimeslotsAM = ["9:30", "10:00", "10:30","11:00"];
+    $scope.listOfTimeslotsPM = ["2:00", "2:30", "3:00","3:30","4:00"];
     $scope.listOfApptTypes = [
         {apptType: "Screening",
          color: "#E77471"},

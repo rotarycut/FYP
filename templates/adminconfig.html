@@ -150,11 +150,12 @@
                                 <td><a
                                         class="edit-opt-hr"
                                         popover-template="dynamicPopover.editDoc.templateUrl"
-                                   popover-title="Edit Doctor Name" data-ng-click="dynamicPopover.editDoc.open(); dynamicPopover.editDoc.editDocName(doc)"
-                                   popover-placement="bottom" popover-is-open="dynamicPopover.editDoc.isOpen">
+                                        popover-title="Edit Doctor Name"
+                                        data-ng-click="dynamicPopover.editDoc.open(); dynamicPopover.editDoc.editDocName(doc)"
+                                        popover-placement="bottom" popover-is-open="dynamicPopover.editDoc.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
                                     <a class="edit-opt-hr"
-                                            ng-click="">
+                                       ng-click="">
                                         <i class="fa fa-minus-circle"></i> Remove</a></td>
                             </tr>
                             </tbody>
@@ -222,7 +223,7 @@
                                     </div>
                                     <br/>
                                     <a class="edit-opt-hr" ng-click="">
-                                        <i class="fa fa-plus-circle"></i> New Appointment Type</a>
+                                        <i class="fa fa-plus-circle"></i> Assign New Appt Type</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -290,11 +291,12 @@
                                 <td><a
                                         class="edit-opt-hr"
                                         popover-template="dynamicPopover.editHeatmap.templateUrl"
-                                   popover-title="Edit Heatmap" data-ng-click="dynamicPopover.editHeatmap.open(); dynamicPopover.editHeatmap.editHeatmapRng(rng.range)"
-                                   popover-placement="bottom" popover-is-open="dynamicPopover.editHeatmap.isOpen">
+                                        popover-title="Edit Heatmap"
+                                        data-ng-click="dynamicPopover.editHeatmap.open(); dynamicPopover.editHeatmap.editHeatmapRng(rng.range)"
+                                        popover-placement="bottom" popover-is-open="dynamicPopover.editHeatmap.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
                                     <a class="edit-opt-hr"
-                                            ng-click="">
+                                       ng-click="">
                                         <i class="fa fa-minus-circle"></i> Remove</a></td>
                             </tr>
                             </tbody>
@@ -303,8 +305,193 @@
                 </div>
             </div>
         </section>
+        <div class="arrow-down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
+        <section id="appointment-type-config">
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <h4><span class="label label-section-config">Appointment Types Settings</span></h4>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <div class="col-md-3" style="padding-right: 0;">
+                    <label class="control-label label-color">Doctor:</label>
+                    <select class="form-control" ng-options="doc for doc in listOfDoctors"
+                            data-ng-model="apptTypeDoc">
+                    </select>
+                </div>
+                <div class="col-md-4 col-md-offset-1" style="padding-right: 0;">
+                    <label class="control-label label-color">Appointment Type:</label>
+                    <select class="form-control" ng-options="appt for appt in listOfApptTypes"
+                            data-ng-model="apptType">
+                    </select>
+                </div>
+                <div class="col-md-4 right-block" ng-show="showAddNewDocBtn">
+                    <button class="btn form-submit-btn" style="margin-bottom: 0;margin-top: 28px;">New Appointment
+                        Type
+                    </button>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <div class="col-md-12" style="padding-right: 0;">
+                    <label class="control-label label-color">Available Time Slots:</label>
+                    <table class="table table-bordered clinic-config-table">
+                        <tbody>
+                        <tr>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Sunday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Monday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">9:30am</li>
+                                        <li class="mrkt-list-item">10:00am</li>
+                                        <li class="mrkt-list-item">10:30am</li>
+                                        <li class="mrkt-list-item">11:00am</li>
+                                    </ul>
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click=""
+                                   popover-template="dynamicPopover.editApptTimeslot.templateUrl"
+                                   popover-title="Edit Appointment Time Slots"
+                                   data-ng-click="dynamicPopover.editApptTimeslot.open();"
+                                   popover-placement="right" popover-is-open="dynamicPopover.editApptTimeslot.isOpen">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Tuesday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">2:00pm</li>
+                                        <li class="mrkt-list-item">2:30pm</li>
+                                        <li class="mrkt-list-item">3:00pm</li>
+                                        <li class="mrkt-list-item">3:30pm</li>
+                                    </ul>
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Wednesday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">9:30am</li>
+                                        <li class="mrkt-list-item">10:00am</li>
+                                        <li class="mrkt-list-item">10:30am</li>
+                                        <li class="mrkt-list-item">11:00am</li>
+                                    </ul>
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">2:00pm</li>
+                                        <li class="mrkt-list-item">2:30pm</li>
+                                        <li class="mrkt-list-item">3:00pm</li>
+                                        <li class="mrkt-list-item">3:30pm</li>
+                                    </ul>
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Thursday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">2:00pm</li>
+                                        <li class="mrkt-list-item">2:30pm</li>
+                                        <li class="mrkt-list-item">3:00pm</li>
+                                        <li class="mrkt-list-item">3:30pm</li>
+                                    </ul>
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Friday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">9:30am</li>
+                                        <li class="mrkt-list-item">10:00am</li>
+                                        <li class="mrkt-list-item">10:30am</li>
+                                        <li class="mrkt-list-item">11:00am</li>
+                                    </ul>
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                            <td class="operating-hr-td">
+                                <div class="day-of-week">
+                                    Saturday
+                                </div>
+                                <div class="doc-appts-listbox" ng-init="">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li class="mrkt-list-item">9:30am</li>
+                                        <li class="mrkt-list-item">10:00am</li>
+                                        <li class="mrkt-list-item">10:30am</li>
+                                        <li class="mrkt-list-item">11:00am</li>
+                                    </ul>
+                                </div>
+                                <br/>
+
+                                <div class="doc-appts-listbox" ng-init="">
+                                </div>
+                                <br/>
+                                <a class="edit-opt-hr" ng-click="">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
+
 
 <script type="text/ng-template" id="editOptHourTemplate.html">
     <div class="form-group">
@@ -357,16 +544,36 @@
 <script type="text/ng-template" id="editHeatmapRngTemplate.html">
     <div class="form-group">
         <label>Range (No. of Appointments):</label>
+
         <div class="row">
             <div class="col-md-3" style="padding-right: 0">
-        <select class="form-control" ng-options="opt for opt in listOfOperants"
-                data-ng-model="heatmapRngOperant">
-        </select>
-                </div>
-            <div class="col-md-9">
-        <input type="text" class="form-control" data-ng-model="heatmapNoOfAppts"/>
-                </div>
+                <select class="form-control" ng-options="opt for opt in listOfOperants"
+                        data-ng-model="heatmapRngOperant">
+                </select>
             </div>
+            <div class="col-md-9">
+                <input type="text" class="form-control" data-ng-model="heatmapNoOfAppts"/>
+            </div>
+        </div>
+    </div>
+    <div class="right-block">
+        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-cancel-btn">Cancel</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="editApptTimeslotTemplate.html">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-11 appt-timeslot-listbox">
+                <h4><span class="label appt-timeslot-label" ng-repeat="slot in listOfTimeslotsAM">[[slot]]
+                   <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+               </span></h4>
+            </div>
+        </div>
     </div>
     <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
