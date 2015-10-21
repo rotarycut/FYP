@@ -1,6 +1,6 @@
 var appConfig = angular.module('app.config', []);
 
-appConfig.controller('configCtrl', function ($scope, $http) {
+appConfig.controller('configCtrl', function ($scope, $http, $modal) {
     $scope.dynamicPopover = {
         editOptHr:{
             isOpen: false,
@@ -36,8 +36,10 @@ appConfig.controller('configCtrl', function ($scope, $http) {
     $scope.showDocConfigForm = true;
     $scope.showDocApptConfigForm = false;
     $scope.showApptColorConfigForm = true;
+    $scope.showReminderSMSConfigForm = true;
     $scope.docConfigActiveTab = "doctors-tab-active";
     $scope.calConfigActiveTab = "appt-color-tab-active";
+    $scope.SMSConfigActiveTab = "remindersms-tab-active";
     $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
     $scope.listOfDoctors = ["Doctor Ho", "Doctor Goh", "Optometrist"];
     $scope.listOfTimeslotsAM = ["9:30", "10:00", "10:30","11:00"];
@@ -91,15 +93,63 @@ appConfig.controller('configCtrl', function ($scope, $http) {
         $scope.showHeatmapColorConfigForm = false;
         $scope.calConfigActiveTab = "appt-color-tab-active"
         $scope.showAddNewRngBtn = false;
-    }
+    };
 
     $scope.showHeatmapView = function(){
         $scope.showApptColorConfigForm = false;
         $scope.showHeatmapColorConfigForm = true;
         $scope.calConfigActiveTab = "heatmap-color-tab-active"
         $scope.showAddNewRngBtn = true;
-    }
+    };
+
+    $scope.showReminderSMSView = function(){
+        $scope.showReminderSMSConfigForm = true;
+        $scope.shownotifSMSConfigForm = false;
+        $scope.SMSConfigActiveTab = "remindersms-tab-active";
+    };
+
+    $scope.showSwapSMSView = function(){
+        $scope.showReminderSMSConfigForm = false;
+        $scope.shownotifSMSConfigForm = true;
+        $scope.SMSConfigActiveTab = "swapsms-tab-active";
+    };
+
+    $scope.openAddNewDocModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'myAddNewDocModalTemplate.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+                patientInfo: function () {
+                    return $scope.fields;
+                },
+                createTracker: function () {
+                    return $scope.trackId;
+                },
+                appointment: function () {
+                    return '';
+                },
+                blockInfo: function () {
+                    return $scope.blockFields;
+                }
+            }
+        });
+    };
 
 });
 
 
+appConfig.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+
+
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+});

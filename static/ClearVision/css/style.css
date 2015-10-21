@@ -1244,6 +1244,7 @@ table.expenditure-main-tbl > tbody > tr > td {
     background-color: #e2ecf3;
     border-radius: 6px;
     height: 90vh;
+    position: fixed;
 }
 
 .config-sidemenu-item {
@@ -1313,7 +1314,7 @@ li.config-sidemenu-row {
 }
 
 .config-main-col{
-    padding-left: 5%;
+    margin-left: 18%;
     /*border-top: solid 2px #D0E0EB;*/
 }
 
@@ -1343,7 +1344,7 @@ li.config-sidemenu-row {
 }
 
 hr.doctors-tab-active{
-    height: .26rem;
+    height: 3px;
     width: 68px;
     margin: 0;
     background: #E79285;
@@ -1354,7 +1355,7 @@ hr.doctors-tab-active{
 hr.doc-appt-tab-active{
     width: 130px;
     margin-left: 90px;
-    height: .26rem;
+    height: 3px;
     background: #E79285;
     border: none;
     transition: .3s ease-in-out;
@@ -1430,7 +1431,7 @@ hr.doc-appt-tab-active{
 }
 
 hr.appt-color-tab-active{
-    height: .24rem;
+    height: 3px;
     width: 128px;
     margin: 0;
     background: #E79285;
@@ -1439,9 +1440,9 @@ hr.appt-color-tab-active{
 }
 
 hr.heatmap-color-tab-active{
-    width: 70px;
+    width: 60px;
     margin-left: 150px;
-    height: .26rem;
+    height: 3px;
     background: #E79285;
     border: none;
     transition: .3s ease-in-out;
@@ -1463,6 +1464,26 @@ hr.heatmap-color-tab-active{
 .appt-timeslot-label{
     background-color: #bed4e3;
 
+}
+
+hr.remindersms-tab-active{
+    height: 3px;
+    width: 145px;
+    margin: 0;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+}
+
+hr.swapsms-tab-active{
+    width: 200px;
+    margin-left: 175px;
+    height: 3px;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 /* app configuration css ends */
