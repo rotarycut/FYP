@@ -128,3 +128,15 @@ class DoctorTimeSlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = DoctorDayTimeSlots
         depth = 1
+
+class CalendarColorSettingsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CalendarColorSettings
+        depth = 1
+
+class HeatMapColorSettingsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = HeatMapColorSettings
+        depth = 1

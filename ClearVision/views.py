@@ -3017,3 +3017,11 @@ class ViewWaitlistAppt(viewsets.ReadOnlyModelViewSet):
         waitlistAppt = swapperObj.tempAppt
         waitlistAppt = AppointmentSerializer(waitlistAppt)
         return Response(waitlistAppt.data)
+
+class ViewCalendarColorSettings(viewsets.ModelViewSet):
+    queryset = CalendarColorSettings.objects.all()
+    serializer_class = CalendarColorSettingsSerializer
+
+class ViewHeatMapColorSettings(viewsets.ModelViewSet):
+    queryset = HeatMapColorSettings.objects.all()
+    serializer_class = HeatMapColorSettingsSerializer
