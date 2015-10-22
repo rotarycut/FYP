@@ -54,7 +54,8 @@ var app = angular.module('calendarDemoApp', [
     'populate.blockedForm',
     'get.swappableAppointments',
     'treasure-overlay-spinner',
-    'get.doctors'
+    'get.doctors',
+    'get.clinics'
 ]);
 
 /* Angular routing */

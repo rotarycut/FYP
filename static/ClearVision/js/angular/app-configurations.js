@@ -1,7 +1,8 @@
 var appConfig = angular.module('app.config', []);
 
 appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
-                                             getDoctorsService) {
+                                             getDoctorsService,
+                                             getClinicsService) {
     $scope.dynamicPopover = {
         editOptHr: {
             isOpen: false,
@@ -184,20 +185,22 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
     };
 
     //$scope.getOperatingHours();
-    $scope.clinicOperatingHours = [];
+    $scope.listOfClinics = [];
     $scope.listOfDoctors = [];
 
-    /* function to get clinic opening and closing hours */
-    $scope.getOperatingHours = function () {
+    /* function to get all clinics */
+    $scope.getClinics = function () {
 
-        $http.get('/Clearvision/_api/clinics/')
-            .success(function (clinicDetails) {
-                $scope.clinicOperatingHours = clinicDetails;
+        getClinicsService.getClinics()
+            .then(function (listOfClinics) {
 
-            })
-            .error(function () {
-                $log.error('Error retrieving clinic operating hours');
-            })
+                // only want mt e clinic
+                $scope.listOfClinics = listOfClinics[0];
+
+            }, function (data) {
+                $log.error("Failed to retrieve clinics");
+            });
+
     };
 
     /* function to get all doctors */
@@ -209,11 +212,12 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
 
             }, function (data) {
 
-                $log.error("Failed to retrieve doctors' operating hours");
+                $log.error("Failed to retrieve doctors");
             });
 
     };
 
+    $scope.getClinics();
     $scope.getDoctors();
 
 });

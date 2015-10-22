@@ -45,73 +45,20 @@
                     <table class="table table-bordered clinic-config-table">
                         <tbody>
                         <tr>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week" data-trigger="hover">
-                                    Sunday
+                            <td class="operating-hr-td" ng-repeat="day in listOfClinics.Days">
+                                <div class="day-of-week">
+                                    [[day.day]]
                                 </div>
-                                <textarea class="form-control date-input-field" placeholder="Closed"
-                                          disabled></textarea><br/>
+                                <textarea class="form-control date-input-field">
+                                    [[day.start]]-[[day.end]]
+                                </textarea>
+                                <br/>
                                 <a class="edit-opt-hr"
                                    popover-template="dynamicPopover.editOptHr.templateUrl"
                                    popover-title="Edit Operating Hours" data-ng-click="dynamicPopover.editOptHr.open()"
                                    popover-placement="bottom" popover-is-open="dynamicPopover.editOptHr.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
                             </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Monday
-                                </div>
-                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
-                                <a class="edit-opt-hr"
-                                   ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Tuesday
-                                </div>
-                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
-                                <a class="edit-opt-hr"
-                                   ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Wednesday
-                                </div>
-                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
-                                <a class="edit-opt-hr"
-                                   ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Thursday
-                                </div>
-                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
-                                <a class="edit-opt-hr"
-                                   ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Friday
-                                </div>
-                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/>
-                                <a class="edit-opt-hr"
-                                   ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Saturday
-                                </div>
-                                <textarea class="form-control date-input-field" disabled>9am - 6pm</textarea><br/><a
-                                    class="edit-opt-hr"
-                                    ng-click="">
-                                <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
