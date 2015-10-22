@@ -87,18 +87,18 @@ angular.module('change.calendar', [])
                 // appointment form is hidden, tabs are enabled
 
                 // get date of old appointment calendar
-                var oldDoctorCalendar = '#' + self.scope.tabs[self.scope.chosenDoctor.calendarTag].calendar;
+                var oldDoctorCalendar = '#' + self.scope.chosenDoctor.calendar;
                 var date = $(oldDoctorCalendar).fullCalendar('getDate')._d;
 
                 // change chosen doctor
                 self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
 
                 // tag date of old calendar to newly selected calendar
-                var newDoctorCalendar = '#' + self.scope.tabs[calendarNumber].calendar;
+                var newDoctorCalendar = '#' + self.scope.allDoctorsVariables[calendarNumber].calendar;
                 $(newDoctorCalendar).fullCalendar('gotoDate', date);
 
                 // tag view of old calendar to newly selected calendar
-                self.scope.changeView(self.scope.currentView, self.scope.tabs[calendarNumber].changeCalendar);
+                self.scope.changeView(self.scope.currentView, self.scope.allDoctorsVariables[calendarNumber].changeCalendar);
 
 
                 //change legend for dr ho calendar

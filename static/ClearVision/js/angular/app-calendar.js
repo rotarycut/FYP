@@ -51,53 +51,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     populateBlockedFormSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
-    $scope.drHoPreEvaluations = {
-        color: '#737CA1',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drHoSurgeries = {
-        color: '#D16587',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drHoPostSurgeries = {
-        color: '#F2BB66',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohPreEvaluations = {
-        color: '#737CA1',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohSurgeries = {
-        color: '#D16587',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.drGohPostSurgeries = {
-        color: '#F2BB66',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.optomScreenings = {
-        color: '#E77471',
-        textColor: 'White',
-        events: []
-    };
-
-    $scope.optomEyeCare = {
-        color: '#827839',
-        textColor: 'White',
-        events: []
-    };
 
     $scope.tempLowHeatMap = {
         color: '#00B499',
@@ -122,11 +75,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         textColor: 'White',
         events: []
     };
-
-    /* event sources array */
-    $scope.doctorHoAppointments = [];
-    $scope.doctorGohAppointments = [];
-    $scope.optomAppointments = [];
 
     $scope.selectedDoctor = {
         drAppointmentArray: $scope.doctorHoAppointments,
@@ -323,11 +271,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* render tooltip */
     $scope.eventRender = function (event, element, view) {
-
-        //console.log(event.start._d.getMonth());
-        //console.log(view.start._d.getMonth());
-        //if (event.start._d.getMonth() !== view.start._d.getMonth()) {console.log("FALSE"); return false;}
-
         var strOfPatientNames = $scope.getAllPatientsName(event);
         element.attr({
             'tooltip': strOfPatientNames,
@@ -387,7 +330,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             firstDay: 1,
             viewRender: function (view, element) {
 
-                var doctorCalendar = '#' + $scope.tabs[$scope.chosenDoctor.calendarTag].calendar;
+                var doctorCalendar = '#' + $scope.allDoctorsVariables[$scope.chosenDoctor.calendarTag].calendar;
 
                 var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
                 var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
@@ -402,6 +345,64 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
 
+    /*******************************************************************************
+     function to initialize doctors calendars
+     *******************************************************************************/
+
+
+    $scope.getDoctorsVariables = function () {
+
+        // activate loading spinner
+        $rootScope.spinner = {active: true};
+
+        $http.get('/Clearvision/_api/DoctorCalendarSideTab/')
+            .success(function (doctorsVariables) {
+
+                // loop through each doctor set of variables
+                angular.forEach(doctorsVariables, function (doctor) {
+
+                    doctor.active = JSON.parse('false');
+                    doctor.disable = JSON.parse('false');
+
+                    // set doctor appointment source to an empty array
+                    $scope[doctor.doctorAppointmentSource] = [];
+                    doctor.doctorAppointmentSource = $scope[doctor.doctorAppointmentSource];
+
+                    // for each appointment type, create appointment event array
+                    angular.forEach(doctor.appointmentTypeColorArray, function (appointmentType) {
+
+                        // create doctor appointment type event
+                        $scope[appointmentType.type] = {
+                            color: appointmentType.color,
+                            textColor: appointmentType.textColor,
+                            events: []
+                        }
+
+                    });
+
+                });
+
+
+                // set first doctor calendar to be the active calendar
+                doctorsVariables[0].active = true;
+
+                $scope.allDoctorsVariables = doctorsVariables;
+
+                $scope.chosenDoctor = $scope.allDoctorsVariables[0];
+
+
+            })
+
+    };
+
+    $scope.getDoctorsVariables();
+
+
+    /*******************************************************************************
+     function to track calendar navigation
+     *******************************************************************************/
+
+
     $scope.trackCalendar = function (currentView, startDate, endDate) {
 
         // example parameters
@@ -409,60 +410,25 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         // startDate : '2015-10-01'
         // endDate : '2015-10-31'
 
-        $scope.removeFromDoctorSource(
-            $scope.chosenDoctor.doctorAppointmentSource,
-            $scope.chosenDoctor.appointmentTypeSourceArray,
-            true
-        );
+        $timeout(function () {
+            $scope.removeFromDoctorSource(
+                $scope.chosenDoctor.doctorAppointmentSource,
+                $scope.chosenDoctor.appointmentTypeSourceArray,
+                true
+            );
 
-        $scope.getDoctorAppointments(
-            $scope.chosenDoctor.doctorId,
-            $scope.chosenDoctor.appointmentTypeArray,
-            $scope.chosenDoctor.doctorAppointmentSource,
-            $scope.chosenDoctor.appointmentTypeSourceArray,
-            startDate,
-            endDate
-        );
+            $scope.getDoctorAppointments(
+                $scope.chosenDoctor.doctorId,
+                $scope.chosenDoctor.appointmentTypeArray,
+                $scope.chosenDoctor.doctorAppointmentSource,
+                $scope.chosenDoctor.appointmentTypeSourceArray,
+                startDate,
+                endDate
+            );
+
+        }, 0);
 
     };
-
-
-    /*******************************************************************************
-     get list of doctors variables
-     *******************************************************************************/
-
-
-    $scope.allDoctorsVariables = [
-        {
-            doctorId: '1',
-            appointmentTypeArray: ['Pre Evaluation', 'Surgery', 'Post Surgery'],
-            doctorAppointmentSource: $scope.doctorHoAppointments,
-            appointmentTypeSourceArray: ['drHoPreEvaluations', 'drHoSurgeries', 'drHoPostSurgeries'],
-            calendarTag: 0
-        },
-        {
-            doctorId: '2',
-            appointmentTypeArray: ['Pre Evaluation', 'Surgery', 'Post Surgery'],
-            doctorAppointmentSource: $scope.doctorGohAppointments,
-            appointmentTypeSourceArray: ['drGohPreEvaluations', 'drGohSurgeries', 'drGohPostSurgeries'],
-            calendarTag: 1
-        },
-        {
-            doctorId: '3',
-            appointmentTypeArray: ['Screening', 'Eye Care'],
-            doctorAppointmentSource: $scope.optomAppointments,
-            appointmentTypeSourceArray: ['optomScreenings', 'optomEyeCare'],
-            calendarTag: 2
-        }
-    ];
-
-
-    /*******************************************************************************
-     set selected doctor
-     *******************************************************************************/
-
-
-    $scope.chosenDoctor = $scope.allDoctorsVariables[0];
 
 
     /*******************************************************************************
@@ -560,45 +526,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
     };
-
-
-    /*******************************************************************************
-     initialize calendar doctor tabs
-     *******************************************************************************/
-
-
-    $scope.tabs = [
-        {
-            title: 'Dr. Ho',
-            calendar: 'drHoCalendar',
-            initialise: 'Dr Ho',
-            changeCalendar: 'myCalendar1',
-            active: true,
-            disable: false,
-            model: $scope.doctorHoAppointments,
-            tag: 0
-        },
-        {
-            title: 'Dr. Goh',
-            calendar: 'drGohCalendar',
-            initialise: 'Dr Goh',
-            changeCalendar: 'myCalendar2',
-            active: false,
-            disable: false,
-            model: $scope.doctorGohAppointments,
-            tag: 1
-        },
-        {
-            title: 'Optom',
-            calendar: 'optomCalendar',
-            initialise: 'Optom',
-            changeCalendar: 'myCalendar3',
-            active: false,
-            disable: false,
-            model: $scope.optomAppointments,
-            tag: 2
-        }
-    ];
 
 
     /*******************************************************************************
@@ -1171,109 +1098,109 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /*Pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
 
-        $timeout(function () {
+     $timeout(function () {
 
-            $log.debug("Receiving socket request to create appointment");
+     $log.debug("Receiving socket request to create appointment");
 
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-            $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-            $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
-            $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-            $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-            $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-            $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-            $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-            $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-            $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-            $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
+     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
+     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
+     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-            $scope.getDrHoAppointments($scope.iSchedule);
-            $scope.getDrGohAppointments($scope.iSchedule);
-            $scope.getOptomAppointments($scope.iSchedule);
+     $scope.getDrHoAppointments($scope.iSchedule);
+     $scope.getDrGohAppointments($scope.iSchedule);
+     $scope.getOptomAppointments($scope.iSchedule);
 
-        }, 3500);
+     }, 3500);
 
-    });
+     });
 
-    Pusher.subscribe('appointmentsCUD', 'updateAppt', function (appointment) {
+     Pusher.subscribe('appointmentsCUD', 'updateAppt', function (appointment) {
 
-        $timeout(function () {
+     $timeout(function () {
 
-            $log.debug("Receiving socket request to update appointment");
+     $log.debug("Receiving socket request to update appointment");
 
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-            $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-            $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
-            $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-            $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-            $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-            $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-            $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-            $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-            $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-            $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
+     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
+     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
+     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-            $scope.getDrHoAppointments($scope.iSchedule);
-            $scope.getDrGohAppointments($scope.iSchedule);
-            $scope.getOptomAppointments($scope.iSchedule);
+     $scope.getDrHoAppointments($scope.iSchedule);
+     $scope.getDrGohAppointments($scope.iSchedule);
+     $scope.getOptomAppointments($scope.iSchedule);
 
-            $timeout(function () {
-                getSwapApptsSvc.getNumberOfSwappableAppointments();
-            }, 2000);
+     $timeout(function () {
+     getSwapApptsSvc.getNumberOfSwappableAppointments();
+     }, 2000);
 
-        }, 3500);
+     }, 3500);
 
-    });
+     });
 
-    Pusher.subscribe('appointmentsCUD', 'deleteAppt', function (appointment) {
+     Pusher.subscribe('appointmentsCUD', 'deleteAppt', function (appointment) {
 
-        $timeout(function () {
+     $timeout(function () {
 
-            $log.debug("Receiving socket request to delete appointment");
+     $log.debug("Receiving socket request to delete appointment");
 
-            // heat map is disabled when socket sends in some data
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-            $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-            $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-            $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-            $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
+     // heat map is disabled when socket sends in some data
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
-            $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-            $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-            $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-            $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-            $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-            $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-            $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-            $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
+     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
+     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
+     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-            $scope.getDrHoAppointments($scope.iSchedule);
-            $scope.getDrGohAppointments($scope.iSchedule);
-            $scope.getOptomAppointments($scope.iSchedule);
+     $scope.getDrHoAppointments($scope.iSchedule);
+     $scope.getDrGohAppointments($scope.iSchedule);
+     $scope.getOptomAppointments($scope.iSchedule);
 
-            $timeout(function () {
-                getSwapApptsSvc.getNumberOfSwappableAppointments();
-            }, 2000);
+     $timeout(function () {
+     getSwapApptsSvc.getNumberOfSwappableAppointments();
+     }, 2000);
 
 
-        }, 3500);
+     }, 3500);
 
-    });*/
+     });*/
 
 
     /*******************************************************************************

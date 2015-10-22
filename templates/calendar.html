@@ -26,15 +26,15 @@
                     <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('agendaDay', tabs[chosenDoctor.calendarTag].changeCalendar)">
+                                    ng-click="changeView('agendaDay', allDoctorsVariables[chosenDoctor.calendarTag].changeCalendar)">
                                 Day
                             </button>
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('agendaWeek', tabs[chosenDoctor.calendarTag].changeCalendar)">
+                                    ng-click="changeView('agendaWeek', allDoctorsVariables[chosenDoctor.calendarTag].changeCalendar)">
                                 Week
                             </button>
                             <button type="button" class="btn btn-primary cal-view-btn"
-                                    ng-click="changeView('month', tabs[chosenDoctor.calendarTag].changeCalendar)">
+                                    ng-click="changeView('month', allDoctorsVariables[chosenDoctor.calendarTag].changeCalendar)">
                                 Month
                             </button>
                         </div>
@@ -72,13 +72,14 @@
 
                         <div class="col-sm-12 cal-tab-clinic">
                             <tabset type="pills" vertical="true" class="side-tabset">
-                                <tab ng-repeat="tab in tabs" heading="[[tab.title]]"
-                                     select="renderCalendar([[tab.calendar]]);"
+                                <tab ng-repeat="tab in allDoctorsVariables" heading="[[tab.title]]"
+                                     select="renderCalendar(tab.calendar);"
                                      class="heading-rotate"
-                                     ng-click="changeCalendar(tab.tag, tab.disable)"
+                                     ng-click="changeCalendar(tab.calendarTag, tab.disable)"
                                      active="tab.active" disable="tab.disable">
 
-                                    <div class="calendar" ng-model="tab.model" calendar="[[tab.changeCalendar]]"
+                                    <div class="calendar" ng-model="tab.doctorAppointmentSource"
+                                         calendar="[[tab.changeCalendar]]"
                                          ui-calendar="uiConfig.calendar" id="[[tab.calendar]]"></div>
                                 </tab>
                                 <!-- <tab heading="Dr. Goh" select="renderCalendar('drGohCalendar');"
