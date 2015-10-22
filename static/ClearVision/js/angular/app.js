@@ -53,7 +53,8 @@ var app = angular.module('calendarDemoApp', [
     'show.notifications',
     'populate.blockedForm',
     'get.swappableAppointments',
-    'treasure-overlay-spinner'
+    'treasure-overlay-spinner',
+    'get.doctors'
 ]);
 
 /* Angular routing */
