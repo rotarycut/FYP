@@ -18,34 +18,22 @@ class PatientSerializer(serializers.ModelSerializer):
         return str(patient.marketingChannelId.name)
 
 class ClinicSerializer(serializers.ModelSerializer):
-    Monday = serializers.SerializerMethodField()
-    Tuesday = serializers.SerializerMethodField()
-    Wednesday = serializers.SerializerMethodField()
-    Thursday = serializers.SerializerMethodField()
-    Friday = serializers.SerializerMethodField()
-    Saturday = serializers.SerializerMethodField()
+    Days = serializers.SerializerMethodField()
 
     class Meta:
         model = Clinic
-        fields = ('id', 'name', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
+        fields = ('id', 'name', 'Days')
 
-    def get_Monday(self, clinic):
-        return [clinic.mondayStart, clinic.mondayEnd]
+    def get_Days(self, clinic):
+        return [
+            {"day": "Monday", "start": clinic.mondayStart, "end": clinic.mondayEnd},
+            {"day": "Tuesday", "start": clinic.tuesdayStart, "end": clinic.tuesdayEnd},
+            {"day": "Wednesday", "start": clinic.wednesdayStart, "end": clinic.wednesdayEnd},
+            {"day": "Thursday", "start": clinic.thursdayStart, "end": clinic.thursdayEnd},
+            {"day": "Friday", "start": clinic.fridayStart, "end": clinic.fridayEnd},
+            {"day": "Saturday", "start": clinic.saturdayStart, "end": clinic.saturdayEnd},
 
-    def get_Tuesday(self, clinic):
-        return [clinic.tuesdayStart, clinic.tuesdayEnd]
-
-    def get_Wednesday(self, clinic):
-        return [clinic.wednesdayStart, clinic.wednesdayEnd]
-
-    def get_Thursday(self, clinic):
-        return [clinic.thursdayStart, clinic.thursdayEnd]
-
-    def get_Friday(self, clinic):
-        return [clinic.fridayStart, clinic.fridayEnd]
-
-    def get_Saturday(self, clinic):
-        return [clinic.saturdayStart, clinic.saturdayEnd]
+        ]
 
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
