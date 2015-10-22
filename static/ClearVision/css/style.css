@@ -92,7 +92,8 @@
 
 .side-tabset > ul.nav > li > a {
     padding: 5px 5px 5px 5px;
-    background-color: #EBF4FA;
+    /*background-color: #EBF4FA;*/
+    background-color: #D5E5E9;
 
 }
 
@@ -101,7 +102,6 @@
 .side-tabset > ul.nav > li.active > a:hover {
     padding: 5px 5px 5px 5px;
     background-color: #49708A;
-    color: #fff;
 }
 
 .side-tabset > ul.nav > li > a:hover {
@@ -389,7 +389,7 @@ ul.legend-ul li {
 
 .cal-view-btn {
     border: 1px solid #FFFFFF;
-    background: #49708A;
+    background: #E79285;
     color: #FFFFFF;
     font-size: 90%;
 }
@@ -398,7 +398,7 @@ ul.legend-ul li {
 .cal-view-btn:active,
 .cal-view-btn:focus {
     /*border: 1.5px solid #7accc8;*/
-    background: #70AFC4;
+    background: #E37F70;
     color: #FFFFFF;
     outline: 0;
 }
@@ -409,15 +409,16 @@ ul.legend-ul li {
 }
 
 .form-btn {
-    background: #70AFC4;
+    background: #49708A;
     border: 1px solid #FFFFFF;
+    color: #D5E5E9;
 }
 
 .form-btn:hover,
 .form-btn:active,
 .form-btn:focus {
     /*border: 1.5px solid #7accc8;*/
-    background: #49708A;
+    background: #406279;
     color: #FFFFFF;
     outline: 0;
 }
@@ -1268,6 +1269,7 @@ ul.config-sidemenu-ul {
     border-radius: 4px;
     height: 78px;
     overflow-y: auto;
+    padding: 3px;
 }
 .remove-doc-appt-type{
     margin-left: 2px;
