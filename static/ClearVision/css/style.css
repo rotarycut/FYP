@@ -102,6 +102,7 @@
 .side-tabset > ul.nav > li.active > a:hover {
     padding: 5px 5px 5px 5px;
     background-color: #49708A;
+    color: #D5E5E9;
 }
 
 .side-tabset > ul.nav > li > a:hover {

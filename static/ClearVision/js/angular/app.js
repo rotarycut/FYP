@@ -54,7 +54,8 @@ var app = angular.module('calendarDemoApp', [
     'populate.blockedForm',
     'get.swappableAppointments',
     'treasure-overlay-spinner',
-    'get.doctors'
+    'get.doctors',
+    'get.clinics'
 ]);
 
 /* Angular routing */
@@ -64,6 +65,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "calendar.html",
             controller: 'CalendarCtrl',
             activetab: ''
+
         })
         .when("/dashboard/roi", {
             templateUrl: "roi.html",
@@ -105,7 +107,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/adminconfig", {
             templateUrl: "adminconfig.html",
-            controller: 'configCtrl'
+            controller: 'configCtrl',
+            activetab: 'adminconfig'
         })
         .otherwise({
             redirectTo: '/'

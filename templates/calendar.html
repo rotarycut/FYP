@@ -44,10 +44,10 @@
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary form-btn" ng-click="showForm('Create')"><i
-                                    class="fa fa-plus-circle" style="color: #E79285"></i> Add Appointment
+                                    class="fa fa-plus-circle"></i> Add Appointment
                             </button>
                             <button type="button" class="btn btn-primary form-btn" ng-click="showBlockForm()"><i
-                                    class="fa fa-ban" style="color: #E79285"></i> Block
+                                    class="fa fa-ban"></i> Block
                             </button>
                         </div>
                     </div>
@@ -729,7 +729,6 @@
 <!-- row for entire app content ends-->
 <div class="clearfix"></div>
 
-
 <script type="text/ng-template" id="myCreateModalContent.html">
     <div class="modal-header">
         <h3 class="modal-title">Confirm creation of appointment?</h3>
@@ -1001,6 +1000,7 @@
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
 </script>
+
 <!--
 <script>
     $('.cal-view-btn').click(function (e) {

@@ -1169,7 +1169,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    Pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
+    /*Pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
 
         $timeout(function () {
 
@@ -1273,7 +1273,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         }, 3500);
 
-    });
+    });*/
 
 
     /*******************************************************************************
@@ -1315,6 +1315,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }
             }
         });
+
     };
 
     /* function to open delete modal */
