@@ -266,6 +266,39 @@ class DoctorList(viewsets.ModelViewSet):
 
         return Response('Doctor created successfully')
 
+class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
+    queryset = Doctor.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        docs = Doctor.objects.all()
+
+        toReturn = []
+        counter = 0
+
+        for eachDoc in docs:
+            apptTypesEachDoc = eachDoc.apptType.all()
+
+            appointmentTypeArray = []
+            appointmentTypeSourceArray = []
+
+            for EachApptTypesEachDoc in apptTypesEachDoc:
+                appointmentTypeArray.append(EachApptTypesEachDoc.name)
+                appointmentTypeSourceArray.append(eachDoc.name.replace(" ", "") + EachApptTypesEachDoc.name.replace(" ", ""))
+
+            toReturn.append({"doctorId": eachDoc.id,
+                             "appointmentTypeArray": appointmentTypeArray,
+                             "doctorAppointmentSource": eachDoc.name.replace(" ", "") + "appointments",
+                             "appointmentTypeSourceArray": appointmentTypeSourceArray,
+                             "calendarTag": counter,
+                             "title": eachDoc.name,
+                             "calendar": eachDoc.name.replace(" ", "") + "calendar",
+                             "changeCalendar": "myCalendar" + str(counter),
+                             "active": "false",
+                             "disable": "false"})
+            counter += 1
+
+        return Response(toReturn)
+
 def WriteDatabaseFullYear(request):
     payload = request.GET
 
