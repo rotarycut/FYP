@@ -54,9 +54,11 @@
                                 </textarea>
                                 <br/>
                                 <a class="edit-opt-hr"
-                                   popover-template="dynamicPopover.editOptHr.templateUrl"
-                                   popover-title="Edit Operating Hours" data-ng-click="dynamicPopover.editOptHr.open()"
-                                   popover-placement="bottom" popover-is-open="dynamicPopover.editOptHr.isOpen">
+                                   popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
+                                   popover-title="Edit Operating Hours"
+                                   data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
+                                   popover-placement="bottom"
+                                   popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
                             </td>
                         </tbody>
@@ -507,7 +509,9 @@
     </div>
     <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
-        <button class="btn-sm form-cancel-btn" data-ng-click="dynamicPopover.editOptHr.close()">Cancel</button>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="operatingHoursPopover[currentIndex].editOptHr.close(currentIndex)">Cancel
+        </button>
     </div>
 </script>
 
