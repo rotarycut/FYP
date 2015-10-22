@@ -255,5 +255,46 @@
         "name": "Amabel",
         "clinic": "1"
     }
+  },
+  {
+    "model": "ClearVision.CalendarColorSettings",
+    "pk": 1,
+    "fields": {
+        "apptType": 2,
+        "hex": "#737CA1"
+    }
+  },
+  {
+    "model": "ClearVision.CalendarColorSettings",
+    "pk": 2,
+    "fields": {
+        "apptType": 3,
+        "hex": "#F2BB66"
+    }
+  },
+  {
+    "model": "ClearVision.CalendarColorSettings",
+    "pk": 3,
+    "fields": {
+        "apptType": 4,
+        "hex": "#D16587"
+    }
+  },
+  {
+    "model": "ClearVision.CalendarColorSettings",
+    "pk": 4,
+    "fields": {
+        "apptType": 1,
+        "hex": "#E77471"
+    }
+  },
+  {
+    "model": "ClearVision.CalendarColorSettings",
+    "pk": 5,
+    "fields": {
+        "apptType": 5,
+        "hex": "#827839"
+    }
   }
+
 ]
