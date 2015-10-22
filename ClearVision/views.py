@@ -163,34 +163,36 @@ class ClinicList(viewsets.ModelViewSet):
         payload = request.data
 
         name = payload.get('name')
-        mondayStart = payload.get('mondayStart')
-        mondayEnd = payload.get('mondayEnd')
-        tuesdayStart = payload.get('tuesdayStart')
-        tuesdayEnd = payload.get('tuesdayEnd')
-        wednesdayStart = payload.get('wednesdayStart')
-        wednesdayEnd = payload.get('wednesdayEnd')
-        thursdayStart = payload.get('thursdayStart')
-        thursdayEnd = payload.get('thursdayEnd')
-        fridayStart = payload.get('fridayStart')
-        fridayEnd = payload.get('fridayEnd')
-        saturdayStart = payload.get('saturdayStart')
-        saturdayEnd = payload.get('saturdayEnd')
+        day = payload.get('day')
+        start = payload.get('start')
+        end = payload.get('end')
 
         editClinic = Clinic.objects.get(id=self.get_object().id)
 
-        editClinic.name = name
-        editClinic.mondayStart = mondayStart
-        editClinic.mondayEnd = mondayEnd
-        editClinic.tuesdayStart = tuesdayStart
-        editClinic.tuesdayEnd = tuesdayEnd
-        editClinic.wednesdayStart = wednesdayStart
-        editClinic.wednesdayEnd = wednesdayEnd
-        editClinic.thursdayStart = thursdayStart
-        editClinic.thursdayEnd = thursdayEnd
-        editClinic.fridayStart = fridayStart
-        editClinic.fridayEnd = fridayEnd
-        editClinic.saturdayStart = saturdayStart
-        editClinic.saturdayEnd = saturdayEnd
+        if name is not None:
+            editClinic.name = name
+        else:
+            start += ":00"
+            end += ":00"
+
+            if day == 'Monday':
+                editClinic.mondayStart = start
+                editClinic.mondayEnd = end
+            elif day == 'Tuesday':
+                editClinic.tuesdayStart = start
+                editClinic.tuesdayEnd = end
+            elif day == 'Wednesday':
+                editClinic.wednesdayStart = start
+                editClinic.wednesdayEnd = end
+            elif day == 'Thursday':
+                editClinic.thursdayStart = start
+                editClinic.thursdayEnd = end
+            elif day == 'Friday':
+                editClinic.fridayStart = start
+                editClinic.fridayEnd = end
+            elif day == 'Saturday':
+                editClinic.saturdayStart = start
+                editClinic.saturdayEnd = end
 
         editClinic.save()
 
