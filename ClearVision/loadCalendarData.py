@@ -10,7 +10,7 @@ year = sys.argv[1]
 year = int(year)
 ###settings###
 
-dump = open("ClearVision/fixtures/calendardump.json", "w+")
+dump = open("ClearVision/fixtures/YearDump.json", "w+")
 c = calendar.TextCalendar()
 
 blank = []
