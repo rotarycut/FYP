@@ -26,12 +26,12 @@ class ClinicSerializer(serializers.ModelSerializer):
 
     def get_Days(self, clinic):
         return [
-            {"day": "Monday", "start": clinic.mondayStart, "end": clinic.mondayEnd},
-            {"day": "Tuesday", "start": clinic.tuesdayStart, "end": clinic.tuesdayEnd},
-            {"day": "Wednesday", "start": clinic.wednesdayStart, "end": clinic.wednesdayEnd},
-            {"day": "Thursday", "start": clinic.thursdayStart, "end": clinic.thursdayEnd},
-            {"day": "Friday", "start": clinic.fridayStart, "end": clinic.fridayEnd},
-            {"day": "Saturday", "start": clinic.saturdayStart, "end": clinic.saturdayEnd},
+            {"day": "Monday", "start": clinic.mondayStart.strftime('%H:%M'), "end": clinic.mondayEnd.strftime('%H:%M')},
+            {"day": "Tuesday", "start": clinic.tuesdayStart.strftime('%H:%M'), "end": clinic.tuesdayEnd.strftime('%H:%M')},
+            {"day": "Wednesday", "start": clinic.wednesdayStart.strftime('%H:%M'), "end": clinic.wednesdayEnd.strftime('%H:%M')},
+            {"day": "Thursday", "start": clinic.thursdayStart.strftime('%H:%M'), "end": clinic.thursdayEnd.strftime('%H:%M')},
+            {"day": "Friday", "start": clinic.fridayStart.strftime('%H:%M'), "end": clinic.fridayEnd.strftime('%H:%M')},
+            {"day": "Saturday", "start": clinic.saturdayStart.strftime('%H:%M'), "end": clinic.saturdayEnd.strftime('%H:%M')},
 
         ]
 
