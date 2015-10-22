@@ -106,7 +106,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/adminconfig", {
             templateUrl: "adminconfig.html",
-            controller: 'configCtrl'
+            controller: 'configCtrl',
+            activetab: 'adminconfig'
         })
         .otherwise({
             redirectTo: '/'
