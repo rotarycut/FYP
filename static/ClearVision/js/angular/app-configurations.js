@@ -13,22 +13,50 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal) {
             }
         },
         editApptColor:{
+            isOpen: false,
             templateUrl: 'editApptTypeColorTemplate.html',
+            open: function(){
+                $scope.dynamicPopover.editApptColor.isOpen = true;
+            },
+            close: function () {
+                $scope.dynamicPopover.editApptColor.isOpen = false;
+            }
         },
         editDoc:{
+            isOpen: false,
             templateUrl: 'editDocNameTemplate.html',
             editDocName: function(doctor){
                 $scope.docNameOnCal = doctor;
             },
+            open: function(){
+                $scope.dynamicPopover.editDoc.isOpen = true;
+            },
+            close: function () {
+                $scope.dynamicPopover.editDoc.isOpen = false;
+            }
         },
         editHeatmap:{
+            isOpen: false,
             templateUrl: 'editHeatmapRngTemplate.html',
             editHeatmapRng: function(range){
                 $scope.heatmapNoOfAppts = range;
             },
+            open: function(){
+                $scope.dynamicPopover.editHeatmap.isOpen = true;
+            },
+            close: function () {
+                $scope.dynamicPopover.editHeatmap.isOpen = false;
+            }
         },
         editApptTimeslot:{
+            isOpen: false,
             templateUrl: 'editApptTimeslotTemplate.html',
+            open: function(){
+                $scope.dynamicPopover.editApptTimeslot.isOpen = true;
+            },
+            close: function () {
+                $scope.dynamicPopover.editApptTimeslot.isOpen = false;
+            }
         }
     };
     $scope.showAddNewRngBtn = false;
