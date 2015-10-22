@@ -23,7 +23,6 @@ angular.module('change.calendar', [])
             self.scope.legendEvalClicked = "legend-preEval-clicked";
             self.scope.legendSurgeryClicked = "legend-surgery-clicked";
 
-
             // check if the the clicking on the calendar tab is when the the appointment form is shown / tabs are disabled
             if (tabDisabled) {
 
@@ -31,8 +30,24 @@ angular.module('change.calendar', [])
 
                 // should not doing anything when clicking on the calendar tabs now
 
+
+                // de-activate current doctor calendar
+                self.scope.allDoctorsVariables[self.scope.chosenDoctor.calendarTag].active = false;
+
+                // change chosen doctor
+                var calendarNumber = self.scope.fields.doctorAssigned.id - 1;
+                self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
+
+                // activate new doctor calendar
+                self.scope.allDoctorsVariables[self.scope.chosenDoctor.calendarTag].active = true;
+
+                // enable iSchedule
+                $timeout(function () {
+                    self.scope.enableISchedule();
+                }, 0);
+
                 // check if it is a doctor drop down selection
-                if (doctorDropDown) {
+                /*if (doctorDropDown) {
 
                     // set global variable calendar number
                     if (self.scope.fields.doctorAssigned.name == 'Dr Ho') {
@@ -80,7 +95,7 @@ angular.module('change.calendar', [])
                 // re render doctors calendars
                 $('#drHoCalendar').fullCalendar('refetchEvents');
                 $('#drGohCalendar').fullCalendar('refetchEvents');
-                $('#optomCalendar').fullCalendar('refetchEvents');
+                $('#optomCalendar').fullCalendar('refetchEvents');*/
 
             } else {
 

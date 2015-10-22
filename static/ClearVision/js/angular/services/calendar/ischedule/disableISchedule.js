@@ -23,18 +23,18 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.iSchedule = false;
 
             // remove all the low, medium, high heat map from the source array
-            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.doctorHoAppointments, self.scope.blockedHeatMap);
-            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.doctorGohAppointments, self.scope.blockedHeatMap);
-            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.optomAppointments, self.scope.blockedHeatMap);
+            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.blockedHeatMap);
+            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.blockedHeatMap);
+            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);
 
             $timeout(function () {
 
@@ -45,19 +45,17 @@ app.service('disableIScheduleSvc', function ($timeout) {
                 self.scope.blockedHeatMap.events.splice(0, self.scope.blockedHeatMap.events.length);
 
                 // add all the appointments on the calendar
-                self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
-                self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
-                self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPostSurgeries);
-                self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
-                self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
-                self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPostSurgeries);
-                self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
-                self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomEyeCare);
+                /*self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPreEvaluations);
+                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoSurgeries);
+                 self.scope.addEventSource(self.scope.doctorHoAppointments, self.scope.drHoPostSurgeries);
+                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPreEvaluations);
+                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohSurgeries);
+                 self.scope.addEventSource(self.scope.doctorGohAppointments, self.scope.drGohPostSurgeries);
+                 self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomScreenings);
+                 self.scope.addEventSource(self.scope.optomAppointments, self.scope.optomEyeCare);*/
 
-                // re render doctors calendars
-                $('#drHoCalendar').fullCalendar('refetchEvents');
-                $('#drGohCalendar').fullCalendar('refetchEvents');
-                $('#optomCalendar').fullCalendar('refetchEvents');
+                // yet to get back appointments
+
 
             }, 1000);
 

@@ -110,8 +110,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $http.get(lowHeatUrl)
             .success(function (listOfAppointments) {
+
                 var count = 0;
                 angular.forEach(listOfAppointments, function (appointment) {
+
                     //appointment.title = appointment.patientcount + " patient(s)";
                     if (count <= 651) {
                         //$scope.drGohLowHeatMap.events.push(appointment);
@@ -124,7 +126,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 });
 
-                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempLowHeatMap);
+                $scope.addEventSource($scope.chosenDoctor.doctorAppointmentSource, $scope.tempLowHeatMap);
 
                 // enable appointment type field to be change only after loading heat map completely
                 $scope.form.disableFields.disabledApptType = false;
@@ -148,7 +150,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
                 });
 
-                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempMedHeatMap);
+                $scope.addEventSource($scope.chosenDoctor.doctorAppointmentSource, $scope.tempMedHeatMap);
             });
 
         $http.get(highHeatUrl)
@@ -167,7 +169,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
                 });
 
-                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.tempHighHeatMap);
+                $scope.addEventSource($scope.chosenDoctor.doctorAppointmentSource, $scope.tempHighHeatMap);
             });
 
         $http.get(blockUrl)
@@ -177,7 +179,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     $scope.blockedHeatMap.events.push(timeSlot);
                 });
 
-                $scope.addEventSource($scope.selectedDoctor.drAppointmentArray, $scope.blockedHeatMap);
+                $scope.addEventSource($scope.chosenDoctor.doctorAppointmentSource, $scope.blockedHeatMap);
             });
 
     };
@@ -339,7 +341,12 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
                 var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
 
-                $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+                if ($scope.iSchedule) {
+
+                } else {
+                    $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+                }
+
             }
         }
     };
