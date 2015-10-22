@@ -19,7 +19,7 @@
                         Types</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-saveall-row" ng-click="">Save All Changes</a>
+                    <a ng-href="" class="config-saveall-item" ng-click=""><i class="fa fa-floppy-o"></i> Save All Changes</a>
                 </li>
             </ul>
         </div>
@@ -49,14 +49,19 @@
                                 <div class="day-of-week">
                                     [[day.day]]
                                 </div>
-                                <textarea class="form-control date-input-field">
+                                <div class="opt-hours-listbox">
                                     [[day.start]]-[[day.end]]
-                                </textarea>
+                                </div>
+                                <!--<textarea class="form-control date-input-field" disabled>
+                                    [[day.start]]-[[day.end]]
+                                </textarea>-->
                                 <br/>
                                 <a class="edit-opt-hr"
-                                   popover-template="dynamicPopover.editOptHr.templateUrl"
-                                   popover-title="Edit Operating Hours" data-ng-click="dynamicPopover.editOptHr.open()"
-                                   popover-placement="bottom" popover-is-open="dynamicPopover.editOptHr.isOpen">
+                                   popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
+                                   popover-title="Edit Operating Hours"
+                                   data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
+                                   popover-placement="bottom"
+                                   popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>
                             </td>
                         </tbody>
@@ -98,7 +103,7 @@
                                         class="edit-opt-hr"
                                         popover-template="dynamicPopover.editDoc.templateUrl"
                                         popover-title="Edit Doctor Name"
-                                        data-ng-click="dynamicPopover.editDoc.open(); dynamicPopover.editDoc.editDocName(doc)"
+                                        data-ng-click="dynamicPopover.editDoc.open([doc][$index+1]); dynamicPopover.editDoc.editDocName(doc)"
                                         popover-placement="bottom" popover-is-open="dynamicPopover.editDoc.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
                                     <a class="edit-opt-hr"
@@ -507,7 +512,9 @@
     </div>
     <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
-        <button class="btn-sm form-cancel-btn" data-ng-click="dynamicPopover.editOptHr.close()">Cancel</button>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="operatingHoursPopover[currentIndex].editOptHr.close(currentIndex)">Cancel
+        </button>
     </div>
 </script>
 

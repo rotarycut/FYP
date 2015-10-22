@@ -3,17 +3,10 @@ var appConfig = angular.module('app.config', []);
 appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
                                              getDoctorsService,
                                              getClinicsService) {
+
+    $scope.operatingHoursPopover = [];
+
     $scope.dynamicPopover = {
-        editOptHr: {
-            isOpen: false,
-            templateUrl: 'editOptHourTemplate.html',
-            open: function () {
-                $scope.dynamicPopover.editOptHr.isOpen = true;
-            },
-            close: function () {
-                $scope.dynamicPopover.editOptHr.isOpen = false;
-            }
-        },
         editApptColor: {
             isOpen: false,
             templateUrl: 'editApptTypeColorTemplate.html',
@@ -61,6 +54,7 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
             }
         }
     };
+
     $scope.showAddNewRngBtn = false;
     $scope.showAddNewDocBtn = true;
     $scope.showDocConfigForm = true;
@@ -196,6 +190,24 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
 
                 // only want mt e clinic
                 $scope.listOfClinics = listOfClinics[0];
+
+                // push all the operating hours  popovers based on day count
+                angular.forEach(listOfClinics[0].Days, function () {
+
+                    $scope.operatingHoursPopover.push({
+                        editOptHr: {
+                            isOpen: false,
+                            templateUrl: 'editOptHourTemplate.html',
+                            open: function (index) {
+                                $scope.currentIndex = index;
+                                $scope.operatingHoursPopover[index].editOptHr.isOpen = true;
+                            },
+                            close: function (index) {
+                                $scope.operatingHoursPopover[index].editOptHr.isOpen = false;
+                            }
+                        }
+                    });
+                });
 
             }, function (data) {
                 $log.error("Failed to retrieve clinics");

@@ -603,12 +603,12 @@ form.form-search:before {
     z-index: 1000;
 }
 
-input[type=text].date-input-field:disabled {
-    background: #fff;
-}
-
-textarea.date-input-field:disabled {
-    background: #fff;
+.opt-hours-listbox{
+    border: solid 1px #70AFC4;
+    border-radius: 4px;
+    height: 65px;
+    overflow-y: auto;
+    padding-top: 16%;
 }
 
 /*calendar css ends*/
@@ -1259,10 +1259,16 @@ ul.config-sidemenu-ul {
     padding-left: 10px;
 }
 
-.config-saveall-row {
-    color: #70AFC4;
-    padding-left: 20px;
-    font-weight: 200;
+.config-saveall-item {
+    color: #E79285;
+    font-size: 11.5pt;
+    font-weight: 300;
+    padding-left: 12%;
+}
+.config-saveall-item:hover{
+    font-weight: 400;
+    color: #E79285;
+    font-size: 11.5pt;
 }
 
 .doc-appts-listbox{
@@ -1279,7 +1285,7 @@ ul.config-sidemenu-ul {
     opacity: 0.5;
 }
 
-li.row.config-sidemenu-row.activetab:after,
+/*li.row.config-sidemenu-row.activetab:after,
 li.config-sidemenu-row:hover::after {
     content: '';
     width: 0;
@@ -1294,19 +1300,22 @@ li.config-sidemenu-row:hover::after {
     border-left: 20px solid #ebdbd0;
     border-left-height: 8px;
     z-index: 99;
-}
+}*/
 
 li.row.config-sidemenu-row.activetab,
 li.row.config-sidemenu-row:hover {
 
 }
-
+li.config-sidemenu-row a:hover{
+    text-decoration: none;
+}
 li.config-sidemenu-row {
     margin-top: 15px;
     padding-left: 10px;
     display: block;
     position: relative;
     text-align: -webkit-match-parent;
+    cursor: pointer;
 }
 
 .label-section-config{
@@ -1327,7 +1336,7 @@ li.config-sidemenu-row {
 }
 
 .day-of-week{
-    font-size: 10px;
+    font-size: 11px;
     text-align: center;
 }
 
