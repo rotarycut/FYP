@@ -219,7 +219,7 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
 });
 
 
-appConfig.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance) {
 
 
     $scope.ok = function () {

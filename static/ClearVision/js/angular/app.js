@@ -64,6 +64,7 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "calendar.html",
             controller: 'CalendarCtrl',
             activetab: ''
+
         })
         .when("/dashboard/roi", {
             templateUrl: "roi.html",
