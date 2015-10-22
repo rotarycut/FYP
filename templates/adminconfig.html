@@ -19,7 +19,7 @@
                         Types</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-saveall-row" ng-click="">Save All Changes</a>
+                    <a ng-href="" class="config-saveall-item" ng-click=""><i class="fa fa-floppy-o"></i> Save All Changes</a>
                 </li>
             </ul>
         </div>
@@ -49,9 +49,12 @@
                                 <div class="day-of-week">
                                     [[day.day]]
                                 </div>
-                                <textarea class="form-control date-input-field">
+                                <div class="opt-hours-listbox">
                                     [[day.start]]-[[day.end]]
-                                </textarea>
+                                </div>
+                                <!--<textarea class="form-control date-input-field" disabled>
+                                    [[day.start]]-[[day.end]]
+                                </textarea>-->
                                 <br/>
                                 <a class="edit-opt-hr"
                                    popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
@@ -100,7 +103,7 @@
                                         class="edit-opt-hr"
                                         popover-template="dynamicPopover.editDoc.templateUrl"
                                         popover-title="Edit Doctor Name"
-                                        data-ng-click="dynamicPopover.editDoc.open(); dynamicPopover.editDoc.editDocName(doc)"
+                                        data-ng-click="dynamicPopover.editDoc.open([doc][$index+1]); dynamicPopover.editDoc.editDocName(doc)"
                                         popover-placement="bottom" popover-is-open="dynamicPopover.editDoc.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
                                     <a class="edit-opt-hr"
