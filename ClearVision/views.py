@@ -280,10 +280,12 @@ class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
 
             appointmentTypeArray = []
             appointmentTypeSourceArray = []
+            appointmentTypeColorArray = []
 
             for EachApptTypesEachDoc in apptTypesEachDoc:
                 appointmentTypeArray.append(EachApptTypesEachDoc.name)
-                appointmentTypeSourceArray.append({"type": eachDoc.name.replace(" ", "") + EachApptTypesEachDoc.name.replace(" ", ""),
+                appointmentTypeSourceArray.append(eachDoc.name.replace(" ", "") + EachApptTypesEachDoc.name.replace(" ", ""))
+                appointmentTypeColorArray.append({"type": eachDoc.name.replace(" ", "") + EachApptTypesEachDoc.name.replace(" ", ""),
                                                    "color": CalendarColorSettings.objects.get(apptType__id=EachApptTypesEachDoc.id).hex,
                                                    "textColor": "White"})
 
@@ -291,6 +293,7 @@ class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
                              "appointmentTypeArray": appointmentTypeArray,
                              "doctorAppointmentSource": eachDoc.name.replace(" ", "") + "appointments",
                              "appointmentTypeSourceArray": appointmentTypeSourceArray,
+                             "appointmentTypeColorArray": appointmentTypeColorArray,
                              "calendarTag": counter,
                              "title": eachDoc.name,
                              "calendar": eachDoc.name.replace(" ", "") + "calendar",
