@@ -4217,7 +4217,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .tab-content > .active {
   display: block;
-  padding-left: 35px;
+  /*padding-left: 35px;*/
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
@@ -6178,7 +6178,8 @@ button.close {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1060;
+  /*z-index: 1060;*/
+  z-index: 99;
   display: none;
   max-width: 276px;
   padding: 1px;

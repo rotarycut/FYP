@@ -53,9 +53,6 @@
                                 <div class="opt-hours-listbox">
                                     [[day.start]]-[[day.end]]
                                 </div>
-                                <!--<textarea class="form-control date-input-field" disabled>
-                                    [[day.start]]-[[day.end]]
-                                </textarea>-->
                                 <br/>
                                 <a class="edit-opt-hr"
                                    popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
@@ -178,79 +175,6 @@
                                     <a class="edit-opt-hr" ng-click="">
                                         <i class="fa fa-plus-circle"></i> Assign Appointment Type</a>
                                 </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="arrow-down">
-            <i class="fa fa-chevron-down"></i>
-        </div>
-        <section id="calendar-config">
-            <div class="row subcontent-row">
-                <div class="col-md-12">
-                    <h4><span class="label label-section-config">Calendar Settings</span></h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-9">
-                    <ul class="cal-config-viewtabs">
-                        <li class="appt-color-tab"><a href="" data-ng-click="showApptColorView()">Appointment Colors</a>
-                        </li>
-                        <li class="heatmap-color-tab"><a href="" data-ng-click="showHeatmapView()">Heatmap</a></li>
-                        <hr ng-class="calConfigActiveTab">
-                    </ul>
-                </div>
-                <div class="col-md-3 right-block" ng-show="showAddNewRngBtn">
-                    <button class="btn form-submit-btn">Add New Range</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="doc-config-form" ng-show="showApptColorConfigForm">
-                        <table class="table">
-                            <tbody>
-                            <tr ng-repeat="appt in listOfApptTypes">
-                                <td>[[$index + 1]]</td>
-                                <td>[[appt.apptType]]</td>
-                                <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
-                                                                  ng-style="{'color': appt.color}"></i></h5>
-                                    [[appt.color]]
-                                </td>
-                                <td><a
-                                        class="edit-opt-hr"
-                                        ng-click=""
-                                        popover-template="dynamicPopover.editApptColor.templateUrl"
-                                        popover-title="Edit Appointment Color"
-                                        data-ng-click="dynamicPopover.editApptColor.open()"
-                                        popover-placement="top" popover-is-open="dynamicPopover.editApptColor.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="doc-config-form" ng-show="showHeatmapColorConfigForm">
-                        <table class="table">
-                            <tbody>
-                            <tr ng-repeat="rng in listOfHeatmapRange">
-                                <td>[[$index + 1]]</td>
-                                <td><label>[[rng.range]]</label></td>
-                                <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
-                                                                  ng-style="{'color': rng.color}"></i></h5>
-                                    [[rng.color]]
-                                </td>
-                                <td><a
-                                        class="edit-opt-hr"
-                                        popover-template="dynamicPopover.editHeatmap.templateUrl"
-                                        popover-title="Edit Heatmap"
-                                        data-ng-click="dynamicPopover.editHeatmap.open(); dynamicPopover.editHeatmap.editHeatmapRng(rng.range)"
-                                        popover-placement="bottom" popover-is-open="dynamicPopover.editHeatmap.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
-                                    <a class="edit-opt-hr"
-                                       ng-click="">
-                                        <i class="fa fa-minus-circle"></i> Remove</a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -442,6 +366,82 @@
                 </div>
             </div>
         </section>
+        <div class="arrow-down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
+        <section id="calendar-config">
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <h4><span class="label label-section-config">Calendar Settings</span></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <ul class="cal-config-viewtabs">
+                        <li class="appt-color-tab"><a href="" data-ng-click="showApptColorView()">Appointment Colors</a>
+                        </li>
+                        <li class="heatmap-color-tab"><a href="" data-ng-click="showHeatmapView()">Heatmap</a></li>
+                        <hr ng-class="calConfigActiveTab">
+                    </ul>
+                </div>
+                <div class="col-md-3 right-block" ng-show="showAddNewRngBtn">
+                    <button class="btn form-submit-btn">Add New Range</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="doc-config-form" ng-show="showApptColorConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="appt in listOfApptTypes">
+                                <td>[[$index + 1]]</td>
+                                <td>[[appt.apptType]]</td>
+                                <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
+                                                                  ng-style="{'color': appt.color}"></i></h5>
+                                    [[appt.color]]
+                                </td>
+                                <td><a
+                                        class="edit-opt-hr"
+                                        ng-click=""
+                                        popover-template="dynamicPopover.editApptColor.templateUrl"
+                                        popover-title="Edit Appointment Color"
+                                        data-ng-click="dynamicPopover.editApptColor.open()"
+                                        popover-placement="top" popover-is-open="dynamicPopover.editApptColor.isOpen">
+                                    <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="doc-config-form" ng-show="showHeatmapColorConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="rng in listOfHeatmapRange">
+                                <td>[[$index + 1]]</td>
+                                <td><label>[[rng.range]]</label></td>
+                                <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
+                                                                  ng-style="{'color': rng.color}"></i></h5>
+                                    [[rng.color]]
+                                </td>
+                                <td><a
+                                        class="edit-opt-hr"
+                                        popover-template="dynamicPopover.editHeatmap.templateUrl"
+                                        popover-title="Edit Heatmap"
+                                        data-ng-click="dynamicPopover.editHeatmap.open(); dynamicPopover.editHeatmap.editHeatmapRng(rng.range)"
+                                        popover-placement="bottom" popover-is-open="dynamicPopover.editHeatmap.isOpen">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
+                                    <a class="edit-opt-hr"
+                                       ng-click="">
+                                        <i class="fa fa-minus-circle"></i> Remove</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="arrow-down">
+            <i class="fa fa-chevron-down"></i>
+        </div>
         <section id="doctors-config">
             <div class="row subcontent-row">
                 <div class="col-md-12">
@@ -592,18 +592,41 @@
 
 <script type="text/ng-template" id="myAddNewDocModalTemplate.html">
     <div class="modal-header">
-        <h3 class="modal-title">Create New Doctor</h3>
+        <h3 class="add-new-doc-title">Create New Doctor</h3>
+        <ul class="progress-indicator">
+            <li class="bubble">
+                <span class="bubble"></span>
+                <i class="fa fa-check-circle"></i>
+                Step 1
+            </li>
+            <li class="bubble">
+                <span class="bubble"></span>
+                <i class="fa fa-check-circle"></i>
+                Step 2
+            </li>
+            <li>
+                <span class="bubble"></span>
+                Step 3
+            </li>
+        </ul>
     </div>
-    <div class="modal-body">
+    <div class="modal-body center-block">
         <div class="form-group">
-            <label>Doctor Name:</label>
-            <input type="text" class="form-control" data-ng-model="docNameNew"/>
+            <label class="label-color">Doctor Name</label>
+            <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/></div>
+        <div class="form-group">
+            <label class="label-color">Contact No</label>
+            <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+        </div>
+        <div class="form-group">
+            <label class="label-color">Mobile Phone Model</label>
+            <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
         </div>
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="">Yes
+        <button class="btn form-submit-btn pull-right" type="button" ng-click="">Next
         </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        <button class="btn form-cancel-btn pull-left" type="button" ng-click="cancel()">Cancel</button>
     </div>
 </script>
