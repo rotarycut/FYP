@@ -61,6 +61,7 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
     $scope.showDocApptConfigForm = false;
     $scope.showApptColorConfigForm = true;
     $scope.showReminderSMSConfigForm = true;
+    $scope.showDocInfoForm = true;
     $scope.docConfigActiveTab = "doctors-tab-active";
     $scope.calConfigActiveTab = "appt-color-tab-active";
     $scope.SMSConfigActiveTab = "remindersms-tab-active";
@@ -159,7 +160,7 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: 'myAddNewDocModalTemplate.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'AppConfigModalInstanceCtrl',
             size: size,
             resolve: {
                 patientInfo: function () {
@@ -173,6 +174,9 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
                 },
                 blockInfo: function () {
                     return $scope.blockFields;
+                },
+                docInfoFormVisibility : function (){
+                    return $scope.showDocInfoForm;
                 }
             }
         });
@@ -232,17 +236,35 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
     $scope.getClinics();
     $scope.getDoctors();
 
+    $scope.retrieveAppointmentTypes = function () {
+        $http.get('/Clearvision/_api/ViewAllApptTypes/')
+            .success(function (data) {
+                angular.forEach(data, function (appt) {
+                    $scope.apptTypes.push(appt);
+                    $scope.listOfApptTypes.push(appt.name);
+                });
+            });
+    };
+
 });
 
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance) {
+
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility) {
+
+    $scope.docInfoFormVisible= docInfoFormVisibility;
 
 
     $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
+
+        $scope.docInfoFormVisible = false;
+        $scope.docApptTypeFormVisible = true;
+        $scope.StepOneComplete = "completed";
+        $scope.showStepChecker = true;
     };
 
     $scope.cancel = function () {
+        console.log = ($scope.docInfoFormVisible);
         $modalInstance.dismiss('cancel');
     };
 });

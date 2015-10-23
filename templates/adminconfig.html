@@ -594,38 +594,58 @@
     <div class="modal-header">
         <h3 class="add-new-doc-title">Create New Doctor</h3>
         <ul class="progress-indicator">
-            <li class="bubble">
-                <span class="bubble"></span>
-                <i class="fa fa-check-circle"></i>
-                Step 1
+            <li class="bubble" ng-class="StepOneComplete">
+                <span class="bubble" ng-class="StepOneComplete"></span>
+                <i class="fa fa-check-circle" ng-show="showStepChecker"></i>
+                1. Doctor Info
             </li>
             <li class="bubble">
                 <span class="bubble"></span>
                 <i class="fa fa-check-circle"></i>
-                Step 2
+                2. Appointment Type
             </li>
             <li>
                 <span class="bubble"></span>
-                Step 3
+                3. Available Time Slots
             </li>
         </ul>
     </div>
     <div class="modal-body center-block">
-        <div class="form-group">
-            <label class="label-color">Doctor Name</label>
-            <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/></div>
-        <div class="form-group">
-            <label class="label-color">Contact No</label>
-            <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+        <div class="doc-info-form" ng-show="docInfoFormVisible">
+            <div class="form-group">
+                <label class="label-color">Doctor Name</label>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/></div>
+            <div class="form-group">
+                <label class="label-color">Contact No</label>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+            </div>
+            <div class="form-group">
+                <label class="label-color">Mobile Phone Model</label>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="label-color">Mobile Phone Model</label>
-            <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+        <div ng-show="docApptTypeFormVisible">
+            <div class="form-group">
+                <label class="label-color">Select Doctor's Appointment Types</label>
+                <div class="roi-marketing-listbox">
+                                    <ul style="list-style: none; padding-left: 1%;">
+                                        <li ng-class="{typeSelected: apptType}"
+                                            class="mrkt-list-item"
+                                            ng-repeat="type in listOfApptTypes">
+                                            <label>[[type.apptType]]
+                                                <input type="checkbox"
+                                                       ng-model="apptType.naming"
+                                                       ng-click="toggleSelection(apptType.name, apptType.id)">
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+            </div>
         </div>
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn pull-right" type="button" ng-click="">Next
+        <button class="btn form-submit-btn pull-right" type="button" ng-click="ok()">Next
         </button>
         <button class="btn form-cancel-btn pull-left" type="button" ng-click="cancel()">Cancel</button>
     </div>
