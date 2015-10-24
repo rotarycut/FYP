@@ -120,8 +120,8 @@
   "fields": {
     "month_of_year": "*",
     "day_of_week": "*",
-    "hour": "23",
-    "minute": "32",
+    "hour": "02",
+    "minute": "21",
     "day_of_month": "*"
   },
   "model": "djcelery.crontabschedule",

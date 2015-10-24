@@ -84,7 +84,7 @@ def sendMonthlyBackup():
                             eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
                             eachObj['clinic'], eachObj['doctor']])
 
-    message = EmailMessage("Backup for " + str(date.today().month), "Monthly Failsafe. All Appointment data", to=settings.MONTHLY_BACKUP_RECIPIENTS)
+    message = EmailMessage("Backup for " + str(date.today().strftime("%B")) + " " + str(date.today().year), "Monthly Failsafe. All Appointment data", to=settings.MONTHLY_BACKUP_RECIPIENTS)
     message.attach('backup.csv', csvfile.getvalue(), 'text/csv')
 
     message.send()
