@@ -143,32 +143,14 @@ CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 BROKER_URL = 'redis://localhost:6379/0'
 #BROKER_URL=os.environ['REDIS_URL']
 ##############
-"""
-# SwampDragon settings
-SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
-DRAGON_URL = 'http://localhost:9999'
 
-import redis
-import urlparse
-redis_url = urlparse.urlparse(os.environ.get('REDIS_URL'))
-SWAMP_DRAGON_REDIS_HOST = redis_url.hostname
-SWAMP_DRAGON_REDIS_PORT = redis_url.port
-SWAMP_DRAGON_REDIS_PASS = redis_url.password
-"""
-#############
-"""
-#Timetable settings
-MONDAY_SLOTS_NONSURGERY = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00']
-TUESDAY_SLOTS_NONSURGERY = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00']
-WEDNESDAY_SLOTS_NONSURGERY = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00']
-THURSDAY_SLOTS_NONSURGERY = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00']
-FRIDAY_SLOTS_NONSURGERY = ['14:00:00', '14:30:00', '15:00:00', '15:30:00']
-SATURDAY_SLOTS_NONSURGERY = ['09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00']
+## Email settings ##
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'clearvisionsurveys@gmail.com'
+EMAIL_HOST_PASSWORD = 'Clearvision2015'
 
-MONDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
-TUESDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
-WEDNESDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
-THURSDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
-FRIDAY_SLOTS_SURGERY = ['11:00:00', '16:30:00']
-SATURDAY_SLOTS_SURGERY =[]
-"""
+####
+DAILY_BACKUP_RECIPIENTS = ['shermanyong.2012@sis.smu.edu.sg', 'leon.lim.2012@sis.smu.edu.sg', 'qunqun.hu.2012@sis.smu.edu.sg', 'amabel.lau.2012@sis.smu.edu.sg']
+MONTHLY_BACKUP_RECIPIENTS = ['shermanyong.2012@sis.smu.edu.sg', 'leon.lim.2012@sis.smu.edu.sg', 'qunqun.hu.2012@sis.smu.edu.sg', 'amabel.lau.2012@sis.smu.edu.sg']

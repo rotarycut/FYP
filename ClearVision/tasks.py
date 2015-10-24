@@ -1,6 +1,10 @@
+import StringIO
+from django.core.mail import EmailMessage
 from celery import task
 from datetime import date, datetime, timedelta
 from ClearVision.models import *
+import csv
+from django.conf import settings
 import requests
 import base64
 
@@ -36,3 +40,53 @@ def sendSMS():
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
     """
     print("SendSMS Executed")
+
+@task()
+def sendDailyBackup():
+
+    appointments = Appointment.objects.filter(timeBucket__date__gte=date.today(), timeBucket__date__lte=date.today() + timedelta(days=30)).\
+        values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
+        exclude(patients__isnull=True)
+
+    csvfile = StringIO.StringIO()
+    csvwriter = csv.writer(csvfile)
+
+    csvwriter.writerow(['patients_contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start',
+                        'apptType', 'id', 'doctor__name', 'clinic', 'doctor'])
+
+    for eachObj in appointments:
+        csvwriter.writerow([eachObj['patients__contact'], eachObj['patients__name'], eachObj['patients__gender'], eachObj['timeBucket__date'],
+                            eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
+                            eachObj['clinic'], eachObj['doctor']])
+
+    message = EmailMessage("Backup for " + str(date.today()), "Daily Failsafe. (T + 30) days Appointments", to=settings.DAILY_BACKUP_RECIPIENTS)
+    message.attach('backup.csv', csvfile.getvalue(), 'text/csv')
+
+    message.send()
+
+    print("Successful Daily Backup")
+
+@task()
+def sendMonthlyBackup():
+
+    appointments = Appointment.objects.all().\
+        values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
+        exclude(patients__isnull=True)
+
+    csvfile = StringIO.StringIO()
+    csvwriter = csv.writer(csvfile)
+
+    csvwriter.writerow(['patients_contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start',
+                        'apptType', 'id', 'doctor__name', 'clinic', 'doctor'])
+
+    for eachObj in appointments:
+        csvwriter.writerow([eachObj['patients__contact'], eachObj['patients__name'], eachObj['patients__gender'], eachObj['timeBucket__date'],
+                            eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
+                            eachObj['clinic'], eachObj['doctor']])
+
+    message = EmailMessage("Backup for " + str(date.today().month), "Monthly Failsafe. All Appointment data", to=settings.MONTHLY_BACKUP_RECIPIENTS)
+    message.attach('backup.csv', csvfile.getvalue(), 'text/csv')
+
+    message.send()
+
+    print("Successful Monthly Backup")

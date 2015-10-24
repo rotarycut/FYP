@@ -1,11 +1,9 @@
 import base64
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 from itertools import chain
 import json
 from operator import itemgetter
 import os
-import sys
-import subprocess
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 import requests
@@ -335,20 +333,16 @@ class AppointmentList(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
     filter_backends = (filters.DjangoFilterBackend, filters.SearchFilter,)
     filter_class = AppointmentFilter
-
     """
     def list(self, request, *args, **kwargs):
-        startMonth = request.query_params.get('startMonth')
-        endMonth = request.query_params.get('endMonth')
-        doctor = request.query_params.get('doctor')
-        year = request.query_params.get('year')
-        apptType = request.query_params.get('apptType')
-
-        Appointment.objects.exclude(patients=None).filter(timeBucket__date__month=startMonth)
+        appointments = Appointment.objects.filter(timeBucket__date__lte=date.today() + timedelta(days=30)).values('patients__contact', 'patients__name',
+                                                                                                              'patients__gender', 'timeBucket__date',
+                                                                                                              'timeBucket__start', 'apptType', 'id',
+                                                                                                              'timeBucket', 'doctor__name', 'clinic',
+                                                                                                              'doctor').\
+            exclude(patients__isnull=True)
+        return Response(appointments)
     """
-
-
-
 # API for Appointment to Create, Update & Delete
 class AppointmentWriter(viewsets.ModelViewSet):
     # renderer_classes = (JSONRenderer,)

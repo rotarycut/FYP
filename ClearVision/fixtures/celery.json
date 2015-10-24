@@ -24,8 +24,8 @@
   "fields": {
     "month_of_year": "*",
     "day_of_week": "*",
-    "hour": "17",
-    "minute": "34",
+    "hour": "16",
+    "minute": "40",
     "day_of_month": "*"
   },
   "model": "djcelery.crontabschedule",
@@ -56,11 +56,75 @@
   "fields": {
     "month_of_year": "*",
     "day_of_week": "*",
-    "hour": "22",
-    "minute": "00",
+    "hour": "16",
+    "minute": "40",
     "day_of_month": "*"
   },
   "model": "djcelery.crontabschedule",
   "pk": 3
+},
+  {
+  "fields": {
+    "task": "ClearVision.tasks.sendDailyBackup",
+    "name": "sendDailyBackup",
+    "exchange": null,
+    "last_run_at": null,
+    "args": "[]",
+    "enabled": true,
+    "routing_key": null,
+    "crontab": 1,
+    "interval": null,
+    "queue": null,
+    "total_run_count": 0,
+    "expires": null,
+    "kwargs": "{}",
+    "date_changed": "2015-09-25T19:40:16.253",
+    "description": ""
+  },
+  "model": "djcelery.periodictask",
+  "pk": 5
+},
+{
+  "fields": {
+    "month_of_year": "*",
+    "day_of_week": "*",
+    "hour": "23",
+    "minute": "30",
+    "day_of_month": "*"
+  },
+  "model": "djcelery.crontabschedule",
+  "pk": 1
+},
+  {
+  "fields": {
+    "task": "ClearVision.tasks.sendMonthlyBackup",
+    "name": "sendMonthlyBackup",
+    "exchange": null,
+    "last_run_at": null,
+    "args": "[]",
+    "enabled": true,
+    "routing_key": null,
+    "crontab": 4,
+    "interval": null,
+    "queue": null,
+    "total_run_count": 0,
+    "expires": null,
+    "kwargs": "{}",
+    "date_changed": "2015-09-25T19:40:16.253",
+    "description": ""
+  },
+  "model": "djcelery.periodictask",
+  "pk": 6
+},
+{
+  "fields": {
+    "month_of_year": "*",
+    "day_of_week": "*",
+    "hour": "23",
+    "minute": "32",
+    "day_of_month": "*"
+  },
+  "model": "djcelery.crontabschedule",
+  "pk": 4
 }
 ]
