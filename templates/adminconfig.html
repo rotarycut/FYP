@@ -592,7 +592,8 @@
 
 <script type="text/ng-template" id="myAddNewDocModalTemplate.html">
     <div class="modal-header">
-        <h3 class="add-new-doc-title">Create New Doctor</h3>
+        <h3 class="add-new-doc-title">Create New Doctor<span><a data-ng-click="cancel()" class="close-config-modal pull-right"><h4><i class="fa fa-times"></i></h4></a></span></h3>
+
         <ul class="progress-indicator">
             <li class="bubble" ng-class="StepOneComplete">
                 <span class="bubble" ng-class="StepOneComplete"></span>
@@ -627,20 +628,23 @@
         <div ng-show="docApptTypeFormVisible">
             <div class="form-group">
                 <label class="label-color">Select Doctor's Appointment Types</label>
-                <div class="roi-marketing-listbox">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li ng-class="{typeSelected: apptType}"
-                                            class="mrkt-list-item"
-                                            ng-repeat="type in listOfApptTypes">
-                                            <label>[[type.apptType]]
-                                                <input type="checkbox"
-                                                       ng-model="apptType.naming"
-                                                       ng-click="toggleSelection(apptType.name, apptType.id)">
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
+                <div class="create-modal-listbox">
+                    <ul style="list-style: none; padding-left: 1%;">
+                        <li ng-class="{typeSelected: apptType}"
+                            class="mrkt-list-item"
+                            ng-repeat="type in appointmentTypes">
+                            <label>[[type.apptType]]
+                                <input type="checkbox"
+                                       ng-model="apptType"
+                                       ng-click="">
+                            </label>
+                        </li>
+                    </ul>
+                </div>
             </div>
+        </div>
+        <div>
+
         </div>
     </div>
 

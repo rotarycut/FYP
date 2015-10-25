@@ -781,6 +781,7 @@ li .i-slot-label {
 
 .mrkt-list-item label {
     font-weight: 300;
+    cursor: pointer;
 }
 
 .channelSelected {
@@ -1543,6 +1544,18 @@ hr.swapsms-tab-active {
         display: none;
     }
 
+.create-modal-listbox {
+    border: solid 1px #70AFC4;
+    border-radius: 4px;
+    overflow-y: auto;
+    width: 60%;
+    margin: 0 auto;
+    padding-top: 2px;
+}
+.close-config-modal{
+    color: #D0E0EB;
+    cursor: pointer;
+}
 /* create modal css in adminconfig */
 
 /* app configuration css ends */

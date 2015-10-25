@@ -177,6 +177,9 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
                 },
                 docInfoFormVisibility : function (){
                     return $scope.showDocInfoForm;
+                },
+                appointmentsInfo: function(){
+                    return $scope.listOfApptTypes;
                 }
             }
         });
@@ -236,24 +239,15 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
     $scope.getClinics();
     $scope.getDoctors();
 
-    $scope.retrieveAppointmentTypes = function () {
-        $http.get('/Clearvision/_api/ViewAllApptTypes/')
-            .success(function (data) {
-                angular.forEach(data, function (appt) {
-                    $scope.apptTypes.push(appt);
-                    $scope.listOfApptTypes.push(appt.name);
-                });
-            });
-    };
 
 });
 
 
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility,appointmentsInfo) {
 
     $scope.docInfoFormVisible= docInfoFormVisibility;
-
+    $scope.appointmentTypes = appointmentsInfo;
 
     $scope.ok = function () {
 
