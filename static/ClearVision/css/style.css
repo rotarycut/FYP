@@ -1482,15 +1482,6 @@ hr.heatmap-color-tab-active {
     cursor: pointer;
 }
 
-.appt-timeslot-listbox {
-    width: 120px overflow-y : auto;
-}
-
-.appt-timeslot-label {
-    background-color: #bed4e3;
-
-}
-
 hr.remindersms-tab-active {
     height: 3px;
     width: 145px;
@@ -1555,6 +1546,22 @@ hr.swapsms-tab-active {
 .close-config-modal{
     color: #D0E0EB;
     cursor: pointer;
+}
+.timeslots-ul{
+    list-style: none;
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+    width: 90%;
+}
+
+.timeslots-ul li{
+    display: inline-block;
+}
+
+.timeslots-ul li input[type=checkbox] {
+    position: absolute;
+    display: none;
 }
 /* create modal css in adminconfig */
 

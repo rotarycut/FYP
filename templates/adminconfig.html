@@ -577,10 +577,16 @@
             <div class="col-md-1">
 
             </div>
-            <div class="col-md-11 appt-timeslot-listbox">
-                <h4><span class="label appt-timeslot-label" ng-repeat="slot in listOfTimeslotsAM">[[slot]]
-                   <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
-               </span></h4>
+            <div class="col-md-11">
+                <ul class="timeslots-ul">
+                    <li ng-repeat="slot in listOfTimeslots" ng-class="{typeSelected: apptType}"><h4><span
+                            class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot]]</span>
+                    <input type="checkbox"
+                                       ng-model="apptTime"
+                                       ng-click=""></h4>
+                        <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -592,7 +598,9 @@
 
 <script type="text/ng-template" id="myAddNewDocModalTemplate.html">
     <div class="modal-header">
-        <h3 class="add-new-doc-title">Create New Doctor<span><a data-ng-click="cancel()" class="close-config-modal pull-right"><h4><i class="fa fa-times"></i></h4></a></span></h3>
+        <h3 class="add-new-doc-title">Create New Doctor<span><a data-ng-click="cancel()"
+                                                                class="close-config-modal pull-right"><h4><i
+                class="fa fa-times"></i></h4></a></span></h3>
 
         <ul class="progress-indicator">
             <li class="bubble" ng-class="StepOneComplete">
@@ -628,6 +636,7 @@
         <div ng-show="docApptTypeFormVisible">
             <div class="form-group">
                 <label class="label-color">Select Doctor's Appointment Types</label>
+
                 <div class="create-modal-listbox">
                     <ul style="list-style: none; padding-left: 1%;">
                         <li ng-class="{typeSelected: apptType}"
@@ -644,7 +653,25 @@
             </div>
         </div>
         <div>
+            <div class="form-group">
+                <label class="label-color">Select Available Time Slots</label>
 
+                <div class="create-modal-listbox">
+                    <ul class="timeslot-list" style="list-style: none; padding-left: 1%;">
+                        <li class="mrkt-list-item"
+                            ng-repeat="type in appointmentTypes">
+                            <label>[[type.apptType]]
+
+                                <h4><span class="label appt-timeslot-label">[[slot]]<input type="checkbox"
+                                                                                           ng-model="apptType"
+                                                                                           ng-click="">
+                   <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+               </span></h4>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -654,3 +681,4 @@
         <button class="btn form-cancel-btn pull-left" type="button" ng-click="cancel()">Cancel</button>
     </div>
 </script>
+

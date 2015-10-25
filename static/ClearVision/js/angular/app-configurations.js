@@ -67,8 +67,7 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
     $scope.SMSConfigActiveTab = "remindersms-tab-active";
     $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
     $scope.listOfDoctors = [];
-    $scope.listOfTimeslotsAM = ["9:30", "10:00", "10:30", "11:00"];
-    $scope.listOfTimeslotsPM = ["2:00", "2:30", "3:00", "3:30", "4:00"];
+    $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00","14:00", "14:30", "15:00", "15:30", "16:00"];
     $scope.listOfApptTypes = [
         {
             apptType: "Screening",
