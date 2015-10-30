@@ -1560,8 +1560,13 @@ hr.swapsms-tab-active {
 }
 
 .timeslots-ul li input[type=checkbox] {
-    position: absolute;
     display: none;
+
+}
+
+.slotSelected{
+    background-color: #E79285;
+    color: #bed4e3;
 }
 /* create modal css in adminconfig */
 

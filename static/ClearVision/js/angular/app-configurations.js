@@ -177,8 +177,11 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
                 docInfoFormVisibility : function (){
                     return $scope.showDocInfoForm;
                 },
-                appointmentsInfo: function(){
+                appointmentsType: function(){
                     return $scope.listOfApptTypes;
+                },
+                appointmentsTime: function(){
+                    return $scope.listOfTimeslots;
                 }
             }
         });
@@ -243,17 +246,44 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
 
 
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility,appointmentsInfo) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility,appointmentsType,appointmentsTime) {
 
     $scope.docInfoFormVisible= docInfoFormVisibility;
-    $scope.appointmentTypes = appointmentsInfo;
+    $scope.appointmentTypes = appointmentsType;
+    $scope.listOfAvailableSlots = appointmentsTime;
+    $scope.stepOneBtnGrp = true;
 
-    $scope.ok = function () {
+    $scope.stepOneNext = function () {
 
         $scope.docInfoFormVisible = false;
         $scope.docApptTypeFormVisible = true;
         $scope.StepOneComplete = "completed";
-        $scope.showStepChecker = true;
+        $scope.showStepOneChecker = true;
+        $scope.stepOneBtnGrp = false;
+        $scope.stepTwoBtnGrp = true;
+    };
+    $scope.stepTwoNext = function () {
+        $scope.docApptTypeFormVisible = false;
+        $scope.docApptSlotFormVisible = true;
+        $scope.StepOneComplete = "completed";
+        $scope.StepTwoComplete = "completed";
+        $scope.showStepOneChecker = true;
+        $scope.showStepTwoChecker = true;
+        $scope.stepTwoBtnGrp = false;
+        $scope.stepThreeBtnGrp = true;
+    };
+    $scope.stepTwoBack = function () {
+
+        $scope.docInfoFormVisible = true;
+        $scope.docApptTypeFormVisible = false;
+        $scope.stepOneBtnGrp = true;
+        $scope.stepTwoBtnGrp = false;
+    };
+    $scope.stepThreeBack = function () {
+        $scope.docApptTypeFormVisible = true;
+        $scope.docApptSlotFormVisible = false;
+        $scope.stepTwoBtnGrp = true;
+        $scope.stepThreeBtnGrp = false;
     };
 
     $scope.cancel = function () {

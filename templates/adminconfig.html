@@ -580,10 +580,11 @@
             <div class="col-md-11">
                 <ul class="timeslots-ul">
                     <li ng-repeat="slot in listOfTimeslots" ng-class="{typeSelected: apptType}"><h4><span
-                            class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot]]</span>
-                    <input type="checkbox"
-                                       ng-model="apptTime"
-                                       ng-click=""></h4>
+                            class="label label-default"
+                            style="background-color: #bed4e3;cursor: pointer">[[slot]]</span>
+                        <input type="checkbox"
+                               ng-model="apptTime"
+                               ng-click=""></h4>
                         <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                     </li>
                 </ul>
@@ -605,21 +606,22 @@
         <ul class="progress-indicator">
             <li class="bubble" ng-class="StepOneComplete">
                 <span class="bubble" ng-class="StepOneComplete"></span>
-                <i class="fa fa-check-circle" ng-show="showStepChecker"></i>
+                <i class="fa fa-check-circle" ng-show="showStepOneChecker"></i>
                 1. Doctor Info
             </li>
-            <li class="bubble">
-                <span class="bubble"></span>
-                <i class="fa fa-check-circle"></i>
+            <li class="bubble" ng-class="StepTwoComplete">
+                <span class="bubble" ng-class="StepTwoComplete"></span>
+                <i class="fa fa-check-circle" ng-show="showStepTwoChecker"></i>
                 2. Appointment Type
             </li>
-            <li>
-                <span class="bubble"></span>
+            <li class="bubble" ng-class="StepThreeComplete">
+                <span class="bubble" ng-class="StepThreeComplete"></span>
+                <i class="fa fa-check-circle" ng-show="showStepThreeChecker"></i>
                 3. Available Time Slots
             </li>
         </ul>
     </div>
-    <div class="modal-body center-block">
+    <div class="modal-body center-block" style="height: 252px">
         <div class="doc-info-form" ng-show="docInfoFormVisible">
             <div class="form-group">
                 <label class="label-color">Doctor Name</label>
@@ -652,22 +654,19 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div ng-show="docApptSlotFormVisible">
             <div class="form-group">
                 <label class="label-color">Select Available Time Slots</label>
 
                 <div class="create-modal-listbox">
-                    <ul class="timeslot-list" style="list-style: none; padding-left: 1%;">
-                        <li class="mrkt-list-item"
-                            ng-repeat="type in appointmentTypes">
-                            <label>[[type.apptType]]
-
-                                <h4><span class="label appt-timeslot-label">[[slot]]<input type="checkbox"
-                                                                                           ng-model="apptType"
-                                                                                           ng-click="">
-                   <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
-               </span></h4>
-                            </label>
+                    <ul class="timeslots-ul">
+                        <li ng-repeat="slot in listOfAvailableSlots" ng-class="{slotSelected: apptSlot}"><h4><span
+                                class="label label-default"
+                                style="background-color: #bed4e3;cursor: pointer">[[slot]]<input type="checkbox"
+                                                                                                 ng-model="apptSlot"
+                                                                                                 ng-click=""></span>
+                        </h4>
+                            <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
                     </ul>
                 </div>
@@ -676,9 +675,23 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn pull-right" type="button" ng-click="ok()">Next
-        </button>
-        <button class="btn form-cancel-btn pull-left" type="button" ng-click="cancel()">Cancel</button>
+        <div ng-show="stepOneBtnGrp">
+            <button class="btn form-submit-btn pull-right" type="button" ng-click="stepOneNext()">Next
+            </button>
+        </div>
+        <div ng-show="stepTwoBtnGrp">
+            <button class="btn form-submit-btn pull-right" type="button" ng-click="stepTwoNext()">Next
+            </button>
+            <button class="btn form-submit-btn pull-left" type="button" ng-click="stepTwoBack()">Back
+            </button>
+        </div>
+        <div ng-show="stepThreeBtnGrp">
+            <button class="btn form-submit-btn pull-left" type="button" ng-click="stepThreeBack()">Back
+            </button>
+            <button class="btn form-submit-btn pull-right" type="button" ng-click="submit()">
+                Submit
+            </button>
+        </div>
     </div>
 </script>
 
