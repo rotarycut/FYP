@@ -1,6 +1,11 @@
 var appConfig = angular.module('app.config', []);
 
-appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
+/*appConfig.run('$anchorScroll', function($anchorScroll){
+    $anchorScroll.yOffset = 50;
+});*/
+
+appConfig.controller('configCtrl',
+    function ($scope, $http, $modal, $log,$anchorScroll,$location,
                                              getDoctorsService,
                                              getClinicsService) {
 
@@ -241,7 +246,10 @@ appConfig.controller('configCtrl', function ($scope, $http, $modal, $log,
     $scope.getClinics();
     $scope.getDoctors();
 
-
+    $scope.jumpToLocation = function(key){
+        $location.hash(key);
+        $anchorScroll();
+  }
 });
 
 
@@ -291,3 +299,5 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
         $modalInstance.dismiss('cancel');
     };
 });
+
+
