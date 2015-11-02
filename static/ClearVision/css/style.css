@@ -70,15 +70,15 @@
     margin-right: 0;*/
     float: left;
     display: block;
-    width: 5%;
-    padding-top: 3%;
+    width: 40px;
+    padding-top: 30px;
 }
 
 .side-tabset > div.tab-content > .active {
     float: left;
     display: block;
-    width: 95%;
-    padding-top: 3%;
+    width: 93%;
+    padding-top: 35px;
 }
 
 .cal-tab-clinic {
@@ -88,9 +88,9 @@
 
 .side-tabset > ul.nav.nav-pills > li {
     margin-right: 0;
-    padding-bottom: 30px;
+    padding-bottom: 35px;
     padding-right: 0;
-    padding-top: 55%;
+    padding-top: 30px;
     text-align: center;
 }
 
@@ -620,6 +620,9 @@ form.form-search:before {
 /*calendar css ends*/
 
 /*form page csss*/
+input[type=text].date-input-field:disabled {
+    background: #fff;
+}
 
 .form-title {
     font-weight: bold;
