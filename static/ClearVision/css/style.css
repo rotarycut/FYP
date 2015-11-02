@@ -1568,6 +1568,12 @@ hr.swapsms-tab-active {
     background-color: #E79285;
     color: #bed4e3;
 }
+
+.docAppt-timeslot-side{
+    border-right: solid 2px #ebebeb;
+    height: 220px;
+    text-align: center;
+}
 /* create modal css in adminconfig */
 
 /* app configuration css ends */
