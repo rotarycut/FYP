@@ -12,6 +12,7 @@ appConfig.controller('configCtrl',
               showNotificationsSvc) {
 
         $scope.operatingHoursPopover = [];
+        $scope.appointmentTypesPopover = [];
 
         $scope.dynamicPopover = {
             editApptColor: {
@@ -76,32 +77,6 @@ appConfig.controller('configCtrl',
         $scope.listOfDoctors = [];
         $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
         $scope.workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        $scope.listOfApptTypes = [
-            {
-                apptType: "Screening",
-                color: "#E77471"
-            },
-
-            {
-                apptType: "Pre-Eval",
-                color: "#737CA1"
-            },
-
-            {
-                apptType: "Surgery",
-                color: "#D16587"
-            },
-
-            {
-                apptType: "Post Surgery",
-                color: "#F2BB66"
-            },
-
-            {
-                apptType: "Eyecare",
-                color: "#827839"
-            }
-        ];
 
         $scope.listOfHeatmapRange = [
             {
@@ -279,12 +254,11 @@ appConfig.controller('configCtrl',
 
         };
 
-
         /* function to get all appointment types */
         $scope.getAppointmentTypes = function () {
 
-            // clear the appointment type popover array
-            $scope.appointmentTypesPopover = [];
+            // prepare an empty appointment type popover array
+            var appointmentTypesPopover = [];
 
             getAppointmentTypesService.getAppointmentTypes()
                 .then(function (listOfAppointmentTypes) {
@@ -292,8 +266,7 @@ appConfig.controller('configCtrl',
 
                     // push all the appointment type popovers based on type count
                     angular.forEach(listOfAppointmentTypes, function () {
-
-                        $scope.appointmentTypesPopover.push({
+                        appointmentTypesPopover.push({
                             editAppointmentColor: {
                                 isOpen: false,
                                 templateUrl: 'editApptTypeColorTemplate.html',
@@ -316,34 +289,38 @@ appConfig.controller('configCtrl',
                         });
                     });
 
-                    console.log($scope.appointmentTypesPopover);
+                    // assign the popover array to the scope
+                    $scope.appointmentTypesPopover = appointmentTypesPopover;
 
                 }, function (data) {
-
                     $log.error("Failed to retrieve appointment types");
                 });
 
         };
 
         /* function to update appointment type color */
-        $scope.updateAppointmentTypeColor = function (index, hexValue) {
+        $scope.updateAppointmentTypeColor = function (isValid, index, hexValue) {
 
-            var req = {
-                method: 'PATCH',
-                url: '/Clearvision/_api/ViewCalendarColorSettings/' + index,
-                headers: {'Content-Type': 'application/json'},
-                data: {"hex": hexValue}
-            };
+            // only sends patch if form is valid
+            if (isValid) {
 
-            $http(req)
-                .success(function () {
-                    showNotificationsSvc.notifySuccessTemplate('Color successfully updated');
-                    $scope.getAppointmentTypes();
-                })
-                .error(function (data) {
-                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
-                });
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewCalendarColorSettings/' + index,
+                    headers: {'Content-Type': 'application/json'},
+                    data: {"hex": hexValue}
+                };
 
+                $http(req)
+                    .success(function () {
+                        showNotificationsSvc.notifySuccessTemplate('Color successfully updated');
+                        $scope.getAppointmentTypes();
+                    })
+                    .error(function (data) {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
         };
 
         $scope.getClinics();

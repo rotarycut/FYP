@@ -526,28 +526,41 @@
 </script>
 
 <script type="text/ng-template" id="editApptTypeColorTemplate.html">
-    <div class="form-group">
-        <input data-ng-model="selectedHex" type="text" class="form-control"
-               placeholder="eg: [[selectedHex]]" ng-maxlength="7"/>
-        <h5 class="label-color center-block">Or</h5>
-        <a class="edit-opt-hr"
-           ng-click="" colorpicker type="button" colorpicker-position="bottom" ng-model="selectedHex">
-            <i class="fa fa-eyedropper"></i> Open Color Picker</a>
-    </div>
-    <div class="form-group">
-        <label style="font-weight: 200">New Color: </label>
-        <i class="fa fa-circle fa-lg"
-           ng-style="{'color': selectedHex}"></i> [[selectedHex]]
-    </div>
-    <div class="right-block">
-        <button class="btn-sm form-submit-btn"
-                data-ng-click="updateAppointmentTypeColor(appointmentIndex, selectedHex)">Update
-        </button>
-        <button class="btn-sm form-cancel-btn"
-                data-ng-click="appointmentTypesPopover[appointmentIndex].editAppointmentColor.close(appointmentIndex)">
-            Cancel
-        </button>
-    </div>
+    <form name="appointmentColorForm" novalidate>
+        <div class="form-group">
+
+            <div ng-class="{'has-error': appointmentColorForm.hexValue.$invalid && (appointmentColorForm.hexValue.$touched || appointmentColorForm.$submitted)}">
+                <input data-ng-model="selectedHex" type="text" class="form-control"
+                       placeholder="eg: #CCFF99" name="hexValue" maxlength="7" autocomplete="off"
+                       ng-pattern="/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/" required/>
+
+                <div ng-show="appointmentColorForm.hexValue.$invalid && (appointmentColorForm.hexValue.$touched || appointmentColorForm.$submitted)"
+                     class="help-block">
+                    Invalid HEX value
+                </div>
+            </div>
+
+            <h5 class="label-color center-block">Or</h5>
+            <a class="edit-opt-hr"
+               ng-click="" colorpicker type="button" colorpicker-position="bottom" ng-model="selectedHex">
+                <i class="fa fa-eyedropper"></i> Open Color Picker</a>
+        </div>
+        <div class="form-group">
+            <label style="font-weight: 200">New Color: </label>
+            <i class="fa fa-circle fa-lg"
+               ng-style="{'color': selectedHex}"></i> [[selectedHex]]
+        </div>
+        <div class="right-block">
+            <button class="btn-sm form-submit-btn"
+                    data-ng-click="updateAppointmentTypeColor(appointmentColorForm.$valid, appointmentIndex, selectedHex)">
+                Update
+            </button>
+            <button class="btn-sm form-cancel-btn"
+                    data-ng-click="appointmentTypesPopover[appointmentIndex].editAppointmentColor.close(appointmentIndex)">
+                Cancel
+            </button>
+        </div>
+    </form>
 </script>
 
 <script type="text/ng-template" id="editDocNameTemplate.html">
