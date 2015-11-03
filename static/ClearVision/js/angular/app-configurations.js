@@ -13,7 +13,8 @@ appConfig.controller('configCtrl',
 
         $scope.operatingHoursPopover = [];
         $scope.appointmentTypesPopover = [];
-        $scope.doctorsPopover = [];
+        $scope.doctorsNamePopover = [];
+        $scope.doctorsRemovePopover = [];
 
         $scope.dynamicPopover = {
             editApptColor: {
@@ -24,19 +25,6 @@ appConfig.controller('configCtrl',
                 },
                 close: function () {
                     $scope.dynamicPopover.editApptColor.isOpen = false;
-                }
-            },
-            editDoc: {
-                isOpen: false,
-                templateUrl: 'editDocNameTemplate.html',
-                editDocName: function (doctor) {
-                    $scope.docNameOnCal = doctor;
-                },
-                open: function () {
-                    $scope.dynamicPopover.editDoc.isOpen = true;
-                },
-                close: function () {
-                    $scope.dynamicPopover.editDoc.isOpen = false;
                 }
             },
             editHeatmap: {
@@ -245,7 +233,8 @@ appConfig.controller('configCtrl',
         $scope.getDoctors = function () {
 
             // prepare an empty doctor popover array
-            var doctorsPopover = [];
+            var doctorsNamePopover = [];
+            var doctorsRemovePopover = [];
 
             getDoctorsService.getDoctors()
                 .then(function (listOfDoctors) {
@@ -254,7 +243,7 @@ appConfig.controller('configCtrl',
                     // push all the doctors popovers based on doctor count
                     angular.forEach(listOfDoctors, function () {
 
-                        doctorsPopover.push({
+                        doctorsNamePopover.push({
                             editDoctor: {
                                 isOpen: false,
                                 templateUrl: 'editDocNameTemplate.html',
@@ -262,15 +251,38 @@ appConfig.controller('configCtrl',
                                     var idx = 0;
                                     // ensure that all doctor name popovers are closed on select
                                     angular.forEach($scope.listOfDoctors, function () {
-                                        $scope.doctorsPopover[idx].editDoctor.isOpen = false;
+                                        $scope.doctorsNamePopover[idx].editDoctor.isOpen = false;
+                                        $scope.doctorsRemovePopover[idx].removeDoctor.isOpen = false;
                                         idx++;
                                     });
                                     // set the current index chosen
                                     $scope.doctorNameIndex = index;
-                                    $scope.doctorsPopover[index].editDoctor.isOpen = true;
+                                    $scope.doctorsNamePopover[index].editDoctor.isOpen = true;
                                 },
                                 close: function (index) {
-                                    $scope.doctorsPopover[index].editDoctor.isOpen = false;
+                                    $scope.doctorsNamePopover[index].editDoctor.isOpen = false;
+                                }
+                            }
+                        });
+
+                        doctorsRemovePopover.push({
+                            removeDoctor: {
+                                isOpen: false,
+                                templateUrl: 'removeDocTemplate.html',
+                                open: function (index) {
+                                    var idx = 0;
+                                    // ensure that all doctor remove popovers are closed on select
+                                    angular.forEach($scope.listOfDoctors, function () {
+                                        $scope.doctorsRemovePopover[idx].removeDoctor.isOpen = false;
+                                        $scope.doctorsNamePopover[idx].editDoctor.isOpen = false;
+                                        idx++;
+                                    });
+                                    // set the current index chosen
+                                    $scope.doctorRemoveIndex = index;
+                                    $scope.doctorsRemovePopover[index].removeDoctor.isOpen = true;
+                                },
+                                close: function (index) {
+                                    $scope.doctorsRemovePopover[index].removeDoctor.isOpen = false;
                                 }
                             }
                         });
@@ -278,7 +290,8 @@ appConfig.controller('configCtrl',
                     });
 
                     // assign the popover array to the scope
-                    $scope.doctorsPopover = doctorsPopover;
+                    $scope.doctorsNamePopover = doctorsNamePopover;
+                    $scope.doctorsRemovePopover = doctorsRemovePopover;
 
                 }, function (data) {
 
@@ -379,6 +392,17 @@ appConfig.controller('configCtrl',
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                     });
 
+            }
+        };
+
+        /* function to remove doctor */
+        $scope.removeDoctor = function (isValid, index) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                showNotificationsSvc.notifySuccessTemplate('Doctor removed successfully');
+                $scope.getDoctors();
             }
         };
 
