@@ -1,5 +1,5 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http, $log, disableIScheduleSvc, clearFormSvc, showNotificationsSvc) {
+    .service('postAppointmentSvc', function ($http, $log, $filter, disableIScheduleSvc, clearFormSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -99,7 +99,7 @@ angular.module('post.appointment', [])
 
                 $http.post('/Clearvision/_api/appointmentsCUD/', {
                     "apptType": self.scope.fields.appointmentType.name,
-                    "date": self.scope.fields.appointmentDate,
+                    "date": $filter('dateFilter')(self.scope.fields.appointmentDate, 'shortDate'),
                     "docID": self.scope.fields.doctorAssigned.id,
                     "clinicID": 1,
                     "contact": self.scope.fields.patientContact,

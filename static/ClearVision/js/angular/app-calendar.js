@@ -468,7 +468,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             $scope.removeEventSource(doctorAppointmentSource, $scope[appointmentType]);
 
             if (clearAppointmentSource) {
-
+                console.log("IN");
                 // if true, clear all the appointments in the appointment type source
                 var lengthOfAppointmentTypeSource = $scope[appointmentType].events.length;
                 $scope[appointmentType].events.splice(0, lengthOfAppointmentTypeSource);
@@ -919,6 +919,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     /* function to validate create appointment */
     $scope.isFormValid = function (isValid) {
+
+        console.log($scope.fields.appointmentDate);
+
         if (isValid) {
             $scope.openCreateModal('lg');
         } else {

@@ -311,7 +311,7 @@
                                                ng-change="navigateToDate(); getAppointmentTimings('',false);"
                                                ng-disabled="true"
                                                date-disabled="disabled(date, mode)"
-                                               required/>
+                                                />
 
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default"
@@ -740,7 +740,7 @@
             <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
             <li>Contact No: [[patientDetails.patientContact]]</li>
             <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate]]</li>
+            <li>Date: [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
             <li>Time: [[patientDetails.appointmentTime]]</li>
             <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
             <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>

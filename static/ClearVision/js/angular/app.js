@@ -56,6 +56,7 @@ var app = angular.module('calendarDemoApp', [
     'treasure-overlay-spinner',
     'get.doctors',
     'get.clinics',
+    'filterDate'
 ]);
 
 /* Angular routing */

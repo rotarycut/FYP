@@ -47,6 +47,10 @@ app.service('enableIScheduleSvc', function ($timeout) {
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
 
+                console.log("HERE");
+                console.log(self.scope.chosenDoctor.doctorAppointmentSource);
+                console.log(self.scope.chosenDoctor.appointmentTypeSourceArray);
+
                 // iSchedule is not previously enabled
                 self.scope.showHeatMap = true;
                 self.scope.iSchedule = true;
