@@ -72,7 +72,7 @@ appConfig.controller('configCtrl',
     $scope.SMSConfigActiveTab = "remindersms-tab-active";
     $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
     $scope.listOfDoctors = [];
-    $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00","14:00", "14:30", "15:00", "15:30", "16:00"];
+    $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00","14:00", "14:30", "15:00", "15:30", "16:00","16:30"];
     $scope.listOfApptTypes = [
         {
             apptType: "Screening",
@@ -167,18 +167,6 @@ appConfig.controller('configCtrl',
             controller: 'AppConfigModalInstanceCtrl',
             size: size,
             resolve: {
-                patientInfo: function () {
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
-                appointment: function () {
-                    return '';
-                },
-                blockInfo: function () {
-                    return $scope.blockFields;
-                },
                 docInfoFormVisibility : function (){
                     return $scope.showDocInfoForm;
                 },
@@ -187,6 +175,27 @@ appConfig.controller('configCtrl',
                 },
                 appointmentsTime: function(){
                     return $scope.listOfTimeslots;
+                }
+            }
+        });
+    };
+
+    $scope.openAddNewApptTypeModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'myAddNewApptTypeModalTemplate.html',
+            controller: 'AppConfigModalInstanceCtrl',
+            size: size,
+            resolve: {
+                docInfoFormVisibility: function () {
+                    return '';
+                },
+                appointmentsType: function () {
+                    return '';
+                },
+                appointmentsTime: function () {
+                    return '';
                 }
             }
         });

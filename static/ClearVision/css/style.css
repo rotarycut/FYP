@@ -1542,7 +1542,7 @@ hr.swapsms-tab-active {
     border: solid 1px #70AFC4;
     border-radius: 4px;
     overflow-y: auto;
-    width: 60%;
+    width: 78%;
     margin: 0 auto;
     padding-top: 2px;
 }
@@ -1552,9 +1552,9 @@ hr.swapsms-tab-active {
 }
 .timeslots-ul{
     list-style: none;
-    -webkit-column-count: 3; /* Chrome, Safari, Opera */
-    -moz-column-count: 3; /* Firefox */
-    column-count: 3;
+    -webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
+    column-count: 4;
     width: 90%;
 }
 

@@ -205,7 +205,7 @@
                     </select>
                 </div>
                 <div class="col-md-4 right-block" ng-show="showAddNewDocBtn">
-                    <button class="btn form-submit-btn" style="margin-bottom: 0;margin-top: 28px;">New Appointment
+                    <button class="btn form-submit-btn" style="margin-bottom: 0;margin-top: 28px;" ng-click="openAddNewApptTypeModal()">New Appointment
                         Type
                     </button>
                 </div>
@@ -699,6 +699,36 @@
             <button class="btn form-submit-btn pull-left" type="button" ng-click="stepThreeBack()">Back
             </button>
             <button class="btn form-submit-btn pull-right" type="button" ng-click="submit()">
+                Submit
+            </button>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="myAddNewApptTypeModalTemplate.html">
+    <div class="modal-header">
+        <h3 class="add-new-doc-title">Create New Appointment Type<span><a data-ng-click="cancel()"
+                                                                class="close-config-modal pull-right"><h4><i
+                class="fa fa-times"></i></h4></a></span></h3>
+
+        <ul class="progress-indicator">
+            <li class="bubble" ng-class="StepOneComplete">
+                <span class="bubble" ng-class="StepOneComplete"></span>
+                <i class="fa fa-check-circle" ng-show="showStepOneChecker"></i>
+                1. Appointment Type Info
+            </li>
+        </ul>
+    </div>
+    <div class="modal-body center-block" style="height: 252px">
+        <div class="doc-info-form">
+            <div class="form-group">
+                <label class="label-color">Appointment Type Name</label>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="center-block">
+            <button class="btn form-submit-btn" type="button" ng-click="submit()">
                 Submit
             </button>
         </div>
