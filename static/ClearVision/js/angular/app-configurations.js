@@ -73,6 +73,7 @@ appConfig.controller('configCtrl',
     $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
     $scope.listOfDoctors = [];
     $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00","14:00", "14:30", "15:00", "15:30", "16:00","16:30"];
+    $scope.workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     $scope.listOfApptTypes = [
         {
             apptType: "Screening",
@@ -201,6 +202,30 @@ appConfig.controller('configCtrl',
         });
     };
 
+    $scope.openAssignNewApptTypeModal = function (size) {
+
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'assignNewTypeModalTemplate.html',
+            controller: 'AppConfigModalInstanceCtrl',
+            size: size,
+            resolve: {
+                docInfoFormVisibility: function () {
+                    return '';
+                },
+                appointmentsType: function(){
+                    return $scope.listOfApptTypes;
+                },
+                appointmentsTime: function(){
+                    return $scope.listOfTimeslots;
+                },
+                workingDays : function(){
+                    return $scope.workDays;
+                }
+            }
+        });
+    };
+
     //$scope.getOperatingHours();
     $scope.listOfClinics = [];
     $scope.listOfDoctors = [];
@@ -263,12 +288,15 @@ appConfig.controller('configCtrl',
 
 
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility,appointmentsType,appointmentsTime) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility,appointmentsType,appointmentsTime, workingDays) {
 
     $scope.docInfoFormVisible= docInfoFormVisibility;
     $scope.appointmentTypes = appointmentsType;
     $scope.listOfAvailableSlots = appointmentsTime;
+    $scope.listOfWorkingDays = workingDays;
     $scope.stepOneBtnGrp = true;
+    $scope.newTypeInfoVisible = true;
+    $scope.assignTypeStepOneBtnGrp = true;
 
     $scope.stepOneNext = function () {
 
@@ -301,6 +329,23 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
         $scope.docApptSlotFormVisible = false;
         $scope.stepTwoBtnGrp = true;
         $scope.stepThreeBtnGrp = false;
+    };
+
+    $scope.assignTypeStepOneNext = function () {
+
+        $scope.newTypeInfoVisible = false;
+        $scope.newApptSlotFormVisible = true;
+        $scope.StepOneComplete = "completed";
+        $scope.showStepOneChecker = true;
+        $scope.assignTypeStepOneBtnGrp = false;
+        $scope.assignTypeStepSubmitBtnGrp = true;
+    };
+    $scope.assignTypeStepSubmitBack = function () {
+
+        $scope.newTypeInfoVisible = true;
+        $scope.newApptSlotFormVisible = false;
+        $scope.assignTypeStepOneBtnGrp = true;
+        $scope.assignTypeStepSubmitBtnGrp = false;
     };
 
     $scope.cancel = function () {
