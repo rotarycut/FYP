@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, Pusher, postBlockerSvc,
-                                                 showNotificationsSvc, populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter) {
+                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter) {
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
@@ -47,7 +47,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     searchAppointmentsSvc.getScope($scope);
     checkExistingPatientSvc.getScope($scope);
     changeCalendarSvc.getScope($scope);
-    showNotificationsSvc.getScope($scope);
     populateBlockedFormSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */

@@ -8,10 +8,10 @@ appConfig.controller('configCtrl',
     function ($scope, $http, $modal, $log, $anchorScroll, $location,
               getDoctorsService,
               getClinicsService,
-              getAppointmentTypesService) {
+              getAppointmentTypesService,
+              showNotificationsSvc) {
 
         $scope.operatingHoursPopover = [];
-        $scope.appointmentTypesPopover = [];
 
         $scope.dynamicPopover = {
             editApptColor: {
@@ -283,6 +283,9 @@ appConfig.controller('configCtrl',
         /* function to get all appointment types */
         $scope.getAppointmentTypes = function () {
 
+            // clear the appointment type popover array
+            $scope.appointmentTypesPopover = [];
+
             getAppointmentTypesService.getAppointmentTypes()
                 .then(function (listOfAppointmentTypes) {
                     $scope.listOfApptTypes = listOfAppointmentTypes;
@@ -313,6 +316,8 @@ appConfig.controller('configCtrl',
                         });
                     });
 
+                    console.log($scope.appointmentTypesPopover);
+
                 }, function (data) {
 
                     $log.error("Failed to retrieve appointment types");
@@ -332,9 +337,12 @@ appConfig.controller('configCtrl',
 
             $http(req)
                 .success(function () {
-                    console.log("SUCCESFUL UPDATE YO");
-
+                    showNotificationsSvc.notifySuccessTemplate('Color successfully updated');
+                    $scope.getAppointmentTypes();
                 })
+                .error(function (data) {
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                });
 
         };
 

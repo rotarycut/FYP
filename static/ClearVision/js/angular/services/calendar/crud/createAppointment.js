@@ -1,5 +1,5 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http, $log, $filter, disableIScheduleSvc, clearFormSvc, showNotificationsSvc) {
+    .service('postAppointmentSvc', function ($http, $log, $filter, disableIScheduleSvc, clearFormSvc, showNotificationsSvc, notify) {
 
         var self = this;
         self.scope = {};

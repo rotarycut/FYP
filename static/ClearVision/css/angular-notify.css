@@ -1,8 +1,8 @@
 .cg-notify-message {
-    position:fixed;
-    top:0px;
+    position: fixed;
+    top: 0px;
     z-index: 9999;
-    min-width:300px;
+    min-width: 300px;
     text-align: center;
 
     background-color: #dff0d8;
@@ -11,22 +11,22 @@
     border: 1px solid #99aa92;
     border-radius: 4px;
 
-    -webkit-transition: top 0.5s ease-out,opacity 0.2s ease-out;
-    -moz-transition: top 0.5s ease-out,opacity 0.2s ease-out;
-    -o-transition: top 0.5s ease-out,opacity 0.2s ease-out;
-    transition: top 0.5s ease-out,opacity 0.2s ease-out;    
+    -webkit-transition: top 0.5s ease-out, opacity 0.5s ease-out;
+    -moz-transition: top 0.5s ease-out, opacity 0.5s ease-out;
+    -o-transition: top 0.5s ease-out, opacity 0.5s ease-out;
+    transition: top 0.5s ease-out, opacity 0.5s ease-out;
 
-    visibility:hidden;
+    visibility: hidden;
 
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
 .cg-notify-message-warning {
-    position:fixed;
-    top:0px;
+    position: fixed;
+    top: 0px;
     z-index: 9999;
-    max-width:500px;
+    max-width: 500px;
     text-align: center;
 
     background-color: #f2dede;
@@ -35,36 +35,36 @@
     border: 1px solid #b6a2a2;
     border-radius: 4px;
 
-    -webkit-transition: top 0.5s ease-out,opacity 0.2s ease-out;
-    -moz-transition: top 0.5s ease-out,opacity 0.2s ease-out;
-    -o-transition: top 0.5s ease-out,opacity 0.2s ease-out;
-    transition: top 0.5s ease-out,opacity 0.2s ease-out;
+    -webkit-transition: top 0.5s ease-out, opacity 0.5s ease-out;
+    -moz-transition: top 0.5s ease-out, opacity 0.5s ease-out;
+    -o-transition: top 0.5s ease-out, opacity 0.5s ease-out;
+    transition: top 0.5s ease-out, opacity 0.5s ease-out;
 
-    visibility:hidden;
+    visibility: hidden;
 
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
 .cg-notify-message-center {
-    left:50%;
+    left: 50%;
 }
 
 .cg-notify-message-left {
-    left:15px;
+    left: 15px;
 }
 
 .cg-notify-message-right {
-    right:15px;
+    right: 15px;
 }
 
 .cg-notify-message a {
-    font-weight:bold;
-    color:inherit;
+    font-weight: bold;
+    color: inherit;
 }
 
 .cg-notify-message a:hover {
-    color:inherit;
+    color: inherit;
 }
 
 .cg-notify-close {
@@ -84,7 +84,7 @@
     position: absolute;
     top: 0px;
     right: 3px;
-    line-height: 15px;    
+    line-height: 15px;
 }
 
 .cg-notify-close:hover, .cg-notify-close:focus {
@@ -102,6 +102,6 @@
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0,0,0,0);
+    clip: rect(0, 0, 0, 0);
     border: 0;
 }

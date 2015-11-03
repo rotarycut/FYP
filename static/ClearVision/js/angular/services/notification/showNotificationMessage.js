@@ -1,77 +1,65 @@
 angular.module('show.notifications', [])
-    .service('showNotificationsSvc', function ($http, notify) {
-
-        var self = this;
-        self.scope = {};
-
-        self.getScope = function (scope) {
-            self.scope = scope;
-        };
+    .service('showNotificationsSvc', function ($http, $rootScope, notify) {
 
         /* notification */
 
-        self.scope.template = 'angular-notify.html';
-
-        self.scope.positions = ['center', 'left', 'right'];
-        self.scope.position = self.scope.positions[0];
-
-        self.scope.duration = 5000;
-
-        self.scope.closeAll = function () {
-            notify.closeAll();
-        };
-
-        self.notifySuccessTemplate = function (message) {
+        this.notifySuccessTemplate = function (message) {
 
             var messageTemplate = '<span>' + message + '</span>';
+            var successClass = "cg-notify-message";
 
             notify({
                 messageTemplate: messageTemplate,
-                classes: self.scope.classes,
-                //classes: warningClass,
-                scope: self.scope,
-                templateUrl: self.scope.template,
-                position: self.scope.position
+                scope: $rootScope,
+                templateUrl: 'angular-notify.html',
+                classes: successClass,
+                position: 'center',
+                duration: 3000
             });
+
+            notify.closeAll();
 
         };
 
-        self.notifyErrorTemplate = function (message) {
+        this.notifyErrorTemplate = function (message) {
 
             var messageTemplate = '<span>' + message + '</span>';
             var warningClass = "cg-notify-message-warning";
 
             notify({
                 messageTemplate: messageTemplate,
-                //classes: self.scope.classes,
+                scope: $rootScope,
+                templateUrl: 'angular-notify.html',
                 classes: warningClass,
-                scope: self.scope,
-                templateUrl: self.scope.template,
-                position: self.scope.position
+                position: 'center',
+                duration: 3000
             });
+
+            notify.closeAll();
 
         };
 
-        self.showNotifications = function () {
+        this.showNotifications = function () {
 
             $http.get('/Clearvision/_api/ViewNotifications/')
                 .success(function (listOfNotifications) {
                     //console.log(listOfNotifications);
 
-                    self.scope.notificationList = listOfNotifications;
+                    $rootScope.notificationList = listOfNotifications;
                     var notificationCount = 0;
-                    angular.forEach(self.scope.notificationList, function (notification) {
+                    angular.forEach($rootScope.notificationList, function (notification) {
                         if (notification.notified === false) {
                             notificationCount++;
                         }
                     });
                     //console.log(notificationCount);
-                    self.scope.notificationCount = notificationCount;
+                    $rootScope.notificationCount = notificationCount;
                     if (notificationCount >= 1) {
-                        self.scope.haveNotification = true;
+                        $rootScope.haveNotification = true;
                     }
-                    //console.log(self.scope.notificationCount);
+                    //console.log($rootScope.notificationCount);
                 })
+
         };
 
     });
