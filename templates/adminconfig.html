@@ -3,19 +3,24 @@
         <div class="row subcontent-row">
             <ul class="config-sidemenu-ul">
                 <li class="row config-sidemenu-row">
-                    <a href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor1')"><i class="fa fa-hospital-o"></i> Clinic</a>
+                    <a href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor1')"><i
+                            class="fa fa-hospital-o"></i> Clinic</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor2')"><i class="fa fa-user-md"></i> Doctors</a>
+                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor2')"><i
+                            class="fa fa-user-md"></i> Doctors</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor3')"><i class="fa fa-calendar-o"></i> Calendar</a>
+                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor3')"><i
+                            class="fa fa-calendar-o"></i> Calendar</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor4')"><i class="fa fa-commenting"></i> SMS</a>
+                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor4')"><i
+                            class="fa fa-commenting"></i> SMS</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation(anchor5)"><i class="fa fa-sticky-note"></i> Appointment
+                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation(anchor5)"><i
+                            class="fa fa-sticky-note"></i> Appointment
                         Types</a>
                 </li>
                 <li class="row config-sidemenu-row">
@@ -205,7 +210,8 @@
                     </select>
                 </div>
                 <div class="col-md-4 right-block" ng-show="showAddNewDocBtn">
-                    <button class="btn form-submit-btn" style="margin-bottom: 0;margin-top: 28px;" ng-click="openAddNewApptTypeModal()">New Appointment
+                    <button class="btn form-submit-btn" style="margin-bottom: 0;margin-top: 28px;"
+                            ng-click="openAddNewApptTypeModal()">New Appointment
                         Type
                     </button>
                 </div>
@@ -395,18 +401,18 @@
                             <tbody>
                             <tr ng-repeat="appt in listOfApptTypes">
                                 <td>[[$index + 1]]</td>
-                                <td>[[appt.apptType]]</td>
+                                <td>[[appt.apptType.name]]</td>
                                 <td><h5 style="margin-top: 0;"><i class="fa fa-circle fa-lg"
-                                                                  ng-style="{'color': appt.color}"></i></h5>
-                                    [[appt.color]]
+                                                                  ng-style="{'color': appt.hex}"></i></h5>
+                                    [[appt.hex]]
                                 </td>
                                 <td><a
                                         class="edit-opt-hr"
-                                        ng-click=""
-                                        popover-template="dynamicPopover.editApptColor.templateUrl"
+                                        popover-template="appointmentTypesPopover[$index].editAppointmentColor.templateUrl"
                                         popover-title="Edit Appointment Color"
-                                        data-ng-click="dynamicPopover.editApptColor.open()"
-                                        popover-placement="top" popover-is-open="dynamicPopover.editApptColor.isOpen">
+                                        data-ng-click="appointmentTypesPopover[$index].editAppointmentColor.open($index)"
+                                        popover-placement="top"
+                                        popover-is-open="appointmentTypesPopover[$index].editAppointmentColor.isOpen">
                                     <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
                             </tr>
                             </tbody>
@@ -521,21 +527,26 @@
 
 <script type="text/ng-template" id="editApptTypeColorTemplate.html">
     <div class="form-group">
-        <input colorpicker data-ng-model="hexPicker.color" type="text" class="form-control"
-               placeholder="Enter Hex Code"/>
+        <input data-ng-model="selectedHex" type="text" class="form-control"
+               placeholder="eg: [[selectedHex]]" ng-maxlength="7"/>
         <h5 class="label-color center-block">Or</h5>
         <a class="edit-opt-hr"
-           ng-click="" colorpicker type="button" colorpicker-position="bottom" ng-model="nonInput.color">
+           ng-click="" colorpicker type="button" colorpicker-position="bottom" ng-model="selectedHex">
             <i class="fa fa-eyedropper"></i> Open Color Picker</a>
     </div>
     <div class="form-group">
         <label style="font-weight: 200">New Color: </label>
         <i class="fa fa-circle fa-lg"
-           ng-style="{'color': nonInput.color}"></i> [[nonInput.color]]
+           ng-style="{'color': selectedHex}"></i> [[selectedHex]]
     </div>
     <div class="right-block">
-        <button class="btn-sm form-submit-btn">Update</button>
-        <button class="btn-sm form-cancel-btn">Cancel</button>
+        <button class="btn-sm form-submit-btn"
+                data-ng-click="updateAppointmentTypeColor(appointmentIndex, selectedHex)">Update
+        </button>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="appointmentTypesPopover[appointmentIndex].editAppointmentColor.close(appointmentIndex)">
+            Cancel
+        </button>
     </div>
 </script>
 
@@ -657,13 +668,13 @@
         <div ng-show="docApptSlotFormVisible ">
             <div class="col-md-3 docAppt-timeslot-side">
                 <ul style="list-style: none">
-                        <li ng-class="{typeSelected: apptType}"
-                            class="mrkt-list-item"
-                            ng-repeat="type in appointmentTypes">
-                            <label>[[type.apptType]]
-                            </label>
-                        </li>
-                    </ul>
+                    <li ng-class="{typeSelected: apptType}"
+                        class="mrkt-list-item"
+                        ng-repeat="type in appointmentTypes">
+                        <label>[[type.apptType]]
+                        </label>
+                    </li>
+                </ul>
             </div>
             <div class="col-md-9 form-group">
                 <label class="label-color">Select Available Time Slots</label>
@@ -708,7 +719,7 @@
 <script type="text/ng-template" id="myAddNewApptTypeModalTemplate.html">
     <div class="modal-header">
         <h3 class="add-new-doc-title">Create New Appointment Type<span><a data-ng-click="cancel()"
-                                                                class="close-config-modal pull-right"><h4><i
+                                                                          class="close-config-modal pull-right"><h4><i
                 class="fa fa-times"></i></h4></a></span></h3>
 
         <ul class="progress-indicator">
@@ -738,7 +749,7 @@
 <script type="text/ng-template" id="assignNewTypeModalTemplate.html">
     <div class="modal-header">
         <h3 class="add-new-doc-title">Assign New Appointment Type<span><a data-ng-click="cancel()"
-                                                                class="close-config-modal pull-right"><h4><i
+                                                                          class="close-config-modal pull-right"><h4><i
                 class="fa fa-times"></i></h4></a></span></h3>
 
         <ul class="progress-indicator">
@@ -765,13 +776,13 @@
         <div ng-show="newApptSlotFormVisible ">
             <div class="col-md-3 docAppt-timeslot-side">
                 <ul style="list-style: none">
-                        <li ng-class="{typeSelected: apptType}"
-                            class="mrkt-list-item"
-                            ng-repeat="day in listOfWorkingDays" style="height: 40px;">
-                            <label>[[day]]
-                            </label>
-                        </li>
-                    </ul>
+                    <li ng-class="{typeSelected: apptType}"
+                        class="mrkt-list-item"
+                        ng-repeat="day in listOfWorkingDays" style="height: 40px;">
+                        <label>[[day]]
+                        </label>
+                    </li>
+                </ul>
             </div>
             <div class="col-md-9 form-group">
                 <label class="label-color">Select Available Time Slots</label>

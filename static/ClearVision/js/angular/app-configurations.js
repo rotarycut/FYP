@@ -1,296 +1,357 @@
 var appConfig = angular.module('app.config', []);
 
 /*appConfig.run('$anchorScroll', function($anchorScroll){
-    $anchorScroll.yOffset = 50;
-});*/
+ $anchorScroll.yOffset = 50;
+ });*/
 
 appConfig.controller('configCtrl',
-    function ($scope, $http, $modal, $log,$anchorScroll,$location,
-                                             getDoctorsService,
-                                             getClinicsService) {
+    function ($scope, $http, $modal, $log, $anchorScroll, $location,
+              getDoctorsService,
+              getClinicsService,
+              getAppointmentTypesService) {
 
-    $scope.operatingHoursPopover = [];
+        $scope.operatingHoursPopover = [];
+        $scope.appointmentTypesPopover = [];
 
-    $scope.dynamicPopover = {
-        editApptColor: {
-            isOpen: false,
-            templateUrl: 'editApptTypeColorTemplate.html',
-            open: function () {
-                $scope.dynamicPopover.editApptColor.isOpen = true;
+        $scope.dynamicPopover = {
+            editApptColor: {
+                isOpen: false,
+                templateUrl: 'editApptTypeColorTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editApptColor.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editApptColor.isOpen = false;
+                }
             },
-            close: function () {
-                $scope.dynamicPopover.editApptColor.isOpen = false;
+            editDoc: {
+                isOpen: false,
+                templateUrl: 'editDocNameTemplate.html',
+                editDocName: function (doctor) {
+                    $scope.docNameOnCal = doctor;
+                },
+                open: function () {
+                    $scope.dynamicPopover.editDoc.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editDoc.isOpen = false;
+                }
+            },
+            editHeatmap: {
+                isOpen: false,
+                templateUrl: 'editHeatmapRngTemplate.html',
+                editHeatmapRng: function (range) {
+                    $scope.heatmapNoOfAppts = range;
+                },
+                open: function () {
+                    $scope.dynamicPopover.editHeatmap.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editHeatmap.isOpen = false;
+                }
+            },
+            editApptTimeslot: {
+                isOpen: false,
+                templateUrl: 'editApptTimeslotTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editApptTimeslot.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editApptTimeslot.isOpen = false;
+                }
             }
-        },
-        editDoc: {
-            isOpen: false,
-            templateUrl: 'editDocNameTemplate.html',
-            editDocName: function (doctor) {
-                $scope.docNameOnCal = doctor;
-            },
-            open: function () {
-                $scope.dynamicPopover.editDoc.isOpen = true;
-            },
-            close: function () {
-                $scope.dynamicPopover.editDoc.isOpen = false;
-            }
-        },
-        editHeatmap: {
-            isOpen: false,
-            templateUrl: 'editHeatmapRngTemplate.html',
-            editHeatmapRng: function (range) {
-                $scope.heatmapNoOfAppts = range;
-            },
-            open: function () {
-                $scope.dynamicPopover.editHeatmap.isOpen = true;
-            },
-            close: function () {
-                $scope.dynamicPopover.editHeatmap.isOpen = false;
-            }
-        },
-        editApptTimeslot: {
-            isOpen: false,
-            templateUrl: 'editApptTimeslotTemplate.html',
-            open: function () {
-                $scope.dynamicPopover.editApptTimeslot.isOpen = true;
-            },
-            close: function () {
-                $scope.dynamicPopover.editApptTimeslot.isOpen = false;
-            }
-        }
-    };
+        };
 
-    $scope.showAddNewRngBtn = false;
-    $scope.showAddNewDocBtn = true;
-    $scope.showDocConfigForm = true;
-    $scope.showDocApptConfigForm = false;
-    $scope.showApptColorConfigForm = true;
-    $scope.showReminderSMSConfigForm = true;
-    $scope.showDocInfoForm = true;
-    $scope.docConfigActiveTab = "doctors-tab-active";
-    $scope.calConfigActiveTab = "appt-color-tab-active";
-    $scope.SMSConfigActiveTab = "remindersms-tab-active";
-    $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
-    $scope.listOfDoctors = [];
-    $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00","14:00", "14:30", "15:00", "15:30", "16:00","16:30"];
-    $scope.workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    $scope.listOfApptTypes = [
-        {
-            apptType: "Screening",
-            color: "#E77471"
-        },
-
-        {
-            apptType: "Pre-Eval",
-            color: "#737CA1"
-        },
-
-        {
-            apptType: "Surgery",
-            color: "#D16587"
-        },
-
-        {
-            apptType: "Post Surgery",
-            color: "#F2BB66"
-        },
-
-        {
-            apptType: "Eyecare",
-            color: "#827839"
-        }
-    ];
-
-    $scope.listOfHeatmapRange = [
-        {
-            range: "= 1",
-            color: "#00B499"
-        },
-
-        {
-            range: "= 2 - 3",
-            color: "#FF9966"
-        },
-
-        {
-            range: ">= 4",
-            color: "#EA525F"
-        }
-    ];
-
-    $scope.noOfDocs = $scope.listOfDoctors.length;
-
-    $scope.showDocView = function () {
+        $scope.showAddNewRngBtn = false;
+        $scope.showAddNewDocBtn = true;
         $scope.showDocConfigForm = true;
         $scope.showDocApptConfigForm = false;
-        $scope.docConfigActiveTab = "doctors-tab-active";
-        $scope.showAddNewDocBtn = true;
-    };
-
-    $scope.showDocApptView = function () {
-        $scope.showDocConfigForm = false;
-        $scope.showDocApptConfigForm = true;
-        $scope.docConfigActiveTab = "doc-appt-tab-active";
-        $scope.showAddNewDocBtn = false;
-    };
-
-    $scope.showApptColorView = function () {
         $scope.showApptColorConfigForm = true;
-        $scope.showHeatmapColorConfigForm = false;
-        $scope.calConfigActiveTab = "appt-color-tab-active"
-        $scope.showAddNewRngBtn = false;
-    };
-
-    $scope.showHeatmapView = function () {
-        $scope.showApptColorConfigForm = false;
-        $scope.showHeatmapColorConfigForm = true;
-        $scope.calConfigActiveTab = "heatmap-color-tab-active"
-        $scope.showAddNewRngBtn = true;
-    };
-
-    $scope.showReminderSMSView = function () {
         $scope.showReminderSMSConfigForm = true;
-        $scope.shownotifSMSConfigForm = false;
+        $scope.showDocInfoForm = true;
+        $scope.docConfigActiveTab = "doctors-tab-active";
+        $scope.calConfigActiveTab = "appt-color-tab-active";
         $scope.SMSConfigActiveTab = "remindersms-tab-active";
-    };
+        $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
+        $scope.listOfDoctors = [];
+        $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
+        $scope.workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        $scope.listOfApptTypes = [
+            {
+                apptType: "Screening",
+                color: "#E77471"
+            },
 
-    $scope.showSwapSMSView = function () {
-        $scope.showReminderSMSConfigForm = false;
-        $scope.shownotifSMSConfigForm = true;
-        $scope.SMSConfigActiveTab = "swapsms-tab-active";
-    };
+            {
+                apptType: "Pre-Eval",
+                color: "#737CA1"
+            },
 
-    $scope.openAddNewDocModal = function (size) {
+            {
+                apptType: "Surgery",
+                color: "#D16587"
+            },
 
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: 'myAddNewDocModalTemplate.html',
-            controller: 'AppConfigModalInstanceCtrl',
-            size: size,
-            resolve: {
-                docInfoFormVisibility : function (){
-                    return $scope.showDocInfoForm;
-                },
-                appointmentsType: function(){
-                    return $scope.listOfApptTypes;
-                },
-                appointmentsTime: function(){
-                    return $scope.listOfTimeslots;
-                }
+            {
+                apptType: "Post Surgery",
+                color: "#F2BB66"
+            },
+
+            {
+                apptType: "Eyecare",
+                color: "#827839"
             }
-        });
-    };
+        ];
 
-    $scope.openAddNewApptTypeModal = function (size) {
+        $scope.listOfHeatmapRange = [
+            {
+                range: "= 1",
+                color: "#00B499"
+            },
 
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: 'myAddNewApptTypeModalTemplate.html',
-            controller: 'AppConfigModalInstanceCtrl',
-            size: size,
-            resolve: {
-                docInfoFormVisibility: function () {
-                    return '';
-                },
-                appointmentsType: function () {
-                    return '';
-                },
-                appointmentsTime: function () {
-                    return '';
-                }
+            {
+                range: "= 2 - 3",
+                color: "#FF9966"
+            },
+
+            {
+                range: ">= 4",
+                color: "#EA525F"
             }
-        });
-    };
+        ];
 
-    $scope.openAssignNewApptTypeModal = function (size) {
+        $scope.noOfDocs = $scope.listOfDoctors.length;
 
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: 'assignNewTypeModalTemplate.html',
-            controller: 'AppConfigModalInstanceCtrl',
-            size: size,
-            resolve: {
-                docInfoFormVisibility: function () {
-                    return '';
-                },
-                appointmentsType: function(){
-                    return $scope.listOfApptTypes;
-                },
-                appointmentsTime: function(){
-                    return $scope.listOfTimeslots;
-                },
-                workingDays : function(){
-                    return $scope.workDays;
+        $scope.showDocView = function () {
+            $scope.showDocConfigForm = true;
+            $scope.showDocApptConfigForm = false;
+            $scope.docConfigActiveTab = "doctors-tab-active";
+            $scope.showAddNewDocBtn = true;
+        };
+
+        $scope.showDocApptView = function () {
+            $scope.showDocConfigForm = false;
+            $scope.showDocApptConfigForm = true;
+            $scope.docConfigActiveTab = "doc-appt-tab-active";
+            $scope.showAddNewDocBtn = false;
+        };
+
+        $scope.showApptColorView = function () {
+            $scope.showApptColorConfigForm = true;
+            $scope.showHeatmapColorConfigForm = false;
+            $scope.calConfigActiveTab = "appt-color-tab-active"
+            $scope.showAddNewRngBtn = false;
+        };
+
+        $scope.showHeatmapView = function () {
+            $scope.showApptColorConfigForm = false;
+            $scope.showHeatmapColorConfigForm = true;
+            $scope.calConfigActiveTab = "heatmap-color-tab-active"
+            $scope.showAddNewRngBtn = true;
+        };
+
+        $scope.showReminderSMSView = function () {
+            $scope.showReminderSMSConfigForm = true;
+            $scope.shownotifSMSConfigForm = false;
+            $scope.SMSConfigActiveTab = "remindersms-tab-active";
+        };
+
+        $scope.showSwapSMSView = function () {
+            $scope.showReminderSMSConfigForm = false;
+            $scope.shownotifSMSConfigForm = true;
+            $scope.SMSConfigActiveTab = "swapsms-tab-active";
+        };
+
+        $scope.openAddNewDocModal = function (size) {
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'myAddNewDocModalTemplate.html',
+                controller: 'AppConfigModalInstanceCtrl',
+                size: size,
+                resolve: {
+                    docInfoFormVisibility: function () {
+                        return $scope.showDocInfoForm;
+                    },
+                    appointmentsType: function () {
+                        return $scope.listOfApptTypes;
+                    },
+                    appointmentsTime: function () {
+                        return $scope.listOfTimeslots;
+                    }
                 }
-            }
-        });
-    };
+            });
+        };
 
-    //$scope.getOperatingHours();
-    $scope.listOfClinics = [];
-    $scope.listOfDoctors = [];
+        $scope.openAddNewApptTypeModal = function (size) {
 
-    /* function to get all clinics */
-    $scope.getClinics = function () {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'myAddNewApptTypeModalTemplate.html',
+                controller: 'AppConfigModalInstanceCtrl',
+                size: size,
+                resolve: {
+                    docInfoFormVisibility: function () {
+                        return '';
+                    },
+                    appointmentsType: function () {
+                        return '';
+                    },
+                    appointmentsTime: function () {
+                        return '';
+                    }
+                }
+            });
+        };
 
-        getClinicsService.getClinics()
-            .then(function (listOfClinics) {
+        $scope.openAssignNewApptTypeModal = function (size) {
 
-                // only want mt e clinic
-                $scope.listOfClinics = listOfClinics[0];
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'assignNewTypeModalTemplate.html',
+                controller: 'AppConfigModalInstanceCtrl',
+                size: size,
+                resolve: {
+                    docInfoFormVisibility: function () {
+                        return '';
+                    },
+                    appointmentsType: function () {
+                        return $scope.listOfApptTypes;
+                    },
+                    appointmentsTime: function () {
+                        return $scope.listOfTimeslots;
+                    },
+                    workingDays: function () {
+                        return $scope.workDays;
+                    }
+                }
+            });
+        };
 
-                // push all the operating hours  popovers based on day count
-                angular.forEach(listOfClinics[0].Days, function () {
+        //$scope.getOperatingHours();
+        $scope.listOfClinics = [];
+        $scope.listOfDoctors = [];
 
-                    $scope.operatingHoursPopover.push({
-                        editOptHr: {
-                            isOpen: false,
-                            templateUrl: 'editOptHourTemplate.html',
-                            open: function (index) {
-                                $scope.currentIndex = index;
-                                $scope.operatingHoursPopover[index].editOptHr.isOpen = true;
-                            },
-                            close: function (index) {
-                                $scope.operatingHoursPopover[index].editOptHr.isOpen = false;
+        /* function to get all clinics */
+        $scope.getClinics = function () {
+
+            getClinicsService.getClinics()
+                .then(function (listOfClinics) {
+
+                    // only want mt e clinic
+                    $scope.listOfClinics = listOfClinics[0];
+
+                    // push all the operating hours  popovers based on day count
+                    angular.forEach(listOfClinics[0].Days, function () {
+
+                        $scope.operatingHoursPopover.push({
+                            editOptHr: {
+                                isOpen: false,
+                                templateUrl: 'editOptHourTemplate.html',
+                                open: function (index) {
+                                    $scope.currentIndex = index;
+                                    $scope.operatingHoursPopover[index].editOptHr.isOpen = true;
+                                },
+                                close: function (index) {
+                                    $scope.operatingHoursPopover[index].editOptHr.isOpen = false;
+                                }
                             }
-                        }
+                        });
                     });
+
+                }, function (data) {
+                    $log.error("Failed to retrieve clinics");
                 });
 
-            }, function (data) {
-                $log.error("Failed to retrieve clinics");
-            });
+        };
 
-    };
+        /* function to get all doctors */
+        $scope.getDoctors = function () {
 
-    /* function to get all doctors */
-    $scope.getDoctors = function () {
+            getDoctorsService.getDoctors()
+                .then(function (listOfDoctors) {
+                    $scope.listOfDoctors = listOfDoctors;
 
-        getDoctorsService.getDoctors()
-            .then(function (listOfDoctors) {
-                $scope.listOfDoctors = listOfDoctors;
+                }, function (data) {
 
-            }, function (data) {
+                    $log.error("Failed to retrieve doctors");
+                });
 
-                $log.error("Failed to retrieve doctors");
-            });
-
-    };
-
-    $scope.getClinics();
-    $scope.getDoctors();
-
-    $scope.jumpToLocation = function(key){
-        $location.hash(key);
-        $anchorScroll();
-  }
-});
+        };
 
 
+        /* function to get all appointment types */
+        $scope.getAppointmentTypes = function () {
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance,docInfoFormVisibility,appointmentsType,appointmentsTime, workingDays) {
+            getAppointmentTypesService.getAppointmentTypes()
+                .then(function (listOfAppointmentTypes) {
+                    $scope.listOfApptTypes = listOfAppointmentTypes;
 
-    $scope.docInfoFormVisible= docInfoFormVisibility;
+                    // push all the appointment type popovers based on type count
+                    angular.forEach(listOfAppointmentTypes, function () {
+
+                        $scope.appointmentTypesPopover.push({
+                            editAppointmentColor: {
+                                isOpen: false,
+                                templateUrl: 'editApptTypeColorTemplate.html',
+                                open: function (index) {
+                                    var idx = 0;
+                                    // ensure that all appointment type popovers are closed on select
+                                    angular.forEach($scope.listOfApptTypes, function () {
+                                        $scope.appointmentTypesPopover[idx].editAppointmentColor.isOpen = false;
+                                        idx++;
+                                    });
+                                    // set the current index chosen
+                                    $scope.appointmentIndex = index;
+                                    $scope.selectedHex = $scope.listOfApptTypes[index].hex;
+                                    $scope.appointmentTypesPopover[index].editAppointmentColor.isOpen = true;
+                                },
+                                close: function (index) {
+                                    $scope.appointmentTypesPopover[index].editAppointmentColor.isOpen = false;
+                                }
+                            }
+                        });
+                    });
+
+                }, function (data) {
+
+                    $log.error("Failed to retrieve appointment types");
+                });
+
+        };
+
+        /* function to update appointment type color */
+        $scope.updateAppointmentTypeColor = function (index, hexValue) {
+
+            var req = {
+                method: 'PATCH',
+                url: '/Clearvision/_api/ViewCalendarColorSettings/' + index,
+                headers: {'Content-Type': 'application/json'},
+                data: {"hex": hexValue}
+            };
+
+            $http(req)
+                .success(function () {
+                    console.log("SUCCESFUL UPDATE YO");
+
+                })
+
+        };
+
+        $scope.getClinics();
+        $scope.getDoctors();
+        $scope.getAppointmentTypes();
+
+        $scope.jumpToLocation = function (key) {
+            $location.hash(key);
+            $anchorScroll();
+        }
+    });
+
+
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, docInfoFormVisibility, appointmentsType, appointmentsTime, workingDays) {
+
+    $scope.docInfoFormVisible = docInfoFormVisibility;
     $scope.appointmentTypes = appointmentsType;
     $scope.listOfAvailableSlots = appointmentsTime;
     $scope.listOfWorkingDays = workingDays;
