@@ -13,6 +13,7 @@ appConfig.controller('configCtrl',
 
         $scope.operatingHoursPopover = [];
         $scope.appointmentTypesPopover = [];
+        $scope.doctorsPopover = [];
 
         $scope.dynamicPopover = {
             editApptColor: {
@@ -243,9 +244,41 @@ appConfig.controller('configCtrl',
         /* function to get all doctors */
         $scope.getDoctors = function () {
 
+            // prepare an empty doctor popover array
+            var doctorsPopover = [];
+
             getDoctorsService.getDoctors()
                 .then(function (listOfDoctors) {
                     $scope.listOfDoctors = listOfDoctors;
+
+                    // push all the doctors popovers based on doctor count
+                    angular.forEach(listOfDoctors, function () {
+
+                        doctorsPopover.push({
+                            editDoctor: {
+                                isOpen: false,
+                                templateUrl: 'editDocNameTemplate.html',
+                                open: function (index) {
+                                    var idx = 0;
+                                    // ensure that all doctor name popovers are closed on select
+                                    angular.forEach($scope.listOfDoctors, function () {
+                                        $scope.doctorsPopover[idx].editDoctor.isOpen = false;
+                                        idx++;
+                                    });
+                                    // set the current index chosen
+                                    $scope.doctorNameIndex = index;
+                                    $scope.doctorsPopover[index].editDoctor.isOpen = true;
+                                },
+                                close: function (index) {
+                                    $scope.doctorsPopover[index].editDoctor.isOpen = false;
+                                }
+                            }
+                        });
+
+                    });
+
+                    // assign the popover array to the scope
+                    $scope.doctorsPopover = doctorsPopover;
 
                 }, function (data) {
 
@@ -266,6 +299,7 @@ appConfig.controller('configCtrl',
 
                     // push all the appointment type popovers based on type count
                     angular.forEach(listOfAppointmentTypes, function () {
+
                         appointmentTypesPopover.push({
                             editAppointmentColor: {
                                 isOpen: false,
@@ -315,6 +349,31 @@ appConfig.controller('configCtrl',
                     .success(function () {
                         showNotificationsSvc.notifySuccessTemplate('Color successfully updated');
                         $scope.getAppointmentTypes();
+                    })
+                    .error(function (data) {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
+        /* function to update doctor name */
+        $scope.updateDoctorName = function (isValid, index, doctorName) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/doctors/' + index,
+                    headers: {'Content-Type': 'application/json'},
+                    data: {"name": doctorName}
+                };
+
+                $http(req)
+                    .success(function () {
+                        showNotificationsSvc.notifySuccessTemplate('Doctor name successfully updated');
+                        $scope.getDoctors();
                     })
                     .error(function (data) {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');

@@ -102,13 +102,16 @@
                             <tr ng-repeat="doc in listOfDoctors">
                                 <td>[[$index + 1]]</td>
                                 <td>[[doc.name]]</td>
-                                <td><a
-                                        class="edit-opt-hr"
-                                        popover-template="dynamicPopover.editDoc.templateUrl"
-                                        popover-title="Edit Doctor Name"
-                                        data-ng-click="dynamicPopover.editDoc.open([doc][$index+1]); dynamicPopover.editDoc.editDocName(doc)"
-                                        popover-placement="bottom" popover-is-open="dynamicPopover.editDoc.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
+                                <td>
+                                    <a
+                                            class="edit-opt-hr"
+                                            popover-template="doctorsPopover[$index].editDoctor.templateUrl"
+                                            popover-title="Edit Doctor Name"
+                                            data-ng-click="doctorsPopover[$index].editDoctor.open($index)"
+                                            popover-placement="top"
+                                            popover-is-open="doctorsPopover[$index].editDoctor.isOpen">
+
+                                        <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
                                     <a class="edit-opt-hr"
                                        ng-click="">
                                         <i class="fa fa-minus-circle"></i> Remove</a></td>
@@ -406,14 +409,16 @@
                                                                   ng-style="{'color': appt.hex}"></i></h5>
                                     [[appt.hex]]
                                 </td>
-                                <td><a
-                                        class="edit-opt-hr"
-                                        popover-template="appointmentTypesPopover[$index].editAppointmentColor.templateUrl"
-                                        popover-title="Edit Appointment Color"
-                                        data-ng-click="appointmentTypesPopover[$index].editAppointmentColor.open($index)"
-                                        popover-placement="top"
-                                        popover-is-open="appointmentTypesPopover[$index].editAppointmentColor.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Change Color</a></td>
+                                <td>
+                                    <a
+                                            class="edit-opt-hr"
+                                            popover-template="appointmentTypesPopover[$index].editAppointmentColor.templateUrl"
+                                            popover-title="Edit Appointment Color"
+                                            data-ng-click="appointmentTypesPopover[$index].editAppointmentColor.open($index)"
+                                            popover-placement="top"
+                                            popover-is-open="appointmentTypesPopover[$index].editAppointmentColor.isOpen">
+                                        <i class="fa fa-pencil-square-o"></i> Change Color</a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -564,14 +569,29 @@
 </script>
 
 <script type="text/ng-template" id="editDocNameTemplate.html">
-    <div class="form-group">
-        <label>Doctor's Name on Calendar:</label>
-        <input type="text" class="form-control " data-ng-model="docNameOnCal"/>
-    </div>
-    <div class="right-block">
-        <button class="btn-sm form-submit-btn">Update</button>
-        <button class="btn-sm form-cancel-btn">Cancel</button>
-    </div>
+    <form name="doctorNameForm" novalidate>
+        <div class="form-group">
+            <label>Doctor's Name on Calendar:</label>
+
+            <div ng-class="{'has-error': doctorNameForm.doctorName.$invalid && (doctorNameForm.doctorName.$touched || doctorNameForm.$submitted)}">
+                <input type="text" class="form-control " data-ng-model="newDoctorName" name="doctorName"
+                       autocomplete="off" maxlength="9" required/>
+
+                <div ng-show="doctorNameForm.doctorName.$invalid && (doctorNameForm.doctorName.$touched || doctorNameForm.$submitted)"
+                     class="help-block">
+                    Invalid doctor name
+                </div>
+            </div>
+        </div>
+        <div class="right-block">
+            <button class="btn-sm form-submit-btn"
+                    data-ng-click="updateDoctorName(doctorNameForm.$valid, doctorNameIndex + 1, newDoctorName)">Update
+            </button>
+            <button class="btn-sm form-cancel-btn"
+                    data-ng-click="doctorsPopover[doctorNameIndex].editDoctor.close(doctorNameIndex)">Cancel
+            </button>
+        </div>
+    </form>
 </script>
 
 <script type="text/ng-template" id="editHeatmapRngTemplate.html">
