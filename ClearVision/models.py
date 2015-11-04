@@ -92,7 +92,7 @@ class AvailableTimeSlots(models.Model):
     start = models.TimeField("Start Time")
     end = models.TimeField("End Time")
     date = models.ForeignKey(FullYearCalendar,)
-    doctors = models.ForeignKey(Doctor)
+    doctors = models.ForeignKey(Doctor, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.start
@@ -103,7 +103,7 @@ class Appointment(models.Model):
     last_modified = models.DateTimeField('Creation Time', auto_now=True)
     patients = models.ManyToManyField(Patient, related_name="patients")
     tempPatients = models.ManyToManyField(Patient, related_name="tempPatients", blank=True)
-    doctor = models.ForeignKey(Doctor)
+    doctor = models.ForeignKey(Doctor, null=True, on_delete=models.SET_NULL)
     clinic = models.ForeignKey(Clinic)
     timeBucket = models.ForeignKey(AvailableTimeSlots)
 
@@ -130,7 +130,7 @@ class AttendedAppointment(models.Model):
     apptType = models.CharField(max_length=200)
     last_modified = models.DateTimeField('Creation Time', auto_now=True)
     patient = models.ForeignKey(Patient)
-    doctor = models.ForeignKey(Doctor)
+    doctor = models.ForeignKey(Doctor, null=True, on_delete=models.SET_NULL)
     clinic = models.ForeignKey(Clinic)
     timeBucket = models.ForeignKey(AvailableTimeSlots)
     attended = models.NullBooleanField()
@@ -142,7 +142,7 @@ class AttendedAppointment(models.Model):
 
 class Blacklist(models.Model):
     apptType = models.CharField(max_length=200)
-    doctor = models.ForeignKey(Doctor)
+    doctor = models.ForeignKey(Doctor, null=True, on_delete=models.SET_NULL)
     timeBucket = models.ForeignKey(AvailableTimeSlots)
     blacklistReason = models.ForeignKey(CancellationReason, default=None, null=True)
     remarks = models.CharField(max_length=1000, blank=True)
