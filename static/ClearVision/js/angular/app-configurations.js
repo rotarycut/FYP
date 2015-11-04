@@ -5,7 +5,7 @@ var appConfig = angular.module('app.config', []);
  });*/
 
 appConfig.controller('configCtrl',
-    function ($scope, $http, $modal, $log, $anchorScroll, $location,
+    function ($scope, $http, $modal, $log, $anchorScroll, $location, $timeout,
               getDoctorsService,
               getClinicsService,
               getAppointmentTypesService,
@@ -247,7 +247,7 @@ appConfig.controller('configCtrl',
                             editDoctor: {
                                 isOpen: false,
                                 templateUrl: 'editDocNameTemplate.html',
-                                open: function (index) {
+                                open: function (index, doctorId) {
                                     var idx = 0;
                                     // ensure that all doctor name popovers are closed on select
                                     angular.forEach($scope.listOfDoctors, function () {
@@ -257,6 +257,7 @@ appConfig.controller('configCtrl',
                                     });
                                     // set the current index chosen
                                     $scope.doctorNameIndex = index;
+                                    $scope.doctorNameId = doctorId;
                                     $scope.doctorsNamePopover[index].editDoctor.isOpen = true;
                                 },
                                 close: function (index) {
@@ -269,7 +270,7 @@ appConfig.controller('configCtrl',
                             removeDoctor: {
                                 isOpen: false,
                                 templateUrl: 'removeDocTemplate.html',
-                                open: function (index) {
+                                open: function (index, doctorId) {
                                     var idx = 0;
                                     // ensure that all doctor remove popovers are closed on select
                                     angular.forEach($scope.listOfDoctors, function () {
@@ -279,6 +280,7 @@ appConfig.controller('configCtrl',
                                     });
                                     // set the current index chosen
                                     $scope.doctorRemoveIndex = index;
+                                    $scope.doctorRemoveId = doctorId;
                                     $scope.doctorsRemovePopover[index].removeDoctor.isOpen = true;
                                 },
                                 close: function (index) {
@@ -371,14 +373,14 @@ appConfig.controller('configCtrl',
         };
 
         /* function to update doctor name */
-        $scope.updateDoctorName = function (isValid, index, doctorName) {
+        $scope.updateDoctorName = function (isValid, doctorId, doctorName) {
 
             // only sends patch if form is valid
             if (isValid) {
 
                 var req = {
                     method: 'PATCH',
-                    url: '/Clearvision/_api/doctors/' + index,
+                    url: '/Clearvision/_api/doctors/' + doctorId,
                     headers: {'Content-Type': 'application/json'},
                     data: {"name": doctorName}
                 };
@@ -396,13 +398,38 @@ appConfig.controller('configCtrl',
         };
 
         /* function to remove doctor */
-        $scope.removeDoctor = function (isValid, index) {
+        $scope.removeDoctor = function (isValid, doctorId, password) {
 
             // only sends patch if form is valid
             if (isValid) {
 
-                showNotificationsSvc.notifySuccessTemplate('Doctor removed successfully');
-                $scope.getDoctors();
+                var req = {
+                    method: 'DELETE',
+                    url: '/Clearvision/_api/doctors/' + doctorId,
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "password": password
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        if (response == 'Invalid Admin Password!') {
+                            $scope.showIncorrectPw = true;
+                            $timeout(function () {
+                                $scope.showIncorrectPw = false;
+                            }, 2000);
+
+                        } else {
+                            showNotificationsSvc.notifySuccessTemplate('Doctor removed successfully');
+                            $scope.getDoctors();
+                        }
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
             }
         };
 

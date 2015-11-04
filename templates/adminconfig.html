@@ -108,7 +108,7 @@
                                             class="edit-opt-hr"
                                             popover-template="doctorsNamePopover[$index].editDoctor.templateUrl"
                                             popover-title="Edit Doctor Name"
-                                            data-ng-click="doctorsNamePopover[$index].editDoctor.open($index)"
+                                            data-ng-click="doctorsNamePopover[$index].editDoctor.open($index, doc.id)"
                                             popover-placement="top"
                                             popover-is-open="doctorsNamePopover[$index].editDoctor.isOpen">
                                         <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
@@ -117,7 +117,7 @@
                                             class="edit-opt-hr"
                                             popover-template="doctorsRemovePopover[$index].removeDoctor.templateUrl"
                                             popover-title="Remove Doctor"
-                                            data-ng-click="doctorsRemovePopover[$index].removeDoctor.open($index)"
+                                            data-ng-click="doctorsRemovePopover[$index].removeDoctor.open($index, doc.id)"
                                             popover-placement="top"
                                             popover-is-open="doctorsRemovePopover[$index].removeDoctor.isOpen">
                                         <i class="fa fa-minus-circle"></i> Remove</a>
@@ -592,7 +592,7 @@
         </div>
         <div class="right-block">
             <button class="btn-sm form-submit-btn"
-                    data-ng-click="updateDoctorName(doctorNameForm.$valid, doctorNameIndex + 1, newDoctorName)">Update
+                    data-ng-click="updateDoctorName(doctorNameForm.$valid, doctorNameId, newDoctorName)">Update
             </button>
             <button class="btn-sm form-cancel-btn"
                     data-ng-click="doctorsNamePopover[doctorNameIndex].editDoctor.close(doctorNameIndex)">Cancel
@@ -606,19 +606,23 @@
         <div class="form-group">
             <label>Enter password to confirm:</label>
 
-            <div ng-class="{'has-error': doctorRemoveForm.password.$invalid && (doctorRemoveForm.password.$touched || doctorRemoveForm.$submitted)}">
-                <input type="password" class="form-control " data-ng-model="adminPassword" name="password"
+            <div ng-class="{'has-error': (doctorRemoveForm.password.$invalid && (doctorRemoveForm.password.$touched || doctorRemoveForm.$submitted)) || showIncorrectPw}">
+                <input type="password" class="form-control" data-ng-model="adminPassword" name="password"
                        autocomplete="off" required/>
 
                 <div ng-show="doctorRemoveForm.password.$invalid && (doctorRemoveForm.password.$touched || doctorRemoveForm.$submitted)"
                      class="help-block">
                     Invalid password
                 </div>
+
+                <div ng-show="showIncorrectPw" class="help-block">
+                    Incorrect password
+                </div>
             </div>
         </div>
         <div class="right-block">
             <button class="btn-sm form-submit-btn"
-                    data-ng-click="removeDoctor(doctorRemoveForm.$valid, doctorRemoveIndex + 1)">Remove
+                    data-ng-click="removeDoctor(doctorRemoveForm.$valid, doctorRemoveId, adminPassword)">Remove
             </button>
             <button class="btn-sm form-cancel-btn"
                     data-ng-click="doctorsRemovePopover[doctorRemoveIndex].removeDoctor.close(doctorRemoveIndex)">Cancel
