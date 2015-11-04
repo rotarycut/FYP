@@ -20,6 +20,7 @@ from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from .serializers import *
 from django.conf import settings
+from django.contrib.auth.models import User
 import pusher
 pusher = pusher.Pusher(
                 app_id='144985',
@@ -263,6 +264,18 @@ class DoctorList(viewsets.ModelViewSet):
             os.system(command)
 
         return Response('Doctor created successfully')
+
+    def destroy(self, request, *args, **kwargs):
+        payload = request.data
+
+        password = payload.get('password')
+
+        if User.objects.get(username='admin').check_password(password):
+            Doctor.objects.get(id=self.get_object().id).delete()
+
+            return Response("Doctor Deleted Successfully")
+        else:
+            return Response("Invalid Admin Password!")
 
 class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
