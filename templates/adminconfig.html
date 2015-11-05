@@ -810,8 +810,8 @@
         <div class="doc-info-form" ng-show="newTypeInfoVisible">
             <div class="form-group">
                 <label class="label-color">Select New Appointment Type</label>
-                <select class="form-control add-new-doc-form" ng-options="type for type in appointmentTypes"
-                        data-ng-model="newAssignedType">
+                <select class="form-control add-new-doc-form" ng-options="type.name for type in appointmentTypes"
+                        data-ng-model="newAppointmentType">
                 </select></div>
         </div>
         <div ng-show="newApptSlotFormVisible ">
@@ -820,8 +820,7 @@
                     <li ng-class="{typeSelected: apptType}"
                         class="mrkt-list-item"
                         ng-repeat="day in listOfWorkingDays" style="height: 40px;">
-                        <label>[[day]]
-                        </label>
+                        <label>[[day]]</label>
                     </li>
                 </ul>
             </div>
@@ -830,12 +829,11 @@
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="slot in listOfAvailableSlots" ng-class="{slotSelected: apptSlot}"><h4><span
-                                class="label label-default"
-                                style="background-color: #bed4e3;cursor: pointer">[[slot]]<input type="checkbox"
-                                                                                                 ng-model="apptSlot"
-                                                                                                 ng-click=""></span>
-                        </h4>
+                        <li ng-repeat="slot in listOfAvailableSlots.timings"
+                            ng-class="{slotSelected: apptSlot}">
+                            <h4><span class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot]]
+                                <input type="checkbox" ng-model="apptSlot" ng-click=""></span>
+                            </h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
                     </ul>

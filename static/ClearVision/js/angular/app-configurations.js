@@ -64,7 +64,7 @@ appConfig.controller('configCtrl',
             }
         };
 
-        $scope.listOfAvailableTiming = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"]
+        $scope.listOfAvailableTiming = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
         $scope.showAddNewRngBtn = false;
         $scope.showAddNewDocBtn = true;
         $scope.showDocConfigForm = true;
@@ -77,7 +77,10 @@ appConfig.controller('configCtrl',
         $scope.SMSConfigActiveTab = "remindersms-tab-active";
         $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
         $scope.listOfDoctors = [];
-        $scope.listOfTimeslots = ["09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
+        $scope.listOfTimeslots = {
+            timings: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"],
+            active: false
+        };
         $scope.workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
         $scope.listOfHeatmapRange = [
@@ -159,9 +162,6 @@ appConfig.controller('configCtrl',
                     docInfoFormVisibility: function () {
                         return $scope.showDocInfoForm;
                     },
-                    appointmentsType: function () {
-                        return $scope.listOfApptTypes;
-                    },
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
                     },
@@ -181,9 +181,6 @@ appConfig.controller('configCtrl',
                 size: size,
                 resolve: {
                     docInfoFormVisibility: function () {
-                        return '';
-                    },
-                    appointmentsType: function () {
                         return '';
                     },
                     appointmentsTime: function () {
@@ -206,9 +203,6 @@ appConfig.controller('configCtrl',
                 resolve: {
                     docInfoFormVisibility: function () {
                         return '';
-                    },
-                    appointmentsType: function () {
-                        return $scope.listOfApptTypes;
                     },
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
@@ -586,10 +580,9 @@ appConfig.controller('configCtrl',
 
     });
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, docInfoFormVisibility, appointmentsType, appointmentsTime, workingDays, showNotificationsSvc) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, docInfoFormVisibility, appointmentsTime, workingDays, showNotificationsSvc) {
 
     $scope.docInfoFormVisible = docInfoFormVisibility;
-    $scope.appointmentTypes = appointmentsType;
     $scope.listOfAvailableSlots = appointmentsTime;
     $scope.listOfWorkingDays = workingDays;
     $scope.stepOneBtnGrp = true;
@@ -650,6 +643,15 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
         //console.log = ($scope.docInfoFormVisible);
         $modalInstance.dismiss('cancel');
     };
+
+    /* function to get appointment types */
+    $scope.getApptTypes = function () {
+        $http.get('/Clearvision/_api/ViewAllApptTypes/')
+            .success(function (appointmentTypes) {
+                $scope.appointmentTypes = appointmentTypes;
+            });
+    };
+    $scope.getApptTypes();
 
     /* function to create new appointment type */
     $scope.createNewAppointmentType = function (isValid, appointmentTypeName) {
