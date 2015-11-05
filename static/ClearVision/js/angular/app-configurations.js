@@ -310,6 +310,17 @@ appConfig.controller('configCtrl',
                                     $scope.doctorRemoveIndex = index;
                                     $scope.doctorRemoveId = doctorId;
                                     $scope.doctorsRemovePopover[index].removeDoctor.isOpen = true;
+                                    //check if any future appointments exist
+                                    $http.get('/Clearvision/_api/CheckFutureNumberOfAppointmentsUnderDoctor/?doctorID=' + doctorId)
+                                        .success(function (numberOfFutureAppointment) {
+                                            if (numberOfFutureAppointment > 0) {
+                                                $scope.showWarning = true;
+                                                $scope.showPassword = false;
+                                            } else {
+                                                $scope.showWarning = false;
+                                                $scope.showPassword = true;
+                                            }
+                                        });
                                 },
                                 close: function (index) {
                                     $scope.doctorsRemovePopover[index].removeDoctor.isOpen = false;
@@ -525,6 +536,35 @@ appConfig.controller('configCtrl',
                         showNotificationsSvc.notifySuccessTemplate('End time updated successfully');
                         $scope.dynamicPopover.editEndTime.isOpen = false;
                         $scope.getCalendarTimeRange();
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
+        /* function to send email when doctor to be removed has future dated appointments */
+        $scope.sendEmail = function (isValid, doctorId, emailAddress) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'POST',
+                    url: '/Clearvision/_api/CheckFutureNumberOfAppointmentsUnderDoctor/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "emailAddress": emailAddress,
+                        "doctorID": doctorId
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('Email sent successfully');
+                        $scope.getDoctors();
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
