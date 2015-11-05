@@ -83,65 +83,23 @@
                         <table class="table table-bordered clinic-config-table">
                             <tbody>
                             <tr>
-                                <td class="operating-hr-td">
+                                <td class="operating-hr-td" ng-repeat="doctor in listOfDoctors">
                                     <div class="day-of-week">
-                                        Doctor Ho.
+                                        [[doctor.name]]
                                     </div>
-                                    <div class="doc-appts-listbox" ng-init="">
+                                    <div class="doc-appts-listbox">
                                         <ul style="list-style: none; padding-left: 1%;">
-                                            <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
-                                                                                   ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                            <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
-                                                                                  ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                            <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
-                                                                                       ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
+                                            <li class="mrkt-list-item" ng-repeat="appointmentType in doctor.apptType">
+                                                [[appointmentType.name]]
+                                                <a class="remove-doc-appt-type" ng-click="">
+                                                    <i class="fa fa-times"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <br/>
                                     <a class="edit-opt-hr" ng-click="openAssignNewApptTypeModal()">
-                                        <i class="fa fa-plus-circle"></i> Assign Appointment Type</a>
-                                </td>
-                                <td class="operating-hr-td">
-                                    <div class="day-of-week">
-                                        Doctor Goh.
-                                    </div>
-                                    <div class="doc-appts-listbox" ng-init="">
-                                        <ul style="list-style: none; padding-left: 1%;">
-                                            <li class="mrkt-list-item">Pre-Eval <a class="remove-doc-appt-type"
-                                                                                   ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                            <li class="mrkt-list-item">Surgery <a class="remove-doc-appt-type"
-                                                                                  ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                            <li class="mrkt-list-item">Post-surgery <a class="remove-doc-appt-type"
-                                                                                       ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <br/>
-                                    <a class="edit-opt-hr" ng-click="">
-                                        <i class="fa fa-plus-circle"></i> Assign Appointment Type</a>
-                                </td>
-                                <td class="operating-hr-td">
-                                    <div class="day-of-week">
-                                        Optometrist
-                                    </div>
-                                    <div class="doc-appts-listbox" ng-init="">
-                                        <ul style="list-style: none; padding-left: 1%;">
-                                            <li class="mrkt-list-item">Screening <a class="remove-doc-appt-type"
-                                                                                    ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                            <li class="mrkt-list-item">Eyecare <a class="remove-doc-appt-type"
-                                                                                  ng-click=""><i
-                                                    class="fa fa-times"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <br/>
-                                    <a class="edit-opt-hr" ng-click="">
-                                        <i class="fa fa-plus-circle"></i> Assign Appointment Type</a>
+                                        <i class="fa fa-plus-circle"></i> Assign Appointment Type
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
