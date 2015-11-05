@@ -19,12 +19,24 @@ appConfig.controller('configCtrl',
         $scope.dynamicPopover = {
             editStartTime: {
                 isOpen: false,
-                templateUrl: 'editOptHourTemplate.html',
+                templateUrl: 'editStartHourTemplate.html',
                 open: function () {
+                    $scope.dynamicPopover.editEndTime.isOpen = false;
                     $scope.dynamicPopover.editStartTime.isOpen = true;
                 },
                 close: function () {
                     $scope.dynamicPopover.editStartTime.isOpen = false;
+                }
+            },
+            editEndTime: {
+                isOpen: false,
+                templateUrl: 'editEndHourTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editStartTime.isOpen = false;
+                    $scope.dynamicPopover.editEndTime.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editEndTime.isOpen = false;
                 }
             },
             editHeatmap: {
@@ -357,6 +369,20 @@ appConfig.controller('configCtrl',
 
         };
 
+        /* function to get all time range */
+        $scope.getCalendarTimeRange = function () {
+
+            $http.get('/Clearvision/_api/ViewCalendarTimeRange/1')
+                .success(function (timeRange) {
+                    $scope.originalStartTime = timeRange.startTime;
+                    $scope.originalEndTime = timeRange.endTime;
+                })
+                .error(function (data) {
+                    $log.error("Failed to retrieve calendar time range");
+                });
+
+        };
+
         /* function to update appointment type color */
         $scope.updateAppointmentTypeColor = function (isValid, index, hexValue) {
 
@@ -462,7 +488,8 @@ appConfig.controller('configCtrl',
                     .success(function (response) {
 
                         showNotificationsSvc.notifySuccessTemplate('Start time updated successfully');
-                        //$scope.getDoctors();
+                        $scope.dynamicPopover.editStartTime.isOpen = false;
+                        $scope.getCalendarTimeRange();
 
                     })
                     .error(function () {
@@ -491,7 +518,8 @@ appConfig.controller('configCtrl',
                     .success(function (response) {
 
                         showNotificationsSvc.notifySuccessTemplate('End time updated successfully');
-                        //$scope.getDoctors();
+                        $scope.dynamicPopover.editEndTime.isOpen = false;
+                        $scope.getCalendarTimeRange();
 
                     })
                     .error(function () {
@@ -504,6 +532,7 @@ appConfig.controller('configCtrl',
         $scope.getClinics();
         $scope.getDoctors();
         $scope.getAppointmentTypes();
+        $scope.getCalendarTimeRange();
 
         $scope.jumpToLocation = function (key) {
             $location.hash(key);
