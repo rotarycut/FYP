@@ -281,6 +281,24 @@ class DoctorList(viewsets.ModelViewSet):
         else:
             return Response("Invalid Admin Password!")
 
+class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
+    queryset = Doctor.objects.none()
+    serializer_class = DoctorSerializer
+
+    #Add Appt type to doctor
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        doctorID = payload.get('doctorID')
+        apptTypeID = payload.get('apptTypeID')
+
+        hotshotdoctor = Doctor.objects.get(id=doctorID)
+
+        hotshotdoctor.apptType.add(AppointmentType.objects.get(id=apptTypeID))
+        hotshotdoctor.save()
+
+        return Response('Appointment type added successfully')
+
 class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
     serializer_class = AppointmentSerializer
