@@ -314,8 +314,8 @@ class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ModelViewSet):
                                 eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
                                 eachObj['clinic'], eachObj['doctor']])
 
-        message = EmailMessage("Backup for " + str(date.today()), "Daily Failsafe. (T + 30) days Appointments", to=emailAddress)
-        message.attach('backup.csv', csvfile.getvalue(), 'text/csv')
+        message = EmailMessage("Appointment backlog for  " + str(Doctor.objects.get(id=doctorID).name), "", to=[emailAddress])
+        message.attach('apptBacklog.csv', csvfile.getvalue(), 'text/csv')
 
         message.send()
 
