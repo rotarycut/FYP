@@ -281,7 +281,7 @@ class DoctorList(viewsets.ModelViewSet):
         else:
             return Response("Invalid Admin Password!")
 
-class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ReadOnlyModelViewSet):
+class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
     serializer_class = AppointmentSerializer
 
@@ -292,6 +292,9 @@ class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ReadOnlyModelViewSet):
         exclude(patients__isnull=True).count()
 
         return Response(allApptsCount)
+
+    #def create(self, request, *args, **kwargs):
+
 
 class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
