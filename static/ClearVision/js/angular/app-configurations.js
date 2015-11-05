@@ -496,7 +496,6 @@ appConfig.controller('configCtrl',
                         showNotificationsSvc.notifySuccessTemplate('Start time updated successfully');
                         $scope.dynamicPopover.editStartTime.isOpen = false;
                         $scope.getCalendarTimeRange();
-
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
@@ -526,7 +525,6 @@ appConfig.controller('configCtrl',
                         showNotificationsSvc.notifySuccessTemplate('End time updated successfully');
                         $scope.dynamicPopover.editEndTime.isOpen = false;
                         $scope.getCalendarTimeRange();
-
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
@@ -547,7 +545,7 @@ appConfig.controller('configCtrl',
 
     });
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, docInfoFormVisibility, appointmentsType, appointmentsTime, workingDays) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, docInfoFormVisibility, appointmentsType, appointmentsTime, workingDays, showNotificationsSvc) {
 
     $scope.docInfoFormVisible = docInfoFormVisibility;
     $scope.appointmentTypes = appointmentsType;
@@ -608,8 +606,36 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
     };
 
     $scope.cancel = function () {
-        console.log = ($scope.docInfoFormVisible);
+        //console.log = ($scope.docInfoFormVisible);
         $modalInstance.dismiss('cancel');
+    };
+
+    /* function to create new appointment type */
+    $scope.createNewAppointmentType = function (isValid, appointmentTypeName) {
+
+        // only sends patch if form is valid
+        if (isValid) {
+
+            var req = {
+                method: 'POST',
+                url: '/Clearvision/_api/ViewAllApptTypes/',
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "name": appointmentTypeName
+                }
+            };
+
+            $http(req)
+                .success(function (response) {
+
+                    showNotificationsSvc.notifySuccessTemplate('Appointment type created successfully');
+                    $scope.cancel();
+                })
+                .error(function () {
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                });
+
+        }
     };
 });
 

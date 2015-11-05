@@ -775,9 +775,9 @@
 
 <script type="text/ng-template" id="myAddNewApptTypeModalTemplate.html">
     <div class="modal-header">
-        <h3 class="add-new-doc-title">Create New Appointment Type<span><a data-ng-click="cancel()"
-                                                                          class="close-config-modal pull-right"><h4><i
-                class="fa fa-times"></i></h4></a></span></h3>
+        <h3 class="add-new-doc-title">Create New Appointment Type<span>
+            <a data-ng-click="cancel()" class="close-config-modal pull-right"><h4>
+                <i class="fa fa-times"></i></h4></a></span></h3>
 
         <ul class="progress-indicator">
             <li class="bubble" ng-class="StepOneComplete">
@@ -791,12 +791,12 @@
         <div class="doc-info-form">
             <div class="form-group">
                 <label class="label-color">Appointment Type Name</label>
-                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/></div>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="appointmentTypeName"/></div>
         </div>
     </div>
     <div class="modal-footer">
         <div class="center-block">
-            <button class="btn form-submit-btn" type="button" ng-click="submit()">
+            <button class="btn form-submit-btn" type="button" ng-click="createNewAppointmentType('true', appointmentTypeName)">
                 Submit
             </button>
         </div>
