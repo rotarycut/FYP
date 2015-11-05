@@ -2883,8 +2883,9 @@ class EditSavedMarketingChannelCustomFilters(viewsets.ModelViewSet):
 
         return Response("Success")
 
-class ViewAllApptTypes(viewsets.ReadOnlyModelViewSet):
-    queryset = AppointmentType.objects.none()
+class ViewAllApptTypes(viewsets.ModelViewSet):
+    queryset = AppointmentType.objects.all()
+    serializer_class = ApptTypesSerializer
 
     def list(self, request, *args, **kwargs):
         allApptTypes = AppointmentType.objects.all().values()

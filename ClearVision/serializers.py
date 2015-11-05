@@ -154,3 +154,9 @@ class HeatMapColorSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeatMapColorSettings
         depth = 1
+
+class ApptTypesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AppointmentType
+        depth = 1
