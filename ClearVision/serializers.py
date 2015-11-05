@@ -42,6 +42,7 @@ class StaffSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
+        depth = 3
 
 class AppointmentSerializer(serializers.ModelSerializer):
 
