@@ -19,6 +19,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
 from .serializers import *
+import csv
+from django.core.mail import EmailMessage
+import StringIO
 from django.conf import settings
 from django.contrib.auth.models import User
 import pusher
@@ -271,11 +274,24 @@ class DoctorList(viewsets.ModelViewSet):
         password = payload.get('password')
 
         if User.objects.get(username='admin').check_password(password):
-            Doctor.objects.get(id=self.get_object().id).delete()
+            deathRowDoctor = Doctor.objects.get(id=self.get_object().id)
+            deathRowDoctor.delete()
 
             return Response("Doctor Deleted Successfully")
         else:
             return Response("Invalid Admin Password!")
+
+class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ReadOnlyModelViewSet):
+    queryset = Appointment.objects.none()
+    serializer_class = AppointmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        doctorID = request.query_params.get('doctorID')
+
+        allApptsCount = Appointment.objects.filter(doctor__id=doctorID, timeBucket__date__gte=date.today()).\
+        exclude(patients__isnull=True).count()
+
+        return Response(allApptsCount)
 
 class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
