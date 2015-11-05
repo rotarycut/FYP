@@ -162,16 +162,16 @@ class ApptTypesSerializer(serializers.ModelSerializer):
         depth = 1
 
 class CalendarTimeRangeSerializer(serializers.ModelSerializer):
-    startTrimmed = serializers.SerializerMethodField()
-    endTrimmed = serializers.SerializerMethodField()
+    startTime = serializers.SerializerMethodField()
+    endTime = serializers.SerializerMethodField()
 
     class Meta:
         model = CalendarTimeRange
         depth = 1
-        fields = ('startTrimmed', 'endTrimmed')
+        fields = ('startTime', 'endTime')
 
-    def get_startTrimmed(self, calendarTimeRange):
+    def get_startTime(self, calendarTimeRange):
         return calendarTimeRange.startTime.strftime('%H:%M')
 
-    def get_endTrimmed(self, calendarTimeRange):
+    def get_endTime(self, calendarTimeRange):
         return calendarTimeRange.endTime.strftime('%H:%M')
