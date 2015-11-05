@@ -42,7 +42,7 @@
                     <ul class="doc-config-viewtabs">
                         <li class="doctors-tab"><a href="" data-ng-click="showDocView()">Doctors
                             ([[listOfDoctors.length]])</a></li>
-                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Appointment Types</a>
+                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Doctor Appointment Types</a>
                         </li>
                         <hr ng-class="docConfigActiveTab">
                     </ul>
@@ -497,14 +497,14 @@
                 data-ng-model="startTime" name="startTime">
         </select>
     </div>
-    <div class="right-block">
-        <button class="btn-sm form-submit-btn"
-                data-ng-click="updateCalendarStartTime('true', startTime)">Update
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
         </button>
-        <button class="btn-sm form-cancel-btn"
+        <button class="btn-sm form-cancel-btn pull-right"
                 data-ng-click="dynamicPopover.editStartTime.close()">Cancel
         </button>
-    </div>
+    </div><br/><br/>
 </script>
 
 <script type="text/ng-template" id="editEndHourTemplate.html">
@@ -514,14 +514,14 @@
                 data-ng-model="endTime" name="endTime">
         </select>
     </div>
-    <div class="right-block">
-        <button class="btn-sm form-submit-btn"
-                data-ng-click="updateCalendarEndTime('true', endTime)">Update
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarEndTime('true', endTime)" style="margin-right: 2px">Update
         </button>
-        <button class="btn-sm form-cancel-btn"
+        <button class="btn-sm form-cancel-btn pull-right"
                 data-ng-click="dynamicPopover.editEndTime.close()">Cancel
         </button>
-    </div>
+    </div><br/><br/>
 </script>
 
 <script type="text/ng-template" id="editApptTypeColorTemplate.html">

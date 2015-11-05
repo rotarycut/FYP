@@ -541,6 +541,7 @@ appConfig.controller('configCtrl',
         $scope.jumpToLocation = function (key) {
             $location.hash(key);
             $anchorScroll();
+            /*$anchorScroll.yOffset = 40;*/
         }
 
     });

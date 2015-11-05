@@ -1408,6 +1408,14 @@ hr.doc-appt-tab-active {
     background-color: #E79285;
 }
 
+.arrow-down > a{
+    color: #E79285;
+}
+
+.arrow-down:hover > a{
+    color: #fff;
+}
+
 .doc-config-viewtabs {
     list-style-type: none;
     padding-left: 0;
