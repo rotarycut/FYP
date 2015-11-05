@@ -293,8 +293,33 @@ class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ModelViewSet):
 
         return Response(allApptsCount)
 
-    #def create(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
+        payload = request.data
 
+        emailAddress = payload.get('emailAddress')
+        doctorID = payload.get('doctorID')
+
+        futureApptsForDoc = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__id=doctorID).\
+                                           values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
+                                           exclude(patients__isnull=True)
+
+        csvfile = StringIO.StringIO()
+        csvwriter = csv.writer(csvfile)
+
+        csvwriter.writerow(['patients_contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start',
+                        'apptType', 'id', 'doctor__name', 'clinic', 'doctor'])
+
+        for eachObj in futureApptsForDoc:
+            csvwriter.writerow([eachObj['patients__contact'], eachObj['patients__name'], eachObj['patients__gender'], eachObj['timeBucket__date'],
+                                eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
+                                eachObj['clinic'], eachObj['doctor']])
+
+        message = EmailMessage("Backup for " + str(date.today()), "Daily Failsafe. (T + 30) days Appointments", to=emailAddress)
+        message.attach('backup.csv', csvfile.getvalue(), 'text/csv')
+
+        message.send()
+
+        return Response('Email sent successfully')
 
 class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()

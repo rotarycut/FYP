@@ -162,16 +162,7 @@ class ApptTypesSerializer(serializers.ModelSerializer):
         depth = 1
 
 class CalendarTimeRangeSerializer(serializers.ModelSerializer):
-    startTime = serializers.SerializerMethodField()
-    endTime = serializers.SerializerMethodField()
 
     class Meta:
         model = CalendarTimeRange
         depth = 1
-        fields = ('startTime', 'endTime')
-
-    def get_startTime(self, calendarTimeRange):
-        return calendarTimeRange.startTime.strftime('%H:%M')
-
-    def get_endTime(self, calendarTimeRange):
-        return calendarTimeRange.endTime.strftime('%H:%M')
