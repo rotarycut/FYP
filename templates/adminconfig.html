@@ -38,7 +38,8 @@
                     <ul class="doc-config-viewtabs">
                         <li class="doctors-tab"><a href="" data-ng-click="showDocView()">Doctors
                             ([[listOfDoctors.length]])</a></li>
-                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Doctor Appointment Types</a>
+                        <li class="doc-appts-tab"><a href="" data-ng-click="showDocApptView()">Doctor Appointment
+                            Types</a>
                         </li>
                         <hr ng-class="docConfigActiveTab">
                     </ul>
@@ -585,8 +586,10 @@
 </script>
 
 <script type="text/ng-template" id="removeDocTemplate.html">
-    <form name="doctorRemoveForm" novalidate>
+
+    <form name="doctorRemoveForm" ng-show="showPassword" novalidate>
         <div class="form-group">
+
             <label>Enter password to confirm:</label>
 
             <div ng-class="{'has-error': (doctorRemoveForm.password.$invalid && (doctorRemoveForm.password.$touched || doctorRemoveForm.$submitted)) || showIncorrectPw}">
@@ -603,15 +606,42 @@
                 </div>
             </div>
         </div>
-        <div class="right-block">
-            <button class="btn-sm form-submit-btn"
-                    data-ng-click="removeDoctor(doctorRemoveForm.$valid, doctorRemoveId, adminPassword)">Remove
-            </button>
-            <button class="btn-sm form-cancel-btn"
-                    data-ng-click="doctorsRemovePopover[doctorRemoveIndex].removeDoctor.close(doctorRemoveIndex)">Cancel
-            </button>
-        </div>
+
+        <button class="btn-sm form-submit-btn"
+                data-ng-click="removeDoctor(doctorRemoveForm.$valid, doctorRemoveId, adminPassword)">Remove
+        </button>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="doctorsRemovePopover[doctorRemoveIndex].removeDoctor.close(doctorRemoveIndex)">
+            Cancel
+        </button>
     </form>
+
+    <form name="sendEmailForm" ng-show="showWarning" novalidate>
+        <div class="form-group">
+
+            <div class="has-error">
+                <div class="help-block">Warning! Please clear doctor's appointments first</div>
+            </div>
+
+            <label>Enter your email:</label>
+            <input type="text" class="form-control" data-ng-model="userEmail" name="email"
+                   autocomplete="off"/><br/>
+
+            <div ng-show="sendEmailForm.email.$invalid && (sendEmailForm.email.$touched || sendEmailForm.$submitted)"
+                 class="help-block">
+                Invalid email
+            </div>
+        </div>
+
+        <button class="btn-sm form-submit-btn"
+                data-ng-click="sendEmail('true', doctorRemoveId, userEmail)">Send Email
+        </button>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="doctorsRemovePopover[doctorRemoveIndex].removeDoctor.close(doctorRemoveIndex)">
+            Cancel
+        </button>
+    </form>
+
 </script>
 
 <script type="text/ng-template" id="editHeatmapRngTemplate.html">
