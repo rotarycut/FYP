@@ -3,12 +3,13 @@
         <div class="row subcontent-row">
             <ul class="config-sidemenu-ul">
                 <li class="row config-sidemenu-row">
-                    <a href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor1')"><i
-                            class="fa fa-hospital-o"></i> Clinic</a>
+                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor1')"><i
+                            class="fa fa-user-md"></i> Doctors</a>
                 </li>
                 <li class="row config-sidemenu-row">
                     <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor2')"><i
-                            class="fa fa-user-md"></i> Doctors</a>
+                            class="fa fa-sticky-note"></i> Appointment
+                        Types</a>
                 </li>
                 <li class="row config-sidemenu-row">
                     <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation('anchor3')"><i
@@ -19,11 +20,6 @@
                             class="fa fa-commenting"></i> SMS</a>
                 </li>
                 <li class="row config-sidemenu-row">
-                    <a ng-href="" class="config-sidemenu-item" ng-click="jumpToLocation(anchor5)"><i
-                            class="fa fa-sticky-note"></i> Appointment
-                        Types</a>
-                </li>
-                <li class="row config-sidemenu-row">
                     <a ng-href="" class="config-saveall-item" ng-click=""><i class="fa fa-floppy-o"></i> Save All
                         Changes</a>
                 </li>
@@ -31,7 +27,7 @@
         </div>
     </div>
     <div class="col-md-10 config-main-col">
-        <section id="anchor2">
+        <section id="anchor1">
             <div class="row subcontent-row">
                 <div class="col-md-12">
                     <h4><span class="label label-section-config">Doctors Settings</span></h4>
@@ -154,9 +150,9 @@
             </div>
         </section>
         <div class="arrow-down">
-            <i class="fa fa-chevron-down"></i>
+            <a ng-click="jumpToLocation('anchor2')"><i class="fa fa-chevron-down"></i></a>
         </div>
-        <section id="anchor3">
+        <section id="anchor2">
             <div class="row subcontent-row">
                 <div class="col-md-12">
                     <h4><span class="label label-section-config">Appointment Types Settings</span></h4>
@@ -308,9 +304,9 @@
             </div>
         </section>
         <div class="arrow-down">
-            <i class="fa fa-chevron-down"></i>
+            <a ng-click="jumpToLocation('anchor3')"><i class="fa fa-chevron-down"></i></a>
         </div>
-        <section id="anchor4">
+        <section id="anchor3">
             <div class="row subcontent-row">
                 <div class="col-md-12">
                     <h4><span class="label label-section-config">Calendar Settings</span></h4>
@@ -430,9 +426,9 @@
             </div>
         </section>
         <div class="arrow-down">
-            <i class="fa fa-chevron-down"></i>
+            <a ng-click="jumpToLocation('anchor4')"><i class="fa fa-chevron-down"></i></a>
         </div>
-        <section id="anchor5">
+        <section id="anchor4">
             <div class="row subcontent-row">
                 <div class="col-md-12">
                     <h4><span class="label label-section-config">SMS Settings</span></h4>
