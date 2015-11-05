@@ -65,7 +65,7 @@
                                             popover-template="doctorsNamePopover[$index].editDoctor.templateUrl"
                                             popover-title="Edit Doctor Name"
                                             data-ng-click="doctorsNamePopover[$index].editDoctor.open($index, doc.id)"
-                                            popover-placement="top"
+                                            popover-placement="bottom"
                                             popover-is-open="doctorsNamePopover[$index].editDoctor.isOpen">
                                         <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
 
@@ -74,7 +74,7 @@
                                             popover-template="doctorsRemovePopover[$index].removeDoctor.templateUrl"
                                             popover-title="Remove Doctor"
                                             data-ng-click="doctorsRemovePopover[$index].removeDoctor.open($index, doc.id)"
-                                            popover-placement="top"
+                                            popover-placement="bottom"
                                             popover-is-open="doctorsRemovePopover[$index].removeDoctor.isOpen">
                                         <i class="fa fa-minus-circle"></i> Remove</a>
                                 </td>
@@ -348,7 +348,7 @@
                                             popover-template="appointmentTypesPopover[$index].editAppointmentColor.templateUrl"
                                             popover-title="Edit Appointment Color"
                                             data-ng-click="appointmentTypesPopover[$index].editAppointmentColor.open($index)"
-                                            popover-placement="top"
+                                            popover-placement="bottom"
                                             popover-is-open="appointmentTypesPopover[$index].editAppointmentColor.isOpen">
                                         <i class="fa fa-pencil-square-o"></i> Change Color</a>
                                 </td>
@@ -796,8 +796,8 @@
     </div>
     <div class="modal-footer">
         <div class="center-block">
-            <button class="btn form-submit-btn" type="button" ng-click="createNewAppointmentType('true', appointmentTypeName)">
-                Submit
+            <button class="btn form-submit-btn" type="button"
+                    ng-click="createNewAppointmentType('true', appointmentTypeName)">Submit
             </button>
         </div>
     </div>

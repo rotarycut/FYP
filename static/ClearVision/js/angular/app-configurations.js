@@ -637,6 +637,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
         }
     };
+
 });
 
 
