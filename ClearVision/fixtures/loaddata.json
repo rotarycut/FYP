@@ -295,6 +295,14 @@
         "apptType": 5,
         "hex": "#827839"
     }
+  },
+  {
+    "model": "ClearVision.CalendarTimeRange",
+    "pk": 1,
+    "fields": {
+        "name":"Default",
+        "startTime": "09:00:00",
+        "endTime": "19:00:00"
+    }
   }
-
 ]

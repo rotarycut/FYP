@@ -3073,3 +3073,7 @@ class ViewCalendarColorSettings(viewsets.ModelViewSet):
 class ViewHeatMapColorSettings(viewsets.ModelViewSet):
     queryset = HeatMapColorSettings.objects.all()
     serializer_class = HeatMapColorSettingsSerializer
+
+class ViewCalendarTimeRange(viewsets.ModelViewSet):
+    queryset = CalendarTimeRange.objects.all()
+    serializer_class = CalendarTimeRangeSerializer

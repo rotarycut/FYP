@@ -196,3 +196,8 @@ class CalendarColorSettings(models.Model):
 class HeatMapColorSettings(models.Model):
     range = models.CharField(max_length=100)
     hex = models.CharField(max_length=100)
+
+class CalendarTimeRange(models.Model):
+    name = models.CharField(max_length=250)
+    startTime = models.TimeField()
+    endTime = models.TimeField()

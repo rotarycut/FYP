@@ -160,3 +160,9 @@ class ApptTypesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppointmentType
         depth = 1
+
+class CalendarTimeRangeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CalendarTimeRange
+        depth = 1
