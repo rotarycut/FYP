@@ -164,6 +164,9 @@ appConfig.controller('configCtrl',
                     },
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
+                    },
+                    workingDays: function () {
+                        return '';
                     }
                 }
             });
@@ -184,6 +187,9 @@ appConfig.controller('configCtrl',
                         return '';
                     },
                     appointmentsTime: function () {
+                        return '';
+                    },
+                    workingDays: function () {
                         return '';
                     }
                 }
