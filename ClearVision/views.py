@@ -297,7 +297,28 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         hotshotdoctor.apptType.add(AppointmentType.objects.get(id=apptTypeID))
         hotshotdoctor.save()
 
+        monday = payload.get('monday')
+        tuesday = payload.get('tuesday')
+        wednesday = payload.get('wednesday')
+        thursday = payload.get('thursday')
+        friday = payload.get('friday')
+        saturday = payload.get('saturday')
+
+        DoctorDayTimeSlots.objects.create(doctor=Doctor.objects.get(id=doctorID), apptType=AppointmentType.objects.get(id=apptTypeID),
+                                          monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
+                                          friday=friday, saturday=saturday)
+
         return Response('Appointment type added successfully')
+
+    def destroy(self, request, *args, **kwargs):
+        payload = request.data
+
+        doctorID = payload.get('doctorID')
+        apptTypeID = payload.get('apptTypeID')
+
+        hotshotdoctor = Doctor.objects.get(id=doctorID)
+
+
 
 class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
