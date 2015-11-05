@@ -103,6 +103,7 @@ appConfig.controller('configCtrl',
         $scope.showApptColorView = function () {
             $scope.showApptColorConfigForm = true;
             $scope.showHeatmapColorConfigForm = false;
+            $scope.showOperatingHrsConfigForm = false;
             $scope.calConfigActiveTab = "appt-color-tab-active"
             $scope.showAddNewRngBtn = false;
         };
@@ -110,8 +111,16 @@ appConfig.controller('configCtrl',
         $scope.showHeatmapView = function () {
             $scope.showApptColorConfigForm = false;
             $scope.showHeatmapColorConfigForm = true;
+            $scope.showOperatingHrsConfigForm = false;
             $scope.calConfigActiveTab = "heatmap-color-tab-active"
             $scope.showAddNewRngBtn = true;
+        };
+        $scope.showOptHrsView = function () {
+            $scope.showApptColorConfigForm = false;
+            $scope.showHeatmapColorConfigForm = false;
+            $scope.showOperatingHrsConfigForm = true;
+            $scope.calConfigActiveTab = "opt-hrs-tab-active"
+            $scope.showAddNewRngBtn = false;
         };
 
         $scope.showReminderSMSView = function () {

@@ -31,50 +31,6 @@
         </div>
     </div>
     <div class="col-md-10 config-main-col">
-        <section id="anchor1">
-            <div class="row subcontent-row">
-                <div class="col-md-12">
-                    <h4><span class="label label-section-config">Clinic Settings</span></h4>
-                </div>
-            </div>
-            <div class="row subcontent-row">
-                <div class="col-md-4" style="padding-right: 0;">
-                    <label class="control-label label-color">Clinic Name:</label>
-                    <input type="text" class="form-control" data-ng-model="clinicName"
-                           name="clinicName"
-                           required>
-                </div>
-            </div>
-            <div class="row subcontent-row">
-                <div class="col-md-12" style="padding-right: 0;">
-                    <label class="control-label label-color">Operating Hours:</label>
-                    <table class="table table-bordered clinic-config-table">
-                        <tbody>
-                        <tr>
-                            <td class="operating-hr-td" ng-repeat="day in listOfClinics.Days">
-                                <div class="day-of-week">
-                                    [[day.day]]
-                                </div>
-                                <div class="opt-hours-listbox">
-                                    [[day.start]]-[[day.end]]
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr"
-                                   popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
-                                   popover-title="Edit Operating Hours"
-                                   data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
-                                   popover-placement="bottom"
-                                   popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-        <div class="arrow-down">
-            <i class="fa fa-chevron-down"></i>
-        </div>
         <section id="anchor2">
             <div class="row subcontent-row">
                 <div class="col-md-12">
@@ -397,6 +353,7 @@
                         <li class="appt-color-tab"><a href="" data-ng-click="showApptColorView()">Appointment Colors</a>
                         </li>
                         <li class="heatmap-color-tab"><a href="" data-ng-click="showHeatmapView()">Heatmap</a></li>
+                        <li class="opt-hrs-tab"><a href="" data-ng-click="showOptHrsView()">Time Range</a></li>
                         <hr ng-class="calConfigActiveTab">
                     </ul>
                 </div>
@@ -450,6 +407,40 @@
                                     <a class="edit-opt-hr"
                                        ng-click="">
                                         <i class="fa fa-minus-circle"></i> Remove</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="doc-config-form" ng-show="showOperatingHrsConfigForm">
+                        <table class="table table-bordered clinic-config-table">
+                            <tbody>
+                            <tr>
+                                <td><div class="col-md-2 time-rng-div">
+                                    <label class="control-label label-color">Starting Time</label></div>
+                    <div class="col-md-3 time-rng-div"><input type="text" class="form-control date-input-field" data-ng-model="startOptTime" disabled/></div>
+                                    <div class="col-md-2" style="padding-top: 8px;">
+                                        <a class="edit-opt-hr"
+                                   popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
+                                   popover-title="Edit Operating Hours"
+                                   data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
+                                   popover-placement="bottom"
+                                   popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
+                                    <i class="fa fa-pencil-square-o"></i> Edit</a></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="col-md-2 time-rng-div"><label class="control-label label-color">Closing Time</label></div>
+                    <div class="col-md-3 time-rng-div"><input type="text" class="form-control date-input-field" data-ng-model="endOptTime" disabled/></div>
+                                    <div class="col-md-2" style="padding-top: 8px;">
+                                        <a class="edit-opt-hr"
+                                           popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
+                                           popover-title="Edit Operating Hours"
+                                           data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
+                                           popover-placement="bottom"
+                                           popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a></div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

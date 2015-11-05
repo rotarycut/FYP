@@ -612,7 +612,7 @@ form.form-search:before {
 .opt-hours-listbox {
     border: solid 1px #70AFC4;
     border-radius: 4px;
-    height: 65px;
+    height: 68px;
     overflow-y: auto;
     padding-top: 16%;
 }
@@ -1479,6 +1479,17 @@ hr.heatmap-color-tab-active {
     margin-bottom: 0;
 }
 
+hr.opt-hrs-tab-active {
+    width: 80px;
+    margin-left: 230px;
+    height: 3px;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .activate-colorpicker {
     font-size: small;
     color: grey;
@@ -1504,6 +1515,14 @@ hr.swapsms-tab-active {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.time-rng-div{
+    float: left;
+    display: inline;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 
 /* create modal css in adminconfig */
 
