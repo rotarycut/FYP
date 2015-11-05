@@ -1285,7 +1285,7 @@ ul.config-sidemenu-ul {
 .doc-appts-listbox {
     border: solid 1px #70AFC4;
     border-radius: 4px;
-    height: 78px;
+    height: 90px;
     overflow-y: auto;
     padding: 3px;
 }
