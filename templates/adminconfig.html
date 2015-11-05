@@ -385,23 +385,34 @@
                         <table class="table table-bordered clinic-config-table">
                             <tbody>
                             <tr>
-                                <td><div class="col-md-2 time-rng-div">
-                                    <label class="control-label label-color">Starting Time</label></div>
-                    <div class="col-md-3 time-rng-div"><input type="text" class="form-control date-input-field" data-ng-model="startOptTime" disabled/></div>
+                                <td>
+                                    <div class="col-md-2 time-rng-div">
+                                        <label class="control-label label-color">Starting Time</label>
+                                    </div>
+                                    <div class="col-md-3 time-rng-div">
+                                        <input type="text" class="form-control date-input-field"
+                                               data-ng-model="startOptTime" disabled/>
+                                    </div>
                                     <div class="col-md-2" style="padding-top: 8px;">
                                         <a class="edit-opt-hr"
-                                   popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
-                                   popover-title="Edit Operating Hours"
-                                   data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
-                                   popover-placement="bottom"
-                                   popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a></div>
+                                           popover-template="dynamicPopover.editStartTime.templateUrl"
+                                           popover-title="Edit Time Range"
+                                           data-ng-click="dynamicPopover.editStartTime.open()"
+                                           popover-placement="bottom"
+                                           popover-is-open="dynamicPopover.editStartTime.isOpen">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="col-md-2 time-rng-div"><label class="control-label label-color">Closing Time</label></div>
-                    <div class="col-md-3 time-rng-div"><input type="text" class="form-control date-input-field" data-ng-model="endOptTime" disabled/></div>
+                                    <div class="col-md-2 time-rng-div"><label class="control-label label-color">
+                                        Closing Time</label>
+                                    </div>
+                                    <div class="col-md-3 time-rng-div">
+                                        <input type="text" class="form-control date-input-field"
+                                               data-ng-model="endOptTime" disabled/>
+                                    </div>
                                     <div class="col-md-2" style="padding-top: 8px;">
                                         <a class="edit-opt-hr"
                                            popover-template="operatingHoursPopover[$index].editOptHr.templateUrl"
@@ -409,7 +420,8 @@
                                            data-ng-click="operatingHoursPopover[$index].editOptHr.open($index)"
                                            popover-placement="bottom"
                                            popover-is-open="operatingHoursPopover[$index].editOptHr.isOpen">
-                                            <i class="fa fa-pencil-square-o"></i> Edit</a></div>
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -483,17 +495,15 @@
     <div class="form-group">
         <label>Starting Time:</label>
         <select class="form-control" ng-options="time for time in listOfAvailableTiming"
-                data-ng-model="newOptTimeStart" name="waitListTime">
-        </select>
-        <label>Closing Time:</label>
-        <select class="form-control" ng-options="time for time in listOfAvailableTiming"
-                data-ng-model="newOptTimeEnd" name="waitListTime">
+                data-ng-model="startTime" name="startTime">
         </select>
     </div>
     <div class="right-block">
-        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-submit-btn"
+                data-ng-click="updateCalendarStartTime('true', startTime)">Update
+        </button>
         <button class="btn-sm form-cancel-btn"
-                data-ng-click="operatingHoursPopover[currentIndex].editOptHr.close(currentIndex)">Cancel
+                data-ng-click="dynamicPopover.editStartTime.close()">Cancel
         </button>
     </div>
 </script>

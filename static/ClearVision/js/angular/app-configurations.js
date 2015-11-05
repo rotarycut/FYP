@@ -17,14 +17,14 @@ appConfig.controller('configCtrl',
         $scope.doctorsRemovePopover = [];
 
         $scope.dynamicPopover = {
-            editApptColor: {
+            editStartTime: {
                 isOpen: false,
-                templateUrl: 'editApptTypeColorTemplate.html',
+                templateUrl: 'editOptHourTemplate.html',
                 open: function () {
-                    $scope.dynamicPopover.editApptColor.isOpen = true;
+                    $scope.dynamicPopover.editStartTime.isOpen = true;
                 },
                 close: function () {
-                    $scope.dynamicPopover.editApptColor.isOpen = false;
+                    $scope.dynamicPopover.editStartTime.isOpen = false;
                 }
             },
             editHeatmap: {
@@ -52,6 +52,7 @@ appConfig.controller('configCtrl',
             }
         };
 
+        $scope.listOfAvailableTiming = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"]
         $scope.showAddNewRngBtn = false;
         $scope.showAddNewDocBtn = true;
         $scope.showDocConfigForm = true;
@@ -442,6 +443,64 @@ appConfig.controller('configCtrl',
             }
         };
 
+        /* function to update calendar start time */
+        $scope.updateCalendarStartTime = function (isValid, startTime) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewCalendarTimeRange/1',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "startTime": startTime
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('Start time updated successfully');
+                        //$scope.getDoctors();
+
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
+        /* function to update calendar end time */
+        $scope.updateCalendarEndTime = function (isValid, endTime) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewCalendarTimeRange/1',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "endTime": endTime
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('End time updated successfully');
+                        //$scope.getDoctors();
+
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
         $scope.getClinics();
         $scope.getDoctors();
         $scope.getAppointmentTypes();
@@ -450,8 +509,8 @@ appConfig.controller('configCtrl',
             $location.hash(key);
             $anchorScroll();
         }
-    });
 
+    });
 
 appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, docInfoFormVisibility, appointmentsType, appointmentsTime, workingDays) {
 

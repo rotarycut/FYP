@@ -319,8 +319,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 center: '',
                 right: 'today prev,next'
             },
-            minTime: "09:00",
-            maxTime: "18:00",
             fixedWeekCount: false,
             eventStartEditable: false,
             eventDurationEditable: false,
@@ -349,6 +347,23 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
         }
     };
+
+    /*******************************************************************************
+     function to get calendar time range
+     *******************************************************************************/
+
+
+    $scope.getCalendarTimeRange = function () {
+
+        $http.get('/Clearvision/_api/ViewCalendarTimeRange/1/')
+            .success(function (calendarTimings) {
+
+                $scope.uiConfig.calendar.minTime = calendarTimings.startTime;
+                $scope.uiConfig.calendar.maxTime = calendarTimings.endTime;
+            });
+    };
+
+    $scope.getCalendarTimeRange();
 
 
     /*******************************************************************************
@@ -396,6 +411,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 $scope.chosenDoctor = $scope.allDoctorsVariables[0];
 
+                console.log($scope.chosenDoctor);
 
             })
 

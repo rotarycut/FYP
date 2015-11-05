@@ -51,6 +51,21 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 console.log(self.scope.chosenDoctor.doctorAppointmentSource);
                 console.log(self.scope.chosenDoctor.appointmentTypeSourceArray);
 
+                console.log(self.scope.DrHoappointments);
+                //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoPreEvaluation);
+                //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoSurgery);
+                //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoPostSurgery);
+
+                self.scope.removeFromDoctorSource(
+                    self.scope.chosenDoctor.doctorAppointmentSource,
+                    self.scope.chosenDoctor.appointmentTypeSourceArray,
+                    true
+                );
+
+                //var arr = ['DrHoPreEvaluation', 'DrHoSurgery', 'DrHoPostSurgery'];
+                //self.scope.removeFromDoctorSource(self.scope.chosenDoctor.DrHoappointments, arr, true);
+                //console.log(self.scope.DrHoappointments);
+
                 // iSchedule is not previously enabled
                 self.scope.showHeatMap = true;
                 self.scope.iSchedule = true;
