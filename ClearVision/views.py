@@ -318,7 +318,23 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
 
         hotshotdoctor = Doctor.objects.get(id=doctorID)
 
+class AppointmentTypeNotTaggedToDoctor(viewsets.ReadOnlyModelViewSet):
+    queryset = Doctor.objects.none()
 
+    def list(self, request, *args, **kwargs):
+        doctorID = request.query_params.get('doctorID')
+
+        allApptTypes = AppointmentType.objects.all()
+        doctorApptTypes = Doctor.objects.get(id=doctorID).apptType.all() #NOTE!!!
+        print(allApptTypes)
+        print(doctorApptTypes)
+        AppointmentTypeNotTaggedToDoctor = []
+
+        for eachApptType in allApptTypes:
+            if eachApptType not in doctorApptTypes:
+                AppointmentTypeNotTaggedToDoctor.append({"id": eachApptType.id, "name": eachApptType.name})
+
+        return Response(AppointmentTypeNotTaggedToDoctor)
 
 class CheckFutureNumberOfAppointmentsUnderDoctor(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
