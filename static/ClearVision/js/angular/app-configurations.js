@@ -80,59 +80,8 @@ appConfig.controller('configCtrl',
         $scope.SMSConfigActiveTab = "remindersms-tab-active";
         $scope.listOfOperants = ["=", "<=", ">=", "<", ">"];
         $scope.listOfDoctors = [];
-        $scope.listOfTimeslots = {
-            timings: [
-                {
-                    time: "09:00",
-                    active: false
-                },
-                {
-                    time: "09:30",
-                    active: false
-                },
-                {
-                    time: "10:00",
-                    active: false
-                },
-                {
-                    time: "10:30",
-                    active: false
-                },
-                {
-                    time: "11:00",
-                    active: false
-                },
-                {
-                    time: "11:30",
-                    active: false
-                },
-                {
-                    time: "12:00",
-                    active: false
-                },
-                {
-                    time: "12:30",
-                    active: false
-                },
-                {
-                    time: "13:00",
-                    active: false
-                },
-                {
-                    time: "13:30",
-                    active: false
-                },
-                {
-                    time: "14:00",
-                    active: false
-                },
-                {
-                    time: "14:30",
-                    active: false
-                }
-            ]
-        };
-        $scope.workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
         $scope.listOfHeatmapRange = [
             {
                 range: "= 1",
@@ -225,9 +174,6 @@ appConfig.controller('configCtrl',
                 resolve: {
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
-                    },
-                    workingDays: function () {
-                        return '';
                     }
                 }
             });
@@ -245,9 +191,6 @@ appConfig.controller('configCtrl',
                         return '';
                     },
                     appointmentsTime: function () {
-                        return '';
-                    },
-                    workingDays: function () {
                         return '';
                     }
                 }
@@ -267,9 +210,6 @@ appConfig.controller('configCtrl',
                     },
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
-                    },
-                    workingDays: function () {
-                        return $scope.workDays;
                     }
                 }
             });
@@ -705,10 +645,9 @@ appConfig.controller('configCtrl',
 
     });
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, workingDays, showNotificationsSvc) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc) {
 
     $scope.listOfAvailableSlots = appointmentsTime;
-    $scope.listOfWorkingDays = workingDays;
     $scope.stepOneBtnGrp = true;
     $scope.newTypeInfoVisible = true;
     $scope.assignTypeStepOneBtnGrp = true;
@@ -806,13 +745,447 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
         }
     };
 
-    /* function to add and remove slots when assigning appointment type to doctor */
-    $scope.addRemoveSlot = function (index) {
-        $scope.listOfAvailableSlots[index].active = !$scope.listOfAvailableSlots[index].active;
+    $scope.slotsToInsert = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+    ];
+
+    var listOfTimeslots = {
+        timings: [
+            {
+                time: "09:00",
+                active: false
+            },
+            {
+                time: "09:30",
+                active: false
+            },
+            {
+                time: "10:00",
+                active: false
+            },
+            {
+                time: "10:30",
+                active: false
+            },
+            {
+                time: "11:00",
+                active: false
+            },
+            {
+                time: "11:30",
+                active: false
+            },
+            {
+                time: "12:00",
+                active: false
+            },
+            {
+                time: "12:30",
+                active: false
+            },
+            {
+                time: "13:00",
+                active: false
+            },
+            {
+                time: "13:30",
+                active: false
+            },
+            {
+                time: "14:00",
+                active: false
+            },
+            {
+                time: "14:30",
+                active: false
+            }
+        ]
     };
 
-    $scope.testing = function () {
-        alert("TESTING");
+    $scope.listOfWorkingDays = [
+        {
+            day: "Monday",
+            active: true,
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                }
+            ]
+        },
+        {
+            day: "Tuesday",
+            active: false,
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                }
+            ]
+        },
+        {
+            day: "Wednesday",
+            active: false,
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                }
+            ]
+        },
+        {
+            day: "Thursday",
+            active: false,
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                }
+            ]
+        },
+        {
+            day: "Friday",
+            active: false,
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                }
+            ]
+        },
+        {
+            day: "Saturday",
+            active: false,
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                }
+            ]
+        }
+    ];
+
+    /* function to add and remove slots when assigning appointment type to doctor */
+    $scope.addRemoveSlot = function (dayIndex, timeSlot) {
+
+        // check if time slot was previously added
+        var check = true;
+        var idx = 0;
+        angular.forEach($scope.slotsToInsert[dayIndex], function (day) {
+            if (day == timeSlot.time) {
+                $scope.slotsToInsert[dayIndex].splice(idx, 1);
+                check = false;
+            }
+
+            idx++;
+        });
+        if (check) {
+            $scope.slotsToInsert[dayIndex].push(timeSlot.time);
+        }
+
+        console.log($scope.slotsToInsert)
+    };
+
+    $scope.changeDay = function (index) {
+
+        angular.forEach($scope.listOfWorkingDays, function (day) {
+            day.active = false;
+        });
+        $scope.listOfWorkingDays[index].active = true;
+
+    };
+
+    $scope.assignApptTypeToDoctor = function () {
+
+
+        var prepareJson = {};
+
+        var req = {
+            method: 'POST',
+            url: '/Clearvision/_api/ViewAllApptTypes/',
+            headers: {'Content-Type': 'application/json'},
+            data: {}
+        };
+
+        $http(req)
+            .success(function (response) {
+
+                showNotificationsSvc.notifySuccessTemplate('Appointment type created successfully');
+                $scope.cancel();
+            })
+            .error(function () {
+                showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+            });
+
     };
 
 });

@@ -144,7 +144,7 @@
                                 <td>
                                     <a
                                             class="edit-opt-hr"
-                                            popover-template="doctorsNamePopover[$index].editDoctor.templateUrl"
+                                            popover-template="doctorsNamePopovers[$index].editDoctor.templateUrl"
                                             popover-title="Edit Doctor Name"
                                             data-ng-click="doctorsNamePopover[$index].editDoctor.open($index, doc.id)"
                                             popover-placement="bottom"
@@ -153,7 +153,7 @@
 
                                     <a
                                             class="edit-opt-hr"
-                                            popover-template="doctorsRemovePopover[$index].removeDoctor.templateUrl"
+                                            popover-template="doctorsRemovePopovers[$index].removeDoctor.templateUrl"
                                             popover-title="Remove Doctor"
                                             data-ng-click="doctorsRemovePopover[$index].removeDoctor.open($index, doc.id)"
                                             popover-placement="bottom"
@@ -538,7 +538,7 @@
                 <div class="help-block">Warning! Please clear doctor's appointments first</div>
             </div>
 
-            <label>Enter your email:</label>
+            <label>To get list of appointments, enter your email:</label>
             <input type="text" class="form-control" data-ng-model="userEmail" name="email"
                    autocomplete="off"/><br/>
 
@@ -681,12 +681,11 @@
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="slot in listOfAvailableSlots" ng-class="{slotSelected: apptSlot}"><h4><span
-                                class="label label-default"
-                                style="background-color: #bed4e3;cursor: pointer">[[slot]]<input type="checkbox"
-                                                                                                 ng-model="apptSlot"
-                                                                                                 ng-click=""></span>
-                        </h4>
+                        <li ng-repeat="slot in listOfAvailableSlots" ng-class="{slotSelected: apptSlot}">
+                            <h4>
+                                <span class="label label-default"
+                                      style="background-color: #bed4e3;cursor: pointer">[[slot]]
+                                <input type="checkbox" ng-model="apptSlot" ng-click=""></span></h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
                     </ul>
@@ -777,9 +776,9 @@
             <div class="col-md-3 docAppt-timeslot-side">
                 <ul style="list-style: none">
                     <li
-                        class="mrkt-list-item"
-                        ng-repeat="day in listOfWorkingDays" style="height: 40px;">
-                        <label>[[day]]</label>
+                            class="mrkt-list-item"
+                            ng-repeat="day in listOfWorkingDays" style="height: 40px;">
+                        <label ng-class="{slotSelected: day.active}" ng-click="changeDay($index)">[[day.day]]</label>
                     </li>
                 </ul>
             </div>
@@ -787,10 +786,12 @@
                 <label class="label-color">Select Available Time Slots</label>
 
                 <div class="create-modal-listbox">
-                    <ul class="timeslots-ul">
-                        <li ng-repeat="slot in listOfAvailableSlots.timings">
-                            <h4><span ng-class="{slotSelected: slot.active}" class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot.time]]
-                                <input type="checkbox" ng-model="slot.active" ng-click="testing()"></span>
+                    <ul class="timeslots-ul" ng-repeat="day in listOfWorkingDays">
+                        <li ng-show="day.active" ng-repeat="slot in day.timings">
+                            <h4><span ng-class="{slotSelected: slot.active}" class="label label-default"
+                                      style="background-color: #bed4e3;cursor: pointer">[[slot.time]]
+                                <input type="checkbox" ng-model="slot.active"
+                                       ng-click="addRemoveSlot(listOfWorkingDays.indexOf(day), slot)"></span>
                             </h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
@@ -808,7 +809,7 @@
         <div ng-show="assignTypeStepSubmitBtnGrp">
             <button class="btn form-submit-btn pull-left" type="button" ng-click="assignTypeStepSubmitBack()">Back
             </button>
-            <button class="btn form-submit-btn pull-right" type="button" ng-click="">
+            <button class="btn form-submit-btn pull-right" type="button" ng-click="assignApptTypeToDoctor()">
                 Submit
             </button>
         </div>
