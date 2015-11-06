@@ -651,6 +651,14 @@ appConfig.controller('configCtrl',
             /*$anchorScroll.yOffset = 40;*/
         }
 
+        // Slider options with event handlers
+			$scope.slider = {
+				'options': {
+					start: function (event, ui) { $log.info('Event: Slider start - set with slider options', event); },
+    				stop: function (event, ui) { $log.info('Event: Slider stop - set with slider options', event); }
+				}
+			};
+
     });
 
 appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId, getDoctorsService) {

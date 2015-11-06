@@ -57,7 +57,8 @@ var app = angular.module('calendarDemoApp', [
     'get.doctors',
     'get.clinics',
     'filterDate',
-    'get.appointmentTypes'
+    'get.appointmentTypes',
+    'ui.slider'
 ]);
 
 /* Angular routing */
