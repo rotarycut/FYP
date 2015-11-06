@@ -776,7 +776,7 @@
         <div ng-show="newApptSlotFormVisible ">
             <div class="col-md-3 docAppt-timeslot-side">
                 <ul style="list-style: none">
-                    <li ng-class="{typeSelected: apptType}"
+                    <li
                         class="mrkt-list-item"
                         ng-repeat="day in listOfWorkingDays" style="height: 40px;">
                         <label>[[day]]</label>
@@ -788,10 +788,9 @@
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="slot in listOfAvailableSlots.timings"
-                            ng-class="{slotSelected: slot.active}">
-                            <h4><span class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot.time]]
-                                <input type="checkbox" ng-model="apptSlot" ng-click="testing()"></span>
+                        <li ng-repeat="slot in listOfAvailableSlots.timings">
+                            <h4><span ng-class="{slotSelected: slot.active}" class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot.time]]
+                                <input type="checkbox" ng-model="slot.active" ng-click="testing()"></span>
                             </h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>

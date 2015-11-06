@@ -1297,6 +1297,11 @@ ul.config-sidemenu-ul {
     opacity: 0.5;
 }
 
+.slotSelected {
+
+    color: #49708A;
+}
+
 /*li.row.config-sidemenu-row.activetab:after,
 li.config-sidemenu-row:hover::after {
     content: '';
@@ -1610,13 +1615,13 @@ hr.type-timing-tab-active {
 }
 
 .timeslots-ul li input[type=checkbox] {
-    display: none;
+    position: relative;
+    margin-left: -36px;
+    margin-right: 0;
+    margin-top: 5px;
+    opacity: 0;
+    cursor: pointer;
 
-}
-
-.slotSelected{
-    background-color: #E79285;
-    color: #bed4e3;
 }
 
 .docAppt-timeslot-side{
