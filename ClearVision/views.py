@@ -320,7 +320,7 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         friday = ",".join(str(eachTimeSlot) for eachTimeSlot in fridayArray)
         saturday = ",".join(str(eachTimeSlot) for eachTimeSlot in saturdayArray)
 
-        DoctorDayTimeSlots.objects.create(doctor=Doctor.objects.get(id=doctorID), apptType=AppointmentType.objects.get(id=apptTypeID),
+        DoctorDayTimeSlots.objects.create(doctor=hotshotdoctor, apptType=apptObj,
                                           monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
                                           friday=friday, saturday=saturday)
 
@@ -332,7 +332,7 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         doctorID = payload.get('doctorID')
         apptTypeID = payload.get('apptTypeID')
 
-        hotshotdoctor = Doctor.objects.get(id=doctorID)
+        coldshotdoctor = Doctor.objects.get(id=doctorID)
 
 class AppointmentTypeNotTaggedToDoctor(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
@@ -3005,6 +3005,18 @@ class ViewAllApptTypes(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         allApptTypes = AppointmentType.objects.all().values()
         return Response(allApptTypes)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        name = payload.get('name')
+        calendarColourHex = payload.get('calendarColourHex')
+
+        newlyCreatedApptType = AppointmentType.objects.create(name=name)
+
+        CalendarColorSettings.objects.create(apptType=newlyCreatedApptType, hex=calendarColourHex)
+
+        return Response('Appointment type created successfully')
 
 class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannels.objects.none()
