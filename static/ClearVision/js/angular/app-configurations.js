@@ -15,6 +15,7 @@ appConfig.controller('configCtrl',
         $scope.appointmentTypesPopover = [];
         $scope.doctorsNamePopover = [];
         $scope.doctorsRemovePopover = [];
+        $scope.doctorApptTypePopover = [];
 
         $scope.dynamicPopover = {
             editStartTime: {
@@ -454,6 +455,69 @@ appConfig.controller('configCtrl',
 
         };
 
+        /* function to get non color appointment types */
+        $scope.getApptTypes = function () {
+            $http.get('/Clearvision/_api/ViewAllApptTypes/')
+                .success(function (appointmentTypes) {
+                    $scope.appointmentTypes = appointmentTypes;
+                });
+        };
+        $scope.getApptTypes();
+
+        /* function to get doctor appointment timings */
+        $scope.getDoctorApptTimings = function (doctorId, appointmentId) {
+
+            // only sends if both doctorId and appointmentId are selected
+            if (doctorId == undefined || appointmentId == undefined) {
+                return;
+            } else {
+
+                // prepare an empty doctorApptType popover array
+                var doctorApptTypePopover = [];
+
+                var req = {
+                    method: 'GET',
+                    url: '/Clearvision/_api/DoctorTimeSlot/?doctorId=' + doctorId + '&apptType=' + appointmentId,
+                    headers: {'Content-Type': 'application/json'}
+                };
+                $http(req)
+                    .success(function (doctorTimings) {
+                        $scope.listOfDoctorTimings = doctorTimings;
+                        $scope.listOfDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                        // push all the appointment type popovers based on type count
+                        angular.forEach(doctorTimings, function () {
+
+                            doctorApptTypePopover.push({
+                                editApptTimeslot: {
+                                    isOpen: false,
+                                    templateUrl: 'editApptTimeslotTemplate.html',
+                                    open: function (index) {
+                                        var idx = 0;
+                                        // ensure that all time slot  popovers are closed on select
+                                        angular.forEach($scope.listOfDoctorTimings, function () {
+                                            $scope.doctorApptTypePopover[idx].editApptTimeslot.isOpen = false;
+                                            idx++;
+                                        });
+                                        // set the current index chosen
+                                        $scope.timeSlotIndex = index;
+                                        $scope.doctorApptTypePopover[index].editApptTimeslot.isOpen = true;
+                                    },
+                                    close: function (index) {
+                                        $scope.doctorApptTypePopover[index].editApptTimeslot.isOpen = false;
+                                    }
+                                }
+                            });
+                        });
+
+                        // assign the popover array to the scope
+                        $scope.doctorApptTypePopover = doctorApptTypePopover;
+                    })
+                    .error(function () {
+                    });
+            }
+        };
+
         /* function to update appointment type color */
         $scope.updateAppointmentTypeColor = function (isValid, index, hexValue) {
 
@@ -626,6 +690,7 @@ appConfig.controller('configCtrl',
 
             }
         };
+
 
         $scope.getClinics();
         $scope.getDoctors();
