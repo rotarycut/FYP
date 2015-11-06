@@ -97,7 +97,7 @@
                                         </ul>
                                     </div>
                                     <br/>
-                                    <a class="edit-opt-hr" ng-click="openAssignNewApptTypeModal()">
+                                    <a class="edit-opt-hr" ng-click="openAssignNewApptTypeModal(doctor.id)">
                                         <i class="fa fa-plus-circle"></i> Assign Appointment Type
                                     </a>
                                 </td>
@@ -770,7 +770,8 @@
                 <label class="label-color">Select New Appointment Type</label>
                 <select class="form-control add-new-doc-form" ng-options="type.name for type in appointmentTypes"
                         data-ng-model="newAppointmentType">
-                </select></div>
+                </select>
+            </div>
         </div>
         <div ng-show="newApptSlotFormVisible ">
             <div class="col-md-3 docAppt-timeslot-side">

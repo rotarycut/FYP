@@ -174,6 +174,9 @@ appConfig.controller('configCtrl',
                 resolve: {
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
+                    },
+                    doctorId: function () {
+                        return '';
                     }
                 }
             });
@@ -192,24 +195,29 @@ appConfig.controller('configCtrl',
                     },
                     appointmentsTime: function () {
                         return '';
+                    },
+                    doctorId: function () {
+                        return '';
                     }
                 }
             });
         };
 
-        $scope.openAssignNewApptTypeModal = function (size) {
+        $scope.openAssignNewApptTypeModal = function (doctorId) {
 
             var modalInstance = $modal.open({
                 animation: true,
                 templateUrl: 'assignNewTypeModalTemplate.html',
                 controller: 'AppConfigModalInstanceCtrl',
-                size: size,
                 resolve: {
                     docInfoFormVisibility: function () {
                         return '';
                     },
                     appointmentsTime: function () {
                         return $scope.listOfTimeslots;
+                    },
+                    doctorId: function () {
+                        return doctorId;
                     }
                 }
             });
@@ -645,7 +653,7 @@ appConfig.controller('configCtrl',
 
     });
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId) {
 
     $scope.listOfAvailableSlots = appointmentsTime;
     $scope.stepOneBtnGrp = true;
@@ -710,7 +718,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
     /* function to get appointment types */
     $scope.getApptTypes = function () {
-        $http.get('/Clearvision/_api/ViewAllApptTypes/')
+        $http.get('/Clearvision/_api/AppointmentTypeNotTaggedToDoctor/?doctorID=' + doctorId)
             .success(function (appointmentTypes) {
                 $scope.appointmentTypes = appointmentTypes;
             });
