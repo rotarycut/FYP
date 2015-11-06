@@ -293,9 +293,18 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         apptTypeID = payload.get('apptTypeID')
 
         hotshotdoctor = Doctor.objects.get(id=doctorID)
+        apptObj = AppointmentType.objects.get(id=apptTypeID)
 
-        hotshotdoctor.apptType.add(AppointmentType.objects.get(id=apptTypeID))
+        hotshotdoctor.apptType.add(apptObj)
         hotshotdoctor.save()
+
+        year = datetime.today().year
+
+        command = "python ClearVision/AvailableTimeSlotsGenerator.py " + str(year) + " " + str(hotshotdoctor.id) + " \"" + str(apptObj.name) + "\""
+        os.system(command)
+
+        command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
+        os.system(command)
 
         monday = payload.get('monday')
         tuesday = payload.get('tuesday')
@@ -1180,8 +1189,8 @@ class AvaliableTimeSlots(viewsets.ReadOnlyModelViewSet):
     queryset = AvailableTimeSlots.objects.none()
 
     def list(self, request, *args, **kwargs):
-        response_data = AvailableTimeSlots.objects.get(date='2015-09-07', start='15:00:00',
-                                                       timeslotType='Surgery', doctors=2).id
+        response_data = AvailableTimeSlots.objects.get(date='2015-10-07', start='15:00:00',
+                                                       timeslotType='Screening', doctors=1).id
         return HttpResponse(response_data)
 
 
