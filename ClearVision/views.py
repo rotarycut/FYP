@@ -3204,3 +3204,62 @@ class ViewHeatMapColorSettings(viewsets.ModelViewSet):
 class ViewCalendarTimeRange(viewsets.ModelViewSet):
     queryset = CalendarTimeRange.objects.all()
     serializer_class = CalendarTimeRangeSerializer
+
+class ViewSMSApptReminder(viewsets.ModelViewSet):
+    queryset = DaysAheadReminderSMS.objects.all()
+    serializer_class = SMSApptReminderSerializer
+
+    def update(self, request, *args, **kwargs):
+        payload = request.data
+        days = payload.get('days')
+        timeHour = payload.get('timeHour')
+        timeMinute = payload.get('timeMinute')
+
+        toUpdate = DaysAheadReminderSMS.objects.get(id=1)
+
+        toUpdate.days = days
+        toUpdate.timeHour = timeHour
+        toUpdate.timeMinute = timeMinute
+        toUpdate.save()
+
+        injectorJSON = [{
+                        "fields": {
+                        "month_of_year": "*",
+                        "day_of_week": "*",
+                        "hour": timeHour,
+                        "minute": timeMinute,
+                        "day_of_month": "*"
+                        },
+                        "model": "djcelery.crontabschedule",
+                        "pk": 2
+                        },
+                        {
+                        "fields": {
+                        "task": "ClearVision.tasks.sendSMS",
+                        "name": "sendSMS",
+                        "exchange": None,
+                        "last_run_at": None,
+                        "args": "[]",
+                        "enabled": True,
+                        "routing_key": None,
+                        "crontab": 2,
+                        "interval": None,
+                        "queue": None,
+                        "total_run_count": 0,
+                        "expires": None,
+                        "kwargs": "{}",
+                        "date_changed": "2015-09-25T19:40:16.253",
+                        "description": ""
+                        },
+                        "model": "djcelery.periodictask",
+                        "pk": 3
+                        }]
+
+        with open("ClearVision/fixtures/SMSApptReminderUpdate.json", "w+") as outfile:
+            json.dump(injectorJSON, outfile, indent=4)
+
+        command = "python manage.py loaddata SMSApptReminderUpdate"
+        os.system(command)
+
+        return Response('Successfully updated SMS Config')
+

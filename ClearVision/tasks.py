@@ -14,8 +14,10 @@ def sendPreSurgery():
 
 @task()
 def sendSMS():
+
+    days = DaysAheadReminderSMS.objects.get(id=1).days
     """
-    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today() + timedelta(days=2)).values('patients__contact', 'patients__name',
+    today_patient_data = Appointment.objects.filter(timeBucket__date=date.today() + timedelta(days=days)).values('patients__contact', 'patients__name',
                                                                                                               'patients__gender', 'timeBucket__date',
                                                                                                               'timeBucket__start', 'apptType', 'id',
                                                                                                               'timeBucket', 'doctor__name', 'clinic',

@@ -304,5 +304,14 @@
         "startTime": "09:00:00",
         "endTime": "19:00:00"
     }
+  },
+  {
+    "model": "ClearVision.DaysAheadReminderSMS",
+    "pk": 1,
+    "fields": {
+        "days": 2,
+        "timeHour": 16,
+        "timeMinute": 40
+    }
   }
 ]

@@ -201,3 +201,8 @@ class CalendarTimeRange(models.Model):
     name = models.CharField(max_length=250)
     startTime = models.TimeField()
     endTime = models.TimeField()
+
+class DaysAheadReminderSMS(models.Model):
+    days = models.IntegerField()
+    timeHour = models.IntegerField()
+    timeMinute = models.IntegerField()

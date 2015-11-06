@@ -167,3 +167,9 @@ class CalendarTimeRangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CalendarTimeRange
         depth = 1
+
+class SMSApptReminderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DaysAheadReminderSMS
+        depth = 1

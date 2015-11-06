@@ -57,6 +57,7 @@ router.register(r'_api/ViewWaitlistAppt', views.ViewWaitlistAppt)
 router.register(r'_api/ViewCalendarColorSettings', views.ViewCalendarColorSettings)
 router.register(r'_api/ViewHeatMapColorSettings', views.ViewHeatMapColorSettings)
 router.register(r'_api/ViewCalendarTimeRange', views.ViewCalendarTimeRange)
+router.register(r'_api/ViewSMSApptReminder', views.ViewSMSApptReminder)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
