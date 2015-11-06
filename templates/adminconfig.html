@@ -120,14 +120,17 @@
             <div class="row">
                 <div class="col-md-9">
                     <ul class="doc-config-viewtabs">
-                        <li class="type-info-tab"><a href="" data-ng-click="showTypeInfoView()">Appointment Type Info</a></li>
-                        <li class="type-timing-tab"><a href="" data-ng-click="showTypeTimingView()">Appointment Type Slots</a>
+                        <li class="type-info-tab"><a href="" data-ng-click="showTypeInfoView()">Appointment Type
+                            Info</a></li>
+                        <li class="type-timing-tab"><a href="" data-ng-click="showTypeTimingView()">Appointment Type
+                            Slots</a>
                         </li>
                         <hr ng-class="typeConfigActiveTab">
                     </ul>
                 </div>
                 <div class="col-md-3 right-block" ng-show="showAddNewTypeBtn">
-                    <button class="btn form-submit-btn" data-ng-click="openAddNewApptTypeModal()">New Appointment Type</button>
+                    <button class="btn form-submit-btn" data-ng-click="openAddNewApptTypeModal()">New Appointment Type
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -163,145 +166,54 @@
                     </div>
                     <div ng-show="showApptTimingConfigForm">
                         <div class="row subcontent-row">
-                <div class="col-md-3" style="padding-right: 0;">
-                    <label class="control-label label-color">Doctor:</label>
-                    <select class="form-control" ng-options="doc for doc in listOfDoctors"
-                            data-ng-model="apptTypeDoc">
-                    </select>
-                </div>
-                <div class="col-md-4 col-md-offset-1" style="padding-right: 0;">
-                    <label class="control-label label-color">Appointment Type:</label>
-                    <select class="form-control" ng-options="appt for appt in listOfApptTypes"
-                            data-ng-model="apptType">
-                    </select>
-                </div>
+                            <div class="col-md-3" style="padding-right: 0;">
+                                <label class="control-label label-color">Doctor:</label>
+                                <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
+                                        data-ng-model="apptTypeSettingsDoc"
+                                        ng-change="getDoctorApptTimings(apptTypeSettingsDoc.id, apptTypeSettingsType.id)">
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-md-offset-1" style="padding-right: 0;">
+                                <label class="control-label label-color">Appointment Type:</label>
+                                <select class="form-control" ng-options="appt as appt.name for appt in appointmentTypes"
+                                        data-ng-model="apptTypeSettingsType"
+                                        ng-change="getDoctorApptTimings(apptTypeSettingsDoc.id, apptTypeSettingsType.id)">
+                                </select>
+                            </div>
 
-            </div>
+                        </div>
                         <div class="row subcontent-row">
-                <div class="col-md-12" style="padding-right: 0;">
-                    <label class="control-label label-color">Available Time Slots:</label>
-                    <table class="table table-bordered clinic-config-table">
-                        <tbody>
-                        <tr>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Sunday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Monday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">9:30am</li>
-                                        <li class="mrkt-list-item">10:00am</li>
-                                        <li class="mrkt-list-item">10:30am</li>
-                                        <li class="mrkt-list-item">11:00am</li>
-                                    </ul>
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click=""
-                                   popover-template="dynamicPopover.editApptTimeslot.templateUrl"
-                                   popover-title="Edit Appointment Time Slots"
-                                   data-ng-click="dynamicPopover.editApptTimeslot.open();"
-                                   popover-placement="right" popover-is-open="dynamicPopover.editApptTimeslot.isOpen">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Tuesday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">2:00pm</li>
-                                        <li class="mrkt-list-item">2:30pm</li>
-                                        <li class="mrkt-list-item">3:00pm</li>
-                                        <li class="mrkt-list-item">3:30pm</li>
-                                    </ul>
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Wednesday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">9:30am</li>
-                                        <li class="mrkt-list-item">10:00am</li>
-                                        <li class="mrkt-list-item">10:30am</li>
-                                        <li class="mrkt-list-item">11:00am</li>
-                                        <li class="mrkt-list-item">2:00pm</li>
-                                        <li class="mrkt-list-item">2:30pm</li>
-                                        <li class="mrkt-list-item">3:00pm</li>
-                                        <li class="mrkt-list-item">3:30pm</li>
-                                    </ul>
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Thursday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">2:00pm</li>
-                                        <li class="mrkt-list-item">2:30pm</li>
-                                        <li class="mrkt-list-item">3:00pm</li>
-                                        <li class="mrkt-list-item">3:30pm</li>
-                                    </ul>
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Friday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">9:30am</li>
-                                        <li class="mrkt-list-item">10:00am</li>
-                                        <li class="mrkt-list-item">10:30am</li>
-                                        <li class="mrkt-list-item">11:00am</li>
-                                    </ul>
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                            <td class="operating-hr-td">
-                                <div class="day-of-week">
-                                    Saturday
-                                </div>
-                                <div class="doc-appts-listbox" ng-init="">
-                                    <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="mrkt-list-item">9:30am</li>
-                                        <li class="mrkt-list-item">10:00am</li>
-                                        <li class="mrkt-list-item">10:30am</li>
-                                        <li class="mrkt-list-item">11:00am</li>
-                                    </ul>
-                                </div>
-                                <br/>
-                                <a class="edit-opt-hr" ng-click="">
-                                    <i class="fa fa-pencil-square-o"></i> Edit</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                            <div class="col-md-12" style="padding-right: 0;">
+                                <label class="control-label label-color">Available Time Slots:</label>
+                                <table class="table table-bordered clinic-config-table">
+                                    <tbody>
+                                    <tr>
+                                        <td class="operating-hr-td" ng-repeat="day in listOfDays">
+                                            <div class="day-of-week">
+                                                [[day]]
+                                            </div>
+                                            <div class="doc-appts-listbox">
+                                                <ul style="list-style: none; padding-left: 1%;">
+                                                    <li class="mrkt-list-item"
+                                                        ng-repeat="doctorDay in listOfDoctorTimings[$index]">
+                                                        [[doctorDay]]
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <br/>
+                                            <a class="edit-opt-hr" ng-click=""
+                                               popover-template="dynamicPopover.editApptTimeslot.templateUrl"
+                                               popover-title="Edit Appointment Time Slots"
+                                               data-ng-click="dynamicPopover.editApptTimeslot.open();"
+                                               popover-placement="right"
+                                               popover-is-open="dynamicPopover.editApptTimeslot.isOpen">
+                                                <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

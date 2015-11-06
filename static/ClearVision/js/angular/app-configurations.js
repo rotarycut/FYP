@@ -454,6 +454,15 @@ appConfig.controller('configCtrl',
 
         };
 
+        /* function to get non color appointment types */
+        $scope.getApptTypes = function () {
+            $http.get('/Clearvision/_api/ViewAllApptTypes/')
+                .success(function (appointmentTypes) {
+                    $scope.appointmentTypes = appointmentTypes;
+                });
+        };
+        $scope.getApptTypes();
+
         /* function to update appointment type color */
         $scope.updateAppointmentTypeColor = function (isValid, index, hexValue) {
 
@@ -626,6 +635,29 @@ appConfig.controller('configCtrl',
 
             }
         };
+
+        /* function to get doctor appointment timings */
+        $scope.getDoctorApptTimings = function (doctorId, appointmentId) {
+
+            // only sends if both doctorId and appointmentId are selected
+            if (doctorId == undefined || appointmentId == undefined) {
+                return;
+            } else {
+                var req = {
+                    method: 'GET',
+                    url: '/Clearvision/_api/DoctorTimeSlot/?doctorId=' + doctorId + '&apptType=' + appointmentId,
+                    headers: {'Content-Type': 'application/json'}
+                };
+                $http(req)
+                    .success(function (doctorTimings) {
+                        $scope.listOfDoctorTimings = doctorTimings;
+                        $scope.listOfDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    })
+                    .error(function () {
+                    });
+            }
+        };
+
 
         $scope.getClinics();
         $scope.getDoctors();
