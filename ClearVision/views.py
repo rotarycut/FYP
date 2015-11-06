@@ -333,6 +333,13 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         apptTypeID = payload.get('apptTypeID')
 
         coldshotdoctor = Doctor.objects.get(id=doctorID)
+        coldshotappttype = AppointmentType.objects.get(id=apptTypeID)
+
+        DoctorDayTimeSlots.objects.get(doctor=coldshotdoctor, apptType=coldshotappttype).delete()
+
+        AvailableTimeSlots.objects.filter(timeslotType=coldshotappttype.name, doctors=coldshotdoctor).delete()
+
+        return Response("Successfully removed appointment type")
 
 class AppointmentTypeNotTaggedToDoctor(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
@@ -341,9 +348,8 @@ class AppointmentTypeNotTaggedToDoctor(viewsets.ReadOnlyModelViewSet):
         doctorID = request.query_params.get('doctorID')
 
         allApptTypes = AppointmentType.objects.all()
-        doctorApptTypes = Doctor.objects.get(id=doctorID).apptType.all() #NOTE!!!
-        print(allApptTypes)
-        print(doctorApptTypes)
+        doctorApptTypes = Doctor.objects.get(id=doctorID).apptType.all() #NOTE for manyTOmany relationships!!!
+
         AppointmentTypeNotTaggedToDoctor = []
 
         for eachApptType in allApptTypes:
