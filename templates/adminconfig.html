@@ -847,7 +847,7 @@
             <li class="bubble" ng-class="StepThreeComplete">
                 <span class="bubble" ng-class="StepThreeComplete"></span>
                 <i class="fa fa-check-circle" ng-show="showStepThreeChecker"></i>
-                3. Available Time Slots
+                2. Available Time Slots
             </li>
         </ul>
     </div>
@@ -875,9 +875,9 @@
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
                         <li ng-repeat="slot in listOfAvailableSlots.timings"
-                            ng-class="{slotSelected: apptSlot}">
-                            <h4><span class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot]]
-                                <input type="checkbox" ng-model="apptSlot" ng-click=""></span>
+                            ng-class="{slotSelected: slot.active}">
+                            <h4><span class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot.time]]
+                                <input type="checkbox" ng-model="apptSlot" ng-click="testing()"></span>
                             </h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>

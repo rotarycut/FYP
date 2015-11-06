@@ -49,9 +49,7 @@ app.service('enableIScheduleSvc', function ($timeout) {
 
                 console.log("HERE");
                 console.log(self.scope.chosenDoctor.doctorAppointmentSource);
-                console.log(self.scope.chosenDoctor.appointmentTypeSourceArray);
 
-                console.log(self.scope.DrHoappointments);
                 //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoPreEvaluation);
                 //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoSurgery);
                 //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoPostSurgery);
@@ -66,16 +64,19 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 //self.scope.removeFromDoctorSource(self.scope.chosenDoctor.DrHoappointments, arr, true);
                 //console.log(self.scope.DrHoappointments);
 
+                console.log(self.scope.chosenDoctor.doctorAppointmentSource);
+                //self.scope.chosenDoctor.ap
+
                 // iSchedule is not previously enabled
                 self.scope.showHeatMap = true;
                 self.scope.iSchedule = true;
 
                 // remove all the appointments on the calendar
-                self.scope.removeFromDoctorSource(
+                /*self.scope.removeFromDoctorSource(
                     self.scope.chosenDoctor.doctorAppointmentSource,
                     self.scope.chosenDoctor.appointmentTypeSourceArray,
                     true
-                );
+                );*/
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);

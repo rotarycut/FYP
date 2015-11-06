@@ -532,8 +532,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 $timeout(function () {
 
-                    // add the appointment type source to the doctor appointment source
-                    // $scope.drHoSurgery into $scope.doctorHoAppointments
+                    // add the appointment type source array to the doctor appointment source
+                    // $scope.drHoSurgery,$scope.drHoPreEvaluation into $scope.doctorHoAppointments
                     $scope.addToDoctorSource(doctorAppointmentSource, appointmentTypeSourceArray);
                 }, 0);
 
