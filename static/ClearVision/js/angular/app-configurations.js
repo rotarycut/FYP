@@ -653,7 +653,7 @@ appConfig.controller('configCtrl',
 
     });
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId, getDoctorsService) {
 
     $scope.listOfAvailableSlots = appointmentsTime;
     $scope.stepOneBtnGrp = true;
@@ -1175,19 +1175,29 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
     $scope.assignApptTypeToDoctor = function () {
 
 
-        var prepareJson = {};
+        var prepareJson = {
+            "monday": $scope.slotsToInsert[0],
+            "tuesday": $scope.slotsToInsert[1],
+            "wednesday": $scope.slotsToInsert[2],
+            "thursday": $scope.slotsToInsert[3],
+            "friday": $scope.slotsToInsert[4],
+            "saturday": $scope.slotsToInsert[5],
+            "doctorID": doctorId,
+            "apptTypeID": $scope.newAppointmentType.id
+        };
 
         var req = {
             method: 'POST',
-            url: '/Clearvision/_api/ViewAllApptTypes/',
+            url: '/Clearvision/_api/EditDoctorAppointmentTypes/',
             headers: {'Content-Type': 'application/json'},
-            data: {}
+            data: prepareJson
         };
 
         $http(req)
             .success(function (response) {
 
-                showNotificationsSvc.notifySuccessTemplate('Appointment type created successfully');
+                showNotificationsSvc.notifySuccessTemplate('Appointment type assigned successfully');
+                //getDoctorsService.getDoctors();
                 $scope.cancel();
             })
             .error(function () {
@@ -1196,6 +1206,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
     };
 
-});
+})
+;
 
 
