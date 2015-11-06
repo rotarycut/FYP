@@ -201,13 +201,13 @@
                                                 </ul>
                                             </div>
                                             <br/>
-                                            <a class="edit-opt-hr" ng-click=""
-                                               popover-template="dynamicPopover.editApptTimeslot.templateUrl"
-                                               popover-title="Edit Appointment Time Slots"
-                                               data-ng-click="dynamicPopover.editApptTimeslot.open();"
-                                               popover-placement="right"
-                                               popover-is-open="dynamicPopover.editApptTimeslot.isOpen">
-                                                <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                            <a class="edit-opt-hr"
+                                               popover-template="doctorApptTypePopover[$index].editApptTimeslot.templateUrl"
+                                               popover-title="Remove Doctor"
+                                               data-ng-click="doctorApptTypePopover[$index].editApptTimeslot.open($index)"
+                                               popover-placement="bottom"
+                                               popover-is-open="doctorApptTypePopover[$index].editApptTimeslot.isOpen">
+                                                <i class="fa fa-minus-circle"></i> Edit</a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -602,7 +602,9 @@
     </div>
     <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
-        <button class="btn-sm form-cancel-btn">Cancel</button>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="doctorApptTypePopover[timeSlotIndex].editApptTimeslot.close(timeSlotIndex)">Cancel
+        </button>
     </div>
 </script>
 
