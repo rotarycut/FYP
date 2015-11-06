@@ -306,12 +306,19 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
         os.system(command)
 
-        monday = payload.get('monday')
-        tuesday = payload.get('tuesday')
-        wednesday = payload.get('wednesday')
-        thursday = payload.get('thursday')
-        friday = payload.get('friday')
-        saturday = payload.get('saturday')
+        mondayArray = payload.get('monday')
+        tuesdayArray = payload.get('tuesday')
+        wednesdayArray = payload.get('wednesday')
+        thursdayArray = payload.get('thursday')
+        fridayArray = payload.get('friday')
+        saturdayArray = payload.get('saturday')
+
+        monday = ",".join(str(eachTimeSlot) for eachTimeSlot in mondayArray)
+        tuesday = ",".join(str(eachTimeSlot) for eachTimeSlot in tuesdayArray)
+        wednesday = ",".join(str(eachTimeSlot) for eachTimeSlot in wednesdayArray)
+        thursday = ",".join(str(eachTimeSlot) for eachTimeSlot in thursdayArray)
+        friday = ",".join(str(eachTimeSlot) for eachTimeSlot in fridayArray)
+        saturday = ",".join(str(eachTimeSlot) for eachTimeSlot in saturdayArray)
 
         DoctorDayTimeSlots.objects.create(doctor=Doctor.objects.get(id=doctorID), apptType=AppointmentType.objects.get(id=apptTypeID),
                                           monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
