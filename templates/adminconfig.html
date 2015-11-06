@@ -117,7 +117,52 @@
                     <h4><span class="label label-section-config">Appointment Types Settings</span></h4>
                 </div>
             </div>
-            <div class="row subcontent-row">
+            <div class="row">
+                <div class="col-md-9">
+                    <ul class="doc-config-viewtabs">
+                        <li class="type-info-tab"><a href="" data-ng-click="showTypeInfoView()">Appointment Type Info</a></li>
+                        <li class="type-timing-tab"><a href="" data-ng-click="showTypeTimingView()">Appointment Type Slots</a>
+                        </li>
+                        <hr ng-class="typeConfigActiveTab">
+                    </ul>
+                </div>
+                <div class="col-md-3 right-block" ng-show="showAddNewTypeBtn">
+                    <button class="btn form-submit-btn" data-ng-click="openAddNewApptTypeModal()">New Appointment Type</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="doc-config-form" ng-show="showApptInfoConfigForm">
+                        <table class="table">
+                            <tbody>
+                            <tr ng-repeat="appt in listOfApptTypes">
+                                <td>[[$index + 1]]</td>
+                                <td>[[appt.apptType.name]]</td>
+                                <td>
+                                    <a
+                                            class="edit-opt-hr"
+                                            popover-template="doctorsNamePopover[$index].editDoctor.templateUrl"
+                                            popover-title="Edit Doctor Name"
+                                            data-ng-click="doctorsNamePopover[$index].editDoctor.open($index, doc.id)"
+                                            popover-placement="bottom"
+                                            popover-is-open="doctorsNamePopover[$index].editDoctor.isOpen">
+                                        <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
+
+                                    <a
+                                            class="edit-opt-hr"
+                                            popover-template="doctorsRemovePopover[$index].removeDoctor.templateUrl"
+                                            popover-title="Remove Doctor"
+                                            data-ng-click="doctorsRemovePopover[$index].removeDoctor.open($index, doc.id)"
+                                            popover-placement="bottom"
+                                            popover-is-open="doctorsRemovePopover[$index].removeDoctor.isOpen">
+                                        <i class="fa fa-minus-circle"></i> Remove</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-show="showApptTimingConfigForm">
+                        <div class="row subcontent-row">
                 <div class="col-md-3" style="padding-right: 0;">
                     <label class="control-label label-color">Doctor:</label>
                     <select class="form-control" ng-options="doc for doc in listOfDoctors"
@@ -130,13 +175,9 @@
                             data-ng-model="apptType">
                     </select>
                 </div>
-                <div class="col-md-4 right-block" ng-show="showAddNewDocBtn">
-                    <button class="btn form-submit-btn" style="margin-bottom: 0;margin-top: 28px;"
-                            ng-click="openAddNewApptTypeModal()">New Appointment Type
-                    </button>
-                </div>
+
             </div>
-            <div class="row subcontent-row">
+                        <div class="row subcontent-row">
                 <div class="col-md-12" style="padding-right: 0;">
                     <label class="control-label label-color">Available Time Slots:</label>
                     <table class="table table-bordered clinic-config-table">
@@ -261,6 +302,10 @@
                     </table>
                 </div>
             </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
         <div class="arrow-down">
             <a ng-click="jumpToLocation('anchor3')"><i class="fa fa-chevron-down"></i></a>
@@ -802,7 +847,7 @@
             <li class="bubble" ng-class="StepThreeComplete">
                 <span class="bubble" ng-class="StepThreeComplete"></span>
                 <i class="fa fa-check-circle" ng-show="showStepThreeChecker"></i>
-                3. Available Time Slots
+                2. Available Time Slots
             </li>
         </ul>
     </div>
@@ -810,8 +855,8 @@
         <div class="doc-info-form" ng-show="newTypeInfoVisible">
             <div class="form-group">
                 <label class="label-color">Select New Appointment Type</label>
-                <select class="form-control add-new-doc-form" ng-options="type for type in appointmentTypes"
-                        data-ng-model="newAssignedType">
+                <select class="form-control add-new-doc-form" ng-options="type.name for type in appointmentTypes"
+                        data-ng-model="newAppointmentType">
                 </select></div>
         </div>
         <div ng-show="newApptSlotFormVisible ">
@@ -820,8 +865,7 @@
                     <li ng-class="{typeSelected: apptType}"
                         class="mrkt-list-item"
                         ng-repeat="day in listOfWorkingDays" style="height: 40px;">
-                        <label>[[day]]
-                        </label>
+                        <label>[[day]]</label>
                     </li>
                 </ul>
             </div>
@@ -830,12 +874,11 @@
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="slot in listOfAvailableSlots" ng-class="{slotSelected: apptSlot}"><h4><span
-                                class="label label-default"
-                                style="background-color: #bed4e3;cursor: pointer">[[slot]]<input type="checkbox"
-                                                                                                 ng-model="apptSlot"
-                                                                                                 ng-click=""></span>
-                        </h4>
+                        <li ng-repeat="slot in listOfAvailableSlots.timings"
+                            ng-class="{slotSelected: slot.active}">
+                            <h4><span class="label label-default" style="background-color: #bed4e3;cursor: pointer">[[slot.time]]
+                                <input type="checkbox" ng-model="apptSlot" ng-click="testing()"></span>
+                            </h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
                     </ul>

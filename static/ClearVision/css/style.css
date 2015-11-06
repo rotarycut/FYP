@@ -1531,6 +1531,26 @@ hr.swapsms-tab-active {
     padding-right: 0;
 }
 
+hr.type-info-tab-active {
+    width: 145px;
+    margin-left: 0px;
+    height: 3px;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+hr.type-timing-tab-active {
+    width: 164px;
+    margin-left: 160px;
+    height: 3px;
+    background: #E79285;
+    border: none;
+    transition: .3s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
+}
 
 /* create modal css in adminconfig */
 
