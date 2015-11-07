@@ -565,7 +565,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             tempApptTimeBucket = data.get('tempTime') + ":00"
             tempApptDate = data.get('tempDate')
 
-        if not Patient.objects.filter(contact=patientContact, name=patientName).exists():
+        if not Patient.objects.filter(contact=patientContact, name=patientName).exists():     #DAMN IMPT SHIT
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
                                    marketingChannelId=MarketingChannels.objects.get(id=marketingID),
                                    registrationDate=datetime.now())
@@ -3269,3 +3269,109 @@ class ViewSMSApptReminder(viewsets.ModelViewSet):
 
         return Response('Successfully updated SMS Config')
 
+import numpy as np
+def ConversionRatePrediction(request):
+    thisMonth = datetime.now().month
+
+    jan = 0
+    feb = 0
+    mar = 0
+    apr = 0
+    may = 0
+    jun = 0
+    jul = 0
+    aug = 0
+    sep = 0
+    oct = 0
+    nov = 0
+    dec = 0
+
+    for months in range(1, 13):
+        if months < thisMonth:
+            totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+                                                                              originalAppt__date__month=months)
+            patients = []
+
+            for eachObj in totalAttendedPreEvalPatients:
+                patients.append(eachObj.patient)
+
+            totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+            totalAttendedPreEvalCount = totalAttendedPreEval.count()
+
+            prevItem = None
+            for eachAttendedPreEval in totalAttendedPreEval:
+                if eachAttendedPreEval.patient == prevItem:
+                    totalAttendedPreEvalCount += -1
+                    prevItem = eachAttendedPreEval.patient
+                else:
+                    prevItem = eachAttendedPreEval.patient
+
+            totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
+                                                                      originalAppt__doctor__apptType=3).order_by('patient', 'last_modified')
+            totalAttendedSurgeryCount = totalAttendedSurgery.count()
+
+            prevItem = None
+            for eachAttendedSurgery in totalAttendedSurgery:
+                if eachAttendedSurgery.patient == prevItem:
+                    totalAttendedSurgeryCount += -1
+                    prevItem = eachAttendedSurgery.patient
+                else:
+                    prevItem = eachAttendedSurgery.patient
+
+            if totalAttendedPreEvalCount != 0:
+                trueConversionRate = totalAttendedSurgeryCount/totalAttendedPreEvalCount * 100
+            else:
+                trueConversionRate = 0
+
+            if months == 1:
+                jan = trueConversionRate
+            elif months == 2:
+                feb = trueConversionRate
+            elif months == 3:
+                mar = trueConversionRate
+            elif months == 4:
+                apr = trueConversionRate
+            elif months == 5:
+                may = trueConversionRate
+            elif months == 6:
+                jun = trueConversionRate
+            elif months == 7:
+                jul = trueConversionRate
+            elif months == 8:
+                aug = trueConversionRate
+            elif months == 9:
+                sep = trueConversionRate
+            elif months == 10:
+                oct = trueConversionRate
+            elif months == 11:
+                nov = trueConversionRate
+            elif months == 12:
+                dec = trueConversionRate
+
+    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    y = [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+
+    regression = np.polyfit(x, y, 1)
+
+    currentMonthAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+                                                                              originalAppt__date__month=datetime.now().month)
+    patients = []
+
+    for eachObj in currentMonthAttendedPreEvalPatients:
+        patients.append(eachObj.patient)
+
+    currentMonthAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+    currentMonthPreEvalCount = currentMonthAttendedPreEval.count()
+
+    prevItem = None
+    for eachAttendedPreEval in currentMonthAttendedPreEval:
+        if eachAttendedPreEval.patient == prevItem:
+            currentMonthPreEvalCount += -1
+            prevItem = eachAttendedPreEval.patient
+        else:
+            prevItem = eachAttendedPreEval.patient
+
+    predict = regression[0] * currentMonthPreEvalCount + regression[1]
+    line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
+
+    return HttpResponse([{'line': line, 'predict': predict}])
