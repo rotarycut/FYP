@@ -3375,3 +3375,10 @@ def ConversionRatePrediction(request):
     line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
 
     return HttpResponse([{'line': line, 'predict': predict}])
+
+def MonthSurgeryKPI(request):
+    attendedSurgery = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=3,
+                                                         originalAppt__date__month=datetime.now().month).count()
+    KPI = str(attendedSurgery) + '/80'
+
+    return HttpResponse(KPI)

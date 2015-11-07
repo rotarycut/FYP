@@ -85,4 +85,5 @@ urlpatterns = [
     url(r'^_api/UserTrackingTimeOut', views.RecordUserActionsTimeOut,),
     url(r'^_api/WriteDatabaseFullYear', views.WriteDatabaseFullYear,),
     url(r'^_api/ConversionRatePrediction', views.ConversionRatePrediction,),
+    url(r'^_api/MonthSurgeryKPI', views.MonthSurgeryKPI,),
 ]
