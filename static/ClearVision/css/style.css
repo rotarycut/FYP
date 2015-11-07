@@ -42,6 +42,9 @@
     padding-top: 8px;
     padding-bottom: 6px;
 }
+.center-input{
+    text-align: center;
+}
 
 .heading-rotate {
     -webkit-transform: rotate(-90deg);

@@ -16,6 +16,7 @@ appConfig.controller('configCtrl',
         $scope.doctorsNamePopover = [];
         $scope.doctorsRemovePopover = [];
         $scope.doctorApptTypePopover = [];
+        $scope.editApptTypeNamePopover = [];
 
         $scope.dynamicPopover = {
             editStartTime: {
@@ -378,6 +379,27 @@ appConfig.controller('configCtrl',
                                 }
                             }
                         });
+
+                        appointmentInfoPopover.push({
+                            editApptTypeNamePopover: {
+                                isOpen: false,
+                                templateUrl: 'editApptTypeNameTemplate.html',
+                                open: function (index) {
+                                    var idx = 0;
+                                    // ensure that all appointment type popovers are closed on select
+                                    angular.forEach($scope.listOfApptTypes, function () {
+                                        $scope.appointmentInfoPopover[idx].editApptTypeNamePopover.isOpen = false;
+                                        idx++;
+                                    });
+
+                                },
+                                close: function (index) {
+                                    $scope.appointmentInfoPopover[index].editApptTypeNamePopover.isOpen = false;
+                                }
+                            }
+                        });
+
+
                     });
 
                     // assign the popover array to the scope
