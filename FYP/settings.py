@@ -154,3 +154,4 @@ EMAIL_HOST_PASSWORD = 'Clearvision2015'
 ####
 DAILY_BACKUP_RECIPIENTS = ['shermanyong.2012@sis.smu.edu.sg', 'leon.lim.2012@sis.smu.edu.sg', 'qunqun.hu.2012@sis.smu.edu.sg', 'amabel.lau.2012@sis.smu.edu.sg']
 MONTHLY_BACKUP_RECIPIENTS = ['shermanyong.2012@sis.smu.edu.sg', 'leon.lim.2012@sis.smu.edu.sg', 'qunqun.hu.2012@sis.smu.edu.sg', 'amabel.lau.2012@sis.smu.edu.sg']
+KPI = 80
