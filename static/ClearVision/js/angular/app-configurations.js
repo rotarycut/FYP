@@ -673,6 +673,38 @@ appConfig.controller('configCtrl',
             }
         };
 
+        /* function to delete appointment type from doctor */
+        $scope.deleteAppointmentTypeFromDoctor = function (isValid, doctorId, apptTypeId) {
+
+            hour = hour.substring(0, hour.indexOf(":"));
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewSMSApptReminder/1/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "days": day,
+                        "timeHour": hour,
+                        "timeMinute": minute
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('SMS setting updated successfully');
+
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
 
         $scope.getClinics();
         $scope.getDoctors();
@@ -1253,7 +1285,6 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
     };
 
-})
-;
+});
 
 
