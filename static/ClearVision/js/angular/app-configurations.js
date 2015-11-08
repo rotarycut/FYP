@@ -404,13 +404,13 @@ appConfig.controller('configCtrl',
         };
 
         /* function to get non color appointment types */
-        $scope.getApptTypes = function () {
+        $scope.getNonColorApptTypes = function () {
             $http.get('/Clearvision/_api/ViewAllApptTypes/')
                 .success(function (appointmentTypes) {
                     $scope.appointmentTypes = appointmentTypes;
                 });
         };
-        $scope.getApptTypes();
+        $scope.getNonColorApptTypes();
 
         /* function to get doctor appointment timings */
         $scope.getDoctorApptTimings = function (doctorId, appointmentId) {
@@ -649,15 +649,19 @@ appConfig.controller('configCtrl',
             $location.hash(key);
             $anchorScroll();
             /*$anchorScroll.yOffset = 40;*/
-        }
+        };
 
         // Slider options with event handlers
-			$scope.slider = {
-				'options': {
-					start: function (event, ui) { $log.info('Event: Slider start - set with slider options', event); },
-    				stop: function (event, ui) { $log.info('Event: Slider stop - set with slider options', event); }
-				}
-			};
+        $scope.slider = {
+            'options': {
+                start: function (event, ui) {
+                    $log.info('Event: Slider start - set with slider options', event);
+                },
+                stop: function (event, ui) {
+                    $log.info('Event: Slider stop - set with slider options', event);
+                }
+            }
+        };
 
     });
 
@@ -734,7 +738,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
     $scope.getApptTypes();
 
     /* function to create new appointment type */
-    $scope.createNewAppointmentType = function (isValid, appointmentTypeName) {
+    $scope.createNewAppointmentType = function (isValid, appointmentTypeName, hexColorValue) {
 
         // only sends patch if form is valid
         if (isValid) {
@@ -744,7 +748,8 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
                 url: '/Clearvision/_api/ViewAllApptTypes/',
                 headers: {'Content-Type': 'application/json'},
                 data: {
-                    "name": appointmentTypeName
+                    "name": appointmentTypeName,
+                    "calendarColourHex": hexColorValue
                 }
             };
 
