@@ -367,11 +367,21 @@
                     <div class="doc-config-form" ng-show="showReminderSMSConfigForm">
                         <div class="row subcontent-row">
                             <div class="col-md-2" style="padding-right: 0;">
-                                <label class="control-label label-color">Scheduled Time:</label>
+                                <label class="control-label label-color">Scheduled Hour:</label>
                             </div>
                             <div class="col-md-2" style="padding-left: 0;">
-                                <select class="form-control" ng-options="appt for appt in listOfApptTypes"
-                                        data-ng-model="apptType">
+                                <select class="form-control" ng-options="hour for hour in listOfSmsAvailableHour"
+                                        data-ng-model="smsHour">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row subcontent-row">
+                            <div class="col-md-2" style="padding-right: 0;">
+                                <label class="control-label label-color">Scheduled Minute:</label>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0;">
+                                <select class="form-control" ng-options="min for min in listOfSmsAvailableMinute"
+                                        data-ng-model="smsMin">
                                 </select>
                             </div>
                         </div>
@@ -384,6 +394,8 @@
                                        placeholder="days"/>
                             </div>
                         </div>
+
+                        <button ng-click="updateSmsSetting('true', smsReminderDays, smsHour, smsMin)">Update</button>
                     </div>
                     <div class="doc-config-form" ng-show="shownotifSMSConfigForm">
                         <div class="row subcontent-row">
