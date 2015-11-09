@@ -411,15 +411,6 @@
                                     <label class="control-label">2</label>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-md-offset-1" style="padding-top: 25px;">
-                                        <a class="edit-opt-hr"
-                                           popover-template="dynamicPopover.editSMSScheduledDay.templateUrl"
-                                           popover-title="Edit Scheduled Day"
-                                           data-ng-click="dynamicPopover.editSMSScheduledDay.open()"
-                                           popover-placement="top"
-                                           popover-is-open="dynamicPopover.editSMSScheduledDay.isOpen">
-                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
-                                    </div>
                         </div>
 
                         <!--<button ng-click="updateSmsSetting('true', smsReminderDays, smsHour, smsMin)">Update</button>-->
@@ -899,6 +890,10 @@
         data-ng-model="smsMin">
 </select>
     </div>
+    <div class="form-group">
+        <label>No. of Days:</label>
+        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
+    </div>
     <div>
         <button class="btn-sm form-submit-btn pull-left"
                 data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
@@ -909,20 +904,6 @@
     </div><br/><br/>
 </script>
 
-<script type="text/ng-template" id="editSMSScheduledDayTemplate.html">
-    <div class="form-group">
-        <label>No. of Days:</label>
-        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
-    </div>
-    <div>
-        <button class="btn-sm form-submit-btn pull-left"
-                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
-        </button>
-        <button class="btn-sm form-cancel-btn pull-right"
-                data-ng-click="dynamicPopover.editSMSScheduledDay.close()">Cancel
-        </button>
-    </div><br/><br/>
-</script>
 
 <script type="text/ng-template" id="editSwapReminderHourTemplate.html">
     <div class="form-group">
