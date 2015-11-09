@@ -67,6 +67,8 @@ appConfig.controller('configCtrl',
         };
 
         $scope.listOfAvailableTiming = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
+        $scope.listOfSmsAvailableHour = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+        $scope.listOfSmsAvailableMinute = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60"];
         $scope.showAddNewRngBtn = false;
         $scope.showAddNewDocBtn = true;
         $scope.showDocConfigForm = true;
@@ -426,13 +428,13 @@ appConfig.controller('configCtrl',
         };
 
         /* function to get non color appointment types */
-        $scope.getApptTypes = function () {
+        $scope.getNonColorApptTypes = function () {
             $http.get('/Clearvision/_api/ViewAllApptTypes/')
                 .success(function (appointmentTypes) {
                     $scope.appointmentTypes = appointmentTypes;
                 });
         };
-        $scope.getApptTypes();
+        $scope.getNonColorApptTypes();
 
         /* function to get doctor appointment timings */
         $scope.getDoctorApptTimings = function (doctorId, appointmentId) {
@@ -661,6 +663,70 @@ appConfig.controller('configCtrl',
             }
         };
 
+        /* function to update sms settings */
+        $scope.updateSmsSetting = function (isValid, day, hour, minute) {
+
+            hour = hour.substring(0, hour.indexOf(":"));
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewSMSApptReminder/1/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "days": day,
+                        "timeHour": hour,
+                        "timeMinute": minute
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('SMS setting updated successfully');
+
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
+        /* function to delete appointment type from doctor */
+        $scope.deleteAppointmentTypeFromDoctor = function (isValid, doctorId, apptTypeId) {
+
+            hour = hour.substring(0, hour.indexOf(":"));
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewSMSApptReminder/1/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "days": day,
+                        "timeHour": hour,
+                        "timeMinute": minute
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('SMS setting updated successfully');
+
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
 
         $scope.getClinics();
         $scope.getDoctors();
@@ -671,15 +737,19 @@ appConfig.controller('configCtrl',
             $location.hash(key);
             $anchorScroll();
             /*$anchorScroll.yOffset = 40;*/
-        }
+        };
 
         // Slider options with event handlers
-			$scope.slider = {
-				'options': {
-					start: function (event, ui) { $log.info('Event: Slider start - set with slider options', event); },
-    				stop: function (event, ui) { $log.info('Event: Slider stop - set with slider options', event); }
-				}
-			};
+        $scope.slider = {
+            'options': {
+                start: function (event, ui) {
+                    $log.info('Event: Slider start - set with slider options', event);
+                },
+                stop: function (event, ui) {
+                    $log.info('Event: Slider stop - set with slider options', event);
+                }
+            }
+        };
 
     });
 
@@ -756,7 +826,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
     $scope.getApptTypes();
 
     /* function to create new appointment type */
-    $scope.createNewAppointmentType = function (isValid, appointmentTypeName) {
+    $scope.createNewAppointmentType = function (isValid, appointmentTypeName, hexColorValue) {
 
         // only sends patch if form is valid
         if (isValid) {
@@ -766,7 +836,8 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
                 url: '/Clearvision/_api/ViewAllApptTypes/',
                 headers: {'Content-Type': 'application/json'},
                 data: {
-                    "name": appointmentTypeName
+                    "name": appointmentTypeName,
+                    "calendarColourHex": hexColorValue
                 }
             };
 
@@ -1236,7 +1307,6 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
     };
 
-})
-;
+});
 
 
