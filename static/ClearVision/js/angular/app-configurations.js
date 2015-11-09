@@ -520,6 +520,16 @@ appConfig.controller('configCtrl',
             }
         };
 
+        /* function to get sms settings */
+        $scope.getSmsSettings = function () {
+
+            $http.get('/Clearvision/_api/ViewSMSApptReminder/1/')
+                .success(function (smsSetting) {
+                    $scope.smsSetting = smsSetting;
+                })
+        };
+        $scope.getSmsSettings();
+
         /* function to update appointment type color */
         $scope.updateAppointmentTypeColor = function (isValid, index, hexValue) {
 
@@ -715,6 +725,8 @@ appConfig.controller('configCtrl',
                 $http(req)
                     .success(function (response) {
 
+                        $scope.dynamicPopover.editSMSScheduledTime.close();
+                        $scope.getSmsSettings();
                         showNotificationsSvc.notifySuccessTemplate('SMS setting updated successfully');
 
                     })

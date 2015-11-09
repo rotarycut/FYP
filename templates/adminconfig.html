@@ -374,7 +374,7 @@
                                         Hour
                                     </div>
                                 <div class="sms-time-listbox">
-                                    <label class="control-label">19</label>
+                                    <label class="control-label">[[smsSetting.timeHour]]</label>
                                 </div>
                                 <!--<select class="form-control" ng-options="hour for hour in listOfSmsAvailableHour"
                                         data-ng-model="smsHour">
@@ -385,7 +385,7 @@
                                         Minute
                                     </div>
                                 <div class="sms-time-listbox">
-                                    <label class="control-label">30</label>
+                                    <label class="control-label">[[smsSetting.timeMinute]]</label>
                                 </div>
                             </div>
                             <div class="col-md-2" style="padding-top: 25px;">
@@ -408,7 +408,7 @@
                                         Day
                                     </div>
                                 <div class="sms-time-listbox">
-                                    <label class="control-label">2</label>
+                                    <label class="control-label">[[smsSetting.days]]</label>
                                 </div>
                             </div>
                         </div>
@@ -896,7 +896,7 @@
     </div>
     <div>
         <button class="btn-sm form-submit-btn pull-left"
-                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+                data-ng-click="updateSmsSetting('true', smsNoOfDays, smsHour, smsMin)" style="margin-right: 2px">Update
         </button>
         <button class="btn-sm form-cancel-btn pull-right"
                 data-ng-click="dynamicPopover.editSMSScheduledTime.close()">Cancel
