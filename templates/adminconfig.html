@@ -367,44 +367,88 @@
                     <div class="doc-config-form" ng-show="showReminderSMSConfigForm">
                         <div class="row subcontent-row">
                             <div class="col-md-2" style="padding-right: 0;">
-                                <label class="control-label label-color">Scheduled Hour:</label>
-                            </div>
-                            <div class="col-md-2" style="padding-left: 0;">
-                                <select class="form-control" ng-options="hour for hour in listOfSmsAvailableHour"
-                                        data-ng-model="smsHour">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row subcontent-row">
-                            <div class="col-md-2" style="padding-right: 0;">
-                                <label class="control-label label-color">Scheduled Minute:</label>
-                            </div>
-                            <div class="col-md-2" style="padding-left: 0;">
-                                <select class="form-control" ng-options="min for min in listOfSmsAvailableMinute"
-                                        data-ng-model="smsMin">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row subcontent-row">
-                            <div class="col-md-2" style="padding-right: 0;">
-                                <label class="control-label label-color">No. of Days (in advanced):</label>
+                                <label class="control-label label-color" style="padding-top: 22px;">Scheduled Time:</label>
                             </div>
                             <div class="col-md-1" style="padding-left: 0;">
-                                <input type="text" class="form-control " data-ng-model="smsReminderDays"
-                                       placeholder="days"/>
+                                <div class="sms-time-denote">
+                                        Hour
+                                    </div>
+                                <div class="sms-time-listbox">
+                                    <label class="control-label">19</label>
+                                </div>
+                                <!--<select class="form-control" ng-options="hour for hour in listOfSmsAvailableHour"
+                                        data-ng-model="smsHour">
+                                </select>-->
                             </div>
+                            <div class="col-md-1" style="padding-left: 0;">
+                                <div class="sms-time-denote">
+                                        Minute
+                                    </div>
+                                <div class="sms-time-listbox">
+                                    <label class="control-label">30</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-top: 25px;">
+                                        <a class="edit-opt-hr"
+                                           popover-template="dynamicPopover.editSMSScheduledTime.templateUrl"
+                                           popover-title="Edit Scheduled Time"
+                                           data-ng-click="dynamicPopover.editSMSScheduledTime.open()"
+                                           popover-placement="top"
+                                           popover-is-open="dynamicPopover.editSMSScheduledTime.isOpen">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                    </div>
+                        </div>
+                        <div class="row subcontent-row">
+                            <div class="col-md-2" style="padding-right: 0;">
+                                <label class="control-label label-color" style="padding-top: 10px;">No. of Days (in advanced):</label>
+                            </div>
+
+                            <div class="col-md-1" style="padding-left: 0;">
+                                <div class="sms-time-denote">
+                                        Day
+                                    </div>
+                                <div class="sms-time-listbox">
+                                    <label class="control-label">2</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-md-offset-1" style="padding-top: 25px;">
+                                        <a class="edit-opt-hr"
+                                           popover-template="dynamicPopover.editSMSScheduledDay.templateUrl"
+                                           popover-title="Edit Scheduled Day"
+                                           data-ng-click="dynamicPopover.editSMSScheduledDay.open()"
+                                           popover-placement="top"
+                                           popover-is-open="dynamicPopover.editSMSScheduledDay.isOpen">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                    </div>
                         </div>
 
-                        <button ng-click="updateSmsSetting('true', smsReminderDays, smsHour, smsMin)">Update</button>
+                        <!--<button ng-click="updateSmsSetting('true', smsReminderDays, smsHour, smsMin)">Update</button>-->
                     </div>
                     <div class="doc-config-form" ng-show="shownotifSMSConfigForm">
                         <div class="row subcontent-row">
-                            <div class="col-md-2" style="padding-right: 0;">
+                            <div class="col-md-2" style="padding-top: 5px;">
                                 <label class="control-label label-color">Time to 2nd Reminder:</label>
                             </div>
-                            <div class="col-md-1" style="padding-left: 0;">
+                            <!--<div class="col-md-1" style="padding-left: 0;">
                                 <input type="text" class="form-control " data-ng-model="notifDays" placeholder="hours"/>
+                            </div>-->
+                            <div class="col-md-1" style="padding-left: 0;padding-bottom: 10px;">
+                                <div class="sms-time-denote">
+                                        Hour
+                                    </div>
+                                <div class="sms-time-listbox">
+                                    <label class="control-label">5</label>
+                                </div>
                             </div>
+                            <div class="col-md-2 col-md-offset-1" style="padding-top: 22px;">
+                                        <a class="edit-opt-hr"
+                                           popover-template="dynamicPopover.editSMSScheduledDay.templateUrl"
+                                           popover-title="Edit Scheduled Day"
+                                           data-ng-click="dynamicPopover.editSMSScheduledDay.open()"
+                                           popover-placement="top"
+                                           popover-is-open="dynamicPopover.editSMSScheduledDay.isOpen">
+                                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                                    </div>
                         </div>
                     </div>
                 </div>
@@ -842,4 +886,55 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="editSMSScheduledTimeTemplate.html">
+    <div class="form-group">
+        <label>Hour:</label>
+        <select class="form-control" ng-options="hour for hour in listOfSmsAvailableHour"
+        data-ng-model="smsHour">
+</select>
+    </div>
+    <div class="form-group">
+        <label>Minute:</label>
+        <select class="form-control" ng-options="min for min in listOfSmsAvailableMinute"
+        data-ng-model="smsMin">
+</select>
+    </div>
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+        </button>
+        <button class="btn-sm form-cancel-btn pull-right"
+                data-ng-click="dynamicPopover.editSMSScheduledTime.close()">Cancel
+        </button>
+    </div><br/><br/>
+</script>
 
+<script type="text/ng-template" id="editSMSScheduledDayTemplate.html">
+    <div class="form-group">
+        <label>No. of Days:</label>
+        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
+    </div>
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+        </button>
+        <button class="btn-sm form-cancel-btn pull-right"
+                data-ng-click="dynamicPopover.editSMSScheduledDay.close()">Cancel
+        </button>
+    </div><br/><br/>
+</script>
+
+<script type="text/ng-template" id="editSwapReminderHourTemplate.html">
+    <div class="form-group">
+        <label>Hours:</label>
+        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
+    </div>
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+        </button>
+        <button class="btn-sm form-cancel-btn pull-right"
+                data-ng-click="dynamicPopover.editSwapReminderHour.close()">Cancel
+        </button>
+    </div><br/><br/>
+</script>

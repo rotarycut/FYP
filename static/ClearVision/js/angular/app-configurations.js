@@ -63,6 +63,36 @@ appConfig.controller('configCtrl',
                 close: function () {
                     $scope.dynamicPopover.editApptTimeslot.isOpen = false;
                 }
+            },
+            editSMSScheduledTime:{
+                isOpen: false,
+                templateUrl: 'editSMSScheduledTimeTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editSMSScheduledTime.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editSMSScheduledTime.isOpen = false;
+                }
+            },
+            editSMSScheduledDay:{
+                isOpen: false,
+                templateUrl: 'editSMSScheduledDayTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editSMSScheduledDay.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editSMSScheduledDay.isOpen = false;
+                }
+            },
+            editSwapReminderHour:{
+                isOpen: false,
+                templateUrl: 'editSwapReminderHourTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editSwapReminderHour.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editSwapReminderHour.isOpen = false;
+                }
             }
         };
 

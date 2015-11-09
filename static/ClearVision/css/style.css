@@ -62,7 +62,7 @@
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
-.cal-main-contain {
+.cal-main-container {
     padding-left: 0;
 }
 
@@ -1635,6 +1635,15 @@ hr.type-timing-tab-active {
     border-right: solid 2px #ebebeb;
     height: 220px;
     text-align: center;
+}
+
+.sms-time-listbox {
+    border: solid 1px #70AFC4;
+    border-radius: 4px;
+    width: 40px;
+    padding-top: 4px;
+    text-align: center;
+    background-color: #fff;
 }
 
 
