@@ -73,8 +73,6 @@
 
     "fields": {
       "name": "Dr Goh",
-      "phoneModel": "Apple",
-      "calDavAccount": "example@abc.com",
       "contact": "12345",
       "clinic": [
         1,
@@ -94,8 +92,6 @@
 
     "fields": {
       "name": "Dr Ho",
-      "phoneModel": "Samsung",
-      "calDavAccount": "example2@abc.com",
       "contact": "54321",
       "clinic": [
         1
@@ -114,8 +110,6 @@
 
     "fields": {
       "name": "Optometrist",
-      "phoneModel": "Apple",
-      "calDavAccount": "example3@abc.com",
       "contact": "9031451",
       "clinic": [
         1

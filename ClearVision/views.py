@@ -221,7 +221,7 @@ class StaffList(viewsets.ModelViewSet):
 class DoctorFilter(django_filters.FilterSet):
     class Meta:
         model = Doctor
-        fields = ['contact', 'phoneModel', 'clinic']
+        fields = ['contact', 'clinic']
 
 
 class DoctorList(viewsets.ModelViewSet):
@@ -236,14 +236,12 @@ class DoctorList(viewsets.ModelViewSet):
         payload = request.data
 
         name = payload.get('name')
-        phoneModel = payload.get('phoneModel')
-        calDavAccount = payload.get('calDavAccount')
         contact =payload.get('contact')
         isDoctor = payload.get('isDoctor')
 
-        Doctor.objects.create(name=name, phoneModel=phoneModel, calDavAccount=calDavAccount, contact=contact, isDoctor=isDoctor)
+        Doctor.objects.create(name=name, contact=contact, isDoctor=isDoctor)
 
-        doc = Doctor.objects.get(name=name, phoneModel=phoneModel, calDavAccount=calDavAccount, contact=contact, isDoctor=isDoctor)
+        doc = Doctor.objects.get(name=name, contact=contact, isDoctor=isDoctor)
 
         clinic = payload.get('clinic')
         apptType = payload.get('apptType')
@@ -331,15 +329,19 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
 
         doctorID = payload.get('doctorID')
         apptTypeID = payload.get('apptTypeID')
+        password = payload.get('password')
 
-        coldshotdoctor = Doctor.objects.get(id=doctorID)
-        coldshotappttype = AppointmentType.objects.get(id=apptTypeID)
+        if User.objects.get(username='admin').check_password(password):
+            coldshotdoctor = Doctor.objects.get(id=doctorID)
+            coldshotappttype = AppointmentType.objects.get(id=apptTypeID)
 
-        DoctorDayTimeSlots.objects.get(doctor=coldshotdoctor, apptType=coldshotappttype).delete()
+            DoctorDayTimeSlots.objects.get(doctor=coldshotdoctor, apptType=coldshotappttype).delete()
 
-        AvailableTimeSlots.objects.filter(timeslotType=coldshotappttype.name, doctors=coldshotdoctor).delete()
+            AvailableTimeSlots.objects.filter(timeslotType=coldshotappttype.name, doctors=coldshotdoctor).delete()
 
-        return Response("Successfully removed appointment type")
+            return Response("Successfully removed appointment type")
+        else:
+            return Response("Invalid Admin Password!")
 
 class AppointmentTypeNotTaggedToDoctor(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
@@ -3023,6 +3025,49 @@ class ViewAllApptTypes(viewsets.ModelViewSet):
         CalendarColorSettings.objects.create(apptType=newlyCreatedApptType, hex=calendarColourHex)
 
         return Response('Appointment type created successfully')
+
+
+class CheckApptTypeUnderDoctor(viewsets.ModelViewSet):
+    queryset = Appointment.objects.none()
+    serializer_class = AppointmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        doctorID = request.query_params.get('doctorID')
+        apptTypeID = request.query_params.get('apptTypeID')
+
+        allApptsCount = Appointment.objects.filter(doctor__id=doctorID, timeBucket__date__gte=date.today(), doctor__apptType__id=apptTypeID).\
+        exclude(patients__isnull=True).count()
+
+        return Response(allApptsCount)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        emailAddress = payload.get('emailAddress')
+        doctorID = payload.get('doctorID')
+        apptTypeID = request.query_params.get('apptTypeID')
+
+        futureApptsForDoc = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__id=doctorID, doctor__apptType__id=apptTypeID).\
+                                           values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
+                                           exclude(patients__isnull=True)
+
+        csvfile = StringIO.StringIO()
+        csvwriter = csv.writer(csvfile)
+
+        csvwriter.writerow(['patients_contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start',
+                        'apptType', 'id', 'doctor__name', 'clinic', 'doctor'])
+
+        for eachObj in futureApptsForDoc:
+            csvwriter.writerow([eachObj['patients__contact'], eachObj['patients__name'], eachObj['patients__gender'], eachObj['timeBucket__date'],
+                                eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
+                                eachObj['clinic'], eachObj['doctor']])
+
+        message = EmailMessage("Appointment backlog for  " + str(Doctor.objects.get(id=doctorID).name), "", to=[emailAddress])
+        message.attach('apptBacklog.csv', csvfile.getvalue(), 'text/csv')
+
+        message.send()
+
+        return Response('Email sent successfully')
 
 class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannels.objects.none()

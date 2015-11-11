@@ -76,8 +76,6 @@ class Staff(models.Model):
 
 class Doctor(models.Model):
     name = models.CharField(max_length=50)
-    phoneModel = models.CharField(max_length=50)
-    calDavAccount = models.CharField(max_length=50)
     contact = models.CharField(max_length=50)
     clinic = models.ManyToManyField(Clinic)
     apptType = models.ManyToManyField(AppointmentType)
