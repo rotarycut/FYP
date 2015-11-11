@@ -251,9 +251,28 @@ class DoctorList(viewsets.ModelViewSet):
 
         apptTypeChars = []
         for eachApptType in apptType:
-            appointmentType = AppointmentType.objects.get(id=eachApptType)
+            appointmentType = AppointmentType.objects.get(id=eachApptType.get('id'))
             doc.apptType.add(appointmentType)
             apptTypeChars.append(appointmentType.name)
+
+            daysTimeslots = eachApptType.get('days')
+            mondayArray = daysTimeslots[0]
+            tuesdayArray = daysTimeslots[1]
+            wednesdayArray = daysTimeslots[2]
+            thursdayArray = daysTimeslots[3]
+            fridayArray = daysTimeslots[4]
+            saturdayArray = daysTimeslots[5]
+
+            monday = ",".join(str(eachTimeSlot) for eachTimeSlot in mondayArray)
+            tuesday = ",".join(str(eachTimeSlot) for eachTimeSlot in tuesdayArray)
+            wednesday = ",".join(str(eachTimeSlot) for eachTimeSlot in wednesdayArray)
+            thursday = ",".join(str(eachTimeSlot) for eachTimeSlot in thursdayArray)
+            friday = ",".join(str(eachTimeSlot) for eachTimeSlot in fridayArray)
+            saturday = ",".join(str(eachTimeSlot) for eachTimeSlot in saturdayArray)
+
+            DoctorDayTimeSlots.objects.create(doctor=doc, apptType=appointmentType,
+                                          monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
+                                          friday=friday, saturday=saturday)
 
         for eachApptTypeName in apptTypeChars:
             year = datetime.today().year
@@ -283,7 +302,7 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
     queryset = Doctor.objects.none()
     serializer_class = DoctorSerializer
 
-    #Add Appt type to doctor
+    #Add Appt type to doctor, also create doctor timeslots in 1 single POST
     def create(self, request, *args, **kwargs):
         payload = request.data
 
