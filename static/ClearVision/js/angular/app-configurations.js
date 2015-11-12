@@ -8,7 +8,7 @@ appConfig.controller('configCtrl',
     function ($scope, $http, $modal, $log, $anchorScroll, $location, $timeout,
               getDoctorsService,
               getClinicsService,
-              getAppointmentTypesService,
+              getAppointmentTypesColorService,
               showNotificationsSvc) {
 
         $scope.operatingHoursPopover = [];
@@ -17,6 +17,7 @@ appConfig.controller('configCtrl',
         $scope.doctorsRemovePopover = [];
         $scope.doctorApptTypePopover = [];
         $scope.editApptTypeNamePopover = [];
+        $scope.appointmentInfoPopover = [];
 
         $scope.dynamicPopover = {
             editStartTime: {
@@ -64,7 +65,7 @@ appConfig.controller('configCtrl',
                     $scope.dynamicPopover.editApptTimeslot.isOpen = false;
                 }
             },
-            editSMSScheduledTime:{
+            editSMSScheduledTime: {
                 isOpen: false,
                 templateUrl: 'editSMSScheduledTimeTemplate.html',
                 open: function () {
@@ -74,7 +75,7 @@ appConfig.controller('configCtrl',
                     $scope.dynamicPopover.editSMSScheduledTime.isOpen = false;
                 }
             },
-            editSMSScheduledDay:{
+            editSMSScheduledDay: {
                 isOpen: false,
                 templateUrl: 'editSMSScheduledDayTemplate.html',
                 open: function () {
@@ -84,7 +85,7 @@ appConfig.controller('configCtrl',
                     $scope.dynamicPopover.editSMSScheduledDay.isOpen = false;
                 }
             },
-            editSwapReminderHour:{
+            editSwapReminderHour: {
                 isOpen: false,
                 templateUrl: 'editSwapReminderHourTemplate.html',
                 open: function () {
@@ -195,23 +196,15 @@ appConfig.controller('configCtrl',
             $scope.showApptTimingConfigForm = true;
             $scope.typeConfigActiveTab = "type-timing-tab-active";
             $scope.showAddNewTypeBtn = false;
-        }
+        };
 
-        $scope.openAddNewDocModal = function (size) {
+        $scope.openCreateDoctorModal = function (size) {
 
             var modalInstance = $modal.open({
                 animation: true,
-                templateUrl: 'myAddNewDocModalTemplate.html',
-                controller: 'AppConfigModalInstanceCtrl',
-                size: size,
-                resolve: {
-                    appointmentsTime: function () {
-                        return $scope.listOfTimeslots;
-                    },
-                    doctorId: function () {
-                        return '';
-                    }
-                }
+                templateUrl: 'createDoctorModal.html',
+                controller: 'CreateDoctorModalCtrl',
+                size: size
             });
         };
 
@@ -382,8 +375,9 @@ appConfig.controller('configCtrl',
 
             // prepare an empty appointment type popover array
             var appointmentTypesPopover = [];
+            var appointmentInfoPopover = [];
 
-            getAppointmentTypesService.getAppointmentTypes()
+            getAppointmentTypesColorService.getAppointmentTypesColor()
                 .then(function (listOfAppointmentTypes) {
                     $scope.listOfApptTypes = listOfAppointmentTypes;
 
@@ -795,7 +789,7 @@ appConfig.controller('configCtrl',
 
     });
 
-appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId, getDoctorsService) {
+appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId, getAppointmentTypesService) {
 
     $scope.listOfAvailableSlots = appointmentsTime;
     $scope.stepOneBtnGrp = true;
@@ -1350,5 +1344,114 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
     };
 
 });
+
+
+appConfig.controller('CreateDoctorModalCtrl',
+    function ($scope, $modalInstance, $log, showNotificationsSvc, getAppointmentTypesService) {
+
+        /*******************************************************************************
+         function to get all appointment types
+         *******************************************************************************/
+
+        getAppointmentTypesService.getAppointmentTypes()
+            .then(function (listOfAppointmentTypes) {
+                $scope.listOfAppointmentTypes = listOfAppointmentTypes;
+
+            }, function (error) {
+                $log("Error getting appointment types");
+            });
+
+        /*******************************************************************************
+         function to add appointment types to doctor
+         *******************************************************************************/
+
+        $scope.addRemoveAppointmentTypes = function (appointmentType) {
+            var shouldAdd = true;
+            var idx = 0;
+
+            angular.forEach($scope.taggedAppointmentTypes, function (existingAppointmentType) {
+
+                if (existingAppointmentType.id === appointmentType.id) {
+                    $scope.taggedAppointmentTypes.splice(idx, 1);
+                    shouldAdd = false;
+                }
+                idx++;
+            });
+
+            if (shouldAdd) {
+                $scope.taggedAppointmentTypes.push(appointmentType);
+            }
+        };
+
+        /* array of selected appointment types tagged to doctor */
+        $scope.taggedAppointmentTypes = [];
+
+        /*******************************************************************************
+         function to close modal
+         *******************************************************************************/
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+
+        //$scope.listOfAvailableSlots = appointmentsTime;
+        $scope.stepOneBtnGrp = true;
+        $scope.newTypeInfoVisible = true;
+        $scope.assignTypeStepOneBtnGrp = true;
+        $scope.docInfoFormVisible = true;
+
+        $scope.stepOneNext = function () {
+
+            $scope.docInfoFormVisible = false;
+            $scope.docApptTypeFormVisible = true;
+            $scope.StepOneComplete = "completed";
+            $scope.showStepOneChecker = true;
+            $scope.stepOneBtnGrp = false;
+            $scope.stepTwoBtnGrp = true;
+        };
+        $scope.stepTwoNext = function () {
+            $scope.docApptTypeFormVisible = false;
+            $scope.docApptSlotFormVisible = true;
+            $scope.StepOneComplete = "completed";
+            $scope.StepTwoComplete = "completed";
+            $scope.showStepOneChecker = true;
+            $scope.showStepTwoChecker = true;
+            $scope.stepTwoBtnGrp = false;
+            $scope.stepThreeBtnGrp = true;
+        };
+        $scope.stepTwoBack = function () {
+
+            $scope.docInfoFormVisible = true;
+            $scope.docApptTypeFormVisible = false;
+            $scope.stepOneBtnGrp = true;
+            $scope.stepTwoBtnGrp = false;
+        };
+        $scope.stepThreeBack = function () {
+            $scope.docApptTypeFormVisible = true;
+            $scope.docApptSlotFormVisible = false;
+            $scope.stepTwoBtnGrp = true;
+            $scope.stepThreeBtnGrp = false;
+        };
+
+        $scope.assignTypeStepOneNext = function () {
+
+            $scope.newTypeInfoVisible = false;
+            $scope.newApptSlotFormVisible = true;
+            $scope.StepOneComplete = "completed";
+            $scope.showStepOneChecker = true;
+            $scope.assignTypeStepOneBtnGrp = false;
+            $scope.assignTypeStepSubmitBtnGrp = true;
+        };
+        $scope.assignTypeStepSubmitBack = function () {
+
+            $scope.newTypeInfoVisible = true;
+            $scope.newApptSlotFormVisible = false;
+            $scope.assignTypeStepOneBtnGrp = true;
+            $scope.assignTypeStepSubmitBtnGrp = false;
+        };
+
+
+    });
 
 
