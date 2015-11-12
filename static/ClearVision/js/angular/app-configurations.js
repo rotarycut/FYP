@@ -1347,7 +1347,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
 
 appConfig.controller('CreateDoctorModalCtrl',
-    function ($scope, $modalInstance, $log, showNotificationsSvc, getAppointmentTypesService) {
+    function ($scope, $modalInstance, $log, showNotificationsSvc, getAppointmentTypesService, getCalendarTimeRangeService) {
 
         /*******************************************************************************
          function to get all appointment types
@@ -1385,6 +1385,56 @@ appConfig.controller('CreateDoctorModalCtrl',
 
         /* array of selected appointment types tagged to doctor */
         $scope.taggedAppointmentTypes = [];
+
+        /*******************************************************************************
+         function to get calendar time range and break it into 30 mins interval
+         *******************************************************************************/
+
+        $scope.getCalendarTimeRangeInterval = function () {
+
+            getCalendarTimeRangeService.getCalendarTimeRange()
+                .then(function (calendarTimeObject) {
+
+                    // by default always getting the start end time of the first and only clinic
+                    var startTime = calendarTimeObject[0].startTime;
+                    var endTime = calendarTimeObject[0].endTime;
+
+                    var startHour = parseInt(startTime.substring(0, startTime.indexOf(":")));
+                    var endHour = parseInt(endTime.substring(0, endTime.indexOf(":")));
+
+                    var startMin = startTime.substring(startTime.indexOf(":") + 1, startTime.lastIndexOf(":"));
+                    var endMin = endTime.substring(endTime.indexOf(":") + 1, endTime.lastIndexOf(":"));
+
+                    // prepare the calendar time slot array
+                    var timeSlotsArray = [];
+
+                    // loop through from the start hour to the end hour
+                    for (i = startHour; i <= endHour; i++) {
+
+                        if (i === startHour && startMin === "30") {
+                            timeSlotsArray.push(i + ":30");
+
+                        } else if (i === endHour && endMin === "00") {
+                            // do not add appointment since last time slot must be 30 minutes before closing time
+
+                        } else if (i === endHour && endMin === "30") {
+                            timeSlotsArray.push(i + ":00");
+
+                        } else {
+                            timeSlotsArray.push(i + ":00");
+                            timeSlotsArray.push(i + ":30");
+                        }
+                    }
+
+                    $scope.listOfTimeSlots = timeSlotsArray;
+
+                }, function (error) {
+                    $log("Error getting calendar time range");
+                });
+        };
+
+        /* get calendar time range interval when modal is opened */
+        $scope.getCalendarTimeRangeInterval();
 
         /*******************************************************************************
          function to close modal
@@ -1452,6 +1502,8 @@ appConfig.controller('CreateDoctorModalCtrl',
         };
 
 
-    });
+    }
+)
+;
 
 

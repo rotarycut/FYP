@@ -720,8 +720,8 @@
                 <ul style="list-style: none">
                     <li ng-class="{typeSelected: apptType}"
                         class="mrkt-list-item"
-                        ng-repeat="type in appointmentTypes">
-                        <label>[[type.apptType]]
+                        ng-repeat="appointment in taggedAppointmentTypes">
+                        <label>[[appointmentType.name]]
                         </label>
                     </li>
                 </ul>
@@ -731,10 +731,10 @@
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="slot in listOfAvailableSlots" ng-class="{slotSelected: apptSlot}">
+                        <li ng-repeat="timeSlot in listOfTimeSlots" ng-class="{slotSelected: apptSlot}">
                             <h4>
                                 <span class="label label-default"
-                                      style="background-color: #bed4e3;cursor: pointer">[[slot]]
+                                      style="background-color: #bed4e3;cursor: pointer">[[timeSlot]]
                                 <input type="checkbox" ng-model="apptSlot" ng-click=""></span></h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
