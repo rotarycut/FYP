@@ -6,17 +6,17 @@
                 <h5 class="label-color"><i class="fa fa-list-alt"></i> Expenditure Summary</h5>
             </div>
             <div class="col-md-2">
-                <select class="form-control" data-ng-model="expenditureYear">
+                <select class="form-control" data-ng-model="expenditureYear" ng-options="year for year in years" ng-change="updateTable()">
                     <option value="" disabled selected class="dropdown-default-option">Year</option>
                 </select>
             </div>
             <div class="col-md-2">
-                <select class="form-control" data-ng-model="expenditureMonth" ng-options="mth for mth in months">
+                <select class="form-control" data-ng-model="expenditureMonth" ng-options="mth for mth in months" ng-change="updateTable()">
                     <option value="" disabled selected class="dropdown-default-option">Month</option>
                 </select>
             </div>
         </div>
-        <div class="row expenditure-table-row" ng-init="getListOfMarketingExpenditures()">
+        <div class="row expenditure-table-row" ng-init="getListOfMarketingExpenditures(expenditureMonth, expenditureYear)">
             <div class="col-md-12">
                 <table class="table table-striped expenditure-main-tbl">
                     <tr>
