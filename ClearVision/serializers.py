@@ -1,5 +1,3 @@
-from swampdragon.serializers.model_serializer import ModelSerializer
-
 __author__ = 'sherman'
 from rest_framework import serializers
 
