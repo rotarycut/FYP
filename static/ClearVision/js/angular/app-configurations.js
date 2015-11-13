@@ -1446,6 +1446,7 @@ appConfig.controller('CreateDoctorModalCtrl',
 
 
         //$scope.listOfAvailableSlots = appointmentsTime;
+        $scope.listOfWorkingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         $scope.stepOneBtnGrp = true;
         $scope.newTypeInfoVisible = true;
         $scope.assignTypeStepOneBtnGrp = true;

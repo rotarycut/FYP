@@ -702,12 +702,12 @@
 
                 <div class="create-modal-listbox">
                     <ul style="list-style: none; padding-left: 1%;">
-                        <li ng-class="{typeSelected: appointmentIsChecked}"
+                        <li ng-class="{typeSelected: isDoctorAppointmentTypeChecked}"
                             class="mrkt-list-item"
                             ng-repeat="appointment in listOfAppointmentTypes">
                             <label>[[appointment.name]]
                                 <input type="checkbox"
-                                       ng-model="appointmentIsChecked"
+                                       ng-model="isDoctorAppointmentTypeChecked"
                                        ng-click="addRemoveAppointmentTypes(appointment)">
                             </label>
                         </li>
@@ -716,31 +716,48 @@
             </div>
         </div>
         <div ng-show="docApptSlotFormVisible ">
-            <div class="col-md-3 docAppt-timeslot-side">
+            <div class="col-md-2 docAppt-timeslot-side">
                 <ul style="list-style: none">
-                    <li ng-class="{typeSelected: apptType}"
+                    <li ng-class="{typeSelected: isAppointmentTypeChecked}"
                         class="mrkt-list-item"
-                        ng-repeat="appointment in taggedAppointmentTypes">
-                        <label>[[appointmentType.name]]
+                        ng-repeat="appointmentType in taggedAppointmentTypes">
+                        <label>
+                            <input type="checkbox" ng-model="isAppointmentTypeChecked">
+                            [[appointmentType.name]]
                         </label>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-9 form-group">
+            <div class="col-md-2 docAppt-timeslot-side">
+                <ul style="list-style: none">
+                    <li ng-class="{slotSelected: isWorkingDayChecked}"
+                        class="mrkt-list-item"
+                        ng-repeat="day in listOfWorkingDays">
+                        <label>
+                            <input type="checkbox" ng-model="isWorkingDayChecked">
+                            [[day]]
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 form-group">
                 <label class="label-color">Select Available Time Slots</label>
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="timeSlot in listOfTimeSlots" ng-class="{slotSelected: apptSlot}">
+                        <li ng-repeat="timeSlot in listOfTimeSlots">
                             <h4>
-                                <span class="label label-default"
+                                <span class="label label-default" ng-class="{slotSelected: isTimeSlotChecked}"
                                       style="background-color: #bed4e3;cursor: pointer">[[timeSlot]]
-                                <input type="checkbox" ng-model="apptSlot" ng-click=""></span></h4>
+                                <input type="checkbox" ng-model="isTimeSlotChecked" ng-click=""></span></h4>
                             <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
                         </li>
                     </ul>
                 </div>
             </div>
+
+
+
         </div>
     </div>
 
