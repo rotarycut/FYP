@@ -3263,21 +3263,6 @@ class InputMarketingChannelCost(viewsets.ModelViewSet):
 
         return Response('Create Success')
 
-    def update(self, request, *args, **kwargs):
-        payload = request.data
-
-        name = payload.get('name')
-        cost = payload.get('cost')
-        date = payload.get('date')
-
-        toUpdate = MarketingChannels.objects.get(id=self.get_object().id)
-        toUpdate.name = name
-        toUpdate.cost = cost
-        toUpdate.datePurchased = date
-        toUpdate.save()
-
-        return Response('Update Success')
-
     def destroy(self, request, *args, **kwargs):
         MarketingChannels.objects.get(id=self.get_object().id).delete()
 
