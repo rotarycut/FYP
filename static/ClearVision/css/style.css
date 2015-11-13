@@ -1600,9 +1600,9 @@ hr.type-timing-tab-active {
     border: solid 1px #70AFC4;
     border-radius: 4px;
     overflow-y: auto;
-    width: 78%;
+    width: 350px;
     margin: 0 auto;
-    padding-top: 2px;
+    height:196px;
 }
 
 .close-config-modal {
