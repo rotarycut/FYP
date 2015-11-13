@@ -1347,7 +1347,7 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
 
 appConfig.controller('CreateDoctorModalCtrl',
-    function ($scope, $modalInstance, $log, showNotificationsSvc, getAppointmentTypesService, getCalendarTimeRangeService) {
+    function ($scope, $modalInstance, $log, $http, showNotificationsSvc, getAppointmentTypesService, getCalendarTimeRangeService) {
 
         /*******************************************************************************
          function to get all appointment types
@@ -1373,14 +1373,36 @@ appConfig.controller('CreateDoctorModalCtrl',
 
                 if (existingAppointmentType.id === appointmentType.id) {
                     $scope.taggedAppointmentTypes.splice(idx, 1);
+                    $scope.listOfApptTypeTimeSlotsToAdd.splice(idx, 1);
                     shouldAdd = false;
                 }
                 idx++;
             });
 
             if (shouldAdd) {
+                // add the id and empty array of days to the final array to be sent to the backend
+                var prepareObj = {};
+                prepareObj.id = appointmentType.id;
+                prepareObj.days = [[], [], [], [], [], []];
+                $scope.listOfApptTypeTimeSlotsToAdd.push(prepareObj);
+
+                // add the appointment type to the array of tagged appointment types
+                appointmentType.days = $scope.listOfWorkingDays.slice();
                 $scope.taggedAppointmentTypes.push(appointmentType);
             }
+
+            // ensure that only the first appointment type in the array is active
+            angular.forEach($scope.taggedAppointmentTypes, function (appointmentType) {
+                appointmentType.active = false;
+            });
+            if ($scope.taggedAppointmentTypes.length !== 0) {
+                // only set the first appointment type to active if the tagged appointment type array is not empty
+                $scope.taggedAppointmentTypes[0].active = true;
+            }
+
+            // very useful check to see the existing tagged appointment types
+            console.log($scope.taggedAppointmentTypes);
+
         };
 
         /* array of selected appointment types tagged to doctor */
@@ -1428,6 +1450,15 @@ appConfig.controller('CreateDoctorModalCtrl',
 
                     $scope.listOfTimeSlots = timeSlotsArray;
 
+                    $scope.listOfWorkingDays = [
+                        {day: "Monday", dayNum: 0, timeSlots: $scope.listOfTimeSlots.slice(), active: true},
+                        {day: "Tuesday", dayNum: 1, timeSlots: $scope.listOfTimeSlots.slice(), active: false},
+                        {day: "Wednesday", dayNum: 2, timeSlots: $scope.listOfTimeSlots.slice(), active: false},
+                        {day: "Thursday", dayNum: 3, timeSlots: $scope.listOfTimeSlots.slice(), active: false},
+                        {day: "Friday", dayNum: 4, timeSlots: $scope.listOfTimeSlots.slice(), active: false},
+                        {day: "Saturday", dayNum: 5, timeSlots: $scope.listOfTimeSlots.slice(), active: false}
+                    ];
+
                 }, function (error) {
                     $log("Error getting calendar time range");
                 });
@@ -1435,6 +1466,112 @@ appConfig.controller('CreateDoctorModalCtrl',
 
         /* get calendar time range interval when modal is opened */
         $scope.getCalendarTimeRangeInterval();
+
+        /*******************************************************************************
+         function to switch appointment type
+         *******************************************************************************/
+
+        $scope.switchAppointmentType = function (selectedAppointmentType) {
+            angular.forEach($scope.taggedAppointmentTypes, function (appointmentType) {
+
+                appointmentType.active = false;
+                if (appointmentType.id == selectedAppointmentType.id) {
+                    appointmentType.active = true;
+                }
+            })
+        };
+
+        /*******************************************************************************
+         function to switch day
+         *******************************************************************************/
+
+        $scope.switchDay = function (selectedAppointmentType, selectedDay) {
+            angular.forEach($scope.taggedAppointmentTypes, function (appointmentType) {
+
+                if (appointmentType.id === selectedAppointmentType.id) {
+
+                    var idx = 0;
+
+                    angular.forEach($scope.listOfWorkingDays, function (day) {
+
+                        appointmentType.days[idx].active = false;
+                        if (day.day === selectedDay.day) {
+                            appointmentType.days[idx].active = true;
+                        }
+
+                        idx++;
+                    })
+
+                }
+            })
+        };
+
+        /*******************************************************************************
+         function to add time slot
+         *******************************************************************************/
+
+        $scope.addRemoveTimeSlot = function (selectedAppointmentType, selectedDay, selectedTimeSlot) {
+
+            angular.forEach($scope.listOfApptTypeTimeSlotsToAdd, function (appointmentTimeSlots) {
+
+                if (appointmentTimeSlots.id == selectedAppointmentType.id) {
+                    // found the appointment type object in the listOfApptTypeTimeSlotsToAdd array
+
+                    // find out if the time slot has already been added
+                    var idxTimeSlot = appointmentTimeSlots.days[selectedDay.dayNum].indexOf(selectedTimeSlot);
+
+                    console.log(idxTimeSlot);
+                    if (idxTimeSlot === -1) {
+
+                        // time slot does not exist
+                        appointmentTimeSlots.days[selectedDay.dayNum].push(selectedTimeSlot);
+
+                    } else {
+                        appointmentTimeSlots.days[selectedDay.dayNum].splice(idxTimeSlot, 1);
+                    }
+
+                    //splice out
+                    //splice if appt type removed
+                }
+            })
+
+            // very useful to check the array to be sent to backend
+            console.log($scope.listOfApptTypeTimeSlotsToAdd);
+
+        };
+
+        // prepare array to be sent to the backend
+        $scope.listOfApptTypeTimeSlotsToAdd = [];
+
+        /*******************************************************************************
+         function to create new doctor
+         *******************************************************************************/
+
+        $scope.createNewDoctor = function (doctorName, doctorContact) {
+
+            var req = {
+                method: 'POST',
+                url: '/Clearvision/_api/doctors/',
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "name": doctorName,
+                    "contact": doctorContact,
+                    "isDoctor": true,
+                    "clinic": [1],
+                    "apptType": $scope.listOfApptTypeTimeSlotsToAdd
+                }
+            };
+
+            $http(req)
+                .success(function () {
+                    showNotificationsSvc.notifySuccessTemplate('Doctor created successfully');
+                    $scope.cancel();
+                })
+
+                .error(function (data) {
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                });
+        };
 
         /*******************************************************************************
          function to close modal
@@ -1445,8 +1582,16 @@ appConfig.controller('CreateDoctorModalCtrl',
         };
 
 
+        $scope.test = function (checked) {
+            console.log(checked);
+            console.log($scope.listOfWorkingDays);
+            console.log($scope.isWorkingDayChecked);
+        };
+
+
         //$scope.listOfAvailableSlots = appointmentsTime;
-        $scope.listOfWorkingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
         $scope.stepOneBtnGrp = true;
         $scope.newTypeInfoVisible = true;
         $scope.assignTypeStepOneBtnGrp = true;

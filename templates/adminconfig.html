@@ -686,14 +686,14 @@
         <div class="doc-info-form" ng-show="docInfoFormVisible">
             <div class="form-group">
                 <label class="label-color">Doctor Name</label>
-                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/></div>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="doctorName"/></div>
             <div class="form-group">
                 <label class="label-color">Contact No</label>
-                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="doctorContact"/>
             </div>
             <div class="form-group">
                 <label class="label-color">Mobile Phone Model</label>
-                <input type="text" class="form-control add-new-doc-form" data-ng-model="docNameNew"/>
+                <input type="text" class="form-control add-new-doc-form" data-ng-model="doctorPhoneModel"/>
             </div>
         </div>
         <div ng-show="docApptTypeFormVisible">
@@ -718,11 +718,12 @@
         <div ng-show="docApptSlotFormVisible ">
             <div class="col-md-2 docAppt-timeslot-side">
                 <ul style="list-style: none">
-                    <li ng-class="{typeSelected: isAppointmentTypeChecked}"
+                    <li ng-class="{typeSelected: appointmentType.active}"
                         class="mrkt-list-item"
                         ng-repeat="appointmentType in taggedAppointmentTypes">
                         <label>
-                            <input type="checkbox" ng-model="isAppointmentTypeChecked">
+                            <input type="checkbox" ng-model="appointmentType.active"
+                                   ng-click="switchAppointmentType(appointmentType)">
                             [[appointmentType.name]]
                         </label>
                     </li>
@@ -730,12 +731,11 @@
             </div>
             <div class="col-md-2 docAppt-timeslot-side">
                 <ul style="list-style: none">
-                    <li ng-class="{slotSelected: isWorkingDayChecked}"
-                        class="mrkt-list-item"
-                        ng-repeat="day in listOfWorkingDays">
-                        <label>
-                            <input type="checkbox" ng-model="isWorkingDayChecked">
-                            [[day]]
+                    <li class="mrkt-list-item"
+                        ng-repeat="appointmentType in taggedAppointmentTypes" ng-show="appointmentType.active">
+                        <label ng-repeat="day in appointmentType.days" ng-class="{typeSelected: day.active}">
+                            <input type="checkbox" ng-model="day.active" ng-click="switchDay(appointmentType, day)">
+                            [[day.day]]
                         </label>
                     </li>
                 </ul>
@@ -745,17 +745,23 @@
 
                 <div class="create-modal-listbox">
                     <ul class="timeslots-ul">
-                        <li ng-repeat="timeSlot in listOfTimeSlots">
-                            <h4>
+                        <div ng-repeat="appointmentType in taggedAppointmentTypes">
+                            <div ng-repeat="day in appointmentType.days">
+                                <li ng-repeat="timeSlot in day.timeSlots"
+                                    ng-show="appointmentType.active && day.active">
+                                    <h4>
                                 <span class="label label-default" ng-class="{slotSelected: isTimeSlotChecked}"
                                       style="background-color: #bed4e3;cursor: pointer">[[timeSlot]]
-                                <input type="checkbox" ng-model="isTimeSlotChecked" ng-click=""></span></h4>
-                            <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
-                        </li>
+                                <input type="checkbox" ng-model="isTimeSlotChecked"
+                                       ng-click="addRemoveTimeSlot(appointmentType, day, timeSlot)"></span></h4>
+                                    <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
+                                </li>
+                            </div>
+                        </div>
+
                     </ul>
                 </div>
             </div>
-
 
 
         </div>
@@ -775,7 +781,8 @@
         <div ng-show="stepThreeBtnGrp">
             <button class="btn form-submit-btn pull-left" type="button" ng-click="stepThreeBack()">Back
             </button>
-            <button class="btn form-submit-btn pull-right" type="button" ng-click="submit()">
+            <button class="btn form-submit-btn pull-right" type="button"
+                    ng-click="createNewDoctor(doctorName, doctorContact)">
                 Submit
             </button>
         </div>
