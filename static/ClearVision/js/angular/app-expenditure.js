@@ -3,7 +3,7 @@
  */
 var appExpenditure = angular.module('app.expenditure', []);
 
-appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal, $route, getMarketingChannelsSvc, $log) {
+appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal, $route, getMarketingChannelsSvc, $filter, $log) {
 
     $scope.channelDropdown = true;
     $scope.channelTextbox = false;
@@ -42,10 +42,19 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         $scope.newChannelBtn = true;
     };
 
+    $scope.years = ["2010", "2011", "2012", "2013", "2014", "2015"];
     $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    $scope.getListOfMarketingExpenditures = function () {
-        $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=09&year=2015')
+    $scope.getListOfMarketingExpenditures = function (month, year) {
+
+        var currentDate = new Date();
+
+       // if(month === undefined || year === undefined) {
+         //   month = $filter('date')(currentDate, 'MM');
+           // year = $filter('date')(currentDate, 'yyyy');
+        //}
+
+        $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + month + '&year=' + year)
             .success(function (data) {
                 $scope.marketingChannels = data;
 
@@ -62,8 +71,17 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             .error(function () {
 
             });
-
-
     };
+
+    var currentDate = new Date();
+    var convertMonth = $filter('date')(currentDate, 'MM');
+    var convertYear = $filter('date')(currentDate, 'yyyy');
+    $scope.expenditureMonth = convertMonth;
+    console.log(convertMonth);
+    $scope.expenditureYear = convertYear;
+
+    $scope.updateTable = function() {
+        $scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
+    }
 
 });
