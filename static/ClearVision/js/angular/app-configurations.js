@@ -94,6 +94,16 @@ appConfig.controller('configCtrl',
                 close: function () {
                     $scope.dynamicPopover.editSwapReminderHour.isOpen = false;
                 }
+            },
+            removeApptTypeFromDoctor: {
+                isOpen: false,
+                templateUrl: 'removeAppointmentTypeFromDoctor.html',
+                open: function () {
+                    $scope.dynamicPopover.removeApptTypeFromDoctor.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editSwapReminderHour.isOpen = false;
+                }
             }
         };
 
@@ -1343,6 +1353,15 @@ appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInsta
 
     };
 
+    /*******************************************************************************
+     function to remove appointment type from doctor
+     *******************************************************************************/
+
+    $scope.removeAppointmentTypeFromDoctor = function () {
+
+
+    };
+
 });
 
 
@@ -1401,7 +1420,7 @@ appConfig.controller('CreateDoctorModalCtrl',
             }
 
             // very useful check to see the existing tagged appointment types
-            console.log($scope.taggedAppointmentTypes);
+            //console.log($scope.taggedAppointmentTypes);
 
         };
 
@@ -1478,7 +1497,7 @@ appConfig.controller('CreateDoctorModalCtrl',
                 if (appointmentType.id == selectedAppointmentType.id) {
                     appointmentType.active = true;
                 }
-            })
+            });
         };
 
         /*******************************************************************************
@@ -1500,10 +1519,10 @@ appConfig.controller('CreateDoctorModalCtrl',
                         }
 
                         idx++;
-                    })
+                    });
 
                 }
-            })
+            });
         };
 
         /*******************************************************************************
@@ -1530,13 +1549,11 @@ appConfig.controller('CreateDoctorModalCtrl',
                         appointmentTimeSlots.days[selectedDay.dayNum].splice(idxTimeSlot, 1);
                     }
 
-                    //splice out
-                    //splice if appt type removed
                 }
-            })
+            });
 
             // very useful to check the array to be sent to backend
-            console.log($scope.listOfApptTypeTimeSlotsToAdd);
+            //console.log($scope.listOfApptTypeTimeSlotsToAdd);
 
         };
 
@@ -1649,7 +1666,6 @@ appConfig.controller('CreateDoctorModalCtrl',
 
 
     }
-)
-;
+);
 
 
