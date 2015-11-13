@@ -1145,10 +1145,16 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         response_data = list(response_data)
         response_data_orig = list(response_data)
 
+        allheatmapcolors = HeatMapColorSettings.objects.all()
+
         for eachObj in response_data_orig:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
             eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
             eachObj['tooltip'] = str(eachObj['title']) + " Patient(s)"
+            count = eachObj['title']
+            for eachColour in allheatmapcolors:
+                if eachColour.count == count:
+                    eachObj['hex'] = eachColour.hex
             del eachObj['title']
 
             heatMapSlotTime = datetime.strptime(eachObj['start'], '%Y-%m-%d %H:%M:%S')
@@ -3315,6 +3321,13 @@ class ViewHeatMapColorSettings(viewsets.ModelViewSet):
 class ViewCalendarTimeRange(viewsets.ModelViewSet):
     queryset = CalendarTimeRange.objects.all()
     serializer_class = CalendarTimeRangeSerializer
+
+class CheckTimeRangeAppts(viewsets.ModelViewSet):
+    queryset = Appointment.objects.none()
+    serializer_class = AppointmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        start = request.query_params.get('start')
 
 class ViewSMSApptReminder(viewsets.ModelViewSet):
     queryset = DaysAheadReminderSMS.objects.all()

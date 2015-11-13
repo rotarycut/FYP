@@ -313,5 +313,55 @@
         "timeHour": 16,
         "timeMinute": 40
     }
+  },
+  {
+    "model": "ClearVision.HeatMapColorSettings",
+    "pk": 1,
+    "fields": {
+        "count": 0,
+        "hex": "#33cc33"
+    }
+  },
+  {
+    "model": "ClearVision.HeatMapColorSettings",
+    "pk": 2,
+    "fields": {
+        "count": 1,
+        "hex": "#33cc33"
+    }
+  },
+  {
+    "model": "ClearVision.HeatMapColorSettings",
+    "pk": 3,
+    "fields": {
+        "count": 2,
+        "hex": "#33cc33"
+    }
+  },
+  {
+    "model": "ClearVision.HeatMapColorSettings",
+    "pk": 4,
+    "fields": {
+        "count": 3,
+        "hex": "#ff9900"
+    }
+  }
+  ,
+  {
+    "model": "ClearVision.HeatMapColorSettings",
+    "pk": 5,
+    "fields": {
+        "count": 4,
+        "hex": "#ff9900"
+    }
+  }
+  ,
+  {
+    "model": "ClearVision.HeatMapColorSettings",
+    "pk": 6,
+    "fields": {
+        "count": 5,
+        "hex": "#ff3300"
+    }
   }
 ]
