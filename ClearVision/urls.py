@@ -48,6 +48,7 @@ router.register(r'_api/ViewSavedMarketingChannelCustomFilters', views.ViewSavedM
 router.register(r'_api/EditSavedMarketingChannelCustomFilters', views.EditSavedMarketingChannelCustomFilters)
 router.register(r'_api/ViewAllApptTypes', views.ViewAllApptTypes)
 router.register(r'_api/CheckApptTypeUnderDoctor', views.CheckApptTypeUnderDoctor)
+router.register(r'_api/CheckApptTypeInGeneral', views.CheckApptTypeInGeneral)
 router.register(r'_api/ViewAllMarketingChannels', views.ViewAllMarketingChannels)
 router.register(r'_api/CalendarBlocker', views.CalendarBlocker)
 router.register(r'_api/ViewDoctorBlockedTime', views.ViewDoctorBlockedTime)

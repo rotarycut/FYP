@@ -3045,6 +3045,62 @@ class ViewAllApptTypes(viewsets.ModelViewSet):
 
         return Response('Appointment type created successfully')
 
+    def destroy(self, request, *args, **kwargs):
+        payload = request.data
+
+        apptTypeID = payload.get('apptTypeID')
+        password = payload.get('password')
+
+        if User.objects.get(username='admin').check_password(password):
+            coldshotappttype = AppointmentType.objects.get(id=apptTypeID)
+
+            AvailableTimeSlots.objects.filter(timeslotType=coldshotappttype.name).delete()
+
+            coldshotappttype.delete()
+
+            return Response("Successfully removed appointment type")
+        else:
+            return Response("Invalid Admin Password!")
+
+class CheckApptTypeInGeneral(viewsets.ModelViewSet):
+    queryset = Appointment.objects.none()
+    serializer_class = AppointmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        apptTypeID = request.query_params.get('apptTypeID')
+
+        allApptsCount = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__apptType__id=apptTypeID).\
+        exclude(patients__isnull=True).count()
+
+        return Response(allApptsCount)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        emailAddress = payload.get('emailAddress')
+        apptTypeID = request.query_params.get('apptTypeID')
+
+        futureApptsForApptType = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__apptType__id=apptTypeID).\
+                                           values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
+                                           exclude(patients__isnull=True)
+
+        csvfile = StringIO.StringIO()
+        csvwriter = csv.writer(csvfile)
+
+        csvwriter.writerow(['patients_contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start',
+                        'apptType', 'id', 'doctor__name', 'clinic', 'doctor'])
+
+        for eachObj in futureApptsForApptType:
+            csvwriter.writerow([eachObj['patients__contact'], eachObj['patients__name'], eachObj['patients__gender'], eachObj['timeBucket__date'],
+                                eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
+                                eachObj['clinic'], eachObj['doctor']])
+
+        message = EmailMessage("Appointment backlog for  " + str(AppointmentType.objects.get(id=apptTypeID).name), "", to=[emailAddress])
+        message.attach('apptBacklog.csv', csvfile.getvalue(), 'text/csv')
+
+        message.send()
+
+        return Response('Email sent successfully')
 
 class CheckApptTypeUnderDoctor(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
