@@ -357,16 +357,25 @@
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="True"
                                               ng-change="showWaitingFields('yes')" name="waitList"
-                                              ng-disabled="form.disableFields.waitListCheckbox">
+                                              ng-disabled="form.disableFields.waitListCheckbox"
+                                              ng-required="!fields.waitingList">
+
+                                    [[fields.waitingList]]
                                     Yes
                                 </label>
                             </div>
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="False"
                                               ng-change="showWaitingFields('no')" name="waitList"
-                                              ng-disabled="form.disableFields.waitListCheckbox">
+                                              ng-disabled="form.disableFields.waitListCheckbox"
+                                              ng-required="!fields.waitingList">
                                     No
                                 </label>
+                            </div>
+
+                            <div ng-show="appointmentForm.waitList.$invalid && (appointmentForm.waitList.$touched || appointmentForm.$submitted)"
+                                 class="help-block">
+                                Select an option
                             </div>
                         </div>
                     </div>

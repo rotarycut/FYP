@@ -80,26 +80,31 @@
                     <div class="doc-appt-config-form" ng-show="showDocApptConfigForm">
                         <table class="table table-bordered clinic-config-table">
                             <tbody>
-                                <tr>
-                                    <td class="operating-hr-td" ng-repeat="doctor in listOfDoctors">
-                                        <div class="day-of-week">
-                                            [[doctor.name]]
-                                        </div>
-                                        <div class="doc-appts-listbox">
-                                            <ul style="list-style: none; padding-left: 1%;">
-                                                <li class="mrkt-list-item" ng-repeat="appointmentType in doctor.apptType">
-                                                    [[appointmentType.name]]
-                                                    <a class="remove-doc-appt-type" ng-click="">
-                                                        <i class="fa fa-times"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <br/>
-                                        <a class="edit-opt-hr" ng-click="openAssignNewApptTypeModal(doctor.id)">
-                                            <i class="fa fa-plus-circle"></i> Assign Appointment Type
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="operating-hr-td" ng-repeat="doctor in listOfDoctors">
+                                    <div class="day-of-week">
+                                        [[doctor.name]]
+                                    </div>
+                                    <div class="doc-appts-listbox">
+                                        <ul style="list-style: none; padding-left: 1%;">
+                                            <li class="mrkt-list-item" ng-repeat="appointmentType in doctor.apptType">
+                                                [[appointmentType.name]]
+                                                <a class="edit-opt-hr"
+                                                   popover-template="removeDocTemplate.html"
+                                                   popover-title="Remove Appointment Type"
+                                                   data-ng-click="doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.open()"
+                                                   popover-placement="bottom"
+                                                   popover-is-open="true">
+                                                    <i class="fa fa-times"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <br/>
+                                    <a class="edit-opt-hr" ng-click="openAssignNewApptTypeModal(doctor.id)">
+                                        <i class="fa fa-plus-circle"></i> Assign Appointment Type
+                                    </a>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -151,11 +156,11 @@
 
                                     <a
                                             class="edit-opt-hr"
-                                            popover-template="doctorsRemovePopovers[$index].removeDoctor.templateUrl"
-                                            popover-title="Remove Doctor"
-                                            data-ng-click="doctorsRemovePopover[$index].removeDoctor.open($index, doc.id)"
+                                            popover-template="editApptTypeNamePopover[0].editApptTypeNamePopover.templateUrl"
+                                            popover-title="Remove Appointment Type"
+                                            data-ng-click="editApptTypeNamePopover[0].editApptTypeNamePopover.open()"
                                             popover-placement="bottom"
-                                            popover-is-open="doctorsRemovePopover[$index].removeDoctor.isOpen">
+                                            popover-is-open="editApptTypeNamePopover[0].editApptTypeNamePopover.isOpen">
                                         <i class="fa fa-minus-circle"></i> Remove</a>
                                 </td>
                             </tr>
@@ -930,6 +935,36 @@
 
 
 <script type="text/ng-template" id="editSwapReminderHourTemplate.html">
+    <div class="form-group">
+        <label>Hours:</label>
+        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
+    </div>
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+        </button>
+        <button class="btn-sm form-cancel-btn pull-right"
+                data-ng-click="dynamicPopover.editSwapReminderHour.close()">Cancel
+        </button>
+    </div><br/><br/>
+</script>
+
+<script type="text/ng-template" id="removeAppointmentTypeFromDoctor.html">
+    <div class="form-group">
+        <label>Hours:</label>
+        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
+    </div>
+    <div>
+        <button class="btn-sm form-submit-btn pull-left"
+                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+        </button>
+        <button class="btn-sm form-cancel-btn pull-right"
+                data-ng-click="dynamicPopover.editSwapReminderHour.close()">Cancel
+        </button>
+    </div><br/><br/>
+</script>
+
+<script type="text/ng-template" id="editApptTypeNameTemplate.html">
     <div class="form-group">
         <label>Hours:</label>
         <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>

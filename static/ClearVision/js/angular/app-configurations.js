@@ -18,6 +18,7 @@ appConfig.controller('configCtrl',
         $scope.doctorApptTypePopover = [];
         $scope.editApptTypeNamePopover = [];
         $scope.appointmentInfoPopover = [];
+        $scope.doctorsApptTypeRemovePopover = [];
 
         $scope.dynamicPopover = {
             editStartTime: {
@@ -302,13 +303,14 @@ appConfig.controller('configCtrl',
             // prepare an empty doctor popover array
             var doctorsNamePopover = [];
             var doctorsRemovePopover = [];
+            var doctorApptTypeRemovePopover = [];
 
             getDoctorsService.getDoctors()
                 .then(function (listOfDoctors) {
                     $scope.listOfDoctors = listOfDoctors;
 
                     // push all the doctors popovers based on doctor count
-                    angular.forEach(listOfDoctors, function () {
+                    angular.forEach(listOfDoctors, function (doctor) {
 
                         doctorsNamePopover.push({
                             editDoctor: {
@@ -367,11 +369,36 @@ appConfig.controller('configCtrl',
                             }
                         });
 
+                        angular.forEach(doctor.apptType, function () {
+
+                            doctorApptTypeRemovePopover.push({
+                                removeApptTypeFromDoctor: {
+                                    isOpen: true,
+                                    templateUrl: 'removeAppointmentTypeFromDoctor.html',
+                                    open: function (parent, child) {
+
+                                        //console.log("HELLO");
+                                        //console.log(parent);
+                                        //console.log(child);
+                                        console.log($scope.doctorsApptTypeRemovePopover);
+                                        $scope.doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.isOpen = true;
+
+                                    },
+                                    close: function () {
+                                        $scope.doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.isOpen = false;
+                                    }
+                                }
+
+                            });
+                        });
                     });
 
                     // assign the popover array to the scope
                     $scope.doctorsNamePopover = doctorsNamePopover;
                     $scope.doctorsRemovePopover = doctorsRemovePopover;
+                    $scope.doctorsApptTypeRemovePopover = doctorApptTypeRemovePopover;
+
+                    console.log($scope.doctorsApptTypeRemovePopover);
 
                 }, function (data) {
 
@@ -418,7 +445,7 @@ appConfig.controller('configCtrl',
 
                         appointmentInfoPopover.push({
                             editApptTypeNamePopover: {
-                                isOpen: false,
+                                isOpen: true,
                                 templateUrl: 'editApptTypeNameTemplate.html',
                                 open: function (index) {
                                     var idx = 0;
@@ -435,11 +462,11 @@ appConfig.controller('configCtrl',
                             }
                         });
 
-
                     });
 
                     // assign the popover array to the scope
                     $scope.appointmentTypesPopover = appointmentTypesPopover;
+                    $scope.appointmentInfoPopover = appointmentInfoPopover;
 
                 }, function (data) {
                     $log.error("Failed to retrieve appointment types");
