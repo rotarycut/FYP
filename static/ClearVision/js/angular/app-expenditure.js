@@ -107,8 +107,9 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                 "date": date
             });
 
-            if($scope.IsExistingChannel == false) {
-               var req = {
+            if (!$scope.IsExistingChannel(channel)) {
+
+                var req = {
                     method: 'POST',
                     url: '/Clearvision/_api/InputMarketingChannelCost/',
                     headers: {'Content-Type': 'application/json'},
@@ -145,14 +146,24 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     /* function to clear form */
     $scope.IsExistingChannel = function (channel) {
-        $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + $scope.expenditure.monthInput + '&year=' + $scope.expenditure.yearInput)
+
+        var month = $scope.months.indexOf($scope.expenditure.monthInput) + 1;
+
+        $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + month + '&year=' + $scope.expenditure.yearInput)
             .success(function (data) {
-                angular.forEach(data, function(marketingExpenditure) {
-                    if(channel == marketingExpenditure.name) {
+
+                console.log(channel);
+
+                angular.forEach(data, function (marketingExpenditure) {
+                    if (channel.name == marketingExpenditure.name) {
+
+                        console.log("TRUE");
                         showNotificationsSvc.notifyErrorTemplate('This is an existing channel');
                         return true;
                     }
                     else {
+
+                        console.log("FALSE");
                         return false;
                     }
                 });
