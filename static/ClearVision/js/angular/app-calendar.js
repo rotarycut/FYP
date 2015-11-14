@@ -1138,33 +1138,31 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
 
-        $timeout(function () {
 
-            $log.debug("Receiving socket request to create appointment");
+        $log.debug("Receiving socket request to create appointment");
+        console.log(appointment);
 
-            /*$scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-             $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-             $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-             $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-             $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-             $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
+        /*$scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+         $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+         $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
+         $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+         $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+         $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
+         $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+         $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
-             $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-             $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-             $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-             $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-             $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-             $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-             $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-             $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
+         $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+         $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+         $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
+         $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+         $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+         $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
+         $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+         $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-             $scope.getDrHoAppointments($scope.iSchedule);
-             $scope.getDrGohAppointments($scope.iSchedule);
-             $scope.getOptomAppointments($scope.iSchedule);*/
-
-        }, 3500);
+         $scope.getDrHoAppointments($scope.iSchedule);
+         $scope.getDrGohAppointments($scope.iSchedule);
+         $scope.getOptomAppointments($scope.iSchedule);*/
 
     });
 
