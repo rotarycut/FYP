@@ -64,7 +64,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
         $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + month + '&year=' + year)
             .success(function (data) {
-                console.log(data);
+                //console.log(data);
 
                 $scope.marketingChannels = data;
 
@@ -95,19 +95,27 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
             var date = year + "-" + month + "-01";
 
-            console.log($scope.channelTextbox);
+            //console.log($scope.channelTextbox);
 
             if ($scope.channelTextbox) {
                 channel = newChannel;
             }
 
-            console.log({
-                "name": channel,
-                "cost": amt,
-                "date": date
-            });
+            /*console.log({
+             "name": channel,
+             "cost": amt,
+             "date": date
+             });*/
 
-            if (!$scope.IsExistingChannel(channel)) {
+
+            if ($scope.IsExistingChannel(channel)) {
+
+                console.log("YAY");
+                showNotificationsSvc.notifyErrorTemplate('This is an existing channel');
+
+            } else {
+
+                console.log("EW");
 
                 var req = {
                     method: 'POST',
@@ -129,11 +137,10 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                     .error(function (data) {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                     });
+
             }
         }
-        else {
 
-        }
     };
 
     /* function to clear form */
@@ -152,15 +159,24 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + month + '&year=' + $scope.expenditure.yearInput)
             .success(function (data) {
 
-                console.log(channel);
+                var test = false;
+
+                channel = channel.toString();
 
                 angular.forEach(data, function (marketingExpenditure) {
-                    if (channel.name == marketingExpenditure.name) {
-                        showNotificationsSvc.notifyErrorTemplate('This is an existing channel');
-                        return true;
+
+
+                    //console.log(channel);
+                    //console.log(marketingExpenditure.name);
+                    //console.log(channel == marketingExpenditure.name);
+
+                    if (channel == marketingExpenditure.name) {
+
+                        test = true;
                     }
                 });
-                return false;
+
+                return test;
             });
 
     };

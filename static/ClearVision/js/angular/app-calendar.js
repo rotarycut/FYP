@@ -351,7 +351,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 } else {
                     $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
-                    console.log("IN TRACK CALENDAR");
                 }
 
             }
