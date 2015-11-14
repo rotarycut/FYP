@@ -100,6 +100,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             $http(req)
                 .success(function () {
                     showNotificationsSvc.notifySuccessTemplate('Marketing expenditure added successfully');
+                    expenditure = {};
                 })
 
                 .error(function (data) {

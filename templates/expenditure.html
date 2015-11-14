@@ -74,7 +74,7 @@
                              ng-class="{'has-error': expenditureForm.year.$invalid && (expenditureForm.year.$touched || expenditureForm.$submitted)}">
                             <select class="form-control"
                                     ng-options="year for year in years"
-                                    data-ng-model="yearInput" name="year" required>
+                                    data-ng-model="expenditure.yearInput" name="year" required>
                             </select>
 
                             <div ng-show="expenditureForm.year.$invalid && (expenditureForm.year.$touched || expenditureForm.$submitted)"
@@ -91,7 +91,7 @@
                              ng-class="{'has-error': expenditureForm.month.$invalid && (expenditureForm.month.$touched || expenditureForm.$submitted)}">
                             <select class="form-control"
                                     ng-options="mth for mth in months"
-                                    data-ng-model="monthInput" name="month" required>
+                                    data-ng-model="expenditure.monthInput" name="month" required>
                             </select>
 
                             <div ng-show="expenditureForm.month.$invalid && (expenditureForm.month.$touched || expenditureForm.$submitted)"
@@ -108,7 +108,7 @@
                              ng-class="{'has-error': expenditureForm.expenditureChannel.$invalid && (expenditureForm.expenditureChannel.$touched || expenditureForm.$submitted)}">
                             <select class="form-control"
                                     ng-options="channel as channel.name for channel in listOfMarketingChannels"
-                                    data-ng-model="expenditureChannel" name="expenditureChannel" required>
+                                    data-ng-model="expenditure.expenditureChannel" name="expenditureChannel" required>
                             </select>
 
                             <div ng-show="expenditureForm.expenditureChannel.$invalid && (expenditureForm.expenditureChannel.$touched || expenditureForm.$submitted)"
@@ -132,7 +132,7 @@
                                    required>-->
 
                                 <input type="text" style="padding-left: 26px;" class="form-control"
-                                       data-ng-model="expenditureSpent" name="amt" required/>
+                                       data-ng-model="expenditure.expenditureSpent" name="amt" required/>
                                 <div ng-show="expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)"
                                      class="help-block">
                                     Please enter an amount
