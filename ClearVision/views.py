@@ -560,7 +560,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
             return Response(response_data)
 
         serializedExistingAppt = AppointmentSerializer(a)
-        pusher.trigger('appointmentsCUD', 'deleteAppt', {'message': json.dumps(serializedExistingAppt.data)})
+        socketId = data.get('socketId')
+        pusher.trigger('appointmentsCUD', 'deleteAppt', {'message': json.dumps(serializedExistingAppt.data)}, socketId)
         return Response({})
 
         # else:
@@ -581,6 +582,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         marketingID = data.get('channelID')
         isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
+
+        socketId = data.get('socketId')
 
         if data.get('tempTime') and data.get('tempDate') is not "" and isWaitingList == 'True':
             tempApptTimeBucket = data.get('tempTime') + ":00"
@@ -642,7 +645,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                                            swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
-            pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)})
+            pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)}, socketId)
             return Response(serializedExistingAppt.data)
 
         else:
@@ -687,7 +690,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
-            pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)})
+            pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)}, socketId)
             return Response(serializedExistingAppt.data)
 
     def update(self, request, *args, **kwargs):
@@ -702,6 +705,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         newRemarks = data.get('remarks')
         newPatientName = data.get('patientName')
         newPatientContact = data.get('patientContact')
+
+        socketId = data.get('socketId')
 
         patient.name = newPatientName
         patient.contact = newPatientContact
@@ -745,7 +750,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-            pusher.trigger('appointmentsCUD', 'updateAppt', {'message': json.dumps(serializedExistingFutureAppt.data)})
+            pusher.trigger('appointmentsCUD', 'updateAppt', {'message': json.dumps(serializedExistingFutureAppt.data)}, socketId)
             return Response(serializedExistingFutureAppt.data)
         else:
 
@@ -765,7 +770,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
             toUpdateNewAppt.save()
 
             serializedExistingFutureAppt = AppointmentSerializer(existingFutureAppt)
-            pusher.trigger('appointmentsCUD', 'updateAppt', {'message': json.dumps(serializedExistingFutureAppt.data)})
+            pusher.trigger('appointmentsCUD', 'updateAppt', {'message': json.dumps(serializedExistingFutureAppt.data)}, socketId)
             return Response(serializedExistingFutureAppt.data)
 
 
@@ -1628,6 +1633,8 @@ class ViewTodayPatients(viewsets.ModelViewSet):
         patient = data.get('patient')
         attended = data.get('attended')
 
+        socketId = data.get('socketId')
+
         a = Appointment.objects.get(id=apptId)
         p = Patient.objects.get(id=patient)
 
@@ -1643,7 +1650,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                )
             p.conversion = True
             p.save()
-            pusher.trigger('queue', 'addToQueue', {'message': {}})
+            pusher.trigger('queue', 'addToQueue', {'message': {}}, socketId)
         else:
             associatedPAction.addedToQueue = False
             associatedPAction.save()
@@ -1652,7 +1659,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=False, originalAppt=a,
                                                )
-            pusher.trigger('queue', 'noShow', {'message': {}})
+            pusher.trigger('queue', 'noShow', {'message': {}}, socketId)
 
         return HttpResponse("Success")
 
@@ -1725,6 +1732,8 @@ class PatientQueue(viewsets.ModelViewSet):
         apptId = data.get('apptId')
         patient = data.get('patient')
 
+        socketId = data.get('socketId')
+
         AttendedAppointment.objects.get(patient=patient, originalAppt__id=apptId).delete()
 
         p = Patient.objects.get(id=patient)
@@ -1735,7 +1744,7 @@ class PatientQueue(viewsets.ModelViewSet):
         p.conversion = False
         p.save()
 
-        pusher.trigger('queue', 'removeFromQueue', {'message': {}})
+        pusher.trigger('queue', 'removeFromQueue', {'message': {}}, socketId)
         return HttpResponse("Success")
 
     def list(self, request, *args, **kwargs):
