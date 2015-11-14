@@ -156,18 +156,11 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
                 angular.forEach(data, function (marketingExpenditure) {
                     if (channel.name == marketingExpenditure.name) {
-
-                        console.log("TRUE");
                         showNotificationsSvc.notifyErrorTemplate('This is an existing channel');
                         return true;
                     }
-                    else {
-
-                        console.log("FALSE");
-                        return false;
-                    }
                 });
-
+                return false;
             });
 
     };
