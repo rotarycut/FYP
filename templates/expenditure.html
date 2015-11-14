@@ -119,26 +119,28 @@
                         <div class="col-md-9" ng-show="channelTextbox">
                             <input type="text" class="form-control" data-ng-model="expenditureChannel"
                                    name="newchannel" placeholder="Enter new channel"
-                                   required>
+                                   ng-required="selectChannelBtn">
                         </div>
                     </div>
                     <div class="row subcontent-row">
                         <div class="col-md-3">
                             <label class="control-label label-color">Amount:</label>
                         </div>
-                        <div class="col-md-9" ng-class="{'has-error': expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)}">
+                        <div class="col-md-9"
+                             ng-class="{'has-error': expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)}">
                             <!--<input type="text" class="form-control" data-ng-model="spentAmt"
                                    name="spentAmt"
                                    required>-->
+                            <input type="text" style="padding-left: 26px;" class="form-control"
+                                   data-ng-model="expenditure.expenditureSpent" name="amt" required/>
 
-                                <input type="text" style="padding-left: 26px;" class="form-control"
-                                       data-ng-model="expenditure.expenditureSpent" name="amt" required/>
-                                <div ng-show="expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)"
-                                     class="help-block">
-                                    Please enter an amount
-                                </div>
+                            <div ng-show="expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)"
+                                 class="help-block">
+                                Please enter an amount
+                            </div>
 
                         </div>
+
                     </div>
                     <div class="row endcontent-row"><!--test-->
                         <div class="col-md-3" ng-show="newChannelBtn">
@@ -152,14 +154,14 @@
                         </div>
                         <div class="col-md-2 col-md-offset-4">
                             <button class="btn form-submit-btn"
-                                    ng-click="addMarketingExpenditures(yearInput, monthInput, expenditureChannel.name, expenditureSpent, expenditureForm.$valid)">
+                                    ng-click="addMarketingExpenditures(expenditure.yearInput, expenditure.monthInput, expenditure.expenditureChannel.name, expenditure.expenditureSpent, expenditureForm.$valid)">
                                 Add New
                             </button>
                         </div>
                     </div>
-                    </form>
                 </form>
             </div>
         </div>
         <!-- col for input and month filter ends -->
     </div>
+</div>

@@ -33,6 +33,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         $scope.channelTextbox = true;
         $scope.selectChannelBtn = true;
         $scope.newChannelBtn = false;
+        $scope.clearForm();
+
     };
 
     $scope.showSelectChannel = function () {
@@ -40,6 +42,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         $scope.channelTextbox = false;
         $scope.selectChannelBtn = false;
         $scope.newChannelBtn = true;
+        $scope.clearForm();
+
     };
 
     $scope.years = ["2010", "2011", "2012", "2013", "2014", "2015"];
@@ -81,8 +85,11 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     $scope.addMarketingExpenditures = function (year, month, channel, amt, valid) {
 
-        if(valid == true) {
-           month = $scope.months.indexOf(month) + 1;
+        if (valid == true) {
+
+            console.log("HELLO");
+
+            month = $scope.months.indexOf(month) + 1;
 
             var date = year + "-" + month + "-01";
 
@@ -100,7 +107,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             $http(req)
                 .success(function () {
                     showNotificationsSvc.notifySuccessTemplate('Marketing expenditure added successfully');
-                    expenditure = {};
+                    $scope.clearForm();
                 })
 
                 .error(function (data) {
@@ -110,6 +117,14 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
         else {
 
         }
+    };
+
+    /* function to clear form */
+    $scope.clearForm = function () {
+        $scope.expenditure = {};
+        $scope.expenditureForm.$setPristine();
+        $scope.expenditureForm.$setUntouched();
+
     };
 
 
@@ -126,6 +141,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     $scope.updateTable = function () {
         $scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
-    }
+    };
 
 });
