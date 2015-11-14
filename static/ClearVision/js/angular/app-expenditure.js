@@ -29,6 +29,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
 
     $scope.showAddNewChannel = function () {
+        $scope.yearDropdown = true;
+        $scope.monthDropdown = true;
         $scope.channelDropdown = false;
         $scope.channelTextbox = true;
         $scope.selectChannelBtn = true;
@@ -38,6 +40,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
     };
 
     $scope.showSelectChannel = function () {
+        $scope.yearDropdown = true;
+        $scope.monthDropdown = true;
         $scope.channelDropdown = true;
         $scope.channelTextbox = false;
         $scope.selectChannelBtn = false;
@@ -86,8 +90,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
     $scope.addMarketingExpenditures = function (year, month, channel, amt, valid) {
 
         if (valid == true) {
-
-            console.log("HELLO");
 
             month = $scope.months.indexOf(month) + 1;
 
