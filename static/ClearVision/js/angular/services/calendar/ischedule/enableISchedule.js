@@ -1,6 +1,6 @@
 var app = angular.module('enable.ISchedule', []);
 
-app.service('enableIScheduleSvc', function ($timeout) {
+app.service('enableIScheduleSvc', function () {
 
     var self = this;
     self.scope = {};
@@ -9,11 +9,9 @@ app.service('enableIScheduleSvc', function ($timeout) {
         self.scope = scope;
     };
 
-
     /*******************************************************************************
      function to enable iSchedule
      *******************************************************************************/
-
 
     self.enableISchedule = function () {
 
@@ -27,14 +25,6 @@ app.service('enableIScheduleSvc', function ($timeout) {
         self.scope.form.disableFields.doctor = true;
         self.scope.form.backBtn = true;
 
-        // navigate the calendar to current date once heat map is enabled
-        /*if (self.scope.selectedCalendar == 'myCalendar1') {
-
-         $('#drHoCalendar').fullCalendar('gotoDate', new Date());
-         } else {
-
-         $('#drGohCalendar').fullCalendar('gotoDate', new Date());
-         }*/
 
         if (self.scope.formTitle === 'Create New Appointment' || self.scope.formTitle === 'Edit Appointment') {
 
@@ -48,40 +38,23 @@ app.service('enableIScheduleSvc', function ($timeout) {
                 self.scope.showHeatMap = true;
                 self.scope.iSchedule = true;
 
-                console.log("HERE");
-                console.log(self.scope.chosenDoctor.doctorAppointmentSource);
-
                 // change the calendar view to week view
                 self.scope.changeView('agendaWeek', self.scope.chosenDoctor.changeCalendar);
 
-                //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoPreEvaluation);
-                //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoSurgery);
-                //self.scope.removeEventSource(self.scope.chosenDoctor.DrHoappointments, self.scope.DrHoPostSurgery);
+                // navigate the calendar to current date only if current view is before current date once heat map is enabled
+                this.shiftIfPastDate();
 
+                // remove appointments from doctor source
                 self.scope.removeFromDoctorSource(
                     self.scope.chosenDoctor.doctorAppointmentSource,
                     self.scope.chosenDoctor.appointmentTypeSourceArray,
                     true
                 );
 
-                //var arr = ['DrHoPreEvaluation', 'DrHoSurgery', 'DrHoPostSurgery'];
-                //self.scope.removeFromDoctorSource(self.scope.chosenDoctor.DrHoappointments, arr, true);
-                //console.log(self.scope.DrHoappointments);
-
-                console.log(self.scope.chosenDoctor.doctorAppointmentSource);
-                //self.scope.chosenDoctor.ap
-
-                // remove all the appointments on the calendar
-                /*self.scope.removeFromDoctorSource(
-                 self.scope.chosenDoctor.doctorAppointmentSource,
-                 self.scope.chosenDoctor.appointmentTypeSourceArray,
-                 true
-                 );*/
-
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);
 
-                //self.scope.getISchedule();
+                // hide the calendar legend when heat map is shown
                 self.scope.showFilters = false;
 
             } else {
@@ -113,5 +86,27 @@ app.service('enableIScheduleSvc', function ($timeout) {
 
             }
         }
-    }
+    };
+
+    /*******************************************************************************
+     function to shift to current date if date input is earlier than current date
+     *******************************************************************************/
+
+    self.shiftIfPastDate = function () {
+
+        var doctorCalendar = '#' + self.scope.chosenDoctor.calendar;
+
+        var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
+        calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+        if (calendarEndDate.getTime() <= new Date().getTime()) {
+
+            $(doctorCalendar).fullCalendar('gotoDate', new Date());
+
+        } else {
+            // do nothing
+        }
+
+    };
+
 });

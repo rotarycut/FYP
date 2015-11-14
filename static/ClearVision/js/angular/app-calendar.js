@@ -350,7 +350,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 if ($scope.iSchedule) {
 
                 } else {
-                    console.log("YAY");
                     $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
                 }
 
@@ -550,7 +549,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      date picker codes
      *******************************************************************************/
 
-
     $scope.datepickers = {
         showDatePicker: false,
         showDatePicker2: false
@@ -590,7 +588,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /*******************************************************************************
      initialization when page first loads
      *******************************************************************************/
-
 
     $scope.fields = {};
     $scope.blockFields = {};
