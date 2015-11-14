@@ -125,7 +125,7 @@ angular.module('post.appointment', [])
                 }).error(function (error) {
 
                     $rootScope.spinner = {active: false};
-                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    showNotificationsSvc.notifyErrorTemplate('Error creating appointment');
                     $log.error("Error creating appointment");
                 });
 
