@@ -1,6 +1,6 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc, Pusher, $log) {
+appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc, $log) {
 
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     $scope.CurrentDate = new Date();
@@ -252,7 +252,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
      *******************************************************************************/
 
 
-    Pusher.subscribe('queue', 'addToQueue', function (appointment) {
+    /*Pusher.subscribe('queue', 'addToQueue', function (appointment) {
 
         $log.debug("Receiving socket request to add to queue");
         getTodayAppointmentSvc.getTodayAppointments();
@@ -277,7 +277,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         getPatientQueueSvc.getPatientQueue();
         getNoShowSvc.getNoShow();
 
-    });
+    });*/
 
 });
 

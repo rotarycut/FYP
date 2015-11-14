@@ -41,7 +41,7 @@ var app = angular.module('calendarDemoApp', [
     'check.existingPatient',
     'change.calendar',
     'get.marketingChannels',
-    'doowb.angular-pusher',
+    'pusher-angular',
     'get.stackedChart',
     'get.pieChart',
     'get.customStackedChart',
@@ -126,11 +126,13 @@ app.config(function ($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 });
 
-app.config(['PusherServiceProvider', function (PusherServiceProvider) {
+/*app.config(['PusherServiceProvider', function (PusherServiceProvider) {
+
+    //console.log(PusherServiceProvider);
     PusherServiceProvider
         .setToken('6cb577c1e7b97150346b')
         .setOptions({});
-}]);
+}]);*/
 
 app.run(function ($rootScope) {
     var date = new Date();

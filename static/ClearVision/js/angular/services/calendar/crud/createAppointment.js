@@ -110,7 +110,8 @@ angular.module('post.appointment', [])
                     "remarks": self.scope.fields.appointmentRemarks,
                     "waitingListFlag": self.scope.fields.waitingList,
                     "tempDate": self.scope.fields.waitingDate,
-                    "tempTime": self.scope.fields.waitingTime
+                    "tempTime": self.scope.fields.waitingTime,
+                    "socketId": self.scope.connectionId
                 })
                     .success(function (data) {
 
