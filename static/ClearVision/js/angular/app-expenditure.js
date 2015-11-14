@@ -70,7 +70,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
                 /** function for pagination **/
                 $scope.$watch("currentPage + numPerPage", function () {
-                    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                    var begin = (($scope.currentPage - 1) * $scope.numPerPage);
                     var end = begin + $scope.numPerPage;
 
                     $scope.filteredChannels = $scope.marketingChannels.slice(begin, end);
@@ -107,26 +107,28 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                 "date": date
             });
 
-            var req = {
-                method: 'POST',
-                url: '/Clearvision/_api/InputMarketingChannelCost/',
-                headers: {'Content-Type': 'application/json'},
-                data: {
-                    "name": channel,
-                    "cost": amt,
-                    "date": date
-                }
-            };
+            if($scope.IsExistingChannel == false) {
+               var req = {
+                    method: 'POST',
+                    url: '/Clearvision/_api/InputMarketingChannelCost/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "name": channel,
+                        "cost": amt,
+                        "date": date
+                    }
+                };
 
-            $http(req)
-                .success(function () {
-                    showNotificationsSvc.notifySuccessTemplate('Marketing expenditure added successfully');
-                    $scope.clearForm();
-                })
+                $http(req)
+                    .success(function () {
+                        showNotificationsSvc.notifySuccessTemplate('Marketing expenditure added successfully');
+                        $scope.clearForm();
+                    })
 
-                .error(function (data) {
-                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
-                });
+                    .error(function (data) {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+            }
         }
         else {
 
@@ -141,6 +143,23 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     };
 
+    /* function to clear form */
+    $scope.IsExistingChannel = function (channel) {
+        $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + $scope.expenditure.monthInput + '&year=' + $scope.expenditure.yearInput)
+            .success(function (data) {
+                angular.forEach(data, function(marketingExpenditure) {
+                    if(channel == marketingExpenditure.name) {
+                        showNotificationsSvc.notifyErrorTemplate('This is an existing channel');
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                });
+
+            });
+
+    };
 
     var currentDate = new Date();
     //var convertMonth = $filter('date')(currentDate, 'MM');
