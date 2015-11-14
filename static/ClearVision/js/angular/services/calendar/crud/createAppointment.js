@@ -61,6 +61,12 @@ angular.module('post.appointment', [])
                     $rootScope.spinner = {active: false};
                     showNotificationsSvc.notifySuccessTemplate('Appointment created successfully');
 
+                    // disable iSchedule
+                    disableIScheduleSvc.disableISchedule();
+
+                    console.log(self.scope.chosenDoctor);
+                    self.scope.changeView('month', 'myCalendar0');
+
                     // check the appointment type of the created appointment
                     switch (self.scope.fields.appointmentType) {
 
@@ -110,9 +116,6 @@ angular.module('post.appointment', [])
                             self.scope.selectedDoctor.drSurgery.events.push(appointment);
                             break;
                     }
-
-                    // disable iSchedule
-                    disableIScheduleSvc.disableISchedule();
 
                     // clear the appointment form
                     clearFormSvc.clearForm();

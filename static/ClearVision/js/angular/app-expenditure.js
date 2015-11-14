@@ -87,13 +87,25 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
      add marketing expenditure in year and month
      *******************************************************************************/
 
-    $scope.addMarketingExpenditures = function (year, month, channel, amt, valid) {
+    $scope.addMarketingExpenditures = function (year, month, channel, amt, valid, newChannel) {
 
         if (valid == true) {
 
             month = $scope.months.indexOf(month) + 1;
 
             var date = year + "-" + month + "-01";
+
+            console.log($scope.channelTextbox);
+
+            if ($scope.channelTextbox) {
+                channel = newChannel;
+            }
+
+            console.log({
+                "name": channel,
+                "cost": amt,
+                "date": date
+            });
 
             var req = {
                 method: 'POST',
