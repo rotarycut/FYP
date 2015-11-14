@@ -310,6 +310,7 @@
                                                ng-change="navigateToDate(); getAppointmentTimings('',false);"
                                                ng-disabled="true"
                                                date-disabled="disabled(date, mode)"
+                                               required
                                                 />
 
                                                 <span class="input-group-btn">
@@ -353,14 +354,13 @@
 
                         <label class="control-label">Waiting list</label>
 
-                        <div class="row">
+                        <div class="row"
+                             ng-class="{'has-error': appointmentForm.waitList.$invalid && (appointmentForm.waitList.$touched || appointmentForm.$submitted)}">
                             <div class="radio col-sm-6">
                                 <label><input type="radio" data-ng-model="fields.waitingList" value="True"
                                               ng-change="showWaitingFields('yes')" name="waitList"
                                               ng-disabled="form.disableFields.waitListCheckbox"
                                               ng-required="!fields.waitingList">
-
-                                    [[fields.waitingList]]
                                     Yes
                                 </label>
                             </div>

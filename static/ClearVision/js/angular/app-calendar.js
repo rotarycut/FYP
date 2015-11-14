@@ -15,7 +15,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var pusher = $pusher(client);
 
     $timeout(function () {
-        $scope.connectionId = pusher.connection.baseConnection.socket_id;
+        $scope.socketId = pusher.connection.baseConnection.socket_id;
     }, 2000);
 
     $scope.$route = $route;
@@ -1133,6 +1133,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     my_presence_channel.bind('createAppt', function (appointment) {
 
         $log.debug("Receiving socket request to create appointment");
+        
+
 
     });
 
