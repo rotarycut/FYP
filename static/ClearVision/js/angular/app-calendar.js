@@ -350,6 +350,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 if ($scope.iSchedule) {
 
                 } else {
+                    console.log("YAY");
                     $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
                 }
 
@@ -360,7 +361,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /*******************************************************************************
      function to get calendar time range
      *******************************************************************************/
-
 
     $scope.getCalendarTimeRange = function () {
 
@@ -374,11 +374,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.getCalendarTimeRange();
 
-
     /*******************************************************************************
      function to initialize doctors calendars
      *******************************************************************************/
-
 
     $scope.getDoctorsVariables = function () {
 
@@ -412,7 +410,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 });
 
-
                 // set first doctor calendar to be the active calendar
                 doctorsVariables[0].active = true;
 
@@ -420,19 +417,14 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                 $scope.chosenDoctor = $scope.allDoctorsVariables[0];
 
-                console.log($scope.chosenDoctor);
-
             })
-
     };
 
     $scope.getDoctorsVariables();
 
-
     /*******************************************************************************
      function to track calendar navigation
      *******************************************************************************/
-
 
     $scope.trackCalendar = function (currentView, startDate, endDate) {
 
@@ -461,11 +453,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     };
 
-
     /*******************************************************************************
      function to add/remove appointment type source to doctors' appointment source
      *******************************************************************************/
-
 
     $scope.addToDoctorSource = function (doctorAppointmentSource, appointmentTypeSourceArray) {
 
@@ -501,11 +491,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     };
 
-
     /*******************************************************************************
      function to retrieve doctor's appointments
      *******************************************************************************/
-
 
     $scope.getDoctorAppointments = function (doctorId, appointmentTypeArray, doctorAppointmentSource, appointmentTypeSourceArray, startDate, endDate) {
 
@@ -557,7 +545,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
 
     };
-
 
     /*******************************************************************************
      date picker codes
@@ -1133,7 +1120,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     my_presence_channel.bind('createAppt', function (appointment) {
 
         $log.debug("Receiving socket request to create appointment");
-        
 
 
     });

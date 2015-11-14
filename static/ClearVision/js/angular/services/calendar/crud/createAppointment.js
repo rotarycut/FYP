@@ -1,5 +1,6 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http, $log, $filter, disableIScheduleSvc, clearFormSvc, showNotificationsSvc) {
+    .service('postAppointmentSvc', function ($http, $log, $filter, $rootScope, disableIScheduleSvc, clearFormSvc,
+                                             showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -13,6 +14,8 @@ angular.module('post.appointment', [])
          *******************************************************************************/
 
         self.postAppointment = function () {
+
+            $rootScope.spinner = {active: true};
 
             if (self.scope.fields.appointmentRemarks === undefined) {
                 self.scope.fields.appointmentRemarks = "";
@@ -55,6 +58,7 @@ angular.module('post.appointment', [])
             $http(req)
                 .success(function (appointment) {
 
+                    $rootScope.spinner = {active: false};
                     showNotificationsSvc.notifySuccessTemplate('Appointment created successfully');
 
                     // check the appointment type of the created appointment
@@ -115,6 +119,8 @@ angular.module('post.appointment', [])
 
                 }).error(function (error) {
 
+                    $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                     $log.error("Error creating appointment");
                 });
 
