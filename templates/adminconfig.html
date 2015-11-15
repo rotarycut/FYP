@@ -90,10 +90,11 @@
                                             <li class="mrkt-list-item" ng-repeat="appointmentType in doctor.apptType">
                                                 [[appointmentType.name]]
                                                 <a class="edit-opt-hr"
-                                                   popover-template="doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.templateUrl"
+                                                   popover-template="doctorsApptTypeRemovePopover[$parent.$index][$index].removeApptTypeFromDoctor.templateUrl"
                                                    popover-title="Remove Appointment Type"
-                                                   data-ng-click="doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.open()"
+                                                   data-ng-click="doctorsApptTypeRemovePopover[$parent.$index][$index].removeApptTypeFromDoctor.open($parent.$index, $index)"
                                                    popover-placement="bottom"
+                                                   popover-is-open="doctorsApptTypeRemovePopover[$parent.$index][$index].removeApptTypeFromDoctor.isOpen"
                                                         >
                                                     <i class="fa fa-times"></i></a>
                                             </li>
@@ -962,7 +963,8 @@
                 data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
         </button>
         <button class="btn-sm form-cancel-btn pull-right"
-                data-ng-click="dynamicPopover.editSwapReminderHour.close()">Cancel
+                data-ng-click="doctorsApptTypeRemovePopover[removeDrApptTypeParentIdx][removeDrApptTypeIdx].removeApptTypeFromDoctor.close(removeDrApptTypeParentIdx, removeDrApptTypeIdx)">
+            Cancel
         </button>
     </div><br/><br/>
 </script>

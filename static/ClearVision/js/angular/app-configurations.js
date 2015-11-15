@@ -411,6 +411,8 @@ appConfig.controller('configCtrl',
 
                     });
 
+                    console.log(doctorsApptTypeRemovePopover);
+
                     // assign the popover array to the scope
                     $scope.doctorsNamePopover = doctorsNamePopover;
                     $scope.doctorsRemovePopover = doctorsRemovePopover;
