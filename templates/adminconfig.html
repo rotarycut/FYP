@@ -991,7 +991,8 @@
         </div>
 
         <button class="btn-sm form-submit-btn"
-                data-ng-click="removeDoctor(doctorRemoveForm.$valid, doctorRemoveId, adminPassword)">Remove
+                data-ng-click="removeDocApptType(doctorApptTypeRemoveForm.$valid, doctorRemoveId, appointmentTypeId)">
+            Remove
         </button>
         <button class="btn-sm form-cancel-btn"
                 data-ng-click="doctorsApptTypeRemovePopover[removeDrApptTypeParentIdx][removeDrApptTypeIdx].removeApptTypeFromDoctor.close(removeDrApptTypeParentIdx, removeDrApptTypeIdx)">
@@ -1017,7 +1018,8 @@
         </div>
 
         <button class="btn-sm form-submit-btn"
-                data-ng-click="sendEmailRemoveDocApptType('true', doctorRemoveId, removeDocApptTypeEmail, appointmentTypeId)">Send Email
+                data-ng-click="sendEmailRemoveDocApptType('true', doctorRemoveId, removeDocApptTypeEmail, appointmentTypeId)">
+            Send Email
         </button>
         <button class="btn-sm form-cancel-btn"
                 data-ng-click="doctorsApptTypeRemovePopover[removeDrApptTypeParentIdx][removeDrApptTypeIdx].removeApptTypeFromDoctor.close(removeDrApptTypeParentIdx, removeDrApptTypeIdx)">

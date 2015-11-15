@@ -403,6 +403,8 @@ appConfig.controller('configCtrl',
                                         //check if any future appointments exist
                                         $http.get('/Clearvision/_api/CheckApptTypeUnderDoctor/?doctorID=' + doctorId + '&apptTypeID=' + apptTypeId)
                                             .success(function (numberOfFutureAppointment) {
+
+                                                console.log(numberOfFutureAppointment);
                                                 if (numberOfFutureAppointment > 0) {
                                                     $scope.showWarningRemoveDocApptType = true;
                                                     $scope.showPasswordRemoveDocApptType = false;
@@ -857,6 +859,39 @@ appConfig.controller('configCtrl',
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                     });
 
+            }
+        };
+
+        /* function to remove doctor appointment type from doctor */
+        $scope.removeDocApptType = function (isValid, doctorId, apptTypeId) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'DELETE',
+                    url: '/Clearvision/_api/EditDoctorAppointmentTypes/0',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "doctorID": doctorId,
+                        "apptTypeID": apptTypeId
+                    }
+                };
+
+                console.log({
+                    "doctorID": doctorId,
+                    "apptTypeID": apptTypeId
+                });
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('Remove doctor appointment type successfully');
+                        $scope.getDoctors();
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
             }
         };
 
