@@ -208,7 +208,7 @@
                                             <br/>
                                             <a class="edit-opt-hr"
                                                popover-template="doctorApptTypePopover[$index].editApptTimeslot.templateUrl"
-                                               popover-title="Remove Doctor"
+                                               popover-title="Edit Doctor's Available Time Slot"
                                                data-ng-click="doctorApptTypePopover[$index].editApptTimeslot.open($index)"
                                                popover-placement="bottom"
                                                popover-is-open="doctorApptTypePopover[$index].editApptTimeslot.isOpen">
@@ -641,8 +641,8 @@
         <div class="create-modal-listbox">
             <ul class="timeslots-ul" style="padding-left: 10px;">
                 <li class="available-slot-item" ng-repeat="slot in listOfTimeslots.timings">
-                    <label ng-class="{typeSelected: apptType}">
-                        <input type="checkbox" ng-model="apptTime">[[slot.time]]
+                    <label ng-class="{slotSelected: slot.active}">
+                        <input type="checkbox" ng-model="slot.active">[[slot.time]]
                     </label>
                 </li>
             </ul>
