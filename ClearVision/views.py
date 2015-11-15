@@ -17,7 +17,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework.response import Response
-from django.db.models import Q, F, Sum, Case, When, IntegerField, Count
+from django.db.models import Q, F, Sum, Case, When, IntegerField, Count, Avg
 from .serializers import *
 import csv
 from django.core.mail import EmailMessage
@@ -1166,6 +1166,47 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
             if heatMapSlotTime < datetime.now():
                 response_data.remove(eachObj)
         return Response(response_data)
+
+class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
+    queryset = FullYearCalendar.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        apptTypeId = request.query_params.get('apptTypeId')
+        doctorId = request.query_params.get('doctorId')
+
+        apptType = AppointmentType.objects.get(id=apptTypeId)
+
+        horizon = DoctorDayTimeSlots.objects.get(doctor=doctorId, apptType=apptTypeId)
+        monday = horizon.monday.split(',')
+        tuesday = horizon.tuesday.split(',')
+        wednesday = horizon.wednesday.split(',')
+        thursday = horizon.thursday.split(',')
+        friday = horizon.friday.split(',')
+        saturday = horizon.saturday.split(',')
+
+        for eachTimeSlot in monday:
+            allExistingAppts = Appointment.objects.filter(apptType=apptType.name, doctor=doctorId,
+                                                          timeBucket__date__lte=datetime.today(),
+                                                          timeBucket__date__gte=datetime.today()-timedelta(days=90),
+                                                          timeBucket__start=eachTimeSlot).exclude(patients=None)
+
+            allExistingAppts = Appointment.objects.filter(apptType=apptType.name, doctor=doctorId,
+                                                          timeBucket__date__lte=datetime.today(),
+                                                          timeBucket__date__gte=datetime.today()-timedelta(days=90),
+                                                          timeBucket__start=eachTimeSlot).exclude(patients=None)
+
+            total = allExistingAppts.count()
+            patientCount = 0
+
+            for eachAppt in allExistingAppts:
+                patientCount += eachAppt.patients.count()
+
+            if patientCount != 0:
+                avg = total/patientCount
+            else:
+                avg = 0
+
+        return Response(monday)
 
 class DoctorTimeSlot(viewsets.ModelViewSet):
     queryset = DoctorDayTimeSlots.objects.none()
@@ -3093,7 +3134,7 @@ class CheckApptTypeInGeneral(viewsets.ModelViewSet):
         payload = request.data
 
         emailAddress = payload.get('emailAddress')
-        apptTypeID = request.query_params.get('apptTypeID')
+        apptTypeID = payload.get('apptTypeID')
 
         futureApptsForApptType = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__apptType__id=apptTypeID).\
                                            values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
@@ -3135,7 +3176,7 @@ class CheckApptTypeUnderDoctor(viewsets.ModelViewSet):
 
         emailAddress = payload.get('emailAddress')
         doctorID = payload.get('doctorID')
-        apptTypeID = request.query_params.get('apptTypeID')
+        apptTypeID = payload.get('apptTypeID')
 
         futureApptsForDoc = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__id=doctorID, doctor__apptType__id=apptTypeID).\
                                            values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor').\
