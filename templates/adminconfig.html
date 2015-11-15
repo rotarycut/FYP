@@ -688,16 +688,12 @@
     </div>
     <div class="modal-body center-block" style="height: 252px">
         <div class="doc-info-form" ng-show="docInfoFormVisible">
-            <div class="form-group">
+            <div class="form-group large-margin">
                 <label class="label-color">Doctor Name</label>
                 <input type="text" class="form-control add-new-doc-form" data-ng-model="doctorName"/></div>
-            <div class="form-group">
+            <div class="form-group large-margin">
                 <label class="label-color">Contact No</label>
                 <input type="text" class="form-control add-new-doc-form" data-ng-model="doctorContact"/>
-            </div>
-            <div class="form-group">
-                <label class="label-color">Mobile Phone Model</label>
-                <input type="text" class="form-control add-new-doc-form" data-ng-model="doctorPhoneModel"/>
             </div>
         </div>
         <div ng-show="docApptTypeFormVisible">
@@ -735,8 +731,10 @@
             <div class="col-md-2 docAppt-timeslot-side">
                 <ul style="list-style: none; padding-left:0;">
                     <li class="mrkt-list-item"
-                        ng-repeat="appointmentType in taggedAppointmentTypes" ng-show="appointmentType.active">
-                        <label ng-repeat="day in appointmentType.days" ng-class="{typeSelected: day.active}">
+                        ng-repeat="appointmentType in taggedAppointmentTypes" ng-show="appointmentType.active"
+                        style="height: 40px;">
+                        <label class="day-selection-label" ng-repeat="day in appointmentType.days"
+                               ng-class="{typeSelected: day.active}">
                             <input type="checkbox" ng-model="day.active" ng-click="switchDay(appointmentType, day)">
                             [[day.day]]
                         </label>
@@ -868,18 +866,19 @@
         </div>
         <div ng-show="newApptSlotFormVisible ">
             <div class="col-md-3 docAppt-timeslot-side">
-                <ul style="list-style: none">
+                <ul style="list-style: none; padding-left:0">
                     <li
                             class="mrkt-list-item"
-                            ng-repeat="day in listOfWorkingDays" style="height: 40px;">
-                        <label ng-class="{slotSelected: day.active}" ng-click="changeDay($index)">[[day.day]]</label>
+                            ng-repeat="day in listOfWorkingDays">
+                        <label class="day-selection-label" ng-class="{slotSelected: day.active}"
+                               ng-click="changeDay($index)">[[day.day]]</label>
                     </li>
                 </ul>
             </div>
             <div class="col-md-9 form-group">
                 <label class="label-color">Select Available Time Slots</label>
 
-                <div class="create-modal-listbox">
+                <!--<div class="create-modal-listbox">
                     <ul class="timeslots-ul" ng-repeat="day in listOfWorkingDays">
                         <li ng-show="day.active" ng-repeat="slot in day.timings">
                             <h4><span ng-class="{slotSelected: slot.active}" class="label label-default"
@@ -887,8 +886,21 @@
                                 <input type="checkbox" ng-model="slot.active"
                                        ng-click="addRemoveSlot(listOfWorkingDays.indexOf(day), slot)"></span>
                             </h4>
-                            <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
+                            <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
                         </li>
+                    </ul>
+                </div>-->
+                <div class="create-modal-listbox">
+                    <ul class="timeslots-ul">
+                        <div ng-repeat="day in listOfWorkingDays">
+                            <li class="available-slot-item" ng-show="day.active" ng-repeat="slot in day.timings">
+
+                                <label ng-class="{slotSelected: slot.active}">
+                                    <input type="checkbox" ng-model="slot.active"
+                                           ng-click="addRemoveSlot(listOfWorkingDays.indexOf(day), slot)">[[slot.time]]
+                                </label>
+                            </li>
+                        </div>
                     </ul>
                 </div>
             </div>

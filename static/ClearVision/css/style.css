@@ -46,6 +46,11 @@
     text-align: center;
 }
 
+.large-margin{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .heading-rotate {
     -webkit-transform: rotate(-90deg);
 
@@ -790,6 +795,12 @@ li .i-slot-label {
     cursor: pointer;
 }
 
+.mrkt-list-item label.day-selection-label {
+    font-weight: 300;
+    cursor: pointer;
+    margin-bottom:20px;
+}
+
 .channelSelected {
     background: #D0E0EB;
     color: #49708A;
@@ -799,6 +810,8 @@ li .i-slot-label {
     background: #D0E0EB;
     color: #49708A;
     border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .dashboard-listing-lbl {
@@ -1305,6 +1318,8 @@ ul.config-sidemenu-ul {
     background: #D0E0EB;
     color: #49708A;
     border-radius: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 /*li.row.config-sidemenu-row.activetab:after,
@@ -1630,6 +1645,7 @@ hr.type-timing-tab-active {
 .available-slot-item label {
     font-weight: 300;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 /*.timeslots-ul li {
