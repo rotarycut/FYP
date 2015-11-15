@@ -829,6 +829,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
 
         if filterFlag == 'True':
             if timelineFlag == 'False':
+                """
                 response_data = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate). \
                     annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values(
                     'channelname'). \
@@ -838,6 +839,28 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                         Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
                     )
                 )
+                """
+                response_data = Patient.objects.filter(registrationDate__month=month)\
+                                               .annotate(channelname=F('marketingChannelId__name')).values('channelname')\
+                                               .annotate(leads=Count('channelname')).order_by('leads')
+
+                patientBucket = Patient.objects.filter(registrationDate__month=month)\
+                                               .annotate(channelname=F('marketingChannelId__name')).values('channelname','id')\
+                                               .annotate(leads=Count('channelname')).order_by('leads')
+
+                apptType = AppointmentType.objects.get(id=3)
+
+                for eachObj2 in response_data:
+                    eachObj2['convert'] = 0
+
+                for eachObj in patientBucket:
+                    try:
+                        AttendedAppointment.objects.get(patient=eachObj.get('id'), apptType=apptType)
+                        for eachObj2 in response_data:
+                            if eachObj['channelname'] == eachObj2['channelname']:
+                                eachObj2['convert'] += 1
+                    except ObjectDoesNotExist:
+                        pass
 
                 for eachObj in response_data:
                     leads = eachObj['leads']
@@ -885,6 +908,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
         else:
 
             if channels == 'all':
+                """
                 response_data = Patient.objects.filter(registrationDate__month=month). \
                     annotate(channelname=F('marketingChannelId__name')).values(
                     'channelname'). \
@@ -894,6 +918,28 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                         Case(When(conversion=True, then=1), When(conversion=False, then=0), output_field=IntegerField())
                     )
                 )
+                """
+                response_data = Patient.objects.filter(registrationDate__month=month)\
+                                               .annotate(channelname=F('marketingChannelId__name')).values('channelname')\
+                                               .annotate(leads=Count('channelname')).order_by('leads')
+
+                patientBucket = Patient.objects.filter(registrationDate__month=month)\
+                                               .annotate(channelname=F('marketingChannelId__name')).values('channelname','id')\
+                                               .annotate(leads=Count('channelname')).order_by('leads')
+
+                apptType = AppointmentType.objects.get(id=3)
+
+                for eachObj2 in response_data:
+                    eachObj2['convert'] = 0
+
+                for eachObj in patientBucket:
+                    try:
+                        AttendedAppointment.objects.get(patient=eachObj.get('id'), apptType=apptType)
+                        for eachObj2 in response_data:
+                            if eachObj['channelname'] == eachObj2['channelname']:
+                                eachObj2['convert'] += 1
+                    except ObjectDoesNotExist:
+                        pass
 
                 set_channels = []
 
