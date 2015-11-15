@@ -1582,6 +1582,11 @@ hr.type-timing-tab-active {
     margin-bottom: 0;
 }
 
+hr.config-section-divider{
+    border-top: 1px solid grey;
+    opacity: 0.3;
+}
+
 /* create modal css in adminconfig */
 
 .add-new-doc-title {
