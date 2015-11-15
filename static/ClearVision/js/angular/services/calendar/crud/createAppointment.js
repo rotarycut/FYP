@@ -1,5 +1,6 @@
 angular.module('post.appointment', [])
-    .service('postAppointmentSvc', function ($http, $log, $filter, disableIScheduleSvc, clearFormSvc, showNotificationsSvc, notify) {
+    .service('postAppointmentSvc', function ($http, $log, $filter, $rootScope, disableIScheduleSvc, clearFormSvc,
+                                             showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -8,96 +9,35 @@ angular.module('post.appointment', [])
             self.scope = scope;
         };
 
-
         /*******************************************************************************
          function to post appointment
          *******************************************************************************/
 
+        self.postAppointment = function () {
 
-        self.postAppointment = function (createObject, isFromSocket) {
+            $rootScope.spinner = {active: true};
 
-            // check if it is a call from the socket
-            if (isFromSocket) {
+            if (self.scope.fields.appointmentRemarks === undefined) {
+                self.scope.fields.appointmentRemarks = "";
+            }
 
-                // check the appointment type of the created appointment
-                switch (createObject.apptType) {
+            if (self.scope.fields.waitingList === undefined) {
+                self.scope.fields.waitingList = false;
+            }
 
-                    case "Screening":
-                        var appointmentIndex = 0;
+            if (self.scope.fields.appointmentDate === undefined) {
+                self.scope.fields.appointmentDate = "";
+            }
 
-                        // loop through all the screening events of the selected doctor
-                        angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+            if (self.scope.fields.waitingTime === undefined) {
+                self.scope.fields.waitingTime = "";
+            }
 
-                            // find if the created appointment is in the existing pool of screening events
-                            if (screeningAppointment.id === createObject.id) {
-
-                                // remove the entire appointment from the calendar
-                                self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
-                            }
-                            appointmentIndex++;
-                        });
-
-                        // add the updated appointment with addition of patient back into the calendar
-                        self.scope.selectedDoctor.drScreening.events.push(createObject);
-                        break;
-
-                    case "Pre Evaluation":
-                        var appointmentIndex = 0;
-
-                        angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
-
-                            if (preEvaluationAppointment.id === createObject.id) {
-
-                                self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
-                            }
-                            appointmentIndex++;
-                        });
-
-                        self.scope.selectedDoctor.drPreEval.events.push(createObject);
-                        break;
-
-                    case "Surgery":
-                        var appointmentIndex = 0;
-
-                        angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
-
-                            if (surgeryAppointment.id === createObject.id) {
-                                self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
-                            }
-                            appointmentIndex++;
-                        });
-
-                        self.scope.selectedDoctor.drSurgery.events.push(createObject);
-                        break;
-
-                }
-
-
-            } else {
-
-                // the call is NOT from the socket
-
-                if (self.scope.fields.appointmentRemarks === undefined) {
-                    self.scope.fields.appointmentRemarks = "";
-                }
-
-                /*if (self.scope.fields.waitingDate !== undefined) {
-                 var formattedWaitingDate = self.scope.getFormattedDate(self.scope.fields.waitingDate);
-                 }*/
-
-                if (self.scope.fields.waitingList === undefined) {
-                    self.scope.fields.waitingList = false;
-                }
-
-                if (self.scope.fields.appointmentDate === undefined) {
-                    self.scope.fields.appointmentDate = "";
-                }
-
-                if (self.scope.fields.waitingTime === undefined) {
-                    self.scope.fields.waitingTime = "";
-                }
-
-                $http.post('/Clearvision/_api/appointmentsCUD/', {
+            var req = {
+                method: 'POST',
+                url: '/Clearvision/_api/appointmentsCUD/',
+                headers: {'Content-Type': 'application/json'},
+                data: {
                     "apptType": self.scope.fields.appointmentType.name,
                     "date": $filter('dateFilter')(self.scope.fields.appointmentDate, 'shortDate'),
                     "docID": self.scope.fields.doctorAssigned.id,
@@ -111,78 +51,83 @@ angular.module('post.appointment', [])
                     "waitingListFlag": self.scope.fields.waitingList,
                     "tempDate": self.scope.fields.waitingDate,
                     "tempTime": self.scope.fields.waitingTime,
-                    "socketId": self.scope.connectionId
-                })
-                    .success(function (data) {
+                    "socketId": self.scope.socketId
+                }
+            };
 
-                        $log.info("Successful with creating appointment");
+            $http(req)
+                .success(function (appointment) {
 
-                        showNotificationsSvc.notifySuccessTemplate('Appointment created successfully');
+                    $rootScope.spinner = {active: false};
 
-                        // check the appointment type of the created appointment
-                        switch (self.scope.fields.appointmentType) {
+                    showNotificationsSvc.notifySuccessTemplate('Appointment created successfully');
 
-                            case "Screening":
-                                var appointmentIndex = 0;
+                    // disable iSchedule
+                    disableIScheduleSvc.disableISchedule();
 
-                                // loop through all the screening events of the selected doctor
-                                angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
+                    // change view back to month view, this will retrieve the doctor appointments
+                    self.scope.changeView('month', self.scope.chosenDoctor.changeCalendar);
 
-                                    // find if the created appointment is in the existing pool of screening events
-                                    if (screeningAppointment.id === data.id) {
+                    // clear the appointment form
+                    clearFormSvc.clearForm();
 
-                                        // remove the entire appointment from the calendar
-                                        self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
-                                    }
-                                    appointmentIndex++;
-                                });
+                    // check the appointment type of the created appointment
+                    /*
+                     switch (self.scope.fields.appointmentType) {
 
-                                // add the updated appointment with addition of patient back into the calendar
-                                self.scope.selectedDoctor.drScreening.events.push(data);
-                                break;
+                     case "Screening":
+                     var appointmentIndex = 0;
 
-                            case "Pre Evaluation":
-                                var appointmentIndex = 0;
+                     // loop through all the screening events of the selected doctor
+                     angular.forEach(self.scope.selectedDoctor.drScreening.events, function (screeningAppointment) {
 
-                                angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
+                     // find if the created appointment is in the existing pool of screening events
+                     if (screeningAppointment.id === appointment.id) {
 
-                                    if (preEvaluationAppointment.id === data.id) {
-                                        self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
-                                    }
-                                    appointmentIndex++;
-                                });
+                     // remove the entire appointment from the calendar
+                     self.scope.selectedDoctor.drScreening.events.splice(appointmentIndex, 1);
+                     }
+                     appointmentIndex++;
+                     });
 
-                                self.scope.selectedDoctor.drPreEval.events.push(data);
-                                break;
+                     // add the updated appointment with addition of patient back into the calendar
+                     self.scope.selectedDoctor.drScreening.events.push(appointment);
+                     break;
 
-                            case "Surgery":
-                                var appointmentIndex = 0;
-                                angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
+                     case "Pre Evaluation":
+                     var appointmentIndex = 0;
 
-                                    if (surgeryAppointment.id === data.id) {
-                                        self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
-                                    }
-                                    appointmentIndex++;
-                                });
+                     angular.forEach(self.scope.selectedDoctor.drPreEval.events, function (preEvaluationAppointment) {
 
-                                self.scope.selectedDoctor.drSurgery.events.push(data);
-                                break;
-                        }
+                     if (preEvaluationAppointment.id === appointment.id) {
+                     self.scope.selectedDoctor.drPreEval.events.splice(appointmentIndex, 1);
+                     }
+                     appointmentIndex++;
+                     });
 
-                        // disable iSchedule
-                        disableIScheduleSvc.disableISchedule();
+                     self.scope.selectedDoctor.drPreEval.events.push(appointment);
+                     break;
 
-                        // clear the appointment form
-                        clearFormSvc.clearForm();
-                    })
+                     case "Surgery":
+                     var appointmentIndex = 0;
+                     angular.forEach(self.scope.selectedDoctor.drSurgery.events, function (surgeryAppointment) {
 
-                    .error(function (data) {
+                     if (surgeryAppointment.id === appointment.id) {
+                     self.scope.selectedDoctor.drSurgery.events.splice(appointmentIndex, 1);
+                     }
+                     appointmentIndex++;
+                     });
 
-                        $log.error("Error creating appointment");
-                    });
+                     self.scope.selectedDoctor.drSurgery.events.push(appointment);
+                     break;
+                     }*/
 
-            }
+                }).error(function (error) {
+
+                    $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifyErrorTemplate('Error creating appointment');
+                    $log.error("Error creating appointment");
+                });
 
         };
-
     });

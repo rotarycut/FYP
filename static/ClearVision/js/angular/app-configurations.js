@@ -11,6 +11,10 @@ appConfig.controller('configCtrl',
               getAppointmentTypesColorService,
               showNotificationsSvc) {
 
+        $scope.showsth = function(){
+            console.log("here");
+        }
+
         $scope.operatingHoursPopover = [];
         $scope.appointmentTypesPopover = [];
         $scope.doctorsNamePopover = [];
@@ -303,7 +307,7 @@ appConfig.controller('configCtrl',
             // prepare an empty doctor popover array
             var doctorsNamePopover = [];
             var doctorsRemovePopover = [];
-            var doctorApptTypeRemovePopover = [];
+            var doctorsApptTypeRemovePopover = [];
 
             getDoctorsService.getDoctors()
                 .then(function (listOfDoctors) {
@@ -371,11 +375,11 @@ appConfig.controller('configCtrl',
 
                         angular.forEach(doctor.apptType, function () {
 
-                            doctorApptTypeRemovePopover.push({
+                            doctorsApptTypeRemovePopover.push({
                                 removeApptTypeFromDoctor: {
                                     isOpen: true,
                                     templateUrl: 'removeAppointmentTypeFromDoctor.html',
-                                    open: function (parent, child) {
+                                    open: function () {
 
                                         //console.log("HELLO");
                                         //console.log(parent);
@@ -396,9 +400,9 @@ appConfig.controller('configCtrl',
                     // assign the popover array to the scope
                     $scope.doctorsNamePopover = doctorsNamePopover;
                     $scope.doctorsRemovePopover = doctorsRemovePopover;
-                    $scope.doctorsApptTypeRemovePopover = doctorApptTypeRemovePopover;
+                    $scope.doctorsApptTypeRemovePopover = doctorsApptTypeRemovePopover;
 
-                    console.log($scope.doctorsApptTypeRemovePopover);
+                    //console.log($scope.doctorsApptTypeRemovePopover);
 
                 }, function (data) {
 

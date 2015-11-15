@@ -90,11 +90,11 @@
                                             <li class="mrkt-list-item" ng-repeat="appointmentType in doctor.apptType">
                                                 [[appointmentType.name]]
                                                 <a class="edit-opt-hr"
-                                                   popover-template="removeDocTemplate.html"
+                                                   popover-template="doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.templateUrl"
                                                    popover-title="Remove Appointment Type"
                                                    data-ng-click="doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.open()"
                                                    popover-placement="bottom"
-                                                   popover-is-open="true">
+                                                   >
                                                     <i class="fa fa-times"></i></a>
                                             </li>
                                         </ul>
@@ -752,12 +752,16 @@
                             <div ng-repeat="day in appointmentType.days">
                                 <li ng-repeat="timeSlot in day.timeSlots"
                                     ng-show="appointmentType.active && day.active">
-                                    <h4>
+                                    <!--<h4>
                                 <span class="label label-default" ng-class="{slotSelected: isTimeSlotChecked}"
                                       style="background-color: #bed4e3;cursor: pointer">[[timeSlot]]
                                 <input type="checkbox" ng-model="isTimeSlotChecked"
                                        ng-click="addRemoveTimeSlot(appointmentType, day, timeSlot)"></span></h4>
-                                    <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
+                                    <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
+
+        <input type="checkbox" id="qb" value="QB" />
+        <label class="position" for="qb"><h5 style="font-size: 12pt"><span class="label label-primary">[[timeSlot]]</span></h5></label>
+
                                 </li>
                             </div>
                         </div>
