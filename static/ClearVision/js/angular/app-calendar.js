@@ -840,6 +840,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to get list of doctor based on appointment type chosen */
     $scope.getDoctorAppointmentTypes = function () {
 
+        $scope.form.disableFields.doctor = true;
+
         var apptTypeId = $scope.convertAppointmentNameToId($scope.fields.appointmentType.name);
 
         $http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=' + apptTypeId)
@@ -858,6 +860,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         indexOfDoctorInList++;
                     });
                 }
+
+                $scope.form.disableFields.doctor = false;
 
             });
     };
