@@ -423,7 +423,7 @@ class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
     queryset = Doctor.objects.none()
 
     def list(self, request, *args, **kwargs):
-        docs = Doctor.objects.all()
+        docs = Doctor.objects.all().order_by('id')
 
         toReturn = []
         counter = 0
