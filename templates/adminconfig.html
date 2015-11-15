@@ -94,7 +94,7 @@
                                                    popover-title="Remove Appointment Type"
                                                    data-ng-click="doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.open()"
                                                    popover-placement="bottom"
-                                                   >
+                                                        >
                                                     <i class="fa fa-times"></i></a>
                                             </li>
                                         </ul>
@@ -704,7 +704,7 @@
                 <label class="label-color">Select Doctor's Appointment Types</label>
 
                 <div class="create-modal-listbox">
-                    <ul style="list-style: none; padding-left: 5px;">
+                    <ul style="list-style: none; padding-left: 0;">
                         <li ng-class="{typeSelected: isDoctorAppointmentTypeChecked}"
                             class="mrkt-list-item"
                             ng-repeat="appointment in listOfAppointmentTypes">
@@ -721,10 +721,9 @@
         <div ng-show="docApptSlotFormVisible ">
             <div class="col-md-2 docAppt-timeslot-side">
                 <ul style="list-style: none; padding-left: 0;">
-                    <li ng-class="{typeSelected: appointmentType.active}"
-                        class="mrkt-list-item"
+                    <li class="mrkt-list-item"
                         ng-repeat="appointmentType in taggedAppointmentTypes">
-                        <label>
+                        <label ng-class="{typeSelected: appointmentType.active}">
                             <input type="checkbox" ng-model="appointmentType.active"
                                    ng-click="switchAppointmentType(appointmentType)">
                             [[appointmentType.name]]
@@ -750,7 +749,7 @@
                     <ul class="timeslots-ul">
                         <div ng-repeat="appointmentType in taggedAppointmentTypes">
                             <div ng-repeat="day in appointmentType.days">
-                                <li ng-repeat="timeSlot in day.timeSlots"
+                                <li class="available-slot-item" ng-repeat="timeSlot in day.timeSlots"
                                     ng-show="appointmentType.active && day.active">
                                     <!--<h4>
                                 <span class="label label-default" ng-class="{slotSelected: isTimeSlotChecked}"
@@ -758,10 +757,10 @@
                                 <input type="checkbox" ng-model="isTimeSlotChecked"
                                        ng-click="addRemoveTimeSlot(appointmentType, day, timeSlot)"></span></h4>
                                     <a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
-
-        <input type="checkbox" id="qb" value="QB" />
-        <label class="position" for="qb"><h5 style="font-size: 12pt"><span class="label label-primary">[[timeSlot]]</span></h5></label>
-
+                                    <label ng-class="{slotSelected: isTimeSlotChecked}">
+                                        <input type="checkbox" ng-model="isTimeSlotChecked"
+                                               ng-click="addRemoveTimeSlot(appointmentType, day, timeSlot)">[[timeSlot]]
+                                    </label>
                                 </li>
                             </div>
                         </div>
