@@ -183,24 +183,28 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     /* Delete table row */
     $scope.removeRow = function (channel) {
-        $scope.filteredChannels.splice(channel, 1);
+        //$scope.filteredChannels.splice(channel, 1);
+        //console.log(channel.id);
         var req = {
-                    method: 'DELETE',
-                    url: '/Clearvision/_api/InputMarketingChannelCost/' + channel.id,
-                    headers: {'Content-Type': 'application/json'}
-                };
+            method: 'DELETE',
+            url: '/Clearvision/_api/InputMarketingChannelCost/' + channel.id,
+            headers: {'Content-Type': 'application/json'}
+        };
 
-                $http(req)
-                    .success(function () {
-                        showNotificationsSvc.notifySuccessTemplate('Marketing expenditure deleted successfully');
+        $http(req)
+            .success(function () {
 
-                    })
+                showNotificationsSvc.notifySuccessTemplate('Marketing expenditure deleted successfully');
+                $scope.updateTable();
+                //$scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
 
-                    .error(function (data) {
-                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
-                    });
-        $scope.updateTable();
-    }
+            })
+
+            .error(function (data) {
+                showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+            });
+
+    };
 
 
     var currentDate = new Date();
