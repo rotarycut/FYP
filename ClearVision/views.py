@@ -3123,8 +3123,9 @@ class CheckApptTypeInGeneral(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         apptTypeID = request.query_params.get('apptTypeID')
+        apptType = AppointmentType.objects.get(id=apptTypeID)
 
-        allApptsCount = Appointment.objects.filter(timeBucket__date__gte=date.today(), doctor__apptType__id=apptTypeID).\
+        allApptsCount = Appointment.objects.filter(timeBucket__date__gte=date.today(), apptType=apptType.name).\
         exclude(patients__isnull=True).count()
 
         return Response(allApptsCount)
