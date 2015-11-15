@@ -11,7 +11,7 @@ appConfig.controller('configCtrl',
               getAppointmentTypesColorService,
               showNotificationsSvc) {
 
-        $scope.showsth = function(){
+        $scope.showsth = function () {
             console.log("here");
         }
 
@@ -373,38 +373,52 @@ appConfig.controller('configCtrl',
                             }
                         });
 
+                        var inputArr = [];
+
                         angular.forEach(doctor.apptType, function () {
 
-                            doctorsApptTypeRemovePopover.push({
+                            inputArr.push({
                                 removeApptTypeFromDoctor: {
-                                    isOpen: true,
+                                    isOpen: false,
                                     templateUrl: 'removeAppointmentTypeFromDoctor.html',
-                                    open: function () {
+                                    open: function (parentIndex, childIndex) {
 
-                                        //console.log("HELLO");
-                                        //console.log(parent);
-                                        //console.log(child);
-                                        console.log($scope.doctorsApptTypeRemovePopover);
-                                        $scope.doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.isOpen = true;
+                                        $scope.removeDrApptTypeParentIdx = parentIndex;
+                                        $scope.removeDrApptTypeIdx = childIndex;
 
+                                        // ensure that all doctor appointment type remove popovers are closed on select
+                                        for (i = 0; i < $scope.listOfDoctors.length; i++) {
+                                            var doctor = $scope.listOfDoctors[i];
+
+                                            for (j = 0; j < doctor.apptType.length; j++) {
+
+                                                $scope.doctorsApptTypeRemovePopover[i][j].removeApptTypeFromDoctor.isOpen = false;
+                                            }
+                                        }
+
+                                        $scope.doctorsApptTypeRemovePopover[parentIndex][childIndex].removeApptTypeFromDoctor.isOpen = true;
                                     },
-                                    close: function () {
-                                        $scope.doctorsApptTypeRemovePopover[0].removeApptTypeFromDoctor.isOpen = false;
+                                    close: function (parentIndex, childIndex) {
+
+                                        $scope.doctorsApptTypeRemovePopover[parentIndex][childIndex].removeApptTypeFromDoctor.isOpen = false;
                                     }
                                 }
 
                             });
                         });
+
+                        doctorsApptTypeRemovePopover.push(inputArr);
+
                     });
+
+                    console.log(doctorsApptTypeRemovePopover);
 
                     // assign the popover array to the scope
                     $scope.doctorsNamePopover = doctorsNamePopover;
                     $scope.doctorsRemovePopover = doctorsRemovePopover;
                     $scope.doctorsApptTypeRemovePopover = doctorsApptTypeRemovePopover;
 
-                    //console.log($scope.doctorsApptTypeRemovePopover);
-
-                }, function (data) {
+                }, function (error) {
 
                     $log.error("Failed to retrieve doctors");
                 });

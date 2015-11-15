@@ -151,7 +151,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     };
 
-    /* function to clear form */
+    /* Check if input channel already exist */
     $scope.IsExistingChannel = function (channel) {
 
         var month = $scope.months.indexOf($scope.expenditure.monthInput) + 1;
@@ -180,6 +180,32 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             });
 
     };
+
+    /* Delete table row */
+    $scope.removeRow = function (channel) {
+        //$scope.filteredChannels.splice(channel, 1);
+        //console.log(channel.id);
+        var req = {
+            method: 'DELETE',
+            url: '/Clearvision/_api/InputMarketingChannelCost/' + channel.id,
+            headers: {'Content-Type': 'application/json'}
+        };
+
+        $http(req)
+            .success(function () {
+
+                showNotificationsSvc.notifySuccessTemplate('Marketing expenditure deleted successfully');
+                $scope.updateTable();
+                //$scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
+
+            })
+
+            .error(function (data) {
+                showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+            });
+
+    };
+
 
     var currentDate = new Date();
     //var convertMonth = $filter('date')(currentDate, 'MM');

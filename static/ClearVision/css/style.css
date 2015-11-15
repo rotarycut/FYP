@@ -8,6 +8,10 @@
     /*background: #FFFEE4;*/
 }
 
+*:focus {
+    outline: 0 !important;
+}
+
 .content-row {
     padding-top: 60px;
     height: 100vh;
@@ -44,6 +48,11 @@
 }
 .center-input{
     text-align: center;
+}
+
+.large-margin{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .heading-rotate {
@@ -790,6 +799,12 @@ li .i-slot-label {
     cursor: pointer;
 }
 
+.mrkt-list-item label.day-selection-label {
+    font-weight: 300;
+    cursor: pointer;
+    margin-bottom:20px;
+}
+
 .channelSelected {
     background: #D0E0EB;
     color: #49708A;
@@ -798,6 +813,9 @@ li .i-slot-label {
 .typeSelected {
     background: #D0E0EB;
     color: #49708A;
+    border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .dashboard-listing-lbl {
@@ -1301,8 +1319,11 @@ ul.config-sidemenu-ul {
 }
 
 .slotSelected {
-
+    background: #D0E0EB;
     color: #49708A;
+    border-radius: 4px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 /*li.row.config-sidemenu-row.activetab:after,
@@ -1603,6 +1624,7 @@ hr.type-timing-tab-active {
     width: 350px;
     margin: 0 auto;
     height:196px;
+    padding-top: 5px;
 }
 
 .close-config-modal {
@@ -1618,18 +1640,30 @@ hr.type-timing-tab-active {
     padding-left: 0;
 }
 
-.timeslots-ul li {
-    display: inline-block;
+
+.available-slot-item input[type=checkbox] {
+    /*position: relative;*/
+    display: none;
 }
 
-.timeslots-ul li input[type=checkbox] {
+.available-slot-item label {
+    font-weight: 300;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+/*.timeslots-ul li {
+    display: inline-block;
+}*/
+
+/*.timeslots-ul li input[type=checkbox] {
     position: relative;
     margin-left: -36px;
     margin-right: 0;
     margin-top: 5px;
     opacity: 0;
     cursor: pointer;
-}
+}*/
 
 .docAppt-timeslot-side {
     border-right: solid 2px #ebebeb;

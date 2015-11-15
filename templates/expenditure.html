@@ -33,9 +33,16 @@
                         <td>[[channel.cost]]</td>
                         <td><a class="pull-right edit-no-show"
                                ng-click="">
-                            <i class="fa fa-pencil-square-o"></i></a></td>
+                            <a class="edit-opt-hr"
+                                       popover-template="marketingExpenditurePopover[$index].editMarketingExpenditure.templateUrl"
+                                       popover-title="Edit Marketing Expenditure"
+                                       data-ng-click="marketingExpenditurePopover[$index].editMarketingExpenditure.open($index, channel.id)"
+                                       popover-placement="bottom"
+                                       popover-is-open="marketingExpenditurePopover[$index].editMarketingExpenditure.isOpen">
+                                        <i class="fa fa-pencil-square-o"></i> Edit</a>
+                           </a></td>
                         <td><a class="remove-from-queue"
-                               ng-click="">
+                               ng-click="removeRow(channel)">
                             <i class="fa fa-times"></i></a></td>
                     </tr>
                 </table>
@@ -166,3 +173,42 @@
         <!-- col for input and month filter ends -->
     </div>
 </div>
+
+<script type="text/ng-template" id="editMarketingExpenditureTemplate.html">
+    <form name="updateExpenditureForm" novalidate>
+        <div class="form-group">
+            <label>Marketing Channel:</label>
+
+            <div ng-class="{'has-error': updateExpenditureForm.marketingChannelName.$invalid && (updateExpenditureForm.marketingChannelName.$touched || updateExpenditureForm.$submitted)}">
+                <input type="text" class="form-control " data-ng-model="newMarketingChannelName" name="marketingChannelName"
+                       autocomplete="off" required/>
+
+                <div ng-show="updateExpenditureForm.marketingChannelName.$invalid && (updateExpenditureForm.marketingChannelName.$touched || updateExpenditureForm.$submitted)"
+                     class="help-block">
+                    Please enter a marketing channel
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Expenditure Cost:</label>
+
+            <div ng-class="{'has-error': updateExpenditureForm.expenditureCost.$invalid && (updateExpenditureForm.expenditureCost.$touched || updateExpenditureForm.$submitted)}">
+                <input type="text" class="form-control " data-ng-model="newMarketingExpenditureCost" name="expenditureCost"
+                       autocomplete="off" required/>
+
+                <div ng-show="updateExpenditureForm.expenditureCost.$invalid && (updateExpenditureForm.expenditureCost.$touched || updateExpenditureForm.$submitted)"
+                     class="help-block">
+                    Please enter an expenditure cost
+                </div>
+            </div>
+        </div>
+        <div class="right-block">
+            <button class="btn-sm form-submit-btn"
+                    data-ng-click="updateMarketingExpenditure(updateExpenditureForm.$valid, newMarketingChannelName, newMarketingExpenditureCost)">Update
+            </button>
+            <button class="btn-sm form-cancel-btn"
+                    data-ng-click="marketingExpenditurePopover[marketingExpenditureIndex].editDoctor.close(marketingExpenditureIndex)">Cancel
+            </button>
+        </div>
+    </form>
+</script>
