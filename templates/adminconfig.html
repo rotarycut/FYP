@@ -212,7 +212,7 @@
                                                data-ng-click="doctorApptTypePopover[$index].editApptTimeslot.open($index)"
                                                popover-placement="bottom"
                                                popover-is-open="doctorApptTypePopover[$index].editApptTimeslot.isOpen">
-                                                <i class="fa fa-minus-circle"></i> Edit</a>
+                                                <i class="fa fa-pencil-square-o"></i> Edit</a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -638,24 +638,17 @@
 
 <script type="text/ng-template" id="editApptTimeslotTemplate.html">
     <div class="form-group">
-        <div class="row">
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-11">
-                <ul class="timeslots-ul">
-                    <li ng-repeat="slot in listOfTimeslots" ng-class="{typeSelected: apptType}"><h4><span
-                            class="label label-default"
-                            style="background-color: #bed4e3;cursor: pointer">[[slot]]</span>
-                        <input type="checkbox"
-                               ng-model="apptTime"
-                               ng-click=""></h4>
-                        <!--<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>-->
-                    </li>
-                </ul>
-            </div>
+        <div class="create-modal-listbox">
+            <ul class="timeslots-ul" style="padding-left: 10px;">
+                <li class="available-slot-item" ng-repeat="slot in listOfTimeslots.timings">
+                    <label ng-class="{typeSelected: apptType}">
+                        <input type="checkbox" ng-model="apptTime">[[slot.time]]
+                    </label>
+                </li>
+            </ul>
         </div>
     </div>
+
     <div class="right-block">
         <button class="btn-sm form-submit-btn">Update</button>
         <button class="btn-sm form-cancel-btn"
@@ -896,7 +889,6 @@
                     <ul class="timeslots-ul">
                         <div ng-repeat="day in listOfWorkingDays">
                             <li class="available-slot-item" ng-show="day.active" ng-repeat="slot in day.timings">
-
                                 <label ng-class="{slotSelected: slot.active}">
                                     <input type="checkbox" ng-model="slot.active"
                                            ng-click="addRemoveSlot(listOfWorkingDays.indexOf(day), slot)">[[slot.time]]

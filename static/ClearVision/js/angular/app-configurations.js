@@ -1005,6 +1005,91 @@ appConfig.controller('configCtrl',
             }
         };
 
+        $scope.listOfTimeslots = {
+            timings: [
+                {
+                    time: "09:00",
+                    active: false
+                },
+                {
+                    time: "09:30",
+                    active: false
+                },
+                {
+                    time: "10:00",
+                    active: false
+                },
+                {
+                    time: "10:30",
+                    active: false
+                },
+                {
+                    time: "11:00",
+                    active: false
+                },
+                {
+                    time: "11:30",
+                    active: false
+                },
+                {
+                    time: "12:00",
+                    active: false
+                },
+                {
+                    time: "12:30",
+                    active: false
+                },
+                {
+                    time: "13:00",
+                    active: false
+                },
+                {
+                    time: "13:30",
+                    active: false
+                },
+                {
+                    time: "14:00",
+                    active: false
+                },
+                {
+                    time: "14:30",
+                    active: false
+                },
+                {
+                    time: "15:00",
+                    active: false
+                },
+                {
+                    time: "15:30",
+                    active: false
+                },
+                {
+                    time: "16:00",
+                    active: false
+                },
+                {
+                    time: "16:30",
+                    active: false
+                },
+                {
+                    time: "17:00",
+                    active: false
+                },
+                {
+                    time: "17:30",
+                    active: false
+                },
+                {
+                    time: "18:00",
+                    active: false
+                },
+                {
+                    time: "18:30",
+                    active: false
+                }
+            ]
+        };
+
     });
 
 appConfig.controller('AppConfigModalInstanceCtrl', function ($scope, $modalInstance, $http, appointmentsTime, showNotificationsSvc, doctorId, getAppointmentTypesService) {
