@@ -1615,7 +1615,7 @@ hr.type-timing-tab-active {
     -webkit-column-count: 4; /* Chrome, Safari, Opera */
     -moz-column-count: 4; /* Firefox */
     column-count: 4;
-    width: 90%;
+    padding-left: 0;
 }
 
 .timeslots-ul li {
