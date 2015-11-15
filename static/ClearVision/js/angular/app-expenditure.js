@@ -203,47 +203,9 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             .error(function (data) {
                 showNotificationsSvc.notifyErrorTemplate('Error, please try again');
             });
+
     };
 
-    /* Dynamic Popover */
-    $scope.dynamicPopover = {
-        editMarketingExpenditure: {
-            isOpen: false,
-                templateUrl: 'editMarketingExpenditureTemplate.html',
-                open: function () {
-                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = true;
-                },
-                close: function () {
-                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = false;
-                }
-        }
-    }
-
-    /* Update Table */
-    $scope.updateMarketingExpenditureTable = function(isValid, channel, channelId, cost) {
-        if (isValid) {
-
-                var req = {
-                    method: 'PATCH',
-                    url: '/Clearvision/_api/InputMarketingChannelCost/' + channelId,
-                    headers: {'Content-Type': 'application/json'},
-                    data: {
-                        "cost": cost,
-                        "name": channel
-                    }
-                };
-
-                $http(req)
-                    .success(function () {
-                        showNotificationsSvc.notifySuccessTemplate('Marketing Expenditure successfully updated');
-                         $scope.updateTable();
-                    })
-                    .error(function (data) {
-                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
-                    });
-
-            }
-    }
 
     var currentDate = new Date();
     //var convertMonth = $filter('date')(currentDate, 'MM');
