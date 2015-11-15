@@ -381,10 +381,12 @@ appConfig.controller('configCtrl',
                                 removeApptTypeFromDoctor: {
                                     isOpen: false,
                                     templateUrl: 'removeAppointmentTypeFromDoctor.html',
-                                    open: function (parentIndex, childIndex) {
+                                    open: function (parentIndex, childIndex, doctorId, apptTypeId) {
 
                                         $scope.removeDrApptTypeParentIdx = parentIndex;
                                         $scope.removeDrApptTypeIdx = childIndex;
+                                        $scope.doctorRemoveId = doctorId;
+                                        $scope.appointmentTypeId = apptTypeId;
 
                                         // ensure that all doctor appointment type remove popovers are closed on select
                                         for (i = 0; i < $scope.listOfDoctors.length; i++) {
@@ -397,6 +399,18 @@ appConfig.controller('configCtrl',
                                         }
 
                                         $scope.doctorsApptTypeRemovePopover[parentIndex][childIndex].removeApptTypeFromDoctor.isOpen = true;
+
+                                        //check if any future appointments exist
+                                        $http.get('/Clearvision/_api/CheckApptTypeUnderDoctor/?doctorID=' + doctorId + '&apptTypeID=' + apptTypeId)
+                                            .success(function (numberOfFutureAppointment) {
+                                                if (numberOfFutureAppointment > 0) {
+                                                    $scope.showWarningRemoveDocApptType = true;
+                                                    $scope.showPasswordRemoveDocApptType = false;
+                                                } else {
+                                                    $scope.showWarningRemoveDocApptType = false;
+                                                    $scope.showPasswordRemoveDocApptType = true;
+                                                }
+                                            });
                                     },
                                     close: function (parentIndex, childIndex) {
 
@@ -410,8 +424,6 @@ appConfig.controller('configCtrl',
                         doctorsApptTypeRemovePopover.push(inputArr);
 
                     });
-
-                    console.log(doctorsApptTypeRemovePopover);
 
                     // assign the popover array to the scope
                     $scope.doctorsNamePopover = doctorsNamePopover;
@@ -810,6 +822,36 @@ appConfig.controller('configCtrl',
 
                         showNotificationsSvc.notifySuccessTemplate('SMS setting updated successfully');
 
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
+        /* function to send email when doctor appointment type to be removed has future dated appointments */
+        $scope.sendEmailRemoveDocApptType = function (isValid, doctorId, emailAddress, apptTypeId) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'POST',
+                    url: '/Clearvision/_api/CheckApptTypeUnderDoctor/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "emailAddress": emailAddress,
+                        "doctorID": doctorId,
+                        "apptTypeID": apptTypeId
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('Email sent successfully');
+                        $scope.getDoctors();
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
