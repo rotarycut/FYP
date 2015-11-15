@@ -149,11 +149,11 @@
                                 <td>
                                     <a
                                             class="edit-opt-hr"
-                                            popover-template="doctorsNamePopovers[$index].editDoctor.templateUrl"
-                                            popover-title="Edit Doctor Name"
-                                            data-ng-click="doctorsNamePopover[$index].editDoctor.open($index, doc.id)"
+                                            popover-template="appointmentInfoPopover[$index].editApptTypeNamePopover.templateUrl"
+                                            popover-title="Edit Appointment Type"
+                                            data-ng-click="appointmentInfoPopover[$index].editApptTypeNamePopover.open($index, appt.hex, appt.apptType.id)"
                                             popover-placement="bottom"
-                                            popover-is-open="doctorsNamePopover[$index].editDoctor.isOpen">
+                                            popover-is-open="appointmentInfoPopover[$index].editApptTypeNamePopover.isOpen">
                                         <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
 
                                     <a
@@ -1030,15 +1030,17 @@
 
 <script type="text/ng-template" id="editApptTypeNameTemplate.html">
     <div class="form-group">
-        <label>Hours:</label>
-        <input type="text" class="form-control" data-ng-model="smsNoOfDays"/>
+        <label>Appointment Type Name</label>
+        <input type="text" class="form-control" data-ng-model="apptTypeName"/>
     </div>
     <div>
         <button class="btn-sm form-submit-btn pull-left"
-                data-ng-click="updateCalendarStartTime('true', startTime)" style="margin-right: 2px">Update
+                data-ng-click="updateApptTypeName('true', apptTypeName, colorHex, removeApptTypeId)"
+                style="margin-right: 2px">Update
         </button>
         <button class="btn-sm form-cancel-btn pull-right"
-                data-ng-click="dynamicPopover.editSwapReminderHour.close()">Cancel
+                data-ng-click="appointmentInfoPopover[editAppointmentTypeNameIndex].editApptTypeNamePopover.close(editAppointmentTypeNameIndex)">
+            Cancel
         </button>
     </div><br/><br/>
 </script>

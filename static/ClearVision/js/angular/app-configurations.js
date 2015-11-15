@@ -477,15 +477,22 @@ appConfig.controller('configCtrl',
 
                         appointmentInfoPopover.push({
                             editApptTypeNamePopover: {
-                                isOpen: true,
+                                isOpen: false,
                                 templateUrl: 'editApptTypeNameTemplate.html',
-                                open: function (index) {
+                                open: function (index, hexId, apptTypeId) {
+
+                                    $scope.editAppointmentTypeNameIndex = index;
+                                    $scope.colorHex = hexId;
+                                    $scope.removeApptTypeId = apptTypeId;
+
                                     var idx = 0;
                                     // ensure that all appointment type popovers are closed on select
                                     angular.forEach($scope.listOfApptTypes, function () {
                                         $scope.appointmentInfoPopover[idx].editApptTypeNamePopover.isOpen = false;
                                         idx++;
                                     });
+
+                                    $scope.appointmentInfoPopover[index].editApptTypeNamePopover.isOpen = true;
 
                                 },
                                 close: function (index) {
@@ -888,6 +895,34 @@ appConfig.controller('configCtrl',
 
                         showNotificationsSvc.notifySuccessTemplate('Remove doctor appointment type successfully');
                         $scope.getDoctors();
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+            }
+        };
+
+        /* function to update appointment type name */
+        $scope.updateApptTypeName = function (isValid, apptTypeName, colorHex, apptTypeId) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'PATCH',
+                    url: '/Clearvision/_api/ViewAllApptTypes/' + apptTypeId,
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "name": apptTypeName,
+                        "calendarColourHex": colorHex
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('Update appointment type name successfully');
+                        $scope.getAppointmentTypes();
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
