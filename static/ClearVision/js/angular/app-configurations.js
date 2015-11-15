@@ -11,10 +11,6 @@ appConfig.controller('configCtrl',
               getAppointmentTypesColorService,
               showNotificationsSvc) {
 
-        $scope.showsth = function () {
-            console.log("here");
-        }
-
         $scope.operatingHoursPopover = [];
         $scope.appointmentTypesPopover = [];
         $scope.doctorsNamePopover = [];
@@ -23,6 +19,7 @@ appConfig.controller('configCtrl',
         $scope.editApptTypeNamePopover = [];
         $scope.appointmentInfoPopover = [];
         $scope.doctorsApptTypeRemovePopover = [];
+        $scope.appointmentTypeRemovePopover = [];
 
         $scope.dynamicPopover = {
             editStartTime: {
@@ -445,6 +442,7 @@ appConfig.controller('configCtrl',
             // prepare an empty appointment type popover array
             var appointmentTypesPopover = [];
             var appointmentInfoPopover = [];
+            var appointmentTypeRemovePopover = [];
 
             getAppointmentTypesColorService.getAppointmentTypesColor()
                 .then(function (listOfAppointmentTypes) {
@@ -501,11 +499,34 @@ appConfig.controller('configCtrl',
                             }
                         });
 
+                        appointmentTypeRemovePopover.push({
+                            removeApptTypePopover: {
+                                isOpen: false,
+                                templateUrl: 'removeApptTypeTemplate.html',
+                                open: function (index, hexId, apptTypeId) {
+
+                                    var idx = 0;
+                                    // ensure that all appointment type popovers are closed on select
+                                    angular.forEach($scope.listOfApptTypes, function () {
+                                        $scope.appointmentTypeRemovePopover[idx].removeApptTypePopover.isOpen = false;
+                                        idx++;
+                                    });
+
+                                    $scope.appointmentTypeRemovePopover[index].removeApptTypePopover.isOpen = true;
+
+                                },
+                                close: function (index) {
+                                    $scope.appointmentTypeRemovePopover[index].removeApptTypePopover.isOpen = false;
+                                }
+                            }
+                        });
+
                     });
 
                     // assign the popover array to the scope
                     $scope.appointmentTypesPopover = appointmentTypesPopover;
                     $scope.appointmentInfoPopover = appointmentInfoPopover;
+                    $scope.appointmentTypeRemovePopover = appointmentTypeRemovePopover;
 
                 }, function (data) {
                     $log.error("Failed to retrieve appointment types");
@@ -927,6 +948,36 @@ appConfig.controller('configCtrl',
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                     });
+            }
+        };
+
+        /* function to send email when doctor appointment type to be removed has future dated appointments */
+        $scope.sendEmailRemoveApptType = function (isValid, doctorId, emailAddress, apptTypeId) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'POST',
+                    url: '/Clearvision/_api/CheckApptTypeUnderDoctor/',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "emailAddress": emailAddress,
+                        "doctorID": doctorId,
+                        "apptTypeID": apptTypeId
+                    }
+                };
+
+                $http(req)
+                    .success(function (response) {
+
+                        showNotificationsSvc.notifySuccessTemplate('Email sent successfully');
+                        $scope.getDoctors();
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
             }
         };
 
