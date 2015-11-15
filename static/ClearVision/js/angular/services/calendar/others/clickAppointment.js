@@ -8,19 +8,14 @@ angular.module('event.click', [])
             self.scope = scope;
         };
 
-
         /*******************************************************************************
          function on event click
          *******************************************************************************/
-
 
         self.eventClick = function (appointment, isNoShowReschedule, noShowPatientId) {
 
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
-
-                // record edit / delete timing
-                self.scope.recordUpdateDeleteTimeIn('Admin');
 
                 // iSchedule is not previously enabled
 
@@ -40,7 +35,7 @@ angular.module('event.click', [])
 
                 var appointmentId = self.scope.convertAppointmentNameToId(appointment.apptType);
                 self.scope.fields.appointmentType = self.scope.listOfAppointmentTypes[appointmentId - 1];
-                self.scope.fields.appointmentDate = appointment.date;
+                self.scope.fields.appointmentDate = new Date(appointment.date);
                 self.scope.fields.doctorAssigned = self.scope.listOfDoctors[appointment.doctor.id - 1];
 
                 try {
@@ -55,16 +50,12 @@ angular.module('event.click', [])
 
                 // set variables of original form fields
                 self.scope.fields.originalAppointmentType = appointment.apptType;
-                self.scope.fields.originalAppointmentDate = appointment.date;
+                self.scope.fields.originalAppointmentDate = new Date(appointment.date);
                 self.scope.fields.originalAppointmentTime = appointmentTime;
                 self.scope.fields.originalAppointmentDoctor = appointment.doctor.name;
 
                 // set variable of appointment timings
                 self.scope.getAppointmentTimings(appointmentTime);
-
-                // navigate to calendar date
-                //$('#drHoCalendar').fullCalendar('gotoDate', appointment.date);
-                //$('#drHoCalendar').fullCalendar('select', appointment.date);
 
                 // check if the selected appointment has more than one patient
                 if (self.scope.fields.patientList.length === 1) {

@@ -135,6 +135,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 });
 
                 $scope.addEventSource($scope.chosenDoctor.doctorAppointmentSource, $scope.tempLowHeatMap);
+                $rootScope.spinner = {active: false};
 
                 // enable appointment type field to be change only after loading heat map completely
                 $scope.form.disableFields.disabledApptType = false;
@@ -1314,7 +1315,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             resolve: {
                 patientInfo: function () {
 
-                    if ($scope.fields.originalAppointmentDate !== $scope.fields.appointmentDate) {
+                    if ($scope.fields.originalAppointmentDate.getTime() !== $scope.fields.appointmentDate.getTime()) {
                         $scope.fields.dateIsChanged = true;
                     } else {
                         $scope.fields.dateIsChanged = false;
@@ -1569,68 +1570,6 @@ appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInsta
 
     $scope.activateModalButtons = function () {
         $scope.showModalButtons = true;
-    };
-
-    /* function to record create appointment time out */
-    $scope.recordCreationTimeOut = function (userName) {
-
-        var date = new Date();
-
-        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-        var req =
-        {
-            "timeOut": time,
-            "trackerId": createTracker
-        };
-
-        $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
-            .success(function (data) {
-                //$log.info("End recording of creating appointment");
-            });
-
-    };
-
-    /* function to record edit appointment time out */
-    $scope.recordEditTimeOut = function (userName) {
-
-        var date = new Date();
-
-        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-        var req =
-        {
-            "timeOut": time,
-            "trackerId": createTracker,
-            "action": "Edit Appt"
-        };
-
-        $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
-            .success(function (data) {
-                //$log.info("End recording of editing appointment");
-            });
-
-    };
-
-    /* function to record delete appointment time out */
-    $scope.recordDeleteTimeOut = function (userName) {
-
-        var date = new Date();
-
-        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-        var req =
-        {
-            "timeOut": time,
-            "trackerId": createTracker,
-            "action": "Delete Appt"
-        };
-
-        $http.post('/Clearvision/_api/UserTrackingTimeOut', req)
-            .success(function (data) {
-                //$log.info("End recording of deleting appointment");
-            });
-
     };
 
     /* function to populate date time fields even thought heat map is blocked */

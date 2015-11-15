@@ -1,5 +1,6 @@
 angular.module('update.appointment', [])
-    .service('updateAppointmentSvc', function ($http, $log, $location, $rootScope, hideFormSvc, showNotificationsSvc) {
+    .service('updateAppointmentSvc', function ($http, $log, $location, $rootScope, $filter, hideFormSvc,
+                                               showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -22,14 +23,15 @@ angular.module('update.appointment', [])
 
             var updateJson = {
                 "id": self.scope.fields.patientId,
-                "replacementApptDate": self.scope.fields.appointmentDate,
+                "replacementApptDate": $filter('dateFilter')(self.scope.fields.appointmentDate, 'shortDate'),
                 "replacementApptTime": self.scope.fields.appointmentTime,
                 "type": self.scope.fields.appointmentType.name,
                 "docID": self.scope.fields.doctorAssigned.id,
                 "clinicID": 1,
                 "remarks": self.scope.fields.appointmentRemarks,
                 "patientName": self.scope.fields.patientName,
-                "patientContact": self.scope.fields.patientContact
+                "patientContact": self.scope.fields.patientContact,
+                "socketId": self.scope.socketId
             };
 
             var req = {

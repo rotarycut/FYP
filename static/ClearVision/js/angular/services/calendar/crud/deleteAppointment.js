@@ -23,7 +23,8 @@ angular.module('delete.appointment', [])
                 headers: {'Content-Type': 'application/json'},
                 data: {
                     "id": self.scope.fields.patientId,
-                    "cancellationReasonID": reasonId
+                    "cancellationReasonID": reasonId,
+                    "socketId": self.scope.socketId
                 }
             };
 

@@ -187,7 +187,7 @@
                             <select class="form-control"
                                     ng-options="appt as appt.name for appt in listOfAppointmentTypes"
                                     ng-model="fields.appointmentType" name="appointmentType"
-                                    ng-change="enableISchedule(); recordCreationTimeIn('{{ user }}'); getAppointmentTimings(); getDoctorAppointmentTypes();"
+                                    ng-change="enableISchedule(); getAppointmentTimings(); getDoctorAppointmentTypes();"
                                     ng-disabled="form.disableFields.disabledApptType"
                                     required>
                             </select>
@@ -760,7 +760,7 @@
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" type="button"
-                ng-click="createAppointment(); recordCreationTimeOut();">
+                ng-click="createAppointment()">
             Yes
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
@@ -777,7 +777,7 @@
             <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
             <li>Contact No: [[patientDetails.patientContact]]</li>
             <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate]]</li>
+            <li>Date: [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
             <li>Time: [[patientDetails.appointmentTime]]</li>
             <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
@@ -791,7 +791,7 @@
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" ng-show="showModalButtons" type="button"
-                ng-click="deleteAppointment(); recordDeleteTimeOut();">Yes
+                ng-click="deleteAppointment()">Yes
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
     </div>
@@ -810,7 +810,7 @@
                     <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
                     <li>Contact No: [[patientDetails.originalPatientContact]]</li>
                     <li>Patient Name: [[patientDetails.originalPatientName]]</li>
-                    <li>Date: [[patientDetails.originalAppointmentDate]]</li>
+                    <li>Date: [[patientDetails.originalAppointmentDate | dateFilter:'longDate']]</li>
                     <li>Time: [[patientDetails.originalAppointmentTime]]</li>
                     <li>Doctor: [[patientDetails.originalAppointmentDoctor]]</li>
                     <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
@@ -830,7 +830,7 @@
                         [[patientDetails.patientName]]
                     </li>
                     <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
-                        [[patientDetails.appointmentDate]]
+                        [[patientDetails.appointmentDate | dateFilter:'longDate']]
                     </li>
                     <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
                         [[patientDetails.appointmentTime]]
@@ -848,7 +848,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment(); recordEditTimeOut();">
+        <button class="btn form-submit-btn" type="button" ng-click="updateAppointment()">
             Yes
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>

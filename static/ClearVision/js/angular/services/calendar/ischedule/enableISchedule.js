@@ -1,6 +1,6 @@
 var app = angular.module('enable.ISchedule', []);
 
-app.service('enableIScheduleSvc', function () {
+app.service('enableIScheduleSvc', function ($rootScope) {
 
     var self = this;
     self.scope = {};
@@ -19,6 +19,9 @@ app.service('enableIScheduleSvc', function () {
         if (self.scope.fields.appointmentType == undefined || self.scope.fields.doctorAssigned == undefined) {
             return;
         }
+
+        // activate spinner load progress bar
+        $rootScope.spinner = {active: true};
 
         // disable appointment type and doctor field to be changed while loading heat map & back button
         self.scope.form.disableFields.disabledApptType = true;
