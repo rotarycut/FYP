@@ -1190,12 +1190,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                           timeBucket__date__gte=datetime.today()-timedelta(days=90),
                                                           timeBucket__start=eachTimeSlot).exclude(patients=None)
 
-            allExistingAppts = Appointment.objects.filter(apptType=apptType.name, doctor=doctorId,
-                                                          timeBucket__date__lte=datetime.today(),
-                                                          timeBucket__date__gte=datetime.today()-timedelta(days=90),
-                                                          timeBucket__start=eachTimeSlot).exclude(patients=None)
+            allExistingApptsAhead = Appointment.objects.filter(apptType=apptType.name, doctor=doctorId,
+                                                               timeBucket__date__gte=datetime.today()+timedelta(days=14),
+                                                               timeBucket__start=eachTimeSlot).exclude(patients=None)
 
-            total = allExistingAppts.count()
+            total = 0
             patientCount = 0
 
             for eachAppt in allExistingAppts:
@@ -3166,7 +3165,9 @@ class CheckApptTypeUnderDoctor(viewsets.ModelViewSet):
         doctorID = request.query_params.get('doctorID')
         apptTypeID = request.query_params.get('apptTypeID')
 
-        allApptsCount = Appointment.objects.filter(doctor__id=doctorID, timeBucket__date__gte=date.today(), doctor__apptType__id=apptTypeID).\
+        apptType = AppointmentType.objects.get(id=apptTypeID)
+
+        allApptsCount = Appointment.objects.filter(doctor__id=doctorID, timeBucket__date__gte=date.today(), apptType=apptType.name).\
         exclude(patients__isnull=True).count()
 
         return Response(allApptsCount)
