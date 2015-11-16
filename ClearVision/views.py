@@ -3150,11 +3150,10 @@ class ViewAllApptTypes(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         payload = request.data
 
-        apptTypeID = payload.get('apptTypeID')
         password = payload.get('password')
 
         if User.objects.get(username='admin').check_password(password):
-            coldshotappttype = AppointmentType.objects.get(id=apptTypeID)
+            coldshotappttype = AppointmentType.objects.get(id=self.get_object().id)
 
             AvailableTimeSlots.objects.filter(timeslotType=coldshotappttype.name).delete()
 
