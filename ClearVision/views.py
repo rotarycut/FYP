@@ -358,6 +358,9 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
 
             AvailableTimeSlots.objects.filter(timeslotType=coldshotappttype.name, doctors=coldshotdoctor).delete()
 
+            coldshotdoctor.apptType.remove(coldshotappttype)
+            coldshotdoctor.save()
+
             return Response("Successfully removed appointment type")
         else:
             return Response("Invalid Admin Password!")
