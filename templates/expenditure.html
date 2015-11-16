@@ -31,16 +31,14 @@
                         <td>[[$index + 1]]</td>
                         <td>[[channel.name]]</td>
                         <td>[[channel.cost]]</td>
-                        <td><a class="pull-right edit-no-show"
-                               ng-click="">
-                            <a class="edit-opt-hr"
-                                       popover-template="marketingExpenditurePopover[$index].editMarketingExpenditure.templateUrl"
+                        <td><a class="edit-opt-hr pull-right"
+                                       popover-template="dynamicPopover.editMarketingExpenditure.templateUrl"
                                        popover-title="Edit Marketing Expenditure"
-                                       data-ng-click="marketingExpenditurePopover[$index].editMarketingExpenditure.open($index, channel.id)"
+                                       data-ng-click="dynamicPopover.editMarketingExpenditure.open()"
                                        popover-placement="bottom"
-                                       popover-is-open="marketingExpenditurePopover[$index].editMarketingExpenditure.isOpen">
+                                       popover-is-open="dynamicPopover.editMarketingExpenditure.isOpen">
                                         <i class="fa fa-pencil-square-o"></i> Edit</a>
-                           </a></td>
+                           </td>
                         <td><a class="remove-from-queue"
                                ng-click="removeRow(channel)">
                             <i class="fa fa-times"></i></a></td>
@@ -207,7 +205,7 @@
                     data-ng-click="updateMarketingExpenditure(updateExpenditureForm.$valid, newMarketingChannelName, channel.id, newMarketingExpenditureCost)">Update
             </button>
             <button class="btn-sm form-cancel-btn"
-                    data-ng-click="marketingExpenditurePopover[marketingExpenditureIndex].editDoctor.close(marketingExpenditureIndex)">Cancel
+                    data-ng-click="dynamicPopover.editMarketingExpenditure.close()">Cancel
             </button>
         </div>
     </form>

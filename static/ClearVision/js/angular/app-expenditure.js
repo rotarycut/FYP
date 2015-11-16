@@ -77,6 +77,23 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
                 });
 
+                //var dynamicPopover = [];
+    //angular.forEach($scope.marketingChannels, function () {
+        //dynamicPopover.push = {
+              $scope.dynamicPopover ={
+            editMarketingExpenditure: {
+                isOpen: false,
+                templateUrl: 'editMarketingExpenditureTemplate.html',
+                open: function () {
+                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = true;
+                },
+                close: function () {
+                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = false;
+                }
+            }
+        }
+    //});
+
             })
             .error(function () {
 
@@ -206,18 +223,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
     };
 
     /* Dynamic Popover */
-    $scope.dynamicPopover = {
-        editMarketingExpenditure: {
-            isOpen: false,
-                templateUrl: 'editMarketingExpenditureTemplate.html',
-                open: function () {
-                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = true;
-                },
-                close: function () {
-                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = false;
-                }
-        }
-    }
 
     /* Update Table */
     $scope.updateMarketingExpenditureTable = function(isValid, channel, channelId, cost) {
