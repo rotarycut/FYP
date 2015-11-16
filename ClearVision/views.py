@@ -851,7 +851,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                                                .annotate(channelname=F('marketingChannelId__name')).values('channelname','id')\
                                                .annotate(leads=Count('channelname')).order_by('leads')
 
-                apptType = AppointmentType.objects.get(id=3)
+                apptType = AppointmentType.objects.get(id=3)  #Surgery Appt
 
                 for eachObj2 in response_data:
                     eachObj2['convert'] = 0
@@ -930,7 +930,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                                                .annotate(channelname=F('marketingChannelId__name')).values('channelname','id')\
                                                .annotate(leads=Count('channelname')).order_by('leads')
 
-                apptType = AppointmentType.objects.get(id=3)
+                apptType = AppointmentType.objects.get(id=3)  #Surgery Appt
 
                 for eachObj2 in response_data:
                     eachObj2['convert'] = 0
@@ -938,7 +938,6 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                 for eachObj in patientBucket:
                     try:
                         AttendedAppointment.objects.get(patient=eachObj.get('id'), apptType=apptType.name)
-                        print("HELLOOOOOOOO")
                         for eachObj2 in response_data:
                             if eachObj['channelname'] == eachObj2['channelname']:
                                 eachObj2['convert'] += 1
@@ -1015,17 +1014,28 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
             allMarketingChannels = MarketingChannels.objects.filter(datePurchased__month=month).values()
             for eachChannel in allMarketingChannels:
                 totalCost = eachChannel['cost']
+                """
                 totalPatientCount = Patient.objects.filter(conversion=True, registrationDate__month=month,
                                                            marketingChannelId__name=eachChannel['name']).values().count()
-
+                """
+                apptType = AppointmentType.objects.get(id=3)
+                totalPatientCount = AttendedAppointment.objects.filter(patient__registrationDate__month=month,
+                                                                       patient__marketingChannelId__name=eachChannel['name'],
+                                                                       apptType=apptType.name).values().count()
                 roi = (totalPatientCount * 3388) / totalCost
                 toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         else:
             for eachChannel in channel:
                 try:
                     totalCost = MarketingChannels.objects.get(name=eachChannel, datePurchased__month=month).cost
+                    """
                     totalPatientCount = Patient.objects.filter(conversion=True, marketingChannelId__name=eachChannel,
                                                            registrationDate__month=month).values().count()
+                    """
+                    apptType = AppointmentType.objects.get(id=3)
+                    totalPatientCount = AttendedAppointment.objects.filter(patient__registrationDate__month=month,
+                                                                           patient__marketingChannelId__name=eachChannel['name'],
+                                                                           apptType=apptType.name).values().count()
                     roi = (totalPatientCount * 3388) / totalCost
 
                     toReturnResponse.append({'channelname': eachChannel, 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
