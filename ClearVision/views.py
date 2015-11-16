@@ -3178,6 +3178,8 @@ class ViewAllApptTypes(viewsets.ModelViewSet):
 
         AvailableTimeSlots.objects.filter(timeslotType=originalApptTypeName).update(timeslotType=name)
 
+        return Response('Successfully updated Appointment Type name')
+
 class CheckApptTypeInGeneral(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
     serializer_class = AppointmentSerializer
