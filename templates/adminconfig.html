@@ -160,7 +160,7 @@
                                             class="edit-opt-hr"
                                             popover-template="appointmentTypeRemovePopover[$index].removeApptTypePopover.templateUrl"
                                             popover-title="Remove Appointment Type"
-                                            data-ng-click="appointmentTypeRemovePopover[$index].removeApptTypePopover.open()"
+                                            data-ng-click="appointmentTypeRemovePopover[$index].removeApptTypePopover.open($index, appt.apptType.id)"
                                             popover-placement="bottom"
                                             popover-is-open="appointmentTypeRemovePopover[$index].removeApptTypePopover.isOpen">
                                         <i class="fa fa-minus-circle"></i> Remove</a>
@@ -1038,27 +1038,13 @@
 </script>
 
 <script type="text/ng-template" id="removeApptTypeTemplate.html">
-    <div class="form-group">
-        <label>Appointment Type Name</label>
-        <input type="text" class="form-control" data-ng-model="apptTypeName"/>
-    </div>
-    <div>
-        <button class="btn-sm form-submit-btn pull-left"
-                data-ng-click="updateApptTypeName('true', apptTypeName, colorHex, removeApptTypeId)"
-                style="margin-right: 2px">Update
-        </button>
-        <button class="btn-sm form-cancel-btn pull-right"
-                data-ng-click="appointmentInfoPopover[editAppointmentTypeNameIndex].editApptTypeNamePopover.close(editAppointmentTypeNameIndex)">
-            Cancel
-        </button>
-    </div><br/><br/>
 
     <form name="doctorApptTypeRemoveForm" ng-show="showPasswordRemoveApptType" novalidate>
         <div class="form-group">
 
             <label>Enter password to confirm:</label>
 
-            <div ng-class="{'has-error': (doctorApptTypeRemoveForm.password.$invalid && (doctorApptTypeRemoveForm.password.$touched || doctorApptTypeRemoveForm.$submitted)) || something}">
+            <div ng-class="{'has-error': (doctorApptTypeRemoveForm.password.$invalid && (doctorApptTypeRemoveForm.password.$touched || doctorApptTypeRemoveForm.$submitted))}">
                 <input type="password" class="form-control" data-ng-model="removeDocApptTypePw" name="password"
                        autocomplete="off" required/>
 
@@ -1078,7 +1064,7 @@
             Remove
         </button>
         <button class="btn-sm form-cancel-btn"
-                data-ng-click="doctorsApptTypeRemovePopover[removeDrApptTypeParentIdx][removeDrApptTypeIdx].removeApptTypeFromDoctor.close(removeDrApptTypeParentIdx, removeDrApptTypeIdx)">
+                data-ng-click="appointmentTypeRemovePopover[rmvApptTypeId].removeApptTypePopover.close(rmvApptTypeId)">
             Cancel
         </button>
     </form>
@@ -1101,11 +1087,11 @@
         </div>
 
         <button class="btn-sm form-submit-btn"
-                data-ng-click="sendEmailRemoveApptType('true', doctorRemoveId, removeDocApptTypeEmail, appointmentTypeId)">
+                data-ng-click="sendEmailRemoveApptType('true', removeApptTypeEmail, rmvApptTypeId)">
             Send Email
         </button>
         <button class="btn-sm form-cancel-btn"
-                data-ng-click="doctorsApptTypeRemovePopover[removeDrApptTypeParentIdx][removeDrApptTypeIdx].removeApptTypeFromDoctor.close(removeDrApptTypeParentIdx, removeDrApptTypeIdx)">
+                data-ng-click="appointmentTypeRemovePopover[rmvApptTypeId].removeApptTypePopover.close(rmvApptTypeId)">
             Cancel
         </button>
     </form>

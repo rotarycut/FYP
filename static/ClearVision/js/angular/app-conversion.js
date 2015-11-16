@@ -1,6 +1,7 @@
 var appConversion = angular.module('app.conversion', []);
 
-appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, postRoiFilterSvc, getMarketingChannelsSvc,$route) {
+appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $route, postRoiFilterSvc,
+                                                     getMarketingChannelsSvc) {
 
     $scope.$route = $route;
     postRoiFilterSvc.getScope($scope);
@@ -10,6 +11,14 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
     $scope.listOfSelectedChannels = [];
     $scope.listOfSelectedChannelsId = [];
     $scope.savedMonths = [
+        {
+            long: "Nov 15",
+            short: "11"
+        },
+        {
+            long: "Oct 15",
+            short: "10"
+        },
         {
             long: "Sep 15",
             short: "9"
@@ -56,10 +65,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
 
     /* run filter */
     $scope.runFilter = function (start, end, channels) {
-
-        console.log(start);
-        console.log(end);
-        console.log(channels);
 
         var fieldsValid = $scope.validateFilterInputs(start, end, channels);
 
@@ -301,7 +306,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
                         text: 'Count',
                         position: 'outer middle'
                     },
-                    max: 10,
+                    //max: 10,
                     min: 0,
                     padding: {top: 0, bottom: 0}
                 },
@@ -443,7 +448,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
 
 
     /*******************************************************************************
-     show time line chart
+     marketing channel time line chart
      *******************************************************************************/
 
 
@@ -629,6 +634,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
      change between lead time line & roi tabs
      *******************************************************************************/
 
+
     $scope.showLeadChart = true;
 
     /* function to show lead time line tab */
@@ -642,35 +648,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
         $scope.showLeadChart = false;
         $scope.showROIChart = true;
     };
-
-
-    /*******************************************************************************
-     placeholder
-     *******************************************************************************/
-
-    $scope.getMarketingTimeline = function () {
-        $http.get('http://demo4552602.mockable.io/marketingTimeline')
-            .success(function (data) {
-                $scope.newTimeline = data;
-                $scope.showTimelineChart([]);
-            });
-    };
-
-    //$scope.getMonths();
-    //$scope.getJulyData();
-    $scope.changeData = function (month) {
-
-        $scope.getMonthData(month);
-
-        /*$scope.marketingChart.load({
-         json: $scope.julyChart,
-         keys: {
-         x: 'name',
-         value: ['Lead', 'Conversion', 'Rate']
-         },
-         unload: $scope.marketingChart.columns
-         });*/
-    }
 
 
     /*******************************************************************************
@@ -712,19 +689,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, post
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[0];
     /* --- end of date picker codes --- */
-
-    $scope.test = function (value) {
-        alert("YO");
-        angular.forEach($scope.selectedChannels, function (channel) {
-            if (channel === $scope.selectedChannel) {
-                console.log("Channel is already selected");
-                $scope.selectedChannel.selected();
-
-            }
-        });
-    };
-
-    $scope.selectedChannels = [];
 
 
     /*******************************************************************************
@@ -774,8 +738,3 @@ appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRo
     };
 
 });
-
-
-/**
- * Created by carinahu on 9/22/15.
- */

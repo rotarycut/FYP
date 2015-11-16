@@ -503,7 +503,9 @@ appConfig.controller('configCtrl',
                             removeApptTypePopover: {
                                 isOpen: false,
                                 templateUrl: 'removeApptTypeTemplate.html',
-                                open: function (index, hexId, apptTypeId) {
+                                open: function (index, apptTypeId) {
+
+                                    $scope.rmvApptTypeId = index;
 
                                     var idx = 0;
                                     // ensure that all appointment type popovers are closed on select
@@ -513,6 +515,19 @@ appConfig.controller('configCtrl',
                                     });
 
                                     $scope.appointmentTypeRemovePopover[index].removeApptTypePopover.isOpen = true;
+
+                                    //check if any future appointments exist
+                                    $http.get('/Clearvision/_api/CheckApptTypeInGeneral/?apptTypeID=' + apptTypeId)
+                                        .success(function (numberOfFutureAppointment) {
+
+                                            if (numberOfFutureAppointment > 0) {
+                                                $scope.showWarningRemoveApptType = true;
+                                                $scope.showPasswordRemoveApptType = false;
+                                            } else {
+                                                $scope.showWarningRemoveApptType = false;
+                                                $scope.showPasswordRemoveApptType = true;
+                                            }
+                                        });
 
                                 },
                                 close: function (index) {
@@ -952,18 +967,22 @@ appConfig.controller('configCtrl',
         };
 
         /* function to send email when doctor appointment type to be removed has future dated appointments */
-        $scope.sendEmailRemoveApptType = function (isValid, doctorId, emailAddress, apptTypeId) {
+        $scope.sendEmailRemoveApptType = function (isValid, emailAddress, apptTypeId) {
 
             // only sends patch if form is valid
             if (isValid) {
 
+                console.log({
+                    "emailAddress": emailAddress,
+                    "apptTypeID": apptTypeId
+                });
+
                 var req = {
                     method: 'POST',
-                    url: '/Clearvision/_api/CheckApptTypeUnderDoctor/',
+                    url: '/Clearvision/_api/CheckApptTypeInGeneral/',
                     headers: {'Content-Type': 'application/json'},
                     data: {
                         "emailAddress": emailAddress,
-                        "doctorID": doctorId,
                         "apptTypeID": apptTypeId
                     }
                 };
@@ -972,7 +991,7 @@ appConfig.controller('configCtrl',
                     .success(function (response) {
 
                         showNotificationsSvc.notifySuccessTemplate('Email sent successfully');
-                        $scope.getDoctors();
+                        $scope.getAppointmentTypes();
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
