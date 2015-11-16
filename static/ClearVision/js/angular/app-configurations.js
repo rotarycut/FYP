@@ -505,7 +505,8 @@ appConfig.controller('configCtrl',
                                 templateUrl: 'removeApptTypeTemplate.html',
                                 open: function (index, apptTypeId) {
 
-                                    $scope.rmvApptTypeId = index;
+                                    $scope.removeApptIndex = index;
+                                    $scope.rmvApptTypeId = apptTypeId;
 
                                     var idx = 0;
                                     // ensure that all appointment type popovers are closed on select
@@ -975,11 +976,6 @@ appConfig.controller('configCtrl',
             // only sends patch if form is valid
             if (isValid) {
 
-                console.log({
-                    "emailAddress": emailAddress,
-                    "apptTypeID": apptTypeId
-                });
-
                 var req = {
                     method: 'POST',
                     url: '/Clearvision/_api/CheckApptTypeInGeneral/',
@@ -995,6 +991,51 @@ appConfig.controller('configCtrl',
 
                         showNotificationsSvc.notifySuccessTemplate('Email sent successfully');
                         $scope.getAppointmentTypes();
+                    })
+                    .error(function () {
+                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                    });
+
+            }
+        };
+
+        /* function to remove appointment type */
+        $scope.removeApptTypeInGeneral = function (isValid, apptTypeId, password) {
+
+            // only sends patch if form is valid
+            if (isValid) {
+
+                var req = {
+                    method: 'DELETE',
+                    url: '/Clearvision/_api/ViewAllApptTypes/' + apptTypeId,
+                    headers: {'Content-Type': 'application/json'},
+                    data: {
+                        "password": password
+                    }
+                };
+
+                console.log({
+                    "apptTypeID": apptTypeId,
+                    "password": password
+                });
+
+                $http(req)
+                    .success(function (response) {
+
+                        console.log(response);
+                        if (response == 'Invalid Admin Password!') {
+
+                            $scope.showIncorrectPw = true;
+
+                            $timeout(function () {
+                                $scope.showIncorrectPw = false;
+                            }, 2000);
+
+                        } else {
+                            showNotificationsSvc.notifySuccessTemplate('Appointment type removed successfully');
+                            $scope.getAppointmentTypes();
+                        }
+
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');

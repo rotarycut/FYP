@@ -1056,8 +1056,8 @@
 
             <label>Enter password to confirm:</label>
 
-            <div ng-class="{'has-error': (doctorApptTypeRemoveForm.password.$invalid && (doctorApptTypeRemoveForm.password.$touched || doctorApptTypeRemoveForm.$submitted))}">
-                <input type="password" class="form-control" data-ng-model="removeDocApptTypePw" name="password"
+            <div ng-class="{'has-error': (doctorApptTypeRemoveForm.password.$invalid && (doctorApptTypeRemoveForm.password.$touched || doctorApptTypeRemoveForm.$submitted || showIncorrectPw))}">
+                <input type="password" class="form-control" data-ng-model="removeApptTypePw" name="password"
                        autocomplete="off" required/>
 
                 <div ng-show="doctorApptTypeRemoveForm.password.$invalid && (doctorApptTypeRemoveForm.password.$touched || doctorApptTypeRemoveForm.$submitted)"
@@ -1065,18 +1065,18 @@
                     Invalid password
                 </div>
 
-                <div ng-show="somethingToo" class="help-block">
+                <div ng-show="showIncorrectPw" class="help-block">
                     Incorrect password
                 </div>
             </div>
         </div>
 
         <button class="btn-sm form-submit-btn"
-                data-ng-click="removeApptType(doctorApptTypeRemoveForm.$valid, doctorRemoveId, appointmentTypeId)">
+                data-ng-click="removeApptTypeInGeneral(doctorApptTypeRemoveForm.$valid, rmvApptTypeId, removeApptTypePw)">
             Remove
         </button>
         <button class="btn-sm form-cancel-btn"
-                data-ng-click="appointmentTypeRemovePopover[rmvApptTypeId].removeApptTypePopover.close(rmvApptTypeId)">
+                data-ng-click="appointmentTypeRemovePopover[removeApptIndex].removeApptTypePopover.close(removeApptIndex)">
             Cancel
         </button>
     </form>
@@ -1089,7 +1089,7 @@
             </div>
 
             <label>To get list of appointments, enter your email:</label>
-            <input type="text" class="form-control" data-ng-model="removeApptTypeEmail" name="email"
+            <input type="email" class="form-control" data-ng-model="removeApptTypeEmail" name="email"
                    autocomplete="off"/><br/>
 
             <div ng-show="sendApptTypeEmailForm.removeApptTypeEmail.$invalid && (sendApptTypeEmailForm.removeApptTypeEmail.$touched || sendApptTypeEmailForm.$submitted)"
@@ -1103,7 +1103,7 @@
             Send Email
         </button>
         <button class="btn-sm form-cancel-btn"
-                data-ng-click="appointmentTypeRemovePopover[rmvApptTypeId].removeApptTypePopover.close(rmvApptTypeId)">
+                data-ng-click="appointmentTypeRemovePopover[removeApptIndex].removeApptTypePopover.close(removeApptIndex)">
             Cancel
         </button>
     </form>
