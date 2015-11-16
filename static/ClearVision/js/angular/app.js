@@ -60,7 +60,8 @@ var app = angular.module('calendarDemoApp', [
     'get.appointmentTypesColor',
     'ui.slider',
     'get.appointmentTypes',
-    'get.calendarTimeRange'
+    'get.calendarTimeRange',
+    'get.calendarTimeRangeInterval'
 ]);
 
 /* Angular routing */
