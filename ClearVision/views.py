@@ -3166,6 +3166,18 @@ class ViewAllApptTypes(viewsets.ModelViewSet):
         else:
             return Response("Invalid Admin Password!")
 
+    def update(self, request, *args, **kwargs):
+        payload = request.data
+        name = payload.get('name')
+
+        originalApptType = AppointmentType.objects.get(id=self.get_object().id)
+        originalApptTypeName = originalApptType.name
+
+        originalApptType.name = name
+        originalApptType.save()
+
+        AvailableTimeSlots.objects.filter(timeslotType=originalApptTypeName).update(timeslotType=name)
+
 class CheckApptTypeInGeneral(viewsets.ModelViewSet):
     queryset = Appointment.objects.none()
     serializer_class = AppointmentSerializer
