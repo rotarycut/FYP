@@ -2,8 +2,8 @@
     {
         "fields": {
             "day_of_month": "*", 
-            "minute": "10", 
-            "hour": "08", 
+            "minute": "00", 
+            "hour": "07", 
             "day_of_week": "*", 
             "month_of_year": "*"
         }, 

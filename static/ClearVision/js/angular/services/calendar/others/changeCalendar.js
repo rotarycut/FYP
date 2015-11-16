@@ -38,9 +38,19 @@ angular.module('change.calendar', [])
                     true
                 );
 
+                // new way
+                var idx = 0;
+                var doctorPositionInArray = 0;
+                angular.forEach(self.scope.listOfDoctors, function (doctor) {
+                    if (doctor.id == self.scope.fields.doctorAssigned.id) {
+                        doctorPositionInArray = idx;
+                    }
+                    idx++;
+                });
+
                 // change chosen doctor
-                var calendarNumber = self.scope.fields.doctorAssigned.id - 1;
-                self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
+                //var calendarNumber = self.scope.fields.doctorAssigned.id - 1;
+                self.scope.chosenDoctor = self.scope.allDoctorsVariables[doctorPositionInArray];
 
                 // activate new doctor calendar
                 self.scope.chosenDoctor.active = true;
