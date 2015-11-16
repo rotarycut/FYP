@@ -477,10 +477,9 @@ appConfig.controller('configCtrl',
                             editApptTypeNamePopover: {
                                 isOpen: false,
                                 templateUrl: 'editApptTypeNameTemplate.html',
-                                open: function (index, hexId, apptTypeId) {
+                                open: function (index, apptTypeId) {
 
                                     $scope.editAppointmentTypeNameIndex = index;
-                                    $scope.colorHex = hexId;
                                     $scope.removeApptTypeId = apptTypeId;
 
                                     var idx = 0;
@@ -954,7 +953,7 @@ appConfig.controller('configCtrl',
         };
 
         /* function to update appointment type name */
-        $scope.updateApptTypeName = function (isValid, apptTypeName, colorHex, apptTypeId) {
+        $scope.updateApptTypeName = function (isValid, apptTypeName, apptTypeId) {
 
             // only sends patch if form is valid
             if (isValid) {
@@ -964,8 +963,7 @@ appConfig.controller('configCtrl',
                     url: '/Clearvision/_api/ViewAllApptTypes/' + apptTypeId,
                     headers: {'Content-Type': 'application/json'},
                     data: {
-                        "name": apptTypeName,
-                        "calendarColourHex": colorHex
+                        "name": apptTypeName
                     }
                 };
 

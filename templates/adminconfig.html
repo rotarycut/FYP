@@ -155,7 +155,7 @@
                                                 class="edit-opt-hr"
                                                 popover-template="appointmentInfoPopover[$index].editApptTypeNamePopover.templateUrl"
                                                 popover-title="Edit Appointment Type"
-                                                data-ng-click="appointmentInfoPopover[$index].editApptTypeNamePopover.open($index, appt.hex, appt.apptType.id)"
+                                                data-ng-click="appointmentInfoPopover[$index].editApptTypeNamePopover.open($index, appt.apptType.id)"
                                                 popover-placement="bottom"
                                                 popover-is-open="appointmentInfoPopover[$index].editApptTypeNamePopover.isOpen">
                                             <i class="fa fa-pencil-square-o"></i> Edit</a>&nbsp;
@@ -1039,7 +1039,7 @@
     </div>
     <div>
         <button class="btn-sm form-submit-btn pull-left"
-                data-ng-click="updateApptTypeName('true', apptTypeName, colorHex, removeApptTypeId)"
+                data-ng-click="updateApptTypeName('true', apptTypeName, removeApptTypeId)"
                 style="margin-right: 2px">Update
         </button>
         <button class="btn-sm form-cancel-btn pull-right"
