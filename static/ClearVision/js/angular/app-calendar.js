@@ -842,7 +842,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $scope.form.disableFields.doctor = true;
 
-        var apptTypeId = $scope.convertAppointmentNameToId($scope.fields.appointmentType.name);
+        var apptTypeId = $scope.fields.appointmentType.id;
 
         $http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=' + apptTypeId)
             .success(function (listOfDoctors) {
@@ -872,31 +872,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             .success(function (listOfAppointmentTypes) {
                 $scope.listOfAppointmentTypes = listOfAppointmentTypes;
             });
-    };
-
-    /* function to convert appointment name to appointment id */
-    $scope.convertAppointmentNameToId = function (appointmentName) {
-        switch (appointmentName) {
-            case "Screening":
-                return 1;
-                break;
-
-            case "Pre Evaluation":
-                return 2;
-                break;
-
-            case "Surgery":
-                return 3;
-                break;
-
-            case "Post Surgery":
-                return 4;
-                break;
-
-            case "Eyecare":
-                return 5;
-                break;
-        }
     };
 
 

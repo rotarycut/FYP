@@ -896,6 +896,12 @@ appConfig.controller('configCtrl',
                     }
                 };
 
+                console.log({
+                    "emailAddress": emailAddress,
+                    "doctorID": doctorId,
+                    "apptTypeID": apptTypeId
+                });
+
                 $http(req)
                     .success(function (response) {
 
@@ -910,7 +916,7 @@ appConfig.controller('configCtrl',
         };
 
         /* function to remove doctor appointment type from doctor */
-        $scope.removeDocApptType = function (isValid, doctorId, apptTypeId) {
+        $scope.removeDocApptType = function (isValid, doctorId, apptTypeId, password) {
 
             // only sends patch if form is valid
             if (isValid) {
@@ -921,20 +927,25 @@ appConfig.controller('configCtrl',
                     headers: {'Content-Type': 'application/json'},
                     data: {
                         "doctorID": doctorId,
-                        "apptTypeID": apptTypeId
+                        "apptTypeID": apptTypeId,
+                        "password": password
                     }
                 };
-
-                console.log({
-                    "doctorID": doctorId,
-                    "apptTypeID": apptTypeId
-                });
 
                 $http(req)
                     .success(function (response) {
 
-                        showNotificationsSvc.notifySuccessTemplate('Remove doctor appointment type successfully');
-                        $scope.getDoctors();
+                        if (response == 'Invalid Admin Password!') {
+                            $scope.showIncorrectPw = true;
+                            $timeout(function () {
+                                $scope.showIncorrectPw = false;
+                            }, 2000);
+
+                        } else {
+                            showNotificationsSvc.notifySuccessTemplate('Remove doctor appointment type successfully');
+                            $scope.getDoctors();
+                        }
+
                     })
                     .error(function () {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');

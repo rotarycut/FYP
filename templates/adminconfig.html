@@ -987,14 +987,14 @@
                     Invalid password
                 </div>
 
-                <div ng-show="somethingToo" class="help-block">
+                <div ng-show="showIncorrectPw" class="help-block">
                     Incorrect password
                 </div>
             </div>
         </div>
 
         <button class="btn-sm form-submit-btn"
-                data-ng-click="removeDocApptType(doctorApptTypeRemoveForm.$valid, doctorRemoveId, appointmentTypeId)">
+                data-ng-click="removeDocApptType(doctorApptTypeRemoveForm.$valid, doctorRemoveId, appointmentTypeId, removeDocApptTypePw)">
             Remove
         </button>
         <button class="btn-sm form-cancel-btn"
