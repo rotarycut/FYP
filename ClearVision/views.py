@@ -1244,28 +1244,185 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
         friday = horizon.friday.split(',')
         saturday = horizon.saturday.split(',')
 
-        for eachTimeSlot in monday:
-            allExistingAppts = Appointment.objects.filter(apptType=apptType.name, doctor=doctorId,
-                                                          timeBucket__date__lte=datetime.today(),
-                                                          timeBucket__date__gte=datetime.today()-timedelta(days=90),
-                                                          timeBucket__start=eachTimeSlot).exclude(patients=None)
+        mondayArray = []
+        tuesdayArray =[]
+        wednesdayArray = []
+        thursdayArray = []
+        fridayArray = []
+        saturdayArray = []
 
-            allExistingApptsAhead = Appointment.objects.filter(apptType=apptType.name, doctor=doctorId,
-                                                               timeBucket__date__gte=datetime.today()+timedelta(days=14),
-                                                               timeBucket__start=eachTimeSlot).exclude(patients=None)
+        if monday != ['']:
+            for eachTimeSlot in monday:
+                allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                     date__lte=datetime.today(),
+                                                                     date__gte=datetime.today()-timedelta(days=90),
+                                                                     start=eachTimeSlot,
+                                                                     date__day='Monday')\
+                                                             .annotate(patientcount=Count('appointment__patients'))\
+                                                             .values('patientcount', 'date', 'start')
 
-            total = 0
-            patientCount = 0
+                allExistingApptsAhead = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                          date__gte=datetime.today(),
+                                                                          date__lte=datetime.today()+timedelta(days=14),
+                                                                          start=eachTimeSlot,
+                                                                          date__day='Monday')\
+                                                                  .annotate(patientcount=Count('appointment__patients'))\
+                                                                  .values('patientcount', 'date', 'start')
 
-            for eachAppt in allExistingAppts:
-                patientCount += eachAppt.patients.count()
+                totalpatients = 0
+                for eachObj in allExistingAppts:
+                    totalpatients += eachObj.get('patientcount')
+                averagePatients = totalpatients/allExistingAppts.count()
 
-            if patientCount != 0:
-                avg = total/patientCount
-            else:
-                avg = 0
+                for eachObj in allExistingApptsAhead:
+                    if averagePatients >= eachObj.get('patientcount'):
+                        eachObj['difference'] = averagePatients - eachObj.get('patientcount')
+                        thursdayArray.append(eachObj)
 
-        return Response(monday)
+        if tuesday != ['']:
+            for eachTimeSlot in tuesday:
+                allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                     date__lte=datetime.today(),
+                                                                     date__gte=datetime.today()-timedelta(days=90),
+                                                                     start=eachTimeSlot,
+                                                                     date__day='Tuesday')\
+                                                             .annotate(patientcount=Count('appointment__patients'))\
+                                                             .values('patientcount', 'date', 'start')
+
+                allExistingApptsAhead = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                          date__gte=datetime.today(),
+                                                                          date__lte=datetime.today()+timedelta(days=14),
+                                                                          start=eachTimeSlot,
+                                                                          date__day='Tuesday')\
+                                                                  .annotate(patientcount=Count('appointment__patients'))\
+                                                                  .values('patientcount', 'date', 'start')
+
+                totalpatients = 0
+                for eachObj in allExistingAppts:
+                    totalpatients += eachObj.get('patientcount')
+                averagePatients = totalpatients/allExistingAppts.count()
+
+                for eachObj in allExistingApptsAhead:
+                    if averagePatients >= eachObj.get('patientcount'):
+                        eachObj['difference'] = averagePatients - eachObj.get('patientcount')
+                        thursdayArray.append(eachObj)
+        if wednesday != ['']:
+            for eachTimeSlot in wednesday:
+                allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                     date__lte=datetime.today(),
+                                                                     date__gte=datetime.today()-timedelta(days=90),
+                                                                     start=eachTimeSlot,
+                                                                     date__day='Wednesday')\
+                                                             .annotate(patientcount=Count('appointment__patients'))\
+                                                             .values('patientcount', 'date', 'start')
+
+                allExistingApptsAhead = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                          date__gte=datetime.today(),
+                                                                          date__lte=datetime.today()+timedelta(days=14),
+                                                                          start=eachTimeSlot,
+                                                                          date__day='Wednesday')\
+                                                                  .annotate(patientcount=Count('appointment__patients'))\
+                                                                  .values('patientcount', 'date', 'start')
+
+                totalpatients = 0
+                for eachObj in allExistingAppts:
+                    totalpatients += eachObj.get('patientcount')
+                averagePatients = totalpatients/allExistingAppts.count()
+
+                for eachObj in allExistingApptsAhead:
+                    if averagePatients >= eachObj.get('patientcount'):
+                        eachObj['difference'] = averagePatients - eachObj.get('patientcount')
+                        thursdayArray.append(eachObj)
+
+        if thursday != ['']:
+            for eachTimeSlot in thursday:
+                allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                     date__lte=datetime.today(),
+                                                                     date__gte=datetime.today()-timedelta(days=90),
+                                                                     start=eachTimeSlot,
+                                                                     date__day='Thursday')\
+                                                             .annotate(patientcount=Count('appointment__patients'))\
+                                                             .values('patientcount', 'date', 'start')
+
+                allExistingApptsAhead = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                          date__gte=datetime.today(),
+                                                                          date__lte=datetime.today()+timedelta(days=14),
+                                                                          start=eachTimeSlot,
+                                                                          date__day='Thursday')\
+                                                                  .annotate(patientcount=Count('appointment__patients'))\
+                                                                  .values('patientcount', 'date', 'start')
+
+                totalpatients = 0
+                for eachObj in allExistingAppts:
+                    totalpatients += eachObj.get('patientcount')
+                averagePatients = totalpatients/allExistingAppts.count()
+
+                for eachObj in allExistingApptsAhead:
+                    if averagePatients >= eachObj.get('patientcount'):
+                        eachObj['difference'] = averagePatients - eachObj.get('patientcount')
+                        thursdayArray.append(eachObj)
+
+        if friday != ['']:
+            for eachTimeSlot in friday:
+                allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                     date__lte=datetime.today(),
+                                                                     date__gte=datetime.today()-timedelta(days=90),
+                                                                     start=eachTimeSlot,
+                                                                     date__day='Friday')\
+                                                             .annotate(patientcount=Count('appointment__patients'))\
+                                                             .values('patientcount', 'date', 'start')
+
+                allExistingApptsAhead = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                          date__gte=datetime.today(),
+                                                                          date__lte=datetime.today()+timedelta(days=14),
+                                                                          start=eachTimeSlot,
+                                                                          date__day='Friday')\
+                                                                  .annotate(patientcount=Count('appointment__patients'))\
+                                                                  .values('patientcount', 'date', 'start')
+
+                totalpatients = 0
+                for eachObj in allExistingAppts:
+                    totalpatients += eachObj.get('patientcount')
+                averagePatients = totalpatients/allExistingAppts.count()
+
+                for eachObj in allExistingApptsAhead:
+                    if averagePatients >= eachObj.get('patientcount'):
+                        eachObj['difference'] = averagePatients - eachObj.get('patientcount')
+                        thursdayArray.append(eachObj)
+
+        if saturday != ['']:
+            for eachTimeSlot in saturday:
+                allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                     date__lte=datetime.today(),
+                                                                     date__gte=datetime.today()-timedelta(days=90),
+                                                                     start=eachTimeSlot,
+                                                                     date__day='Saturday')\
+                                                             .annotate(patientcount=Count('appointment__patients'))\
+                                                             .values('patientcount', 'date', 'start')
+
+                allExistingApptsAhead = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
+                                                                          date__gte=datetime.today(),
+                                                                          date__lte=datetime.today()+timedelta(days=14),
+                                                                          start=eachTimeSlot,
+                                                                          date__day='Saturday')\
+                                                                  .annotate(patientcount=Count('appointment__patients'))\
+                                                                  .values('patientcount', 'date', 'start')
+
+                totalpatients = 0
+                for eachObj in allExistingAppts:
+                    totalpatients += eachObj.get('patientcount')
+                averagePatients = totalpatients/allExistingAppts.count()
+
+                for eachObj in allExistingApptsAhead:
+                    if averagePatients >= eachObj.get('patientcount'):
+                        eachObj['difference'] = averagePatients - eachObj.get('patientcount')
+                        thursdayArray.append(eachObj)
+
+        ranked = chain(mondayArray, tuesdayArray, wednesdayArray, thursdayArray, fridayArray, saturdayArray)
+
+        ranked = sorted(ranked, key=itemgetter('difference', 'date'), reverse=True)[-5:]
+
+        return Response(ranked)
 
 class DoctorTimeSlot(viewsets.ModelViewSet):
     queryset = DoctorDayTimeSlots.objects.none()
