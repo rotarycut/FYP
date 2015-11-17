@@ -144,7 +144,7 @@
                     <li ng-repeat="month in savedMonths">
                         <a href="#/dashboard/conversion" style="font-size: smaller" class="mrkt-month-item"
                            onclick="changeState(this)"
-                           ng-click="getMonthData(month.short); getTimeLineData(month.short);">[[month.long]]</a>
+                           ng-click="getMonthData(month); getTimeLineData(month);">[[month]]</a>
                     </li>
                 </ul>
             </div>
@@ -169,7 +169,8 @@
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="#/dashboard/conversion" ng-click="" style="font-size: smaller"><i class="fa fa-times"></i></a>
+                        <a href="#/dashboard/conversion" ng-click="" style="font-size: smaller"><i
+                                class="fa fa-times"></i></a>
                         <a href="#/dashboard/conversion" ng-click="runSavedFilter(filter.id)" style="font-size: smaller"
                            class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
                         <a href="#/dashboard/conversion"

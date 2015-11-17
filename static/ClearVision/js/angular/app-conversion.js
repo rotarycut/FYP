@@ -1,7 +1,7 @@
 var appConversion = angular.module('app.conversion', []);
 
-appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $route, postRoiFilterSvc,
-                                                     getMarketingChannelsSvc) {
+appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $route, $filter, postRoiFilterSvc,
+                                                     getMarketingChannelsSvc, getMonthListingsSvc) {
 
     $scope.$route = $route;
     postRoiFilterSvc.getScope($scope);
@@ -10,28 +10,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
     $scope.channelLists = [];
     $scope.listOfSelectedChannels = [];
     $scope.listOfSelectedChannelsId = [];
-    $scope.savedMonths = [
-        {
-            long: "Nov 15",
-            short: "11"
-        },
-        {
-            long: "Oct 15",
-            short: "10"
-        },
-        {
-            long: "Sep 15",
-            short: "9"
-        },
-        {
-            long: "Aug 15",
-            short: "8"
-        },
-        {
-            long: "Jul 15",
-            short: "7"
-        }
-    ];
 
 
     /*******************************************************************************
@@ -40,7 +18,8 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
     /* function to initialize chart */
     $scope.initializeChart = function () {
-        var currentMonth = new Date().getMonth() + 1;
+        var currentMonth = $filter('date')(new Date(), 'MMM yyyy');
+
         $scope.getMonthData(currentMonth);
         $scope.getTimeLineData(currentMonth);
     };
@@ -176,8 +155,17 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
      *******************************************************************************/
 
 
-    $scope.getMonthData = function (month) {
-        var restRequest = '/Clearvision/_api/analyticsServer/?channels=all&month=' + month;
+    $scope.getMonthData = function (selectedMonth) {
+
+        var spaceIndex = selectedMonth.indexOf(" ");
+        var month = selectedMonth.substring(0, spaceIndex);
+        var year = selectedMonth.substring(spaceIndex + 1);
+
+        var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var currentMonth = monthList.indexOf(month) + 1;
+        var currentYear = year;
+
+        var restRequest = '/Clearvision/_api/analyticsServer/?channels=all&year=' + currentYear + '&month=' + currentMonth;
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newMonthData = data;
@@ -192,8 +180,17 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
      *******************************************************************************/
 
 
-    $scope.getTimeLineData = function (month) {
-        var restRequest = '/Clearvision/_api/analyticsServer/?month=' + month;
+    $scope.getTimeLineData = function (selectedMonth) {
+
+        var spaceIndex = selectedMonth.indexOf(" ");
+        var month = selectedMonth.substring(0, spaceIndex);
+        var year = selectedMonth.substring(spaceIndex + 1);
+
+        var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var currentMonth = monthList.indexOf(month) + 1;
+        var currentYear = year;
+
+        var restRequest = '/Clearvision/_api/analyticsServer/?year=' + currentYear + '&month=' + currentMonth;
         $http.get(restRequest)
             .success(function (data) {
                 $scope.newTimeLineData = data;
@@ -279,7 +276,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
                 top: 40,
                 right: 50,
                 bottom: 3,
-                left: 40
+                left: 50
             },
             bar: {
                 width: {
@@ -436,6 +433,9 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
                 }
 
+            },
+            zoom: {
+                enabled: true
             }
         });
 
@@ -648,6 +648,26 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
         $scope.showLeadChart = false;
         $scope.showROIChart = true;
     };
+
+
+    /*******************************************************************************
+     retrieve month listings
+     *******************************************************************************/
+
+
+    $scope.retrieveMonthListings = function () {
+
+        getMonthListingsSvc.getMonthListings()
+            .then(function (listOfMonths) {
+
+                angular.forEach(listOfMonths, function (month) {
+                    $scope.savedMonths.push(month);
+                });
+            });
+    };
+
+    $scope.savedMonths = [];
+    $scope.retrieveMonthListings();
 
 
     /*******************************************************************************
