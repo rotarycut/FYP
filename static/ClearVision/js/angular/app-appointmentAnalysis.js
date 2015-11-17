@@ -85,7 +85,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         $scope.monthSelection = function (selectedMonth) {
             $scope.enableCustomFilter = false;
 
-            if (selectedMonth == "Oct 15") {
+            if (selectedMonth == "Oct ho") {
                 $scope.currentMonth = 10;
             } else if (selectedMonth == "Sep 15") {
                 $scope.currentMonth = 9;

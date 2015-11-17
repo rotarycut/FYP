@@ -26,7 +26,7 @@ angular.module('get.stackedChart', [])
                     top: 30,
                     right: 50,
                     bottom: 0,
-                    left: 40
+                    left: 50
                 },
                 bar: {
                     width: {
@@ -53,7 +53,6 @@ angular.module('get.stackedChart', [])
                             text: '# of appointments',
                             position: 'outer middle'
                         },
-                        max: 20,
                         min: 0,
                         padding: {top: 0, bottom: 0}
                     }
@@ -63,13 +62,16 @@ angular.module('get.stackedChart', [])
                     keys: {
                         // x: 'name', // it's possible to specify 'x' when category axis
                         x: 'apptType',
-                        value: ['Turn Up', 'No Show', 'Cancelled', 'Undecided']
+                        value: ['Turn Up', 'No Show', 'Cancelled']
                     },
                     type: 'bar',
                     groups: [
-                        ['Turn Up', 'No Show', 'Cancelled', 'Undecided']
+                        ['Turn Up', 'No Show', 'Cancelled']
                     ],
                     order: null
+                },
+                tooltip: {
+                    show: true
                 }
             });
         };
