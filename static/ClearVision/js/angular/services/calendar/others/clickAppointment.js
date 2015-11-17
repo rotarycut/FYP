@@ -33,8 +33,17 @@ angular.module('event.click', [])
                 self.scope.fields.appointmentId = appointment.id;
                 self.scope.fields.patientList = appointment.patients;
 
-                var appointmentId = self.scope.convertAppointmentNameToId(appointment.apptType);
-                self.scope.fields.appointmentType = self.scope.listOfAppointmentTypes[appointmentId - 1];
+                var idx = 0;
+                var apptTypeIndex = 0;
+                angular.forEach(self.scope.listOfAppointmentTypes, function (apptType) {
+                    if (apptType.name == appointment.apptType) {
+                        apptTypeIndex = idx;
+                    }
+                    idx++;
+                });
+
+                //var appointmentId = self.scope.convertAppointmentNameToId(appointment.apptType);
+                self.scope.fields.appointmentType = self.scope.listOfAppointmentTypes[apptTypeIndex];
                 self.scope.fields.appointmentDate = new Date(appointment.date);
                 self.scope.fields.doctorAssigned = self.scope.listOfDoctors[appointment.doctor.id - 1];
 
