@@ -1,5 +1,5 @@
 angular.module('post.filter', [])
-    .service('postFilterSvc', function ($http) {
+    .service('postFilterSvc', function ($http, showNotificationsSvc) {
 
         var self = this;
         self._scope = {};
@@ -15,18 +15,20 @@ angular.module('post.filter', [])
             var listOfAppointmentId = self._scope.listOfSelectedAppointmentTypesId;
 
             var queryJson = {
-                "name" : filterName,
-                "startDate" : startDate,
-                "endDate" : endDate,
-                "apptTypes" : listOfAppointmentId
+                "name": filterName,
+                "startDate": startDate,
+                "endDate": endDate,
+                "apptTypes": listOfAppointmentId
             };
-
-            console.log(queryJson);
 
             $http.post('/Clearvision/_api/ViewSavedApptTypeCustomFilters/', queryJson)
                 .success(function (data) {
                     self._scope.getCustomFilters();
-                })
+                    showNotificationsSvc.notifySuccessTemplate('Filter saved successfully');
+
+                }).error(function (error) {
+                    showNotificationsSvc.notifyErrorTemplate('Error saving filter');
+                });
 
         };
     });

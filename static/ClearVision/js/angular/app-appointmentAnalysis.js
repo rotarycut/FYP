@@ -51,8 +51,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         };
 
         /* function to get the current year */
-        function getCurrentYear() {
+        $scope.getCurrentYear = function () {
             var currentYear = new Date().getFullYear();
+            $scope.currentYear = currentYear;
             return currentYear;
         };
 
@@ -111,7 +112,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                 queryStr = '/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?customFilter=True&' + $scope.string + 'sortValue=' + $scope.sortSelected + '&startDate=' + $scope.startDate + '&endDate=' + $scope.endDate;
 
             } else {
-                queryStr = '/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?sortValue=' + $scope.sortSelected + '&month=' + $scope.currentMonth;
+                queryStr = '/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?sortValue=' + $scope.sortSelected + '&year=' + $scope.currentYear + '&month=' + $scope.currentMonth;
             }
 
             $http.get(queryStr)
@@ -133,6 +134,10 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
 
         /* clear filter */
         $scope.clearFilter = function () {
+            $scope.minStartDate = null;
+            $scope.maxStartDate = null;
+            $scope.minEndDate = null;
+            $scope.maxEndDate = null;
             $scope.datepicker = "";
             $scope.datepicker2 = "";
 
@@ -162,7 +167,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         };
 
         /* call to retrieve stacked chart */
-        $scope.retrieveStackedChart(getCurrentYear(), $scope.getCurrentMonth());
+        $scope.retrieveStackedChart($scope.getCurrentYear(), $scope.getCurrentMonth());
 
 
         /*******************************************************************************
@@ -525,13 +530,14 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
 
         $scope.toggleEndDate = function () {
 
-            if ($scope.datepicker != null && $scope.datepicker != "") {
+            // length greater than 15 to ensure that this does not run when i click on edit filter which sends in short date
+            if ($scope.datepicker != null && $scope.datepicker != "" && $scope.datepicker.toString().length >= 15) {
                 var startDate = $scope.getFormattedDate($scope.datepicker);
                 $scope.minEndDate = new Date(startDate);
             }
 
-            if ($scope.datepicker2 != null && $scope.datepicker2 != "") {
-                var endDate = $scope.getFormattedDate($scope.datepicker2)
+            if ($scope.datepicker2 != null && $scope.datepicker2 != "" && $scope.datepicker2.toString().length >= 15) {
+                var endDate = $scope.getFormattedDate($scope.datepicker2);
                 $scope.maxStartDate = new Date(endDate);
             }
         };

@@ -218,7 +218,7 @@
                                 class="fa fa-times"></i></a>
                         <a href="#/dashboard/schedule" style="font-size: smaller" class="mrkt-month-item"
                            onclick="changeState(this)"
-                           ng-click="activateFilter(filter.id); monthSelection(month);">[[filter.name]]</a>
+                           ng-click="activateFilter(filter.id)">[[filter.name]]</a>
                         <a href="" ng-click="openEditFilter(filter.startDate, filter.endDate, filter.id, filter.name)"
                            style="font-size: smaller"><i class="fa fa-pencil"></i></a>
                     </li>
@@ -277,9 +277,9 @@
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" type="button" ng-show="filterName.length <= 8 && filterName.length > 0"
-                ng-click="postFilter()">Yes
+                ng-click="postFilter()">Save
         </button>
         <button class="btn form-submit-btn" type="button" ng-click="editFilter()">Edit</button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">No</button>
+        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
     </div>
 </script>

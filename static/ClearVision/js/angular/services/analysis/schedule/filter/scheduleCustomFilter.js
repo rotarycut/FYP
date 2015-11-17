@@ -1,5 +1,5 @@
 angular.module('schedule.customFilter', [])
-    .service('scheduleCustomFilterSvc', function ($http) {
+    .service('scheduleCustomFilterSvc', function ($http, getPieChartSvc, showNotificationsSvc) {
 
         var self = this;
         self.scope = {};
@@ -25,7 +25,6 @@ angular.module('schedule.customFilter', [])
             $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
                 .success(function (data) {
 
-                    console.log(data);
                     self.scope.startDate = data.startDate;
                     self.scope.endDate = data.endDate;
                     var listOfFilterAppointmentTypes = [];
@@ -42,7 +41,7 @@ angular.module('schedule.customFilter', [])
                         self.scope.string += '&';
                     });
 
-                    self.scope.retrieveCustomStackedChart("", true);
+                    self.scope.getCustomStackedChart(true);
                     getPieChartSvc.getFirstPieChart(self.scope.outerTab);
 
                 })
@@ -58,16 +57,24 @@ angular.module('schedule.customFilter', [])
             $http.delete('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
                 .success(function (data) {
                     self.scope.getCustomFilters();
-                })
+                    showNotificationsSvc.notifySuccessTemplate('Filter saved successfully');
+                }).error(function (error) {
+                    showNotificationsSvc.notifyErrorTemplate('Error deleting filter');
+                });
         };
 
 
         /* function to open filter for edit */
         self.openEditFilter = function (startDate, endDate, filterId, filterName) {
 
+            // clears the filter form first
+            self.scope.clearFilter();
+
             self.scope.isCollapsed = false;
             self.scope.datepicker = startDate;
             self.scope.datepicker2 = endDate;
+            self.scope.minEndDate = startDate;
+            self.scope.maxStartDate = endDate;
             self.scope.existingFilterName = filterName;
 
             $http.get('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
