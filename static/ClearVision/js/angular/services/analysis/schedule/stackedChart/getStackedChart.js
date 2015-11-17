@@ -9,9 +9,9 @@ angular.module('get.stackedChart', [])
             self.scope = scope;
         };
 
-        self.getStackedChart = function (currentMonth) {
+        self.getStackedChart = function (currentYear, currentMonth) {
 
-            $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?month=' + currentMonth)
+            $http.get('/Clearvision/_api/ViewAppointmentAnalysisStackedChart/?year=' + currentYear + '&month=' + currentMonth)
                 .success(function (data) {
                     self.scope.stackedChartData = data;
                     self.scope.showStackedChart(self.scope.stackedChartData);

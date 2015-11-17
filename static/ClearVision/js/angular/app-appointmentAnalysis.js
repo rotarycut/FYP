@@ -2,7 +2,8 @@ var appointmentAnalysis = angular.module('app.appointmentAnalysis', []);
 
 appointmentAnalysis.controller('AppointmentAnalysisCtrl',
     function ($scope, $http, $modal, $log, $route, postFilterSvc, editFilterSvc, getStackedChartSvc,
-              getPieChartSvc, getCustomStackedChartSvc, scheduleCustomFilterSvc, getMarketingChannelsSvc) {
+              getPieChartSvc, getCustomStackedChartSvc, scheduleCustomFilterSvc, getMarketingChannelsSvc,
+              getMonthListingsSvc) {
 
         $scope.$route = $route;
 
@@ -17,7 +18,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         /* define variables */
         $scope.existingFilterName = "";
         $scope.isCollapsed = true;
-        $scope.savedMonths = ["Oct 15", "Sep 15", "Aug 15", "Jul 15"];
         $scope.innerTab = 'Appointment Type';
         $scope.listOfSelectedAppointmentTypes = [];
         $scope.listOfSelectedAppointmentTypesId = [];
@@ -48,6 +48,12 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
             var currentMonth = new Date().getMonth() + 1;
             $scope.currentMonth = currentMonth;
             return currentMonth;
+        };
+
+        /* function to get the current year */
+        function getCurrentYear() {
+            var currentYear = new Date().getFullYear();
+            return currentYear;
         };
 
         /* function to format date */
@@ -85,19 +91,16 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         $scope.monthSelection = function (selectedMonth) {
             $scope.enableCustomFilter = false;
 
-            if (selectedMonth == "Oct ho") {
-                $scope.currentMonth = 10;
-            } else if (selectedMonth == "Sep 15") {
-                $scope.currentMonth = 9;
-            } else if (selectedMonth == "Aug 15") {
-                $scope.currentMonth = 8;
-            } else if (selectedMonth == "Jul 15") {
-                $scope.currentMonth = 7;
-            }
+            var spaceIndex = selectedMonth.indexOf(" ");
+            var month = selectedMonth.substring(0, spaceIndex);
+            var year = selectedMonth.substring(spaceIndex + 1);
 
-            $scope.retrieveStackedChart($scope.currentMonth);
+            var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            $scope.currentMonth = monthList.indexOf(month) + 1;
+            $scope.currentYear = year;
+
+            $scope.retrieveStackedChart($scope.currentYear, $scope.currentMonth);
             getPieChartSvc.getFirstPieChart($scope.outerTab, $scope.currentMonth);
-
         };
 
         /* change sort option */
@@ -149,8 +152,8 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
 
 
         /* function to retrieve stacked chart data from backend */
-        $scope.retrieveStackedChart = function (currentMonth) {
-            getStackedChartSvc.getStackedChart(currentMonth);
+        $scope.retrieveStackedChart = function (currentYear, currentMonth) {
+            getStackedChartSvc.getStackedChart(currentYear, currentMonth);
         };
 
         /* c3 function to show stacked chart */
@@ -159,7 +162,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         };
 
         /* call to retrieve stacked chart */
-        $scope.retrieveStackedChart($scope.getCurrentMonth());
+        $scope.retrieveStackedChart(getCurrentYear(), $scope.getCurrentMonth());
 
 
         /*******************************************************************************
@@ -447,6 +450,26 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         $scope.marketingChannels = [];
         $scope.listOfMarketingChannels = [];
         $scope.retrieveMarketingChannels();
+
+
+        /*******************************************************************************
+         retrieve month listings
+         *******************************************************************************/
+
+
+        $scope.retrieveMonthListings = function () {
+
+            getMonthListingsSvc.getMonthListings()
+                .then(function (listOfMonths) {
+
+                    angular.forEach(listOfMonths, function (month) {
+                        $scope.savedMonths.push(month);
+                    });
+                });
+        };
+
+        $scope.savedMonths = [];
+        $scope.retrieveMonthListings();
 
 
         /*******************************************************************************
