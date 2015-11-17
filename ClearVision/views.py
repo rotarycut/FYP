@@ -275,9 +275,8 @@ class DoctorList(viewsets.ModelViewSet):
                                           friday=friday, saturday=saturday)
 
         for eachApptTypeName in apptTypeChars:
-            year = datetime.today().year
 
-            command = "python ClearVision/AvailableTimeSlotsGenerator.py " + str(year) + " " + str(doc.id) + " \"" + eachApptTypeName + "\""
+            command = "python ClearVision/AvailableTimeSlotsGenerator.py " + str(doc.id) + " \"" + eachApptTypeName + "\""
             os.system(command)
 
             command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
