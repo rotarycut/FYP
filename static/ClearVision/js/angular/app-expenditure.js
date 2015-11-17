@@ -77,10 +77,12 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
                 });
 
-                //var dynamicPopover = [];
-    //angular.forEach($scope.marketingChannels, function () {
-        //dynamicPopover.push = {
-              $scope.dynamicPopover ={
+                var dynamicPopover = [];
+    angular.forEach(data, function () {
+        console.log(data);
+
+        dynamicPopover.push = ({
+              //$scope.dynamicPopover ={
             editMarketingExpenditure: {
                 isOpen: false,
                 templateUrl: 'editMarketingExpenditureTemplate.html',
@@ -91,8 +93,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                     $scope.dynamicPopover.editMarketingExpenditure.isOpen = false;
                 }
             }
-        }
-    //});
+        });
+    });
 
             })
             .error(function () {

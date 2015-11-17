@@ -61,6 +61,9 @@ def schedule(request):
 def expenditure(request):
     return render(request, 'expenditure.html')
 
+def managechannels(request):
+    return render(request, 'managechannels.html')
+
 def waitlist(request):
     return render(request, 'waitlist.html')
 

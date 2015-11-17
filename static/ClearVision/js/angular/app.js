@@ -61,7 +61,8 @@ var app = angular.module('calendarDemoApp', [
     'ui.slider',
     'get.appointmentTypes',
     'get.calendarTimeRange',
-    'get.calendarTimeRangeInterval'
+    'get.calendarTimeRangeInterval',
+    'app.managechannels'
 ]);
 
 /* Angular routing */
@@ -92,6 +93,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "expenditure.html",
             controller: 'MarketingExpenditureCtrl',
             activetab: 'dashboard/expenditure'
+        })
+        .when("/dashboard/managechannels", {
+            templateUrl: "managechannels.html",
+            controller: 'ManageChannelsCtrl',
+            activetab: 'dashboard/managechannels'
         })
         .when("/waitlist", {
             templateUrl: "waitlist.html",

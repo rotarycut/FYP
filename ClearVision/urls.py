@@ -71,6 +71,7 @@ urlpatterns = [
     url(r'^conversion', views.conversion),
     url(r'^schedule', views.schedule),
     url(r'^expenditure', views.expenditure),
+    url(r'^managechannels', views.managechannels),
     url(r'^waitlist', views.waitlist),
     url(r'^queue', views.queue),
     url(r'^msglog', views.msglog),

@@ -693,6 +693,22 @@ li .i-slot-label {
     color: #FFFFFF;
 }
 
+.suggest-time-badge{
+    color: #fff;
+    background-color: #49708A;
+    padding: 4px;
+    border-radius: 3px;
+}
+
+.suggest-time-badge:hover,
+.suggest-time-badge:focus{
+    color: #fff;
+    background-color: #49708A;
+    padding: 4px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
 /*form page css ends*/
 
 /* dashboard css*/
