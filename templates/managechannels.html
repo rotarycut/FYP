@@ -1,0 +1,44 @@
+<div class="row dashboard-content-row">
+    <div class="col-md-12 center-block">
+        <label class="label-color">All Marketing Channels Spent</label>
+        <table class="table waitlist-main-tbl">
+            <tr>
+                <th>
+                    <a href="#/queue"
+                       ng-click="">Channel Name
+                    </a>
+                </th>
+                <th>
+                    <a href="#/queue"
+                       ng-click="">Cost (SGD)
+                    </a>
+                </th>
+                <th>
+                    <a href="#/queue"
+                       ng-click="">Date Purchased
+                    </a>
+                </th>
+                <th>Action</th>
+            </tr>
+
+            <tr class=""
+                ng-repeat="channel in listOfChannelsSpent">
+                <td>[[channel.name]]</td>
+                <td>[[channel.cost]]</td>
+                <td>[[channel.date]]</td>
+                <td>
+                    <button type="button" class="btn btn-sm form-submit-btn"
+                            ng-click=""
+                            ng-disabled="channel.disableButtons">
+                        <i class="fa fa-check"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm form-cancel-btn"
+                            ng-click=""
+                            ng-disabled="channel.disableButtons">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
