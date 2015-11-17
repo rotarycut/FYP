@@ -3436,6 +3436,7 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
 
 class EditMarketingChannelsStatus(viewsets.ModelViewSet):
     queryset = MarketingChannels.objects.all()
+    serializer_class = MarketingChannelSerializer
 
 class CalendarBlocker(viewsets.ModelViewSet):
     queryset = BlockDates.objects.all()

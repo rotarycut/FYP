@@ -112,6 +112,12 @@ class CustomFilterApptTypeSerializer(serializers.ModelSerializer):
         model = CustomFilterApptType
         depth = 1
 
+class MarketingChannelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MarketingChannels
+        depth = 1
+
 class CustomFilterMarketingChannelSerializer(serializers.ModelSerializer):
 
     class Meta:
