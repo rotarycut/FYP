@@ -1904,8 +1904,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                clinic=Clinic.objects.get(id=clinic),
                                                doctor=Doctor.objects.get(id=doctor), attended=True, originalAppt=a,
                                                )
-            p.conversion = True
-            p.save()
+
             pusher.trigger('queue', 'addToQueue', {'message': {}}, socketId)
         else:
             associatedPAction.addedToQueue = False
@@ -1996,9 +1995,6 @@ class PatientQueue(viewsets.ModelViewSet):
         associatedPAction = AssociatedPatientActions.objects.get(appointment__id=apptId, patient=p)
         associatedPAction.addedToQueue = None
         associatedPAction.save()
-
-        p.conversion = False
-        p.save()
 
         pusher.trigger('queue', 'removeFromQueue', {'message': {}}, socketId)
         return HttpResponse("Success")
@@ -3435,8 +3431,11 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
     queryset = MarketingChannels.objects.none()
 
     def list(self, request, *args, **kwargs):
-        allMarketingChannels = MarketingChannels.objects.all().order_by('name').values()
+        allMarketingChannels = MarketingChannels.objects.filter(show=True).order_by('name').values()
         return Response(allMarketingChannels)
+
+class EditMarketingChannelsStatus(viewsets.ModelViewSet):
+    queryset = MarketingChannels.objects.all()
 
 class CalendarBlocker(viewsets.ModelViewSet):
     queryset = BlockDates.objects.all()

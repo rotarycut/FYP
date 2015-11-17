@@ -23,6 +23,7 @@ class MarketingChannels(models.Model):
     name = models.CharField(max_length=500)
     cost = models.FloatField()
     datePurchased = models.DateField()
+    show = models.BooleanField(default=True)
 
 class CustomFilterMarketingChannel(models.Model):
     name = models.CharField(max_length=200)
@@ -40,7 +41,6 @@ class Patient(models.Model):
     contact = models.CharField(max_length=50)
     registrationDate = models.DateTimeField(null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
-    conversion = models.NullBooleanField(default=False)
 
     class Meta:
         ordering = ['registrationDate']
