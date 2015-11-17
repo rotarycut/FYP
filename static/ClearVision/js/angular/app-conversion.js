@@ -89,6 +89,10 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
     $scope.clearFilter = function () {
         $scope.datepicker = "";
         $scope.datepicker2 = "";
+        $scope.minStartDate = null;
+        $scope.maxStartDate = null;
+        $scope.minEndDate = null;
+        $scope.maxEndDate = null;
 
         angular.forEach($scope.channelObjects, function (channel) {
             channel.channelUnselected = false;
@@ -147,6 +151,11 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
             counter++;
         });
         return channelsStr;
+    };
+
+    /* function to change sort option of bar charts */
+    $scope.changeSortOption = function () {
+
     };
 
 
@@ -489,7 +498,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
                         text: 'Lead Count',
                         position: 'outer middle'
                     },
-                    max: 10,
                     min: 1
 
                 }
@@ -692,6 +700,20 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
     };
     $scope.toggleMin = function () {
         $scope.minDate = $scope.minDate ? null : new Date();
+    };
+
+    $scope.toggleEndDate = function () {
+
+        // length greater than 15 to ensure that this does not run when i click on edit filter which sends in short date
+        if ($scope.datepicker != null && $scope.datepicker != "" && $scope.datepicker.toString().length >= 15) {
+            var startDate = $scope.getFormattedDate($scope.datepicker);
+            $scope.minEndDate = new Date(startDate);
+        }
+
+        if ($scope.datepicker2 != null && $scope.datepicker2 != "" && $scope.datepicker2.toString().length >= 15) {
+            var endDate = $scope.getFormattedDate($scope.datepicker2);
+            $scope.maxStartDate = new Date(endDate);
+        }
     };
 
     $scope.open = function ($event, which) {

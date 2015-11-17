@@ -27,10 +27,13 @@
                                                name="datePickerCalendar"
                                                ng-model="datepicker"
                                                is-open="datepickers.showDatePicker"
-                                               min-date="minDate"
+                                               min-date="minStartDate"
+                                               max-date="maxStartDate"
                                                datepicker-options="dateOptions"
                                                show-button-bar="false"
                                                placeholder="Start Date"
+                                               ng-disabled="true"
+                                               ng-change="toggleEndDate();"
                                                 />
 
                         <span class="input-group-btn">
@@ -55,10 +58,13 @@
                                                name="datePickerCalendar"
                                                ng-model="datepicker2"
                                                is-open="datepickers.showDatePicker2"
-                                               min-date="minDate"
+                                               min-date="minEndDate"
+                                               max-date="maxEndDate"
                                                datepicker-options="dateOptions"
                                                show-button-bar="false"
                                                placeholder="End Date"
+                                               ng-disabled="true"
+                                               ng-change="toggleEndDate();"
                                                 />
 
                         <span class="input-group-btn">
@@ -96,6 +102,7 @@
                                         Filter
                                     </button>
                                     <button class="btn form-default-btn" ng-click="saveFilter()">Save Filter</button>
+                                    <button class="btn form-default-btn" ng-click="clearFilter()">Clear</button>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +122,7 @@
                         <h5 style="color: #49708A">Conversion Rate</h5>
                     </div>
                     <div class="col-md-2 col-md-offset-7">
-                        <select class="form-control" data-ng-model="sortByOption">
+                        <select class="form-control" data-ng-model="sortByOption" ng-change="changeSortOption()">
                             <option value="" disabled selected>---Sort By---</option>
                             <option value="">Leads</option>
                             <option value="">Converts</option>
