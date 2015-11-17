@@ -6,6 +6,7 @@ from operator import itemgetter
 import os
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
+from monthdelta import monthdelta
 import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout_then_login, redirect_to_login
@@ -3294,6 +3295,19 @@ class EditSavedMarketingChannelCustomFilters(viewsets.ModelViewSet):
         CustomFilterMarketingChannel.objects.get(id=self.get_object().id).delete()
 
         return Response("Success")
+
+class ViewBacktrackListings(viewsets.ReadOnlyModelViewSet):
+    queryset = MarketingChannels.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        rightnow = date.today()
+        listings = []
+
+        for months in range(0, 13):
+            listings.append(rightnow.strftime('%b') + " " + str(rightnow.year))
+            rightnow -= monthdelta(1)
+
+        return Response(listings)
 
 class ViewAllApptTypes(viewsets.ModelViewSet):
     queryset = AppointmentType.objects.all()
