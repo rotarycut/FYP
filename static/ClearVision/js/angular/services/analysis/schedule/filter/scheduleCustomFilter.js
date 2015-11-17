@@ -57,7 +57,7 @@ angular.module('schedule.customFilter', [])
             $http.delete('/Clearvision/_api/EditSavedApptTypeCustomFilters/' + filterId)
                 .success(function (data) {
                     self.scope.getCustomFilters();
-                    showNotificationsSvc.notifySuccessTemplate('Filter saved successfully');
+                    showNotificationsSvc.notifySuccessTemplate('Filter deleted successfully');
                 }).error(function (error) {
                     showNotificationsSvc.notifyErrorTemplate('Error deleting filter');
                 });
@@ -94,6 +94,8 @@ angular.module('schedule.customFilter', [])
                 });
 
             self.scope.editFilterId = filterId;
+
+            self.scope.showEditFilterButtons = true;
         };
 
 

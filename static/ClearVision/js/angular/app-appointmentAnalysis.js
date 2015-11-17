@@ -148,6 +148,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
             $scope.existingFilterName = "";
             $scope.listOfSelectedAppointmentTypes.splice(0);
             $scope.listOfSelectedAppointmentTypesId.splice(0);
+            $scope.showEditFilterButtons = false;
         };
 
 
@@ -599,6 +600,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                     resolve: {
                         existingFilterName: function () {
                             return $scope.existingFilterName;
+                        },
+                        showEditFilterBtn: function () {
+                            return $scope.showEditFilterButtons;
                         }
                     }
                 });
@@ -613,9 +617,10 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
  *******************************************************************************/
 
 
-appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance, postFilterSvc, editFilterSvc, existingFilterName) {
+appCalendar.controller('AppointmentModalCtrl', function ($scope, $modalInstance, postFilterSvc, editFilterSvc, existingFilterName, showEditFilterBtn) {
 
     $scope.filterName = existingFilterName;
+    $scope.showEditFilterBtn = showEditFilterBtn;
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');

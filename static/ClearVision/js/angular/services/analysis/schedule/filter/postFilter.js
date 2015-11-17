@@ -10,8 +10,14 @@ angular.module('post.filter', [])
 
         self.postFilter = function (filterName) {
 
-            var startDate = self._scope.getFormattedDate(self._scope.datepicker);
-            var endDate = self._scope.getFormattedDate(self._scope.datepicker2);
+            if (self._scope.datepicker.toString().length >= 15 || self._scope.datepicker2.toString().length >= 15) {
+                var startDate = self._scope.getFormattedDate(self._scope.datepicker);
+                var endDate = self._scope.getFormattedDate(self._scope.datepicker2);
+            } else {
+                var startDate = self._scope.datepicker;
+                var endDate = self._scope.datepicker2;
+            }
+
             var listOfAppointmentId = self._scope.listOfSelectedAppointmentTypesId;
 
             var queryJson = {
@@ -20,6 +26,8 @@ angular.module('post.filter', [])
                 "endDate": endDate,
                 "apptTypes": listOfAppointmentId
             };
+
+            console.log(queryJson);
 
             $http.post('/Clearvision/_api/ViewSavedApptTypeCustomFilters/', queryJson)
                 .success(function (data) {
