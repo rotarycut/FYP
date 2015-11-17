@@ -2183,7 +2183,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
             for eachApptType in apptTypes:
                 tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate, timeBucket__timeslotType=eachApptType).values().count()
                 tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate, timeBucket__timeslotType=eachApptType).values().count()
-                totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate, timeBucket__timeslotType=eachApptType).values('patients').count()
+                #totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__gte=startDate, timeBucket__date__date__lte=endDate, timeBucket__timeslotType=eachApptType).values('patients').count()
                 totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__gte=startDate, appointment__timeBucket__date__date__lte=endDate, cancelled=True, appointment__timeBucket__timeslotType=eachApptType).values().count()
 
                 toAdd = {'apptType': eachApptType, 'Turn Up': tillNowAttended, 'No Show': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth}
@@ -2193,7 +2193,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
             for eachApptType in apptTypes:
                 tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
                 tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
-                totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).exclude(patients=None).values('patients').count()
+                #totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).exclude(patients=None).values('patients').count()
                 totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
 
                 toAdd = {'apptType': eachApptType['name'], 'Turn Up': tillNowAttended, 'No Show': tillNowBlacklisted, 'Cancelled': totalCancelledForMonth}
