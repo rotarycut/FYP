@@ -2174,6 +2174,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         month = request.query_params.get('month')
+        year = request.query_params.get('year')
         customFilter = request.query_params.get('customFilter')
         startDate = request.query_params.get('startDate')
         endDate = request.query_params.get('endDate')
@@ -2195,7 +2196,7 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
         else:
 
             for eachApptType in apptTypes:
-                tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
+                tillNowBlacklisted = Blacklist.objects.filter(timeBucket__date__date__year=year, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
                 tillNowAttended = AttendedAppointment.objects.filter(attended=True, timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).values().count()
                 #totalPatientsForMonth = Appointment.objects.filter(timeBucket__date__date__month=month, timeBucket__timeslotType=eachApptType['name']).exclude(patients=None).values('patients').count()
                 totalCancelledForMonth = AssociatedPatientActions.objects.filter(appointment__timeBucket__date__date__month=month, cancelled=True, appointment__timeBucket__timeslotType=eachApptType['name']).values().count()
