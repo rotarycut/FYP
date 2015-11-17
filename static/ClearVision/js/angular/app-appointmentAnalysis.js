@@ -22,7 +22,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
         $scope.listOfSelectedAppointmentTypes = [];
         $scope.listOfSelectedAppointmentTypesId = [];
         $scope.outerTab = "Cancelled";
-        $scope.sortOptions = ["Turn Up", "No Show", "Cancelled", "Undecided"];
+        $scope.sortOptions = ["Turn Up", "No Show", "Cancelled"];
         $scope.pieDetails = [
             {
                 pieName: 'pieApptType',
@@ -268,7 +268,7 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                 data: {
                     json: data,
                     keys: {
-                        value: ['Change Clinic', 'Not doing lasik', 'Schedule later appointment', 'Others', 'Change of mind']
+                        value: ['Patient chose another clinic', 'Patient will schedule again', 'Patient do not want to do LASIK anymore', 'Too expensive', 'Others']
                     },
                     type: 'pie',
                     onclick: function (d, element) {
@@ -358,7 +358,6 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                         }
                     }
                 },
-
                 legend: {
                     show: false
                 },
