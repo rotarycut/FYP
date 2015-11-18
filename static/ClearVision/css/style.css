@@ -75,6 +75,10 @@
     padding-left: 0;
 }
 
+.cal-main-content{
+    padding-left: 0;
+}
+
 .side-tabset > ul.nav.nav-pills {
     /*width: 145px;
     height: 35px;
@@ -443,7 +447,7 @@ ul.legend-ul li {
 }
 
 .legend-screen {
-    color: #E77471;
+    /*color: #E77471;*/
     text-decoration: none;
     border-bottom: none;
 }
@@ -451,13 +455,13 @@ ul.legend-ul li {
 .legend-screen:focus,
 .legend-screen:active
 .legend-screen:hover {
-    color: #E77471;
+    /*color: #E77471;*/
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-preEval {
-    color: #737CA1;
+    /*color: #737CA1;*/
     text-decoration: none;
     border-bottom: none;
 
@@ -466,14 +470,14 @@ ul.legend-ul li {
 .legend-preEval:active,
 .legend-preEval:focus,
 .legend-preEval:hover {
-    color: #737CA1;
+    /*color: #737CA1;*/
     text-decoration: none;
     border-bottom: none;
 
 }
 
 .legend-surgery {
-    color: #D16587;
+    /*color: #D16587;*/
     text-decoration: none;
     border-bottom: none;
 }
@@ -481,13 +485,13 @@ ul.legend-ul li {
 .legend-surgery:active,
 .legend-surgery:focus,
 .legend-surgery:hover {
-    color: #D16587;
+    /*color: #D16587;*/
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-postop {
-    color: #F2BB66;
+    /*color: #F2BB66;*/
     text-decoration: none;
     border-bottom: none;
 }
@@ -495,13 +499,13 @@ ul.legend-ul li {
 .legend-postop:focus,
 .legend-postop:active
 .legend-postop:hover {
-    color: #F2BB66;
+    /*color: #F2BB66;*/
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-eyecare {
-    color: #827839;
+    /*color: #827839;*/
     text-decoration: none;
     border-bottom: none;
 }
@@ -509,20 +513,20 @@ ul.legend-ul li {
 .legend-eyecare:focus,
 .legend-eyecare:active
 .legend-eyecare:hover {
-    color: #827839;
+    /*color: #827839;*/
     text-decoration: none;
     border-bottom: none;
 }
 
 .legend-all {
-    color: #49708A;
+    /*color: #49708A;*/
     text-decoration: none;
 }
 
 .legend-all:active,
 .legend-all:focus,
 .legend-all:hover {
-    color: #49708A;
+    /*color: #49708A;*/
     text-decoration: none;
 }
 
@@ -534,7 +538,7 @@ ul.legend-ul li {
 }
 
 .legend-screen-clicked {
-    color: #E77471;
+    /*color: #E77471;*/
     text-decoration: none;
     border-bottom: solid 2px #E77471;
 }
@@ -542,13 +546,13 @@ ul.legend-ul li {
 .legend-screen-clicked:active,
 .legend-screen-clicked:focus,
 .legend-screen-clicked:hover {
-    color: #E77471;
+    /*color: #E77471;*/
     text-decoration: none;
     border-bottom: solid 2px #E77471;
 }
 
 .legend-preEval-clicked {
-    color: #737CA1;
+    /*color: #737CA1;*/
     text-decoration: none;
     border-bottom: solid 2px #737CA1;
 }
@@ -556,13 +560,13 @@ ul.legend-ul li {
 .legend-preEval-clicked:active,
 .legend-preEval-clicked:focus,
 .legend-preEval-clicked:hover {
-    color: #737CA1;
+    /*color: #737CA1;*/
     text-decoration: none;
     border-bottom: solid 2px #737CA1;
 }
 
 .legend-surgery-clicked {
-    color: #D16587;
+    /*color: #D16587;*/
     text-decoration: none;
     border-bottom: solid 2px #D16587;
 }
@@ -570,13 +574,13 @@ ul.legend-ul li {
 .legend-surgery-clicked:active,
 .legend-surgery-clicked:focus,
 .legend-surgery-clicked:hover {
-    color: #D16587;
+    /*color: #D16587;*/
     text-decoration: none;
     border-bottom: solid 2px #D16587;
 }
 
 .legend-postop-clicked {
-    color: #F2BB66;
+    /*color: #F2BB66;*/
     text-decoration: none;
     border-bottom: solid 2px #F2BB66;
 }
@@ -584,13 +588,13 @@ ul.legend-ul li {
 .legend-postop-clicked:active,
 .legend-postop-clicked:focus,
 .legend-postop-clicked:hover {
-    color: #F2BB66;
+    /*color: #F2BB66;*/
     text-decoration: none;
     border-bottom: solid 2px #F2BB66;
 }
 
 .legend-eyecare-clicked {
-    color: #827839;
+    /*color: #827839;*/
     text-decoration: none;
     border-bottom: solid 2px #827839;
 }
@@ -598,7 +602,7 @@ ul.legend-ul li {
 .legend-eyecare-clicked:active,
 .legend-eyecare-clicked:focus,
 .legend-eyecare-clicked:hover {
-    color: #827839;
+    /*color: #827839;*/
     text-decoration: none;
     border-bottom: solid 2px #827839;
 }

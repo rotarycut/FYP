@@ -1,4 +1,4 @@
-var appCalendar = angular.module('app.calendar', ['ngProgress']);
+    var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
 appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
-                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher) {
+                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher,getAppointmentTypesColorService) {
 
     var client = new Pusher('6cb577c1e7b97150346b');
     var pusher = $pusher(client);
@@ -91,6 +91,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 });
             })
     };
+
 
     /* function to get heat map */
     $scope.getHeatMap = function (appointmentType, doctorId) {
@@ -1442,6 +1443,19 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }
             }
         });
+    };
+
+    /* function to retrieve appointment types */
+    $scope.getAppointmentType = function(){
+        $scope.listOfSideTabs = [];
+        var url = '/Clearvision/_api/DoctorCalendarSideTab/';
+
+        $http.get(url)
+            .success(function (listOfSideTabs) {
+                angular.forEach(listOfSideTabs, function (tab) {
+                    $scope.listOfSideTabs.push(tab);
+                });
+            })
     };
 
 });
