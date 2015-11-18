@@ -2235,11 +2235,11 @@ class AnalyticsDashboardTestChecker(viewsets.ReadOnlyModelViewSet):
         param = request.query_params.get('param')
 
         if param == 'TurnUp':
-            return Response(AssociatedPatientActions.objects.all().values())
-        elif param == 'Cancelled':
-            return Response(Blacklist.objects.all().values())
-        elif param == 'NoShow':
             return Response(AttendedAppointment.objects.all().values())
+        elif param == 'Cancelled':
+            return Response(AssociatedPatientActions.objects.all().values())
+        elif param == 'NoShow':
+            return Response(Blacklist.objects.all().values())
 
         return Response('Invalid Parameter')
 
