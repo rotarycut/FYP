@@ -156,7 +156,15 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
     /* function to change sort option of bar charts */
     $scope.changeSortOption = function () {
-        var queryStr = '/Clearvision/_api/analyticsServer/?channels=all&year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&sortValue=' + $scope.sortSelected;
+
+        var queryStr;
+
+        if ($scope.isCustomFilterOn) {
+            queryStr = $scope.customFilterUrl + $scope.sortSelected;
+
+        } else {
+            queryStr = '/Clearvision/_api/analyticsServer/?channels=all&year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&sortValue=' + $scope.sortSelected;
+        }
 
         $http.get(queryStr)
             .success(function (sortedList) {
@@ -168,6 +176,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
     /* function to clear sort selected value */
     $scope.clearSortSelected = function () {
         $scope.sortSelected = "";
+        $scope.isCustomFilterOn = false;
     };
 
 
@@ -233,7 +242,12 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
 
     $scope.getCustomMarketingData = function (startDate, endDate, channelList) {
-        var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelList + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=False&sortValue=Leads';
+        var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelList + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=False&sortValue=';
+
+        $scope.isCustomFilterOn = true;
+        $scope.customFilterUrl = restRequest;
+
+        restRequest = restRequest + 'Leads';
 
         $http.get(restRequest)
             .success(function (data) {
@@ -248,8 +262,9 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
 
     $scope.getCustomTimeLineData = function (startDate, endDate, channelList, channelArray) {
-
         var restRequest = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelList + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=True';
+
+        $scope.isCustomFilterOn = true;
 
         $http.get(restRequest)
             .success(function (data) {
