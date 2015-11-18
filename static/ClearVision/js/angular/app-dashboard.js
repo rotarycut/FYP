@@ -19,7 +19,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     /* function to initialize chart */
     $scope.initializeChart = function () {
         var currentMonth = new Date().getMonth() + 1;
-        $scope.getRoiData(currentMonth);
+        var currentYear = new Date().getFullYear();
+        $scope.getRoiData(currentYear, currentMonth);
     };
 
     /* function to format date */
@@ -154,13 +155,15 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
      *******************************************************************************/
 
 
-    $scope.getRoiData = function (month) {
-        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&month=' + month;
+    $scope.getRoiData = function (year, month) {
+        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&year=' + year + '&month=' + month;
         $http.get(restRequest)
             .success(function (data) {
-                $scope.newRoiData = data;
-                $scope.currentChartMonth = month;
-                $scope.showRoiChart($scope.newRoiData);
+
+                var roiData = data;
+                $scope.currentYear = year;
+                $scope.currentMonth = month;
+                $scope.showRoiChart(roiData);
             });
     };
 
@@ -337,7 +340,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
          },
          unload: $scope.marketingChart.columns
          });*/
-    }
+    };
+
 
     /*******************************************************************************
      retrieve month listings
@@ -440,19 +444,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
         });
     };
 
-    /*******************************************************************************
-     retrieve month data for roi chart
-     *******************************************************************************/
-
-    $scope.getRoiData = function (month) {
-        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&month=' + month;
-        $http.get(restRequest)
-            .success(function (data) {
-                $scope.newRoiData = data;
-                $scope.currentChartMonth = month;
-                $scope.showRoiChart($scope.newRoiData);
-            });
-    };
 
     /*******************************************************************************
      retrieve custom data for roi chart
