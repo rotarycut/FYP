@@ -149,7 +149,7 @@
                     <li ng-repeat="month in savedMonths">
                         <a href="#/dashboard/conversion" style="font-size: smaller" class="mrkt-month-item"
                            onclick="changeState(this)"
-                           ng-click="getMonthData(month); getTimeLineData(month);">[[month]]</a>
+                           ng-click="getMonthData(month); getTimeLineData(month); clearSortSelected()">[[month]]</a>
                     </li>
                 </ul>
             </div>

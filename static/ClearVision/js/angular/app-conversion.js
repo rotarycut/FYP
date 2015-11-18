@@ -165,6 +165,11 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
     };
 
+    /* function to clear sort selected value */
+    $scope.clearSortSelected = function () {
+        $scope.sortSelected = "";
+    };
+
 
     /*******************************************************************************
      retrieve month data for marketing chart
@@ -223,22 +228,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
 
     /*******************************************************************************
-     retrieve month data for roi chart
-     *******************************************************************************/
-
-
-    $scope.getRoiData = function (month) {
-        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&month=' + month;
-        $http.get(restRequest)
-            .success(function (data) {
-                $scope.newRoiData = data;
-                $scope.currentChartMonth = month;
-                $scope.showRoiChart($scope.newRoiData);
-            });
-    };
-
-
-    /*******************************************************************************
      retrieve custom data for marketing chart
      *******************************************************************************/
 
@@ -264,23 +253,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
         $http.get(restRequest)
             .success(function (data) {
-                $scope.showROIChart(data, channelArray);
-            });
-    };
-
-
-    /*******************************************************************************
-     retrieve custom data for roi chart
-     *******************************************************************************/
-
-
-    $scope.getCustomRoiData = function (startDate, endDate, channelList, channelArray) {
-
-        var restRequest = '/Clearvision/_api/ViewROIChart/?channel=987%20Radio&channel=Others&channel=ST%20Ads&startDate=2015-08-02&endDate=2015-08-05';
-
-        $http.get(restRequest)
-            .success(function (data) {
-                $scope.showROIChart(data, channelArray);
+                $scope.showTimelineChart(data, channelArray);
             });
     };
 
@@ -515,81 +488,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
                 }
 
-            }
-        });
-
-    };
-
-
-    /*******************************************************************************
-     show roi chart
-     *******************************************************************************/
-
-
-    $scope.showRoiChart = function (newData) {
-
-        $scope.RoiChart = c3.generate({
-            bindto: '#roiChart',
-            padding: {
-                top: 40,
-                right: 170,
-                bottom: 3,
-                left: 60
-            },
-            bar: {
-                width: {
-                    ratio: 0.2
-                }
-            },
-            axis: {
-                x: {
-                    height: 100,
-                    label: {
-                        text: '',
-                        position: 'outer-center'
-                    },
-                    tick: {
-                        centered: true
-                    },
-                    // type: 'category'
-                    type: 'category'
-                },
-                y: {
-                    label: {
-                        text: '$ Spent',
-                        position: 'outer middle'
-                    },
-                    padding: {top: 0, bottom: 0}
-
-                },
-                y2: {
-                    show: true,
-                    label: {
-                        text: 'ROI / Marketing $ Spent',
-                        position: 'outer middle'
-
-                    },
-                    padding: {
-                        top: 0,
-                        bottom: 0
-                    },
-                    max: 20,
-                    min: 0,
-                    default: [0, 100]
-
-                }
-            },
-            data: {
-                json: newData,
-                keys: {
-                    // x: 'name', // it's possible to specify 'x' when category axis
-                    x: 'channelname',
-                    value: ['Expenditure', 'Revenue', 'roi']
-                },
-                axes: {
-                    'roi': 'y2'
-                },
-                type: 'bar'
             }
         });
 
