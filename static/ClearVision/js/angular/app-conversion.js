@@ -648,6 +648,10 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
         $event.stopPropagation();
 
         $scope.datepickers[which] = true;
+
+        if (which == 'showDatePicker') {
+            $scope.datepickers.showDatePicker2 = false;
+        }
     };
     $scope.dateOptions = {
         formatYear: 'yy',
