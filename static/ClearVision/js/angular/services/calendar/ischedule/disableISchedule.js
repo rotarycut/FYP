@@ -22,7 +22,6 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.showHeatMap = false;
             self.scope.iSchedule = false;
 
-            // remove all the low, medium, high heat map from the source array
             self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempLowHeatMap);
             self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempMedHeatMap);
             self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempHighHeatMap);

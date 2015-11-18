@@ -12,7 +12,7 @@ angular.module('change.calendar', [])
          function to change calendar, setting active calendar tab & setting current selected dr scope
          *******************************************************************************/
 
-        self.changeCalendar = function (calendarNumber, tabDisabled, clickOnTab) {
+        self.changeCalendar = function (calendarNumber, tabDisabled, clickOnTab, isFromSearch) {
 
             // change calendar function could be called from search box, calendar tab click, form drop down
 
@@ -74,14 +74,37 @@ angular.module('change.calendar', [])
                 var date = $(oldDoctorCalendar).fullCalendar('getDate')._d;
 
                 // change chosen doctor
-                self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
+                var idx = 0;
 
-                // tag date of old calendar to newly selected calendar
-                var newDoctorCalendar = '#' + self.scope.allDoctorsVariables[calendarNumber].calendar;
-                $(newDoctorCalendar).fullCalendar('gotoDate', date);
+                if (isFromSearch) {
 
-                // tag view of old calendar to newly selected calendar
-                self.scope.changeView(self.scope.currentView, self.scope.allDoctorsVariables[calendarNumber].changeCalendar);
+                    // de-activate current doctor calendar
+                    self.scope.chosenDoctor.active = false;
+
+                    angular.forEach(self.scope.fixedListOfDoctors, function (doctor) {
+                        if (doctor.name == self.scope.searchedDoctor) {
+                            calendarNumber = idx;
+                        }
+                        idx++;
+                    });
+                    self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
+
+                    // activate current doctor calendar
+                    self.scope.chosenDoctor.active = true;
+
+                } else {
+
+                    // change chosen doctor
+                    self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
+
+                    // tag date of old calendar to newly selected calendar
+                    var newDoctorCalendar = '#' + self.scope.allDoctorsVariables[calendarNumber].calendar;
+                    $(newDoctorCalendar).fullCalendar('gotoDate', date);
+
+                    // tag view of old calendar to newly selected calendar
+                    self.scope.changeView(self.scope.currentView, self.scope.allDoctorsVariables[calendarNumber].changeCalendar);
+                }
+
 
                 //change legend for dr ho calendar
                 //self.scope.showDoctorLegend = true;
