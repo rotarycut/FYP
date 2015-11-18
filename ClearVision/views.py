@@ -1894,7 +1894,7 @@ class ViewTodayPatients(viewsets.ModelViewSet):
                                                             'associatedpatientactions__patient_id',
                                                             'associatedpatientactions__appointment__doctor_id',
                                                             'associatedpatientactions__appointment_id',
-                                                            'associatedpatientactions__cancelled').distinct()
+                                                            'associatedpatientactions__cancelled').distinct().order_by('associatedpatientactions__appointment__timeBucket__start')
         return Response(response_data)
 
     def create(self, request, *args, **kwargs):
