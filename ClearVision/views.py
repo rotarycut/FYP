@@ -444,7 +444,7 @@ class DoctorCalendarSideTab(viewsets.ReadOnlyModelViewSet):
             for EachApptTypesEachDoc in apptTypesEachDoc:
                 appointmentTypeArray.append(EachApptTypesEachDoc.name)
                 appointmentTypeSourceArray.append(eachDoc.name.replace(" ", "") + EachApptTypesEachDoc.name.replace(" ", ""))
-                appointmentTypeColorArray.append({"type": EachApptTypesEachDoc.name,
+                appointmentTypeColorArray.append({"type": eachDoc.name.replace(" ", "") + EachApptTypesEachDoc.name.replace(" ", ""),
                                                    "color": CalendarColorSettings.objects.get(apptType__id=EachApptTypesEachDoc.id).hex,
                                                    "textColor": "White"})
 
