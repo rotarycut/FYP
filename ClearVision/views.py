@@ -598,7 +598,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if not Patient.objects.filter(contact=patientContact, name=patientName).exists():     #DAMN IMPT SHIT
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
                                    marketingChannelId=MarketingChannels.objects.get(id=marketingID),
-                                   registrationDate=datetime.now())
+                                   registrationDate=datetime.today())
 
         p = Patient.objects.get(contact=patientContact, name=patientName)
         apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate, doctors=docID).id

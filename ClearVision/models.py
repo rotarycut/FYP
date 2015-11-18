@@ -39,7 +39,7 @@ class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     contact = models.CharField(max_length=50)
-    registrationDate = models.DateTimeField(null=True)
+    registrationDate = models.DateField(null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
 
     class Meta:
