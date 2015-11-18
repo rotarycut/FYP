@@ -907,7 +907,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
 
                 for eachObj in date_range:
                     for eachObj2 in marketed_list:
-                        if eachObj['date'] == eachObj2['registrationDate'].date():
+                        if eachObj['date'] == eachObj2['registrationDate']:
                             mktname = eachObj2['channelname']
                             try:
                                 eachObj[mktname] += 1
@@ -993,13 +993,13 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     return Response(response_data)
 
             else:
-                marketed_list = Patient.objects.filter(registrationDate__month=month). \
+                marketed_list = Patient.objects.filter(registrationDate__month=month, registrationDate__year=year). \
                     annotate(channelname=F('marketingChannelId__name')).values()
-                date_range = FullYearCalendar.objects.filter(date__month=month).values('date')
+                date_range = FullYearCalendar.objects.filter(date__month=month, date__year=year).values('date')
 
                 for eachObj in date_range:
                     for eachObj2 in marketed_list:
-                        if eachObj['date'] == eachObj2['registrationDate'].date():
+                        if eachObj['date'] == eachObj2['registrationDate']:
                             mktname = eachObj2['channelname']
                             try:
                                 eachObj[mktname] += 1
