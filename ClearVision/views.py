@@ -549,7 +549,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         """
         # Inform potential patients in the tempPatients queue, to push into notification basket
         if num_temp_patients >= 1:
-            Swapper.objects.filter(patient=temp_patients[0]['id'], tempAppt=a).update(swappable=True)
+            #Swapper.objects.filter(patient=temp_patients[0]['id'], tempAppt=a).update(swappable=True)
+            Swapper.objects.filter(tempAppt=a).update(swappable=True)
 
             response_data = Swapper.objects.filter(patient=temp_patients[0]['id'], tempAppt=a). \
                 annotate(patientname=F('patient__name')). \
