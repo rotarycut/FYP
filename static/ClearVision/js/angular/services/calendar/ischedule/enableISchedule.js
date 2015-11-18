@@ -90,8 +90,20 @@ app.service('enableIScheduleSvc', function ($rootScope) {
                 self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
                 self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);
 
-                // get heat map for chosen appointment type and doctor
-                self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);
+                // check if the appointment type chosen and doctor chosen is valid
+                var apptTypeAndDoctorIsValid = this.checkApptTypeAndDoctorMatch(self.scope.fields.appointmentType.name);
+
+                if (apptTypeAndDoctorIsValid) {
+                    // get heat map for chosen appointment type and doctor
+                    self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);
+                } else {
+                    // clear the doctor name field
+                    self.scope.fields.doctorAssigned = "";
+                    $rootScope.spinner = {active: false};
+                    self.scope.form.disableFields.disabledApptType = false;
+                    self.scope.form.disableFields.doctor = false;
+                    self.scope.form.backBtn = false;
+                }
 
             }
         }
@@ -115,6 +127,26 @@ app.service('enableIScheduleSvc', function ($rootScope) {
         } else {
             // do nothing
         }
+
+    };
+
+    /*******************************************************************************
+     function to check if the appointment type chosen and doctor chosen is valid
+     *******************************************************************************/
+
+    self.checkApptTypeAndDoctorMatch = function (appointmentTypeName) {
+
+        var isValid = false;
+
+        angular.forEach(self.scope.chosenDoctor.appointmentTypeArray, function (doctorAppointmentType) {
+
+            if (doctorAppointmentType == appointmentTypeName) {
+                isValid = true;
+            }
+
+        });
+
+        return isValid;
 
     };
 
