@@ -21,7 +21,7 @@ class FullYearCalendar(models.Model):
 
 class MarketingChannels(models.Model):
     name = models.CharField(max_length=500)
-    cost = models.FloatField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
     datePurchased = models.DateField()
     show = models.BooleanField(default=True)
 

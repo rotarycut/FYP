@@ -1043,7 +1043,10 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                                                                        patient__registrationDate__year=year,
                                                                        patient__marketingChannelId__name=eachChannel['name'],
                                                                        apptType=apptType.name).values().count()
-                roi = (totalPatientCount * 3388) / totalCost
+                if totalCost != 0:
+                    roi = (totalPatientCount * 3388) / totalCost
+                else:
+                    roi = (totalPatientCount * 3388)
                 toReturnResponse.append({'channelname': eachChannel['name'], 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
         else:
             for eachChannel in channel:
@@ -1058,7 +1061,10 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                                                                            patient__registrationDate__year=year,
                                                                            patient__marketingChannelId__name=eachChannel['name'],
                                                                            apptType=apptType.name).values().count()
-                    roi = (totalPatientCount * 3388) / totalCost
+                    if totalCost != 0:
+                        roi = (totalPatientCount * 3388) / totalCost
+                    else:
+                        roi = (totalPatientCount * 3388)
 
                     toReturnResponse.append({'channelname': eachChannel, 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
                 except ObjectDoesNotExist:
