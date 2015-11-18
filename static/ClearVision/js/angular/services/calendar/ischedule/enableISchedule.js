@@ -64,6 +64,12 @@ app.service('enableIScheduleSvc', function ($rootScope) {
 
                 // iSchedule is already enabled
 
+                // change the calendar view to week view
+                self.scope.changeView('agendaWeek', self.scope.chosenDoctor.changeCalendar);
+
+                // navigate the calendar to current date only if current view is before current date once heat map is enabled
+                this.shiftIfPastDate();
+
                 // remove all the appointments in each of the low, medium and high heat map
                 self.scope.tempLowHeatMap.events.splice(0, self.scope.tempLowHeatMap.events.length);
                 self.scope.tempMedHeatMap.events.splice(0, self.scope.tempMedHeatMap.events.length);
