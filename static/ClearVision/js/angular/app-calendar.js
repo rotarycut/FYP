@@ -813,6 +813,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.getAllDoctors = function () {
         $http.get('/Clearvision/_api/doctors/')
             .success(function (data) {
+                $scope.fixedListOfDoctors = data;
                 $scope.listOfDoctors = data;
             });
     };

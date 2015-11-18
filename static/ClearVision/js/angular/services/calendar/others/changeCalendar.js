@@ -41,7 +41,8 @@ angular.module('change.calendar', [])
                 // new way
                 var idx = 0;
                 var doctorPositionInArray = 0;
-                angular.forEach(self.scope.listOfDoctors, function (doctor) {
+
+                angular.forEach(self.scope.fixedListOfDoctors, function (doctor) {
                     if (doctor.id == self.scope.fields.doctorAssigned.id) {
                         doctorPositionInArray = idx;
                     }
