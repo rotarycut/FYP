@@ -69,7 +69,6 @@ angular.module('schedule.customFilter', [])
 
             // clears the filter form first
             self.scope.clearFilter();
-
             self.scope.isCollapsed = false;
             self.scope.datepicker = startDate;
             self.scope.datepicker2 = endDate;

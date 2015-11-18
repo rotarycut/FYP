@@ -103,6 +103,9 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
         $scope.listOfSelectedChannels.splice(0);
         $scope.listOfSelectedChannelsId.splice(0);
+        $scope.showEditFilterButtons = false;
+        $scope.existingFilterName = "";
+
     };
 
     /* function to validate if filter inputs are all filled */
@@ -540,6 +543,8 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
     /* function to open filter for edit */
     $scope.openEditFilter = function (startDate, endDate, filterId, filterName) {
+
+        $scope.clearFilter();
         $scope.isCollapsed = false;
         $scope.datepicker = startDate;
         $scope.datepicker2 = endDate;
@@ -556,13 +561,13 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
                 angular.forEach($scope.channelObjects, function (channel) {
                     if ($scope.listOfSelectedChannels.indexOf(channel.name) > -1) {
-                        console.log("YAY");
                         channel.channelUnselected = true;
                     }
                 });
             });
 
         $scope.editFilterId = filterId;
+        $scope.showEditFilterButtons = true;
     };
 
     /* function to delete filter */
@@ -683,7 +688,15 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
             animation: $scope.animationsEnabled,
             templateUrl: 'myErrorContent.html',
             controller: 'RoiModalCtrl',
-            size: size
+            size: size,
+            resolve: {
+                showEditFilterBtn: function () {
+                    return $scope.showEditFilterButtons;
+                },
+                existingFilterName: function () {
+                    return '';
+                }
+            }
         });
     };
 
@@ -693,7 +706,15 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
             animation: $scope.animationsEnabled,
             templateUrl: 'myFilterModalContent.html',
             controller: 'RoiModalCtrl',
-            size: size
+            size: size,
+            resolve: {
+                showEditFilterBtn: function () {
+                    return $scope.showEditFilterButtons;
+                },
+                existingFilterName: function () {
+                    return $scope.existingFilterName;
+                }
+            }
         });
     };
 
@@ -705,7 +726,11 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
  *******************************************************************************/
 
 
-appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc) {
+appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
+                                                  showEditFilterBtn, existingFilterName) {
+
+    $scope.filterName = existingFilterName;
+    $scope.showEditFilterBtn = showEditFilterBtn;
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -713,6 +738,11 @@ appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRo
 
     $scope.postFilter = function () {
         postRoiFilterSvc.postFilter($scope.filterName);
+        $scope.cancel();
+    };
+
+    $scope.editFilter = function (filterName) {
+        scheduleConversionFilterSvc.editFilter(filterName);
         $scope.cancel();
     };
 

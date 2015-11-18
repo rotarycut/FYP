@@ -10,8 +10,14 @@ angular.module('post.roiFilter', [])
 
         self.postFilter = function (filterName) {
 
-            var startDate = self._scope.getFormattedDate(self._scope.datepicker);
-            var endDate = self._scope.getFormattedDate(self._scope.datepicker2);
+            if (self._scope.datepicker.toString().length >= 15 || self._scope.datepicker2.toString().length >= 15) {
+                var startDate = self._scope.getFormattedDate(self._scope.datepicker);
+                var endDate = self._scope.getFormattedDate(self._scope.datepicker2);
+            } else {
+                var startDate = self._scope.datepicker;
+                var endDate = self._scope.datepicker2;
+            }
+
             var listOfChannelId = self._scope.listOfSelectedChannelsId;
 
             var queryJson = {

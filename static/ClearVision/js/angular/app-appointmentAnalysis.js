@@ -579,6 +579,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                 resolve: {
                     existingFilterName: function () {
                         return $scope.existingFilterName;
+                    },
+                    showEditFilterBtn: function () {
+                        return '';
                     }
                 }
             });

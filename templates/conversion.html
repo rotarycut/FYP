@@ -95,7 +95,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-md-offset-1">
+                            <div class="col-md-3 col-md-offset-1" ng-show="!showEditFilterButtons">
                                 <div class="row" style="padding-top: 22%">
                                     <button class="btn form-default-btn"
                                             ng-click="runFilter(datepicker, datepicker2, listOfSelectedChannels)">Run
@@ -103,6 +103,11 @@
                                     </button>
                                     <button class="btn form-default-btn" ng-click="saveFilter()">Save Filter</button>
                                     <button class="btn form-default-btn" ng-click="clearFilter()">Clear</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-1" ng-show="showEditFilterButtons">
+                                <div class="row" style="padding-top: 22%">
+                                    <button class="btn form-default-btn" ng-click="saveFilter()">Update Filter</button>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +179,8 @@
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="#/dashboard/conversion" ng-click="deleteFilter(filter.id)" style="font-size: smaller"><i
+                        <a href="#/dashboard/conversion" ng-click="deleteFilter(filter.id)"
+                           style="font-size: smaller"><i
                                 class="fa fa-times"></i></a>
                         <a href="#/dashboard/conversion" ng-click="runSavedFilter(filter.id)" style="font-size: smaller"
                            class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
@@ -235,8 +241,13 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" ng-show="filterName.length <= 8 && filterName.length > 0" type="button"
-                ng-click="postFilter()">Submit
+        <button class="btn form-submit-btn" type="button"
+                ng-show="filterName.length <= 8 && filterName.length > 0 && !showEditFilterBtn"
+                ng-click="postFilter()">Save
+        </button>
+        <button class="btn form-submit-btn" type="button"
+                ng-show="filterName.length <= 8 && filterName.length > 0 && showEditFilterBtn"
+                ng-click="editFilter(filterName)">Update
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
     </div>
