@@ -941,7 +941,20 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
         $scope.fields.patientContact = $item.contact;
         $scope.fields.patientName = $item.name;
-        $scope.fields.marketingChannel = $scope.listOfMarketingChannels[$item.marketingChannelId - 1];
+
+        var idx = 0;
+        var channelIndex = 0;
+
+        angular.forEach($scope.listOfMarketingChannels, function (channel) {
+
+            if (channel.id == $item.marketingChannelId) {
+                channelIndex = idx;
+            }
+            idx++;
+
+        });
+
+        $scope.fields.marketingChannel = $scope.listOfMarketingChannels[channelIndex];
 
         // disable marketing channel field on select of patient
         $scope.form.disableFields.marketingChannel = true;
@@ -1020,7 +1033,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /*******************************************************************************
      pusher
      *******************************************************************************/
-        
+
 
     var my_presence_channel = pusher.subscribe('appointmentsCUD');
     my_presence_channel.bind('createAppt', function (appointment) {

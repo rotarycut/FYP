@@ -21,10 +21,27 @@ angular.module('populate.patients', [])
 
             // loop through the patient list and find the selected patient object
             angular.forEach(self.scope.fields.patientList, function (patient) {
+
                 if (patientId === patient.id) {
                     self.scope.fields.patientName = patient.name;
                     self.scope.fields.patientContact = patient.contact;
-                    self.scope.fields.marketingChannel = self.scope.listOfMarketingChannels[patient.marketingChannelId - 1];
+
+                    // populate marketing channel detail
+                    var idx = 0;
+                    var channelIndex = 0;
+
+                    angular.forEach(self.scope.listOfMarketingChannels, function (channel) {
+
+                        if (channel.id == patient.marketingChannelId) {
+                            channelIndex = idx;
+                        }
+                        idx++;
+
+                    });
+
+                    self.scope.fields.marketingChannel = self.scope.listOfMarketingChannels[channelIndex];
+
+                    // populate other details
                     self.scope.fields.patientId = patient.id;
                     self.scope.fields.originalPatientName = patient.name;
                     self.scope.fields.originalPatientContact = patient.contact;
