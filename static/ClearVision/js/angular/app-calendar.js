@@ -10,34 +10,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
                                                  populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher) {
 
-
     var client = new Pusher('6cb577c1e7b97150346b');
     var pusher = $pusher(client);
 
     $timeout(function () {
         $scope.socketId = pusher.connection.baseConnection.socket_id;
-    }, 2000);
+    }, 5000);
 
     $scope.$route = $route;
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-
-    $scope.dynamicPopover = {
-        content: 'Hello, World!',
-        templateUrl: 'myPopoverTemplate.html',
-        title: 'Title'
-    };
-
-    $scope.changeTo = 'Hungarian';
-
-    /* event source that pulls from google.com */
-    $scope.eventSource = {
-        url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-        className: 'gcal-event',           // an option!
-        currentTimezone: 'America/Chicago' // an option!
-    };
 
     /* pass the scope to the post appointment service upon initialization */
     postAppointmentSvc.getScope($scope);
@@ -971,6 +955,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.onSelect = function ($item, $model, $label) {
 
+        console.log($item);
+
         // discover which doctor appointment is selected
         var lastCommar = $item.lastIndexOf(",");
         var formatStr = $item.substring(0, lastCommar);
@@ -981,32 +967,30 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var commarIndex = $item.indexOf(",");
         var date = $item.substring(0, commarIndex);
 
-        // check if the selected appointment is dr ho or dr goh appointment
-        if (doctor == "Dr Ho") {
+        // discover doctor change calendar tag & doctor calendar tag
+        var changeCalendarTag;
+        var doctorCalendarTag;
 
-            // change the calendar view to the day view
-            $scope.changeView('agendaDay', 'myCalendar1');
+        angular.forEach($scope.allDoctorsVariables, function (doctorCalendar) {
+            if (doctorCalendar.title == doctor) {
+                changeCalendarTag = doctorCalendar.changeCalendar;
+                doctorCalendarTag = '#' + doctorCalendar.calendar;
+            }
+        });
 
-            // navigate the calendar to the appointment date
-            $('#drHoCalendar').fullCalendar('gotoDate', date);
+        console.log(doctor);
+        console.log(date);
+        console.log(changeCalendarTag);
+        console.log(doctorCalendarTag);
 
-            // change the calendar tab and set variables, doesnt matter if it is edit >1 patients and showing patient list since giving default false
-            $scope.changeCalendar('myCalendar1', false);
+        // change the calendar view to the day view
+        $scope.changeView('agendaDay', changeCalendarTag);
 
-        } else if (doctor == "Dr Goh") {
+        // navigate the calendar to the appointment date
+        $(doctorCalendarTag).fullCalendar('gotoDate', date);
 
-            $scope.changeView('agendaDay', 'myCalendar2');
-            $('#drGohCalendar').fullCalendar('gotoDate', date);
-            $scope.changeCalendar('myCalendar2', false);
-
-            //$scope.changeCalendar('', false);
-        } else if (doctor == "Optometrist") {
-
-            $scope.changeView('agendaDay', 'myCalendar3');
-            $('#optomCalendar').fullCalendar('gotoDate', date);
-            $scope.changeCalendar('myCalendar3', false);
-
-        }
+        // change the calendar tab and set variables, doesnt matter if it is edit >1 patients and showing patient list since giving default false
+        //$scope.changeCalendar(changeCalendarTag, false);
 
         // clear the search box text
         $scope.searchText = "";
@@ -1036,58 +1020,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         //console.log(selectedMinute);
 
     };
-
-
-    /*******************************************************************************
-     tracking of user action timings
-     *******************************************************************************/
-
-
-    /* start recording create appointment */
-    $scope.recordCreationTimeIn = function (userName) {
-
-        var date = new Date();
-        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-        var req =
-        {
-            "user": userName,
-            "action": "Create Appt",
-            "timeIn": time
-        };
-
-        $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
-            .success(function (data) {
-
-                //$log.info("Start recording of creating appointment..");
-                $scope.trackId = data;
-            });
-
-    };
-
-    /* start recording update appointment */
-    $scope.recordUpdateDeleteTimeIn = function (userName) {
-
-        var date = new Date();
-        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
-        var req =
-        {
-            "user": userName,
-            "action": "",
-            "timeIn": time
-        };
-
-        $http.post('/Clearvision/_api/UserTrackingTimeIn', req)
-            .success(function (data) {
-                //console.log(data);
-                //$log.info("Start recording of editing / deleting appointment..");
-                $scope.trackId = data;
-            });
-
-    };
-
-    $scope.trackId = "";
 
 
     /*******************************************************************************
