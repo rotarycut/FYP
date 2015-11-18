@@ -1,10 +1,12 @@
 var appConversion = angular.module('app.conversion', []);
 
 appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $route, $filter, postRoiFilterSvc,
-                                                     getMarketingChannelsSvc, getMonthListingsSvc) {
+                                                     getMarketingChannelsSvc, getMonthListingsSvc,
+                                                     scheduleConversionFilterSvc) {
 
     $scope.$route = $route;
     postRoiFilterSvc.getScope($scope);
+    scheduleConversionFilterSvc.getScope($scope);
     $scope.isCollapsed = true;
     $scope.channelObjects = [];
     $scope.channelLists = [];
@@ -561,6 +563,11 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
             });
 
         $scope.editFilterId = filterId;
+    };
+
+    /* function to delete filter */
+    $scope.deleteFilter = function (filterId) {
+        scheduleConversionFilterSvc.deleteFilter(filterId);
     };
 
 

@@ -174,7 +174,7 @@
                 <label class="dashboard-listing-lbl">Saved Filters</label>
                 <ul class="saved-filter-items">
                     <li ng-repeat="filter in savedFilters">
-                        <a href="#/dashboard/conversion" ng-click="" style="font-size: smaller"><i
+                        <a href="#/dashboard/conversion" ng-click="deleteFilter(filter.id)" style="font-size: smaller"><i
                                 class="fa fa-times"></i></a>
                         <a href="#/dashboard/conversion" ng-click="runSavedFilter(filter.id)" style="font-size: smaller"
                            class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
