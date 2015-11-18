@@ -79,9 +79,10 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
         $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToQueue)
             .success(function (result) {
-                console.log("Added to queue successfully.")
-                //$scope.getTodayAppointments();
-                //$scope.getPatientQueue();
+
+                getTodayAppointmentSvc.getTodayAppointments();
+                getPatientQueueSvc.getPatientQueue();
+                getNoShowSvc.getNoShow();
                 $scope.queueSpinner = false;
             });
     };
@@ -107,9 +108,10 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
         $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToNoShow)
             .success(function (result) {
-                console.log("Added to no show successfully.")
-                //$scope.getTodayAppointments();
-                //$scope.getPatientQueue();
+
+                getTodayAppointmentSvc.getTodayAppointments();
+                getPatientQueueSvc.getPatientQueue();
+                getNoShowSvc.getNoShow();
             });
 
     };
@@ -129,11 +131,11 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
             "patient": patientId
         })
             .success(function (data) {
-                console.log("Success reverting");
+
                 $scope.queueSpinner = false;
-                //$scope.getTodayAppointments();
-                //$scope.getPatientQueue();
-                //$scope.getNoShow();
+                getTodayAppointmentSvc.getTodayAppointments();
+                getPatientQueueSvc.getPatientQueue();
+                getNoShowSvc.getNoShow();
             })
             .error(function (data) {
                 console.log("Error reverting");
@@ -254,30 +256,30 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
     /*Pusher.subscribe('queue', 'addToQueue', function (appointment) {
 
-        $log.debug("Receiving socket request to add to queue");
-        getTodayAppointmentSvc.getTodayAppointments();
-        getPatientQueueSvc.getPatientQueue();
-        getNoShowSvc.getNoShow();
+     $log.debug("Receiving socket request to add to queue");
+     getTodayAppointmentSvc.getTodayAppointments();
+     getPatientQueueSvc.getPatientQueue();
+     getNoShowSvc.getNoShow();
 
-    });
+     });
 
-    Pusher.subscribe('queue', 'noShow', function (appointment) {
+     Pusher.subscribe('queue', 'noShow', function (appointment) {
 
-        $log.debug("Receiving socket request to add to no show");
-        getTodayAppointmentSvc.getTodayAppointments();
-        getPatientQueueSvc.getPatientQueue();
-        getNoShowSvc.getNoShow();
+     $log.debug("Receiving socket request to add to no show");
+     getTodayAppointmentSvc.getTodayAppointments();
+     getPatientQueueSvc.getPatientQueue();
+     getNoShowSvc.getNoShow();
 
-    });
+     });
 
-    Pusher.subscribe('queue', 'removeFromQueue', function (appointment) {
+     Pusher.subscribe('queue', 'removeFromQueue', function (appointment) {
 
-        $log.debug("Receiving socket request to revert from queue or no show");
-        getTodayAppointmentSvc.getTodayAppointments();
-        getPatientQueueSvc.getPatientQueue();
-        getNoShowSvc.getNoShow();
+     $log.debug("Receiving socket request to revert from queue or no show");
+     getTodayAppointmentSvc.getTodayAppointments();
+     getPatientQueueSvc.getPatientQueue();
+     getNoShowSvc.getNoShow();
 
-    });*/
+     });*/
 
 });
 

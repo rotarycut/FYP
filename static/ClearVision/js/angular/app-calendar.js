@@ -720,8 +720,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to change calendar, setting active calendar tab */
-    $scope.changeCalendar = function (calendarNumber, tabDisabled, clickOnTab) {
-        changeCalendarSvc.changeCalendar(calendarNumber, tabDisabled, clickOnTab);
+    $scope.changeCalendar = function (calendarNumber, tabDisabled, clickOnTab, isFromSearch) {
+        changeCalendarSvc.changeCalendar(calendarNumber, tabDisabled, clickOnTab, isFromSearch);
     };
 
     /* function to set current selected dr scope */
@@ -955,8 +955,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.onSelect = function ($item, $model, $label) {
 
-        console.log($item);
-
         // discover which doctor appointment is selected
         var lastCommar = $item.lastIndexOf(",");
         var formatStr = $item.substring(0, lastCommar);
@@ -978,10 +976,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             }
         });
 
-        console.log(doctor);
-        console.log(date);
-        console.log(changeCalendarTag);
-        console.log(doctorCalendarTag);
+        $scope.searchedDoctor = doctor;
 
         // change the calendar view to the day view
         $scope.changeView('agendaDay', changeCalendarTag);
@@ -990,7 +985,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $(doctorCalendarTag).fullCalendar('gotoDate', date);
 
         // change the calendar tab and set variables, doesnt matter if it is edit >1 patients and showing patient list since giving default false
-        //$scope.changeCalendar(changeCalendarTag, false);
+        $scope.changeCalendar(changeCalendarTag, false, false, true);
 
         // clear the search box text
         $scope.searchText = "";
@@ -1025,6 +1020,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /*******************************************************************************
      pusher
      *******************************************************************************/
+        
 
     var my_presence_channel = pusher.subscribe('appointmentsCUD');
     my_presence_channel.bind('createAppt', function (appointment) {
