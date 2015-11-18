@@ -5,7 +5,7 @@
          ng-class="scaleDownCalendar ? 'col-sm-8 left-content-resize' : 'col-sm-12 left-content'">
         <!-- row for top content: button groups-->
         <div class="row">
-            <div class="col-sm-12 cal-main-content">
+            <div class="col-sm-12 cal-main-container">
                 <!-- inner row for all buttons>-->
                 <div class="row center-block">
                     <div class="col-sm-2 top-content-search">
@@ -98,12 +98,12 @@
                         <div class="cal-legend" ng-show="showDoctorLegend">
                             <ul class="legend-ul">
                                 <div ng-repeat="tab in listOfSideTabs">
-                                    <li ng-repeat="type in tab.appointmentTypeColorArray"><a href="#/"
-                                                                                             singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
-                                                                                             data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
-                                                                                             ng-class="legendEvalClicked"
-                                                                                             ng-style="{'color': type.color}"><i
-                                            ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i>[[type.type]]</a>
+                                    <li ng-repeat=""><a href="#/"
+                                                        singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
+                                                        data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
+                                                        ng-class="legendEvalClicked"
+                                                        ng-style="{'color': type.color}"><i
+                                            ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i></a>
                                     </li>
                                     <!--<li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
                                            data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
