@@ -10,6 +10,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
     $scope.channelLists = [];
     $scope.listOfSelectedChannels = [];
     $scope.listOfSelectedChannelsId = [];
+    $scope.sortOptions = ["Leads", "Converts", "Rate"];
 
 
     /*******************************************************************************
@@ -18,10 +19,10 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
     /* function to initialize chart */
     $scope.initializeChart = function () {
-        var currentMonth = $filter('date')(new Date(), 'MMM yyyy');
+        var currentMonthYear = $filter('date')(new Date(), 'MMM yyyy');
 
-        $scope.getMonthData(currentMonth);
-        $scope.getTimeLineData(currentMonth);
+        $scope.getMonthData(currentMonthYear);
+        $scope.getTimeLineData(currentMonthYear);
     };
 
     /* function to format date */
@@ -155,6 +156,12 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
     /* function to change sort option of bar charts */
     $scope.changeSortOption = function () {
+        var queryStr = '/Clearvision/_api/analyticsServer/?channels=all&year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&sortValue=' + $scope.sortSelected;
+
+        $http.get(queryStr)
+            .success(function (sortedList) {
+                $scope.showMarketingChart(sortedList);
+            });
 
     };
 
@@ -164,15 +171,18 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
      *******************************************************************************/
 
 
-    $scope.getMonthData = function (selectedMonth) {
+    $scope.getMonthData = function (selectedMonthYear) {
 
-        var spaceIndex = selectedMonth.indexOf(" ");
-        var month = selectedMonth.substring(0, spaceIndex);
-        var year = selectedMonth.substring(spaceIndex + 1);
+        var spaceIndex = selectedMonthYear.indexOf(" ");
+        var month = selectedMonthYear.substring(0, spaceIndex);
+        var year = selectedMonthYear.substring(spaceIndex + 1);
 
         var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var currentMonth = monthList.indexOf(month) + 1;
         var currentYear = year;
+
+        $scope.currentMonth = currentMonth;
+        $scope.currentYear = currentYear;
 
         var restRequest = '/Clearvision/_api/analyticsServer/?channels=all&year=' + currentYear + '&month=' + currentMonth;
         $http.get(restRequest)
@@ -189,15 +199,18 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
      *******************************************************************************/
 
 
-    $scope.getTimeLineData = function (selectedMonth) {
+    $scope.getTimeLineData = function (selectedMonthYear) {
 
-        var spaceIndex = selectedMonth.indexOf(" ");
-        var month = selectedMonth.substring(0, spaceIndex);
-        var year = selectedMonth.substring(spaceIndex + 1);
+        var spaceIndex = selectedMonthYear.indexOf(" ");
+        var month = selectedMonthYear.substring(0, spaceIndex);
+        var year = selectedMonthYear.substring(spaceIndex + 1);
 
         var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var currentMonth = monthList.indexOf(month) + 1;
         var currentYear = year;
+
+        $scope.currentMonth = currentMonth;
+        $scope.currentYear = currentYear;
 
         var restRequest = '/Clearvision/_api/analyticsServer/?year=' + currentYear + '&month=' + currentMonth;
         $http.get(restRequest)
