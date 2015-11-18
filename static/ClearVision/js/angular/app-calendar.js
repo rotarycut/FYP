@@ -735,9 +735,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         return checkExistingPatientSvc.checkExistingPatient(searchValue);
     };
 
-    /* function to change calendar, setting active calendar tab & setting current selected dr scope */
-    $scope.changeCalendar = function (calendarNumber, tabDisabled, doctorDropDown) {
-        changeCalendarSvc.changeCalendar(calendarNumber, tabDisabled, doctorDropDown);
+    /* function to change calendar, setting active calendar tab */
+    $scope.changeCalendar = function (calendarNumber, tabDisabled, clickOnTab) {
+        changeCalendarSvc.changeCalendar(calendarNumber, tabDisabled, clickOnTab);
     };
 
     /* function to set current selected dr scope */

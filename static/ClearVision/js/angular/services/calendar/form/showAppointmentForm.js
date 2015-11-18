@@ -30,8 +30,8 @@ angular.module('show.form', [])
             }, 600);
 
             // disabled both doctor's calendar tabs
-            angular.forEach(self.scope.tabs, function (tab) {
-                tab.disable = true;
+            angular.forEach(self.scope.allDoctorsVariables, function (doctorCalendar) {
+                doctorCalendar.disable = true;
             });
 
             // check whether the its a create or edit form

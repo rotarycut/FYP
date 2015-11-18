@@ -74,7 +74,7 @@
                                 <tab ng-repeat="tab in allDoctorsVariables" heading="[[tab.title]]"
                                      select="renderCalendar(tab.calendar);"
                                      class="heading-rotate"
-                                     ng-click="changeCalendar(tab.calendarTag, tab.disable)"
+                                     ng-click="changeCalendar(tab.calendarTag, tab.disable, true)"
                                      active="tab.active" disable="tab.disable">
 
                                     <div class="calendar" ng-model="tab.doctorAppointmentSource"
@@ -209,7 +209,7 @@
                             <select class="form-control" ng-options="doc as doc.name for doc in listOfDoctors"
                                     ng-model="fields.doctorAssigned" name="doctorAssigned"
                                     ng-disabled="form.disableFields.doctor"
-                                    ng-change="changeCalendar('', true, true); getAppointmentTimings();"
+                                    ng-change="changeCalendar('', true, false); getAppointmentTimings();"
                                     required>
                             </select>
 

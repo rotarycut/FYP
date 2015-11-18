@@ -40,9 +40,10 @@ angular.module('hide.form', [])
                     self._scope.form.showButtons[field] = false;
                 }
 
-                angular.forEach(self._scope.tabs, function (tab) {
-                    tab.disable = false;
+                angular.forEach(self._scope.allDoctorsVariables, function (doctorCalendar) {
+                    doctorCalendar.disable = false;
                 });
+
                 self._scope.form.showButtons['addAndBlock'] = true;
 
             }, 600);

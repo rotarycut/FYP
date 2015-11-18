@@ -12,7 +12,7 @@ angular.module('change.calendar', [])
          function to change calendar, setting active calendar tab & setting current selected dr scope
          *******************************************************************************/
 
-        self.changeCalendar = function (calendarNumber, tabDisabled, doctorDropDown) {
+        self.changeCalendar = function (calendarNumber, tabDisabled, clickOnTab) {
 
             // change calendar function could be called from search box, calendar tab click, form drop down
 
@@ -27,6 +27,9 @@ angular.module('change.calendar', [])
                 // appointment form is shown, tabs are disabled
 
                 // should not be doing anything when clicking on the calendar tabs now
+                if (clickOnTab) {
+                    return;
+                }
 
                 // de-activate current doctor calendar
                 self.scope.chosenDoctor.active = false;
