@@ -1025,11 +1025,12 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         channel = request.query_params.getlist('channel')
         default = request.query_params.get('default')
         month = request.query_params.get('month')
+        year = request.query_params.get('year')
 
         toReturnResponse = []
 
         if default == 'True':
-            allMarketingChannels = MarketingChannels.objects.filter(datePurchased__month=month).values()
+            allMarketingChannels = MarketingChannels.objects.filter(datePurchased__month=month, datePurchased__year=year).values()
             for eachChannel in allMarketingChannels:
                 totalCost = eachChannel['cost']
                 """
@@ -1038,6 +1039,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                 """
                 apptType = AppointmentType.objects.get(id=3)
                 totalPatientCount = AttendedAppointment.objects.filter(patient__registrationDate__month=month,
+                                                                       patient__registrationDate__year=year,
                                                                        patient__marketingChannelId__name=eachChannel['name'],
                                                                        apptType=apptType.name).values().count()
                 roi = (totalPatientCount * 3388) / totalCost
@@ -1045,13 +1047,14 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         else:
             for eachChannel in channel:
                 try:
-                    totalCost = MarketingChannels.objects.get(name=eachChannel, datePurchased__month=month).cost
+                    totalCost = MarketingChannels.objects.get(name=eachChannel, datePurchased__month=month, datePurchased__year=year).cost
                     """
                     totalPatientCount = Patient.objects.filter(conversion=True, marketingChannelId__name=eachChannel,
                                                            registrationDate__month=month).values().count()
                     """
                     apptType = AppointmentType.objects.get(id=3)
                     totalPatientCount = AttendedAppointment.objects.filter(patient__registrationDate__month=month,
+                                                                           patient__registrationDate__year=year,
                                                                            patient__marketingChannelId__name=eachChannel['name'],
                                                                            apptType=apptType.name).values().count()
                     roi = (totalPatientCount * 3388) / totalCost
