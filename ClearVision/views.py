@@ -822,6 +822,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
         timelineFlag = request.query_params.get('timelineFlag')
         filterFlag = request.query_params.get('filterFlag')
 
+        year = request.query_params.get('year')
         month = request.query_params.get('month')
         channels = request.query_params.get('channels')
 
@@ -846,12 +847,12 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     )
                 )
                 """
-                response_data = Patient.objects.filter(registrationDate__month=month)\
-                                               .annotate(channelname=F('marketingChannelId__name')).values('channelname')\
+                response_data = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate)\
+                                               .annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values('channelname')\
                                                .annotate(leads=Count('channelname')).order_by('leads')
 
-                patientBucket = Patient.objects.filter(registrationDate__month=month)\
-                                               .annotate(channelname=F('marketingChannelId__name')).values('channelname','id')\
+                patientBucket = Patient.objects.filter(registrationDate__gte=startDate, registrationDate__lte=endDate)\
+                                               .annotate(channelname=F('marketingChannelId__name')).filter(channelname__in=channels).values('channelname','id')\
                                                .annotate(leads=Count('channelname')).order_by('leads')
 
                 apptType = AppointmentType.objects.get(id=3)  #Surgery Appt
@@ -868,11 +869,25 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     except ObjectDoesNotExist:
                         pass
 
+                set_channels = []
+
                 for eachObj in response_data:
                     leads = eachObj['leads']
                     convert = eachObj['convert']
                     rate = float(convert) / float(leads) * 100
                     eachObj['rate'] = rate
+                    set_channels.append(eachObj['channelname'])
+
+                response_data = list(response_data)
+
+                for eachchannel in channels:
+                    if eachchannel not in set_channels:
+                        response_data.append({
+                            "channelname": eachchannel,
+                            "leads": 0,
+                            "convert": 0,
+                            "rate": 0.0
+                        })
 
                 if sortValue == 'Leads':
                     return Response(sorted(response_data, key=itemgetter('leads'), reverse=True))
@@ -925,11 +940,11 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
                     )
                 )
                 """
-                response_data = Patient.objects.filter(registrationDate__month=month)\
+                response_data = Patient.objects.filter(registrationDate__month=month, registrationDate__year=year)\
                                                .annotate(channelname=F('marketingChannelId__name')).values('channelname')\
                                                .annotate(leads=Count('channelname')).order_by('leads')
 
-                patientBucket = Patient.objects.filter(registrationDate__month=month)\
+                patientBucket = Patient.objects.filter(registrationDate__month=month, registrationDate__year=year)\
                                                .annotate(channelname=F('marketingChannelId__name')).values('channelname','id')\
                                                .annotate(leads=Count('channelname')).order_by('leads')
 
