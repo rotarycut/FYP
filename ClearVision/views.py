@@ -2228,6 +2228,21 @@ class AppointmentAnalysisStackedChart(viewsets.ReadOnlyModelViewSet):
         else:
             return Response(toReturnResponse)
 
+class AnalyticsDashboardTestChecker(viewsets.ReadOnlyModelViewSet):
+    queryset = AssociatedPatientActions.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        param = request.query_params.get('param')
+
+        if param == 'TurnUp':
+            return Response(AssociatedPatientActions.objects.all().values())
+        elif param == 'Cancelled':
+            return Response(Blacklist.objects.all().values())
+        elif param == 'NoShow':
+            return Response(AttendedAppointment.objects.all().values())
+
+        return Response('Invalid Parameter')
+
 class AppointmentAnalysisPiechartApptTypeTab(viewsets.ReadOnlyModelViewSet):
     queryset = Blacklist.objects.none()
 
