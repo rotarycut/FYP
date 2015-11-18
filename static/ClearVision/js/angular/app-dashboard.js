@@ -1,6 +1,6 @@
 var appDashboard = angular.module('app.dashboard', []);
 
-appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRoiFilterSvc, $route) {
+appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route, postRoiFilterSvc, getMonthListingsSvc) {
 
     $scope.$route = $route;
     postRoiFilterSvc.getScope($scope);
@@ -10,20 +10,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
     $scope.channelLists = [];
     $scope.listOfSelectedChannels = [];
     $scope.listOfSelectedChannelsId = [];
-    $scope.savedMonths = [
-        {
-            long: "Sep 15",
-            short: "9"
-        },
-        {
-            long: "Aug 15",
-            short: "8"
-        },
-        {
-            long: "Jul 15",
-            short: "7"
-        }
-    ];
 
 
     /*******************************************************************************
@@ -352,6 +338,25 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, postRo
          unload: $scope.marketingChart.columns
          });*/
     }
+
+    /*******************************************************************************
+     retrieve month listings
+     *******************************************************************************/
+
+
+    $scope.retrieveMonthListings = function () {
+
+        getMonthListingsSvc.getMonthListings()
+            .then(function (listOfMonths) {
+
+                angular.forEach(listOfMonths, function (month) {
+                    $scope.savedMonths.push(month);
+                });
+            });
+    };
+
+    $scope.savedMonths = [];
+    $scope.retrieveMonthListings();
 
 
     /*******************************************************************************
