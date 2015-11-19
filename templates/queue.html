@@ -204,14 +204,12 @@
                 <div class="col-md-12">
                     <table class="table queuelist-main-tbl">
                         <tr>
-                            <th>#</th>
                             <th>Name</th>
                             <th>Contact</th>
                             <th>Time In</th>
                             <th></th>
                         </tr>
                         <tr ng-repeat="patient in queueList">
-                            <td>[[$index + 1]]</td>
                             <td>[[patient.patient__name]]</td>
                             <td>[[patient.patient__contact]]</td>
                             <td>[[patient.last_modified]]</td>
