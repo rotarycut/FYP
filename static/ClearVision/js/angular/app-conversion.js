@@ -561,7 +561,6 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
                 angular.forEach($scope.channelObjects, function (channel) {
                     if ($scope.listOfSelectedChannels.indexOf(channel.name) > -1) {
-                        console.log("YAY");
                         channel.channelUnselected = true;
                     }
                 });
@@ -728,8 +727,8 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
  *******************************************************************************/
 
 
-appDashboard.controller('ConversionModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
-                                                  showEditFilterBtn, existingFilterName) {
+appConversion.controller('ConversionModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
+                                                          showEditFilterBtn, existingFilterName) {
 
     $scope.filterName = existingFilterName;
     $scope.showEditFilterBtn = showEditFilterBtn;
@@ -743,8 +742,8 @@ appDashboard.controller('ConversionModalCtrl', function ($scope, $modalInstance,
         $scope.cancel();
     };
 
-    $scope.editFilter = function () {
-        scheduleConversionFilterSvc.editFilter();
+    $scope.editFilter = function (filterName) {
+        scheduleConversionFilterSvc.editFilter(filterName);
         $scope.cancel();
     };
 

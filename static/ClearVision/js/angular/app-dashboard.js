@@ -14,6 +14,7 @@ appDashboard.controller('DashboardCtrl',
         $scope.listOfSelectedChannelsId = [];
         $scope.listOfFilterYears = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
         $scope.listOfFilterMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $scope.filter = {};
 
 
         /*******************************************************************************
@@ -335,6 +336,34 @@ appDashboard.controller('DashboardCtrl',
 
         };
 
+        /* function to get specific channels based on year & month selection */
+        $scope.getSpecificMarketingChannels = function () {
+
+            var year = $scope.filter.filterYear;
+            var month = $scope.filter.filterMonth;
+
+            if (year == undefined || month == undefined) {
+                return;
+
+            } else {
+
+                month = $scope.listOfFilterMonths.indexOf(month) + 1;
+
+                var req = {
+                    method: 'GET',
+                    url: '/Clearvision/_api/ViewApplicableROIChannels/?year=' + year + '&month=' + month,
+                    headers: {'Content-Type': 'application/json'}
+                };
+
+                $http(req)
+                    .success(function (specificChannelList) {
+                        console.log(specificChannelList);
+                        $scope.channelObjects = specificChannelList;
+                    })
+
+            }
+        };
+
 
         /*******************************************************************************
          retrieve month listings
@@ -458,7 +487,8 @@ appDashboard.controller('DashboardCtrl',
             });
         };
 
-    });
+    })
+;
 
 
 /*******************************************************************************

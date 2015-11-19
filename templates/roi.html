@@ -25,6 +25,7 @@
                                     <select class="form-control"
                                             ng-options="year for year in listOfFilterYears"
                                             data-ng-model="filter.filterYear"
+                                            ng-change="getSpecificMarketingChannels()"
                                             required>
                                     </select>
                                 </div>
@@ -34,6 +35,7 @@
                                     <select class="form-control"
                                             ng-options="month for month in listOfFilterMonths"
                                             data-ng-model="filter.filterMonth"
+                                            ng-change="getSpecificMarketingChannels()"
                                             required>
                                     </select>
                                 </div>
