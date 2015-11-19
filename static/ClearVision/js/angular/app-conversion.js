@@ -561,11 +561,13 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
                 angular.forEach($scope.channelObjects, function (channel) {
                     if ($scope.listOfSelectedChannels.indexOf(channel.name) > -1) {
+                        console.log("YAY");
                         channel.channelUnselected = true;
                     }
                 });
             });
 
+        $scope.existingFilterName = filterName;
         $scope.editFilterId = filterId;
         $scope.showEditFilterButtons = true;
     };
@@ -726,8 +728,8 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
  *******************************************************************************/
 
 
-appConversion.controller('ConversionModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
-                                                   showEditFilterBtn, existingFilterName) {
+appDashboard.controller('ConversionModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
+                                                  showEditFilterBtn, existingFilterName) {
 
     $scope.filterName = existingFilterName;
     $scope.showEditFilterBtn = showEditFilterBtn;
@@ -741,8 +743,8 @@ appConversion.controller('ConversionModalCtrl', function ($scope, $modalInstance
         $scope.cancel();
     };
 
-    $scope.editFilter = function (filterName) {
-        scheduleConversionFilterSvc.editFilter(filterName);
+    $scope.editFilter = function () {
+        scheduleConversionFilterSvc.editFilter();
         $scope.cancel();
     };
 
