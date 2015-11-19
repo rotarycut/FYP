@@ -187,12 +187,13 @@
                                     <select class="form-control"
                                             ng-options="appt as appt.name for appt in appointmentTypes"
                                             data-ng-model="apptTypeSettingsType"
+                                            ng-disabled="disableApptTypeSettings"
                                             ng-change="getDoctorApptTimings(apptTypeSettingsDoc.id, apptTypeSettingsType.id)">
                                     </select>
                                 </div>
 
                             </div>
-                            <div class="row subcontent-row">
+                            <div class="row subcontent-row" ng-show="showEditTimeSlots">
                                 <div class="col-md-12" style="padding-right: 0;">
                                     <label class="control-label label-color">Available Time Slots:</label>
                                     <table class="table table-bordered clinic-config-table">

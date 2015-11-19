@@ -620,8 +620,12 @@ appConfig.controller('configCtrl',
 
                         // assign the popover array to the scope
                         $scope.doctorApptTypePopover = doctorApptTypePopover;
+                        $scope.showEditTimeSlots = true;
                     })
-                    .error(function () {
+                    .error(function (error) {
+
+                        $scope.apptTypeSettingsType = "";
+                        $scope.showEditTimeSlots = false;
                     });
             }
         };
@@ -1054,32 +1058,21 @@ appConfig.controller('configCtrl',
         };
 
         /* function to get list of doctor based on appointment type chosen */
-        $scope.getDoctorAppointmentTypes = function () {
+        $scope.getDoctorAppointmentTypes = function (doctorId) {
 
-            $scope.apptTypeSettingsType = false;
+            $scope.disableApptTypeSettings = true;
 
-            var apptTypeId = $scope.fields.appointmentType.id;
+            $http.get('/Clearvision/_api/ApptTypeDoctors/?doctorID=' + doctorId)
+                .success(function (listOfAppointmentTypes) {
 
-            $http.get('/Clearvision/_api/DoctorApptTypes/?apptTypeID=' + apptTypeId)
-                .success(function (listOfDoctors) {
-                    $scope.listOfDoctors = listOfDoctors;
+                    $scope.appointmentTypes = listOfAppointmentTypes;
 
-                    // make sure that the doctor field is previously filled
-                    if ($scope.fields.doctorAssigned != undefined) {
+                    $scope.disableApptTypeSettings = false;
 
-                        // if appointment type field is changed, but the doctor is still present in the new rendered list, should still display the doctor
-                        var indexOfDoctorInList = 0;
-                        angular.forEach(listOfDoctors, function (doctor) {
-                            if (doctor.id === $scope.fields.doctorAssigned.id) {
-                                $scope.fields.doctorAssigned = $scope.listOfDoctors[indexOfDoctorInList];
-                            }
-                            indexOfDoctorInList++;
-                        });
-                    }
+                }).error(function (error) {
 
-                    $scope.form.disableFields.doctor = false;
-
-                });
+                    $scope.disableApptTypeSettings = false;
+                })
         };
 
 

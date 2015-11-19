@@ -126,6 +126,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 $scope.form.disableFields.disabledApptType = false;
                 $scope.form.disableFields.doctor = false;
                 $scope.form.backBtn = false;
+            }).error(function () {
+                $rootScope.spinner = {active: false};
             });
 
         $http.get(medHeatUrl)
@@ -1449,11 +1451,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to display suggested time slots */
-    $scope.displaySuggestedSlots = function(){
+    $scope.displaySuggestedSlots = function () {
         $scope.form.suggestedSlotList = true;
     };
 
-    $scope.hideSuggestedSlots = function(){
+    $scope.hideSuggestedSlots = function () {
         $scope.form.suggestedSlotList = false;
     };
 
