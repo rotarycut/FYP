@@ -1059,7 +1059,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                     apptType = AppointmentType.objects.get(id=3)
                     totalPatientCount = AttendedAppointment.objects.filter(patient__registrationDate__month=month,
                                                                            patient__registrationDate__year=year,
-                                                                           patient__marketingChannelId__name=eachChannel['name'],
+                                                                           patient__marketingChannelId__name=eachChannel,
                                                                            apptType=apptType.name).values().count()
                     if totalCost != 0:
                         roi = (totalPatientCount * 3388) / totalCost
