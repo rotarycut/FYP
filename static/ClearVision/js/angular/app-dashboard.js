@@ -10,6 +10,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     $scope.channelLists = [];
     $scope.listOfSelectedChannels = [];
     $scope.listOfSelectedChannelsId = [];
+    $scope.listOfFilterYears = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+    $scope.listOfFilterMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 
     /*******************************************************************************
@@ -64,8 +66,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
     $scope.getRoiData = function (monthYear) {
 
-        console.log(monthYear);
-
         var spaceIndex = monthYear.indexOf(" ");
         var month = monthYear.substring(0, spaceIndex);
         var year = monthYear.substring(spaceIndex + 1);
@@ -87,11 +87,9 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
      *******************************************************************************/
 
 
-    $scope.getCustomRoiData = function (channelList) {
+    $scope.getCustomRoiData = function (year, month, channelList) {
 
-        console.log(channelList);
-
-        var restRequest = '/Clearvision/_api/ViewROIChart/?year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&channel=' + channelList;
+        var restRequest = '/Clearvision/_api/ViewROIChart/?year=' + year + '&month=' + month + '&channel=' + channelList;
 
         $http.get(restRequest)
             .success(function (customData) {
@@ -225,7 +223,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
                 angular.forEach($scope.channelObjects, function (channel) {
                     if ($scope.listOfSelectedChannels.indexOf(channel.name) > -1) {
-                        console.log("YAY");
                         channel.channelUnselected = true;
                     }
                 });
@@ -250,28 +247,29 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     };
 
     /* run filter */
-    $scope.runFilter = function (channels) {
+    $scope.runFilter = function (year, month, channels) {
 
-        var fieldsValid = $scope.validateFilterInputs(channels);
+        var fieldsValid = $scope.validateFilterInputs(year, month, channels);
 
         if (fieldsValid) {
 
             var channelList = $scope.transformChannelsToStr(channels);
 
-            $scope.getCustomRoiData(channelList);
+            month = $scope.listOfFilterMonths.indexOf(month) + 1;
+
+            $scope.getCustomRoiData(year, month, channelList);
 
         } else {
 
-            console.log("HERE");
             // not all filter fields are filled
             $scope.openErrorModal();
         }
     };
 
     /* save filter */
-    $scope.saveFilter = function () {
+    $scope.saveFilter = function (year, month, channels) {
 
-        var fieldsValid = $scope.validateFilterInputs($scope.datepicker, $scope.datepicker2, $scope.listOfSelectedChannels);
+        var fieldsValid = $scope.validateFilterInputs(year, month, channels);
 
         if (fieldsValid) {
             $scope.openSaveFilterModal();
@@ -296,8 +294,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     };
 
     /* function to validate if filter inputs are all filled */
-    $scope.validateFilterInputs = function (channelList) {
-        if (channelList.length == 0) {
+    $scope.validateFilterInputs = function (year, month, channels) {
+        if (channels.length == 0 || year == undefined || month == undefined) {
             return false;
         } else {
             return true;
@@ -316,8 +314,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
             $scope.listOfSelectedChannelsId.push(channelId);
         }
 
-        console.log($scope.listOfSelectedChannels);
-        console.log($scope.listOfSelectedChannelsId);
     };
 
 
@@ -403,33 +399,44 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
     $scope.openErrorModal = function (size) {
 
-        console.log("YO");
-
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myErrorContent.html',
             controller: 'RoiModalCtrl',
-            size: size
+            size: size,
+            resolve: {
+                channelLists: function () {
+                    return '';
+                },
+                filterMonth: function () {
+                    return '';
+                },
+                filterYear: function () {
+                    return '';
+                }
+            }
         });
     };
 
     $scope.openSaveFilterModal = function (size) {
 
-        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
-
-            $scope.openErrorModal();
-
-        } else {
-
-            var modalInstance = $modal.open({
-                animation: $scope.animationsEnabled,
-                templateUrl: 'myFilterModalContent.html',
-                controller: 'RoiModalCtrl',
-                size: size
-            });
-
-        }
-
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myFilterModalContent.html',
+            controller: 'RoiModalCtrl',
+            size: size,
+            resolve: {
+                channelLists: function () {
+                    return $scope.listOfSelectedChannelsId;
+                },
+                filterMonth: function () {
+                    return $scope.listOfFilterMonths.indexOf($scope.filter.filterMonth) + 1;
+                },
+                filterYear: function () {
+                    return $scope.filter.filterYear;
+                }
+            }
+        });
     };
 
 });
@@ -440,16 +447,46 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
  *******************************************************************************/
 
 
-appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance) {
+appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, $http, showNotificationsSvc,
+                                                  channelLists, filterYear, filterMonth) {
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
-    /*$scope.postFilter = function () {
-     postRoiFilterSvc.postFilter($scope.filterName);
-     $scope.cancel();
-     };*/
+    $scope.postFilter = function (filterName) {
+
+        var req = {
+            method: 'POST',
+            url: '/Clearvision/_api/ViewSavedROICustomFilters/',
+            headers: {'Content-Type': 'application/json'},
+            data: {
+                "name": filterName,
+                "channelTypes": channelLists,
+                "year": filterYear,
+                "month": filterMonth
+            }
+        };
+
+        console.log({
+            "name": filterName,
+            "channelTypes": channelLists,
+            "year": filterYear,
+            "month": filterMonth
+        });
+
+        $http(req)
+            .success(function () {
+
+                showNotificationsSvc.notifySuccessTemplate('Filter saved successfully');
+
+            }).error(function () {
+
+                showNotificationsSvc.notifyErrorTemplate('Error saving filter');
+            });
+
+        $scope.cancel();
+    };
 
 });
 
