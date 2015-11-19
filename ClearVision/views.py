@@ -1126,6 +1126,20 @@ class EditSavedROICustomFilters(viewsets.ModelViewSet):
 
         return Response("Success")
 
+class ViewApplicationROIChannels(viewsets.ReadOnlyModelViewSet):
+    queryset = CustomFilterROI.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        month = request.query_params.get('month')
+        year = request.query_params.get('year')
+
+        surgeryAppt = AppointmentType.objects.get(id=3)
+        applicableChannels = AttendedAppointment.objects.filter(apptType=surgeryAppt.name,
+                                                                patient__registrationDate__month=month,
+                                                                patient__registrationDate__year=year,).values('patient__marketingChannelId__name', 'patient__marketingChannelId')
+
+        return Response(applicableChannels)
+
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()
 
