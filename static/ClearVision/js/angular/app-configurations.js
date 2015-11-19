@@ -588,6 +588,8 @@ appConfig.controller('configCtrl',
                 };
                 $http(req)
                     .success(function (doctorTimings) {
+                        $scope.doctorToUpdateSlots = doctorId;
+                        $scope.apptTypeToUpdateSlots = appointmentId;
                         $scope.listOfDoctorTimings = doctorTimings;
                         $scope.listOfDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -606,9 +608,27 @@ appConfig.controller('configCtrl',
                                             idx++;
                                         });
 
+                                        // set the active time slots & prepare array to be submitted to backend
+                                        $scope.activeTimeSlotIntervals = $scope.timeSlotIntervals.slice();
+                                        $scope.listOfEditedTimeSlots = [];
+                                        var idx = 0;
+
+                                        angular.forEach($scope.activeTimeSlotIntervals, function (slot) {
+
+                                            var timeSlotExist = $scope.listOfDoctorTimings[index].indexOf(slot.time);
+                                            if (timeSlotExist != -1) {
+                                                $scope.activeTimeSlotIntervals[idx].active = true;
+                                                $scope.listOfEditedTimeSlots.push(slot.time);
+                                            }
+
+                                            idx++;
+                                        });
+
                                         // set the current index chosen
+                                        $scope.dayTimeSlots = $scope.listOfDays[index];
                                         $scope.timeSlotIndex = index;
                                         $scope.doctorApptTypePopover[index].editApptTimeslot.isOpen = true;
+
                                     },
                                     close: function (index) {
                                         $scope.doctorApptTypePopover[index].editApptTimeslot.isOpen = false;
@@ -1029,11 +1049,6 @@ appConfig.controller('configCtrl',
                     }
                 };
 
-                console.log({
-                    "apptTypeID": apptTypeId,
-                    "password": password
-                });
-
                 $http(req)
                     .success(function (response) {
 
@@ -1077,6 +1092,7 @@ appConfig.controller('configCtrl',
                 })
         };
 
+        /* function to get time slots in thirty minute intervals for edit doctor time slots */
         $scope.getCalendarTimeIntervals = function () {
 
             getCalendarTimeRangeIntervalService.getCalendarTimeRangeInterval()
@@ -1088,7 +1104,7 @@ appConfig.controller('configCtrl',
 
                         var preObj = {};
                         preObj.time = slot;
-                        preObj.active = true;
+                        preObj.active = false;
                         preArr.push(preObj);
                     });
 
@@ -1096,6 +1112,51 @@ appConfig.controller('configCtrl',
 
                 }, function (error) {
                     $log("Error getting calendar time range interval");
+                });
+        };
+
+        /* function to add remove time slot for edit doctor time slots */
+        $scope.addRemoveUpdatedTimeSlot = function (timeSlot) {
+
+            var timeSlotExist = $scope.listOfEditedTimeSlots.indexOf(timeSlot);
+            if (timeSlotExist == -1) {
+                $scope.listOfEditedTimeSlots.push(timeSlot);
+            } else {
+                var idx = 0;
+                angular.forEach($scope.listOfEditedTimeSlots, function (slot) {
+                    if (slot == timeSlot) {
+                        $scope.listOfEditedTimeSlots.splice(idx, 1);
+                    }
+                    idx++;
+                })
+            }
+        };
+
+        /* function to update doctor appointment timings for edit doctor time slots */
+        $scope.updateDoctorTimeSlots = function () {
+
+            var req = {
+                method: 'PATCH',
+                url: '/Clearvision/_api/DoctorTimeSlot/',
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "apptType": $scope.apptTypeToUpdateSlots,
+                    "doctorId": $scope.doctorToUpdateSlots,
+                    "day": $scope.dayTimeSlots,
+                    "timeSlots": $scope.listOfEditedTimeSlots
+                }
+            };
+
+            console.log(req);
+
+            $http(req)
+                .success(function (data) {
+                    showNotificationsSvc.notifySuccessTemplate('Appointment timings updated successfully');
+                    $scope.getDoctorApptTimings($scope.doctorToUpdateSlots, $scope.apptTypeToUpdateSlots);
+                    //$scope.doctorApptTypePopover[$scope.timeSlotIndex].editApptTimeslot.close($scope.timeSlotIndex);
+
+                }).error(function (error) {
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
         };
 

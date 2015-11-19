@@ -652,9 +652,9 @@
     <div class="form-group">
         <div class="create-modal-listbox">
             <ul class="timeslots-ul" style="padding-left: 10px;">
-                <li class="available-slot-item" ng-repeat="slot in timeSlotIntervals">
+                <li class="available-slot-item" ng-repeat="slot in activeTimeSlotIntervals">
                     <label ng-class="{slotSelected: slot.active}">
-                        <input type="checkbox" ng-model="slot.active">[[slot.time]]
+                        <input type="checkbox" ng-model="slot.active" ng-click="addRemoveUpdatedTimeSlot(slot.time)">[[slot.time]]
                     </label>
                 </li>
             </ul>
@@ -662,7 +662,7 @@
     </div>
 
     <div class="right-block">
-        <button class="btn-sm form-submit-btn">Update</button>
+        <button class="btn-sm form-submit-btn" data-ng-click="updateDoctorTimeSlots()">Update</button>
         <button class="btn-sm form-cancel-btn"
                 data-ng-click="doctorApptTypePopover[timeSlotIndex].editApptTimeslot.close(timeSlotIndex)">Cancel
         </button>

@@ -27,15 +27,27 @@ angular.module('get.calendarTimeRangeInterval', [])
                     for (i = startHour; i <= endHour; i++) {
 
                         if (i === startHour && startMin === "30") {
+
+                            if (i < 10) {
+                                i = "0" + i;
+                            }
                             timeSlotsArray.push(i + ":30");
 
                         } else if (i === endHour && endMin === "00") {
                             // do not add appointment since last time slot must be 30 minutes before closing time
 
                         } else if (i === endHour && endMin === "30") {
+
+                            if (i < 10) {
+                                i = "0" + i;
+                            }
                             timeSlotsArray.push(i + ":00");
 
                         } else {
+
+                            if (i < 10) {
+                                i = "0" + i;
+                            }
                             timeSlotsArray.push(i + ":00");
                             timeSlotsArray.push(i + ":30");
                         }
