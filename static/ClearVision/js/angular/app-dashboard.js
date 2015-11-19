@@ -18,9 +18,13 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
     /* function to initialize chart */
     $scope.initializeChart = function () {
-        var currentMonth = new Date().getMonth() + 1;
         var currentYear = new Date().getFullYear();
-        $scope.getRoiData(currentYear, currentMonth);
+
+        var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var currentMonthShort = new Date().getMonth();
+        var currentMonthLong = monthList[currentMonthShort];
+
+        $scope.getRoiData(currentMonthLong + " " + currentYear);
     };
 
     /* function to format date */
@@ -41,88 +45,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
         return formattedDate;
     };
 
-    /* run filter */
-    $scope.runFilter = function (start, end, channels) {
-
-        console.log(start);
-        console.log(end);
-        console.log(channels);
-
-        var fieldsValid = $scope.validateFilterInputs(start, end, channels);
-
-        if (fieldsValid) {
-            var startDate;
-            var endDate;
-
-            if (start.toString().length > 10 || end.toString().length > 10) {
-                startDate = $scope.getFormattedDate(start);
-                endDate = $scope.getFormattedDate(end);
-            } else {
-                // do not need formatting if it is clicked from a saved filter
-                startDate = start;
-                endDate = end;
-            }
-
-            var channelList = $scope.transformChannelsToStr(channels);
-
-            $scope.getCustomMarketingData(startDate, endDate, channelList);
-            $scope.getCustomTimeLineData(startDate, endDate, channelList, channels);
-
-        } else {
-            // not all filter fields are filled
-            $scope.openErrorModal();
-        }
-    };
-
-    /* save filter */
-    $scope.saveFilter = function () {
-
-        var fieldsValid = $scope.validateFilterInputs($scope.datepicker, $scope.datepicker2, $scope.listOfSelectedChannels);
-
-        if (fieldsValid) {
-            $scope.openSaveFilterModal();
-
-        } else {
-            // not all filter fields are filled
-            $scope.openErrorModal();
-        }
-    };
-
-    /* clear filter */
-    $scope.clearFilter = function () {
-        $scope.datepicker = "";
-        $scope.datepicker2 = "";
-
-        angular.forEach($scope.channelObjects, function (channel) {
-            channel.channelUnselected = false;
-        });
-
-        $scope.listOfSelectedChannels.splice(0);
-        $scope.listOfSelectedChannelsId.splice(0);
-    };
-
-    /* function to validate if filter inputs are all filled */
-    $scope.validateFilterInputs = function (startDate, endDate, channelList) {
-        if (startDate == undefined || endDate == undefined || channelList.length == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    };
-
-    /* toggle selection in filter list box */
-    $scope.toggleSelection = function (channel, channelId) {
-        var id = $scope.listOfSelectedChannels.indexOf(channel);
-
-        if (id > -1) {
-            $scope.listOfSelectedChannels.splice(id, 1);
-            $scope.listOfSelectedChannelsId.splice(id, 1);
-        } else {
-            $scope.listOfSelectedChannels.push(channel);
-            $scope.listOfSelectedChannelsId.push(channelId);
-        }
-    };
-
     /* function to retrieve all marketing channels */
     $scope.getMarketingChannels = function () {
         $http.get('/Clearvision/_api/ViewAllMarketingChannels/')
@@ -134,35 +56,27 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
             })
     };
 
-    /* function to transform list box selected channels into string */
-    $scope.transformChannelsToStr = function (listOfSelectedChannels) {
-        var channelsStr = "";
-        var counter = 1;
-        angular.forEach(listOfSelectedChannels, function (channel) {
-            channelsStr += channel;
-
-            if (counter < listOfSelectedChannels.length) {
-                channelsStr += ',';
-            }
-            counter++;
-        });
-        return channelsStr;
-    };
-
 
     /*******************************************************************************
      retrieve month data for roi chart
      *******************************************************************************/
 
 
-    $scope.getRoiData = function (year, month) {
-        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&year=' + year + '&month=' + month;
-        $http.get(restRequest)
-            .success(function (data) {
+    $scope.getRoiData = function (monthYear) {
 
-                var roiData = data;
-                $scope.currentYear = year;
-                $scope.currentMonth = month;
+        console.log(monthYear);
+
+        var spaceIndex = monthYear.indexOf(" ");
+        var month = monthYear.substring(0, spaceIndex);
+        var year = monthYear.substring(spaceIndex + 1);
+
+        var monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $scope.currentMonth = monthList.indexOf(month) + 1;
+        $scope.currentYear = year;
+
+        var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&year=' + $scope.currentYear + '&month=' + $scope.currentMonth;
+        $http.get(restRequest)
+            .success(function (roiData) {
                 $scope.showRoiChart(roiData);
             });
     };
@@ -173,13 +87,15 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
      *******************************************************************************/
 
 
-    $scope.getCustomRoiData = function (startDate, endDate, channelList, channelArray) {
+    $scope.getCustomRoiData = function (channelList) {
 
-        var restRequest = '/Clearvision/_api/ViewROIChart/?channel=987%20Radio&channel=Others&channel=ST%20Ads&startDate=2015-08-02&endDate=2015-08-05';
+        console.log(channelList);
+
+        var restRequest = '/Clearvision/_api/ViewROIChart/?year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&channel=' + channelList;
 
         $http.get(restRequest)
-            .success(function (data) {
-                $scope.showROIChart(data, channelArray);
+            .success(function (customData) {
+                $scope.showRoiChart(customData);
             });
     };
 
@@ -194,8 +110,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
         $scope.RoiChart = c3.generate({
             bindto: '#roiChart',
             padding: {
-                top: 40,
-                right: 170,
+                top: 30,
+                right: 50,
                 bottom: 3,
                 left: 60
             },
@@ -212,6 +128,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
                         position: 'outer-center'
                     },
                     tick: {
+                        rotate: -25,
+                        multiline: false,
                         centered: true
                     },
                     // type: 'category'
@@ -253,6 +171,9 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
                     'roi': 'y2'
                 },
                 type: 'bar'
+            },
+            zoom: {
+                enabled: true
             }
         });
 
@@ -260,7 +181,7 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
 
     /*******************************************************************************
-     saved filters
+     filters
      *******************************************************************************/
 
 
@@ -311,6 +232,94 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
             });
 
         $scope.editFilterId = filterId;
+    };
+
+    /* function to transform list box selected channels into string */
+    $scope.transformChannelsToStr = function (listOfSelectedChannels) {
+        var channelsStr = "";
+        var counter = 1;
+        angular.forEach(listOfSelectedChannels, function (channel) {
+            channelsStr += channel;
+
+            if (counter < listOfSelectedChannels.length) {
+                channelsStr += "&channel=";
+            }
+            counter++;
+        });
+        return channelsStr;
+    };
+
+    /* run filter */
+    $scope.runFilter = function (channels) {
+
+        console.log(channels);
+
+        var fieldsValid = $scope.validateFilterInputs(channels);
+
+        if (fieldsValid) {
+            var startDate;
+            var endDate;
+
+            var channelList = $scope.transformChannelsToStr(channels);
+
+            $scope.getCustomRoiData(channelList);
+
+        } else {
+            // not all filter fields are filled
+            $scope.openErrorModal();
+        }
+    };
+
+    /* save filter */
+    $scope.saveFilter = function () {
+
+        var fieldsValid = $scope.validateFilterInputs($scope.datepicker, $scope.datepicker2, $scope.listOfSelectedChannels);
+
+        if (fieldsValid) {
+            $scope.openSaveFilterModal();
+
+        } else {
+            // not all filter fields are filled
+            $scope.openErrorModal();
+        }
+    };
+
+    /* clear filter */
+    $scope.clearFilter = function () {
+        $scope.datepicker = "";
+        $scope.datepicker2 = "";
+
+        angular.forEach($scope.channelObjects, function (channel) {
+            channel.channelUnselected = false;
+        });
+
+        $scope.listOfSelectedChannels.splice(0);
+        $scope.listOfSelectedChannelsId.splice(0);
+    };
+
+    /* function to validate if filter inputs are all filled */
+    $scope.validateFilterInputs = function (channelList) {
+        if (channelList.length == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
+    /* toggle selection in filter list box */
+    $scope.toggleSelection = function (channel, channelId) {
+        var id = $scope.listOfSelectedChannels.indexOf(channel);
+
+        if (id > -1) {
+            $scope.listOfSelectedChannels.splice(id, 1);
+            $scope.listOfSelectedChannelsId.splice(id, 1);
+        } else {
+            $scope.listOfSelectedChannels.push(channel);
+            $scope.listOfSelectedChannelsId.push(channelId);
+        }
+
+        console.log($scope.listOfSelectedChannels);
+        console.log($scope.listOfSelectedChannelsId);
     };
 
 
@@ -436,101 +445,20 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
     $scope.openSaveFilterModal = function (size) {
 
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myFilterModalContent.html',
-            controller: 'RoiModalCtrl',
-            size: size
-        });
-    };
+        if ($scope.datepicker == undefined || $scope.datepicker2 == undefined || $scope.listOfSelectedAppointmentTypes.length == 0) {
 
+            $scope.openErrorModal();
 
-    /*******************************************************************************
-     retrieve custom data for roi chart
-     *******************************************************************************/
+        } else {
 
-
-    $scope.getCustomRoiData = function (startDate, endDate, channelList, channelArray) {
-
-        var restRequest = '/Clearvision/_api/ViewROIChart/?channel=987%20Radio&channel=Others&channel=ST%20Ads&startDate=2015-08-02&endDate=2015-08-05';
-
-        $http.get(restRequest)
-            .success(function (data) {
-                $scope.showROIChart(data, channelArray);
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'myFilterModalContent.html',
+                controller: 'RoiModalCtrl',
+                size: size
             });
-    };
 
-    /*******************************************************************************
-     show roi chart
-     *******************************************************************************/
-
-
-    $scope.showRoiChart = function (newData) {
-
-        $scope.RoiChart = c3.generate({
-            bindto: '#roiChart',
-            padding: {
-                top: 40,
-                right: 170,
-                bottom: 3,
-                left: 60
-            },
-            bar: {
-                width: {
-                    ratio: 0.2
-                }
-            },
-            axis: {
-                x: {
-                    height: 100,
-                    label: {
-                        text: '',
-                        position: 'outer-center'
-                    },
-                    tick: {
-                        centered: true
-                    },
-                    // type: 'category'
-                    type: 'category'
-                },
-                y: {
-                    label: {
-                        text: '$ Spent',
-                        position: 'outer middle'
-                    },
-                    padding: {top: 0, bottom: 0}
-
-                },
-                y2: {
-                    show: true,
-                    label: {
-                        text: 'ROI / Marketing $ Spent',
-                        position: 'outer middle'
-
-                    },
-                    padding: {
-                        top: 0,
-                        bottom: 0
-                    },
-                    max: 20,
-                    min: 0,
-                    default: [0, 100]
-
-                }
-            },
-            data: {
-                json: newData,
-                keys: {
-                    // x: 'name', // it's possible to specify 'x' when category axis
-                    x: 'channelname',
-                    value: ['Expenditure', 'Revenue', 'roi']
-                },
-                axes: {
-                    'roi': 'y2'
-                },
-                type: 'bar'
-            }
-        });
+        }
 
     };
 

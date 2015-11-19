@@ -41,10 +41,11 @@
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="row" style="padding-top: 22%">
                                     <button class="btn form-default-btn"
-                                            ng-click="runFilter(datepicker, datepicker2, listOfSelectedChannels)">Run
+                                            ng-click="runFilter(listOfSelectedChannels)">Run
                                         Filter
                                     </button>
                                     <button class="btn form-default-btn" ng-click="saveFilter()">Save Filter</button>
+                                    <button class="btn form-default-btn" ng-click="clearFilter()">Clear</button>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +87,7 @@
                         <ul class="saved-filter-items">
                             <li ng-repeat="month in savedMonths">
                                 <a href="#/dashboard/roi" style="font-size: smaller" class="mrkt-month-item"
-                                   onclick="changeState(this)" ng-click="getRoiData(month.short)">[[month]]</a>
+                                   onclick="changeState(this)" ng-click="getRoiData(month)">[[month]]</a>
                             </li>
                         </ul>
                     </div>
