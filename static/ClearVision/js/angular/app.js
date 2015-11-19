@@ -64,7 +64,8 @@ var app = angular.module('calendarDemoApp', [
     'get.calendarTimeRangeInterval',
     'app.managechannels',
     'get.monthListings',
-    'schedule.conversionFilter'
+    'schedule.conversionFilter',
+    'get.marketingChannelsStatus'
 ]);
 
 /* Angular routing */

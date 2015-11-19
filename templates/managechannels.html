@@ -1,44 +1,46 @@
-<div class="row dashboard-content-row">
-    <div class="col-md-12 center-block">
-        <label class="label-color">All Marketing Channels Spent</label>
-        <table class="table waitlist-main-tbl">
-            <tr>
-                <th>
-                    <a href="#/queue"
-                       ng-click="">Channel Name
-                    </a>
-                </th>
-                <th>
-                    <a href="#/queue"
-                       ng-click="">Cost (SGD)
-                    </a>
-                </th>
-                <th>
-                    <a href="#/queue"
-                       ng-click="">Date Purchased
-                    </a>
-                </th>
-                <th>Action</th>
-            </tr>
+<treasure-overlay-spinner active="spinner.active">
+    <div class="row dashboard-content-row">
+        <div class="col-md-12 center-block">
+            <label class="label-color">All Marketing Channels Spent</label>
+            <table class="table waitlist-main-tbl" ng-init="getMarketingChannels()">
+                <tr>
+                    <th>
+                        <a href="#/queue"
+                           ng-click="">Channel Name
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#/queue"
+                           ng-click="">Cost (SGD)
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#/queue"
+                           ng-click="">Date Purchased
+                        </a>
+                    </th>
+                    <th>Action</th>
+                </tr>
 
-            <tr class=""
-                ng-repeat="channel in listOfChannelsSpent">
-                <td>[[channel.name]]</td>
-                <td>[[channel.cost]]</td>
-                <td>[[channel.date]]</td>
-                <td>
-                    <button type="button" class="btn btn-sm form-submit-btn"
-                            ng-click=""
-                            ng-disabled="channel.disableButtons">
-                        <i class="fa fa-check"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm form-cancel-btn"
-                            ng-click=""
-                            ng-disabled="channel.disableButtons">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </td>
-            </tr>
-        </table>
+                <tr ng-repeat="channel in listOfChannelsSpent"
+                    ng-class="getClass(channel.show)">
+                    <td>[[channel.name]]</td>
+                    <td>[[channel.cost]]</td>
+                    <td>[[channel.datePurchased]]</td>
+                    <td>
+                        <button type="button" class="btn btn-sm form-submit-btn"
+                                ng-click="changeMarketingStatus(channel.id, channel.show)"
+                                ng-disabled="channel.show">
+                            <i class="fa fa-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm form-cancel-btn"
+                                ng-click="changeMarketingStatus(channel.id, channel.show)"
+                                ng-disabled="!channel.show">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
+</treasure-overlay-spinner>

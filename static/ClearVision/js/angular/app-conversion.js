@@ -726,8 +726,8 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
  *******************************************************************************/
 
 
-appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
-                                                  showEditFilterBtn, existingFilterName) {
+appConversion.controller('RoiModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
+                                                   showEditFilterBtn, existingFilterName) {
 
     $scope.filterName = existingFilterName;
     $scope.showEditFilterBtn = showEditFilterBtn;

@@ -1,30 +1,78 @@
 var appChannels = angular.module('app.managechannels', []);
 
-appChannels.controller('ManageChannelsCtrl', function ($scope, $http) {
-
-    $scope.listOfChannelsSpent = [
-        {
-            name: 'Blogger DreaChong',
-            cost: 1000,
-            date: '2015-08-21'
-
-        },
-        {
-            name: 'Facebook',
-            cost: 300,
-            date: '2015-11-03'
-        },
-        {
-            name: 'Lasik Website',
-            cost: 500,
-            date: '2015-11-07'
-        },
-        {
-            name: 'Wanbao',
-            cost: 600,
-            date: '2015-11-12'
-        }
-    ];
+appChannels.controller('ManageChannelsCtrl',
+    function ($scope, $http, $rootScope, getMarketingChannelsStatusSvc, showNotificationsSvc) {
 
 
-});
+        /*******************************************************************************
+         get list of marketing channels spent
+         *******************************************************************************/
+
+
+        $scope.getMarketingChannels = function () {
+
+            $rootScope.spinner = {active: true};
+
+            getMarketingChannelsStatusSvc.getMarketingChannelsStatus()
+                .then(function (retrievedChannelsStatus) {
+
+                    $scope.listOfChannelsSpent = retrievedChannelsStatus;
+                    $rootScope.spinner = {active: false};
+
+                }, function (data) {
+
+                    $log.error("Failed to retrieve promises for channel status");
+                    $rootScope.spinner = {active: false};
+                });
+
+            $scope.listOfChannelsSpent = [];
+
+        };
+
+
+        /*******************************************************************************
+         edit status of marketing channel
+         *******************************************************************************/
+
+
+        $scope.changeMarketingStatus = function (channelId, status) {
+
+            $rootScope.spinner = {active: true};
+
+            var req = {
+                method: 'PATCH',
+                url: '/Clearvision/_api/EditMarketingChannelsStatus/' + channelId,
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "show": !status
+                }
+            };
+
+            $http(req)
+                .success(function () {
+
+                    $scope.getMarketingChannels();
+                    showNotificationsSvc.notifySuccessTemplate('Channel status updated successfully');
+
+                }).error(function () {
+
+                    $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifyErrorTemplate('Error updating channel status');
+                });
+
+        };
+
+
+        /*******************************************************************************
+         get class to set marketing channels to active equals true or false
+         *******************************************************************************/
+
+
+        $scope.getClass = function (channelStatus) {
+            if (channelStatus == true) {
+                return 'success';
+            }
+        };
+
+
+    });
