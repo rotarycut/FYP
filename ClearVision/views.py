@@ -1087,7 +1087,7 @@ class ViewSavedROICustomFilters(viewsets.ModelViewSet):
         month = payload.get('month')
         year = payload.get('year')
 
-        newCustomFilter = CustomFilterROI.objects.create(name=name,)
+        newCustomFilter = CustomFilterROI.objects.create(name=name, month=month, year=year)
         newCustomFilter.channelType = channelTypes
 
         return Response("Success")
@@ -1108,11 +1108,14 @@ class EditSavedROICustomFilters(viewsets.ModelViewSet):
 
         customfilterID = payload.get('customfilterID')
         name = payload.get('name')
+        month = payload.get('month')
+        year = payload.get('year')
         channelTypes = payload.get('channelTypes')
 
         customfilter = CustomFilterROI.objects.get(id=customfilterID)
         customfilter.name = name
-        customfilter.save()
+        customfilter.month = month
+        customfilter.year = year
         customfilter.channelType = channelTypes
         customfilter.save()
 
