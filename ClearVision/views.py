@@ -1462,14 +1462,21 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
 
         doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=doctorId, apptType=apptType)
 
-        monday = doctordaytimeslot.monday
-        tuesday = doctordaytimeslot.tuesday
-        wednesday = doctordaytimeslot.wednesday
-        thursday = doctordaytimeslot.thursday
-        friday = doctordaytimeslot.friday
-        saturday = doctordaytimeslot.saturday
+        monday = doctordaytimeslot.monday.split(',')
+        tuesday = doctordaytimeslot.tuesday.split(',')
+        wednesday = doctordaytimeslot.wednesday.split(',')
+        thursday = doctordaytimeslot.thursday.split(',')
+        friday = doctordaytimeslot.friday.split(',')
+        saturday = doctordaytimeslot.saturday.split(',')
 
-        monSat = [monday.split(','), tuesday.split(','), wednesday.split(','), thursday.split(','), friday.split(','), saturday.split(',')]
+        monday = [s[:-3] for s in monday]
+        tuesday = [s[:-3] for s in tuesday]
+        wednesday = [s[:-3] for s in wednesday]
+        thursday = [s[:-3] for s in thursday]
+        friday = [s[:-3] for s in friday]
+        saturday = [s[:-3] for s in saturday]
+
+        monSat = [monday, tuesday, wednesday, thursday, friday, saturday]
 
         return Response(monSat)
 
