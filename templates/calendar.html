@@ -98,12 +98,12 @@
                         <div class="cal-legend" ng-show="showDoctorLegend">
                             <ul class="legend-ul">
                                 <div ng-repeat="tab in listOfSideTabs">
-                                    <li ng-repeat=""><a href="#/"
+                                    <li ng-repeat="type in tab.appointmentTypeColorArray"><a href="#/"
                                                         singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
                                                         data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
                                                         ng-class="legendEvalClicked"
                                                         ng-style="{'color': type.color}"><i
-                                            ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i></a>
+                                            ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i>[[type.type]]</a>
                                     </li>
                                     <!--<li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
                                            data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
