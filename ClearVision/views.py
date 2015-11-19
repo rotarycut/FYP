@@ -1126,7 +1126,7 @@ class EditSavedROICustomFilters(viewsets.ModelViewSet):
 
         return Response("Success")
 
-class ViewApplicationROIChannels(viewsets.ReadOnlyModelViewSet):
+class ViewApplicableROIChannels(viewsets.ReadOnlyModelViewSet):
     queryset = CustomFilterROI.objects.none()
 
     def list(self, request, *args, **kwargs):
@@ -1136,7 +1136,7 @@ class ViewApplicationROIChannels(viewsets.ReadOnlyModelViewSet):
         surgeryAppt = AppointmentType.objects.get(id=3)
         applicableChannels = AttendedAppointment.objects.filter(apptType=surgeryAppt.name,
                                                                 patient__registrationDate__month=month,
-                                                                patient__registrationDate__year=year,).values('patient__marketingChannelId__name', 'patient__marketingChannelId')
+                                                                patient__registrationDate__year=year,).values('patient__marketingChannelId__name', 'patient__marketingChannelId').distinct()
 
         return Response(applicableChannels)
 
