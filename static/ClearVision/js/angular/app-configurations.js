@@ -609,6 +609,7 @@ appConfig.controller('configCtrl',
                                         });
 
                                         // set the active time slots & prepare array to be submitted to backend
+                                        $scope.getCalendarTimeIntervals();
                                         $scope.activeTimeSlotIntervals = $scope.timeSlotIntervals.slice();
                                         $scope.listOfEditedTimeSlots = [];
                                         var idx = 0;
@@ -1137,17 +1138,15 @@ appConfig.controller('configCtrl',
 
             var req = {
                 method: 'PATCH',
-                url: '/Clearvision/_api/DoctorTimeSlot/',
+                url: '/Clearvision/_api/DoctorTimeSlot/0',
                 headers: {'Content-Type': 'application/json'},
                 data: {
                     "apptType": $scope.apptTypeToUpdateSlots,
                     "doctorId": $scope.doctorToUpdateSlots,
                     "day": $scope.dayTimeSlots,
-                    "timeSlots": $scope.listOfEditedTimeSlots
+                    "timeslots": $scope.listOfEditedTimeSlots
                 }
             };
-
-            console.log(req);
 
             $http(req)
                 .success(function (data) {
