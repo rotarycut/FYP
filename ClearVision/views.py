@@ -1478,7 +1478,7 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
         friday = [s[:-3] for s in friday]
         saturday = [s[:-3] for s in saturday]
 
-        monSat = [monday, tuesday, wednesday, thursday, friday, saturday]
+        monSat = [sorted(monday), sorted(tuesday), sorted(wednesday), sorted(thursday), sorted(friday), sorted(saturday)]
 
         return Response(monSat)
 
