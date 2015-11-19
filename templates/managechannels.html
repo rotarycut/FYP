@@ -5,11 +5,11 @@
         </div>
         <div class="col-md-12">
             <div class="col-md-3" style="padding-left: 0">
-                            <form class="form-search form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                       ng-model="spentChannel"/>
-                            </form>
-                        </div>
+                <form class="form-search form-inline">
+                    <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                           ng-model="queryArchive"/>
+                </form>
+            </div>
         </div>
         <div class="col-md-12 center-block">
             <table class="table waitlist-main-tbl" ng-init="getMarketingChannels()">
@@ -32,7 +32,7 @@
                     <th>Action</th>
                 </tr>
 
-                <tr ng-repeat="channel in listOfChannelsSpent"
+                <tr ng-repeat="channel in listOfChannelsSpent | filter:queryArchive"
                     ng-class="getClass(channel.show)">
                     <td>[[channel.name]]</td>
                     <td>[[channel.cost]]</td>
