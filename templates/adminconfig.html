@@ -652,7 +652,7 @@
     <div class="form-group">
         <div class="create-modal-listbox">
             <ul class="timeslots-ul" style="padding-left: 10px;">
-                <li class="available-slot-item" ng-repeat="slot in listOfTimeslots.timings">
+                <li class="available-slot-item" ng-repeat="slot in timeSlotIntervals">
                     <label ng-class="{slotSelected: slot.active}">
                         <input type="checkbox" ng-model="slot.active">[[slot.time]]
                     </label>

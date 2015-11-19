@@ -6,10 +6,8 @@ var appConfig = angular.module('app.config', []);
 
 appConfig.controller('configCtrl',
     function ($scope, $http, $modal, $log, $anchorScroll, $location, $timeout, $rootScope,
-              getDoctorsService,
-              getClinicsService,
-              getAppointmentTypesColorService,
-              showNotificationsSvc) {
+              getDoctorsService, getClinicsService, getAppointmentTypesColorService, showNotificationsSvc,
+              getCalendarTimeRangeIntervalService) {
 
         $scope.operatingHoursPopover = [];
         $scope.appointmentTypesPopover = [];
@@ -607,6 +605,7 @@ appConfig.controller('configCtrl',
                                             $scope.doctorApptTypePopover[idx].editApptTimeslot.isOpen = false;
                                             idx++;
                                         });
+
                                         // set the current index chosen
                                         $scope.timeSlotIndex = index;
                                         $scope.doctorApptTypePopover[index].editApptTimeslot.isOpen = true;
@@ -621,6 +620,9 @@ appConfig.controller('configCtrl',
                         // assign the popover array to the scope
                         $scope.doctorApptTypePopover = doctorApptTypePopover;
                         $scope.showEditTimeSlots = true;
+
+                        // get the calendar time slot intervals
+                        $scope.getCalendarTimeIntervals();
                     })
                     .error(function (error) {
 
@@ -1066,13 +1068,35 @@ appConfig.controller('configCtrl',
                 .success(function (listOfAppointmentTypes) {
 
                     $scope.appointmentTypes = listOfAppointmentTypes;
-
+                    $scope.showEditTimeSlots = false;
                     $scope.disableApptTypeSettings = false;
 
                 }).error(function (error) {
 
                     $scope.disableApptTypeSettings = false;
                 })
+        };
+
+        $scope.getCalendarTimeIntervals = function () {
+
+            getCalendarTimeRangeIntervalService.getCalendarTimeRangeInterval()
+                .then(function (timeSlotIntervals) {
+
+                    var preArr = [];
+
+                    angular.forEach(timeSlotIntervals, function (slot) {
+
+                        var preObj = {};
+                        preObj.time = slot;
+                        preObj.active = true;
+                        preArr.push(preObj);
+                    });
+
+                    $scope.timeSlotIntervals = preArr;
+
+                }, function (error) {
+                    $log("Error getting calendar time range interval");
+                });
         };
 
 
@@ -1097,91 +1121,6 @@ appConfig.controller('configCtrl',
                     $log.info('Event: Slider stop - set with slider options', event);
                 }
             }
-        };
-
-        $scope.listOfTimeslots = {
-            timings: [
-                {
-                    time: "09:00",
-                    active: false
-                },
-                {
-                    time: "09:30",
-                    active: false
-                },
-                {
-                    time: "10:00",
-                    active: false
-                },
-                {
-                    time: "10:30",
-                    active: false
-                },
-                {
-                    time: "11:00",
-                    active: false
-                },
-                {
-                    time: "11:30",
-                    active: false
-                },
-                {
-                    time: "12:00",
-                    active: false
-                },
-                {
-                    time: "12:30",
-                    active: false
-                },
-                {
-                    time: "13:00",
-                    active: false
-                },
-                {
-                    time: "13:30",
-                    active: false
-                },
-                {
-                    time: "14:00",
-                    active: false
-                },
-                {
-                    time: "14:30",
-                    active: false
-                },
-                {
-                    time: "15:00",
-                    active: false
-                },
-                {
-                    time: "15:30",
-                    active: false
-                },
-                {
-                    time: "16:00",
-                    active: false
-                },
-                {
-                    time: "16:30",
-                    active: false
-                },
-                {
-                    time: "17:00",
-                    active: false
-                },
-                {
-                    time: "17:30",
-                    active: false
-                },
-                {
-                    time: "18:00",
-                    active: false
-                },
-                {
-                    time: "18:30",
-                    active: false
-                }
-            ]
         };
 
     });
