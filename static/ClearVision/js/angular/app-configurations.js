@@ -1789,8 +1789,8 @@ appConfig.controller('AppConfigModalInstanceCtrl',
 
 
 appConfig.controller('CreateDoctorModalCtrl',
-    function ($scope, $modalInstance, $log, $http, $window, $timeout, showNotificationsSvc, getAppointmentTypesService,
-              getCalendarTimeRangeService, getCalendarTimeRangeIntervalService) {
+    function ($scope, $modalInstance, $log, $http, $window, $timeout, $rootScope, showNotificationsSvc,
+              getAppointmentTypesService, getCalendarTimeRangeService, getCalendarTimeRangeIntervalService) {
 
         /*******************************************************************************
          function to get all appointment types
@@ -1958,6 +1958,8 @@ appConfig.controller('CreateDoctorModalCtrl',
 
         $scope.createNewDoctor = function (doctorName, doctorContact) {
 
+            $rootScope.spinner = {active: true};
+
             var req = {
                 method: 'POST',
                 url: '/Clearvision/_api/doctors/',
@@ -1973,15 +1975,18 @@ appConfig.controller('CreateDoctorModalCtrl',
 
             $http(req)
                 .success(function () {
+
+                    $rootScope.spinner = {active: false};
                     showNotificationsSvc.notifySuccessTemplate('Doctor created successfully');
                     $scope.cancel();
 
-                    $timeout(function () {
-                        $window.location.reload();
-                    }, 3000);
+                    /*$timeout(function () {
+                     $window.location.reload();
+                     }, 3000);*/
                 })
 
                 .error(function (data) {
+                    $rootScope.spinner = {active: false};
                     showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
         };
