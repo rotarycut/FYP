@@ -252,19 +252,17 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     /* run filter */
     $scope.runFilter = function (channels) {
 
-        console.log(channels);
-
         var fieldsValid = $scope.validateFilterInputs(channels);
 
         if (fieldsValid) {
-            var startDate;
-            var endDate;
 
             var channelList = $scope.transformChannelsToStr(channels);
 
             $scope.getCustomRoiData(channelList);
 
         } else {
+
+            console.log("HERE");
             // not all filter fields are filled
             $scope.openErrorModal();
         }
@@ -320,35 +318,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
 
         console.log($scope.listOfSelectedChannels);
         console.log($scope.listOfSelectedChannelsId);
-    };
-
-
-    /*******************************************************************************
-     placeholder
-     *******************************************************************************/
-
-    $scope.getMarketingTimeline = function () {
-        $http.get('http://demo4552602.mockable.io/marketingTimeline')
-            .success(function (data) {
-                $scope.newTimeline = data;
-                $scope.showTimelineChart([]);
-            });
-    };
-
-    //$scope.getMonths();
-    //$scope.getJulyData();
-    $scope.changeData = function (month) {
-
-        $scope.getMonthData(month);
-
-        /*$scope.marketingChart.load({
-         json: $scope.julyChart,
-         keys: {
-         x: 'name',
-         value: ['Lead', 'Conversion', 'Rate']
-         },
-         unload: $scope.marketingChart.columns
-         });*/
     };
 
 
@@ -413,7 +382,6 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     /* --- end of date picker codes --- */
 
     $scope.test = function (value) {
-        alert("YO");
         angular.forEach($scope.selectedChannels, function (channel) {
             if (channel === $scope.selectedChannel) {
                 console.log("Channel is already selected");
@@ -434,6 +402,8 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
     $scope.animationsEnabled = true;
 
     $scope.openErrorModal = function (size) {
+
+        console.log("YO");
 
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
@@ -470,16 +440,16 @@ appDashboard.controller('DashboardCtrl', function ($scope, $http, $modal, $route
  *******************************************************************************/
 
 
-appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc) {
+appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance) {
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 
-    $scope.postFilter = function () {
-        postRoiFilterSvc.postFilter($scope.filterName);
-        $scope.cancel();
-    };
+    /*$scope.postFilter = function () {
+     postRoiFilterSvc.postFilter($scope.filterName);
+     $scope.cancel();
+     };*/
 
 });
 
