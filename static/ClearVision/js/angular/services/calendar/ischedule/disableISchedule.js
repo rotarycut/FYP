@@ -35,6 +35,9 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
             self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);
 
+            // change the calendar view to week view
+            self.scope.changeView('month', self.scope.chosenDoctor.changeCalendar);
+
             $timeout(function () {
 
                 // remove all the appointments in each of the low, medium and high heat map
