@@ -12,6 +12,11 @@
     outline: 0 !important;
 }
 
+.pointer-cursor{
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .content-row {
     padding-top: 60px;
     height: 100vh;
@@ -708,6 +713,11 @@ li .i-slot-label {
     padding: 4px;
     border-radius: 3px;
     text-decoration: none;
+}
+
+.suggestslots-ul {
+    list-style: none;
+    padding-left: 100px;
 }
 
 /*form page css ends*/
@@ -1661,7 +1671,6 @@ hr.config-section-divider{
     column-count: 4;
     padding-left: 0;
 }
-
 
 .available-slot-item input[type=checkbox] {
     /*position: relative;*/

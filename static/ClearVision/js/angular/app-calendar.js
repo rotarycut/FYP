@@ -82,7 +82,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.getISchedule = function () {
 
         $scope.appointments = [];
-        var url = '/Clearvision/_api/iSchedule/?limit=5&daysAhead=7&timeslotType=' + 'Screening' + '&upperB=5&docName=Dr%20Ho'
+        var url = '/Clearvision/_api/SuggestedTimeSlots/?apptTypeId=3&doctorId=1'
 
         $http.get(url)
             .success(function (listOfAppointments) {
@@ -630,7 +630,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             createBlockForm: true,
             editBlockForm: false,
         },
-        showSuggestedSlot: false
+        showSuggestedSlot: false,
+        suggestedSlotList: false
     };
 
     $scope.disableSearchBox = false;
@@ -1458,6 +1459,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 });
             })
     };
+
+    /* function to display suggested time slots */
+    $scope.displaySuggestedSlots = function(){
+        $scope.form.suggestedSlotList = true;
+    };
+
+    $scope.hideSuggestedSlots = function(){
+        $scope.form.suggestedSlotList = false;
+    };
+
 
 });
 

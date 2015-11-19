@@ -356,13 +356,26 @@
                         <div class="row subcontent-row">
                             <div class="col-sm-12">
                                 <a ng-href="#/" class="suggest-time-badge"
-                                   ng-click="openBlockedTimeSlotListModal('lg')">
+                                   ng-click="displaySuggestedSlots()">
                                     <i class="fa fa-question-circle" style="font-size: 13pt;"></i> View suggested time
                                     slots</a>
                             </div>
                         </div>
                     </div>
 
+                    <div class="form-group col-sm-12 form-animation" ng-init="getISchedule()" ng-show="form.suggestedSlotList" style="margin-bottom: 0">
+                        <div class="create-modal-listbox" style="margin-top: 10px">
+                            <ul class="suggestslots-ul">
+                                <li class="right-block"><a ng-click="hideSuggestedSlots()" class="pointer-cursor"><i class="fa fa-times"></i> close</a></li>
+                                <li class="available-slot-item" ng-repeat="appt in appointments">
+                                    <label ng-class="{slotSelected: isTimeSlotSelected}">
+                                        <input type="checkbox" ng-model="isTimeSlotSelected"
+                                               ng-click="">[[appt.date]] [[appt.start]]
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <!-- Waiting list -->
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation"
@@ -798,7 +811,7 @@
             <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            <li>Reason:<select data-ng-model="selectedReason" class=form-control"
+            <li style="display: inline-block">Reason:<select style="display: inline-block" data-ng-model="selectedReason" class="form-control"
                                ng-options="reason.reason for reason in cancellationReasons"
                                ng-change="activateModalButtons()"></select>
             </li>
