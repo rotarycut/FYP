@@ -629,7 +629,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         showBlcokButtons: {
             createBlockForm: true,
             editBlockForm: false,
-        }
+        },
+        showSuggestedSlot: false
     };
 
     $scope.disableSearchBox = false;

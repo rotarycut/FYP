@@ -41,13 +41,15 @@ angular.module('show.form', [])
                 self.scope.formTitle = "Create New Appointment";
                 self.scope.showPatientList = false;
                 self.scope.form.showButtons['createForm'] = true;
-
+                self.scope.form.showSuggestedSlot = true;
+                self.scope.form.showSuggestedSlot = true;
 
             } else if (formType === 'Edit') {
 
                 // perform these operations when showing the edit appointment form
                 self.scope.showPatientList = true;
                 self.scope.formTitle = "Edit Appointment";
+
 
                 for (var field in self.scope.form.showFields) {
                     self.scope.form.showFields[field] = false;
@@ -64,6 +66,7 @@ angular.module('show.form', [])
                 // perform these operations when editing an appointment with only 1 patient
                 self.scope.showPatientList = true;
                 self.scope.formTitle = "Edit Appointment";
+                self.scope.form.showSuggestedSlot = false;
 
                 for (var field in self.scope.form.showFields) {
                     self.scope.form.showFields[field] = true;

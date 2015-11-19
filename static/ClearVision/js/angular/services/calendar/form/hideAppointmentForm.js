@@ -13,6 +13,7 @@ angular.module('hide.form', [])
 
             self._scope.form.showFormBtns = true;
             self._scope.scaleDownCalendar = false;
+            self._scope.form.showSuggestedSlot = false;
 
             self._scope.form.showForm = false;
             self._scope.form.showBlockForm = false;
