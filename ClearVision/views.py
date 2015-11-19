@@ -3603,6 +3603,63 @@ class ViewDoctorBlockedTime(viewsets.ReadOnlyModelViewSet):
         else:
             return Response(False)
 
+class CheckApptsForBlockedCalendar(viewsets.ModelViewSet):
+    queryset = Appointment.objects.none()
+    serializer_class = AppointmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        doctorID = request.query_params.get('doctorID')
+        startDate = request.query_params.get('startDate')
+        startTime = request.query_params.get('startTime') + ":00"
+        endDate = request.query_params.get('endDate')
+        endTime = request.query_params.get('endTime') + ":00"
+
+        count = Appointment.objects.filter(timeBucket__date__gte=startDate,
+                                           timeBucket__date__lte=endDate,
+                                           timeBucket__start__gte=startTime,
+                                           timeBucket__end__lte=endTime,
+                                           doctor=doctorID,
+                                           ).exclude(patients__isnull=True).count()
+        return Response(count)
+
+    def create(self, request, *args, **kwargs):
+        payload = request.data
+
+        emailAddress = payload.get('emailAddress')
+        doctorID = payload.get('doctorID')
+        startDate = payload.get('startDate')
+        startTime = payload.get('startTime')
+        endDate = payload.get('endDate')
+        endTime = payload.get('endTime')
+
+        apptsInBlockedBucket = Appointment.objects.filter(timeBucket__date__gte=startDate,
+                                                          timeBucket__date__lte=endDate,
+                                                          timeBucket__start__gte=startTime,
+                                                          timeBucket__end__lte=endTime,
+                                                          doctor=doctorID,
+                                                          ).count().exclude(patients__isnull=True)\
+                                                          .values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor')
+
+        csvfile = StringIO.StringIO()
+        csvwriter = csv.writer(csvfile)
+
+        csvwriter.writerow(['patients_contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start',
+                        'apptType', 'id', 'doctor__name', 'clinic', 'doctor'])
+
+        for eachObj in apptsInBlockedBucket:
+            csvwriter.writerow([eachObj['patients__contact'], eachObj['patients__name'], eachObj['patients__gender'], eachObj['timeBucket__date'],
+                                eachObj['timeBucket__start'], eachObj['apptType'], eachObj['id'], eachObj['doctor__name'],
+                                eachObj['clinic'], eachObj['doctor']])
+
+        message = EmailMessage("Appointment backlog for  " + str(Doctor.objects.get(id=doctorID).name), "", to=[emailAddress])
+        message.attach('apptBacklog.csv', csvfile.getvalue(), 'text/csv')
+
+        message.send()
+
+        return Response('Email sent successfully')
+
+
+
 class InputMarketingChannelCost(viewsets.ModelViewSet):
     queryset = MarketingChannels.objects.all()
     serializer_class = InputMarketingChannelCostSerializer
