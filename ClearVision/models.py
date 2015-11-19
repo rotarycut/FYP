@@ -33,6 +33,8 @@ class CustomFilterMarketingChannel(models.Model):
 
 class CustomFilterROI(models.Model):
     name = models.CharField(max_length=200)
+    month = models.IntegerField()
+    year = models.IntegerField()
     channelType = models.ManyToManyField(MarketingChannels)
 
 class Patient(models.Model):

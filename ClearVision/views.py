@@ -1084,6 +1084,8 @@ class ViewSavedROICustomFilters(viewsets.ModelViewSet):
 
         name = payload.get('name')
         channelTypes = payload.get('channelTypes')
+        month = payload.get('month')
+        year = payload.get('year')
 
         newCustomFilter = CustomFilterROI.objects.create(name=name,)
         newCustomFilter.channelType = channelTypes
@@ -1485,20 +1487,28 @@ class DoctorTimeSlot(viewsets.ModelViewSet):
 
         apptType = payload.get('apptType')
         doctorId = payload.get('doctorId')
-        monday = payload.get('monday')
-        tuesday = payload.get('tuesday')
-        wednesday = payload.get('wednesday')
-        thursday = payload.get('thursday')
-        friday = payload.get('friday')
-        saturday = payload.get('saturday')
+        day = payload.get('day')
+        timeslots = payload.get('timeslots')
 
         doctordaytimeslot = DoctorDayTimeSlots.objects.get(doctor=doctorId, apptType=apptType)
-        doctordaytimeslot.monday = monday
-        doctordaytimeslot.tuesday = tuesday
-        doctordaytimeslot.wednesday = wednesday
-        doctordaytimeslot.thursday = thursday
-        doctordaytimeslot.friday = friday
-        doctordaytimeslot.saturday = saturday
+
+        timeslotsString = ""
+        for eachSlot in timeslots[:-1]:
+            timeslotsString += eachSlot + ":00,"
+        timeslotsString += timeslots[-1] + ":00"
+
+        if day == 'Monday':
+            doctordaytimeslot.monday = timeslotsString
+        if day == 'Tuesday':
+            doctordaytimeslot.tuesday = timeslotsString
+        if day == 'Wednesday':
+            doctordaytimeslot.wednesday = timeslotsString
+        if day == 'Thursday':
+            doctordaytimeslot.thursday = timeslotsString
+        if day == 'Friday':
+            doctordaytimeslot.friday = timeslotsString
+        if day == 'Saturday':
+            doctordaytimeslot.saturday = timeslotsString
 
         doctordaytimeslot.save()
 
