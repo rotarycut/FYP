@@ -687,7 +687,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myErrorContent.html',
-            controller: 'RoiModalCtrl',
+            controller: 'ConversionModalCtrl',
             size: size,
             resolve: {
                 showEditFilterBtn: function () {
@@ -705,7 +705,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myFilterModalContent.html',
-            controller: 'RoiModalCtrl',
+            controller: 'ConversionModalCtrl',
             size: size,
             resolve: {
                 showEditFilterBtn: function () {
@@ -726,7 +726,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
  *******************************************************************************/
 
 
-appConversion.controller('RoiModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
+appConversion.controller('ConversionModalCtrl', function ($scope, $modalInstance, postRoiFilterSvc, scheduleConversionFilterSvc,
                                                    showEditFilterBtn, existingFilterName) {
 
     $scope.filterName = existingFilterName;

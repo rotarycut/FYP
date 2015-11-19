@@ -23,8 +23,8 @@
                                 <div class="row" style="padding-left: 5%">
                                     Year:
                                     <select class="form-control"
-                                            ng-options=""
-                                            data-ng-model=""
+                                            ng-options="year for year in listOfFilterYears"
+                                            data-ng-model="filter.filterYear"
                                             required>
                                     </select>
                                 </div>
@@ -32,8 +32,8 @@
 
                                     Month:
                                     <select class="form-control"
-                                            ng-options=""
-                                            data-ng-model=""
+                                            ng-options="month for month in listOfFilterMonths"
+                                            data-ng-model="filter.filterMonth"
                                             required>
                                     </select>
                                 </div>
@@ -60,10 +60,14 @@
                             <div class="col-md-3 col-md-offset-1">
                                 <div class="row" style="padding-top: 22%">
                                     <button class="btn form-default-btn"
-                                            ng-click="runFilter(listOfSelectedChannels)">Run
+                                            ng-click="runFilter(filter.filterYear, filter.filterMonth, listOfSelectedChannels)">
+                                        Run
                                         Filter
                                     </button>
-                                    <button class="btn form-default-btn" ng-click="saveFilter()">Save Filter</button>
+                                    <button class="btn form-default-btn"
+                                            ng-click="saveFilter(filter.filterYear, filter.filterMonth, listOfSelectedChannels)">
+                                        Save Filter
+                                    </button>
                                     <button class="btn form-default-btn" ng-click="clearFilter()">Clear</button>
                                 </div>
                             </div>
@@ -174,7 +178,7 @@
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" ng-show="filterName.length <= 8 && filterName.length > 0" type="button"
-                ng-click="postFilter()">Submit
+                ng-click="postFilter(filterName)">Submit
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
     </div>
