@@ -2,6 +2,16 @@
     <div class="row dashboard-content-row">
         <div class="col-md-12 center-block">
             <label class="label-color">All Marketing Channels Spent</label>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-3" style="padding-left: 0">
+                            <form class="form-search form-inline">
+                                <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                       ng-model="spentChannel"/>
+                            </form>
+                        </div>
+        </div>
+        <div class="col-md-12 center-block">
             <table class="table waitlist-main-tbl" ng-init="getMarketingChannels()">
                 <tr>
                     <th>
