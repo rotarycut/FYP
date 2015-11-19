@@ -1,4 +1,4 @@
-    var appCalendar = angular.module('app.calendar', ['ngProgress']);
+var appCalendar = angular.module('app.calendar', ['ngProgress']);
 
 
 appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarConfig, $timeout, $http,
@@ -8,7 +8,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
-                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher,getAppointmentTypesColorService) {
+                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher, getAppointmentTypesColorService) {
 
     var client = new Pusher('6cb577c1e7b97150346b');
     var pusher = $pusher(client);
@@ -746,21 +746,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to navigate to date after selection on date picker field */
     $scope.navigateToDate = function () {
         var selectedDate = $scope.getFormattedDate($scope.fields.appointmentDate);
+        var calendarTag = '#' + $scope.chosenDoctor.calendar;
 
-        // navigate the calendar to current date once heat map is enabled
-        if ($scope.selectedCalendar == 'myCalendar1') {
-
-            $('#drHoCalendar').fullCalendar('gotoDate', selectedDate);
-        } else if ($scope.selectedCalendar == 'myCalendar2') {
-
-            $('#drGohCalendar').fullCalendar('gotoDate', selectedDate);
-        } else {
-
-            $('#optomCalendar').fullCalendar('gotoDate', selectedDate);
-        }
-
-        $scope.fields.appointmentDate = selectedDate;
-
+        $(calendarTag).fullCalendar('gotoDate', selectedDate);
     };
 
     /* function to format waiting list date */
@@ -1448,7 +1436,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to retrieve appointment types */
-    $scope.getAppointmentType = function(){
+    $scope.getAppointmentType = function () {
         $scope.listOfSideTabs = [];
         var url = '/Clearvision/_api/DoctorCalendarSideTab/';
 
