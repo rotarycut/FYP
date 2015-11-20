@@ -103,7 +103,7 @@ def sendPreSurvey():
     numbersToSend = []
 
     for eachObj in allAttended:
-        numbersToSend.append([[eachObj['patient__contact'], eachObj['patient__name'], eachObj['doctor__name']]])
+        numbersToSend.append([[eachObj['patient__contact'], eachObj['patient__name']]])
 
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
