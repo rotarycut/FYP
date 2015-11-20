@@ -539,6 +539,10 @@ ul.legend-ul li {
     margin-top: 2px;
 }
 
+.legend-clicked{
+    text-decoration: none;
+}
+
 .legend-screen-clicked {
     /*color: #E77471;*/
     text-decoration: none;

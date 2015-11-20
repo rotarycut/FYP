@@ -581,6 +581,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.legendSurgeryClicked = "legend-surgery-clicked";
     $scope.legendPostOpClicked = "legend-postop-clicked";
     $scope.legendEyecareClicked = "legend-eyecare-clicked";
+    $scope.legendClicked = "legend-clicked"
     $scope.screenIconChange = "fa fa-check-square";
     $scope.preEvalIconChange = "fa fa-check-square";
     $scope.surgeryIconChange = "fa fa-check-square";
@@ -1425,20 +1426,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 }
             }
         });
-    };
-
-    /* function to retrieve appointment types */
-    $scope.getAppointmentType = function () {
-        $scope.listOfSideTabs = [];
-        var url = '/Clearvision/_api/DoctorCalendarSideTab/';
-
-
-        $http.get(url)
-            .success(function (listOfSideTabs) {
-                angular.forEach(listOfSideTabs, function (tab) {
-                    $scope.listOfSideTabs.push(tab);
-                });
-            })
     };
 
     /* function to display suggested time slots */

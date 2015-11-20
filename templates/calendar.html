@@ -97,25 +97,25 @@
                         <!-- legend for doctors -->
                         <div class="cal-legend" ng-show="showDoctorLegend">
                             <ul class="legend-ul">
-                                <div ng-repeat="tab in listOfSideTabs | filter:{ doctorId: 1 }">
-                                    <li ng-repeat="type in tab.appointmentTypeColorArray"><a href="#/"
-                                                                                             singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
-                                                                                             data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
-                                                                                             ng-class="legendEvalClicked"
-                                                                                             ng-style="{'color': type.color}"><i
-                                            ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i>[[type.type]]</a>
-                                    </li>
-                                    <!--<li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
-                                           data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
-                                           ng-class="legendSurgeryClicked"><i
-                                            ng-class="surgeryIconChange"></i> Lasik</a>
-                                    </li>
-                                    <li><a href="#/" singleclick="filterByAppointmentTypes('Post Operation', false)"
-                                           data-ng-Dblclick="filterByAppointmentTypes('Post Operation', true)"
-                                           ng-class="legendPostOpClicked"><i
-                                            ng-class="postOpIconChange"></i> Post Surgery</a>
-                                    </li>-->
-                                </div>
+                                <li ng-repeat="type in chosenDoctor.appointmentTypeColorArray">
+                                    <a href="#/"
+                                       singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
+                                       ng-class="legendClicked"
+                                       ng-style="{'color' : type.color, 'border-bottom' : 'solid 2px ' + type.color}"><i
+                                            ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i>
+                                        [[type.name]]</a>
+                                </li>
+                                <!--<li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('Surgery', true)"
+                                       ng-class="legendSurgeryClicked"><i
+                                        ng-class="surgeryIconChange"></i> Lasik</a>
+                                </li>
+                                <li><a href="#/" singleclick="filterByAppointmentTypes('Post Operation', false)"
+                                       data-ng-Dblclick="filterByAppointmentTypes('Post Operation', true)"
+                                       ng-class="legendPostOpClicked"><i
+                                        ng-class="postOpIconChange"></i> Post Surgery</a>
+                                </li>-->
                                 <li><a href="#/" singleclick="filterByAppointmentTypes('All', false)"
                                        data-ng-Dblclick="filterByAppointmentTypes('All')" class="legend-all">Show
                                     All</a>
