@@ -357,7 +357,7 @@ appDashboard.controller('DashboardCtrl',
 
                 $http(req)
                     .success(function (specificChannelList) {
-                        console.log(specificChannelList);
+
                         $scope.channelObjects = specificChannelList;
                     })
 

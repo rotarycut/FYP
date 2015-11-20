@@ -1979,9 +1979,9 @@ appConfig.controller('CreateDoctorModalCtrl',
                     showNotificationsSvc.notifySuccessTemplate('Doctor created successfully');
                     $scope.cancel();
 
-                    /*$timeout(function () {
-                     $window.location.reload();
-                     }, 3000);*/
+                    $timeout(function () {
+                        $window.location.reload();
+                    }, 2000);
                 })
 
                 .error(function (data) {

@@ -47,7 +47,7 @@
                                 </select>-->
                                 <label class="control-label" style="color: #49708A">Marketing Channel</label>
 
-                                <div class="roi-marketing-listbox" ng-init="getMarketingChannels()">
+                                <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
                                         <li ng-class="{channelSelected: channel.channelUnselected}"
                                             class="mrkt-list-item"
@@ -93,7 +93,7 @@
                         <select class="form-control" data-ng-model="sortSelected" ng-change=""
                                 name="optionList">
                             <option value="" selected disabled>---Sort By---</option>
-                            <option ng-repeat="">[[option]]</option>
+                            <option>[[option]]</option>
                         </select>
                     </div>
                     <!--<div class="col-md-1 col-md-offset-9 graph-function-col">
