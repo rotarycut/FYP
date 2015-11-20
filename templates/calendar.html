@@ -914,9 +914,9 @@
     <div class="modal-body">
         <ul>
             <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-            <li>Start Date: [[blockDetails.blockDateStart]]</li>
+            <li>Start Date: [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
             <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-            <li>End Date: [[blockDetails.blockDateEnd]]</li>
+            <li>End Date: [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
             <li>End Time: [[blockDetails.blockTimeEnd]]</li>
             <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
         </ul>
@@ -978,9 +978,9 @@
                 <ul>
                     <p>Original Blocked Time Slots</p>
                     <li>Doctor: [[blockDetails.originalBlockForm.doctor__name]]</li>
-                    <li>Start Date: [[blockDetails.originalBlockForm.blockDateStart]]</li>
+                    <li>Start Date: [[blockDetails.originalBlockForm.blockDateStart | dateFilter:'longDate']]</li>
                     <li>Start Time: [[blockDetails.originalBlockForm.blockTimeStart]]</li>
-                    <li>End Date: [[blockDetails.originalBlockForm.blockDateEnd]]</li>
+                    <li>End Date: [[blockDetails.originalBlockForm.blockDateEnd | dateFilter:'longDate']]</li>
                     <li>End Time: [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
                     <li>Remarks: [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
                 </ul>
@@ -992,13 +992,13 @@
                         [[blockDetails.doctorToBlock.name]]
                     </li>
                     <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}">Start Date:
-                        [[blockDetails.blockDateStart]]
+                        [[blockDetails.blockDateStart | dateFilter:'longDate']]
                     </li>
                     <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}">Start Time:
                         [[blockDetails.blockTimeStart]]
                     </li>
                     <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}">End Date:
-                        [[blockDetails.blockDateEnd]]
+                        [[blockDetails.blockDateEnd | dateFilter:'longDate']]
                     </li>
                     <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}">End Time:
                         [[blockDetails.blockTimeEnd]]
@@ -1026,9 +1026,9 @@
     <div class="modal-body">
         <ul>
             <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-            <li>Start Date: [[blockDetails.blockDateStart]]</li>
+            <li>Start Date: [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
             <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-            <li>End Date: [[blockDetails.blockDateEnd]]</li>
+            <li>End Date: [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
             <li>End Time: [[blockDetails.blockTimeEnd]]</li>
             <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
         </ul>

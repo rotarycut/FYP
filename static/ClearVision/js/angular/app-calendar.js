@@ -1344,7 +1344,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     } else {
                         $scope.blockFields.doctorIsChanged = false;
                     }
-                    if ($scope.blockFields.originalBlockForm.blockDateStart !== $scope.blockFields.blockDateStart) {
+                    if ($scope.blockFields.originalBlockForm.blockDateStart.getTime() !== $scope.blockFields.blockDateStart.getTime()) {
                         $scope.blockFields.startDateIsChanged = true;
                     } else {
                         $scope.blockFields.startDateIsChanged = false;
@@ -1354,7 +1354,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     } else {
                         $scope.blockFields.startTimeIsChanged = false;
                     }
-                    if ($scope.blockFields.originalBlockForm.blockDateEnd !== $scope.blockFields.blockDateEnd) {
+                    if ($scope.blockFields.originalBlockForm.blockDateEnd.getTime() !== $scope.blockFields.blockDateEnd.getTime()) {
                         $scope.blockFields.endDateIsChanged = true;
                     } else {
                         $scope.blockFields.endDateIsChanged = false;
@@ -1457,157 +1457,157 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
  *******************************************************************************/
 
 
-appCalendar.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, $log, patientInfo, createTracker, appointment, postAppointmentSvc, disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo, clearFormSvc, populateBlockedFormSvc) {
-    $scope.patientDetails = patientInfo;
+appCalendar.controller('ModalInstanceCtrl',
+    function ($scope, $http, $modalInstance, $log, $filter, patientInfo, createTracker, appointment, postAppointmentSvc,
+              disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo, clearFormSvc,
+              populateBlockedFormSvc, showNotificationsSvc) {
 
-    $scope.trackerId = createTracker;
+        $scope.patientDetails = patientInfo;
 
-    $scope.appointment = appointment;
+        $scope.trackerId = createTracker;
 
-    $scope.blockDetails = blockInfo;
+        $scope.appointment = appointment;
 
-    $scope.createAppointment = function () {
-        postAppointmentSvc.postAppointment();
-        //disableIScheduleSvc.disableISchedule();
-        $modalInstance.close();
-    };
+        $scope.blockDetails = blockInfo;
 
-    $scope.deleteAppointment = function () {
-        deleteAppointmentSvc.deleteAppointment($scope.selectedReason.id);
-        $modalInstance.close();
-    };
-
-    $scope.updateAppointment = function () {
-        updateAppointmentSvc.updateAppointment();
-        $modalInstance.close();
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-
-    /* function to receive cancellation reasons */
-    $scope.retrieveCancellationReasons = function () {
-        $http.get('/Clearvision/_api/ViewCancellationReasons/')
-            .success(function (data) {
-                $scope.cancellationReasons = data;
-            })
-    };
-
-    $scope.activateModalButtons = function () {
-        $scope.showModalButtons = true;
-    };
-
-    /* function to populate date time fields even thought heat map is blocked */
-    $scope.populateDateTimeFields = function (appointment) {
-        eventClickSvc.populateDateTimeFields(appointment);
-        $scope.cancel();
-    };
-
-    /* function to post block time slot */
-    $scope.postBlockTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
-
-        if (remarks == undefined) {
-            remarks = "";
-        }
-
-        var postObj = {
-            "remarks": remarks,
-            "startDate": startDate,
-            "startTime": startTime,
-            "endDate": endDate,
-            "endTime": endTime,
-            "doctor": doctorId
+        $scope.createAppointment = function () {
+            postAppointmentSvc.postAppointment();
+            //disableIScheduleSvc.disableISchedule();
+            $modalInstance.close();
         };
 
-        $http.post('/Clearvision/_api/CalendarBlocker/', postObj)
-            .success(function (data) {
-                console.log("Successfully blocked time slot");
-                clearFormSvc.clearBlockForm();
-            })
-            .error(function (data) {
-                console.log("Error in blocking time slot");
-            });
+        $scope.deleteAppointment = function () {
+            deleteAppointmentSvc.deleteAppointment($scope.selectedReason.id);
+            $modalInstance.close();
+        };
 
-        $scope.cancel();
-    };
+        $scope.updateAppointment = function () {
+            updateAppointmentSvc.updateAppointment();
+            $modalInstance.close();
+        };
 
-    /* function to get a list of blocked appointments */
-    $scope.getListOfBlockedAppointments = function () {
-        $http.get('/Clearvision/_api/CalendarBlocker/?doctor=all')
-            .success(function (data) {
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
 
-                $scope.listOfBlockedAppointments = data;
+        /* function to receive cancellation reasons */
+        $scope.retrieveCancellationReasons = function () {
+            $http.get('/Clearvision/_api/ViewCancellationReasons/')
+                .success(function (data) {
+                    $scope.cancellationReasons = data;
+                })
+        };
 
-                angular.forEach($scope.listOfBlockedAppointments, function (blockedAppt) {
+        $scope.activateModalButtons = function () {
+            $scope.showModalButtons = true;
+        };
 
-                    blockedAppt.start = blockedAppt.start.replace('T', ', ');
-                    blockedAppt.end = blockedAppt.end.replace('T', ', ');
+        /* function to populate date time fields even thought heat map is blocked */
+        $scope.populateDateTimeFields = function (appointment) {
+            eventClickSvc.populateDateTimeFields(appointment);
+            $scope.cancel();
+        };
+
+        /* function to post block time slot */
+        $scope.postBlockTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
+
+            if (remarks == undefined) {
+                remarks = "";
+            }
+
+            var postObj = {
+                "remarks": remarks,
+                "startDate": startDate,
+                "startTime": startTime,
+                "endDate": endDate,
+                "endTime": endTime,
+                "doctor": doctorId
+            };
+
+            $http.post('/Clearvision/_api/CalendarBlocker/', postObj)
+                .success(function (data) {
+                    showNotificationsSvc.notifySuccessTemplate('Time slot blocked successfully');
+                    clearFormSvc.clearBlockForm();
+                })
+                .error(function (data) {
+                    showNotificationsSvc.notifyErrorTemplate('Error blocking time slot');
                 });
 
-            });
-    };
-
-    /* function to populate block form */
-    $scope.populateBlockForm = function (blockedAppt) {
-
-        populateBlockedFormSvc.populateBlockForm(blockedAppt);
-        $scope.cancel();
-    };
-
-    /* function to update blocked time slots */
-    $scope.updateBlockedTimeSlots = function () {
-
-        if ($scope.blockDetails.remarks == undefined) {
-            $scope.blockDetails.remarks = "";
-        }
-
-        var updateJson = {
-            "remarks": $scope.blockDetails.remarks,
-            "startDate": $scope.blockDetails.blockDateStart,
-            "startTime": $scope.blockDetails.blockTimeStart,
-            "endDate": $scope.blockDetails.blockDateEnd,
-            "endTime": $scope.blockDetails.blockTimeEnd,
-            "doctor": $scope.blockDetails.doctorToBlock.id
+            $scope.cancel();
         };
 
-        console.log(updateJson);
-        console.log($scope.blockDetails.blockFormId);
+        /* function to get a list of blocked appointments */
+        $scope.getListOfBlockedAppointments = function () {
+            $http.get('/Clearvision/_api/CalendarBlocker/?doctor=all')
+                .success(function (data) {
 
-        var req = {
-            method: 'PATCH',
-            url: '/Clearvision/_api/CalendarBlocker/' + $scope.blockDetails.blockFormId,
-            headers: {'Content-Type': 'application/json'},
-            data: updateJson
+                    $scope.listOfBlockedAppointments = data;
+
+                    angular.forEach($scope.listOfBlockedAppointments, function (blockedAppt) {
+
+                        blockedAppt.start = blockedAppt.start.replace('T', ', ');
+                        blockedAppt.end = blockedAppt.end.replace('T', ', ');
+                    });
+
+                });
         };
 
-        $http(req)
-            .success(function (data) {
-                console.log("Successfully updated time slot");
-                clearFormSvc.clearBlockForm();
-            })
-            .error(function (data) {
-                console.log("Error in updating blocked time slot");
-            });
+        /* function to populate block form */
+        $scope.populateBlockForm = function (blockedAppt) {
+            populateBlockedFormSvc.populateBlockForm(blockedAppt);
+            $scope.cancel();
+        };
 
-        $scope.cancel();
+        /* function to update blocked time slots */
+        $scope.updateBlockedTimeSlots = function () {
 
-    };
+            if ($scope.blockDetails.remarks == undefined) {
+                $scope.blockDetails.remarks = "";
+            }
+
+            var updateJson = {
+                "remarks": $scope.blockDetails.remarks,
+                "startDate": $filter('date')($scope.blockDetails.blockDateStart, 'yyyy-MM-dd'),
+                "startTime": $scope.blockDetails.blockTimeStart,
+                "endDate": $filter('date')($scope.blockDetails.blockDateEnd, 'yyyy-MM-dd'),
+                "endTime": $scope.blockDetails.blockTimeEnd,
+                "doctor": $scope.blockDetails.doctorToBlock.id
+            };
+
+            var req = {
+                method: 'PATCH',
+                url: '/Clearvision/_api/CalendarBlocker/' + $scope.blockDetails.blockFormId,
+                headers: {'Content-Type': 'application/json'},
+                data: updateJson
+            };
+
+            $http(req)
+                .success(function (data) {
+                    showNotificationsSvc.notifySuccessTemplate('Time slot updated successfully');
+                    clearFormSvc.clearBlockForm();
+                })
+                .error(function (data) {
+                    showNotificationsSvc.notifyErrorTemplate('Error updating time slot');
+                });
+
+            $scope.cancel();
+
+        };
 
 
-    /* function to delete block time slot */
-    $scope.deleteBlockTimeSlots = function () {
+        /* function to delete block time slot */
+        $scope.deleteBlockTimeSlots = function () {
 
-        $http.delete('/Clearvision/_api/CalendarBlocker/' + $scope.blockDetails.blockFormId)
-            .success(function (data) {
-                console.log("Successfully deleted time slot");
-                clearFormSvc.clearBlockForm();
-            })
-            .error(function (data) {
-                console.log("Error in deleting time slot");
-            });
+            $http.delete('/Clearvision/_api/CalendarBlocker/' + $scope.blockDetails.blockFormId)
+                .success(function (data) {
+                    showNotificationsSvc.notifySuccessTemplate('Time slot deleted successfully');
+                    clearFormSvc.clearBlockForm();
+                })
+                .error(function (data) {
+                    showNotificationsSvc.notifyErrorTemplate('Error deleting time slot');
+                });
 
-        $scope.cancel();
-    };
+            $scope.cancel();
+        };
 
-});
+    });
