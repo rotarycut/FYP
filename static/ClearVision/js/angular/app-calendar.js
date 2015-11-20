@@ -8,7 +8,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
-                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher, getAppointmentTypesColorService) {
+                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher,
+                                                 getAppointmentTypesColorService, suggestedAppointmentsSvc) {
 
     var client = new Pusher('6cb577c1e7b97150346b');
     var pusher = $pusher(client);
@@ -41,6 +42,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     checkExistingPatientSvc.getScope($scope);
     changeCalendarSvc.getScope($scope);
     populateBlockedFormSvc.getScope($scope);
+    suggestedAppointmentsSvc.getScope($scope);
 
     /* --- start of declaration of event source that contains custom events on the scope --- */
 
@@ -77,20 +79,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* --- end of declaration --- */
-
-    /* function to get iSchedule */
-    $scope.getISchedule = function () {
-
-        $scope.appointments = [];
-        var url = '/Clearvision/_api/SuggestedTimeSlots/?apptTypeId=3&doctorId=1'
-
-        $http.get(url)
-            .success(function (listOfAppointments) {
-                angular.forEach(listOfAppointments, function (appointment) {
-                    $scope.appointments.push(appointment);
-                });
-            })
-    };
 
 
     /* function to get heat map */
@@ -638,6 +626,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     $scope.disableSearchBox = false;
     /* different lists to populate form. will subsequently get from backend */
+    $scope.listOfSuggestedAppointments = [];
     $scope.listOfAppointmentTypes = [];
     $scope.operationTimings = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"];
     //$scope.listOfMarketingChannels = ["987 Radio", "Andrea Chong Blog", "Channel News Asia", "Referred by Doctor", "ST Ads", "Others"];

@@ -99,10 +99,10 @@
                             <ul class="legend-ul">
                                 <div ng-repeat="tab in listOfSideTabs">
                                     <li ng-repeat="type in tab.appointmentTypeColorArray"><a href="#/"
-                                                        singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
-                                                        data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
-                                                        ng-class="legendEvalClicked"
-                                                        ng-style="{'color': type.color}"><i
+                                                                                             singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
+                                                                                             data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
+                                                                                             ng-class="legendEvalClicked"
+                                                                                             ng-style="{'color': type.color}"><i
                                             ng-class="preEvalIconChange" ng-style="{'color': type.color}"></i>[[type.type]]</a>
                                     </li>
                                     <!--<li><a href="#/" singleclick="filterByAppointmentTypes('Surgery', false)"
@@ -363,13 +363,15 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-sm-12 form-animation" ng-init="getISchedule()" ng-show="form.suggestedSlotList" style="margin-bottom: 0">
+                    <div class="form-group col-sm-12 form-animation" ng-show="form.suggestedSlotList"
+                         style="margin-bottom: 0">
                         <div class="create-modal-listbox" style="margin-top: 10px">
                             <ul class="suggestslots-ul">
-                                <li class="right-block"><a ng-click="hideSuggestedSlots()" class="pointer-cursor"><i class="fa fa-times"></i> close</a></li>
-                                <li class="available-slot-item" ng-repeat="appt in appointments">
+                                <li class="right-block"><a ng-click="hideSuggestedSlots()" class="pointer-cursor"><i
+                                        class="fa fa-times"></i> close</a></li>
+                                <li class="available-slot-item" ng-repeat="appt in listOfSuggestedAppointments">
                                     <label ng-class="{slotSelected: isTimeSlotSelected}">
-                                        <input type="checkbox" ng-model="isTimeSlotSelected"
+                                        <input type="checkbox" ng-model="placeholder"
                                                ng-click="">[[appt.date]] [[appt.start]]
                                     </label>
                                 </li>
@@ -811,9 +813,10 @@
             <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            <li style="display: inline-block">Reason:<select style="display: inline-block" data-ng-model="selectedReason" class="form-control"
-                               ng-options="reason.reason for reason in cancellationReasons"
-                               ng-change="activateModalButtons()"></select>
+            <li style="display: inline-block">Reason:<select style="display: inline-block"
+                                                             data-ng-model="selectedReason" class="form-control"
+                                                             ng-options="reason.reason for reason in cancellationReasons"
+                                                             ng-change="activateModalButtons()"></select>
             </li>
         </ul>
     </div>

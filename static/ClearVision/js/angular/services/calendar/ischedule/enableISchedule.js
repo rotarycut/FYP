@@ -1,6 +1,6 @@
 var app = angular.module('enable.ISchedule', []);
 
-app.service('enableIScheduleSvc', function ($rootScope) {
+app.service('enableIScheduleSvc', function ($rootScope, suggestedAppointmentsSvc) {
 
     var self = this;
     self.scope = {};
@@ -60,6 +60,9 @@ app.service('enableIScheduleSvc', function ($rootScope) {
                 // hide the calendar legend when heat map is shown
                 self.scope.showFilters = false;
 
+                // enable suggested appointment time slots
+                suggestedAppointmentsSvc.suggestAppointments();
+
             } else {
 
                 // iSchedule is already enabled
@@ -96,6 +99,10 @@ app.service('enableIScheduleSvc', function ($rootScope) {
                 if (apptTypeAndDoctorIsValid) {
                     // get heat map for chosen appointment type and doctor
                     self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);
+
+                    // enable suggested appointment time slots
+                    suggestedAppointmentsSvc.suggestAppointments();
+
                 } else {
                     // clear the doctor name field
                     self.scope.fields.doctorAssigned = "";
@@ -103,8 +110,8 @@ app.service('enableIScheduleSvc', function ($rootScope) {
                     self.scope.form.disableFields.disabledApptType = false;
                     self.scope.form.disableFields.doctor = false;
                     self.scope.form.backBtn = false;
+                    self.scope.listOfSuggestedAppointments = [];
                 }
-
             }
         }
     };
