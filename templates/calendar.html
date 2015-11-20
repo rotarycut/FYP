@@ -468,7 +468,7 @@
                                   placeholder="Optional" name="appointmentRemarks">
                         </textarea>
                     </div>
-                    <div class="form-group col-sm-12 add-appt-formgrp">
+                    <div class="form-group col-sm-12 add-appt-formgrp" ng-show="form.showFields.sms">
                         <input type="checkbox" ng-model="fields.smsOptOut" style="float: left; display: inline-block">
                         <label style="float: left; display: inline-block; padding-top: 7px">SMS Opt Out</label>
                     </div>
@@ -772,6 +772,7 @@
             <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
             <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
             <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
+            <li>SMS Opt Out: [[patientDetails.smsOptOut]]</li>
         </ul>
     </div>
 
@@ -833,6 +834,7 @@
                     <li>Doctor: [[patientDetails.originalAppointmentDoctor]]</li>
                     <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                     <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
+                    <li>SMS Opt Out: [[patientDetails.originalSmsOptOut]]</li>
                 </ul>
             </div>
             <div class="col-sm-6">
@@ -859,6 +861,9 @@
                     <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
                     <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
                         [[patientDetails.appointmentRemarks]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.smsOptOutIsChanged}">SMS Opt Out:
+                        [[patientDetails.smsOptOut]]
                     </li>
                 </ul>
             </div>

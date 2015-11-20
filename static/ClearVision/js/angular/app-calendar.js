@@ -605,7 +605,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             marketingChannel: true,
             remarks: true,
             earliestAvl: true,
-            waitingList: true
+            waitingList: true,
+            sms: true
         },
         disableFields: {
             //patientName: false,
@@ -1254,6 +1255,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                         $scope.fields.doctorIsChanged = true;
                     } else {
                         $scope.fields.doctorIsChanged = false;
+                    }
+                    if ($scope.fields.originalSmsOptOut !== $scope.fields.smsOptOut) {
+                        $scope.fields.smsOptOutIsChanged = true;
+                    } else {
+                        $scope.fields.smsOptOutIsChanged = false;
                     }
 
                     return $scope.fields;

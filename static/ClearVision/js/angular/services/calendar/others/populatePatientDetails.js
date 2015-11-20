@@ -25,6 +25,7 @@ angular.module('populate.patients', [])
                 if (patientId === patient.id) {
                     self.scope.fields.patientName = patient.name;
                     self.scope.fields.patientContact = patient.contact;
+                    self.scope.fields.smsOptOut = patient.smsOptOut;
 
                     // populate marketing channel detail
                     var idx = 0;
@@ -45,6 +46,7 @@ angular.module('populate.patients', [])
                     self.scope.fields.patientId = patient.id;
                     self.scope.fields.originalPatientName = patient.name;
                     self.scope.fields.originalPatientContact = patient.contact;
+                    self.scope.fields.originalSmsOptOut = patient.smsOptOut;
                 }
             });
 
