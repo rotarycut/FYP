@@ -22,7 +22,7 @@ def sendSMS():
                                                                                                               'timeBucket__start', 'apptType', 'id',
                                                                                                               'timeBucket', 'doctor__name', 'clinic',
                                                                                                               'doctor').\
-            exclude(patients__isnull=True)
+            exclude(patients__isnull=True, patients__smsOptOut=True)
 
     numbersToSend = []
 
@@ -92,3 +92,27 @@ def sendMonthlyBackup():
     message.send()
 
     print("Successful Monthly Backup")
+
+@task()
+def sendPreSurvey():
+    preEvalAppt = AppointmentType.objects.get(id=2)
+    allAttended = AttendedAppointment.objects.filter(apptType=preEvalAppt.name,
+                                                     attended=True,
+                                                     timeBucket__date__date=datetime.today()).values('patient__contact', 'patient__name', ).exclude(patient__smsOptOut=True)
+
+    numbersToSend = []
+
+    for eachObj in allAttended:
+        numbersToSend.append([[eachObj['patient__contact'], eachObj['patient__name'], eachObj['doctor__name']]])
+
+    encoded = base64.b64encode('AnthonyS:ClearVision2')
+    headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+    for eachNumberToSendSMS in numbersToSend:
+
+        # 'from' field has max length of 11 characters
+
+        payload = {'from': 'Clearvision', 'to': '65' + str(eachNumberToSendSMS[0]),
+                   'text': 'Hi ' + str(eachNumberToSendSMS[1]) +
+                           ', please help us complete this short survey on your Pre Evaluation experience at ' + 'https://goo.gl/Rh6mkl'}
+        requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)

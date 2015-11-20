@@ -126,5 +126,37 @@
   },
   "model": "djcelery.crontabschedule",
   "pk": 4
+},
+  {
+  "fields": {
+    "task": "ClearVision.tasks.sendPreSurvey",
+    "name": "sendPreSurvey",
+    "exchange": null,
+    "last_run_at": null,
+    "args": "[]",
+    "enabled": true,
+    "routing_key": null,
+    "crontab": 5,
+    "interval": null,
+    "queue": null,
+    "total_run_count": 0,
+    "expires": null,
+    "kwargs": "{}",
+    "date_changed": "2015-09-25T19:40:16.253",
+    "description": ""
+  },
+  "model": "djcelery.periodictask",
+  "pk": 7
+},
+{
+  "fields": {
+    "month_of_year": "*",
+    "day_of_week": "*",
+    "hour": "18",
+    "minute": "24",
+    "day_of_month": "*"
+  },
+  "model": "djcelery.crontabschedule",
+  "pk": 5
 }
 ]
