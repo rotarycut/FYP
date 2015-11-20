@@ -33,6 +33,10 @@ angular.module('post.appointment', [])
                 self.scope.fields.waitingTime = "";
             }
 
+            if (self.scope.fields.smsOptOut === undefined) {
+                self.scope.fields.smsOptOut = false;
+            }
+
             var req = {
                 method: 'POST',
                 url: '/Clearvision/_api/appointmentsCUD/',
@@ -51,7 +55,8 @@ angular.module('post.appointment', [])
                     "waitingListFlag": self.scope.fields.waitingList,
                     "tempDate": self.scope.fields.waitingDate,
                     "tempTime": self.scope.fields.waitingTime,
-                    "socketId": self.scope.socketId
+                    "socketId": self.scope.socketId,
+                    "smsOptOut": self.scope.fields.smsOptOut
                 }
             };
 

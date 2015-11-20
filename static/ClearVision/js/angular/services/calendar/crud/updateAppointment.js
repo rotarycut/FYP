@@ -21,6 +21,10 @@ angular.module('update.appointment', [])
                 self.scope.fields.appointmentRemarks = "";
             }
 
+            if (self.scope.fields.smsOptOut === undefined) {
+                self.scope.fields.smsOptOut = false;
+            }
+
             var updateJson = {
                 "id": self.scope.fields.patientId,
                 "replacementApptDate": $filter('dateFilter')(self.scope.fields.appointmentDate, 'shortDate'),
@@ -31,7 +35,8 @@ angular.module('update.appointment', [])
                 "remarks": self.scope.fields.appointmentRemarks,
                 "patientName": self.scope.fields.patientName,
                 "patientContact": self.scope.fields.patientContact,
-                "socketId": self.scope.socketId
+                "socketId": self.scope.socketId,
+                "smsOptOut": self.scope.fields.smsOptOut
             };
 
             var req = {
