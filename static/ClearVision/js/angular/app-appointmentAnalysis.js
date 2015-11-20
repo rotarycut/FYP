@@ -237,7 +237,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                         }
                     }
                 },
-
+                legend: {
+                    show: false
+                },
                 chart: {
                     margin: [0, 0, 0, 0],
                     spacingTop: 0,
@@ -302,7 +304,9 @@ appointmentAnalysis.controller('AppointmentAnalysisCtrl',
                         }
                     }
                 },
-
+                legend: {
+                    show: false
+                },
                 chart: {
                     margin: [0, 0, 0, 0],
                     spacingTop: 0,
