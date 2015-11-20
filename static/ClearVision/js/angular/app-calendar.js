@@ -244,6 +244,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.changeView = function (view, calendar) {
         $scope.currentView = view;
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
+        //$scope.getAppointmentType($scope.chosenDoctor.doctorId);
     };
 
     /* render calendar */
@@ -1430,6 +1431,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     $scope.getAppointmentType = function () {
         $scope.listOfSideTabs = [];
         var url = '/Clearvision/_api/DoctorCalendarSideTab/';
+
 
         $http.get(url)
             .success(function (listOfSideTabs) {

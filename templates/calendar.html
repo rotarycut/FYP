@@ -97,7 +97,7 @@
                         <!-- legend for doctors -->
                         <div class="cal-legend" ng-show="showDoctorLegend">
                             <ul class="legend-ul">
-                                <div ng-repeat="tab in listOfSideTabs">
+                                <div ng-repeat="tab in listOfSideTabs | filter:{ doctorId: 1 }">
                                     <li ng-repeat="type in tab.appointmentTypeColorArray"><a href="#/"
                                                                                              singleclick="filterByAppointmentTypes('Pre Evaluation', false)"
                                                                                              data-ng-Dblclick="filterByAppointmentTypes('Pre Evaluation', true)"
