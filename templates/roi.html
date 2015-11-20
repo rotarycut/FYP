@@ -89,7 +89,14 @@
                     <div class="col-md-2">
                         <h5 style="color: #49708A">ROI Analysis</h5>
                     </div>
-                    <div class="col-md-1 col-md-offset-9 graph-function-col">
+                    <div class="col-md-2 col-md-offset-6">
+                        <select class="form-control" data-ng-model="sortSelected" ng-change=""
+                                name="optionList">
+                            <option value="" selected disabled>---Sort By---</option>
+                            <option ng-repeat="">[[option]]</option>
+                        </select>
+                    </div>
+                    <!--<div class="col-md-1 col-md-offset-9 graph-function-col">
                         <a href="" ng-click=""><img class="exporticon"></a>
                     </div>
                     <div class="col-md-1 graph-function-col">
@@ -97,7 +104,7 @@
                     </div>
                     <div class="col-md-1 graph-function-col">
                         <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="row chart-content-row">
                     <div class="col-md-11" ng-show="showROIChart">
