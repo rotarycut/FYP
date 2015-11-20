@@ -267,12 +267,12 @@ class DoctorList(viewsets.ModelViewSet):
             fridayArray = daysTimeslots[4]
             saturdayArray = daysTimeslots[5]
 
-            monday = ",".join(str(eachTimeSlot) for eachTimeSlot in mondayArray)
-            tuesday = ",".join(str(eachTimeSlot) for eachTimeSlot in tuesdayArray)
-            wednesday = ",".join(str(eachTimeSlot) for eachTimeSlot in wednesdayArray)
-            thursday = ",".join(str(eachTimeSlot) for eachTimeSlot in thursdayArray)
-            friday = ",".join(str(eachTimeSlot) for eachTimeSlot in fridayArray)
-            saturday = ",".join(str(eachTimeSlot) for eachTimeSlot in saturdayArray)
+            monday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in mondayArray)
+            tuesday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in tuesdayArray)
+            wednesday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in wednesdayArray)
+            thursday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in thursdayArray)
+            friday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in fridayArray)
+            saturday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in saturdayArray)
 
             DoctorDayTimeSlots.objects.create(doctor=doc, apptType=appointmentType,
                                           monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
@@ -1326,7 +1326,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 totalpatients = 0
                 for eachObj in allExistingAppts:
                     totalpatients += eachObj.get('patientcount')
-                averagePatients = totalpatients/allExistingAppts.count()
+
+                if allExistingAppts.count() != 0:
+                    averagePatients = totalpatients/allExistingAppts.count()
+                else:
+                    averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
@@ -1354,7 +1358,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 totalpatients = 0
                 for eachObj in allExistingAppts:
                     totalpatients += eachObj.get('patientcount')
-                averagePatients = totalpatients/allExistingAppts.count()
+
+                if allExistingAppts.count() != 0:
+                    averagePatients = totalpatients/allExistingAppts.count()
+                else:
+                    averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
@@ -1381,7 +1389,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 totalpatients = 0
                 for eachObj in allExistingAppts:
                     totalpatients += eachObj.get('patientcount')
-                averagePatients = totalpatients/allExistingAppts.count()
+
+                if allExistingAppts.count() != 0:
+                    averagePatients = totalpatients/allExistingAppts.count()
+                else:
+                    averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
@@ -1409,7 +1421,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 totalpatients = 0
                 for eachObj in allExistingAppts:
                     totalpatients += eachObj.get('patientcount')
-                averagePatients = totalpatients/allExistingAppts.count()
+
+                if allExistingAppts.count() != 0:
+                    averagePatients = totalpatients/allExistingAppts.count()
+                else:
+                    averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
@@ -1437,7 +1453,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 totalpatients = 0
                 for eachObj in allExistingAppts:
                     totalpatients += eachObj.get('patientcount')
-                averagePatients = totalpatients/allExistingAppts.count()
+
+                if allExistingAppts.count() != 0:
+                    averagePatients = totalpatients/allExistingAppts.count()
+                else:
+                    averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
@@ -1465,7 +1485,11 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 totalpatients = 0
                 for eachObj in allExistingAppts:
                     totalpatients += eachObj.get('patientcount')
-                averagePatients = totalpatients/allExistingAppts.count()
+
+                if allExistingAppts.count() != 0:
+                    averagePatients = totalpatients/allExistingAppts.count()
+                else:
+                    averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
