@@ -1027,6 +1027,7 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
         default = request.query_params.get('default')
         month = request.query_params.get('month')
         year = request.query_params.get('year')
+        sortValue = request.query_params.get('sortValue')
 
         toReturnResponse = []
 
@@ -1069,7 +1070,14 @@ class ViewROIChart(viewsets.ReadOnlyModelViewSet):
                     toReturnResponse.append({'channelname': eachChannel, 'roi': roi, 'Expenditure': totalCost, 'Revenue': totalPatientCount * 3388})
                 except ObjectDoesNotExist:
                     continue
-        return Response(toReturnResponse)
+        if sortValue == 'roi':
+            return Response(sorted(toReturnResponse, key=itemgetter('roi'), reverse=True))
+        elif sortValue == 'Expenditure':
+            return Response(sorted(toReturnResponse, key=itemgetter('Expenditure'), reverse=True))
+        elif sortValue == 'Revenue':
+            return Response(sorted(toReturnResponse, key=itemgetter('Revenue'), reverse=True))
+        else:
+            return Response(toReturnResponse)
 
 class ViewSavedROICustomFilters(viewsets.ModelViewSet):
     queryset = CustomFilterROI.objects.none()
