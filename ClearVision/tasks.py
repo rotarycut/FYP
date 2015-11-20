@@ -103,8 +103,8 @@ def sendPreSurvey():
     numbersToSend = []
 
     for eachObj in allAttended:
-        numbersToSend.append([[eachObj['patient__contact'], eachObj['patient__name']]])
-
+        numbersToSend.append([eachObj['patient__contact'], eachObj['patient__name']])
+    print(allAttended)
     encoded = base64.b64encode('AnthonyS:ClearVision2')
     headers = {'Authorization': 'Basic '+encoded, 'Content-Type': 'application/json', 'Accept': 'application/json'}
 
@@ -113,6 +113,5 @@ def sendPreSurvey():
         # 'from' field has max length of 11 characters
 
         payload = {'from': 'Clearvision', 'to': '65' + str(eachNumberToSendSMS[0]),
-                   'text': 'Hi ' + str(eachNumberToSendSMS[1]) +
-                           ', please help us complete this short survey on your Pre Evaluation experience at ' + 'https://goo.gl/Rh6mkl'}
+                   'text': 'Hi ' + str(eachNumberToSendSMS[1]) + ', please help us complete this short survey on your Pre Evaluation experience at ' + 'https://goo.gl/Rh6mkl'}
         requests.post("https://api.infobip.com/sms/1/text/single", json=payload, headers=headers)
