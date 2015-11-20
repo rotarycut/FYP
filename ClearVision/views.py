@@ -1133,17 +1133,19 @@ class ViewApplicableROIChannels(viewsets.ReadOnlyModelViewSet):
         month = request.query_params.get('month')
         year = request.query_params.get('year')
 
+        """
         surgeryAppt = AppointmentType.objects.get(id=3)
         applicableChannels = AttendedAppointment.objects.filter(apptType=surgeryAppt.name,
                                                                 patient__registrationDate__month=month,
                                                                 patient__registrationDate__year=year,)\
                                                         .values('patient__marketingChannelId__name', 'patient__marketingChannelId').distinct()
-
         applicableChannelsFormatted = []
         for eachObj in applicableChannels:
             applicableChannelsFormatted.append({'id': eachObj['patient__marketingChannelId'], 'name': eachObj['patient__marketingChannelId__name']})
+        """
 
-        return Response(applicableChannelsFormatted)
+        applicableChannels = MarketingChannels.objects.filter(datePurchased__month=month, datePurchased__year=year).values()
+        return Response(applicableChannels)
 
 class RemarksFinder(viewsets.ReadOnlyModelViewSet):
     queryset = AppointmentRemarks.objects.none()
