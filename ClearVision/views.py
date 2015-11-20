@@ -863,7 +863,7 @@ class AnalyticsServer(viewsets.ReadOnlyModelViewSet):
 
                 for eachObj in patientBucket:
                     try:
-                        AttendedAppointment.objects.get(patient=eachObj.get('id'), apptType=apptType)
+                        AttendedAppointment.objects.get(patient=eachObj.get('id'), apptType=apptType.name)
                         for eachObj2 in response_data:
                             if eachObj['channelname'] == eachObj2['channelname']:
                                 eachObj2['convert'] += 1
