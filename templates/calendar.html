@@ -322,6 +322,7 @@
                                     <select class="form-control"
                                             ng-options="appt for appt in listOfAppointmentTimings"
                                             data-ng-model="fields.appointmentTime" name="appointmentTime"
+                                            ng-disabled="form.disableFields.appointmentTime"
                                             required>
                                     </select>
 

@@ -26,6 +26,7 @@ angular.module('get.timings', [])
             var doctor = self.scope.fields.doctorAssigned;
             var date = self.scope.fields.appointmentDate;
 
+
             // check if it is getting the appointment timings from the wait list date
             if (isWaitList) {
 
@@ -36,6 +37,9 @@ angular.module('get.timings', [])
 
             // check if all the necessary fields are filled up
             if (apptType != undefined && doctor != undefined && date != undefined) {
+
+                // disable time field
+                self.scope.form.disableFields.appointmentTime = true;
 
                 // all the necessary fields are filled up
 
@@ -97,6 +101,9 @@ angular.module('get.timings', [])
                 $http.get('/Clearvision/_api/ViewApptTimeslots/?apptType=' + apptType + '&docName=' + doctor.id + "&day=" + d + "&today=" + isCurrentDay)
                     .success(function (listOfTimings) {
 
+                        // enable time field
+                        self.scope.form.disableFields.appointmentTime = false;
+
                         // check if it is getting the appointment timings from the wait list date
                         if (isWaitList) {
                             self.scope.listOfWaitlistTimings = listOfTimings;
@@ -115,6 +122,10 @@ angular.module('get.timings', [])
 
                         }
 
+                    }).error(function (error) {
+
+                        // enable time field
+                        self.scope.form.disableFields.appointmentTime = false;
                     });
 
             }
