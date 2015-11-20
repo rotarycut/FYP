@@ -10,7 +10,7 @@ class PatientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ('name', 'contact', 'marketingname', 'id', 'marketingChannelId')
+        fields = ('name', 'contact', 'marketingname', 'id', 'marketingChannelId', 'smsOptOut')
 
     def get_marketingname(self, patient):
         return str(patient.marketingChannelId.name)

@@ -589,6 +589,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         marketingID = data.get('channelID')
         isWaitingList = data.get('waitingListFlag')
         remarks = data.get('remarks')
+        smsOptOut = data.get('smsOptOut')
 
         socketId = data.get('socketId')
 
@@ -599,7 +600,7 @@ class AppointmentWriter(viewsets.ModelViewSet):
         if not Patient.objects.filter(contact=patientContact, name=patientName).exists():     #DAMN IMPT SHIT
             Patient.objects.create(name=patientName, gender=patientGender, contact=patientContact,
                                    marketingChannelId=MarketingChannels.objects.get(id=marketingID),
-                                   registrationDate=datetime.today())
+                                   registrationDate=datetime.today(), smsOptOut=smsOptOut)
 
         p = Patient.objects.get(contact=patientContact, name=patientName)
         apptTimeBucketID = AvailableTimeSlots.objects.get(start=apptTimeBucket, timeslotType=apptType, date=apptDate, doctors=docID).id
@@ -712,11 +713,13 @@ class AppointmentWriter(viewsets.ModelViewSet):
         newRemarks = data.get('remarks')
         newPatientName = data.get('patientName')
         newPatientContact = data.get('patientContact')
+        smsOptOut = data.get('smsOptOut')
 
         socketId = data.get('socketId')
 
         patient.name = newPatientName
         patient.contact = newPatientContact
+        patient.smsOptOut = smsOptOut
         patient.save()
 
         currentAppt.patients.remove(patient)

@@ -43,6 +43,7 @@ class Patient(models.Model):
     contact = models.CharField(max_length=50)
     registrationDate = models.DateField(null=True)
     marketingChannelId = models.ForeignKey(MarketingChannels)
+    smsOptOut = models.BooleanField()
 
     class Meta:
         ordering = ['registrationDate']
