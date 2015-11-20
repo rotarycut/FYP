@@ -245,36 +245,6 @@
                         </div>
                     </div>
 
-                    <!--<div class="form-group col-sm-12 ischeduleForm" ng-show="form.showFields.earliestAvl">
-                        <label class="control-label" ng-init="getISchedule()">Next Earliest Availablility</label>
-                        <ol id="i-slots-date" class="list-group">
-                            <li class="list-group-item" ng-repeat="appt in appointments">
-                                [[appt.date]]
-                                <label class="i-slot-label">[[appt.date]]</label>
-                                <ol>
-                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
-                                        <label>[[time.apptTime]]</label>
-                                    </li>
-                                </ol>
-
-                            </li>
-                        </ol>
-                    </div>
-
-                    <div class="form-group col-sm-12 ischeduleForm">
-                        <label class="control-label">Least Packed Slots</label>
-                        <ol id="i-slots-date" class="list-group">
-                            <li class="list-group-item" ng-repeat="date in leastPackSlots"
-                                data-ng-click="showLeastPackedSlots(date)">
-                                <label class="i-slot-label">[[date.apptDate]]</label>
-                                <ol>
-                                    <li ng-repeat="time in date.apptTimeslots" ng-show="date.active">
-                                        <label>[[time.apptTime]]</label>
-                                    </li>
-                                </ol>
-                            </li>
-                        </ol>
-                    </div>-->
 
                     <div class="form-group col-sm-12 add-appt-formgrp">
                         <div class="row">
@@ -367,13 +337,12 @@
 
                         <label class="control-label">Waiting list</label>
 
-                        <div class="row"
-                             ng-class="{'has-error': appointmentForm.waitList.$invalid && (appointmentForm.waitList.$touched || appointmentForm.$submitted)}">
+                        <div ng-class="{'has-error': appointmentForm.waitList.$invalid && (appointmentForm.waitList.$touched || appointmentForm.$submitted)}">
                             <div class="radio col-sm-6">
-                                <label><input type="radio" data-ng-model="fields.waitingList" value="True"
+                                <label style="float: left; clear: none"><input type="radio" data-ng-model="fields.waitingList" value="True"
                                               ng-change="showWaitingFields('yes')" name="waitList"
                                               ng-disabled="form.disableFields.waitListCheckbox"
-                                              ng-required="!fields.waitingList">
+                                              ng-required="!fields.waitingList" style="float: left;clear: none">
                                     Yes
                                 </label>
                             </div>
