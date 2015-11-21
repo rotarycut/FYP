@@ -253,6 +253,8 @@ class DoctorList(viewsets.ModelViewSet):
         clinic = payload.get('clinic')
         apptType = payload.get('apptType')
 
+        pusher.trigger('createdoctor', 'statusupdate', {'message':'processing'})
+
         for eachClinic in clinic:
             doc.clinic.add(Clinic.objects.get(id=eachClinic))
 
@@ -289,6 +291,7 @@ class DoctorList(viewsets.ModelViewSet):
             command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
             os.system(command)
 
+        pusher.trigger('createdoctor', 'statusupdate', {'message':'processing complete'})
         return Response('Doctor created successfully')
 
     def destroy(self, request, *args, **kwargs):
@@ -3967,7 +3970,7 @@ def ConversionRatePrediction(request):
     predict = regression[0] * currentMonthPreEvalCount + regression[1]
     line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
 
-    return HttpResponse([{'line': line, 'predict': predict}])
+    return HttpResponse([{'line': line, 'predict': predict, 'points': [[1, jan], [2, feb], [3, mar], [4, apr], [5, may], [6, jun], [7, jul], [8, aug], [9, sep], [10, oct], [11, nov], [12, dec]]}])
 
 def MonthSurgeryKPI(request):
     attendedSurgery = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=3,
