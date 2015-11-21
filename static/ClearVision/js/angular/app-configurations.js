@@ -1168,7 +1168,7 @@ appConfig.controller('configCtrl',
         $scope.jumpToLocation = function (key) {
             $location.hash(key);
             $anchorScroll();
-            /*$anchorScroll.yOffset = 40;*/
+            /*$anchorScroll.yOffset = 30;*/
         };
 
         // Slider options with event handlers

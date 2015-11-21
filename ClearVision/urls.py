@@ -72,6 +72,7 @@ urlpatterns = [
     url(r'^header', views.header, name='header'),
     url(r'^calendar', views.calendar),
     url(r'^roi', views.roi),
+    url(r'^kpi', views.kpi),
     url(r'^conversion', views.conversion),
     url(r'^schedule', views.schedule),
     url(r'^expenditure', views.expenditure),

@@ -1,0 +1,65 @@
+<div class="row dashboard-content-row">
+    <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
+        <div class="row subcontent-row">
+            <div class="col-md-11">
+                <div class="row chart-title-row">
+                    <div class="col-md-2">
+                        <h5 style="color: #49708A">KPI Analysis</h5>
+                    </div>
+                    <!--<div class="col-md-2 col-md-offset-6">
+                        <select class="form-control" data-ng-model="sortSelected" ng-change=""
+                                name="optionList">
+                            <option value="" selected disabled>---Sort By---</option>
+                            <option>[[option]]</option>
+                        </select>
+                    </div>-->
+                    <!--<div class="col-md-1 col-md-offset-9 graph-function-col">
+                        <a href="" ng-click=""><img class="exporticon"></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><i class="fa fa-table fa-lg" tooltip="view stats in table"></i></a>
+                    </div>
+                    <div class="col-md-1 graph-function-col">
+                        <a href="" ng-click=""><i class="fa fa-bar-chart fa-lg" tooltip="view stats in graph"></i></a>
+                    </div>-->
+                </div>
+                <div class="row chart-content-row">
+                    <div class="col-md-11">
+                        <div id="kpiChart" ng-init="showRoiChart()"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="row subcontent-row">
+                    <div class="col-md-12 saved-filter-list">
+                        <label class="dashboard-listing-lbl">Listings</label>
+                        <ul class="saved-filter-items">
+                            <li ng-repeat="month in savedMonths">
+                                <a href="#/dashboard/roi" style="font-size: smaller" class="mrkt-month-item"
+                                   onclick="changeState(this)" ng-click="getRoiData(month)">[[month]]</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row subcontent-row">
+                    <div class="col-md-12 saved-filter-list" ng-init="getSavedFilters()">
+                        <label class="dashboard-listing-lbl">Saved Filters</label>
+                        <ul class="saved-filter-items">
+                            <li ng-repeat="filter in savedFilters">
+                                <a href="#/dashboard/roi" ng-click="deleteFilter(filter.id)" style="font-size: smaller"><i
+                                        class="fa fa-times"></i></a>
+                                <a href="#/dashboard/roi" ng-click="runSavedFilter(filter.id)"
+                                   style="font-size: smaller"
+                                   class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
+                                <a href="#/dashboard/roi"
+                                   ng-click="openEditFilter(filter.startDate, filter.endDate, filter.id, filter.name)"
+                                   style="font-size: smaller"><i
+                                        class="fa fa-pencil"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

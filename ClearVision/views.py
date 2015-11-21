@@ -62,6 +62,9 @@ def schedule(request):
 def expenditure(request):
     return render(request, 'expenditure.html')
 
+def kpi(request):
+    return render(request, 'kpi.html')
+
 def managechannels(request):
     return render(request, 'managechannels.html')
 

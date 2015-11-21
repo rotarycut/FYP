@@ -10,6 +10,7 @@ var app = angular.module('calendarDemoApp', [
     'app.msgLog',
     'app.admin',
     'app.config',
+    'app.kpi',
     'ngRoute',
     'single.click',
     'appointment.service',
@@ -83,6 +84,11 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: "roi.html",
             controller: 'DashboardCtrl',
             activetab: 'dashboard/roi'
+        })
+        .when("/dashboard/kpi", {
+            templateUrl: "kpi.html",
+            controller: 'KPICtrl',
+            activetab: 'dashboard/kpi'
         })
         .when("/dashboard/conversion", {
             templateUrl: "conversion.html",
