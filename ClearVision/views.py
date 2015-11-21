@@ -3970,7 +3970,10 @@ def ConversionRatePrediction(request):
     predict = regression[0] * currentMonthPreEvalCount + regression[1]
     line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
 
-    return HttpResponse([{'line': line, 'predict': predict, 'points': [[1, jan], [2, feb], [3, mar], [4, apr], [5, may], [6, jun], [7, jul], [8, aug], [9, sep], [10, oct], [11, nov], [12, dec]]}])
+    return HttpResponse([{'line': line, 'predict': predict, 'points': [['Jan', jan], ['Feb', feb], ['Mar', mar],
+                                                                       ['Apr', apr], ['May', may], ['Jun', jun],
+                                                                       ['Jul', jul], ['Aug', aug], ['Sep', sep],
+                                                                       ['Oct', oct], ['Nov', nov], ['Dec', dec]]}])
 
 def MonthSurgeryKPI(request):
     attendedSurgery = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=3,
