@@ -20,7 +20,7 @@
                         <th>Doc</th>
                         <th>Scheduled Time</th>
                     </tr>
-                    <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList">
+                    <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList" class="animate-repeat">
                         <td>[[$index + 1]]</td>
                         <td>[[appt.patient__name]]</td>
                         <td>[[appt.patient__contact]]</td>
@@ -38,7 +38,7 @@
                     <tr>
                         <th>Action</th>
                     </tr>
-                    <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList">
+                    <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList" class="animate-repeat">
                         <td>
                             <button type="button" class="btn btn-default waitlist-action-btn"
                                     ng-click="swapAppointment($index)"
@@ -64,7 +64,7 @@
                     <tr>
                         <th>Preferred Time</th>
                     </tr>
-                    <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList">
+                    <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList" class="animate-repeat">
                         <td><i class="fa fa-circle"
                                ng-class="appt.swappable ? 'canSwap' : 'cannotSwap'"></i>
                             [[appt.tempAppt__timeBucket__date]],

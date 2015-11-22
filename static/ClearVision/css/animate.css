@@ -28,6 +28,44 @@ Copyright (c) 2015 Daniel Eden
     animation: fadeIn 1.0s ease;
 }
 
+/* for appointment schedule analysis pie charts */
+.chart-animation.ng-move {
+    animation: fadeInUp 0.5s ease;
+}
+
+.chart-animation.ng-remove {
+    animation: bounceInRight 2.0s ease;
+
+}
+
+/* for all search boxes */
+.animate-repeat {
+    list-style: none;
+    -webkit-transition: 1s linear all;
+    transition: 1s linear all;
+}
+
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter,
+.animate-repeat.ng-leave {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+}
+
+.animate-repeat.ng-leave.ng-leave-active,
+.animate-repeat.ng-move,
+.animate-repeat.ng-enter {
+    opacity: 0;
+    max-height: 0;
+}
+
+.animate-repeat.ng-leave,
+.animate-repeat.ng-move.ng-move-active,
+.animate-repeat.ng-enter.ng-enter-active {
+    opacity: 1;
+    max-height: 40px;
+}
+
 @-webkit-keyframes forTesting {
     /*from { transform: scaleX(1.0); }
     to   { transform: scaleX(0.7); }*/
@@ -40,12 +78,15 @@ Copyright (c) 2015 Daniel Eden
         -webkit-transform: translateX(200px);
     }*/
 }
-.filter-row-hide.ng-hide-remove{
-  animation: slideInDown 0.5s ease;
+
+.filter-row-hide.ng-hide-remove {
+    animation: slideInDown 0.5s ease;
 }
-.filter-row-hide.ng-hide-add{
-  animation: slideOutUp 0.5s ease;
+
+.filter-row-hide.ng-hide-add {
+    animation: slideOutUp 0.5s ease;
 }
+
 /* --- end of custom animation --- */
 
 .animated {

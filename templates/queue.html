@@ -62,7 +62,7 @@
                                     <th>Action</th>
                                 </tr>
 
-                                <tr class=""
+                                <tr class="animate-repeat"
                                     ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
                                     ng-class="getClass(patient.associatedpatientactions__addedToQueue)">
                                     <td>[[patient.associatedpatientactions__patient__name]]</td>
@@ -129,7 +129,7 @@
                                     <th>Actions</th>
                                     <th></th>
                                 </tr>
-                                <tr ng-repeat="noshow in noShowList | filter:queryNoShow">
+                                <tr ng-repeat="noshow in noShowList | filter:queryNoShow" class="animate-repeat">
                                     <td>[[noshow.patient__name]]</td>
                                     <td>[[noshow.patient__contact]]</td>
                                     <td>[[noshow.originalAppt__apptType]]</td>
@@ -175,7 +175,7 @@
                                     <th>Remarks</th>
                                     <th>Reason</th>
                                 </tr>
-                                <tr ng-repeat="archive in archiveList | filter:queryArchive">
+                                <tr ng-repeat="archive in archiveList | filter:queryArchive" class="animate-repeat">
                                     <td>[[archive.patient__name]]</td>
                                     <td>[[archive.patient__contact]]</td>
                                     <td>[[archive.apptType]]</td>

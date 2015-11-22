@@ -33,7 +33,7 @@
                 </tr>
 
                 <tr ng-repeat="channel in listOfChannelsSpent | filter:queryArchive"
-                    ng-class="getClass(channel.show)">
+                    ng-class="getClass(channel.show)" class="animate-repeat">
                     <td>[[channel.name]]</td>
                     <td>[[channel.cost]]</td>
                     <td>[[channel.datePurchased]]</td>
