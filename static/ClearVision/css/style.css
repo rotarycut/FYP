@@ -364,7 +364,7 @@
 }
 
 #top-content-calview {
-    text-align: right;
+    text-align: center;
 }
 
 .top-content-search {
@@ -641,6 +641,12 @@ form.form-search:before {
     height: 68px;
     overflow-y: auto;
     padding-top: 16%;
+}
+
+.search-result-text{
+    text-align: left;
+    padding: 8px 0 7px 5px;
+    color: #49708A;
 }
 
 /*calendar css ends*/

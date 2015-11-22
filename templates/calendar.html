@@ -9,7 +9,6 @@
                 <!-- inner row for all buttons>-->
                 <div class="row center-block">
                     <div class="col-sm-2 top-content-search">
-                        <div>
                             <form class="form-search form-inline">
                                 <input type="text" style="padding-left: 26px;" class="form-control"
                                        placeholder="Search"
@@ -19,13 +18,14 @@
                                        typeahead-on-select='onSelect($item, $model, $label)'
                                        ng-disabled="disableSearchBox"/>
                             </form>
-                        </div>
-                        <div ng-show="loadingAppointments"><i class="fa fa-spinner fa-spin"></i> Loading..</div>
-                        <div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> No Results Found</div>
                         <!-- /input-group -->
                     </div>
+                    <div class="col-sm-2 search-result-text">
+                        <div ng-show="loadingAppointments"><i class="fa fa-spinner fa-spin"></i> Loading..</div>
+                        <div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> No Results Found</div>
+                    </div>
 
-                    <div class="col-sm-4 col-sm-offset-1" id="top-content-calview">
+                    <div class="col-sm-4" id="top-content-calview">
                         <div class="btn-group" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary cal-view-btn"
                                     ng-click="changeView('agendaDay', allDoctorsVariables[chosenDoctor.calendarTag].changeCalendar)">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 col-sm-offset-1" id="top-content-btngrp"
+                    <div class="col-sm-4" id="top-content-btngrp"
                          ng-show="form.showButtons.addAndBlock">
                         <div class="btn-group appt-form-btn" role="group" aria-label="...">
                             <button type="button" class="btn btn-primary form-btn" ng-click="showForm('Create')"><i
