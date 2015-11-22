@@ -15,11 +15,13 @@
                                        placeholder="Search"
                                        ng-model="searchText"
                                        typeahead="appt for appt in searchForAppt($viewValue)"
-                                       typeahead-loading="loadingLocations" typeahead-no-results="noResults"
+                                       typeahead-loading="loadingAppointments" typeahead-no-results="noResults"
                                        typeahead-on-select='onSelect($item, $model, $label)'
                                        ng-disabled="disableSearchBox"/>
                             </form>
                         </div>
+                        <div ng-show="loadingAppointments"><i class="fa fa-spinner fa-spin"></i> Loading..</div>
+                        <div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> No Results Found</div>
                         <!-- /input-group -->
                     </div>
 
@@ -339,10 +341,14 @@
 
                         <div ng-class="{'has-error': appointmentForm.waitList.$invalid && (appointmentForm.waitList.$touched || appointmentForm.$submitted)}">
                             <div class="radio col-sm-6">
-                                <label style="float: left; clear: none"><input type="radio" data-ng-model="fields.waitingList" value="True"
-                                              ng-change="showWaitingFields('yes')" name="waitList"
-                                              ng-disabled="form.disableFields.waitListCheckbox"
-                                              ng-required="!fields.waitingList" style="float: left;clear: none">
+                                <label style="float: left; clear: none"><input type="radio"
+                                                                               data-ng-model="fields.waitingList"
+                                                                               value="True"
+                                                                               ng-change="showWaitingFields('yes')"
+                                                                               name="waitList"
+                                                                               ng-disabled="form.disableFields.waitListCheckbox"
+                                                                               ng-required="!fields.waitingList"
+                                                                               style="float: left;clear: none">
                                     Yes
                                 </label>
                             </div>
