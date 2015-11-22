@@ -12,7 +12,8 @@
     outline: 0 !important;
 }
 
-.pointer-cursor{
+.pointer-cursor,
+.pointer-cursor:hover{
     cursor: pointer;
     text-decoration: none;
 }
@@ -865,6 +866,12 @@ li .i-slot-label {
     text-decoration: underline;
 }
 
+.dashboard-listbox{
+    list-style: none;
+    padding-left: 2px;
+    margin-right: 0; !important;
+}
+
 .exporticon {
     content: url('../img/icon-export.png');
     width: 19px;
@@ -1410,7 +1417,7 @@ li.config-sidemenu-row {
 }
 
 .config-main-col {
-    margin-left: 18%;
+    margin-left: 210px;
     /*border-top: solid 2px #D0E0EB;*/
 }
 
