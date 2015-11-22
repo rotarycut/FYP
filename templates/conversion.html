@@ -17,12 +17,13 @@
                         </div>
                     </div>
                     <div class="col-md-12 filter-row-options">
-                        <div class="row">
+                        <div class="row dashboard-filter-row">
                             <div class="col-md-3">
                                 <div class="row" style="padding-left: 5%">
+                                    <label class="label-color">Start Date:</label>
                                     <p class="input-group">
                                         <input type="text"
-                                               class="form-control"
+                                               class="form-control date-input-field"
                                                datepicker-popup="[[ format ]]"
                                                name="datePickerCalendar"
                                                ng-model="datepicker"
@@ -31,7 +32,6 @@
                                                max-date="maxStartDate"
                                                datepicker-options="dateOptions"
                                                show-button-bar="false"
-                                               placeholder="Start Date"
                                                ng-disabled="true"
                                                ng-change="toggleEndDate();"
                                                 />
@@ -44,16 +44,11 @@
                         </span>
                                     </p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-1 col-md-offset-4">
-                                        <h5 style="color:#49708A">To</h5>
-                                    </div>
-                                </div>
                                 <div class="row" style="padding-left: 5%">
-
-                                    <p class="input-group">
+                                    <label class="label-color" style="margin-top: 3px">End Date:</label>
+                                    <p class="input-group date-input-field">
                                         <input type="text"
-                                               class="form-control"
+                                               class="form-control date-input-field"
                                                datepicker-popup="[[ format ]]"
                                                name="datePickerCalendar"
                                                ng-model="datepicker2"
@@ -62,7 +57,6 @@
                                                max-date="maxEndDate"
                                                datepicker-options="dateOptions"
                                                show-button-bar="false"
-                                               placeholder="End Date"
                                                ng-disabled="true"
                                                ng-change="toggleEndDate();"
                                                 />

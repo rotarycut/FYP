@@ -18,12 +18,13 @@
                         </div>
                     </div>
                     <div class="col-md-12 filter-row-options">
-                        <div class="row">
+                        <div class="row dashboard-filter-row">
                             <div class="col-md-3">
                                 <div class="row" style="padding-left: 5%">
+                                    <label class="label-color">Start Date:</label>
                                     <p class="input-group">
                                         <input type="text"
-                                               class="form-control"
+                                               class="form-control date-input-field"
                                                datepicker-popup="[[ format ]]"
                                                name="datePickerCalendar"
                                                ng-model="datepicker"
@@ -33,7 +34,6 @@
                                                datepicker-options="dateOptions"
                                                show-button-bar="false"
                                                ng-change="toggleEndDate();"
-                                               placeholder="Start Date"
                                                ng-disabled="true"
                                                 />
                         <span class="input-group-btn">
@@ -44,15 +44,11 @@
                         </span>
                                     </p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-1 col-md-offset-4">
-                                        <h5 style="color:#49708A">To</h5>
-                                    </div>
-                                </div>
                                 <div class="row" style="padding-left: 5%">
+                                    <label class="label-color" style="margin-top: 3px">End Date:</label>
                                     <p class="input-group">
                                         <input type="text"
-                                               class="form-control"
+                                               class="form-control date-input-field"
                                                datepicker-popup="[[ format ]]"
                                                name="datePickerCalendar"
                                                ng-model="datepicker2"
@@ -62,7 +58,6 @@
                                                datepicker-options="dateOptions"
                                                show-button-bar="false"
                                                ng-change="toggleEndDate();"
-                                               placeholder="End Date"
                                                ng-disabled="true"
                                                 />
                         <span class="input-group-btn">
@@ -79,7 +74,7 @@
                                         ng-options="" name="marketingChannel" required>
                                     <option value="" selected="selected">Marketing Channel</option>
                                 </select>-->
-                                <label class="control-label" style="color: #49708A">Appointment Type</label>
+                                <label class="label-color">Appointment Type</label>
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">

@@ -18,10 +18,10 @@
                         </div>
                     </div>
                     <div class="col-md-12 filter-row-options">
-                        <div class="row" style="padding-bottom: 3px;">
+                        <div class="row dashboard-filter-row">
                             <div class="col-md-3">
                                 <div class="row" style="padding-left: 5%">
-                                    Year:
+                                    <label class="label-color">Purchased Year:</label>
                                     <select class="form-control"
                                             ng-options="year for year in listOfFilterYears"
                                             data-ng-model="filter.filterYear"
@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="row" style="padding-left: 5%">
 
-                                    Month:
+                                    <label class="label-color" style="margin-top: 3px;">Purchased Month:</label>
                                     <select class="form-control"
                                             ng-options="month for month in listOfFilterMonths"
                                             data-ng-model="filter.filterMonth"
@@ -45,7 +45,7 @@
                                         ng-options="" name="marketingChannel" required>
                                     <option value="" selected="selected">Marketing Channel</option>
                                 </select>-->
-                                <label class="control-label" style="color: #49708A">Marketing Channel</label>
+                                <label class="label-color">Marketing Channel</label>
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
@@ -96,7 +96,7 @@
                             <option>[[option]]</option>
                         </select>
                     </div>
-                    <!--<div class="col-md-1 col-md-offset-9 graph-function-col">
+                    <!--<div class="col-md-1 col-md-offset-9 graph-function-col">,
                         <a href="" ng-click=""><img class="exporticon"></a>
                     </div>
                     <div class="col-md-1 graph-function-col">
