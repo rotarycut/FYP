@@ -9,15 +9,15 @@
                 <!-- inner row for all buttons>-->
                 <div class="row center-block">
                     <div class="col-sm-2 top-content-search">
-                            <form class="form-search form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control"
-                                       placeholder="Search"
-                                       ng-model="searchText"
-                                       typeahead="appt for appt in searchForAppt($viewValue)"
-                                       typeahead-loading="loadingAppointments" typeahead-no-results="noResults"
-                                       typeahead-on-select='onSelect($item, $model, $label)'
-                                       ng-disabled="disableSearchBox"/>
-                            </form>
+                        <form class="form-search form-inline">
+                            <input type="text" style="padding-left: 26px;" class="form-control"
+                                   placeholder="Search"
+                                   ng-model="searchText"
+                                   typeahead="appt for appt in searchForAppt($viewValue)"
+                                   typeahead-loading="loadingAppointments" typeahead-no-results="noResults"
+                                   typeahead-on-select='onSelect($item, $model, $label)'
+                                   ng-disabled="disableSearchBox"/>
+                        </form>
                         <!-- /input-group -->
                     </div>
                     <div class="col-sm-2 search-result-text">
@@ -874,32 +874,47 @@
 </script>
 
 <script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Confirm block time slot?</h3>
-    </div>
+    <form name="blockedConfirmation" novalidate>
+        <div class="modal-header form-group">
+            <h3 class="modal-title">Confirm block time slot?</h3><h4 class="modal-title has-error"
+                                                                     ng-show="showAffectedAppointmentsWarning"> Warning!
+            [[numberOfAffectedAppointments]] appointments affected</h4>
+        </div>
 
-    <div class="modal-body">
-        <ul>
-            <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-            <li>Start Date: [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
-            <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-            <li>End Date: [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
-            <li>End Time: [[blockDetails.blockTimeEnd]]</li>
-            <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
-        </ul>
-    </div>
+        <div class="modal-body">
+            <ul>
+                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
+                <li>Start Date: [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
+                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
+                <li>End Date: [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
+                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
+                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+                <li ng-show="showAffectedAppointmentsWarning">Email Address:
+                    <input type="email" class="form-control" data-ng-model="emailAd" name="emailAddress"
+                           ng-required="showAffectedAppointmentsWarning"></li>
+            </ul>
+        </div>
 
-    <div class="modal-footer">
-        <button class="btn form-submit-btn" type="button"
-                ng-click="postBlockTimeSlots(blockDetails.doctorToBlock.id,
+        <div class="modal-footer">
+            <button class="btn form-submit-btn" type="button"
+                    ng-show="blockedConfirmation.emailAddress.$valid || !showAffectedAppointmentsWarning"
+                    ng-click="postBlockTimeSlots(blockDetails.doctorToBlock.id,
                         blockDetails.blockDateStart,
                         blockDetails.blockTimeStart,
                         blockDetails.blockDateEnd,
                         blockDetails.blockTimeEnd,
-                        blockDetails.blockFormRemarks);">Continue
-        </button>
-        <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-    </div>
+                        blockDetails.blockFormRemarks);
+                        sendEmailOfAffectedAppointments(blockDetails.doctorToBlock.id,
+                        blockDetails.blockDateStart,
+                        blockDetails.blockTimeStart,
+                        blockDetails.blockDateEnd,
+                        blockDetails.blockTimeEnd,
+                        emailAd)">Continue
+            </button>
+            <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </form>
+
 </script>
 
 <script type="text/ng-template" id="myBlockedTimeSlotListModal.html">
