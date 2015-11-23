@@ -9,10 +9,11 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
         $scope.showKpiChart = function () {
 
             $scope.KpiChart = c3.generate({
+
                 bindto: '#kpiChart',
                 data: {
                     columns: [
-                        ['data', $scope.conversionCount]
+                        ['Current Conversion Count', $scope.conversionCount]
                     ],
                     type: 'gauge'
                 },
@@ -23,8 +24,8 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
                         }
                     },
                     min: 0,
-                    max: $scope.kpiCount
-
+                    max: $scope.kpiCount,
+                    width: 50
                 },
                 color: {
                     pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'],
@@ -36,7 +37,7 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
                     height: 180
                 }
 
-            })
+            });
         };
 
         /*******************************************************************************
@@ -191,7 +192,7 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
                 .text(function (d) {
                     return d.count;
                 });
-        }
 
+        }
     }
 );
