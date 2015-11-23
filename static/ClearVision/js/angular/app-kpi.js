@@ -48,175 +48,6 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
 
     };
 
-    var conversionData = [{
-        "monthLong": "Nov",
-        "monthShort": 10,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 7,
-        "sequence": 11
-    }, {
-        "monthLong": "Nov",
-        "monthShort": 10,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 12,
-        "sequence": 11
-    }, {
-        "monthLong": "Oct",
-        "monthShort": 9,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 20,
-        "sequence": 10
-    }, {
-        "monthLong": "Oct",
-        "monthShort": 9,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 28,
-        "sequence": 10
-    }, {
-        "monthLong": "Sep",
-        "monthShort": 8,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 7,
-        "sequence": 9
-    }, {
-        "monthLong": "Sep",
-        "monthShort": 8,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 20,
-        "sequence": 9
-    }, {
-        "monthLong": "Aug",
-        "monthShort": 7,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 19,
-        "sequence": 8
-    }, {
-        "monthLong": "Aug",
-        "monthShort": 7,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 13,
-        "sequence": 8
-    }, {
-        "monthLong": "Jul",
-        "monthShort": 6,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 19,
-        "sequence": 7
-    }, {
-        "monthLong": "Jul",
-        "monthShort": 6,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 21,
-        "sequence": 7
-    }, {
-        "monthLong": "Jun",
-        "monthShort": 5,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 19,
-        "sequence": 6
-    }, {
-        "monthLong": "Jun",
-        "monthShort": 5,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 32,
-        "sequence": 6
-    }, {
-        "monthLong": "May",
-        "monthShort": 4,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 15,
-        "sequence": 5
-    }, {
-        "monthLong": "May",
-        "monthShort": 4,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 38,
-        "sequence": 5
-    }, {
-        "monthLong": "Apr",
-        "monthShort": 3,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 17,
-        "sequence": 4
-    }, {
-        "monthLong": "Apr",
-        "monthShort": 3,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 23,
-        "sequence": 4
-    }, {
-        "monthLong": "Mar",
-        "monthShort": 2,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 5,
-        "sequence": 3
-    }, {
-        "monthLong": "Mar",
-        "monthShort": 2,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 33,
-        "sequence": 3
-    }, {
-        "monthLong": "Feb",
-        "monthShort": 1,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 9,
-        "sequence": 2
-    }, {
-        "monthLong": "Feb",
-        "monthShort": 1,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 25,
-        "sequence": 2
-    }, {
-        "monthLong": "Jan",
-        "monthShort": 0,
-        "year": 2015,
-        "type": "conversionCount",
-        "count": 21,
-        "sequence": 1
-    }, {
-        "monthLong": "Jan",
-        "monthShort": 0,
-        "year": 2015,
-        "type": "preEvaluationCount",
-        "count": 31,
-        "sequence": 1
-    }, {
-        "monthLong": "Dec",
-        "monthShort": 11,
-        "year": 2014,
-        "type": "conversionCount",
-        "count": 18,
-        "sequence": 0
-    }, {
-        "monthLong": "Dec",
-        "monthShort": 11,
-        "year": 2014,
-        "type": "preEvaluationCount",
-        "count": 15,
-        "sequence": 0
-    }];
 
     var monthList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var referenceMonthList = [];
@@ -230,6 +61,10 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
                 var mth = conversionPredictionResults[0].monthLong;
                 var idx = monthList.indexOf(mth) + 1;
 
+                if (idx == 12) {
+                    idx = 0;
+                }
+
                 for (i = 0; i <= 12; i++) {
                     var monthSeq = monthList[idx];
                     referenceMonthList.push(monthSeq);
@@ -240,15 +75,12 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
                     }
                 }
 
-                console.log(referenceMonthList);
-
                 /* function to show scatter plot, x-axis: month, y-axis: count */
                 showScatterPlot(conversionPredictionResults);
             })
 
     };
     $scope.getConversionRatePrediction();
-
 
     function showScatterPlot(data) {
         // just to have some space around items.
