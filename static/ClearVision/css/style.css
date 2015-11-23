@@ -23,6 +23,16 @@
     height: 100vh;
 }
 
+.modal-label{
+    width: 150px;
+    color: #49708A;
+}
+
+.inline-row{
+    float: left;
+    display: inline-block;
+}
+
 .dropdown-default-option {
     text-align: center;
 }
@@ -733,6 +743,24 @@ li .i-slot-label {
 .suggestslots-ul {
     list-style: none;
     padding-left: 100px;
+}
+
+.warning-badge{
+    color: #fff;
+    background-color: #b94a48;
+    padding: 4px;
+    border-radius: 3px;
+    margin-top: 2px;
+}
+
+.warning-badge:hover,
+.warning-badge:focus{
+    color: #fff;
+    background-color: #E79285;
+    padding: 4px;
+    border-radius: 3px;
+    text-decoration: none;
+    margin-top: 2px;
 }
 
 /*form page css ends*/

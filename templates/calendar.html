@@ -873,23 +873,25 @@
 
 <script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
     <form name="blockedConfirmation" novalidate>
-        <div class="modal-header form-group">
-            <h3 class="modal-title">Confirm block time slot?</h3><h4 class="modal-title has-error"
+        <div class="modal-header form-group" style="height: 60px;">
+            <h3 class="modal-title" style="float: left;">Confirm block time slot?</h3><!--<h4 class="modal-title has-error"
                                                                      ng-show="showAffectedAppointmentsWarning"> Warning!
-            [[numberOfAffectedAppointments]] appointments affected</h4>
+            [[numberOfAffectedAppointments]] appointments affected</h4>-->
+            <span class="warning-badge pull-right" style="float: left;">
+                                    <i class="fa fa-question-circle" style="font-size: 13pt;"></i> Warning!
+            [[numberOfAffectedAppointments]] appointments affected</span>
         </div>
 
         <div class="modal-body">
-            <ul>
-                <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-                <li>Start Date: [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
-                <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-                <li>End Date: [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
-                <li>End Time: [[blockDetails.blockTimeEnd]]</li>
-                <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
-                <li ng-show="showAffectedAppointmentsWarning">Email Address:
+            <ul style="list-style: none">
+                <li><label class="modal-label">Start Date: </label> [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
+                <li><label class="modal-label">Start Time: </label> [[blockDetails.blockTimeStart]]</li>
+                <li><label class="modal-label">End Date: </label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
+                <li><label class="modal-label">End Time: </label> [[blockDetails.blockTimeEnd]]</li>
+                <li><label class="modal-label">Remarks: </label> [[blockDetails.blockFormRemarks]]</li>
+                <li ng-show="showAffectedAppointmentsWarning"><label class="modal-label">Email Address:</label>
                     <input type="email" class="form-control" data-ng-model="emailAd" name="emailAddress"
-                           ng-required="showAffectedAppointmentsWarning"></li>
+                           ng-required="showAffectedAppointmentsWarning" style="display: inline; width: 80%; padding-top: 0"></li>
             </ul>
         </div>
 
