@@ -13,7 +13,7 @@
 }
 
 .pointer-cursor,
-.pointer-cursor:hover{
+.pointer-cursor:hover {
     cursor: pointer;
     text-decoration: none;
 }
@@ -23,12 +23,20 @@
     height: 100vh;
 }
 
-.modal-label{
+.modal-label {
     width: 150px;
     color: #49708A;
+    font-weight: normal;
 }
 
-.inline-row{
+.modal-title {
+    border-left: 12px solid #D5E5E9;
+    text-indent: 1em;
+    color: #49708A;
+    margin-bottom: 1em;
+}
+
+.inline-row {
     float: left;
     display: inline-block;
 }
@@ -42,7 +50,7 @@
     height: 100vh;
 }
 
-.dashboard-filter-row{
+.dashboard-filter-row {
     margin-bottom: 10px;
 }
 
@@ -66,11 +74,12 @@
     padding-top: 8px;
     padding-bottom: 6px;
 }
-.center-input{
+
+.center-input {
     text-align: center;
 }
 
-.large-margin{
+.large-margin {
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -94,7 +103,6 @@
 .cal-main-container {
     padding-left: 0;
 }
-
 
 .side-tabset > ul.nav.nav-pills {
     /*width: 145px;
@@ -554,7 +562,7 @@ ul.legend-ul li {
     margin-top: 2px;
 }
 
-.legend-clicked{
+.legend-clicked {
     text-decoration: none;
 }
 
@@ -654,7 +662,7 @@ form.form-search:before {
     padding-top: 16%;
 }
 
-.search-result-text{
+.search-result-text {
     text-align: left;
     padding: 8px 0 7px 5px;
     color: #49708A;
@@ -724,19 +732,19 @@ li .i-slot-label {
     color: #FFFFFF;
 }
 
-.suggest-time-badge{
+.suggest-time-badge {
     color: #fff;
     background-color: #49708A;
-    padding: 4px;
-    border-radius: 3px;
+    padding: 5px;
+    border-radius: 4px;
 }
 
 .suggest-time-badge:hover,
-.suggest-time-badge:focus{
+.suggest-time-badge:focus {
     color: #fff;
     background-color: #49708A;
-    padding: 4px;
-    border-radius: 3px;
+    padding: 5px;
+    border-radius: 4px;
     text-decoration: none;
 }
 
@@ -745,7 +753,7 @@ li .i-slot-label {
     padding-left: 100px;
 }
 
-.warning-badge{
+.warning-badge {
     color: #fff;
     background-color: #b94a48;
     padding: 4px;
@@ -754,7 +762,7 @@ li .i-slot-label {
 }
 
 .warning-badge:hover,
-.warning-badge:focus{
+.warning-badge:focus {
     color: #fff;
     background-color: #E79285;
     padding: 4px;
@@ -872,7 +880,7 @@ li .i-slot-label {
 .mrkt-list-item label.day-selection-label {
     font-weight: 300;
     cursor: pointer;
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .channelSelected {
@@ -894,10 +902,11 @@ li .i-slot-label {
     text-decoration: underline;
 }
 
-.dashboard-listbox{
+.dashboard-listbox {
     list-style: none;
     padding-left: 2px;
-    margin-right: 0; !important;
+    margin-right: 0;
+!important;
 }
 
 .exporticon {
@@ -1658,7 +1667,7 @@ hr.type-timing-tab-active {
     margin-bottom: 0;
 }
 
-hr.config-section-divider{
+hr.config-section-divider {
     border-top: 1px solid grey;
     opacity: 0.3;
 }
@@ -1704,7 +1713,7 @@ hr.config-section-divider{
     overflow-y: auto;
     width: 350px;
     margin: 0 auto;
-    height:196px;
+    height: 196px;
     padding-top: 5px;
 }
 
@@ -1732,7 +1741,6 @@ hr.config-section-divider{
     margin-bottom: 20px;
 }
 
-
 .docAppt-timeslot-side {
     border-right: solid 2px #ebebeb;
     height: 220px;
@@ -1747,8 +1755,6 @@ hr.config-section-divider{
     text-align: center;
     background-color: #fff;
 }
-
-
 
 /* create modal css in adminconfig */
 

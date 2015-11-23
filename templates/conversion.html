@@ -83,12 +83,12 @@
                                         <li ng-class="{channelSelected: channel.channelUnselected}"
                                             class="mrkt-list-item"
                                             ng-repeat="channel in channelObjects" ng-model="channelSelected">
-                                            <label style="border-right: solid 1px grey; width: 80%"><input type="checkbox" ng-model="channel.channelUnselected"
+                                            <label><input type="checkbox" ng-model="channel.channelUnselected"
                                                           ng-change="toggleSelection(channel.name, channel.id)">[[channel.name]]
                                             </label>
-                                            <label class="day-of-week">
+                                            <!--<label class="day-of-week">
                                         Dec 2015
-                                    </label>
+                                    </label>-->
                                         </li>
                                     </ul>
 

@@ -519,12 +519,10 @@
             <div class="col-sm-12 add-appt-formgrp">
                 <form class="form-horizontal form-animation" id="edit-form-patients" name="blockForm" novalidate
                       ng-show="!isHidden">
-
-                    <div class="form-group col-sm-12 add-appt-formgrp form-animation">
-                        <div class="checkbox" style="padding-left: 18px;">
-                            <input type="checkbox" ng-model="blockFields.blockFullDayFlag"
-                                   ng-change="blockDay(blockFields.blockFullDayFlag)"><h5 style="margin-top: 8px">Block entire day</h5>
-                        </div>
+                    <div class="form-group col-sm-12 add-appt-formgrp right-block">
+                        <a ng-href="#/" class="suggest-time-badge"
+                           ng-click="openBlockedTimeSlotListModal('lg')">
+                            <i class="fa fa-search-plus" style="font-size: 13pt;"></i> View appointments blocked</a>
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
@@ -657,6 +655,14 @@
                     </div>
 
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
+                        <div class="checkbox" style="padding-left: 18px;">
+                            <input type="checkbox" ng-model="blockFields.blockFullDayFlag"
+                                   ng-change="blockDay(blockFields.blockFullDayFlag)"><h5 style="margin-top: 8px">Block
+                            entire day</h5>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <label class="control-label">Remarks</label>
 
                         <textarea class="form-control" rows="3" data-ng-model="blockFields.blockFormRemarks"
@@ -709,14 +715,6 @@
                         </div>
                     </div>
                 </form>
-
-                <div class="form-group col-sm-12 add-appt-formgrp">
-                    <div class="row subcontent-row">
-                            <a ng-href="#/" class="suggest-time-badge"
-                               ng-click="openBlockedTimeSlotListModal('lg')">
-                                <i class="fa fa-search-plus" style="font-size: 13pt;"></i> View appointments blocked</a>
-                    </div>
-                </div>
             </div>
             <!-- col for form content ends -->
         </div>
@@ -874,24 +872,28 @@
 <script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
     <form name="blockedConfirmation" novalidate>
         <div class="modal-header form-group" style="height: 60px;">
-            <h3 class="modal-title" style="float: left;">Confirm block time slot?</h3><!--<h4 class="modal-title has-error"
+            <h3 class="modal-title">Confirm block time slot?</h3><!--<h4 class="modal-title has-error"
                                                                      ng-show="showAffectedAppointmentsWarning"> Warning!
             [[numberOfAffectedAppointments]] appointments affected</h4>-->
             <span class="warning-badge pull-right" style="float: left;">
-                                    <i class="fa fa-question-circle" style="font-size: 13pt;"></i> Warning!
+                                    <i class="fa fa-exclamation-triangle" style="font-size: 13pt;"></i> Warning!
             [[numberOfAffectedAppointments]] appointments affected</span>
         </div>
 
         <div class="modal-body">
             <ul style="list-style: none">
-                <li><label class="modal-label">Start Date: </label> [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
+                <li><label class="modal-label">Start Date: </label> [[blockDetails.blockDateStart |
+                    dateFilter:'longDate']]
+                </li>
                 <li><label class="modal-label">Start Time: </label> [[blockDetails.blockTimeStart]]</li>
-                <li><label class="modal-label">End Date: </label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
+                <li><label class="modal-label">End Date: </label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]
+                </li>
                 <li><label class="modal-label">End Time: </label> [[blockDetails.blockTimeEnd]]</li>
                 <li><label class="modal-label">Remarks: </label> [[blockDetails.blockFormRemarks]]</li>
                 <li ng-show="showAffectedAppointmentsWarning"><label class="modal-label">Email Address:</label>
                     <input type="email" class="form-control" data-ng-model="emailAd" name="emailAddress"
-                           ng-required="showAffectedAppointmentsWarning" style="display: inline; width: 80%; padding-top: 0"></li>
+                           ng-required="showAffectedAppointmentsWarning"
+                           style="display: inline; width: 80%; padding-top: 0"></li>
             </ul>
         </div>
 
