@@ -1,19 +1,14 @@
-/**
- * Created by carinahu on 10/2/15.
- */
 var appExpenditure = angular.module('app.expenditure', []);
 
-appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal, $route, getMarketingChannelsSvc, $filter, showNotificationsSvc, $log) {
+appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal, $route, getMarketingChannelsSvc, $filter, showNotificationsSvc, $timeout) {
 
-    $scope.channelDropdown = true;
-    $scope.channelTextbox = false;
-    $scope.selectChannelBtn = false;
-    $scope.newChannelBtn = true;
     $scope.listOfMarketingChannels = [];
     $scope.currentPage = 1;
     $scope.numPerPage = 10;
-    $scope.filteredChannels = [];
-
+    $scope.filteredChannels = []
+    $scope.expenditure = {
+        "yearInput": ""
+    };
 
     /* function to retrieve all marketing channels */
     $scope.getMarketingChannels = function () {
@@ -27,30 +22,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             });
     };
 
-
-    $scope.showAddNewChannel = function () {
-        $scope.yearDropdown = true;
-        $scope.monthDropdown = true;
-        $scope.channelDropdown = false;
-        $scope.channelTextbox = true;
-        $scope.selectChannelBtn = true;
-        $scope.newChannelBtn = false;
-        $scope.clearForm();
-
-    };
-
-    $scope.showSelectChannel = function () {
-        $scope.yearDropdown = true;
-        $scope.monthDropdown = true;
-        $scope.channelDropdown = true;
-        $scope.channelTextbox = false;
-        $scope.selectChannelBtn = false;
-        $scope.newChannelBtn = true;
-        $scope.clearForm();
-
-    };
-
-    $scope.years = ["2010", "2011", "2012", "2013", "2014", "2015"];
+    $scope.years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"];
     $scope.months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 
@@ -78,23 +50,23 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                 });
 
                 var dynamicPopover = [];
-    angular.forEach(data, function () {
-        console.log(data);
+                angular.forEach(data, function () {
+                    console.log(data);
 
-        dynamicPopover.push = ({
-              //$scope.dynamicPopover ={
-            editMarketingExpenditure: {
-                isOpen: false,
-                templateUrl: 'editMarketingExpenditureTemplate.html',
-                open: function () {
-                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = true;
-                },
-                close: function () {
-                    $scope.dynamicPopover.editMarketingExpenditure.isOpen = false;
-                }
-            }
-        });
-    });
+                    dynamicPopover.push = ({
+                        //$scope.dynamicPopover ={
+                        editMarketingExpenditure: {
+                            isOpen: false,
+                            templateUrl: 'editMarketingExpenditureTemplate.html',
+                            open: function () {
+                                $scope.dynamicPopover.editMarketingExpenditure.isOpen = true;
+                            },
+                            close: function () {
+                                $scope.dynamicPopover.editMarketingExpenditure.isOpen = false;
+                            }
+                        }
+                    });
+                });
 
             })
             .error(function () {
@@ -113,8 +85,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             month = $scope.months.indexOf(month) + 1;
 
             var date = year + "-" + month + "-01";
-
-            //console.log($scope.channelTextbox);
 
             if ($scope.channelTextbox) {
                 channel = newChannel;
@@ -162,13 +132,21 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     };
 
-    /* function to clear form */
-    $scope.clearForm = function () {
-        $scope.expenditure = {};
-        $scope.expenditureForm.$setPristine();
-        $scope.expenditureForm.$setUntouched();
+    /*******************************************************************************
+     function to clear form
+     *******************************************************************************/
 
+    $scope.clearForm = function () {
+        $timeout(function () {
+            $scope.expenditure = {};
+            $scope.expenditureForm.$setPristine();
+            $scope.expenditureForm.$setUntouched();
+        }, 0);
     };
+
+    /*******************************************************************************
+     function to check if there is an existing channel
+     *******************************************************************************/
 
     /* Check if input channel already exist */
     $scope.IsExistingChannel = function (channel) {
@@ -200,7 +178,10 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
     };
 
-    /* Delete table row */
+    /*******************************************************************************
+     function to delete marketing expenditure
+     *******************************************************************************/
+
     $scope.removeRow = function (channel) {
         //$scope.filteredChannels.splice(channel, 1);
         //console.log(channel.id);
@@ -224,32 +205,33 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             });
     };
 
-    /* Dynamic Popover */
+    /*******************************************************************************
+     function to update marketing expenditure
+     *******************************************************************************/
 
-    /* Update Table */
-    $scope.updateMarketingExpenditureTable = function(isValid, channel, channelId, cost) {
+    $scope.updateMarketingExpenditureTable = function (isValid, channel, channelId, cost) {
         if (isValid) {
 
-                var req = {
-                    method: 'PATCH',
-                    url: '/Clearvision/_api/InputMarketingChannelCost/' + channelId,
-                    headers: {'Content-Type': 'application/json'},
-                    data: {
-                        "cost": cost,
-                        "name": channel
-                    }
-                };
+            var req = {
+                method: 'PATCH',
+                url: '/Clearvision/_api/InputMarketingChannelCost/' + channelId,
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "cost": cost,
+                    "name": channel
+                }
+            };
 
-                $http(req)
-                    .success(function () {
-                        showNotificationsSvc.notifySuccessTemplate('Marketing Expenditure successfully updated');
-                         $scope.updateTable();
-                    })
-                    .error(function (data) {
-                        showNotificationsSvc.notifyErrorTemplate('Error, please try again');
-                    });
+            $http(req)
+                .success(function () {
+                    showNotificationsSvc.notifySuccessTemplate('Marketing Expenditure successfully updated');
+                    $scope.updateTable();
+                })
+                .error(function (data) {
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
+                });
 
-            }
+        }
     }
 
     var currentDate = new Date();

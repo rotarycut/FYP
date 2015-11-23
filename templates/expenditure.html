@@ -32,13 +32,13 @@
                         <td>[[channel.name]]</td>
                         <td>[[channel.cost]]</td>
                         <td><a class="edit-opt-hr pull-right"
-                                       popover-template="dynamicPopover.editMarketingExpenditure.templateUrl"
-                                       popover-title="Edit Marketing Expenditure"
-                                       data-ng-click="dynamicPopover.editMarketingExpenditure.open()"
-                                       popover-placement="bottom"
-                                       popover-is-open="dynamicPopover.editMarketingExpenditure.isOpen">
-                                        <i class="fa fa-pencil-square-o"></i> Edit</a>
-                           </td>
+                               popover-template="dynamicPopover.editMarketingExpenditure.templateUrl"
+                               popover-title="Edit Marketing Expenditure"
+                               data-ng-click="dynamicPopover.editMarketingExpenditure.open()"
+                               popover-placement="bottom"
+                               popover-is-open="dynamicPopover.editMarketingExpenditure.isOpen">
+                            <i class="fa fa-pencil-square-o"></i> Edit</a>
+                        </td>
                         <td><a class="remove-from-queue"
                                ng-click="removeRow(channel)">
                             <i class="fa fa-times"></i></a></td>
@@ -109,23 +109,16 @@
                         <div class="col-md-3">
                             <label class="control-label label-color">Channel:</label>
                         </div>
-                        <div class="col-md-9" ng-show="channelDropdown" ng-init="getMarketingChannels();"
+                        <div class="col-md-9"
                              ng-class="{'has-error': expenditureForm.expenditureChannel.$invalid && (expenditureForm.expenditureChannel.$touched || expenditureForm.$submitted)}">
-                            <select class="form-control"
-                                    ng-options="channel as channel.name for channel in listOfMarketingChannels"
-                                    data-ng-model="expenditure.expenditureChannel" name="expenditureChannel"
-                                    ng-required="newChannelBtn">
-                            </select>
+
+                            <input type="text" class="form-control" data-ng-model="expenditureChannel"
+                                   name="expenditureChannel" placeholder="Enter channel name" required>
 
                             <div ng-show="expenditureForm.expenditureChannel.$invalid && (expenditureForm.expenditureChannel.$touched || expenditureForm.$submitted)"
                                  class="help-block">
-                                Please select a marketing channel
+                                Please enter a channel
                             </div>
-                        </div>
-                        <div class="col-md-9" ng-show="channelTextbox">
-                            <input type="text" class="form-control" data-ng-model="expenditureChannel"
-                                   name="newchannel" placeholder="Enter new channel"
-                                   ng-required="selectChannelBtn">
                         </div>
                     </div>
                     <div class="row subcontent-row">
@@ -134,28 +127,19 @@
                         </div>
                         <div class="col-md-9"
                              ng-class="{'has-error': expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)}">
-                            <!--<input type="text" class="form-control" data-ng-model="spentAmt"
-                                   name="spentAmt"
-                                   required>-->
-                            <input type="text" style="padding-left: 26px;" class="form-control"
+
+                            <input type="number" class="form-control" autocomplete="off"
                                    data-ng-model="expenditure.expenditureSpent" name="amt" required/>
 
                             <div ng-show="expenditureForm.amt.$invalid && (expenditureForm.amt.$touched || expenditureForm.$submitted)"
                                  class="help-block">
                                 Please enter an amount
                             </div>
-
                         </div>
-
                     </div>
                     <div class="row endcontent-row"><!--test-->
-                        <div class="col-md-3" ng-show="newChannelBtn">
-                            <button class="btn form-cancel-btn" data-ng-click="showAddNewChannel()"><i
-                                    class="fa fa-plus-square"></i> New Channel
-                            </button>
-                        </div>
-                        <div class="col-md-3" ng-show="selectChannelBtn">
-                            <button class="btn form-cancel-btn" data-ng-click="showSelectChannel()">Existing Channels
+                        <div class="col-md-3">
+                            <button class="btn form-cancel-btn" data-ng-click="clearForm()">Clear
                             </button>
                         </div>
                         <div class="col-md-2 col-md-offset-4">
@@ -178,7 +162,8 @@
             <label>Marketing Channel:</label>
 
             <div ng-class="{'has-error': updateExpenditureForm.marketingChannelName.$invalid && (updateExpenditureForm.marketingChannelName.$touched || updateExpenditureForm.$submitted)}">
-                <input type="text" class="form-control " data-ng-model="newMarketingChannelName" name="marketingChannelName"
+                <input type="text" class="form-control " data-ng-model="newMarketingChannelName"
+                       name="marketingChannelName"
                        autocomplete="off" required/>
 
                 <div ng-show="updateExpenditureForm.marketingChannelName.$invalid && (updateExpenditureForm.marketingChannelName.$touched || updateExpenditureForm.$submitted)"
@@ -191,7 +176,8 @@
             <label>Expenditure Cost:</label>
 
             <div ng-class="{'has-error': updateExpenditureForm.expenditureCost.$invalid && (updateExpenditureForm.expenditureCost.$touched || updateExpenditureForm.$submitted)}">
-                <input type="text" class="form-control " data-ng-model="newMarketingExpenditureCost" name="expenditureCost"
+                <input type="text" class="form-control " data-ng-model="newMarketingExpenditureCost"
+                       name="expenditureCost"
                        autocomplete="off" required/>
 
                 <div ng-show="updateExpenditureForm.expenditureCost.$invalid && (updateExpenditureForm.expenditureCost.$touched || updateExpenditureForm.$submitted)"
@@ -202,7 +188,8 @@
         </div>
         <div class="right-block">
             <button class="btn-sm form-submit-btn"
-                    data-ng-click="updateMarketingExpenditure(updateExpenditureForm.$valid, newMarketingChannelName, channel.id, newMarketingExpenditureCost)">Update
+                    data-ng-click="updateMarketingExpenditure(updateExpenditureForm.$valid, newMarketingChannelName, channel.id, newMarketingExpenditureCost)">
+                Update
             </button>
             <button class="btn-sm form-cancel-btn"
                     data-ng-click="dynamicPopover.editMarketingExpenditure.close()">Cancel
