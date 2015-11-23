@@ -3702,7 +3702,7 @@ class CheckApptsForBlockedCalendar(viewsets.ModelViewSet):
                                                           timeBucket__start__gte=startTime,
                                                           timeBucket__end__lte=endTime,
                                                           doctor=doctorID,
-                                                          ).count().exclude(patients__isnull=True)\
+                                                          ).exclude(patients__isnull=True)\
                                                           .values('patients__contact', 'patients__name', 'patients__gender', 'timeBucket__date', 'timeBucket__start', 'apptType', 'id', 'doctor__name', 'clinic', 'doctor')
 
         csvfile = StringIO.StringIO()
@@ -3868,6 +3868,7 @@ class ViewSMSApptReminder(viewsets.ModelViewSet):
 import numpy as np
 def ConversionRatePrediction(request):
     thisMonth = datetime.now().month
+    thisYear = datetime.now().year
 
     jan = 0
     feb = 0
@@ -3883,66 +3884,72 @@ def ConversionRatePrediction(request):
     dec = 0
 
     for months in range(1, 13):
-        if months < thisMonth:
-            totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
-                                                                              originalAppt__date__month=months)
-            patients = []
+        totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+                                                                          originalAppt__date__month=thisMonth,
+                                                                          originalAppt__date__year=thisYear)
+        patients = []
 
-            for eachObj in totalAttendedPreEvalPatients:
-                patients.append(eachObj.patient)
+        for eachObj in totalAttendedPreEvalPatients:
+            patients.append(eachObj.patient)
 
-            totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
-            totalAttendedPreEvalCount = totalAttendedPreEval.count()
+        totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+        totalAttendedPreEvalCount = totalAttendedPreEval.count()
 
-            prevItem = None
-            for eachAttendedPreEval in totalAttendedPreEval:
-                if eachAttendedPreEval.patient == prevItem:
-                    totalAttendedPreEvalCount += -1
-                    prevItem = eachAttendedPreEval.patient
-                else:
-                    prevItem = eachAttendedPreEval.patient
-
-            totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
-                                                                      originalAppt__doctor__apptType=3).order_by('patient', 'last_modified')
-            totalAttendedSurgeryCount = totalAttendedSurgery.count()
-
-            prevItem = None
-            for eachAttendedSurgery in totalAttendedSurgery:
-                if eachAttendedSurgery.patient == prevItem:
-                    totalAttendedSurgeryCount += -1
-                    prevItem = eachAttendedSurgery.patient
-                else:
-                    prevItem = eachAttendedSurgery.patient
-
-            if totalAttendedPreEvalCount != 0:
-                trueConversionRate = totalAttendedSurgeryCount/totalAttendedPreEvalCount * 100
+        prevItem = None
+        for eachAttendedPreEval in totalAttendedPreEval:
+            if eachAttendedPreEval.patient == prevItem:
+                totalAttendedPreEvalCount += -1
+                prevItem = eachAttendedPreEval.patient
             else:
-                trueConversionRate = 0
+                prevItem = eachAttendedPreEval.patient
 
-            if months == 1:
-                jan = trueConversionRate
-            elif months == 2:
-                feb = trueConversionRate
-            elif months == 3:
-                mar = trueConversionRate
-            elif months == 4:
-                apr = trueConversionRate
-            elif months == 5:
-                may = trueConversionRate
-            elif months == 6:
-                jun = trueConversionRate
-            elif months == 7:
-                jul = trueConversionRate
-            elif months == 8:
-                aug = trueConversionRate
-            elif months == 9:
-                sep = trueConversionRate
-            elif months == 10:
-                oct = trueConversionRate
-            elif months == 11:
-                nov = trueConversionRate
-            elif months == 12:
-                dec = trueConversionRate
+        totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
+                                                                  originalAppt__doctor__apptType=3).order_by('patient', 'last_modified')
+        totalAttendedSurgeryCount = totalAttendedSurgery.count()
+
+        prevItem = None
+        for eachAttendedSurgery in totalAttendedSurgery:
+            if eachAttendedSurgery.patient == prevItem:
+                totalAttendedSurgeryCount += -1
+                prevItem = eachAttendedSurgery.patient
+            else:
+                prevItem = eachAttendedSurgery.patient
+
+        if totalAttendedPreEvalCount != 0:
+            trueConversionRate = totalAttendedSurgeryCount/totalAttendedPreEvalCount * 100
+        else:
+            trueConversionRate = 0
+
+        if months == 1:
+            jan = trueConversionRate
+        elif months == 2:
+            feb = trueConversionRate
+        elif months == 3:
+            mar = trueConversionRate
+        elif months == 4:
+            apr = trueConversionRate
+        elif months == 5:
+            may = trueConversionRate
+        elif months == 6:
+            jun = trueConversionRate
+        elif months == 7:
+            jul = trueConversionRate
+        elif months == 8:
+            aug = trueConversionRate
+        elif months == 9:
+            sep = trueConversionRate
+        elif months == 10:
+            oct = trueConversionRate
+        elif months == 11:
+            nov = trueConversionRate
+        elif months == 12:
+            dec = trueConversionRate
+
+        if thisMonth == 1:
+            thisMonth = 12
+            thisYear = thisYear - 1
+        else:
+            thisMonth -= 1
 
     x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     y = [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
