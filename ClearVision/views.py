@@ -3866,129 +3866,132 @@ class ViewSMSApptReminder(viewsets.ModelViewSet):
         return Response('Successfully updated SMS Config')
 
 import numpy as np
-def ConversionRatePrediction(request):
-    thisMonth = datetime.now().month - 1
-    thisYear = datetime.now().year
+class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
+    queryset = AttendedAppointment.objects.none()
 
-    y = []
-    conversionData = []
-    sequence = 11
+    def list(self, request, *args, **kwargs):
+        thisMonth = datetime.now().month - 1
+        thisYear = datetime.now().year
 
-    for months in range(1, 13):
-        totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
-                                                                          originalAppt__date__month=thisMonth,
-                                                                          originalAppt__date__year=thisYear)
+        y = []
+        conversionData = []
+        sequence = 11
+
+        for months in range(1, 13):
+            totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+                                                                              originalAppt__date__month=thisMonth,
+                                                                              originalAppt__date__year=thisYear)
+            patients = []
+
+            for eachObj in totalAttendedPreEvalPatients:
+                patients.append(eachObj.patient)
+
+            totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+            totalAttendedPreEvalCount = totalAttendedPreEval.count()
+
+            prevItem = None
+            for eachAttendedPreEval in totalAttendedPreEval:
+                if eachAttendedPreEval.patient == prevItem:
+                    totalAttendedPreEvalCount += -1
+                    prevItem = eachAttendedPreEval.patient
+                else:
+                    prevItem = eachAttendedPreEval.patient
+
+            totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
+                                                                      originalAppt__doctor__apptType=3).order_by('patient', 'last_modified')
+            totalAttendedSurgeryCount = totalAttendedSurgery.count()
+
+            prevItem = None
+            for eachAttendedSurgery in totalAttendedSurgery:
+                if eachAttendedSurgery.patient == prevItem:
+                    totalAttendedSurgeryCount += -1
+                    prevItem = eachAttendedSurgery.patient
+                else:
+                    prevItem = eachAttendedSurgery.patient
+
+            if totalAttendedPreEvalCount != 0:
+                trueConversionRate = totalAttendedSurgeryCount/totalAttendedPreEvalCount * 100
+            else:
+                trueConversionRate = 0
+
+            if thisMonth == 1:
+                conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 2:
+                conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 3:
+                conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 4:
+                conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 5:
+                conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 6:
+                conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 7:
+                conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 8:
+                conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 9:
+                conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 10:
+                conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 11:
+                conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+            elif thisMonth == 12:
+                conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
+                conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+
+            y.insert(0, trueConversionRate)
+
+            if thisMonth == 1:
+                thisMonth = 12
+                thisYear -= 1
+                sequence -= 1
+            else:
+                thisMonth -= 1
+                sequence -= 1
+
+        x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+        regression = np.polyfit(x, y, 1)
+
+        currentMonthAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+                                                                                  originalAppt__date__month=datetime.now().month)
         patients = []
 
-        for eachObj in totalAttendedPreEvalPatients:
+        for eachObj in currentMonthAttendedPreEvalPatients:
             patients.append(eachObj.patient)
 
-        totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
-        totalAttendedPreEvalCount = totalAttendedPreEval.count()
+        currentMonthAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+        currentMonthPreEvalCount = currentMonthAttendedPreEval.count()
 
         prevItem = None
-        for eachAttendedPreEval in totalAttendedPreEval:
+        for eachAttendedPreEval in currentMonthAttendedPreEval:
             if eachAttendedPreEval.patient == prevItem:
-                totalAttendedPreEvalCount += -1
+                currentMonthPreEvalCount += -1
                 prevItem = eachAttendedPreEval.patient
             else:
                 prevItem = eachAttendedPreEval.patient
 
-        totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
-                                                                  originalAppt__doctor__apptType=3).order_by('patient', 'last_modified')
-        totalAttendedSurgeryCount = totalAttendedSurgery.count()
+        predict = regression[0] * currentMonthPreEvalCount + regression[1]
+        line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
 
-        prevItem = None
-        for eachAttendedSurgery in totalAttendedSurgery:
-            if eachAttendedSurgery.patient == prevItem:
-                totalAttendedSurgeryCount += -1
-                prevItem = eachAttendedSurgery.patient
-            else:
-                prevItem = eachAttendedSurgery.patient
+        thisMonth = datetime.now().month
+        thisYear = datetime.now().year
+        conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": currentMonthPreEvalCount, "sequence": 12})
+        conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": predict, "sequence": 12})
 
-        if totalAttendedPreEvalCount != 0:
-            trueConversionRate = totalAttendedSurgeryCount/totalAttendedPreEvalCount * 100
-        else:
-            trueConversionRate = 0
-
-        if thisMonth == 1:
-            conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 2:
-            conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 3:
-            conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 4:
-            conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 5:
-            conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 6:
-            conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 7:
-            conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 8:
-            conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 9:
-            conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 10:
-            conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 11:
-            conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-        elif thisMonth == 12:
-            conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-            conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
-
-        y.insert(0, trueConversionRate)
-
-        if thisMonth == 1:
-            thisMonth = 12
-            thisYear -= 1
-            sequence -= 1
-        else:
-            thisMonth -= 1
-            sequence -= 1
-
-    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    regression = np.polyfit(x, y, 1)
-
-    currentMonthAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
-                                                                              originalAppt__date__month=datetime.now().month)
-    patients = []
-
-    for eachObj in currentMonthAttendedPreEvalPatients:
-        patients.append(eachObj.patient)
-
-    currentMonthAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
-    currentMonthPreEvalCount = currentMonthAttendedPreEval.count()
-
-    prevItem = None
-    for eachAttendedPreEval in currentMonthAttendedPreEval:
-        if eachAttendedPreEval.patient == prevItem:
-            currentMonthPreEvalCount += -1
-            prevItem = eachAttendedPreEval.patient
-        else:
-            prevItem = eachAttendedPreEval.patient
-
-    predict = regression[0] * currentMonthPreEvalCount + regression[1]
-    line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
-
-    thisMonth = datetime.now().month
-    thisYear = datetime.now().year
-    conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": currentMonthPreEvalCount, "sequence": 12})
-    conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": predict, "sequence": 12})
-
-    return HttpResponse(conversionData)
+        return Response(conversionData)
 
 def MonthSurgeryKPI(request):
     attendedSurgery = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=3,

@@ -66,6 +66,7 @@ router.register(r'_api/ViewHeatMapColorSettings', views.ViewHeatMapColorSettings
 router.register(r'_api/ViewCalendarTimeRange', views.ViewCalendarTimeRange)
 router.register(r'_api/ViewSMSApptReminder', views.ViewSMSApptReminder)
 router.register(r'_api/AnalyticsDashboardTestChecker', views.AnalyticsDashboardTestChecker)
+router.register(r'_api/ConversionRatePrediction', views.ConversionRatePrediction)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
@@ -94,6 +95,5 @@ urlpatterns = [
     url(r'^_api/UserTrackingTimeIn', views.RecordUserActionsTimeIn,),
     url(r'^_api/UserTrackingTimeOut', views.RecordUserActionsTimeOut,),
     url(r'^_api/WriteDatabaseFullYear', views.WriteDatabaseFullYear,),
-    url(r'^_api/ConversionRatePrediction', views.ConversionRatePrediction,),
     url(r'^_api/MonthSurgeryKPI', views.MonthSurgeryKPI,),
 ]
