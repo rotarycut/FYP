@@ -1024,12 +1024,24 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    var my_presence_channel = pusher.subscribe('appointmentsCUD');
-    my_presence_channel.bind('createAppt', function (appointment) {
+    var create_channel = pusher.subscribe('appointmentsCUD');
+    create_channel.bind('createAppt', function (appointment) {
 
         $log.debug("Receiving socket request to create appointment");
+    });
 
 
+    var update_channel = pusher.subscribe('appointmentsCUD');
+    update_channel.bind('updateAppt', function (appointment) {
+
+        $log.debug("Receiving socket request to update appointment");
+    });
+
+
+    var delete_channel = pusher.subscribe('appointmentsCUD');
+    delete_channel.bind('deleteAppt', function (appointment) {
+
+        $log.debug("Receiving socket request to delete appointment");
     });
 
     /*pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
@@ -1384,12 +1396,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
 appCalendar.controller('ModalInstanceCtrl',
-    function ($scope, $http, $modalInstance, $log, $filter, patientInfo, appointment, postAppointmentSvc,
+    function ($scope, $http, $modalInstance, $log, $filter, patientInfo, postAppointmentSvc,
               disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
 
         $scope.patientDetails = patientInfo;
-
-        $scope.appointment = appointment;
 
         $scope.createAppointment = function () {
             postAppointmentSvc.postAppointment();
