@@ -23,7 +23,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
     var convertMonth = $filter('date')(currentDate, 'MMM'); //Jun
     var convertYear = $filter('date')(currentDate, 'yyyy'); //2015
 
-    $scope.getListOfMarketingExpenditures(convertMonth, convertYear);
     $scope.expenditureMonth = convertMonth;
     $scope.expenditureYear = convertYear;
 
@@ -88,6 +87,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
             });
     };
+
+    $scope.getListOfMarketingExpenditures(convertMonth, convertYear);
 
 
     /*******************************************************************************
@@ -163,7 +164,7 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             .success(function () {
 
                 showNotificationsSvc.notifySuccessTemplate('Marketing expenditure deleted successfully');
-                $scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
+                $scope.updateTable();
             })
 
             .error(function (data) {
@@ -194,13 +195,22 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
             $http(req)
                 .success(function () {
                     showNotificationsSvc.notifySuccessTemplate('Marketing Expenditure successfully updated');
-                    $scope.marketingChannelPopover[$scope.popoverIndex].editMarketingExpenditure.close($scope.popoverIndex);
-                    $scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
+                    $scope.updateTable();
                 })
                 .error(function (data) {
                     showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
         }
+    };
+
+
+    /*******************************************************************************
+     function to update the marketing expenditure table
+     *******************************************************************************/
+
+
+    $scope.updateTable = function () {
+        $scope.getListOfMarketingExpenditures($scope.expenditureMonth, $scope.expenditureYear);
     };
 
 });
