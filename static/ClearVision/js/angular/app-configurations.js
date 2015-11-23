@@ -514,6 +514,13 @@ appConfig.controller('configCtrl',
 
                                     $scope.appointmentTypeRemovePopover[index].removeApptTypePopover.isOpen = true;
 
+                                    // check if the appointment is of type pre evaluation of surgery
+                                    if (apptTypeId == 2 || apptTypeId == 3) {
+                                        $scope.showRemoveApptTypeWarning = true;
+                                        $scope.showPasswordRemoveApptType = false;
+                                        return;
+                                    }
+
                                     //check if any future appointments exist
                                     $http.get('/Clearvision/_api/CheckApptTypeInGeneral/?apptTypeID=' + apptTypeId)
                                         .success(function (numberOfFutureAppointment) {
@@ -521,9 +528,11 @@ appConfig.controller('configCtrl',
                                             if (numberOfFutureAppointment > 0) {
                                                 $scope.showWarningRemoveApptType = true;
                                                 $scope.showPasswordRemoveApptType = false;
+                                                $scope.showRemoveApptTypeWarning = false;
                                             } else {
                                                 $scope.showWarningRemoveApptType = false;
                                                 $scope.showPasswordRemoveApptType = true;
+                                                $scope.showRemoveApptTypeWarning = false;
                                             }
                                         });
 
