@@ -40,7 +40,7 @@
                             <i class="fa fa-pencil-square-o"></i> Edit</a>
                         </td>
                         <td><a class="remove-from-queue"
-                               ng-click="removeRow(channel)">
+                               ng-click="removeMarketingChannel(channel.id)">
                             <i class="fa fa-times"></i></a></td>
                     </tr>
                 </table>
@@ -112,8 +112,8 @@
                         <div class="col-md-9"
                              ng-class="{'has-error': expenditureForm.expenditureChannel.$invalid && (expenditureForm.expenditureChannel.$touched || expenditureForm.$submitted)}">
 
-                            <input type="text" class="form-control" data-ng-model="expenditureChannel"
-                                   name="expenditureChannel" placeholder="Enter channel name" required>
+                            <input type="text" class="form-control" data-ng-model="expenditure.expenditureChannel"
+                                   name="expenditureChannel" placeholder="Enter channel name" autocomplete="off" required>
 
                             <div ng-show="expenditureForm.expenditureChannel.$invalid && (expenditureForm.expenditureChannel.$touched || expenditureForm.$submitted)"
                                  class="help-block">
@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-md-2 col-md-offset-4">
                             <button class="btn form-submit-btn"
-                                    ng-click="addMarketingExpenditures(expenditure.yearInput, expenditure.monthInput, expenditure.expenditureChannel.name, expenditure.expenditureSpent, expenditureForm.$valid, expenditureChannel)">
+                                    ng-click="addMarketingExpenditures(expenditure.yearInput, expenditure.monthInput, expenditure.expenditureChannel, expenditure.expenditureSpent, expenditureForm.$valid)">
                                 Add New
                             </button>
                         </div>

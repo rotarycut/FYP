@@ -2,24 +2,13 @@ var appExpenditure = angular.module('app.expenditure', []);
 
 appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $modal, $route, getMarketingChannelsSvc, $filter, showNotificationsSvc, $timeout) {
 
+
     $scope.listOfMarketingChannels = [];
     $scope.currentPage = 1;
     $scope.numPerPage = 10;
     $scope.filteredChannels = []
     $scope.expenditure = {
         "yearInput": ""
-    };
-
-    /* function to retrieve all marketing channels */
-    $scope.getMarketingChannels = function () {
-        getMarketingChannelsSvc.getMarketingChannels()
-            .then(function (listOfChannels) {
-
-                angular.forEach(listOfChannels, function (channel) {
-                    $scope.listOfMarketingChannels.push(channel);
-                });
-
-            });
     };
 
     $scope.years = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"];
@@ -36,7 +25,6 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
         $http.get('/Clearvision/_api/InputMarketingChannelCost/?month=' + month + '&year=' + year)
             .success(function (data) {
-                //console.log(data);
 
                 $scope.marketingChannels = data;
 
@@ -46,12 +34,10 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                     var end = begin + $scope.numPerPage;
 
                     $scope.filteredChannels = $scope.marketingChannels.slice(begin, end);
-
                 });
 
                 var dynamicPopover = [];
                 angular.forEach(data, function () {
-                    console.log(data);
 
                     dynamicPopover.push = ({
                         //$scope.dynamicPopover ={
@@ -78,33 +64,21 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
      add marketing expenditure in year and month
      *******************************************************************************/
 
-    $scope.addMarketingExpenditures = function (year, month, channel, amt, valid, newChannel) {
+    $scope.addMarketingExpenditures = function (year, month, channel, amt, isValid) {
 
-        if (valid == true) {
+        var monthShort = month;
+
+        if (isValid) {
 
             month = $scope.months.indexOf(month) + 1;
 
             var date = year + "-" + month + "-01";
 
-            if ($scope.channelTextbox) {
-                channel = newChannel;
-            }
-
-            /*console.log({
-             "name": channel,
-             "cost": amt,
-             "date": date
-             });*/
-
-
             if ($scope.IsExistingChannel(channel)) {
 
-                console.log("YAY");
                 showNotificationsSvc.notifyErrorTemplate('This is an existing channel');
 
             } else {
-
-                console.log("EW");
 
                 var req = {
                     method: 'POST',
@@ -119,6 +93,9 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
 
                 $http(req)
                     .success(function () {
+                        $scope.getListOfMarketingExpenditures(monthShort, year);
+                        $scope.expenditureYear = year;
+                        $scope.expenditureMonth = monthShort;
                         showNotificationsSvc.notifySuccessTemplate('Marketing expenditure added successfully');
                         $scope.clearForm();
                     })
@@ -126,10 +103,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                     .error(function (data) {
                         showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                     });
-
             }
         }
-
     };
 
     /*******************************************************************************
@@ -182,12 +157,11 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
      function to delete marketing expenditure
      *******************************************************************************/
 
-    $scope.removeRow = function (channel) {
-        //$scope.filteredChannels.splice(channel, 1);
-        //console.log(channel.id);
+    $scope.removeMarketingChannel = function (channelId) {
+
         var req = {
             method: 'DELETE',
-            url: '/Clearvision/_api/InputMarketingChannelCost/' + channel.id,
+            url: '/Clearvision/_api/InputMarketingChannelCost/' + channelId,
             headers: {'Content-Type': 'application/json'}
         };
 
