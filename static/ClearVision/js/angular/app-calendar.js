@@ -552,6 +552,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $event.stopPropagation();
 
         $scope.datepickers[which] = true;
+
+        if (which == 'showDatePicker') {
+            $scope.datepickers.showDatePicker2 = false;
+        }
     };
     $scope.dateOptions = {
         formatYear: 'yy',
@@ -1170,15 +1174,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                     return $scope.fields;
                 },
-                createTracker: function () {
-
-                    return $scope.trackId;
-                },
                 appointment: function () {
                     return '';
-                },
-                blockInfo: function () {
-                    return "";
                 }
             }
         });
@@ -1197,14 +1194,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 patientInfo: function () {
                     return $scope.fields;
                 },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
                 appointment: function () {
                     return '';
-                },
-                blockInfo: function () {
-                    return "";
                 }
             }
         });
@@ -1264,14 +1255,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                     return $scope.fields;
                 },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
                 appointment: function () {
                     return '';
-                },
-                blockInfo: function () {
-                    return "";
                 }
             }
         });
@@ -1283,18 +1268,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myBlockedAppointmentModalContent.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'BlockAppointmentModalCtrl',
             size: size,
             resolve: {
-                patientInfo: function () {
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
-                appointment: function () {
-                    return appointment;
-                },
                 blockInfo: function () {
                     return "";
                 }
@@ -1308,18 +1284,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myBlockedConfirmationModalContent.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'BlockAppointmentConfirmationModalCtrl',
             size: size,
             resolve: {
-                patientInfo: function () {
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
-                appointment: function () {
-                    return appointment;
-                },
                 blockInfo: function () {
                     return $scope.blockFields;
                 }
@@ -1333,18 +1300,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myUpdateBlockModalContent.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'BlockAppointmentModalCtrl',
             size: size,
             resolve: {
-                patientInfo: function () {
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
-                appointment: function () {
-                    return appointment;
-                },
                 blockInfo: function () {
 
                     if ($scope.blockFields.originalBlockForm.doctor__name !== $scope.blockFields.doctorToBlock.name) {
@@ -1390,18 +1348,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myBlockedTimeSlotListModal.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'BlockAppointmentModalCtrl',
             size: size,
             resolve: {
-                patientInfo: function () {
-                    return '';
-                },
-                createTracker: function () {
-                    return '';
-                },
-                appointment: function () {
-                    return '';
-                },
                 blockInfo: function () {
                     return '';
                 }
@@ -1415,18 +1364,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myDeleteBlockedModalContent.html',
-            controller: 'ModalInstanceCtrl',
+            controller: 'BlockAppointmentModalCtrl',
             size: size,
             resolve: {
-                patientInfo: function () {
-                    return $scope.fields;
-                },
-                createTracker: function () {
-                    return $scope.trackId;
-                },
-                appointment: function () {
-                    return '';
-                },
                 blockInfo: function () {
                     return $scope.blockFields;
                 }
@@ -1448,22 +1388,17 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
 /*******************************************************************************
- controller for modal instance
+ controller for appointment form modal instance
  *******************************************************************************/
 
 
 appCalendar.controller('ModalInstanceCtrl',
-    function ($scope, $http, $modalInstance, $log, $filter, patientInfo, createTracker, appointment, postAppointmentSvc,
-              disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc, blockInfo, clearFormSvc,
-              populateBlockedFormSvc, showNotificationsSvc) {
+    function ($scope, $http, $modalInstance, $log, $filter, patientInfo, appointment, postAppointmentSvc,
+              disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc) {
 
         $scope.patientDetails = patientInfo;
 
-        $scope.trackerId = createTracker;
-
         $scope.appointment = appointment;
-
-        $scope.blockDetails = blockInfo;
 
         $scope.createAppointment = function () {
             postAppointmentSvc.postAppointment();
@@ -1503,6 +1438,42 @@ appCalendar.controller('ModalInstanceCtrl',
             $scope.cancel();
         };
 
+    });
+
+
+/*******************************************************************************
+ controller for block appointment form confirmation
+ *******************************************************************************/
+
+
+appCalendar.controller('BlockAppointmentConfirmationModalCtrl',
+    function ($scope, $http, $modalInstance, $log, $filter, blockInfo, clearFormSvc, populateBlockedFormSvc,
+              showNotificationsSvc) {
+
+        $scope.blockDetails = blockInfo;
+
+        /* function to get number of appointments affected by blocking doctor appointment time slot */
+        $scope.getAppointmentsAffectedByBlock = function () {
+            $http.get('/Clearvision/_api/CheckApptsForBlockedCalendar/?doctorID=' + blockInfo.doctorToBlock.id +
+                '&startDate=' + blockInfo.blockDateStart + '&startTime=' + blockInfo.blockTimeStart +
+                '&endDate=' + blockInfo.blockDateEnd + '&endTime=' + blockInfo.blockTimeEnd)
+                .success(function (numberOfAffectedAppointments) {
+
+                    if (numberOfAffectedAppointments > 0) {
+                        $scope.showAffectedAppointmentsWarning = true;
+                    } else {
+                        $scope.showAffectedAppointmentsWarning = false;
+                    }
+                    $scope.numberOfAffectedAppointments = numberOfAffectedAppointments;
+                });
+        };
+        $scope.getAppointmentsAffectedByBlock();
+
+        /* function to close block form */
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
         /* function to post block time slot */
         $scope.postBlockTimeSlots = function (doctorId, startDate, startTime, endDate, endTime, remarks) {
 
@@ -1531,6 +1502,51 @@ appCalendar.controller('ModalInstanceCtrl',
             $scope.cancel();
         };
 
+        /* function to send email of list of affected appointments */
+        $scope.sendEmailOfAffectedAppointments = function (doctorId, startDate, startTime, endDate, endTime, emailAddress) {
+
+            var postObj = {
+                "emailAddress": emailAddress,
+                "doctorID": doctorId,
+                "startDate": startDate,
+                "startTime": startTime,
+                "endDate": endDate,
+                "endTime": endTime
+            };
+
+            if (emailAddress != undefined && emailAddress != "") {
+                $http.post('/Clearvision/_api/CheckApptsForBlockedCalendar/', postObj)
+                    .success(function () {
+                        // do nothing
+                    });
+            }
+        }
+
+    });
+
+
+/*******************************************************************************
+ controller for other block appointment form modals
+ *******************************************************************************/
+
+
+appCalendar.controller('BlockAppointmentModalCtrl',
+    function ($scope, $http, $modalInstance, $log, $filter, blockInfo, clearFormSvc, populateBlockedFormSvc,
+              showNotificationsSvc) {
+
+        $scope.blockDetails = blockInfo;
+
+        /* function to populate block form */
+        $scope.populateBlockForm = function (blockedAppt) {
+            populateBlockedFormSvc.populateBlockForm(blockedAppt);
+            $scope.cancel();
+        };
+
+        /* function to close block form */
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
         /* function to get a list of blocked appointments */
         $scope.getListOfBlockedAppointments = function () {
             $http.get('/Clearvision/_api/CalendarBlocker/?doctor=all')
@@ -1545,12 +1561,6 @@ appCalendar.controller('ModalInstanceCtrl',
                     });
 
                 });
-        };
-
-        /* function to populate block form */
-        $scope.populateBlockForm = function (blockedAppt) {
-            populateBlockedFormSvc.populateBlockForm(blockedAppt);
-            $scope.cancel();
         };
 
         /* function to update blocked time slots */
@@ -1588,7 +1598,6 @@ appCalendar.controller('ModalInstanceCtrl',
             $scope.cancel();
 
         };
-
 
         /* function to delete block time slot */
         $scope.deleteBlockTimeSlots = function () {
