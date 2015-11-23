@@ -1110,4 +1110,12 @@
         </button>
     </form>
 
+    <div ng-show="showRemoveApptTypeWarning">
+        <label>This Appointment Type cannot be deleted!</label>
+        <button class="btn-sm form-cancel-btn"
+                data-ng-click="appointmentTypeRemovePopover[removeApptIndex].removeApptTypePopover.close(removeApptIndex)">
+            Cancel
+        </button>
+    </div>
+
 </script>
