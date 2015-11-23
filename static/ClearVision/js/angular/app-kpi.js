@@ -146,7 +146,7 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
         "type": "preEvaluationCount",
         "count": 38,
         "sequence": 5
-    },{
+    }, {
         "monthLong": "Apr",
         "monthShort": 3,
         "year": 2015,
@@ -160,7 +160,7 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
         "type": "preEvaluationCount",
         "count": 23,
         "sequence": 4
-    },{
+    }, {
         "monthLong": "Mar",
         "monthShort": 2,
         "year": 2015,
@@ -174,7 +174,7 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
         "type": "preEvaluationCount",
         "count": 33,
         "sequence": 3
-    },{
+    }, {
         "monthLong": "Feb",
         "monthShort": 1,
         "year": 2015,
@@ -188,7 +188,7 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
         "type": "preEvaluationCount",
         "count": 25,
         "sequence": 2
-    },{
+    }, {
         "monthLong": "Jan",
         "monthShort": 0,
         "year": 2015,
@@ -202,7 +202,7 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
         "type": "preEvaluationCount",
         "count": 31,
         "sequence": 1
-    },{
+    }, {
         "monthLong": "Dec",
         "monthShort": 11,
         "year": 2014,
@@ -218,10 +218,37 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
         "sequence": 0
     }];
 
-    var monthList = ["Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
+    var monthList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var referenceMonthList = [];
 
-    /* function to show scatter plot, x-axis: month, y-axis: count */
-    showScatterPlot(conversionData);
+    /* function to get the conversion rate prediction */
+    $scope.getConversionRatePrediction = function () {
+
+        $http.get("http://127.0.0.1:8000/Clearvision/_api/ConversionRatePrediction/")
+            .success(function (conversionPredictionResults) {
+
+                var mth = conversionPredictionResults[0].monthLong;
+                var idx = monthList.indexOf(mth) + 1;
+
+                for (i = 0; i <= 12; i++) {
+                    var monthSeq = monthList[idx];
+                    referenceMonthList.push(monthSeq);
+                    idx++;
+
+                    if (idx == 12) {
+                        idx = 0;
+                    }
+                }
+
+                console.log(referenceMonthList);
+
+                /* function to show scatter plot, x-axis: month, y-axis: count */
+                showScatterPlot(conversionPredictionResults);
+            })
+
+    };
+    $scope.getConversionRatePrediction();
+
 
     function showScatterPlot(data) {
         // just to have some space around items.
@@ -283,7 +310,7 @@ appKPI.controller('KPICtrl', function ($scope, $http, $modal, $route) {
 
         // this is the actual definition of our x and y axes. The orientation refers to where the labels appear - for the x axis, below or above the line, and for the y axis, left or right of the line. Tick padding refers to how much space between the tick and the label.
         var xAxis = d3.svg.axis().scale(x).tickFormat(function (d) {
-            return monthList[d];
+            return referenceMonthList[d];
         }).orient("bottom").tickPadding(2);
         var yAxis = d3.svg.axis().scale(y).orient("left").tickPadding(2);
 
