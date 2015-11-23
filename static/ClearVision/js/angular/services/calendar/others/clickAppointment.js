@@ -158,8 +158,6 @@ angular.module('event.click', [])
             // populate the date field on selection of other heat map date time
             self.scope.fields.appointmentDate = new Date(appointment.date);
 
-            console.log(self.scope.fields.appointmentDate);
-
             var appointmentFullDateTime = appointment.start._i;
             var spaceIndex = appointmentFullDateTime.lastIndexOf(" ") + 1;
             var colonIndex = appointmentFullDateTime.lastIndexOf(":");

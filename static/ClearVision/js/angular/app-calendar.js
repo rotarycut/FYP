@@ -1032,35 +1032,35 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
     });
 
-    pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
+    /*pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
 
 
-        $log.debug("Receiving socket request to create appointment");
-        console.log(appointment);
+     $log.debug("Receiving socket request to create appointment");
+     console.log(appointment);
 
-        /*$scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-         $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-         $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-         $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-         $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-         $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-         $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-         $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
+     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
+     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
+     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
 
-         $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-         $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-         $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-         $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-         $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-         $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-         $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-         $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
+     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
+     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
+     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
+     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
+     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
+     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
+     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
+     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
 
-         $scope.getDrHoAppointments($scope.iSchedule);
-         $scope.getDrGohAppointments($scope.iSchedule);
-         $scope.getOptomAppointments($scope.iSchedule);*/
+     $scope.getDrHoAppointments($scope.iSchedule);
+     $scope.getDrGohAppointments($scope.iSchedule);
+     $scope.getOptomAppointments($scope.iSchedule);
 
-    });
+     });*/
 
     //console.log(Pusher.connection);
 
@@ -1173,9 +1173,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
 
                     return $scope.fields;
-                },
-                appointment: function () {
-                    return '';
                 }
             }
         });
@@ -1193,9 +1190,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             resolve: {
                 patientInfo: function () {
                     return $scope.fields;
-                },
-                appointment: function () {
-                    return '';
                 }
             }
         });
@@ -1254,9 +1248,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     }
 
                     return $scope.fields;
-                },
-                appointment: function () {
-                    return '';
                 }
             }
         });
@@ -1268,18 +1259,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'myBlockedAppointmentModalContent.html',
-            controller: 'BlockAppointmentModalCtrl',
+            controller: 'BlockAppointmentNotificationModalCtrl',
             size: size,
             resolve: {
-                blockInfo: function () {
-                    return "";
+                appointment: function () {
+                    return appointment;
                 }
             }
         });
     };
 
     /* function to open blocked confirmation modal */
-    $scope.openBlockedConfirmationModal = function (size, appointment) {
+    $scope.openBlockedConfirmationModal = function (size) {
 
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
@@ -1295,7 +1286,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to open update blocked time slots modal */
-    $scope.openUpdateBlockModal = function (size, appointment) {
+    $scope.openUpdateBlockModal = function (size) {
 
         var modalInstance = $modal.open({
             animation: $scope.animationsEnabled,
@@ -1394,7 +1385,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 appCalendar.controller('ModalInstanceCtrl',
     function ($scope, $http, $modalInstance, $log, $filter, patientInfo, appointment, postAppointmentSvc,
-              disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc, eventClickSvc) {
+              disableIScheduleSvc, deleteAppointmentSvc, updateAppointmentSvc) {
 
         $scope.patientDetails = patientInfo;
 
@@ -1430,12 +1421,6 @@ appCalendar.controller('ModalInstanceCtrl',
 
         $scope.activateModalButtons = function () {
             $scope.showModalButtons = true;
-        };
-
-        /* function to populate date time fields even thought heat map is blocked */
-        $scope.populateDateTimeFields = function (appointment) {
-            eventClickSvc.populateDateTimeFields(appointment);
-            $scope.cancel();
         };
 
     });
@@ -1521,6 +1506,30 @@ appCalendar.controller('BlockAppointmentConfirmationModalCtrl',
                     });
             }
         }
+
+    });
+
+
+/*******************************************************************************
+ controller for notification of blocked time slots on heat map
+ *******************************************************************************/
+
+
+appCalendar.controller('BlockAppointmentNotificationModalCtrl',
+    function ($scope, $http, $modalInstance, appointment, eventClickSvc) {
+
+        $scope.appointment = appointment;
+
+        /* function to close block form */
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        /* function to populate date time fields even thought heat map is blocked */
+        $scope.populateDateTimeFields = function (appointment) {
+            eventClickSvc.populateDateTimeFields(appointment);
+            $scope.cancel();
+        };
 
     });
 
