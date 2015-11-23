@@ -523,7 +523,7 @@
                     <div class="form-group col-sm-12 add-appt-formgrp form-animation">
                         <div class="checkbox" style="padding-left: 18px;">
                             <input type="checkbox" ng-model="blockFields.blockFullDayFlag"
-                                   ng-change="blockDay(blockFields.blockFullDayFlag)"><h5>Block entire day</h5>
+                                   ng-change="blockDay(blockFields.blockFullDayFlag)"><h5 style="margin-top: 8px">Block entire day</h5>
                         </div>
                     </div>
 
@@ -712,11 +712,9 @@
 
                 <div class="form-group col-sm-12 add-appt-formgrp">
                     <div class="row subcontent-row">
-                        <div class="col-sm-12">
-                            <a ng-href="#/" style="color: #49708A"
+                            <a ng-href="#/" class="suggest-time-badge"
                                ng-click="openBlockedTimeSlotListModal('lg')">
-                                <i class="fa fa-search-plus"></i> View appointments blocked</a>
-                        </div>
+                                <i class="fa fa-search-plus" style="font-size: 13pt;"></i> View appointments blocked</a>
                     </div>
                 </div>
             </div>
