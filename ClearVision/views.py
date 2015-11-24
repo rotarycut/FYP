@@ -240,6 +240,8 @@ class DoctorList(viewsets.ModelViewSet):
     filter_class = DoctorFilter
 
     def create(self, request, *args, **kwargs):
+        pusher.trigger('createdoctor', 'statusupdate', {'message': True})
+
         payload = request.data
 
         name = payload.get('name')
@@ -252,8 +254,6 @@ class DoctorList(viewsets.ModelViewSet):
 
         clinic = payload.get('clinic')
         apptType = payload.get('apptType')
-
-        pusher.trigger('createdoctor', 'statusupdate', {'message':'processing'})
 
         for eachClinic in clinic:
             doc.clinic.add(Clinic.objects.get(id=eachClinic))
@@ -291,7 +291,7 @@ class DoctorList(viewsets.ModelViewSet):
             command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
             os.system(command)
 
-        pusher.trigger('createdoctor', 'statusupdate', {'message':'processing complete'})
+        pusher.trigger('createdoctor', 'statusupdate', {'message': False})
         return Response('Doctor created successfully')
 
     def destroy(self, request, *args, **kwargs):
@@ -313,6 +313,7 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
 
     #Add Appt type to doctor, also create doctor timeslots in 1 single POST
     def create(self, request, *args, **kwargs):
+        pusher.trigger('freezeinstances', 'statusupdate', {'message': True})
         payload = request.data
 
         doctorID = payload.get('doctorID')
@@ -339,17 +340,17 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         fridayArray = payload.get('friday')
         saturdayArray = payload.get('saturday')
 
-        monday = ",".join(str(eachTimeSlot) for eachTimeSlot in mondayArray)
-        tuesday = ",".join(str(eachTimeSlot) for eachTimeSlot in tuesdayArray)
-        wednesday = ",".join(str(eachTimeSlot) for eachTimeSlot in wednesdayArray)
-        thursday = ",".join(str(eachTimeSlot) for eachTimeSlot in thursdayArray)
-        friday = ",".join(str(eachTimeSlot) for eachTimeSlot in fridayArray)
-        saturday = ",".join(str(eachTimeSlot) for eachTimeSlot in saturdayArray)
+        monday = ",".join(str(eachTimeSlot) for eachTimeSlot + ":00" in mondayArray)
+        tuesday = ",".join(str(eachTimeSlot) for eachTimeSlot + ":00" in tuesdayArray)
+        wednesday = ",".join(str(eachTimeSlot) for eachTimeSlot + ":00" in wednesdayArray)
+        thursday = ",".join(str(eachTimeSlot) for eachTimeSlot + ":00" in thursdayArray)
+        friday = ",".join(str(eachTimeSlot) for eachTimeSlot + ":00" in fridayArray)
+        saturday = ",".join(str(eachTimeSlot) for eachTimeSlot + ":00" in saturdayArray)
 
         DoctorDayTimeSlots.objects.create(doctor=hotshotdoctor, apptType=apptObj,
                                           monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
                                           friday=friday, saturday=saturday)
-
+        pusher.trigger('freezeinstances', 'statusupdate', {'message': False})
         return Response('Appointment type added successfully')
 
     def destroy(self, request, *args, **kwargs):
