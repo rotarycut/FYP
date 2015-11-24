@@ -144,29 +144,11 @@ app.config(function ($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 });
 
-/*app.config(['PusherServiceProvider', function (PusherServiceProvider) {
+/* main method of angular app, runs when app starts */
+app.run(function ($rootScope, getSwapApptsSvc) {
 
-    //console.log(PusherServiceProvider);
-    PusherServiceProvider
-        .setToken('6cb577c1e7b97150346b')
-        .setOptions({});
-}]);*/
+    getSwapApptsSvc.getNumberOfSwappableAppointments();
 
-app.run(function ($rootScope) {
     var date = new Date();
     $rootScope.month = date.getMonth() + 1;
 });
-
-
-//angular.module('calendarDemoApp').run(run);
-//run.$inject = ['$rootScope'];
-
-//function run($rootScope) {
-//    $rootScope.spinner = {active: true};
-//}
-
-
-//remove ng-scope and ng-bining class from html
-/*app.config(['$compileProvider', function ($compileProvider) {
- $compileProvider.debugInfoEnabled(false);
- }]);*/

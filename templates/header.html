@@ -12,14 +12,14 @@
             </button>
             <a class="navbar-brand" ng-href="#/"><img id="navbar-logo" class="img-responsive"></a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse" ng-init="getNumberOfSwappableAppointments()">
+        <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav" id="topmenu">
                 <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
                         class="fa fa-calendar"></i> Calendar</a></li>
                 <!--<li class="active"><a href="#">Home</a></li>-->
                 <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#" ng-href="#/waitlist"><i
                         class="fa fa-exchange"></i> Swap List <span
-                        class="badge notification-badge-green">[[noOfSwappableAppts]]
+                        class="badge notification-badge-green">[[getNumberOfSwappableAppointments]]
                     </span></a></li>
                 <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
                 <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/conversion"><i
@@ -42,7 +42,8 @@
                 <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i
                         class="fa fa-user-times"></i> Manage Q</a></li>
 
-                <li ng-class="{active: $route.current.activetab == 'adminconfig'}"><a href="#" ng-href="#/adminconfig"><i
+                <li ng-class="{active: $route.current.activetab == 'adminconfig'}"><a href="#"
+                                                                                      ng-href="#/adminconfig"><i
                         class="fa fa-gears"></i> Settings</a></li>
                 <!-- <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

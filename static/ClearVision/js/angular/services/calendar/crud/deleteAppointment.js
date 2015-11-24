@@ -1,6 +1,6 @@
 angular.module('delete.appointment', [])
     .service('deleteAppointmentSvc', function ($http, $log, $rootScope, hideFormSvc, getNotificationsSvc,
-                                               showNotificationsSvc) {
+                                               showNotificationsSvc, getSwapApptsSvc) {
 
         var self = this;
         self.scope = {};
@@ -40,6 +40,9 @@ angular.module('delete.appointment', [])
 
                     // change view back to month view, this will retrieve the doctor appointments
                     self.scope.changeView('month', self.scope.chosenDoctor.changeCalendar);
+
+                    // get number of swappable appointments
+                    getSwapApptsSvc.getNumberOfSwappableAppointments();
 
 
                     // find out if there will be any patients left after the deletion

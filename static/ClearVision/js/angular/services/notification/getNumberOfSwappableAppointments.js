@@ -1,24 +1,20 @@
 angular.module('get.swappableAppointments', [])
-    .service('getSwapApptsSvc', function ($http) {
+    .service('getSwapApptsSvc', function ($http, $rootScope) {
 
         var self = this;
-        self.scope = {};
-
-        self.getScope = function (scope) {
-            self.scope = scope;
-        };
 
         self.getNumberOfSwappableAppointments = function () {
 
             $http.get('/Clearvision/_api/ViewSwappableNumber/')
-                .success(function (data) {
-                    self.scope.noOfSwappableAppts = data;
+                .success(function (numberOfSwappableAppointments) {
 
-                    console.log(data);
+                    $rootScope.getNumberOfSwappableAppointments = numberOfSwappableAppointments;
+
                 })
                 .error(function (data) {
 
                 });
+
         };
 
     });

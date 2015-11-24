@@ -8,9 +8,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
-                                                 populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher,
+                                                 populateBlockedFormSvc, $rootScope, $filter, $pusher,
                                                  getAppointmentTypesColorService, suggestedAppointmentsSvc,
-                                                 showNotificationsSvc) {
+                                                 showNotificationsSvc, getSwapApptsSvc) {
 
     var client = new Pusher('6cb577c1e7b97150346b');
     var pusher = $pusher(client);
@@ -1138,6 +1138,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
 
             $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+
+            // get number of swappable appointments
+            getSwapApptsSvc.getNumberOfSwappableAppointments();
 
             $timeout(function () {
                 showNotificationsSvc.notifySuccessTemplate('Calendar appointments synced successfully');

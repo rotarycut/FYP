@@ -1,132 +1,124 @@
 var appWaitingList = angular.module('app.waitingList', []);
 
-appWaitingList.controller('waitListCtrl', function ($scope, $http, $timeout, $interval, $log, updateNotificationCountSvc, getNotificationsSvc, $route, getSwapApptsSvc, showNotificationsSvc) {
+appWaitingList.controller('waitListCtrl',
+    function ($scope, $http, $timeout, $interval, $log, $route, updateNotificationCountSvc, getNotificationsSvc,
+              showNotificationsSvc, getSwapApptsSvc, showNotificationsSvc) {
 
-    $scope.$route = $route;
-    updateNotificationCountSvc.getScope($scope);
-    getNotificationsSvc.getScope($scope);
-    getSwapApptsSvc.getScope($scope);
+        $scope.$route = $route;
+        updateNotificationCountSvc.getScope($scope);
+        getNotificationsSvc.getScope($scope);
 
-    $scope.getWaitListAppointments = function () {
+        $scope.getWaitListAppointments = function () {
 
-        $scope.listOfWaitingAppointments = [];
-        $http.get('/Clearvision/_api/ViewSwapperTable/')
-            .success(function (listOfAppointments) {
-                angular.forEach(listOfAppointments, function (appointment) {
-                    $scope.listOfWaitingAppointments.push(appointment);
+            $scope.listOfWaitingAppointments = [];
+            $http.get('/Clearvision/_api/ViewSwapperTable/')
+                .success(function (listOfAppointments) {
+                    angular.forEach(listOfAppointments, function (appointment) {
+                        $scope.listOfWaitingAppointments.push(appointment);
+                    });
+                    getSwapApptsSvc.getNumberOfSwappableAppointments();
                 })
-            })
-    };
-
-    $scope.swapAppointment = function (indexInWaitList) {
-        $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
-
-        var scheduledApptId = $scope.waitListAppointment.scheduledAppt_id;
-        var tempApptId = $scope.waitListAppointment.tempAppt_id;
-        var patientId = $scope.waitListAppointment.patient_id;
-
-        var json = {
-            "scheduledApptId": scheduledApptId,
-            "tempApptId": tempApptId,
-            "patientId": patientId
         };
 
-        $http.post('/Clearvision/_api/Swapper/', json)
-            .success(function (listOfAppointments) {
-                $scope.listOfWaitingAppointments.splice(0);
-                $scope.getWaitListAppointments();
-            });
+        $scope.swapAppointment = function (indexInWaitList) {
+            $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
 
-    };
+            var scheduledApptId = $scope.waitListAppointment.scheduledAppt_id;
+            var tempApptId = $scope.waitListAppointment.tempAppt_id;
+            var patientId = $scope.waitListAppointment.patient_id;
 
-    $scope.sendSms = function (indexInWaitList) {
-        $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
+            var json = {
+                "scheduledApptId": scheduledApptId,
+                "tempApptId": tempApptId,
+                "patientId": patientId
+            };
 
-        var waitStartTime = $scope.waitListAppointment.tempAppt__timeBucket__start;
-        var scheduleStartTime = $scope.waitListAppointment.scheduledAppt__timeBucket__start;
-        var scheduleStartDate = $scope.waitListAppointment.scheduledAppt__timeBucket__date;
-        var patientName = $scope.waitListAppointment.patient__name;
-        var waitStartDate = $scope.waitListAppointment.tempAppt__timeBucket__date;
-        var patientContact = $scope.waitListAppointment.patient__contact;
-        var apptType = $scope.waitListAppointment.scheduledAppt__apptType;
-        var id = $scope.waitListAppointment.id;
-
-        var json = {
-            "tempAppt__timeBucket__start": waitStartTime,
-            "scheduledAppt__timeBucket__start": scheduleStartTime,
-            "scheduledAppt__timeBucket__date": scheduleStartDate,
-            "patient__name": patientName,
-            "tempAppt__timeBucket__date": waitStartDate,
-            "patient__contact": patientContact,
-            "scheduledAppt__apptType": apptType,
-            "swapperID": id
+            $http.post('/Clearvision/_api/Swapper/', json)
+                .success(function (listOfAppointments) {
+                    $scope.listOfWaitingAppointments.splice(0);
+                    $scope.getWaitListAppointments();
+                    getSwapApptsSvc.getNumberOfSwappableAppointments();
+                    showNotificationsSvc.notifySuccessTemplate('Appointment swapped successfully');
+                });
         };
 
-        console.log(json);
+        $scope.sendSms = function (indexInWaitList) {
+            $scope.waitListAppointment = $scope.listOfWaitingAppointments[indexInWaitList];
 
-        $http.post('/Clearvision/_api/ViewSwapperTable/', json)
-            .success(function (listOfAppointments) {
+            var waitStartTime = $scope.waitListAppointment.tempAppt__timeBucket__start;
+            var scheduleStartTime = $scope.waitListAppointment.scheduledAppt__timeBucket__start;
+            var scheduleStartDate = $scope.waitListAppointment.scheduledAppt__timeBucket__date;
+            var patientName = $scope.waitListAppointment.patient__name;
+            var waitStartDate = $scope.waitListAppointment.tempAppt__timeBucket__date;
+            var patientContact = $scope.waitListAppointment.patient__contact;
+            var apptType = $scope.waitListAppointment.scheduledAppt__apptType;
+            var id = $scope.waitListAppointment.id;
 
-                console.log("Swapped successfully");
-                console.log(listOfAppointments);
-                //Post is successful
+            var json = {
+                "tempAppt__timeBucket__start": waitStartTime,
+                "scheduledAppt__timeBucket__start": scheduleStartTime,
+                "scheduledAppt__timeBucket__date": scheduleStartDate,
+                "patient__name": patientName,
+                "tempAppt__timeBucket__date": waitStartDate,
+                "patient__contact": patientContact,
+                "scheduledAppt__apptType": apptType,
+                "swapperID": id
+            };
 
-                $scope.listOfWaitingAppointments.splice(0);
-                $scope.getWaitListAppointments();
-                showNotificationsSvc.notifySuccessTemplate('SMS sent successfully');
-            })
-    };
+            $http.post('/Clearvision/_api/ViewSwapperTable/', json)
+                .success(function (listOfAppointments) {
 
-    $scope.deleteWaitList = function (swapperId) {
-        var req = {
-            method: 'POST',
-            url: '/Clearvision/_api/EditSwapperTable/',
-            headers: {'Content-Type': 'application/json'},
-            data: {
-                "swapperId": swapperId
-            }
+                    console.log("Swapped successfully");
+                    console.log(listOfAppointments);
+                    //Post is successful
+
+                    $scope.listOfWaitingAppointments.splice(0);
+                    $scope.getWaitListAppointments();
+                    showNotificationsSvc.notifySuccessTemplate('SMS sent successfully');
+                })
         };
 
-        $http(req)
-            .success(function (data) {
+        $scope.deleteWaitList = function (swapperId) {
+            var req = {
+                method: 'POST',
+                url: '/Clearvision/_api/EditSwapperTable/',
+                headers: {'Content-Type': 'application/json'},
+                data: {
+                    "swapperId": swapperId
+                }
+            };
 
-                // there are still patients in the appointment after the deletion
-                $log.info("Successfully deleted wait list appointment");
+            $http(req)
+                .success(function (data) {
 
-                // reloads wait list appointments
-                $scope.listOfWaitingAppointments.splice(0);
-                $scope.getWaitListAppointments();
+                    // there are still patients in the appointment after the deletion
+                    showNotificationsSvc.notifySuccessTemplate('Wait list appointment deleted successfully');
 
-            });
-    };
+                    // reloads wait list appointments
+                    $scope.listOfWaitingAppointments.splice(0);
+                    $scope.getWaitListAppointments();
 
-    $scope.getNotifications = function () {
-        getNotificationsSvc.getNotifications();
-    };
+                });
+        };
 
-    $scope.updateCount = function () {
-        updateNotificationCountSvc.updateCount();
-    };
+        $scope.getNotifications = function () {
+            getNotificationsSvc.getNotifications();
+        };
 
-    $scope.haveNotification = false;
+        $scope.updateCount = function () {
+            updateNotificationCountSvc.updateCount();
+        };
 
-    $scope.lastThreeSeconds = function () {
-        $scope.highlight = true;
+        $scope.haveNotification = false;
 
-        $timeout(function () {
-            $scope.highlight = false;
-        }, 3000);
-    };
+        $scope.lastThreeSeconds = function () {
+            $scope.highlight = true;
 
-    $scope.lastThreeSeconds();
+            $timeout(function () {
+                $scope.highlight = false;
+            }, 3000);
+        };
 
-    /* function to show number of appointments that can be swapped */
-    $scope.getNumberOfSwappableAppointments = function () {
-        getSwapApptsSvc.getNumberOfSwappableAppointments();
-    };
+        $scope.lastThreeSeconds();
 
-    /*$interval(function () {
-     $scope.getNotifications();
-     }, 5000);*/
-
-});
+    });
