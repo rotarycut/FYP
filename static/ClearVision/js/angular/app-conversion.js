@@ -349,115 +349,12 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
                 axes: {
                     'rate': 'y2'
                 },
-                type: 'bar',
-                onclick: function (d, element) {
-
-                    var channelObject = $scope.newMonthData[d.x];
-                    var date = new Date();
-                    var firstDay = new Date(2015, $scope.currentChartMonth - 1, 1).getDate();
-                    var lastDay = new Date(2015, $scope.currentChartMonth, 0).getDate();
-                    var startDate = '2015-' + $scope.currentChartMonth + '-' + firstDay;
-                    var endDate = '2015-' + $scope.currentChartMonth + '-' + lastDay;
-
-                    var url = '/Clearvision/_api/analyticsServer/?filterFlag=True&channels=' + channelObject.channelname + '&startDate=' + startDate + '&endDate=' + endDate + '&timelineFlag=True&sortValue=Leads';
-
-                    $http.get(url)
-                        .success(function (data) {
-                            $scope.showTimelineChart(data, [channelObject.channelname]);
-                        });
-
-                    /*switch (d.x) {
-                     case 0:
-                     $scope.showRoiChart(
-                     [
-                     {
-                     "channelname": "Channel News Asia",
-                     "marketingDollar": 8100,
-                     "revenueDollar": 15552,
-                     "roi": 1.92
-                     }
-                     ]
-                     );
-                     break;
-
-                     case 1:
-                     $scope.showRoiChart(
-                     [
-                     {
-                     "channelname": "Referred by Doctor",
-                     "marketingDollar": 2500,
-                     "revenueDollar": 19440,
-                     "roi": 7.62
-                     }
-                     ]
-                     );
-                     break;
-
-                     case 2:
-                     $scope.showRoiChart(
-                     [
-                     {
-                     "channelname": "Andrea Chong Blog",
-                     "marketingDollar": 1000,
-                     "revenueDollar": 19440,
-                     "roi": 19.44
-                     }
-                     ]
-                     );
-                     break;
-
-                     case 3:
-                     $scope.showRoiChart(
-                     [
-                     {
-                     "channelname": "ST Ads",
-                     "marketingDollar": 9500,
-                     "revenueDollar": 19440,
-                     "roi": 2.04
-                     }
-                     ]
-                     );
-                     break;
-
-                     case 4:
-                     $scope.showRoiChart(
-                     [
-                     {
-                     "channelname": "Others",
-                     "marketingDollar": 12000,
-                     "revenueDollar": 34992,
-                     "roi": 2.92
-                     }
-                     ]
-                     );
-                     break;
-
-                     case 5:
-                     $scope.showRoiChart(
-                     [
-                     {
-                     "channelname": "987 Radio",
-                     "marketingDollar": 21500,
-                     "revenueDollar": 19440,
-                     "roi": 0.90
-                     }
-                     ]
-                     );
-                     break;
-                     }*/
-
-                }
-
+                type: 'bar'
             },
             zoom: {
                 enabled: true
             }
         });
-
-        setTimeout(function () {
-            //$scope.marketingChart.toggle('convert');
-            //$scope.marketingChart.toggle('rate');
-        }, 50);
 
     };
 
@@ -468,6 +365,7 @@ appConversion.controller('ConversionCtrl', function ($scope, $http, $modal, $rou
 
 
     $scope.showTimelineChart = function (newData, marketingDateSeries) {
+
         $scope.marketingTimeChart = c3.generate({
             bindto: '#timeChart',
             padding: {

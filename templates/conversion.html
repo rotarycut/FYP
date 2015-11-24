@@ -21,6 +21,7 @@
                             <div class="col-md-3">
                                 <div class="row" style="padding-left: 5%">
                                     <label class="label-color">Start Date:</label>
+
                                     <p class="input-group">
                                         <input type="text"
                                                class="form-control date-input-field"
@@ -46,6 +47,7 @@
                                 </div>
                                 <div class="row" style="padding-left: 5%">
                                     <label class="label-color" style="margin-top: 3px">End Date:</label>
+
                                     <p class="input-group date-input-field">
                                         <input type="text"
                                                class="form-control date-input-field"
@@ -143,7 +145,7 @@
                 </div>
                 <div class="row chart-content-row">
                     <div class="col-md-11">
-                        <div id="mktgBarCharts" ng-init="showMarketingChart([]); initializeChart();"></div>
+                        <div id="mktgBarCharts" ng-init="initializeChart();"></div>
                     </div>
                 </div>
             </div>
@@ -170,7 +172,7 @@
                 </div>
                 <div class="row chart-content-row">
                     <div class="col-md-11" ng-show="showLeadChart">
-                        <div id="timeChart" ng-init="showTimelineChart([])"></div>
+                        <div id="timeChart"></div>
                     </div>
                 </div>
             </div>
