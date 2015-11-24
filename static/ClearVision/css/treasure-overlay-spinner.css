@@ -69,10 +69,10 @@
     border-right-color: transparent;
     border-radius: 50%;
     display: inline-block;
-    border-top: 5px solid rgba(0, 0, 0, 0.25);
-    border-right: 5px solid rgba(0, 0, 0, .75);
-    border-bottom: 5px solid rgba(0, 0, 0, .75);
-    border-left: 5px solid rgba(0, 0, 0, .75);
+    border-top: 5px solid rgba(73, 112, 138, 0.25);
+    border-right: 5px solid rgba(73, 112, 138, 0.9);
+    border-bottom: 5px solid rgba(73, 112, 138, 0.9);
+    border-left: 5px solid rgba(73, 112, 138, 0.9);
 }
 
 .treasure-overlay-spinner-active .treasure-overlay-spinner,

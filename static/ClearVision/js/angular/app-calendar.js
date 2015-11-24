@@ -9,7 +9,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
                                                  populateBlockedFormSvc, getSwapApptsSvc, $rootScope, $filter, $pusher,
-                                                 getAppointmentTypesColorService, suggestedAppointmentsSvc) {
+                                                 getAppointmentTypesColorService, suggestedAppointmentsSvc,
+                                                 showNotificationsSvc) {
 
     var client = new Pusher('6cb577c1e7b97150346b');
     var pusher = $pusher(client);
@@ -1050,6 +1051,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
 
+            $timeout(function () {
+                showNotificationsSvc.notifySuccessTemplate('Calendar appointments synced successfully');
+            }, 2000);
+
         } else {
 
             // do nothing
@@ -1090,6 +1095,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
             $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
 
+            $timeout(function () {
+                showNotificationsSvc.notifySuccessTemplate('Calendar appointments synced successfully');
+            }, 2000);
+
         } else {
 
             // do nothing
@@ -1129,6 +1138,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
 
             $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+
+            $timeout(function () {
+                showNotificationsSvc.notifySuccessTemplate('Calendar appointments synced successfully');
+            }, 2000);
 
         } else {
 
