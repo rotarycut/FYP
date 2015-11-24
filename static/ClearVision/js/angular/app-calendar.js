@@ -8,16 +8,9 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                                                  filterAppointmentSvc, $interval, populatePatientsSvc, $log,
                                                  getApptTimingsSvc, showFormSvc, searchAppointmentsSvc, checkExistingPatientSvc,
                                                  changeCalendarSvc, getMarketingChannelsSvc, $route, postBlockerSvc,
-                                                 populateBlockedFormSvc, $rootScope, $filter, $pusher,
+                                                 populateBlockedFormSvc, $rootScope, $filter,
                                                  getAppointmentTypesColorService, suggestedAppointmentsSvc,
                                                  showNotificationsSvc, getSwapApptsSvc) {
-
-    var client = new Pusher('6cb577c1e7b97150346b');
-    var pusher = $pusher(client);
-
-    $timeout(function () {
-        $scope.socketId = pusher.connection.baseConnection.socket_id;
-    }, 5000);
 
     $scope.$route = $route;
     var date = new Date();
@@ -1026,7 +1019,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    var create_channel = pusher.subscribe('appointmentsCUD');
+    var create_channel = $rootScope.pusher.subscribe('appointmentsCUD');
 
     create_channel.bind('createAppt', function (appointment) {
 
@@ -1070,7 +1063,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    var update_channel = pusher.subscribe('appointmentsCUD');
+    var update_channel = $rootScope.pusher.subscribe('appointmentsCUD');
 
     update_channel.bind('updateAppt', function (appointment) {
 
@@ -1114,7 +1107,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
 
-    var delete_channel = pusher.subscribe('appointmentsCUD')
+    var delete_channel = $rootScope.pusher.subscribe('appointmentsCUD');
 
     delete_channel.bind('deleteAppt', function (appointment) {
 
@@ -1154,120 +1147,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $log.debug("Receiving socket request to delete appointment");
 
     });
-
-    /*pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
-
-
-     $log.debug("Receiving socket request to create appointment");
-     console.log(appointment);
-
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
-
-     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
-
-     $scope.getDrHoAppointments($scope.iSchedule);
-     $scope.getDrGohAppointments($scope.iSchedule);
-     $scope.getOptomAppointments($scope.iSchedule);
-
-     });*/
-
-    //console.log(Pusher.connection);
-
-    //console.log(channel);
-    //console.log(channel.$$state);
-
-    /*console.log(Pusher.connectionState());
-
-     var channel2 = Pusher.subscribe('appointmentsCUD', 'updateAppt', function (appointment) {
-
-     $timeout(function () {
-
-     $log.debug("Receiving socket request to update appointment");
-
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
-
-     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
-
-     $scope.getDrHoAppointments($scope.iSchedule);
-     $scope.getDrGohAppointments($scope.iSchedule);
-     $scope.getOptomAppointments($scope.iSchedule);
-
-     $timeout(function () {
-     getSwapApptsSvc.getNumberOfSwappableAppointments();
-     }, 2000);
-
-     }, 3500);
-
-     });
-
-     //console.log(channel2);
-
-     /*
-     Pusher.subscribe('appointmentsCUD', 'deleteAppt', function (appointment) {
-
-     $timeout(function () {
-
-     $log.debug("Receiving socket request to delete appointment");
-
-     // heat map is disabled when socket sends in some data
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPreEvaluations);
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoSurgeries);
-     $scope.removeEventSource($scope.doctorHoAppointments, $scope.drHoPostSurgeries);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPreEvaluations);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohSurgeries);
-     $scope.removeEventSource($scope.doctorGohAppointments, $scope.drGohPostSurgeries);
-     $scope.removeEventSource($scope.optomAppointments, $scope.optomScreenings);
-     $scope.removeEventSource($scope.optomAppointments, $scope.optomEyeCare);
-
-     $scope.drHoPreEvaluations.events.splice(0, $scope.drHoPreEvaluations.events.length);
-     $scope.drHoSurgeries.events.splice(0, $scope.drHoSurgeries.events.length);
-     $scope.drHoPostSurgeries.events.splice(0, $scope.drHoPostSurgeries.events.length);
-     $scope.drGohPreEvaluations.events.splice(0, $scope.drGohPreEvaluations.events.length);
-     $scope.drGohSurgeries.events.splice(0, $scope.drGohSurgeries.events.length);
-     $scope.drGohPostSurgeries.events.splice(0, $scope.drGohPostSurgeries.events.length);
-     $scope.optomScreenings.events.splice(0, $scope.optomScreenings.events.length);
-     $scope.optomEyeCare.events.splice(0, $scope.optomEyeCare.events.length);
-
-     $scope.getDrHoAppointments($scope.iSchedule);
-     $scope.getDrGohAppointments($scope.iSchedule);
-     $scope.getOptomAppointments($scope.iSchedule);
-
-     $timeout(function () {
-     getSwapApptsSvc.getNumberOfSwappableAppointments();
-     }, 2000);
-
-
-     }, 3500);
-
-     });*/
 
 
     /*******************************************************************************

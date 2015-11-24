@@ -35,7 +35,7 @@ angular.module('update.appointment', [])
                 "remarks": self.scope.fields.appointmentRemarks,
                 "patientName": self.scope.fields.patientName,
                 "patientContact": self.scope.fields.patientContact,
-                "socketId": self.scope.socketId,
+                "socketId": $rootScope.socketId,
                 "smsOptOut": self.scope.fields.smsOptOut
             };
 
