@@ -1960,8 +1960,6 @@ appConfig.controller('CreateDoctorModalCtrl',
 
         $scope.createNewDoctor = function (doctorName, doctorContact) {
 
-            $rootScope.spinner = {active: true};
-
             var req = {
                 method: 'POST',
                 url: '/Clearvision/_api/doctors/',
@@ -1977,8 +1975,6 @@ appConfig.controller('CreateDoctorModalCtrl',
 
             $http(req)
                 .success(function () {
-
-                    $rootScope.spinner = {active: false};
                     showNotificationsSvc.notifySuccessTemplate('Doctor created successfully');
                     $scope.cancel();
 
@@ -1994,51 +1990,6 @@ appConfig.controller('CreateDoctorModalCtrl',
         };
 
         /*******************************************************************************
-         pusher for create doctor
-         *******************************************************************************/
-
-        var delete_channel = pusher.subscribe('appointmentsCUD');
-
-        delete_channel.bind('deleteAppt', function (appointment) {
-
-            // parse the patient appointment json string to an object
-            var appointment = JSON.parse(appointment.message);
-
-            // check if the doctor of the deleted appointment matches the view
-            var doctorId = appointment.doctor.id;
-
-            if (doctorId == $scope.chosenDoctor.doctorId && !$scope.iSchedule) {
-
-                $rootScope.spinner = {active: true};
-
-                var doctorCalendar = '#' + $scope.allDoctorsVariables[$scope.chosenDoctor.calendarTag].calendar;
-
-                var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
-                var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
-                calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
-
-                var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
-                var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
-
-                $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
-
-                // get number of swappable appointments
-                getSwapApptsSvc.getNumberOfSwappableAppointments();
-
-                $timeout(function () {
-                    showNotificationsSvc.notifySuccessTemplate('Calendar appointments synced successfully');
-                }, 2000);
-
-            } else {
-
-                // do nothing
-            }
-
-            $log.debug("Receiving socket request to delete appointment");
-
-        });
-
-        /*******************************************************************************
          function to close modal
          *******************************************************************************/
 
@@ -2046,16 +1997,13 @@ appConfig.controller('CreateDoctorModalCtrl',
             $modalInstance.dismiss('cancel');
         };
 
-
         $scope.test = function (checked) {
             console.log(checked);
             console.log($scope.listOfWorkingDays);
             console.log($scope.isWorkingDayChecked);
         };
 
-
         //$scope.listOfAvailableSlots = appointmentsTime;
-
 
         $scope.stepOneBtnGrp = true;
         $scope.newTypeInfoVisible = true;
@@ -2111,7 +2059,6 @@ appConfig.controller('CreateDoctorModalCtrl',
             $scope.assignTypeStepOneBtnGrp = true;
             $scope.assignTypeStepSubmitBtnGrp = false;
         };
-
 
     }
 );

@@ -145,7 +145,7 @@ app.config(function ($interpolateProvider) {
 });
 
 /* main method of angular app, runs when app starts */
-app.run(function ($rootScope, $timeout, $pusher, getSwapApptsSvc) {
+app.run(function ($rootScope, $timeout, $pusher, $log, getSwapApptsSvc) {
 
     // get number of swappable appointments
     getSwapApptsSvc.getNumberOfSwappableAppointments();
@@ -161,4 +161,20 @@ app.run(function ($rootScope, $timeout, $pusher, getSwapApptsSvc) {
     // get current date
     var date = new Date();
     $rootScope.month = date.getMonth() + 1;
+
+    // pusher for create doctor
+    var createDoctorChannel = $rootScope.pusher.subscribe('freezeinstances');
+
+    createDoctorChannel.bind('statusupdate', function (response) {
+
+        if (response.message == true) {
+            $rootScope.spinner = {active: true};
+
+        } else if (response.message == false) {
+            $rootScope.spinner = {active: false};
+        }
+
+        $log.debug("Receiving socket request to create doctor");
+    });
+
 });
