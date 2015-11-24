@@ -240,7 +240,7 @@ class DoctorList(viewsets.ModelViewSet):
     filter_class = DoctorFilter
 
     def create(self, request, *args, **kwargs):
-        pusher.trigger('createdoctor', 'statusupdate', {'message': True})
+        pusher.trigger('freezeinstances', 'statusupdate', {'message': True})
 
         payload = request.data
 
@@ -291,7 +291,7 @@ class DoctorList(viewsets.ModelViewSet):
             command = "python manage.py loaddata NewDoctorAvailableTimeSlotsDump"
             os.system(command)
 
-        pusher.trigger('createdoctor', 'statusupdate', {'message': False})
+        pusher.trigger('freezeinstances', 'statusupdate', {'message': False})
         return Response('Doctor created successfully')
 
     def destroy(self, request, *args, **kwargs):
