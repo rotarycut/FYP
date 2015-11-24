@@ -29,6 +29,11 @@
     font-weight: normal;
 }
 
+.colon-label{
+    width: 30px;
+    font-weight: normal;
+}
+
 .modal-title {
     border-left: 12px solid #D5E5E9;
     text-indent: 1em;

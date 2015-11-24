@@ -728,23 +728,23 @@
 <div class="clearfix"></div>
 
 <script type="text/ng-template" id="myCreateModalContent.html">
-    <div class="modal-header">
+    <div class="modal-header" style="height: 60px">
         <h3 class="modal-title">Confirm creation of appointment?</h3>
     </div>
 
     <div class="modal-body">
-        <ul>
-            <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
-            <li>Contact No: [[patientDetails.patientContact]]</li>
-            <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
-            <li>Time: [[patientDetails.appointmentTime]]</li>
-            <li ng-show="patientDetails.hasWaitList">Waiting List Date: [[patientDetails.waitingDate]]</li>
-            <li ng-show="patientDetails.hasWaitList">Waiting List Time: [[patientDetails.waitingTime]]</li>
-            <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
-            <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            <li>SMS Opt Out: [[patientDetails.smsOptOut]]</li>
+        <ul style="list-style: none">
+            <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.appointmentType.name]]</li>
+            <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.patientContact]]</li>
+            <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.patientName]]</li>
+            <li><label class="modal-label">Date </label><label class="colon-label">: </label>[[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
+            <li><label class="modal-label">Time </label><label class="colon-label"> :</label> [[patientDetails.appointmentTime]]</li>
+            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Date</label><label class="colon-label">:</label> [[patientDetails.waitingDate]]</li>
+            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Time</label><label class="colon-label">:</label>[[patientDetails.waitingTime]]</li>
+            <li><label class="modal-label">Doctor </label><label class="colon-label">:</label> [[patientDetails.doctorAssigned.name]]</li>
+            <li><label class="modal-label">Marketing Channel </label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
+            <li><label class="modal-label">Remarks </label><label class="colon-label">:</label> [[patientDetails.appointmentRemarks]]</li>
+            <li><label class="modal-label">SMS Opt Out </label><label class="colon-label">:</label> [[patientDetails.smsOptOut]]</li>
         </ul>
     </div>
 
