@@ -13,7 +13,7 @@ app.service('enableIScheduleSvc', function ($rootScope, suggestedAppointmentsSvc
      function to enable iSchedule
      *******************************************************************************/
 
-    self.enableISchedule = function () {
+    self.enableISchedule = function (fromChangeCalendar) {
 
         // do not enable iSchedule until both appointment type and doctor are selected
         if (self.scope.fields.appointmentType == undefined || self.scope.fields.doctorAssigned == undefined) {
@@ -37,7 +37,7 @@ app.service('enableIScheduleSvc', function ($rootScope, suggestedAppointmentsSvc
             // check if iSchedule is already enabled
             if (!self.scope.iSchedule) {
 
-                // iSchedule is not previously enabled
+                // iSchedule is not previously enabled, this must be set before you change the calendar view and the track calendar method runs
                 self.scope.showHeatMap = true;
                 self.scope.iSchedule = true;
 
@@ -47,12 +47,14 @@ app.service('enableIScheduleSvc', function ($rootScope, suggestedAppointmentsSvc
                 // navigate the calendar to current date only if current view is before current date once heat map is enabled
                 this.shiftIfPastDate();
 
-                // remove appointments from doctor source
-                self.scope.removeFromDoctorSource(
-                    self.scope.chosenDoctor.doctorAppointmentSource,
-                    self.scope.chosenDoctor.appointmentTypeSourceArray,
-                    true
-                );
+                // remove appointments from doctor source, if from change calendar method, doctor would already have been removed
+                if (!fromChangeCalendar) {
+                    self.scope.removeFromDoctorSource(
+                        self.scope.chosenDoctor.doctorAppointmentSource,
+                        self.scope.chosenDoctor.appointmentTypeSourceArray,
+                        true
+                    );
+                }
 
                 // get heat map for chosen appointment type and doctor
                 self.scope.getHeatMap(self.scope.fields.appointmentType.name, self.scope.fields.doctorAssigned.id);

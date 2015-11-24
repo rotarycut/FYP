@@ -67,7 +67,7 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
         /* function to get the conversion rate prediction */
         $scope.getConversionRatePrediction = function () {
 
-            $http.get("http://127.0.0.1:8000/Clearvision/_api/ConversionRatePrediction/")
+            $http.get("/Clearvision/_api/ConversionRatePrediction/")
                 .success(function (conversionPredictionResults) {
 
                     var mth = conversionPredictionResults[0].monthLong;

@@ -325,6 +325,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                 var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
 
                 if ($scope.iSchedule) {
+                    $log.error("CANT TRACK");
 
                 } else {
                     $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
@@ -408,6 +409,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         // currentView : 'agendaWeek'
         // startDate : '2015-10-01'
         // endDate : '2015-10-31'
+
+        $log.debug("TRACKING");
 
         $timeout(function () {
             $scope.removeFromDoctorSource(
@@ -696,8 +699,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /* function to enable iSchedule */
-    $scope.enableISchedule = function () {
-        enableIScheduleSvc.enableISchedule();
+    $scope.enableISchedule = function (fromChangeCalendar) {
+        enableIScheduleSvc.enableISchedule(fromChangeCalendar);
     };
 
     /* function to filter by appointment types */
@@ -882,8 +885,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     /* function to validate create appointment */
     $scope.isFormValid = function (isValid) {
 
-        console.log($scope.fields.appointmentDate);
-
         if (isValid) {
             $scope.openCreateModal('lg');
         } else {
@@ -1020,20 +1021,54 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     /*******************************************************************************
-     pusher
+     pusher for create appointment
      *******************************************************************************/
 
 
     var create_channel = pusher.subscribe('appointmentsCUD');
+
     create_channel.bind('createAppt', function (appointment) {
 
+        // parse the patient appointment json string to an object
+        var appointment = JSON.parse(appointment.message);
+
+        // check if the doctor of the newly created appointment matches the view
+        var doctorId = appointment.doctor.id;
+
+        if (doctorId == $scope.chosenDoctor.doctorId && !$scope.iSchedule) {
+
+            $rootScope.spinner = {active: true};
+
+            var doctorCalendar = '#' + $scope.allDoctorsVariables[$scope.chosenDoctor.calendarTag].calendar;
+
+            var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
+            var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
+            calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+            var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
+            var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
+
+            $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+
+        } else {
+
+            // do nothing
+        }
+
         $log.debug("Receiving socket request to create appointment");
+
     });
+
+
+    /*******************************************************************************
+     pusher for update appointment
+     *******************************************************************************/
 
 
     var update_channel = pusher.subscribe('appointmentsCUD');
     update_channel.bind('updateAppt', function (appointment) {
 
+        console.log(appointment);
         $log.debug("Receiving socket request to update appointment");
     });
 
@@ -1041,7 +1076,11 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     var delete_channel = pusher.subscribe('appointmentsCUD');
     delete_channel.bind('deleteAppt', function (appointment) {
 
+        console.log(appointment.message);
         $log.debug("Receiving socket request to delete appointment");
+
+        var obj = JSON.parse(appointment.message);
+        console.log(obj);
     });
 
     /*pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {

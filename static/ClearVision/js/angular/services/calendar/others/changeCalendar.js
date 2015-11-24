@@ -61,7 +61,7 @@ angular.module('change.calendar', [])
 
                 // enable iSchedule
                 $timeout(function () {
-                    self.scope.enableISchedule();
+                    self.scope.enableISchedule(true);
                 }, 0);
 
 
