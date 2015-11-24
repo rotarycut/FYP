@@ -518,17 +518,17 @@ appConfig.controller('configCtrl',
                                     if (apptTypeId)
 
                                     //check if any future appointments exist
-                                    $http.get('/Clearvision/_api/CheckApptTypeInGeneral/?apptTypeID=' + apptTypeId)
-                                        .success(function (numberOfFutureAppointment) {
+                                        $http.get('/Clearvision/_api/CheckApptTypeInGeneral/?apptTypeID=' + apptTypeId)
+                                            .success(function (numberOfFutureAppointment) {
 
-                                            if (numberOfFutureAppointment > 0) {
-                                                $scope.showWarningRemoveApptType = true;
-                                                $scope.showPasswordRemoveApptType = false;
-                                            } else {
-                                                $scope.showWarningRemoveApptType = false;
-                                                $scope.showPasswordRemoveApptType = true;
-                                            }
-                                        });
+                                                if (numberOfFutureAppointment > 0) {
+                                                    $scope.showWarningRemoveApptType = true;
+                                                    $scope.showPasswordRemoveApptType = false;
+                                                } else {
+                                                    $scope.showWarningRemoveApptType = false;
+                                                    $scope.showPasswordRemoveApptType = true;
+                                                }
+                                            });
 
                                 },
                                 close: function (index) {
@@ -1992,6 +1992,51 @@ appConfig.controller('CreateDoctorModalCtrl',
                     showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
         };
+
+        /*******************************************************************************
+         pusher for create doctor
+         *******************************************************************************/
+
+        var delete_channel = pusher.subscribe('appointmentsCUD');
+
+        delete_channel.bind('deleteAppt', function (appointment) {
+
+            // parse the patient appointment json string to an object
+            var appointment = JSON.parse(appointment.message);
+
+            // check if the doctor of the deleted appointment matches the view
+            var doctorId = appointment.doctor.id;
+
+            if (doctorId == $scope.chosenDoctor.doctorId && !$scope.iSchedule) {
+
+                $rootScope.spinner = {active: true};
+
+                var doctorCalendar = '#' + $scope.allDoctorsVariables[$scope.chosenDoctor.calendarTag].calendar;
+
+                var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
+                var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
+                calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+                var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
+                var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
+
+                $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+
+                // get number of swappable appointments
+                getSwapApptsSvc.getNumberOfSwappableAppointments();
+
+                $timeout(function () {
+                    showNotificationsSvc.notifySuccessTemplate('Calendar appointments synced successfully');
+                }, 2000);
+
+            } else {
+
+                // do nothing
+            }
+
+            $log.debug("Receiving socket request to delete appointment");
+
+        });
 
         /*******************************************************************************
          function to close modal

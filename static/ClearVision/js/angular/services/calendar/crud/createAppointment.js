@@ -55,7 +55,7 @@ angular.module('post.appointment', [])
                     "waitingListFlag": self.scope.fields.waitingList,
                     "tempDate": self.scope.fields.waitingDate,
                     "tempTime": self.scope.fields.waitingTime,
-                    "socketId": self.scope.socketId,
+                    "socketId": $rootScope.socketId,
                     "smsOptOut": self.scope.fields.smsOptOut
                 }
             };

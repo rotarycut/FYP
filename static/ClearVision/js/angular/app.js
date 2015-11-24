@@ -145,10 +145,20 @@ app.config(function ($interpolateProvider) {
 });
 
 /* main method of angular app, runs when app starts */
-app.run(function ($rootScope, getSwapApptsSvc) {
+app.run(function ($rootScope, $timeout, $pusher, getSwapApptsSvc) {
 
+    // get number of swappable appointments
     getSwapApptsSvc.getNumberOfSwappableAppointments();
 
+    // set up pusher
+    var client = new Pusher('6cb577c1e7b97150346b');
+    $rootScope.pusher = $pusher(client);
+
+    $timeout(function () {
+        $rootScope.socketId = $rootScope.pusher.connection.baseConnection.socket_id;
+    }, 5000);
+
+    // get current date
     var date = new Date();
     $rootScope.month = date.getMonth() + 1;
 });

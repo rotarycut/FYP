@@ -24,7 +24,7 @@ angular.module('delete.appointment', [])
                 data: {
                     "id": self.scope.fields.patientId,
                     "cancellationReasonID": reasonId,
-                    "socketId": self.scope.socketId
+                    "socketId": $rootScope.socketId
                 }
             };
 
