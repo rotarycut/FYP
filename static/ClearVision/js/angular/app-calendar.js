@@ -1066,21 +1066,77 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
 
     var update_channel = pusher.subscribe('appointmentsCUD');
+
     update_channel.bind('updateAppt', function (appointment) {
 
-        console.log(appointment);
+        // parse the patient appointment json string to an object
+        var appointment = JSON.parse(appointment.message);
+
+        // check if the doctor of the updated appointment matches the view
+        var doctorId = appointment.doctor.id;
+
+        if (doctorId == $scope.chosenDoctor.doctorId && !$scope.iSchedule) {
+
+            $rootScope.spinner = {active: true};
+
+            var doctorCalendar = '#' + $scope.allDoctorsVariables[$scope.chosenDoctor.calendarTag].calendar;
+
+            var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
+            var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
+            calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+            var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
+            var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
+
+            $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+
+        } else {
+
+            // do nothing
+        }
+
         $log.debug("Receiving socket request to update appointment");
+
     });
 
 
-    var delete_channel = pusher.subscribe('appointmentsCUD');
+    /*******************************************************************************
+     pusher for delete appointment
+     *******************************************************************************/
+
+
+    var delete_channel = pusher.subscribe('appointmentsCUD')
+
     delete_channel.bind('deleteAppt', function (appointment) {
 
-        console.log(appointment.message);
+        // parse the patient appointment json string to an object
+        var appointment = JSON.parse(appointment.message);
+
+        // check if the doctor of the deleted appointment matches the view
+        var doctorId = appointment.doctor.id;
+
+        if (doctorId == $scope.chosenDoctor.doctorId && !$scope.iSchedule) {
+
+            $rootScope.spinner = {active: true};
+
+            var doctorCalendar = '#' + $scope.allDoctorsVariables[$scope.chosenDoctor.calendarTag].calendar;
+
+            var calendarStartDate = $(doctorCalendar).fullCalendar('getView').intervalStart._d;
+            var calendarEndDate = $(doctorCalendar).fullCalendar('getView').intervalEnd._d;
+            calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+            var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
+            var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
+
+            $scope.trackCalendar($scope.currentView, filteredStartDate, filteredEndDate);
+
+        } else {
+
+            // do nothing
+        }
+
         $log.debug("Receiving socket request to delete appointment");
 
-        var obj = JSON.parse(appointment.message);
-        console.log(obj);
     });
 
     /*pusher.subscribe('appointmentsCUD', 'createAppt', function (appointment) {
