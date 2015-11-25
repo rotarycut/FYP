@@ -68,7 +68,8 @@ var app = angular.module('calendarDemoApp', [
     'schedule.conversionFilter',
     'get.marketingChannelsStatus',
     'get.roiFilter',
-    'suggested.Appointments'
+    'suggested.Appointments',
+    'editRoi.filter'
 ]);
 
 /* Angular routing */

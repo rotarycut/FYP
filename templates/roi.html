@@ -65,18 +65,22 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-3 col-md-offset-1">
+                            <div class="col-md-3 col-md-offset-1" ng-show="!showEditFilterButtons">
                                 <div class="row" style="padding-top: 22%">
                                     <button class="btn form-default-btn"
                                             ng-click="runFilter(filter.filterYear, filter.filterMonth, listOfSelectedChannels)">
-                                        Run
-                                        Filter
+                                        Run Filter
                                     </button>
                                     <button class="btn form-default-btn"
-                                            ng-click="saveFilter(filter.filterYear, filter.filterMonth, listOfSelectedChannels)">
+                                            ng-click="saveFilter()">
                                         Save Filter
                                     </button>
                                     <button class="btn form-default-btn" ng-click="clearFilter()">Clear</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-md-offset-1" ng-show="showEditFilterButtons">
+                                <div class="row" style="padding-top: 22%">
+                                    <button class="btn form-default-btn" ng-click="saveFilter()">Update Filter</button>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +145,7 @@
                                    style="font-size: smaller"
                                    class="mrkt-month-item" onclick="changeState(this)">[[filter.name]]</a>
                                 <a href="#/dashboard/roi"
-                                   ng-click="openEditFilter(filter.startDate, filter.endDate, filter.id, filter.name)"
+                                   ng-click="openEditFilter(filter.year, filter.month, filter.id, filter.name)"
                                    style="font-size: smaller"><i
                                         class="fa fa-pencil"></i></a>
                             </li>
@@ -195,8 +199,13 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn form-submit-btn" ng-show="filterName.length <= 5 && filterName.length > 0" type="button"
-                ng-click="postFilter(filterName)">Submit
+        <button class="btn form-submit-btn"
+                ng-show="filterName.length <= 5 && filterName.length > 0 && !showEditFilterBtn" type="button"
+                ng-click="postFilter(filterName)">Save
+        </button>
+        <button class="btn form-submit-btn" type="button"
+                ng-show="filterName.length <= 5 && filterName.length > 0 && showEditFilterBtn"
+                ng-click="editFilter(filterName)">Update
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
     </div>

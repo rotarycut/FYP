@@ -1,11 +1,12 @@
 var appDashboard = angular.module('app.dashboard', []);
 
 appDashboard.controller('DashboardCtrl',
-    function ($scope, $http, $modal, $route, postRoiFilterSvc, getMonthListingsSvc, getRoiFilterSvc, showNotificationsSvc) {
+    function ($scope, $http, $modal, $route, postRoiFilterSvc, getMonthListingsSvc, getRoiFilterSvc, showNotificationsSvc, editRoiFilterSvc) {
 
         $scope.$route = $route;
         postRoiFilterSvc.getScope($scope);
         getRoiFilterSvc.getScope($scope);
+        editRoiFilterSvc.getScope($scope);
         $scope.isCollapsed = true;
         $scope.showROIChart = true;
         $scope.channelObjects = [];
@@ -49,17 +50,6 @@ appDashboard.controller('DashboardCtrl',
 
             var formattedDate = year + '-' + month + '-' + day;
             return formattedDate;
-        };
-
-        /* function to retrieve all marketing channels */
-        $scope.getMarketingChannels = function () {
-            $http.get('/Clearvision/_api/ViewAllMarketingChannels/')
-                .success(function (data) {
-                    angular.forEach(data, function (channel) {
-                        $scope.channelObjects.push(channel);
-                        $scope.channelLists.push(channel.name);
-                    })
-                })
         };
 
         /* function to change sort option of bar charts */
@@ -226,24 +216,30 @@ appDashboard.controller('DashboardCtrl',
 
             $http.get('/Clearvision/_api/EditSavedROICustomFilters/' + filterId)
                 .success(function (data) {
+
                     var listOfChannels = [];
                     angular.forEach(data.channelType, function (channel) {
                         listOfChannels.push(channel.name);
                     });
 
-                    $scope.runFilter(data.startDate, data.endDate, listOfChannels);
+                    var month = $scope.listOfFilterMonths[data.month - 1];
+
+                    $scope.runFilter(data.year, month, listOfChannels);
                 });
         };
 
         /* function to open filter for edit */
-        $scope.openEditFilter = function (startDate, endDate, filterId, filterName) {
+        $scope.openEditFilter = function (year, month, filterId, filterName) {
             $scope.isCollapsed = false;
-            $scope.datepicker = startDate;
-            $scope.datepicker2 = endDate;
+            $scope.filter.filterYear = $scope.listOfFilterYears[$scope.listOfFilterYears.indexOf(year.toString())];
+            $scope.filter.filterMonth = $scope.listOfFilterMonths[month - 1];
             $scope.existingFilterName = filterName;
 
-            $http.get('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId)
+            $scope.getSpecificMarketingChannels();
+
+            $http.get('/Clearvision/_api/EditSavedROICustomFilters/' + filterId)
                 .success(function (data) {
+
                     $scope.listOfSelectedChannels = [];
 
                     angular.forEach(data.channelType, function (individualChannel) {
@@ -258,6 +254,7 @@ appDashboard.controller('DashboardCtrl',
                     });
                 });
 
+            $scope.showEditFilterButtons = true;
             $scope.editFilterId = filterId;
         };
 
@@ -297,9 +294,9 @@ appDashboard.controller('DashboardCtrl',
         };
 
         /* save filter */
-        $scope.saveFilter = function (year, month, channels) {
+        $scope.saveFilter = function () {
 
-            var fieldsValid = $scope.validateFilterInputs(year, month, channels);
+            var fieldsValid = $scope.validateFilterInputs($scope.filter.filterYear, $scope.filter.filterMonth, $scope.listOfSelectedChannels);
 
             if (fieldsValid) {
                 $scope.openSaveFilterModal();
@@ -315,9 +312,8 @@ appDashboard.controller('DashboardCtrl',
             $scope.filter.filterMonth = undefined;
             $scope.filter.filterYear = undefined;
 
-            angular.forEach($scope.channelObjects, function (channel) {
-                channel.channelUnselected = false;
-            });
+            $scope.channelObjects = [];
+            $scope.showEditFilterButtons = false;
 
             $scope.listOfSelectedChannels.splice(0);
             $scope.listOfSelectedChannelsId.splice(0);
@@ -491,6 +487,12 @@ appDashboard.controller('DashboardCtrl',
                     },
                     filterYear: function () {
                         return '';
+                    },
+                    showEditFilterBtn: function () {
+                        return '';
+                    },
+                    existingFilterName: function () {
+                        return '';
                     }
                 }
             });
@@ -512,6 +514,12 @@ appDashboard.controller('DashboardCtrl',
                     },
                     filterYear: function () {
                         return $scope.filter.filterYear;
+                    },
+                    showEditFilterBtn: function () {
+                        return $scope.showEditFilterButtons;
+                    },
+                    existingFilterName: function () {
+                        return $scope.existingFilterName;
                     }
                 }
             });
@@ -527,7 +535,11 @@ appDashboard.controller('DashboardCtrl',
 
 
 appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, $http, showNotificationsSvc, getRoiFilterSvc,
-                                                  channelLists, filterYear, filterMonth) {
+                                                  channelLists, filterYear, filterMonth, showEditFilterBtn,
+                                                  existingFilterName, editRoiFilterSvc) {
+
+    $scope.filterName = existingFilterName;
+    $scope.showEditFilterBtn = showEditFilterBtn;
 
     /* function to cancel modal */
     $scope.cancel = function () {
@@ -562,6 +574,12 @@ appDashboard.controller('RoiModalCtrl', function ($scope, $modalInstance, $http,
         $scope.cancel();
     };
 
+    /* function to edit filter in modal */
+    $scope.editFilter = function (filterName) {
+
+        editRoiFilterSvc.editRoiFilter(filterName);
+        $scope.cancel();
+    };
 
 });
 

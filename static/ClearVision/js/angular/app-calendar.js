@@ -985,8 +985,8 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         var date = $item.substring(0, commarIndex);
 
         // discover doctor change calendar tag & doctor calendar tag
-        var changeCalendarTag;
-        var doctorCalendarTag;
+        var changeCalendarTag = '';
+        var doctorCalendarTag = '';
 
         angular.forEach($scope.allDoctorsVariables, function (doctorCalendar) {
             if (doctorCalendar.title == doctor) {
