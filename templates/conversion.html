@@ -241,20 +241,19 @@
         <textarea class="form-control" rows="3" data-ng-model="filterName"></textarea>
     </div>
 
-    <div class="alert alert-danger" ng-show="filterName.length > 8">
-        Filter name cannot have more than 8 characters.
+    <div class="alert alert-danger" ng-show="filterName.length > 5">
+        Filter name cannot have more than 5 characters.
     </div>
 
     <div class="modal-footer">
         <button class="btn form-submit-btn" type="button"
-                ng-show="filterName.length <= 8 && filterName.length > 0 && !showEditFilterBtn"
+                ng-show="filterName.length <= 5 && filterName.length > 0 && !showEditFilterBtn"
                 ng-click="postFilter()">Save
         </button>
         <button class="btn form-submit-btn" type="button"
-                ng-show="filterName.length <= 8 && filterName.length > 0 && showEditFilterBtn"
+                ng-show="filterName.length <= 5 && filterName.length > 0 && showEditFilterBtn"
                 ng-click="editFilter(filterName)">Update
         </button>
         <button class="btn form-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
     </div>
 </script>
-
