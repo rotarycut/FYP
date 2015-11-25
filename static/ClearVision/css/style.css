@@ -367,20 +367,22 @@
 }
 
 .dashboard-submenu li.active {
-    padding-left: 3%;
-    padding-right: 3%;
     background-color: #e7e7e7;
     text-decoration: none;
+    border-radius: 4px;
+    padding: 5px;
 }
 
-.dashboard-submenu li a:hover,
 .dashboard-submenu li a:focus,
 .dashboard-submenu li.active a,
 .dashboard-submenu li.active a:hover,
 .dashboard-submenu li.active a:focus {
     text-decoration: none;
     color: #70AFC4;
-    background-color: #e7e7e7;
+}
+
+.dashboard-submenu li a:hover{
+    text-decoration: none;
 }
 
 /*navbar css ends*/
