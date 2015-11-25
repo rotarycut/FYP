@@ -642,8 +642,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False, sentSMSTime=None).save()
+                    if Swapper.objects.filter(tempAppt=tempExistingAppt, swappable=True).exists():
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=True, hasRead=False, sentSMSTime=None).save()
+                    else:
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -655,9 +659,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
                     tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID,
                                                                apptType=apptType)
-
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False, sentSMSTime=None).save()
+                    if Swapper.objects.filter(tempAppt=tempExistingAppt, swappable=True).exists():
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=True, hasRead=False, sentSMSTime=None).save()
+                    else:
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             pusher.trigger('appointmentsCUD', 'createAppt', {'message': json.dumps(serializedExistingAppt.data)}, socketId)
@@ -686,8 +693,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt.tempPatients.add(p)
                     tempExistingAppt.save()
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False, sentSMSTime=None).save()
+                    if Swapper.objects.filter(tempAppt=tempExistingAppt, swappable=True).exists():
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=True, hasRead=False, sentSMSTime=None).save()
+                    else:
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
                 else:
 
@@ -700,8 +711,12 @@ class AppointmentWriter(viewsets.ModelViewSet):
                     tempExistingAppt = Appointment.objects.get(date=tempApptDate, timeBucket=tempApptTimeBucketID,
                                                                apptType=apptType)
 
-                    Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
-                                           swappable=False, hasRead=False, sentSMSTime=None).save()
+                    if Swapper.objects.filter(tempAppt=tempExistingAppt, swappable=True).exists():
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=True, hasRead=False, sentSMSTime=None).save()
+                    else:
+                        Swapper.objects.create(patient=p, scheduledAppt=existingAppt, tempAppt=tempExistingAppt,
+                                               swappable=False, hasRead=False, sentSMSTime=None).save()
                     AppointmentRemarks.objects.create(patient=p, appointment=tempExistingAppt, remarks=remarks).save()
 
             serializedExistingAppt = AppointmentSerializer(existingAppt)
