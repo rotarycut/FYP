@@ -74,7 +74,7 @@
                                             ng-click="addToQueue(patient.associatedpatientactions__appointment_id,
                                                 patient.associatedpatientactions__appointment__apptType,
                                                 patient.associatedpatientactions__appointment__clinic,
-                                                patient.associatedpatientactions__appointment__doctor__name,
+                                                patient.associatedpatientactions__appointment__doctor_id,
                                                 patient.associatedpatientactions__appointment__timeBucket,
                                                 patient.associatedpatientactions__patient_id,
                                                 'True')"
@@ -85,7 +85,7 @@
                                             ng-click="addToNoShow(patient.associatedpatientactions__appointment_id,
                                                 patient.associatedpatientactions__appointment__apptType,
                                                 patient.associatedpatientactions__appointment__clinic,
-                                                patient.associatedpatientactions__appointment__doctor__name,
+                                                patient.associatedpatientactions__appointment__doctor_id,
                                                 patient.associatedpatientactions__appointment__timeBucket,
                                                 patient.associatedpatientactions__patient_id,
                                                 'False')"
@@ -190,12 +190,12 @@
                         </table>
                     </div>
                     <div class="col-md-12" style="text-align: center">
-                <pagination
-                        ng-model="currentPage"
-                        total-items="archiveList.length"
-                        boundary-links="false">
-                </pagination>
-            </div>
+                        <pagination
+                                ng-model="currentPage"
+                                total-items="archiveList.length"
+                                boundary-links="false">
+                        </pagination>
+                    </div>
                 </div>
             </tab>
         </tabset>

@@ -70,21 +70,15 @@ appPatientQueue.controller('QueueCtrl',
 
 
         /* function to add to queue */
-        $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
+        $scope.addToQueue = function (apptId, apptType, clinic, doctorId, timeBucket, patientId, hasAttended) {
 
             $rootScope.spinner = {active: true};
-
-            if (doctor === "Dr Ho") {
-                doctor = 2;
-            } else {
-                doctor = 1;
-            }
 
             $scope.postToQueue = {
                 "apptId": apptId,
                 "apptType": apptType,
                 "clinic": clinic,
-                "doctor": doctor,
+                "doctor": doctorId,
                 "timeBucket": timeBucket,
                 "patient": patientId,
                 "attended": hasAttended,
@@ -107,19 +101,13 @@ appPatientQueue.controller('QueueCtrl',
         };
 
         /* function to add to no show */
-        $scope.addToNoShow = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
-
-            if (doctor === "Dr Ho") {
-                doctor = 2;
-            } else {
-                doctor = 1;
-            }
+        $scope.addToNoShow = function (apptId, apptType, clinic, doctorId, timeBucket, patientContact, hasAttended) {
 
             $scope.postToNoShow = {
                 "apptId": apptId,
                 "apptType": apptType,
                 "clinic": clinic,
-                "doctor": doctor,
+                "doctor": doctorId,
                 "timeBucket": timeBucket,
                 "patient": patientContact,
                 "attended": hasAttended,
