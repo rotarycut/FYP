@@ -14,37 +14,73 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav" id="topmenu">
-                <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
-                        class="fa fa-calendar"></i> Calendar</a></li>
-                <!--<li class="active"><a href="#">Home</a></li>-->
-                <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#" ng-href="#/waitlist"><i
-                        class="fa fa-exchange"></i> Swap List <span
-                        class="badge notification-badge-green">[[getNumberOfSwappableAppointments]]
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'Optometrist' %}
+                        <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
+                                class="fa fa-calendar"></i> Calendar</a></li>
+                        <!--<li class="active"><a href="#">Home</a></li>-->
+                        <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#"
+                                                                                           ng-href="#/waitlist"><i
+                                class="fa fa-exchange"></i> Swap List <span
+                                class="badge notification-badge-green">[[getNumberOfSwappableAppointments]]
                     </span></a></li>
-                <!-- <li><a href="/Clearvision/admin"><i class="fa fa-cogs"></i> Admin</a></li> -->
-                <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/conversion"><i
-                        class="fa fa-bar-chart"></i> Dashboard <b class="caret"></b></a>
-                    <ul class="list-inline dashboard-submenu">
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/schedule'}"><a
-                                href="#/dashboard/schedule">Appointments Scheduled</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/conversion'}"><a
-                                href="#/dashboard/conversion">Conversion Analysis</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/roi'}"><a href="#/dashboard/roi">ROI
-                            Analysis</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/expenditure'}"><a
-                                href="#/dashboard/expenditure">Expenditure Form</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/managechannels'}"><a
-                                href="#/dashboard/managechannels">Manage Marketing Channels</a></li>
-                        <li ng-class="{active: $route.current.activetab == 'dashboard/kpi'}"><a
-                                href="#/dashboard/kpi/">KPI Monitor</a></li>
-                    </ul>
-                </li>
-                <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i
-                        class="fa fa-user-times"></i> Manage Q</a></li>
+                        <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i
+                                class="fa fa-user-times"></i> Manage Q</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'Marketing' %}
+                        <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
+                                class="fa fa-calendar"></i> Calendar</a></li>
+                        <!--<li class="active"><a href="#">Home</a></li>-->
+                        <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#"
+                                                                                           ng-href="#/waitlist"><i
+                                class="fa fa-exchange"></i> Swap List <span
+                                class="badge notification-badge-green">[[getNumberOfSwappableAppointments]]
+                    </span></a></li>
+                        <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i
+                                class="fa fa-user-times"></i> Manage Q</a></li>
+                        <li class="dropdown"><a href="#" data-toggle="dropdown" ng-href="#/dashboard/conversion"><i
+                                class="fa fa-bar-chart"></i> Dashboard <b class="caret"></b></a>
+                            <ul class="list-inline dashboard-submenu">
+                                <li ng-class="{active: $route.current.activetab == 'dashboard/schedule'}"><a
+                                        href="#/dashboard/schedule">Appointments Scheduled</a></li>
+                                <li ng-class="{active: $route.current.activetab == 'dashboard/conversion'}"><a
+                                        href="#/dashboard/conversion">Conversion Analysis</a></li>
+                                <li ng-class="{active: $route.current.activetab == 'dashboard/roi'}"><a
+                                        href="#/dashboard/roi">ROI
+                                    Analysis</a></li>
+                                <li ng-class="{active: $route.current.activetab == 'dashboard/expenditure'}"><a
+                                        href="#/dashboard/expenditure">Expenditure Form</a></li>
+                                <li ng-class="{active: $route.current.activetab == 'dashboard/managechannels'}"><a
+                                        href="#/dashboard/managechannels">Manage Marketing Channels</a></li>
+                                <li ng-class="{active: $route.current.activetab == 'dashboard/kpi'}"><a
+                                        href="#/dashboard/kpi/">KPI Monitor</a></li>
+                            </ul>
+                        </li>
 
-                <li ng-class="{active: $route.current.activetab == 'adminconfig'}"><a href="#"
-                                                                                      ng-href="#/adminconfig"><i
-                        class="fa fa-gears"></i> Settings</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% for group in request.user.groups.all %}
+                    {% if group.name == 'View Settings' %}
+                        <li ng-class="{active: $route.current.activetab == ''}"><a href="#" ng-href="#/"><i
+                                class="fa fa-calendar"></i> Calendar</a></li>
+                        <!--<li class="active"><a href="#">Home</a></li>-->
+                        <li ng-class="{active: $route.current.activetab == 'waitlist'}"><a href="#"
+                                                                                           ng-href="#/waitlist"><i
+                                class="fa fa-exchange"></i> Swap List <span
+                                class="badge notification-badge-green">[[getNumberOfSwappableAppointments]]
+                    </span></a></li>
+                        <li ng-class="{active: $route.current.activetab == 'queue'}"><a href="#" ng-href="#/queue"><i
+                                class="fa fa-user-times"></i> Manage Q</a></li>
+                        <li ng-class="{active: $route.current.activetab == 'adminconfig'}"><a
+                                href="#"
+                                ng-href="#/adminconfig"><i
+                                class="fa fa-gears"></i> Settings</a></li>
+                    {% endif %}
+                {% endfor %}
+
                 <!-- <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false" ng-href="#/dashboard"><i class="fa fa-bar-chart"></i> Dashboard<span
@@ -57,14 +93,13 @@
                 </li> -->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <!--<li><a href="">Welcome, {{ user }}</a>
-                </li>-->
-
-                <li class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">Welcome, {{ user }}</a>
+                <li class="dropdown"><a href="" data-toggle="dropdown"
+                                        class="dropdown-toggle">Welcome, {{ user.username }}</a>
                     <ol class="dropdown-menu">
                         <li><a href="#" ng-href="#/changepw">Change Password</a></li>
                     </ol>
                 </li>
+
                 <li class="dropdown"><a href="#/" class="dropdown-toggle" target="_self"
                                         ng-href="#/msglog" ng-href="#/msglog"><i
                         class="fa fa-envelope"></i>
@@ -120,5 +155,4 @@
         </button>
     </div>
 </script>
-
 
