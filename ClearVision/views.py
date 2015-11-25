@@ -734,7 +734,8 @@ class AppointmentWriter(viewsets.ModelViewSet):
         oldRemarks = AppointmentRemarks.objects.get(appointment=currentAppt.id, patient=patient.id)
 
         if currentAppt.tempPatients.count() >= 1:
-            Swapper.objects.filter(patient=currentAppt.tempPatients.first(), tempAppt=currentAppt).update(swappable=True)
+            #Swapper.objects.filter(patient=currentAppt.tempPatients.first(), tempAppt=currentAppt).update(swappable=True)
+            Swapper.objects.filter(tempAppt=currentAppt).update(swappable=True)
 
         if currentAppt.apptType != apptType:
             tempApptSwapperObj = Swapper.objects.filter(patient=patient, scheduledAppt=currentAppt,)
@@ -742,6 +743,10 @@ class AppointmentWriter(viewsets.ModelViewSet):
 
         if AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).exists():
             AttendedAppointment.objects.filter(patient=patient, originalAppt=currentAppt, attended=False, doctor=docID).delete()
+
+        setQueueToNone = AssociatedPatientActions.objects.get(patient=patient, appointment=currentAppt)
+        setQueueToNone.addedToQueue = None
+        setQueueToNone.save()
 
         """
         if currentAppt.patients.count() == 0:
