@@ -162,13 +162,6 @@ class AssociatedPatientActions(models.Model):
     cancelled = models.NullBooleanField(default=None)
     cancellationReason = models.ForeignKey(CancellationReason, default=None, null=True)
 
-class Schedules(models.Model):
-    practitioner = models.ForeignKey(Doctor)
-    start = models.TimeField("Start")
-    end = models.TimeField("End")
-    day = models.CharField(max_length=200)
-    apptType = models.ForeignKey(AppointmentType)
-
 class WronglyRepliedSMS(models.Model):
     text = models.CharField(max_length=1000)
     origin = models.CharField(max_length=100)
