@@ -1,6 +1,6 @@
 var app = angular.module('add.archive', []);
 
-app.service('addToArchiveSvc', function ($http) {
+app.service('addToArchiveSvc', function ($http, showNotificationsSvc) {
 
     var self = this;
     self._scope = {};
@@ -17,8 +17,8 @@ app.service('addToArchiveSvc', function ($http) {
         };
 
         $http.post('/Clearvision/_api/ViewArchive/', self._scope.postToArchive)
-            .success(function (result) {
-                console.log("Added to archive successfully.")
+            .success(function () {
+                showNotificationsSvc.notifySuccessTemplate('Added to archive successfully');
                 self._scope.getNoShow();
             });
 

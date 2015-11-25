@@ -2,7 +2,7 @@ var appPatientQueue = angular.module('app.patientQueue', []);
 
 appPatientQueue.controller('QueueCtrl',
     function ($scope, $http, $location, $rootScope, $timeout, $modal, $log, eventClickSvc, getNoShowSvc, addToArchiveSvc,
-              getTodayAppointmentSvc, getPatientQueueSvc) {
+              getTodayAppointmentSvc, getPatientQueueSvc, showNotificationsSvc) {
 
         $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $scope.CurrentDate = new Date();
@@ -92,10 +92,12 @@ appPatientQueue.controller('QueueCtrl',
                     getPatientQueueSvc.getPatientQueue();
                     getNoShowSvc.getNoShow();
                     $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifySuccessTemplate('Added to queue successfully');
                 })
                 .error(function (data) {
 
                     $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
 
         };
@@ -120,10 +122,13 @@ appPatientQueue.controller('QueueCtrl',
                     getTodayAppointmentSvc.getTodayAppointments();
                     getPatientQueueSvc.getPatientQueue();
                     getNoShowSvc.getNoShow();
+                    showNotificationsSvc.notifySuccessTemplate('Added to no show successfully');
+
                 })
                 .error(function (data) {
 
                     $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
 
         };
@@ -149,10 +154,12 @@ appPatientQueue.controller('QueueCtrl',
                     getTodayAppointmentSvc.getTodayAppointments();
                     getPatientQueueSvc.getPatientQueue();
                     getNoShowSvc.getNoShow();
+                    showNotificationsSvc.notifySuccessTemplate('Revert to today patient list successfully');
                 })
                 .error(function (data) {
 
                     $rootScope.spinner = {active: false};
+                    showNotificationsSvc.notifyErrorTemplate('Error, please try again');
                 });
 
         };
@@ -268,33 +275,6 @@ appPatientQueue.controller('QueueCtrl',
          pusher
          *******************************************************************************/
 
-
-        /*Pusher.subscribe('queue', 'addToQueue', function (appointment) {
-
-         $log.debug("Receiving socket request to add to queue");
-         getTodayAppointmentSvc.getTodayAppointments();
-         getPatientQueueSvc.getPatientQueue();
-         getNoShowSvc.getNoShow();
-
-         });
-
-         Pusher.subscribe('queue', 'noShow', function (appointment) {
-
-         $log.debug("Receiving socket request to add to no show");
-         getTodayAppointmentSvc.getTodayAppointments();
-         getPatientQueueSvc.getPatientQueue();
-         getNoShowSvc.getNoShow();
-
-         });
-
-         Pusher.subscribe('queue', 'removeFromQueue', function (appointment) {
-
-         $log.debug("Receiving socket request to revert from queue or no show");
-         getTodayAppointmentSvc.getTodayAppointments();
-         getPatientQueueSvc.getPatientQueue();
-         getNoShowSvc.getNoShow();
-
-         });*/
 
         var addToQueue = $rootScope.pusher.subscribe('queue');
         addToQueue.bind('addToQueue', function (appointment) {
