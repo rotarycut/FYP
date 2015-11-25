@@ -65,6 +65,7 @@
                     <table class="table table-striped waitlist-swap-tbl">
                         <tr>
                             <th>Preferred Time</th>
+                            <th>SMS Sent Time</th>
                         </tr>
                         <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList" class="animate-repeat">
                             <td><i class="fa fa-circle"
@@ -74,6 +75,7 @@
                                 <a class="remove-from-queue"
                                    ng-click="deleteWaitList(appt.id)"><i
                                         class="fa fa-times"></i></a></td>
+                            <td>[[appt.sentSMSTime]]</td>
                         </tr>
                     </table>
                 </div>
