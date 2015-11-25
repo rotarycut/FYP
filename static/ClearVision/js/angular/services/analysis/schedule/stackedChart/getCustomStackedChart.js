@@ -32,9 +32,6 @@ angular.module('get.customStackedChart', [])
 
                     // all the filter fields are filled
 
-                    // upon custom filter, by default sort option will be set to turn up
-                    self.scope.sortSelected = "Turn Up";
-
                     // retrieve start date and end date
                     self.scope.startDate = self.scope.getFormattedDate(self.scope.datepicker);
                     self.scope.endDate = self.scope.getFormattedDate(self.scope.datepicker2);
