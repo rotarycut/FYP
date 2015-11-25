@@ -3917,13 +3917,14 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
         for months in range(1, 13):
             totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
                                                                               originalAppt__date__month=thisMonth,
-                                                                              originalAppt__date__year=thisYear)
+                                                                              originalAppt__date__year=thisYear,
+                                                                              attended=True)
             patients = []
 
             for eachObj in totalAttendedPreEvalPatients:
                 patients.append(eachObj.patient)
 
-            totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+            totalAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients, attended=True).order_by('patient', 'last_modified')
             totalAttendedPreEvalCount = totalAttendedPreEval.count()
 
             prevItem = None
@@ -3935,7 +3936,7 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
                     prevItem = eachAttendedPreEval.patient
 
             totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
-                                                                      originalAppt__doctor__apptType=3).order_by('patient', 'last_modified')
+                                                                      originalAppt__doctor__apptType=3, attended=True).order_by('patient', 'last_modified')
             totalAttendedSurgeryCount = totalAttendedSurgery.count()
 
             prevItem = None
@@ -4003,13 +4004,14 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
         regression = np.polyfit(x, y, 1)
 
         currentMonthAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
-                                                                                  originalAppt__date__month=datetime.now().month)
+                                                                                 originalAppt__date__month=datetime.now().month,
+                                                                                 attended=True)
         patients = []
 
         for eachObj in currentMonthAttendedPreEvalPatients:
             patients.append(eachObj.patient)
 
-        currentMonthAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients).order_by('patient', 'last_modified')
+        currentMonthAttendedPreEval = AttendedAppointment.objects.filter(patient__in=patients, attended=True).order_by('patient', 'last_modified')
         currentMonthPreEvalCount = currentMonthAttendedPreEval.count()
 
         prevItem = None
