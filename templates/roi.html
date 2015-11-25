@@ -96,10 +96,10 @@
                         <h5 style="color: #49708A">ROI Analysis</h5>
                     </div>
                     <div class="col-md-2 col-md-offset-6">
-                        <select class="form-control" data-ng-model="sortSelected" ng-change=""
+                        <select class="form-control" data-ng-model="sortSelected" ng-change="changeSortOption()"
                                 name="optionList">
                             <option value="" selected disabled>---Sort By---</option>
-                            <option>[[option]]</option>
+                            <option ng-repeat="option in sortOptions">[[option]]</option>
                         </select>
                     </div>
                     <!--<div class="col-md-1 col-md-offset-9 graph-function-col">,
@@ -125,7 +125,7 @@
                         <ul class="saved-filter-items">
                             <li ng-repeat="month in savedMonths">
                                 <a href="#/dashboard/roi" style="font-size: smaller" class="mrkt-month-item"
-                                   onclick="changeState(this)" ng-click="getRoiData(month)">[[month]]</a>
+                                   onclick="changeState(this)" ng-click="getRoiData(month); clearSortSelected();">[[month]]</a>
                             </li>
                         </ul>
                     </div>

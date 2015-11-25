@@ -14,7 +14,8 @@ appDashboard.controller('DashboardCtrl',
         $scope.listOfSelectedChannelsId = [];
         $scope.listOfFilterYears = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'];
         $scope.listOfFilterMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        $scope.filter = {};
+        $scope.filter = {}
+        $scope.sortOptions = ["Expenditure", "Revenue", "roi"];
 
 
         /*******************************************************************************
@@ -61,6 +62,31 @@ appDashboard.controller('DashboardCtrl',
                 })
         };
 
+        /* function to change sort option of bar charts */
+        $scope.changeSortOption = function () {
+
+            var queryStr;
+
+            if ($scope.isCustomFilterOn) {
+                queryStr = $scope.customFilterUrl + $scope.sortSelected;
+
+            } else {
+                queryStr = '/Clearvision/_api/ViewROIChart/?default=True&year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&sortValue=' + $scope.sortSelected;
+            }
+
+            $http.get(queryStr)
+                .success(function (sortedList) {
+                    $scope.showRoiChart(sortedList);
+                });
+
+        };
+
+        /* function to clear sort selected value */
+        $scope.clearSortSelected = function () {
+            $scope.sortSelected = "";
+            $scope.isCustomFilterOn = false;
+        };
+
 
         /*******************************************************************************
          retrieve month data for roi chart
@@ -77,7 +103,7 @@ appDashboard.controller('DashboardCtrl',
             $scope.currentMonth = monthList.indexOf(month) + 1;
             $scope.currentYear = year;
 
-            var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&year=' + $scope.currentYear + '&month=' + $scope.currentMonth;
+            var restRequest = '/Clearvision/_api/ViewROIChart/?default=True&year=' + $scope.currentYear + '&month=' + $scope.currentMonth + '&sortValue=roi';
             $http.get(restRequest)
                 .success(function (roiData) {
                     $scope.showRoiChart(roiData);
@@ -91,8 +117,12 @@ appDashboard.controller('DashboardCtrl',
 
 
         $scope.getCustomRoiData = function (year, month, channelList) {
+            var restRequest = '/Clearvision/_api/ViewROIChart/?year=' + year + '&month=' + month + '&channel=' + channelList + '&sortValue=';
 
-            var restRequest = '/Clearvision/_api/ViewROIChart/?year=' + year + '&month=' + month + '&channel=' + channelList;
+            $scope.isCustomFilterOn = true;
+            $scope.customFilterUrl = restRequest;
+
+            restRequest = restRequest + 'roi';
 
             $http.get(restRequest)
                 .success(function (customData) {
