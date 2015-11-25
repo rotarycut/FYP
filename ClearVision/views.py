@@ -3701,7 +3701,7 @@ class CheckApptsForBlockedCalendar(viewsets.ModelViewSet):
                                            timeBucket__start__gte=startTime,
                                            timeBucket__end__lte=endTime,
                                            doctor=doctorID,
-                                           ).exclude(patients__isnull=True).count()
+                                           ).exclude(patients__isnull=True).values('patients').count()
         return Response(count)
 
     def create(self, request, *args, **kwargs):
