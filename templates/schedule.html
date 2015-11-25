@@ -22,6 +22,7 @@
                             <div class="col-md-3">
                                 <div class="row" style="padding-left: 5%">
                                     <label class="label-color">Start Date:</label>
+
                                     <p class="input-group">
                                         <input type="text"
                                                class="form-control date-input-field"
@@ -46,6 +47,7 @@
                                 </div>
                                 <div class="row" style="padding-left: 5%">
                                     <label class="label-color" style="margin-top: 3px">End Date:</label>
+
                                     <p class="input-group">
                                         <input type="text"
                                                class="form-control date-input-field"
@@ -78,7 +80,8 @@
 
                                 <div class="roi-marketing-listbox">
                                     <ul style="list-style: none; padding-left: 1%;">
-                                        <li class="center-block"><a class="pointer-cursor">Select All Appointment Types</a></li>
+                                        <li class="center-block"><a class="pointer-cursor">Select All Appointment
+                                            Types</a></li>
                                         <li ng-class="{typeSelected: apptType.naming}"
                                             class="mrkt-list-item"
                                             ng-repeat="apptType in apptTypes">
@@ -230,6 +233,10 @@
         </div>
     </div>
 </div>
+
+<treasure-overlay-spinner active='spinner.active'>
+</treasure-overlay-spinner>
+
 <script>
     $('.pie-chart-btn').click(function (e) {
         $('.pie-chart-btn').not(this).removeClass('clicked');
@@ -247,8 +254,6 @@
         $('.mrkt-month-item').not(this).removeClass('active');
         $(listSelected).focus().addClass('active');
     }
-
-
 </script>
 
 <script type="text/ng-template" id="myErrorContent.html">

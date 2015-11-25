@@ -1,236 +1,237 @@
 <!-- row for entire app content-->
-<treasure-overlay-spinner active="queueSpinner">
-    <div class="row content-row">
-        <div ng-class="mainTableWidth">
-            <tabset class="queue-tabset">
-                <tab heading="Appointment List" ng-click="showApptList()">
-                    <div class="row subcontent-row">
-                        <div class="col-md-3">
-                            <form class="form-search form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                       ng-model="query"/>
-                            </form>
-                        </div>
-                        <div class="col-md-4 col-md-offset-2">
-                            <h4 style="color:#49708A;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
-                        </div>
+<div class="row content-row">
+    <div ng-class="mainTableWidth">
+        <tabset class="queue-tabset">
+            <tab heading="Appointment List" ng-click="showApptList()">
+                <div class="row subcontent-row">
+                    <div class="col-md-3">
+                        <form class="form-search form-inline">
+                            <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                   ng-model="query"/>
+                        </form>
                     </div>
+                    <div class="col-md-4 col-md-offset-2">
+                        <h4 style="color:#49708A;">[[CurrentDate | date:'dd, MMMM yyyy']]</h4>
+                    </div>
+                </div>
 
-                    <div class="row" ng-init="getTodayAppointments()">
-                        <div class="col-md-12">
-                            <table class="table waitlist-main-tbl">
-                                <tr>
-                                    <th>
-                                        <a href="#/queue"
-                                           ng-click="sortByField('associatedpatientactions__patient__name')">Name
-                                        </a>
+                <div class="row" ng-init="getTodayAppointments()">
+                    <div class="col-md-12">
+                        <table class="table waitlist-main-tbl">
+                            <tr>
+                                <th>
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__patient__name')">Name
+                                    </a>
                                     <span ng-show="orderByField == 'associatedpatientactions__patient__name'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
-                                    </th>
-                                    <th>Contact</th>
-                                    <th>
-                                        <a href="#/queue"
-                                           ng-click="sortByField('associatedpatientactions__appointment__apptType')">Appt
-                                            Type
-                                        </a>
+                                </th>
+                                <th>Contact</th>
+                                <th>
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__appointment__apptType')">Appt
+                                        Type
+                                    </a>
                                     <span ng-show="orderByField == 'associatedpatientactions__appointment__apptType'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
-                                    </th>
-                                    <th>
-                                        <a href="#/queue"
-                                           ng-click="sortByField('associatedpatientactions__appointment__doctor__name')">Doc
-                                        </a>
+                                </th>
+                                <th>
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__appointment__doctor__name')">Doc
+                                    </a>
                                     <span ng-show="orderByField == 'associatedpatientactions__appointment__doctor__name'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
-                                    </th>
-                                    <th>
-                                        <a href="#/queue"
-                                           ng-click="sortByField('associatedpatientactions__appointment__timeBucket__start')">Scheduled
-                                            Time
-                                        </a>
+                                </th>
+                                <th>
+                                    <a href="#/queue"
+                                       ng-click="sortByField('associatedpatientactions__appointment__timeBucket__start')">Scheduled
+                                        Time
+                                    </a>
                                     <span ng-show="orderByField == 'associatedpatientactions__appointment__timeBucket__start'">
                                         <span ng-show="!reverseSort">&#9650;</span>
                                         <span ng-show="reverseSort">&#9660;</span>
                                     </span>
-                                    </th>
-                                    <th>Action</th>
-                                </tr>
+                                </th>
+                                <th>Action</th>
+                            </tr>
 
-                                <tr class="animate-repeat"
-                                    ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
-                                    ng-class="getClass(patient.associatedpatientactions__addedToQueue)">
-                                    <td>[[patient.associatedpatientactions__patient__name]]</td>
-                                    <td>[[patient.associatedpatientactions__patient__contact]]</td>
-                                    <td>[[patient.associatedpatientactions__appointment__apptType]]</td>
-                                    <td>[[patient.associatedpatientactions__appointment__doctor__name]]</td>
-                                    <td>[[patient.associatedpatientactions__appointment__timeBucket__start]]</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm form-submit-btn"
-                                                ng-click="addToQueue(patient.associatedpatientactions__appointment_id,
+                            <tr class="animate-repeat"
+                                ng-repeat="patient in patientList | orderBy:orderByField:reverseSort | filter:query"
+                                ng-class="getClass(patient.associatedpatientactions__addedToQueue)">
+                                <td>[[patient.associatedpatientactions__patient__name]]</td>
+                                <td>[[patient.associatedpatientactions__patient__contact]]</td>
+                                <td>[[patient.associatedpatientactions__appointment__apptType]]</td>
+                                <td>[[patient.associatedpatientactions__appointment__doctor__name]]</td>
+                                <td>[[patient.associatedpatientactions__appointment__timeBucket__start]]</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm form-submit-btn"
+                                            ng-click="addToQueue(patient.associatedpatientactions__appointment_id,
                                                 patient.associatedpatientactions__appointment__apptType,
                                                 patient.associatedpatientactions__appointment__clinic,
                                                 patient.associatedpatientactions__appointment__doctor__name,
                                                 patient.associatedpatientactions__appointment__timeBucket,
                                                 patient.associatedpatientactions__patient_id,
                                                 'True')"
-                                                ng-disabled="patient.disableButtons">
-                                            <i class="fa fa-check"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm form-cancel-btn"
-                                                ng-click="addToNoShow(patient.associatedpatientactions__appointment_id,
+                                            ng-disabled="patient.disableButtons">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm form-cancel-btn"
+                                            ng-click="addToNoShow(patient.associatedpatientactions__appointment_id,
                                                 patient.associatedpatientactions__appointment__apptType,
                                                 patient.associatedpatientactions__appointment__clinic,
                                                 patient.associatedpatientactions__appointment__doctor__name,
                                                 patient.associatedpatientactions__appointment__timeBucket,
                                                 patient.associatedpatientactions__patient_id,
                                                 'False')"
-                                                ng-disabled="patient.disableButtons">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                                            ng-disabled="patient.disableButtons">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <!-- <div class="row subcontent-row">
-                        <div class="col-md-12">
-                            <pagination total-items="totalItems" ng-model="currentPage"
-                                        ng-change="pageChanged()"></pagination>
-                        </div>
-                    </div> -->
-                </tab>
-                <tab heading="No Show List" ng-click="showNoshow(); getNoShow()">
-                    <div class="row subcontent-row">
-                        <div class="col-md-3">
-                            <form class="form-search form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                       ng-model="queryNoShow"/>
-                            </form>
-                        </div>
+                </div>
+                <!-- <div class="row subcontent-row">
+                    <div class="col-md-12">
+                        <pagination total-items="totalItems" ng-model="currentPage"
+                                    ng-change="pageChanged()"></pagination>
+                    </div>
+                </div> -->
+            </tab>
+            <tab heading="No Show List" ng-click="showNoshow(); getNoShow()">
+                <div class="row subcontent-row">
+                    <div class="col-md-3">
+                        <form class="form-search form-inline">
+                            <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                   ng-model="queryNoShow"/>
+                        </form>
+                    </div>
 
-                    </div>
-                    <div class="row subcontent-row">
-                        <div class="col-md-12">
-                            <table class="table waitlist-main-tbl">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Appt Type</th>
-                                    <th>Doc</th>
-                                    <th>Scheduled Date</th>
-                                    <th>Scheduled Time</th>
-                                    <th>Remarks</th>
-                                    <th>Actions</th>
-                                    <th></th>
-                                </tr>
-                                <tr ng-repeat="noshow in noShowList | filter:queryNoShow" class="animate-repeat">
-                                    <td>[[noshow.patient__name]]</td>
-                                    <td>[[noshow.patient__contact]]</td>
-                                    <td>[[noshow.originalAppt__apptType]]</td>
-                                    <td>[[noshow.originalAppt__doctor__name]]</td>
-                                    <td>[[noshow.originalAppt__timeBucket__date]]</td>
-                                    <td>[[noshow.originalAppt__timeBucket__start]]</td>
-                                    <td>[[noshow.remarks]]
-                                        <a class="pull-right edit-no-show"
-                                           ng-click="openRemarksModal(noshow.id, noshow.remarks)">
-                                            <i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td><a class="reschedule-no-show"
-                                           ng-click="rescheduleAppointment(noshow.originalAppt_id, noshow.patient_id)">Re-schedule</a><span
-                                            class="ver-divider"></span><a
-                                            class="archive-no-show"
-                                            ng-click="openArchiveModal(noshow.id)"> Archive</a></td>
-                                    <td><a class="remove-from-queue"
-                                           ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
-                                        <i class="fa fa-times"></i></a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </tab>
-                <tab heading="Archive" ng-click="showArchive(); getArchive()">
-                    <div class="row subcontent-row">
-                        <div class="col-md-3">
-                            <form class="form-search form-inline">
-                                <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
-                                       ng-model="queryArchive"/>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row subcontent-row">
-                        <div class="col-md-12">
-                            <table class="table waitlist-main-tbl">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Contact</th>
-                                    <th>Appt Type</th>
-                                    <th>Doc</th>
-                                    <th>Scheduled Date</th>
-                                    <th>Scheduled Time</th>
-                                    <th>Remarks</th>
-                                    <th>Reason</th>
-                                </tr>
-                                <tr ng-repeat="archive in archiveList | filter:queryArchive" class="animate-repeat">
-                                    <td>[[archive.patient__name]]</td>
-                                    <td>[[archive.patient__contact]]</td>
-                                    <td>[[archive.apptType]]</td>
-                                    <td>[[archive.doctor__name]]</td>
-                                    <td>[[archive.timeBucket__date]]</td>
-                                    <td>[[archive.timeBucket__start]]</td>
-                                    <td>[[archive.remarks]]
-                                    <td>[[archive.blacklistReason__reason]]</td>
-                                    <!--<a class="pull-right edit-no-show" ng-click=""><i
-                                        class="fa fa-pencil-square-o"></i></a>--></td>
-                                    <!--<td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>-->
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </tab>
-            </tabset>
-        </div>
-        <div class="col-md-4 queuelist-col" ng-show="showQueue">
-            <div class="row subcontent-row">
-                <div class="col-md-12">
-                    <h5 style="text-align: center; color:#49708A;">Patient Queue</h5>
                 </div>
-            </div>
-            <div class="row subcontent-row" ng-init="getPatientQueue()">
-                <div class="col-md-12">
-                    <table class="table queuelist-main-tbl">
-                        <tr>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>Time In</th>
-                            <th></th>
-                        </tr>
-                        <tr ng-repeat="patient in queueList">
-                            <td>[[patient.patient__name]]</td>
-                            <td>[[patient.patient__contact]]</td>
-                            <td>[[patient.last_modified]]</td>
-                            <td><a class="remove-from-queue"
-                                   ng-click="revertFromQueue(patient.originalAppt_id, patient.patient_id)"><i
-                                    class="fa fa-times"></i></a></td>
-                        </tr>
-                    </table>
+                <div class="row subcontent-row">
+                    <div class="col-md-12">
+                        <table class="table waitlist-main-tbl">
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Appt Type</th>
+                                <th>Doc</th>
+                                <th>Scheduled Date</th>
+                                <th>Scheduled Time</th>
+                                <th>Remarks</th>
+                                <th>Actions</th>
+                                <th></th>
+                            </tr>
+                            <tr ng-repeat="noshow in noShowList | filter:queryNoShow" class="animate-repeat">
+                                <td>[[noshow.patient__name]]</td>
+                                <td>[[noshow.patient__contact]]</td>
+                                <td>[[noshow.originalAppt__apptType]]</td>
+                                <td>[[noshow.originalAppt__doctor__name]]</td>
+                                <td>[[noshow.originalAppt__timeBucket__date]]</td>
+                                <td>[[noshow.originalAppt__timeBucket__start]]</td>
+                                <td>[[noshow.remarks]]
+                                    <a class="pull-right edit-no-show"
+                                       ng-click="openRemarksModal(noshow.id, noshow.remarks)">
+                                        <i class="fa fa-pencil-square-o"></i></a></td>
+                                <td><a class="reschedule-no-show"
+                                       ng-click="rescheduleAppointment(noshow.originalAppt_id, noshow.patient_id)">Re-schedule</a><span
+                                        class="ver-divider"></span><a
+                                        class="archive-no-show"
+                                        ng-click="openArchiveModal(noshow.id)"> Archive</a></td>
+                                <td><a class="remove-from-queue"
+                                       ng-click="revertFromQueue(noshow.originalAppt_id, noshow.patient_id)">
+                                    <i class="fa fa-times"></i></a></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!--<div class="col-md-2 monthfilter-col" ng-show="showMonthFilter">
-            <div class="row subcontent-row">
-                <ul>
-                    <li ng-repeat="month in availableMonths">
-                        <a href="#" ng-click="">[[month]]</a>
-                    </li>
-                </ul>
-            </div>
-        </div>-->
+            </tab>
+            <tab heading="Archive" ng-click="showArchive(); getArchive()">
+                <div class="row subcontent-row">
+                    <div class="col-md-3">
+                        <form class="form-search form-inline">
+                            <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search"
+                                   ng-model="queryArchive"/>
+                        </form>
+                    </div>
+                </div>
+                <div class="row subcontent-row">
+                    <div class="col-md-12">
+                        <table class="table waitlist-main-tbl">
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Appt Type</th>
+                                <th>Doc</th>
+                                <th>Scheduled Date</th>
+                                <th>Scheduled Time</th>
+                                <th>Remarks</th>
+                                <th>Reason</th>
+                            </tr>
+                            <tr ng-repeat="archive in archiveList | filter:queryArchive" class="animate-repeat">
+                                <td>[[archive.patient__name]]</td>
+                                <td>[[archive.patient__contact]]</td>
+                                <td>[[archive.apptType]]</td>
+                                <td>[[archive.doctor__name]]</td>
+                                <td>[[archive.timeBucket__date]]</td>
+                                <td>[[archive.timeBucket__start]]</td>
+                                <td>[[archive.remarks]]
+                                <td>[[archive.blacklistReason__reason]]</td>
+                                <!--<a class="pull-right edit-no-show" ng-click=""><i
+                                    class="fa fa-pencil-square-o"></i></a>--></td>
+                                <!--<td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>-->
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
     </div>
+    <div class="col-md-4 queuelist-col" ng-show="showQueue">
+        <div class="row subcontent-row">
+            <div class="col-md-12">
+                <h5 style="text-align: center; color:#49708A;">Patient Queue</h5>
+            </div>
+        </div>
+        <div class="row subcontent-row" ng-init="getPatientQueue()">
+            <div class="col-md-12">
+                <table class="table queuelist-main-tbl">
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Time In</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="patient in queueList">
+                        <td>[[patient.patient__name]]</td>
+                        <td>[[patient.patient__contact]]</td>
+                        <td>[[patient.last_modified]]</td>
+                        <td><a class="remove-from-queue"
+                               ng-click="revertFromQueue(patient.originalAppt_id, patient.patient_id)"><i
+                                class="fa fa-times"></i></a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--<div class="col-md-2 monthfilter-col" ng-show="showMonthFilter">
+        <div class="row subcontent-row">
+            <ul>
+                <li ng-repeat="month in availableMonths">
+                    <a href="#" ng-click="">[[month]]</a>
+                </li>
+            </ul>
+        </div>
+    </div>-->
+</div>
+
+<treasure-overlay-spinner active='spinner.active'>
 </treasure-overlay-spinner>
 
 <script type="text/ng-template" id="myRemarkModalContent.html">

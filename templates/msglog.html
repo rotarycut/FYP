@@ -1,10 +1,9 @@
 <div class="row content-row">
-
-        <div class="col-md-2">
-            <div class="row subcontent-row">
-                <!--<button type="button" class="btn form-submit-btn"
-                        ng-click="openComposeModal('lg')"><i class="fa fa-comments"></i> Send SMS
-                </button>-->
+    <div class="col-md-2">
+        <div class="row subcontent-row">
+            <!--<button type="button" class="btn form-submit-btn"
+                    ng-click="openComposeModal('lg')"><i class="fa fa-comments"></i> Send SMS
+            </button>-->
             <ul class="mailbox-folders">
                 <li class="row mailbox-row">
                     <a href="#/msglog" class="mailbox-folder" ng-click="showReceivedSms()">Received SMS</a>
@@ -16,123 +15,125 @@
                     <a ng-href="#/msglog" class="mailbox-folder" ng-click="showSwappedAppointments()">Swapped</a>
                 </li>
             </ul>
-                </div>
         </div>
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-md-2">
-                    <h4 style="color:#49708A;">Inbox</h4>
-                </div>
-                <!--<div class="col-md-3 col-md-offset-7" style="padding-right: 0;">
-                    <form class="form-search form-inline pull-right">
-                        <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search Folder"
-                               ng-model="searchText"/>
-                    </form>
-                </div>-->
+    </div>
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-2">
+                <h4 style="color:#49708A;">Inbox</h4>
             </div>
-            <!--<div class="row subcontent-row">
-                <div class="col-md-2">
-                    <div class="checkbox">
-                        <input type="checkbox" ng-model="allMails">
-                        <select class="form-control" data-ng-model=""
-                                ng-options="mailcategory in mailcategories">
-                            <option value="" disabled selected>Category</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 pull-right" style="padding-top: 5px;padding-right: 0">
-                    <div class="btn-group pull-right">
-                        <div class="btn btn-sm mailbox-nav-btn"><i class="fa fa-angle-left fa-lg"></i></div>
-                        <div class="btn btn-sm mailbox-nav-btn"><i class="fa fa-angle-right fa-lg"></i></div>
-                    </div>
-                </div>
+            <!--<div class="col-md-3 col-md-offset-7" style="padding-right: 0;">
+                <form class="form-search form-inline pull-right">
+                    <input type="text" style="padding-left: 26px;" class="form-control" placeholder="Search Folder"
+                           ng-model="searchText"/>
+                </form>
             </div>-->
-
-            <div class="row subcontent-row mailbox-msg-content" ng-show="receivedSmsView">
-                <table class="table table-striped waitlist-main-tbl" ng-init="getReceivedSms()">
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>From</th>
-                        <th>Message</th>
-                        <th>Received At</th>
-                        <th></th>
-                    </tr>
-                    <tr ng-repeat="smsReceived in listOfReceivedSms">
-                        <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
-                        </td>
-                        <td><i class="fa fa-star mail-unstarred"
-                               ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
-                               ng-click="star.checked = !star.checked"></i></td>
-                        <td>[[smsReceived.from]]</td>
-                        <td>[[smsReceived.text]]</td>
-                        <td>[[smsReceived.receivedAt]]</td>
-                        <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+        </div>
+        <!--<div class="row subcontent-row">
+            <div class="col-md-2">
+                <div class="checkbox">
+                    <input type="checkbox" ng-model="allMails">
+                    <select class="form-control" data-ng-model=""
+                            ng-options="mailcategory in mailcategories">
+                        <option value="" disabled selected>Category</option>
+                    </select>
+                </div>
             </div>
-
-            <div class="row subcontent-row mailbox-msg-content" ng-show="sentSmsView">
-                <table class="table table-striped waitlist-main-tbl" ng-init="getSentSms()">
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>To</th>
-                        <th>Message</th>
-                        <th>Sent At</th>
-                        <th></th>
-                    </tr>
-                    <tr ng-repeat="smsSent in listOfSentSms">
-                        <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
-                        </td>
-                        <td><i class="fa fa-star mail-unstarred"
-                               ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
-                               ng-click="star.checked = !star.checked"></i></td>
-                        <td>[[smsSent.to]]</td>
-                        <td>[[smsSent.text]]</td>
-                        <td>[[smsSent.sentAt]]</td>
-                        <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-3 pull-right" style="padding-top: 5px;padding-right: 0">
+                <div class="btn-group pull-right">
+                    <div class="btn btn-sm mailbox-nav-btn"><i class="fa fa-angle-left fa-lg"></i></div>
+                    <div class="btn btn-sm mailbox-nav-btn"><i class="fa fa-angle-right fa-lg"></i></div>
+                </div>
             </div>
+        </div>-->
 
-            <div class="row subcontent-row mailbox-msg-content" ng-show="swapAppointmentView">
-                <table class="table table-striped waitlist-main-tbl" ng-init="getSwappedAppointments()">
-                    <tbody>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Scheduled Date</th>
-                        <th>Scheduled Time</th>
-                        <th>Preferred Date</th>
-                        <th>Preferred Time</th>
-                        <th></th>
-                    </tr>
-                    <tr ng-repeat="swappableAppt in listOfSwappableAppointments">
-                        <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
-                        </td>
-                        <td><i class="fa fa-star mail-unstarred"
-                               ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
-                               ng-click="star.checked = !star.checked"></i></td>
-                        <td>[[swappableAppt.patient__name]]</td>
-                        <td>[[swappableAppt.scheduledAppt__timeBucket__date]]</td>
-                        <td>[[swappableAppt.scheduledAppt__timeBucket__start]]</td>
-                        <td>[[swappableAppt.tempAppt__timeBucket__date]]</td>
-                        <td>[[swappableAppt.tempAppt__timeBucket__start]]</td>
-                        <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
+        <div class="row subcontent-row mailbox-msg-content" ng-show="receivedSmsView">
+            <table class="table table-striped waitlist-main-tbl" ng-init="getReceivedSms()">
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>From</th>
+                    <th>Message</th>
+                    <th>Received At</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="smsReceived in listOfReceivedSms">
+                    <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
+                    </td>
+                    <td><i class="fa fa-star mail-unstarred"
+                           ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
+                           ng-click="star.checked = !star.checked"></i></td>
+                    <td>[[smsReceived.from]]</td>
+                    <td>[[smsReceived.text]]</td>
+                    <td>[[smsReceived.receivedAt]]</td>
+                    <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
+        <div class="row subcontent-row mailbox-msg-content" ng-show="sentSmsView">
+            <table class="table table-striped waitlist-main-tbl" ng-init="getSentSms()">
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>To</th>
+                    <th>Message</th>
+                    <th>Sent At</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="smsSent in listOfSentSms">
+                    <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
+                    </td>
+                    <td><i class="fa fa-star mail-unstarred"
+                           ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
+                           ng-click="star.checked = !star.checked"></i></td>
+                    <td>[[smsSent.to]]</td>
+                    <td>[[smsSent.text]]</td>
+                    <td>[[smsSent.sentAt]]</td>
+                    <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row subcontent-row mailbox-msg-content" ng-show="swapAppointmentView">
+            <table class="table table-striped waitlist-main-tbl" ng-init="getSwappedAppointments()">
+                <tbody>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Scheduled Date</th>
+                    <th>Scheduled Time</th>
+                    <th>Preferred Date</th>
+                    <th>Preferred Time</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="swappableAppt in listOfSwappableAppointments">
+                    <td style="padding-top: 1px;"><input type="checkbox" ng-model="amail" class="mailbox-checkbox">
+                    </td>
+                    <td><i class="fa fa-star mail-unstarred"
+                           ng-class="star.checked? ' fa fa-star mail-starred' : 'fa fa-star mail-unstarred'"
+                           ng-click="star.checked = !star.checked"></i></td>
+                    <td>[[swappableAppt.patient__name]]</td>
+                    <td>[[swappableAppt.scheduledAppt__timeBucket__date]]</td>
+                    <td>[[swappableAppt.scheduledAppt__timeBucket__start]]</td>
+                    <td>[[swappableAppt.tempAppt__timeBucket__date]]</td>
+                    <td>[[swappableAppt.tempAppt__timeBucket__start]]</td>
+                    <td><a class="remove-from-queue" ng-click=""><i class="fa fa-times"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<treasure-overlay-spinner active='spinner.active'>
+</treasure-overlay-spinner>
+
 
 <script type="text/ng-template" id="myComposeModalContent.html">
     <div class="modal-header">
