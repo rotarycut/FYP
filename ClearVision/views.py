@@ -2151,6 +2151,10 @@ def recievemsg(request):
     except ObjectDoesNotExist:
         return HttpResponse('Invalid Parameters')
 
+    if (datetime.now() - swap.sentSMSTime) > timedelta(hours=3):
+        WronglyRepliedSMS.objects.create(text='Swap Offer Expired - ' + str(swap.sentSMSTime), origin=payload['Sender'])
+        return HttpResponse('Expired Offer')
+
     p = swap.patient
     scheduledApptId = swap.scheduledAppt_id
     tempApptId = swap.tempAppt_id
