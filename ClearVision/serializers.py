@@ -177,3 +177,9 @@ class SMSApptReminderSerializer(serializers.ModelSerializer):
     class Meta:
         model = DaysAheadReminderSMS
         depth = 1
+
+class WronglyRepliedSMSSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WronglyRepliedSMS
+        depth = 1

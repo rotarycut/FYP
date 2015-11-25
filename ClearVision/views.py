@@ -4016,3 +4016,7 @@ def MonthSurgeryKPI(request):
     KPI = str(attendedSurgery) + '/' + str(settings.KPI)
 
     return HttpResponse(KPI)
+
+class ViewWronglyRepliedSMS(viewsets.ModelViewSet):
+    queryset = WronglyRepliedSMS.objects.all()
+    serializer_class = WronglyRepliedSMSSerializer

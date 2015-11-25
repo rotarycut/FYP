@@ -67,6 +67,7 @@ router.register(r'_api/ViewCalendarTimeRange', views.ViewCalendarTimeRange)
 router.register(r'_api/ViewSMSApptReminder', views.ViewSMSApptReminder)
 router.register(r'_api/AnalyticsDashboardTestChecker', views.AnalyticsDashboardTestChecker)
 router.register(r'_api/ConversionRatePrediction', views.ConversionRatePrediction)
+router.register(r'_api/ViewWronglyRepliedSMS', views.ViewWronglyRepliedSMS)
 
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
