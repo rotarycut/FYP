@@ -737,14 +737,14 @@
             <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.appointmentType.name]]</li>
             <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.patientContact]]</li>
             <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.patientName]]</li>
-            <li><label class="modal-label">Date </label><label class="colon-label">: </label>[[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
-            <li><label class="modal-label">Time </label><label class="colon-label"> :</label> [[patientDetails.appointmentTime]]</li>
+            <li><label class="modal-label">Date</label><label class="colon-label">:</label> [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
+            <li><label class="modal-label">Time</label><label class="colon-label">:</label> [[patientDetails.appointmentTime]]</li>
             <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Date</label><label class="colon-label">:</label> [[patientDetails.waitingDate]]</li>
-            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Time</label><label class="colon-label">:</label>[[patientDetails.waitingTime]]</li>
-            <li><label class="modal-label">Doctor </label><label class="colon-label">:</label> [[patientDetails.doctorAssigned.name]]</li>
-            <li><label class="modal-label">Marketing Channel </label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
-            <li><label class="modal-label">Remarks </label><label class="colon-label">:</label> [[patientDetails.appointmentRemarks]]</li>
-            <li><label class="modal-label">SMS Opt Out </label><label class="colon-label">:</label> [[patientDetails.smsOptOut]]</li>
+            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Time</label><label class="colon-label">:</label> [[patientDetails.waitingTime]]</li>
+            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[patientDetails.doctorAssigned.name]]</li>
+            <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
+            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[patientDetails.appointmentRemarks]]</li>
+            <li><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label> [[patientDetails.smsOptOut]]</li>
         </ul>
     </div>
 
@@ -797,44 +797,44 @@
         <div class="row">
             <div class="col-sm-6">
                 <ul class="no-style-list">
-                    <p>Original Appointment</p>
+                    <h5 style="color:#E79285">Original Appointment</h5>
                     <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentType]]</li>
-                    <li>Contact No: [[patientDetails.originalPatientContact]]</li>
-                    <li>Patient Name: [[patientDetails.originalPatientName]]</li>
-                    <li>Date: [[patientDetails.originalAppointmentDate | dateFilter:'longDate']]</li>
-                    <li>Time: [[patientDetails.originalAppointmentTime]]</li>
-                    <li>Doctor: [[patientDetails.originalAppointmentDoctor]]</li>
-                    <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                    <li>Remarks: [[patientDetails.originalAppointmentRemarks]]</li>
-                    <li>SMS Opt Out: [[patientDetails.originalSmsOptOut]]</li>
+                    <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.originalPatientContact]]</li>
+                    <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.originalPatientName]]</li>
+                    <li><label class="modal-label">Date</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentDate | dateFilter:'longDate']]</li>
+                    <li><label class="modal-label">Time</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentTime]]</li>
+                    <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentDoctor]]</li>
+                    <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
+                    <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentRemarks]]</li>
+                    <li><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label> [[patientDetails.originalSmsOptOut]]</li>
                 </ul>
             </div>
             <div class="col-sm-6">
-                <ul>
-                    <p>Updated Appointment</p>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }">Appointment Type:
+                <ul class="no-style-list">
+                    <h5 style="color:#E79285">Updated Appointment</h5>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }"><label class="modal-label">Appointment Type</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentType.name]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}">Contact No:
+                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}"><label class="modal-label">Contact No</label><label class="colon-label">:</label>
                         [[patientDetails.patientContact]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}">Patient Name:
+                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}"><label class="modal-label">Patient Name</label><label class="colon-label">:</label>
                         [[patientDetails.patientName]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}">Date:
+                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}"><label class="modal-label">Date</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentDate | dateFilter:'longDate']]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}">Time:
+                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}"><label class="modal-label">Time</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentTime]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}">Doctor:
+                    <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}"><label class="modal-label">Doctor</label><label class="colon-label">:</label>
                         [[patientDetails.doctorAssigned.name]]
                     </li>
-                    <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}">Remarks:
+                    <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}"><label class="modal-label">Remarks</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentRemarks]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.smsOptOutIsChanged}">SMS Opt Out:
+                    <li ng-class="{'fieldIsChanged' : patientDetails.smsOptOutIsChanged}"><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label>
                         [[patientDetails.smsOptOut]]
                     </li>
                 </ul>
