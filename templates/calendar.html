@@ -749,7 +749,7 @@
                 [[patientDetails.appointmentTime]]
             </li>
             <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Date</label><label
-                    class="colon-label">:</label> [[patientDetails.waitingDate]]
+                    class="colon-label">:</label> [[patientDetails.waitingDate | dateFilter:'longDate']]
             </li>
             <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Time</label><label
                     class="colon-label">:</label> [[patientDetails.waitingTime]]
