@@ -98,8 +98,8 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
 
         // just to have some space around items.
         var margins = {
-            "left": 40,
-            "right": 30,
+            "left": 20,
+            "right": 20,
             "top": 30,
             "bottom": 40
         };

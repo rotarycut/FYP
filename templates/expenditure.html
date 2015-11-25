@@ -22,13 +22,11 @@
             <div class="col-md-12">
                 <table class="table table-striped expenditure-main-tbl">
                     <tr>
-                        <th>S/N</th>
                         <th>Marketing Channel</th>
                         <th>Spent</th>
                         <th colspan="2">Actions</th>
                     </tr>
                     <tr ng-repeat="channel in filteredChannels">
-                        <td>[[$index + 1]]</td>
                         <td>[[channel.name]]</td>
                         <td>[[channel.cost]]</td>
                         <td><a class="edit-opt-hr pull-right"

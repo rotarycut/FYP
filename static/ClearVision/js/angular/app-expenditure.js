@@ -47,6 +47,8 @@ appExpenditure.controller('MarketingExpenditureCtrl', function ($scope, $http, $
                     var end = begin + $scope.numPerPage;
 
                     $scope.filteredChannels = $scope.marketingChannels.slice(begin, end);
+
+                    //console.log($scope.filteredChannels);
                 });
 
                 var marketingChannelPopover = [];

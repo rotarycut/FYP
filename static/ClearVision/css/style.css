@@ -862,6 +862,22 @@ li .i-slot-label {
     margin-right: 0.5%;
 }
 
+.scatterchart-content-row {
+    border: solid 1px #49708A;
+    margin-right: 0.5%;
+    padding-top: 2.5%;
+}
+
+.scatter-legend-preEval{
+    font-weight: normal;
+    font-size: small;
+}
+
+.scatter-legend-predict{
+    font-weight: normal;
+    font-size: small;
+}
+
 .graph-function-col {
     padding-top: 6px;
     padding-right: 0;
