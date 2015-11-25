@@ -856,8 +856,8 @@
     </div>
 
     <div class="modal-body">
-        <ul>
-            <li>Appointment chosen is blocked</li>
+        <ul class="no-style-list">
+            <li style="color:#E79285"><i class="fa fa-exclamation-triangle"></i> Appointment chosen is blocked</li>
         </ul>
     </div>
 
@@ -920,7 +920,7 @@
 
 <script type="text/ng-template" id="myBlockedTimeSlotListModal.html">
     <div class="modal-header">
-        <h4 class="modal-title"><i class="fa fa-calendar"></i> List of Blocked Timeslots</h4>
+        <h4 class="modal-title">List of Blocked Timeslots</h4>
     </div>
 
     <div class="modal-body" ng-init="getListOfBlockedAppointments()">
@@ -958,35 +958,35 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-sm-6">
-                <ul>
-                    <p>Original Blocked Time Slots</p>
-                    <li>Doctor: [[blockDetails.originalBlockForm.doctor__name]]</li>
-                    <li>Start Date: [[blockDetails.originalBlockForm.blockDateStart | dateFilter:'longDate']]</li>
-                    <li>Start Time: [[blockDetails.originalBlockForm.blockTimeStart]]</li>
-                    <li>End Date: [[blockDetails.originalBlockForm.blockDateEnd | dateFilter:'longDate']]</li>
-                    <li>End Time: [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
-                    <li>Remarks: [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
+                <ul class="no-style-list">
+                    <h5>Original Blocked Time Slots</h5>
+                    <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.doctor__name]]</li>
+                    <li><label class="modal-label">Start Date</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockDateStart | dateFilter:'longDate']]</li>
+                    <li><label class="modal-label">Start Time</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockTimeStart]]</li>
+                    <li><label class="modal-label">End Date</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockDateEnd | dateFilter:'longDate']]</li>
+                    <li><label class="modal-label">End Time</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
+                    <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
                 </ul>
             </div>
             <div class="col-sm-6">
-                <ul>
-                    <p>Updated Blocked Time Slots</p>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }">Doctor:
+                <ul class="no-style-list">
+                    <h5 style="color:#E79285">Updated Blocked Time Slots</h5>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }"><label class="modal-label">Doctor</label><label class="colon-label">:</label>
                         [[blockDetails.doctorToBlock.name]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}">Start Date:
+                    <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}"><label class="modal-label">Start Date</label><label class="colon-label">:</label>
                         [[blockDetails.blockDateStart | dateFilter:'longDate']]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}">Start Time:
+                    <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}"><label class="modal-label">Start Time</label><label class="colon-label">:</label>
                         [[blockDetails.blockTimeStart]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}">End Date:
+                    <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}"><label class="modal-label">End Date</label><label class="colon-label">:</label>
                         [[blockDetails.blockDateEnd | dateFilter:'longDate']]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}">End Time:
+                    <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}"><label class="modal-label">End Time</label><label class="colon-label">:</label>
                         [[blockDetails.blockTimeEnd]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}">Remarks:
+                    <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}"><label class="modal-label">Remarks</label><label class="colon-label">:</label>
                         [[blockDetails.blockFormRemarks]]
                     </li>
                 </ul>
@@ -1007,13 +1007,13 @@
     </div>
 
     <div class="modal-body">
-        <ul>
-            <li>Doctor: [[blockDetails.doctorToBlock.name]]</li>
-            <li>Start Date: [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
-            <li>Start Time: [[blockDetails.blockTimeStart]]</li>
-            <li>End Date: [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
-            <li>End Time: [[blockDetails.blockTimeEnd]]</li>
-            <li>Remarks: [[blockDetails.blockFormRemarks]]</li>
+        <ul class="no-style-list">
+            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[blockDetails.doctorToBlock.name]]</li>
+            <li><label class="modal-label">Start Date</label><label class="colon-label">:</label> [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
+            <li><label class="modal-label">Start Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeStart]]</li>
+            <li><label class="modal-label">End Date</label><label class="colon-label">:</label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
+            <li><label class="modal-label">End Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeEnd]]</li>
+            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[blockDetails.blockFormRemarks]]</li>
         </ul>
     </div>
 
