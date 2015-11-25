@@ -3811,7 +3811,7 @@ class ViewWaitlistAppt(viewsets.ReadOnlyModelViewSet):
         return Response(waitlistAppt.data)
 
 class ViewCalendarColorSettings(viewsets.ModelViewSet):
-    queryset = CalendarColorSettings.objects.all()
+    queryset = CalendarColorSettings.objects.all().order_by('apptType__id')
     serializer_class = CalendarColorSettingsSerializer
 
 class ViewHeatMapColorSettings(viewsets.ModelViewSet):
