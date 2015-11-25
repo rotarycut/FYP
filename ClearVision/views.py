@@ -1337,7 +1337,6 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                                           date__gte=datetime.today(),
                                                                           date__lte=datetime.today()+timedelta(days=14),
                                                                           start=eachTimeSlot,
-                                                                          start__gte=datetime.now().time(),
                                                                           date__day='Monday')\
                                                                   .annotate(patientcount=Count('appointment__patients'))\
                                                                   .values('patientcount', 'date', 'start')
@@ -1352,6 +1351,8 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                     averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
+                    if datetime.combine(eachObj['date'], eachObj['start']) < datetime.now():
+                        continue
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
                         mondayArray.append(eachObj)
@@ -1370,7 +1371,6 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                                           date__gte=datetime.today(),
                                                                           date__lte=datetime.today()+timedelta(days=14),
                                                                           start=eachTimeSlot,
-                                                                          start__gte=datetime.now().time(),
                                                                           date__day='Tuesday')\
                                                                   .annotate(patientcount=Count('appointment__patients'))\
                                                                   .values('patientcount', 'date', 'start')
@@ -1385,6 +1385,8 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                     averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
+                    if datetime.combine(eachObj['date'], eachObj['start']) < datetime.now():
+                        continue
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
                         tuesdayArray.append(eachObj)
@@ -1402,7 +1404,6 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                                           date__gte=datetime.today(),
                                                                           date__lte=datetime.today()+timedelta(days=14),
                                                                           start=eachTimeSlot,
-                                                                          start__gte=datetime.now().time(),
                                                                           date__day='Wednesday')\
                                                                   .annotate(patientcount=Count('appointment__patients'))\
                                                                   .values('patientcount', 'date', 'start')
@@ -1417,6 +1418,8 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                     averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
+                    if datetime.combine(eachObj['date'], eachObj['start']) < datetime.now():
+                        continue
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
                         wednesdayArray.append(eachObj)
@@ -1435,7 +1438,6 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                                           date__gte=datetime.today(),
                                                                           date__lte=datetime.today()+timedelta(days=14),
                                                                           start=eachTimeSlot,
-                                                                          start__gte=datetime.now().time(),
                                                                           date__day='Thursday')\
                                                                   .annotate(patientcount=Count('appointment__patients'))\
                                                                   .values('patientcount', 'date', 'start')
@@ -1450,6 +1452,8 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                     averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
+                    if datetime.combine(eachObj['date'], eachObj['start']) < datetime.now():
+                        continue
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
                         thursdayArray.append(eachObj)
@@ -1468,7 +1472,6 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                                           date__gte=datetime.today(),
                                                                           date__lte=datetime.today()+timedelta(days=14),
                                                                           start=eachTimeSlot,
-                                                                          start__gte=datetime.now().time(),
                                                                           date__day='Friday')\
                                                                   .annotate(patientcount=Count('appointment__patients'))\
                                                                   .values('patientcount', 'date', 'start')
@@ -1483,6 +1486,8 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                     averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
+                    if datetime.combine(eachObj['date'], eachObj['start']) < datetime.now():
+                        continue
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
                         fridayArray.append(eachObj)
@@ -1501,7 +1506,6 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                                                                           date__gte=datetime.today(),
                                                                           date__lte=datetime.today()+timedelta(days=14),
                                                                           start=eachTimeSlot,
-                                                                          start__gte=datetime.now().time(),
                                                                           date__day='Saturday')\
                                                                   .annotate(patientcount=Count('appointment__patients'))\
                                                                   .values('patientcount', 'date', 'start')
@@ -1516,6 +1520,8 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                     averagePatients = 0
 
                 for eachObj in allExistingApptsAhead:
+                    if datetime.combine(eachObj['date'], eachObj['start']) < datetime.now():
+                        continue
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
                         saturdayArray.append(eachObj)
