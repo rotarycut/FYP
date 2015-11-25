@@ -224,7 +224,7 @@ appDashboard.controller('DashboardCtrl',
         /* function on click of saved filter */
         $scope.runSavedFilter = function (filterId) {
 
-            $http.get('/Clearvision/_api/EditSavedMarketingChannelCustomFilters/' + filterId)
+            $http.get('/Clearvision/_api/EditSavedROICustomFilters/' + filterId)
                 .success(function (data) {
                     var listOfChannels = [];
                     angular.forEach(data.channelType, function (channel) {

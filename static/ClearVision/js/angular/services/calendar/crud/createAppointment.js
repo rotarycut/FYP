@@ -1,6 +1,6 @@
 angular.module('post.appointment', [])
     .service('postAppointmentSvc', function ($http, $log, $filter, $rootScope, disableIScheduleSvc, clearFormSvc,
-                                             showNotificationsSvc) {
+                                             showNotificationsSvc, getSwapApptsSvc) {
 
         var self = this;
         self.scope = {};
@@ -75,6 +75,9 @@ angular.module('post.appointment', [])
 
                     // clear the appointment form
                     clearFormSvc.clearForm();
+
+                    // get number of swappable appointments
+                    getSwapApptsSvc.getNumberOfSwappableAppointments();
 
                     // check the appointment type of the created appointment
                     /*

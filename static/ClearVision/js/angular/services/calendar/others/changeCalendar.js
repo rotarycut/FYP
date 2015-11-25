@@ -1,5 +1,5 @@
 angular.module('change.calendar', [])
-    .service('changeCalendarSvc', function ($timeout) {
+    .service('changeCalendarSvc', function ($timeout, $filter) {
 
         var self = this;
         self.scope = {};
@@ -72,6 +72,7 @@ angular.module('change.calendar', [])
                 // get date of old appointment calendar
                 var oldDoctorCalendar = '#' + self.scope.chosenDoctor.calendar;
                 var date = $(oldDoctorCalendar).fullCalendar('getDate')._d;
+                var oldStartRange = $(oldDoctorCalendar).fullCalendar('getView').intervalStart._d;
 
                 // change chosen doctor
                 var idx = 0;
@@ -97,8 +98,46 @@ angular.module('change.calendar', [])
                     // change chosen doctor
                     self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
 
-                    // tag date of old calendar to newly selected calendar
+                    // find the new calendar doctor tag
                     var newDoctorCalendar = '#' + self.scope.allDoctorsVariables[calendarNumber].calendar;
+
+                    // check when you switch to the new calendar, is it already previously on this date, if it is, manually refresh (do not refresh if calendar has yet to render at least once)
+                    var idx = 0;
+
+                    angular.forEach(self.scope.trackCalendarFirstRender, function (cal) {
+
+                        if (cal.calendarName == self.scope.chosenDoctor.calendar) {
+
+                            if (cal.isRenderedOnce) {
+
+                                // calendar has already rendered once
+                                var newDate = $(newDoctorCalendar).fullCalendar('getDate')._d;
+
+                                // get the range of the new calendar
+                                var calendarStartDate = $(newDoctorCalendar).fullCalendar('getView').intervalStart._d;
+                                var calendarEndDate = $(newDoctorCalendar).fullCalendar('getView').intervalEnd._d;
+
+                                if (date.getTime() == newDate.getTime() && calendarStartDate.getTime() == oldStartRange.getTime()) {
+                                    console.log("MANUALLY TRIGGER");
+
+                                    calendarEndDate = moment(calendarEndDate).subtract(1, 'days')._d;
+
+                                    var filteredStartDate = $filter('date')(calendarStartDate, 'yyyy-MM-dd');
+                                    var filteredEndDate = $filter('date')(calendarEndDate, 'yyyy-MM-dd');
+
+                                    self.scope.trackCalendar(self.scope.currentView, filteredStartDate, filteredEndDate);
+
+                                }
+
+                            } else {
+                                // do nothing
+                            }
+                        }
+
+                        idx++;
+                    });
+
+                    // tag date of old calendar to newly selected calendar
                     $(newDoctorCalendar).fullCalendar('gotoDate', date);
 
                     // tag view of old calendar to newly selected calendar

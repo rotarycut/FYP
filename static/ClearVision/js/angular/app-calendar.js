@@ -247,6 +247,15 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             calendarTag = $('#' + calendarId);
             calendarTag.fullCalendar('render');
             //$('#calendar').fullCalendar('rerenderEvents');
+
+            var idx = 0;
+            angular.forEach($scope.trackCalendarFirstRender, function (cal) {
+                if (cal.calendarName == $scope.chosenDoctor.calendar) {
+                    $scope.trackCalendarFirstRender[idx].isRenderedOnce = true;
+                }
+                idx++;
+            });
+
         }, 0);
     };
 
@@ -391,7 +400,16 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
 
                     });
 
+                    // track if the calendar has been rendered at least once
+                    var renderCalendar = {};
+                    renderCalendar.calendarName = doctor.calendar;
+                    renderCalendar.isRenderedOnce = false;
+                    $scope.trackCalendarFirstRender.push(renderCalendar);
+
                 });
+
+                // set the calendar first render tracker to be true for the first calendar
+                $scope.trackCalendarFirstRender[0].isRenderedOnce = true;
 
                 // set first doctor calendar to be the active calendar
                 doctorsVariables[0].active = true;
@@ -403,6 +421,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             })
     };
 
+    $scope.trackCalendarFirstRender = [];
     $scope.getDoctorsVariables();
 
     /*******************************************************************************
