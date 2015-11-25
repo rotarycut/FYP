@@ -174,7 +174,7 @@
                                 <th>Remarks</th>
                                 <th>Reason</th>
                             </tr>
-                            <tr ng-repeat="archive in archiveList | filter:queryArchive" class="animate-repeat">
+                            <tr ng-repeat="archive in filteredArchived | filter:queryArchive" class="animate-repeat">
                                 <td>[[archive.patient__name]]</td>
                                 <td>[[archive.patient__contact]]</td>
                                 <td>[[archive.apptType]]</td>
@@ -189,6 +189,13 @@
                             </tr>
                         </table>
                     </div>
+                    <div class="col-md-12" style="text-align: center">
+                <pagination
+                        ng-model="currentPage"
+                        total-items="archiveList.length"
+                        boundary-links="false">
+                </pagination>
+            </div>
                 </div>
             </tab>
         </tabset>

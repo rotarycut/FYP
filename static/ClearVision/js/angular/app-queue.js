@@ -5,6 +5,9 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     $scope.CurrentDate = new Date();
     $scope.mainTableWidth = "col-md-8";
+    $scope.currentPage = 1;
+    $scope.numPerPage = 10;
+    $scope.filteredArchived = [];
 
     getNoShowSvc.getScope($scope);
     addToArchiveSvc.getScope($scope);
@@ -39,15 +42,23 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
 
     /* function to get no show */
     $scope.getNoShow = function () {
-        getNoShowSvc.getNoShow();
-    };
+            getNoShowSvc.getNoShow();
+        };
 
-    /* function to get archive */
-    $scope.getArchive = function () {
-        $http.get('/Clearvision/_api/ViewArchive/')
-            .success(function (data) {
-                $scope.archiveList = data;
+        /* function to get archive */
+        $scope.getArchive = function () {
+            $http.get('/Clearvision/_api/ViewArchive/')
+                .success(function (data) {
+                    $scope.archiveList = data;
+
+                    /** function for pagination **/
+                $scope.$watch("currentPage + numPerPage", function () {
+                    var begin = (($scope.currentPage - 1) * $scope.numPerPage);
+                    var end = begin + $scope.numPerPage;
+
+                    $scope.filteredArchived = $scope.archiveList.slice(begin, end);
             });
+        });
     };
 
 
@@ -164,7 +175,7 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     $scope.showArchive = function () {
         $scope.showQueue = false;
         $scope.showMonthFilter = true;
-        $scope.mainTableWidth = "col-md-10";
+        $scope.mainTableWidth = "col-md-12";
     };
 
     $scope.sortByField = function (field) {
