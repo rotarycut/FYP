@@ -1307,12 +1307,12 @@ class AppointmentHeatMap(viewsets.ReadOnlyModelViewSet):
         for eachObj in response_data_orig:
             eachObj['start'] = str(eachObj['date']) + " " + str(eachObj['start'])
             eachObj['end'] = str(eachObj['date']) + " " + str(eachObj['end'])
-            eachObj['tooltip'] = str(eachObj['title']) + " Patient(s)"
+            eachObj['title'] = str(eachObj['title']) + " Patient(s)"
             count = eachObj['title']
             for eachColour in allheatmapcolors:
                 if eachColour.count == count:
                     eachObj['hex'] = eachColour.hex
-            del eachObj['title']
+            #del eachObj['title']
 
             heatMapSlotTime = datetime.strptime(eachObj['start'], '%Y-%m-%d %H:%M:%S')
             if heatMapSlotTime < datetime.now():
