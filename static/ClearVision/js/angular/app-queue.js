@@ -1,6 +1,8 @@
 var appPatientQueue = angular.module('app.patientQueue', []);
 
-appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, eventClickSvc, $timeout, $modal, getNoShowSvc, addToArchiveSvc, getTodayAppointmentSvc, getPatientQueueSvc, $log) {
+appPatientQueue.controller('QueueCtrl',
+    function ($scope, $http, $location, $rootScope, $timeout, $modal, $log, eventClickSvc, getNoShowSvc, addToArchiveSvc,
+              getTodayAppointmentSvc, getPatientQueueSvc) {
 
     $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     $scope.CurrentDate = new Date();
@@ -9,39 +11,39 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     $scope.numPerPage = 10;
     $scope.filteredArchived = [];
 
-    getNoShowSvc.getScope($scope);
-    addToArchiveSvc.getScope($scope);
-    getTodayAppointmentSvc.getScope($scope);
-    getPatientQueueSvc.getScope($scope);
+        getNoShowSvc.getScope($scope);
+        addToArchiveSvc.getScope($scope);
+        getTodayAppointmentSvc.getScope($scope);
+        getPatientQueueSvc.getScope($scope);
 
-    $scope.totalItems = 24;
-    $scope.currentPage = 1;
+        $scope.totalItems = 24;
+        $scope.currentPage = 1;
 
-    $scope.setPage = function (pageNo) {
-        $scope.currentPage = pageNo;
-    };
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
 
-    $scope.orderByField = 'associatedpatientactions__appointment__timeBucket__start';
-    $scope.reverseSort = false;
-
-
-    /*******************************************************************************
-     function to get
-     *******************************************************************************/
+        $scope.orderByField = 'associatedpatientactions__appointment__timeBucket__start';
+        $scope.reverseSort = false;
 
 
-    /* function to get today appointments */
-    $scope.getTodayAppointments = function () {
-        getTodayAppointmentSvc.getTodayAppointments();
-    };
+        /*******************************************************************************
+         function to get
+         *******************************************************************************/
 
-    /* function to get patient queue */
-    $scope.getPatientQueue = function () {
-        getPatientQueueSvc.getPatientQueue();
-    };
 
-    /* function to get no show */
-    $scope.getNoShow = function () {
+        /* function to get today appointments */
+        $scope.getTodayAppointments = function () {
+            getTodayAppointmentSvc.getTodayAppointments();
+        };
+
+        /* function to get patient queue */
+        $scope.getPatientQueue = function () {
+            getPatientQueueSvc.getPatientQueue();
+        };
+
+        /* function to get no show */
+        $scope.getNoShow = function () {
             getNoShowSvc.getNoShow();
         };
 
@@ -62,115 +64,118 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
     };
 
 
-    /*******************************************************************************
-     function to add
-     *******************************************************************************/
+        /*******************************************************************************
+         function to add
+         *******************************************************************************/
 
 
-    /* function to add to queue */
-    $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
+        /* function to add to queue */
+        $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
 
-        $scope.queueSpinner = true;
+            $scope.queueSpinner = true;
 
-        if (doctor === "Dr Ho") {
-            doctor = 2;
-        } else {
-            doctor = 1;
-        }
+            if (doctor === "Dr Ho") {
+                doctor = 2;
+            } else {
+                doctor = 1;
+            }
 
-        $scope.postToQueue = {
-            "apptId": apptId,
-            "apptType": apptType,
-            "clinic": clinic,
-            "doctor": doctor,
-            "timeBucket": timeBucket,
-            "patient": patientId,
-            "attended": hasAttended
+            $scope.postToQueue = {
+                "apptId": apptId,
+                "apptType": apptType,
+                "clinic": clinic,
+                "doctor": doctor,
+                "timeBucket": timeBucket,
+                "patient": patientId,
+                "attended": hasAttended,
+                "socketId": $rootScope.socketId
+            };
+
+            $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToQueue)
+                .success(function (result) {
+
+                    getTodayAppointmentSvc.getTodayAppointments();
+                    getPatientQueueSvc.getPatientQueue();
+                    getNoShowSvc.getNoShow();
+                    $scope.queueSpinner = false;
+                });
         };
 
-        $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToQueue)
-            .success(function (result) {
+        /* function to add to no show */
+        $scope.addToNoShow = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
 
-                getTodayAppointmentSvc.getTodayAppointments();
-                getPatientQueueSvc.getPatientQueue();
-                getNoShowSvc.getNoShow();
-                $scope.queueSpinner = false;
-            });
-    };
+            if (doctor === "Dr Ho") {
+                doctor = 2;
+            } else {
+                doctor = 1;
+            }
 
-    /* function to add to no show */
-    $scope.addToNoShow = function (apptId, apptType, clinic, doctor, timeBucket, patientContact, hasAttended) {
+            $scope.postToNoShow = {
+                "apptId": apptId,
+                "apptType": apptType,
+                "clinic": clinic,
+                "doctor": doctor,
+                "timeBucket": timeBucket,
+                "patient": patientContact,
+                "attended": hasAttended,
+                "socketId": $rootScope.socketId
+            };
 
-        if (doctor === "Dr Ho") {
-            doctor = 2;
-        } else {
-            doctor = 1;
-        }
+            $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToNoShow)
+                .success(function (result) {
 
-        $scope.postToNoShow = {
-            "apptId": apptId,
-            "apptType": apptType,
-            "clinic": clinic,
-            "doctor": doctor,
-            "timeBucket": timeBucket,
-            "patient": patientContact,
-            "attended": hasAttended
+                    getTodayAppointmentSvc.getTodayAppointments();
+                    getPatientQueueSvc.getPatientQueue();
+                    getNoShowSvc.getNoShow();
+                });
+
         };
 
-        $http.post('/Clearvision/_api/ViewTodayPatients/', $scope.postToNoShow)
-            .success(function (result) {
 
-                getTodayAppointmentSvc.getTodayAppointments();
-                getPatientQueueSvc.getPatientQueue();
-                getNoShowSvc.getNoShow();
-            });
-
-    };
+        /*******************************************************************************
+         function to revert
+         *******************************************************************************/
 
 
-    /*******************************************************************************
-     function to revert
-     *******************************************************************************/
+        $scope.revertFromQueue = function (apptId, patientId) {
 
+            $scope.queueSpinner = true;
 
-    $scope.revertFromQueue = function (apptId, patientId) {
-
-        $scope.queueSpinner = true;
-
-        $http.post('/Clearvision/_api/ViewPatientQueue/', {
-            "apptId": apptId,
-            "patient": patientId
-        })
-            .success(function (data) {
-
-                $scope.queueSpinner = false;
-                getTodayAppointmentSvc.getTodayAppointments();
-                getPatientQueueSvc.getPatientQueue();
-                getNoShowSvc.getNoShow();
+            $http.post('/Clearvision/_api/ViewPatientQueue/', {
+                "apptId": apptId,
+                "patient": patientId,
+                "socketId": $rootScope.socketId
             })
-            .error(function (data) {
-                console.log("Error reverting");
-            });
-    };
+                .success(function (data) {
+
+                    $scope.queueSpinner = false;
+                    getTodayAppointmentSvc.getTodayAppointments();
+                    getPatientQueueSvc.getPatientQueue();
+                    getNoShowSvc.getNoShow();
+                })
+                .error(function (data) {
+                    console.log("Error reverting");
+                });
+        };
 
 
-    /*******************************************************************************
-     placeholder
-     *******************************************************************************/
+        /*******************************************************************************
+         placeholder
+         *******************************************************************************/
 
 
-    $scope.showQueue = true;
-    $scope.showApptList = function () {
         $scope.showQueue = true;
-        $scope.showMonthFilter = false;
-        $scope.mainTableWidth = "col-md-8";
-    };
+        $scope.showApptList = function () {
+            $scope.showQueue = true;
+            $scope.showMonthFilter = false;
+            $scope.mainTableWidth = "col-md-8";
+        };
 
-    $scope.showNoshow = function () {
-        $scope.showQueue = false;
-        $scope.showMonthFilter = false;
-        $scope.mainTableWidth = "col-md-12";
-    };
+        $scope.showNoshow = function () {
+            $scope.showQueue = false;
+            $scope.showMonthFilter = false;
+            $scope.mainTableWidth = "col-md-12";
+        };
 
     $scope.showArchive = function () {
         $scope.showQueue = false;
@@ -178,121 +183,148 @@ appPatientQueue.controller('QueueCtrl', function ($scope, $http, $location, even
         $scope.mainTableWidth = "col-md-12";
     };
 
-    $scope.sortByField = function (field) {
-        $scope.orderByField = field;
-        $scope.reverseSort = !$scope.reverseSort;
-    };
+        $scope.sortByField = function (field) {
+            $scope.orderByField = field;
+            $scope.reverseSort = !$scope.reverseSort;
+        };
 
-    $scope.rescheduleAppointment = function (appointmentId, patientId) {
-        $location.path('/');
-        $scope.getNoShowAppointment(appointmentId, patientId);
-    };
+        $scope.rescheduleAppointment = function (appointmentId, patientId) {
+            $location.path('/');
+            $scope.getNoShowAppointment(appointmentId, patientId);
+        };
 
-    //function to call backend api to get appointment details
-    $scope.getNoShowAppointment = function (apptId, patientName) {
-        $http.get('/Clearvision/_api/appointments/' + apptId)
-            .success(function (data) {
-                var apptDetails = data;
+        //function to call backend api to get appointment details
+        $scope.getNoShowAppointment = function (apptId, patientName) {
+            $http.get('/Clearvision/_api/appointments/' + apptId)
+                .success(function (data) {
+                    var apptDetails = data;
 
-                $timeout(function (data) {
-                    eventClickSvc.eventClick(apptDetails, true, patientName);
-                }, 1000);
+                    $timeout(function (data) {
+                        eventClickSvc.eventClick(apptDetails, true, patientName);
+                    }, 1000);
 
-            })
-            .error(function (data) {
-                console.log("error");
-            })
-    };
+                })
+                .error(function (data) {
+                    console.log("error");
+                })
+        };
 
-    $scope.getClass = function (queueStatus) {
-        if (queueStatus == false) {
-            return 'danger';
-        } else if (queueStatus == true) {
-            return 'success';
-        } else {
-            //return nothing;
-            return;
-        }
-    };
-
-
-    /*******************************************************************************
-     modal codes
-     *******************************************************************************/
-
-
-    $scope.animationsEnabled = true;
-
-    $scope.openRemarksModal = function (id, remarks, size) {
-
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myRemarkModalContent.html',
-            controller: 'RemarksModalInstanceCtrl',
-            size: size,
-            resolve: {
-                remarkInfo: function () {
-                    return remarks;
-                },
-                appointmentId: function () {
-                    return id;
-                }
+        $scope.getClass = function (queueStatus) {
+            if (queueStatus == false) {
+                return 'danger';
+            } else if (queueStatus == true) {
+                return 'success';
+            } else {
+                //return nothing;
+                return;
             }
-        });
-    };
+        };
 
-    $scope.openArchiveModal = function (id, remarks, size) {
 
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myArchiveModalContent.html',
-            controller: 'RemarksModalInstanceCtrl',
-            size: size,
-            resolve: {
-                remarkInfo: function () {
-                    return remarks;
-                },
-                appointmentId: function () {
-                    return id;
+        /*******************************************************************************
+         modal codes
+         *******************************************************************************/
+
+
+        $scope.animationsEnabled = true;
+
+        $scope.openRemarksModal = function (id, remarks, size) {
+
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'myRemarkModalContent.html',
+                controller: 'RemarksModalInstanceCtrl',
+                size: size,
+                resolve: {
+                    remarkInfo: function () {
+                        return remarks;
+                    },
+                    appointmentId: function () {
+                        return id;
+                    }
                 }
-            }
+            });
+        };
+
+        $scope.openArchiveModal = function (id, remarks, size) {
+
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'myArchiveModalContent.html',
+                controller: 'RemarksModalInstanceCtrl',
+                size: size,
+                resolve: {
+                    remarkInfo: function () {
+                        return remarks;
+                    },
+                    appointmentId: function () {
+                        return id;
+                    }
+                }
+            });
+        };
+
+
+        /*******************************************************************************
+         pusher
+         *******************************************************************************/
+
+
+        /*Pusher.subscribe('queue', 'addToQueue', function (appointment) {
+
+         $log.debug("Receiving socket request to add to queue");
+         getTodayAppointmentSvc.getTodayAppointments();
+         getPatientQueueSvc.getPatientQueue();
+         getNoShowSvc.getNoShow();
+
+         });
+
+         Pusher.subscribe('queue', 'noShow', function (appointment) {
+
+         $log.debug("Receiving socket request to add to no show");
+         getTodayAppointmentSvc.getTodayAppointments();
+         getPatientQueueSvc.getPatientQueue();
+         getNoShowSvc.getNoShow();
+
+         });
+
+         Pusher.subscribe('queue', 'removeFromQueue', function (appointment) {
+
+         $log.debug("Receiving socket request to revert from queue or no show");
+         getTodayAppointmentSvc.getTodayAppointments();
+         getPatientQueueSvc.getPatientQueue();
+         getNoShowSvc.getNoShow();
+
+         });*/
+
+        var addToQueue = $rootScope.pusher.subscribe('queue');
+        addToQueue.bind('addToQueue', function (appointment) {
+
+            $log.debug("Receiving socket request to add to queue");
+            getTodayAppointmentSvc.getTodayAppointments();
+            getPatientQueueSvc.getPatientQueue();
+            getNoShowSvc.getNoShow();
         });
-    };
 
+        var addToNoShow = $rootScope.pusher.subscribe('queue');
+        addToNoShow.bind('noShow', function (appointment) {
 
-    /*******************************************************************************
-     socket programming
-     *******************************************************************************/
+            $log.debug("Receiving socket request to add to no show");
+            getTodayAppointmentSvc.getTodayAppointments();
+            getPatientQueueSvc.getPatientQueue();
+            getNoShowSvc.getNoShow();
+        });
 
+        var revertFromQueue = $rootScope.pusher.subscribe('queue');
+        revertFromQueue.bind('removeFromQueue', function (appointment) {
 
-    /*Pusher.subscribe('queue', 'addToQueue', function (appointment) {
+            $log.debug("Receiving socket request to revert from queue or no show");
+            getTodayAppointmentSvc.getTodayAppointments();
+            getPatientQueueSvc.getPatientQueue();
+            getNoShowSvc.getNoShow();
+        });
 
-     $log.debug("Receiving socket request to add to queue");
-     getTodayAppointmentSvc.getTodayAppointments();
-     getPatientQueueSvc.getPatientQueue();
-     getNoShowSvc.getNoShow();
-
-     });
-
-     Pusher.subscribe('queue', 'noShow', function (appointment) {
-
-     $log.debug("Receiving socket request to add to no show");
-     getTodayAppointmentSvc.getTodayAppointments();
-     getPatientQueueSvc.getPatientQueue();
-     getNoShowSvc.getNoShow();
-
-     });
-
-     Pusher.subscribe('queue', 'removeFromQueue', function (appointment) {
-
-     $log.debug("Receiving socket request to revert from queue or no show");
-     getTodayAppointmentSvc.getTodayAppointments();
-     getPatientQueueSvc.getPatientQueue();
-     getNoShowSvc.getNoShow();
-
-     });*/
-
-});
+    });
 
 
 /*******************************************************************************
