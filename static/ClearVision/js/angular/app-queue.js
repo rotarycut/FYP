@@ -4,12 +4,12 @@ appPatientQueue.controller('QueueCtrl',
     function ($scope, $http, $location, $rootScope, $timeout, $modal, $log, eventClickSvc, getNoShowSvc, addToArchiveSvc,
               getTodayAppointmentSvc, getPatientQueueSvc) {
 
-    $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    $scope.CurrentDate = new Date();
-    $scope.mainTableWidth = "col-md-8";
-    $scope.currentPage = 1;
-    $scope.numPerPage = 10;
-    $scope.filteredArchived = [];
+        $scope.availableMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $scope.CurrentDate = new Date();
+        $scope.mainTableWidth = "col-md-8";
+        $scope.currentPage = 1;
+        $scope.numPerPage = 10;
+        $scope.filteredArchived = [];
 
         getNoShowSvc.getScope($scope);
         addToArchiveSvc.getScope($scope);
@@ -54,14 +54,14 @@ appPatientQueue.controller('QueueCtrl',
                     $scope.archiveList = data;
 
                     /** function for pagination **/
-                $scope.$watch("currentPage + numPerPage", function () {
-                    var begin = (($scope.currentPage - 1) * $scope.numPerPage);
-                    var end = begin + $scope.numPerPage;
+                    $scope.$watch("currentPage + numPerPage", function () {
+                        var begin = (($scope.currentPage - 1) * $scope.numPerPage);
+                        var end = begin + $scope.numPerPage;
 
-                    $scope.filteredArchived = $scope.archiveList.slice(begin, end);
-            });
-        });
-    };
+                        $scope.filteredArchived = $scope.archiveList.slice(begin, end);
+                    });
+                });
+        };
 
 
         /*******************************************************************************
@@ -72,7 +72,7 @@ appPatientQueue.controller('QueueCtrl',
         /* function to add to queue */
         $scope.addToQueue = function (apptId, apptType, clinic, doctor, timeBucket, patientId, hasAttended) {
 
-            $scope.queueSpinner = true;
+            $rootScope.spinner = {active: true};
 
             if (doctor === "Dr Ho") {
                 doctor = 2;
@@ -97,8 +97,13 @@ appPatientQueue.controller('QueueCtrl',
                     getTodayAppointmentSvc.getTodayAppointments();
                     getPatientQueueSvc.getPatientQueue();
                     getNoShowSvc.getNoShow();
-                    $scope.queueSpinner = false;
+                    $rootScope.spinner = {active: false};
+                })
+                .error(function (data) {
+
+                    $rootScope.spinner = {active: false};
                 });
+
         };
 
         /* function to add to no show */
@@ -127,6 +132,10 @@ appPatientQueue.controller('QueueCtrl',
                     getTodayAppointmentSvc.getTodayAppointments();
                     getPatientQueueSvc.getPatientQueue();
                     getNoShowSvc.getNoShow();
+                })
+                .error(function (data) {
+
+                    $rootScope.spinner = {active: false};
                 });
 
         };
@@ -139,7 +148,7 @@ appPatientQueue.controller('QueueCtrl',
 
         $scope.revertFromQueue = function (apptId, patientId) {
 
-            $scope.queueSpinner = true;
+            $rootScope.spinner = {active: true};
 
             $http.post('/Clearvision/_api/ViewPatientQueue/', {
                 "apptId": apptId,
@@ -148,14 +157,16 @@ appPatientQueue.controller('QueueCtrl',
             })
                 .success(function (data) {
 
-                    $scope.queueSpinner = false;
+                    $rootScope.spinner = {active: false};
                     getTodayAppointmentSvc.getTodayAppointments();
                     getPatientQueueSvc.getPatientQueue();
                     getNoShowSvc.getNoShow();
                 })
                 .error(function (data) {
-                    console.log("Error reverting");
+
+                    $rootScope.spinner = {active: false};
                 });
+
         };
 
 
@@ -177,11 +188,11 @@ appPatientQueue.controller('QueueCtrl',
             $scope.mainTableWidth = "col-md-12";
         };
 
-    $scope.showArchive = function () {
-        $scope.showQueue = false;
-        $scope.showMonthFilter = true;
-        $scope.mainTableWidth = "col-md-12";
-    };
+        $scope.showArchive = function () {
+            $scope.showQueue = false;
+            $scope.showMonthFilter = true;
+            $scope.mainTableWidth = "col-md-12";
+        };
 
         $scope.sortByField = function (field) {
             $scope.orderByField = field;
@@ -373,7 +384,6 @@ appPatientQueue.controller('RemarksModalInstanceCtrl', function ($scope, $modalI
 
 
     $scope.addToArchive = function (attendedAppointmentId) {
-        //console.log(attendedAppointmentId);
         addToArchiveSvc.addToArchive(attendedAppointmentId, $scope.selectedReason.id);
         $scope.cancel();
     };

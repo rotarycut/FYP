@@ -14,8 +14,7 @@ app.service('getNoShowSvc', function ($http) {
         $http.get('/Clearvision/_api/ViewNoShow/')
             .success(function (data) {
                 self._scope.noShowList = data;
-                console.log(self._scope.noShowList);
             });
-    }
+    };
 
 });

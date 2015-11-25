@@ -28,5 +28,5 @@ app.service('getTodayAppointmentSvc', function ($http) {
 
             });
 
-    }
+    };
 });

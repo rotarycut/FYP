@@ -11,11 +11,6 @@ app.service('addToArchiveSvc', function ($http) {
 
     self.addToArchive = function (attendedAppointmentId, reasonId) {
 
-        console.log({
-            "attendedAppointmentId": attendedAppointmentId,
-            "cancellationReasonID": reasonId
-        });
-
         self._scope.postToArchive = {
             "attendedAppointmentId": attendedAppointmentId,
             "cancellationReasonID": reasonId
@@ -27,6 +22,6 @@ app.service('addToArchiveSvc', function ($http) {
                 self._scope.getNoShow();
             });
 
-    }
+    };
 
 });

@@ -25,5 +25,5 @@ app.service('getPatientQueueSvc', function ($http) {
                 self.scope.queueList = data;
             });
 
-    }
+    };
 });
