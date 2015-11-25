@@ -330,6 +330,18 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
     };
 
     /*******************************************************************************
+     function to select suggested time slot
+     *******************************************************************************/
+
+    $scope.selectSuggestedTimeSlot = function (appointmentDate, appointmentTime) {
+
+        $scope.fields.appointmentDate = new Date(appointmentDate);
+        var appointmentTime = appointmentTime.substring(0, appointmentTime.lastIndexOf(":"));
+
+        $scope.getAppointmentTimings(appointmentTime);
+    };
+
+    /*******************************************************************************
      function to get calendar time range
      *******************************************************************************/
 

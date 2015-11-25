@@ -326,7 +326,8 @@
                                 <li class="available-slot-item" ng-repeat="appt in listOfSuggestedAppointments">
                                     <label ng-class="{slotSelected: isTimeSlotSelected}">
                                         <input type="checkbox" ng-model="placeholder"
-                                               ng-click="">[[appt.date]] [[appt.start]]
+                                               ng-click="selectSuggestedTimeSlot(appt.date, appt.start)">[[appt.date]],
+                                        [[appt.start]]
                                     </label>
                                 </li>
                             </ul>
@@ -734,17 +735,39 @@
 
     <div class="modal-body">
         <ul class="no-style-list">
-            <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.appointmentType.name]]</li>
-            <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.patientContact]]</li>
-            <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.patientName]]</li>
-            <li><label class="modal-label">Date</label><label class="colon-label">:</label> [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
-            <li><label class="modal-label">Time</label><label class="colon-label">:</label> [[patientDetails.appointmentTime]]</li>
-            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Date</label><label class="colon-label">:</label> [[patientDetails.waitingDate]]</li>
-            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Time</label><label class="colon-label">:</label> [[patientDetails.waitingTime]]</li>
-            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[patientDetails.doctorAssigned.name]]</li>
-            <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
-            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[patientDetails.appointmentRemarks]]</li>
-            <li><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label> [[patientDetails.smsOptOut]]</li>
+            <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentType.name]]
+            </li>
+            <li><label class="modal-label">Contact No</label><label class="colon-label">:</label>
+                [[patientDetails.patientContact]]
+            </li>
+            <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label>
+                [[patientDetails.patientName]]
+            </li>
+            <li><label class="modal-label">Date</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentDate | dateFilter:'longDate']]
+            </li>
+            <li><label class="modal-label">Time</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentTime]]
+            </li>
+            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Date</label><label
+                    class="colon-label">:</label> [[patientDetails.waitingDate]]
+            </li>
+            <li ng-show="patientDetails.hasWaitList"><label class="modal-label">Waiting List Time</label><label
+                    class="colon-label">:</label> [[patientDetails.waitingTime]]
+            </li>
+            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                [[patientDetails.doctorAssigned.name]]
+            </li>
+            <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label>
+                [[patientDetails.marketingChannel.name]]
+            </li>
+            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentRemarks]]
+            </li>
+            <li><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label>
+                [[patientDetails.smsOptOut]]
+            </li>
         </ul>
     </div>
 
@@ -764,18 +787,34 @@
 
     <div class="modal-body" ng-init="retrieveCancellationReasons()">
         <ul class="no-style-list">
-            <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.appointmentType.name]]</li>
-            <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.patientContact]]</li>
-            <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.patientName]]</li>
-            <li><label class="modal-label">Date</label><label class="colon-label">:</label> [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
-            <li><label class="modal-label">Time</label><label class="colon-label">:</label> [[patientDetails.appointmentTime]]</li>
-            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[patientDetails.doctorAssigned.name]]</li>
-            <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
-            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[patientDetails.appointmentRemarks]]</li>
+            <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentType.name]]
+            </li>
+            <li><label class="modal-label">Contact No</label><label class="colon-label">:</label>
+                [[patientDetails.patientContact]]
+            </li>
+            <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label>
+                [[patientDetails.patientName]]
+            </li>
+            <li><label class="modal-label">Date</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentDate | dateFilter:'longDate']]
+            </li>
+            <li><label class="modal-label">Time</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentTime]]
+            </li>
+            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                [[patientDetails.doctorAssigned.name]]
+            </li>
+            <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label>
+                [[patientDetails.marketingChannel.name]]
+            </li>
+            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                [[patientDetails.appointmentRemarks]]
+            </li>
             <li><label class="modal-label">Reason</label><label class="colon-label">:</label><select
-                                                             data-ng-model="selectedReason" class="form-control modal-input"
-                                                             ng-options="reason.reason for reason in cancellationReasons"
-                                                             ng-change="activateModalButtons()"></select>
+                    data-ng-model="selectedReason" class="form-control modal-input"
+                    ng-options="reason.reason for reason in cancellationReasons"
+                    ng-change="activateModalButtons()"></select>
             </li>
         </ul>
     </div>
@@ -798,43 +837,71 @@
             <div class="col-sm-6">
                 <ul class="no-style-list">
                     <h5 style="color:#E79285">Original Appointment</h5>
-                    <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentType]]</li>
-                    <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.originalPatientContact]]</li>
-                    <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.originalPatientName]]</li>
-                    <li><label class="modal-label">Date</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentDate | dateFilter:'longDate']]</li>
-                    <li><label class="modal-label">Time</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentTime]]</li>
-                    <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentDoctor]]</li>
-                    <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
-                    <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentRemarks]]</li>
-                    <li><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label> [[patientDetails.originalSmsOptOut]]</li>
+                    <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label>
+                        [[patientDetails.originalAppointmentType]]
+                    </li>
+                    <li><label class="modal-label">Contact No</label><label class="colon-label">:</label>
+                        [[patientDetails.originalPatientContact]]
+                    </li>
+                    <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label>
+                        [[patientDetails.originalPatientName]]
+                    </li>
+                    <li><label class="modal-label">Date</label><label class="colon-label">:</label>
+                        [[patientDetails.originalAppointmentDate | dateFilter:'longDate']]
+                    </li>
+                    <li><label class="modal-label">Time</label><label class="colon-label">:</label>
+                        [[patientDetails.originalAppointmentTime]]
+                    </li>
+                    <li><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                        [[patientDetails.originalAppointmentDoctor]]
+                    </li>
+                    <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label>
+                        [[patientDetails.marketingChannel.name]]
+                    </li>
+                    <li><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                        [[patientDetails.originalAppointmentRemarks]]
+                    </li>
+                    <li><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label>
+                        [[patientDetails.originalSmsOptOut]]
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-6">
                 <ul class="no-style-list">
                     <h5 style="color:#E79285">Updated Appointment</h5>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }"><label class="modal-label">Appointment Type</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.typeIsChanged }"><label class="modal-label">Appointment
+                        Type</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentType.name]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}"><label class="modal-label">Contact No</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.contactIsChanged}"><label class="modal-label">Contact
+                        No</label><label class="colon-label">:</label>
                         [[patientDetails.patientContact]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}"><label class="modal-label">Patient Name</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.nameIsChanged}"><label class="modal-label">Patient
+                        Name</label><label class="colon-label">:</label>
                         [[patientDetails.patientName]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}"><label class="modal-label">Date</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.dateIsChanged}"><label
+                            class="modal-label">Date</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentDate | dateFilter:'longDate']]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}"><label class="modal-label">Time</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.timeIsChanged}"><label
+                            class="modal-label">Time</label><label class="colon-label">:</label>
                         [[patientDetails.appointmentTime]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}"><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.doctorIsChanged}"><label
+                            class="modal-label">Doctor</label><label class="colon-label">:</label>
                         [[patientDetails.doctorAssigned.name]]
                     </li>
-                    <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}"><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                    <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label>
+                        [[patientDetails.marketingChannel.name]]
+                    </li>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.remarksIsChanged}"><label class="modal-label">Remarks</label><label
+                            class="colon-label">:</label>
                         [[patientDetails.appointmentRemarks]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : patientDetails.smsOptOutIsChanged}"><label class="modal-label">SMS Opt Out</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : patientDetails.smsOptOutIsChanged}"><label class="modal-label">SMS
+                        Opt Out</label><label class="colon-label">:</label>
                         [[patientDetails.smsOptOut]]
                     </li>
                 </ul>
@@ -882,15 +949,24 @@
 
         <div class="modal-body">
             <ul style="list-style: none">
-                <li><label class="modal-label">Start Date</label><label class="colon-label">:</label> [[blockDetails.blockDateStart |
+                <li><label class="modal-label">Start Date</label><label class="colon-label">:</label>
+                    [[blockDetails.blockDateStart |
                     dateFilter:'longDate']]
                 </li>
-                <li><label class="modal-label">Start Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeStart]]</li>
-                <li><label class="modal-label">End Date</label><label class="colon-label">:</label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]
+                <li><label class="modal-label">Start Time</label><label class="colon-label">:</label>
+                    [[blockDetails.blockTimeStart]]
                 </li>
-                <li><label class="modal-label">End Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeEnd]]</li>
-                <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[blockDetails.blockFormRemarks]]</li>
-                <li ng-show="showAffectedAppointmentsWarning"><label class="modal-label">Email Address</label><label class="colon-label">:</label>
+                <li><label class="modal-label">End Date</label><label class="colon-label">:</label>
+                    [[blockDetails.blockDateEnd | dateFilter:'longDate']]
+                </li>
+                <li><label class="modal-label">End Time</label><label class="colon-label">:</label>
+                    [[blockDetails.blockTimeEnd]]
+                </li>
+                <li><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                    [[blockDetails.blockFormRemarks]]
+                </li>
+                <li ng-show="showAffectedAppointmentsWarning"><label class="modal-label">Email Address</label><label
+                        class="colon-label">:</label>
                     <input type="email" class="form-control modal-input" data-ng-model="emailAd" name="emailAddress"
                            ng-required="showAffectedAppointmentsWarning"></li>
             </ul>
@@ -960,33 +1036,51 @@
             <div class="col-sm-6">
                 <ul class="no-style-list">
                     <h5>Original Blocked Time Slots</h5>
-                    <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.doctor__name]]</li>
-                    <li><label class="modal-label">Start Date</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockDateStart | dateFilter:'longDate']]</li>
-                    <li><label class="modal-label">Start Time</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockTimeStart]]</li>
-                    <li><label class="modal-label">End Date</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockDateEnd | dateFilter:'longDate']]</li>
-                    <li><label class="modal-label">End Time</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockTimeEnd]]</li>
-                    <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[blockDetails.originalBlockForm.blockFormRemarks]]</li>
+                    <li><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                        [[blockDetails.originalBlockForm.doctor__name]]
+                    </li>
+                    <li><label class="modal-label">Start Date</label><label class="colon-label">:</label>
+                        [[blockDetails.originalBlockForm.blockDateStart | dateFilter:'longDate']]
+                    </li>
+                    <li><label class="modal-label">Start Time</label><label class="colon-label">:</label>
+                        [[blockDetails.originalBlockForm.blockTimeStart]]
+                    </li>
+                    <li><label class="modal-label">End Date</label><label class="colon-label">:</label>
+                        [[blockDetails.originalBlockForm.blockDateEnd | dateFilter:'longDate']]
+                    </li>
+                    <li><label class="modal-label">End Time</label><label class="colon-label">:</label>
+                        [[blockDetails.originalBlockForm.blockTimeEnd]]
+                    </li>
+                    <li><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                        [[blockDetails.originalBlockForm.blockFormRemarks]]
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-6">
                 <ul class="no-style-list">
                     <h5 style="color:#E79285">Updated Blocked Time Slots</h5>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }"><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.doctorIsChanged }"><label
+                            class="modal-label">Doctor</label><label class="colon-label">:</label>
                         [[blockDetails.doctorToBlock.name]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}"><label class="modal-label">Start Date</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.startDateIsChanged}"><label class="modal-label">Start
+                        Date</label><label class="colon-label">:</label>
                         [[blockDetails.blockDateStart | dateFilter:'longDate']]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}"><label class="modal-label">Start Time</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.startTimeIsChanged}"><label class="modal-label">Start
+                        Time</label><label class="colon-label">:</label>
                         [[blockDetails.blockTimeStart]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}"><label class="modal-label">End Date</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.endDateIsChanged}"><label class="modal-label">End
+                        Date</label><label class="colon-label">:</label>
                         [[blockDetails.blockDateEnd | dateFilter:'longDate']]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}"><label class="modal-label">End Time</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.endTimeIsChanged}"><label class="modal-label">End
+                        Time</label><label class="colon-label">:</label>
                         [[blockDetails.blockTimeEnd]]
                     </li>
-                    <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}"><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                    <li ng-class="{'fieldIsChanged' : blockDetails.remarksIsChanged}"><label
+                            class="modal-label">Remarks</label><label class="colon-label">:</label>
                         [[blockDetails.blockFormRemarks]]
                     </li>
                 </ul>
@@ -1008,12 +1102,24 @@
 
     <div class="modal-body">
         <ul class="no-style-list">
-            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[blockDetails.doctorToBlock.name]]</li>
-            <li><label class="modal-label">Start Date</label><label class="colon-label">:</label> [[blockDetails.blockDateStart | dateFilter:'longDate']]</li>
-            <li><label class="modal-label">Start Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeStart]]</li>
-            <li><label class="modal-label">End Date</label><label class="colon-label">:</label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]</li>
-            <li><label class="modal-label">End Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeEnd]]</li>
-            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[blockDetails.blockFormRemarks]]</li>
+            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label>
+                [[blockDetails.doctorToBlock.name]]
+            </li>
+            <li><label class="modal-label">Start Date</label><label class="colon-label">:</label>
+                [[blockDetails.blockDateStart | dateFilter:'longDate']]
+            </li>
+            <li><label class="modal-label">Start Time</label><label class="colon-label">:</label>
+                [[blockDetails.blockTimeStart]]
+            </li>
+            <li><label class="modal-label">End Date</label><label class="colon-label">:</label>
+                [[blockDetails.blockDateEnd | dateFilter:'longDate']]
+            </li>
+            <li><label class="modal-label">End Time</label><label class="colon-label">:</label>
+                [[blockDetails.blockTimeEnd]]
+            </li>
+            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label>
+                [[blockDetails.blockFormRemarks]]
+            </li>
         </ul>
     </div>
 

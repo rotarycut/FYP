@@ -20,6 +20,8 @@ angular.module('clear.form', [])
             self._scope.listOfAppointmentTimings = [];
             self._scope.disableSearchBox = false;
             self._scope.showWaitingFields('no');
+            self._scope.listOfSuggestedAppointments = [];
+            self._scope.hideSuggestedSlots();
 
             // enable the marketing channel field, needed when marketing channel field is disabled after selecting an existing patient
             self._scope.form.disableFields.marketingChannel = false;
