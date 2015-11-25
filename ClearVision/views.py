@@ -1354,7 +1354,7 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
-                        thursdayArray.append(eachObj)
+                        mondayArray.append(eachObj)
 
         if tuesday != ['']:
             for eachTimeSlot in tuesday:
@@ -1387,7 +1387,7 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
-                        thursdayArray.append(eachObj)
+                        tuesdayArray.append(eachObj)
         if wednesday != ['']:
             for eachTimeSlot in wednesday:
                 allExistingAppts = AvailableTimeSlots.objects.filter(timeslotType=apptType.name, doctors=doctorId,
@@ -1419,7 +1419,7 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
-                        thursdayArray.append(eachObj)
+                        wednesdayArray.append(eachObj)
 
         if thursday != ['']:
             for eachTimeSlot in thursday:
@@ -1485,7 +1485,7 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
-                        thursdayArray.append(eachObj)
+                        fridayArray.append(eachObj)
 
         if saturday != ['']:
             for eachTimeSlot in saturday:
@@ -1518,7 +1518,7 @@ class SuggestedTimeSlots(viewsets.ReadOnlyModelViewSet):
                 for eachObj in allExistingApptsAhead:
                     if averagePatients >= eachObj.get('patientcount'):
                         eachObj['difference'] = averagePatients - eachObj.get('patientcount')
-                        thursdayArray.append(eachObj)
+                        saturdayArray.append(eachObj)
 
         ranked = chain(mondayArray, tuesdayArray, wednesdayArray, thursdayArray, fridayArray, saturdayArray)
 
