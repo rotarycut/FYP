@@ -34,6 +34,16 @@
     font-weight: normal;
 }
 
+.no-style-list{
+    list-style: none;
+}
+
+.modal-input{
+    display: inline;
+    width: 48%;
+    padding-top: 0;
+}
+
 .modal-title {
     border-left: 12px solid #D5E5E9;
     text-indent: 1em;

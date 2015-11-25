@@ -728,12 +728,12 @@
 <div class="clearfix"></div>
 
 <script type="text/ng-template" id="myCreateModalContent.html">
-    <div class="modal-header" style="height: 60px">
+    <div class="modal-header">
         <h3 class="modal-title">Confirm creation of appointment?</h3>
     </div>
 
     <div class="modal-body">
-        <ul style="list-style: none">
+        <ul class="no-style-list">
             <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.appointmentType.name]]</li>
             <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.patientContact]]</li>
             <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.patientName]]</li>
@@ -763,17 +763,17 @@
     </div>
 
     <div class="modal-body" ng-init="retrieveCancellationReasons()">
-        <ul>
-            <li>Appointment Type: [[patientDetails.appointmentType.name]]</li>
-            <li>Contact No: [[patientDetails.patientContact]]</li>
-            <li>Patient Name: [[patientDetails.patientName]]</li>
-            <li>Date: [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
-            <li>Time: [[patientDetails.appointmentTime]]</li>
-            <li>Doctor: [[patientDetails.doctorAssigned.name]]</li>
-            <li>Marketing Channel: [[patientDetails.marketingChannel.name]]</li>
-            <li>Remarks: [[patientDetails.appointmentRemarks]]</li>
-            <li style="display: inline-block">Reason:<select style="display: inline-block"
-                                                             data-ng-model="selectedReason" class="form-control"
+        <ul class="no-style-list">
+            <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.appointmentType.name]]</li>
+            <li><label class="modal-label">Contact No</label><label class="colon-label">:</label> [[patientDetails.patientContact]]</li>
+            <li><label class="modal-label">Patient Name</label><label class="colon-label">:</label> [[patientDetails.patientName]]</li>
+            <li><label class="modal-label">Date</label><label class="colon-label">:</label> [[patientDetails.appointmentDate | dateFilter:'longDate']]</li>
+            <li><label class="modal-label">Time</label><label class="colon-label">:</label> [[patientDetails.appointmentTime]]</li>
+            <li><label class="modal-label">Doctor</label><label class="colon-label">:</label> [[patientDetails.doctorAssigned.name]]</li>
+            <li><label class="modal-label">Marketing Channel</label><label class="colon-label">:</label> [[patientDetails.marketingChannel.name]]</li>
+            <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[patientDetails.appointmentRemarks]]</li>
+            <li><label class="modal-label">Reason</label><label class="colon-label">:</label><select
+                                                             data-ng-model="selectedReason" class="form-control modal-input"
                                                              ng-options="reason.reason for reason in cancellationReasons"
                                                              ng-change="activateModalButtons()"></select>
             </li>
@@ -796,9 +796,9 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-sm-6">
-                <ul>
+                <ul class="no-style-list">
                     <p>Original Appointment</p>
-                    <li>Appointment Type: [[patientDetails.originalAppointmentType]]</li>
+                    <li><label class="modal-label">Appointment Type</label><label class="colon-label">:</label> [[patientDetails.originalAppointmentType]]</li>
                     <li>Contact No: [[patientDetails.originalPatientContact]]</li>
                     <li>Patient Name: [[patientDetails.originalPatientName]]</li>
                     <li>Date: [[patientDetails.originalAppointmentDate | dateFilter:'longDate']]</li>
@@ -871,7 +871,7 @@
 
 <script type="text/ng-template" id="myBlockedConfirmationModalContent.html">
     <form name="blockedConfirmation" novalidate>
-        <div class="modal-header form-group" style="height: 60px;">
+        <div class="modal-header form-group">
             <h3 class="modal-title">Confirm block time slot?</h3><!--<h4 class="modal-title has-error"
                                                                      ng-show="showAffectedAppointmentsWarning"> Warning!
             [[numberOfAffectedAppointments]] appointments affected</h4>-->
@@ -882,18 +882,17 @@
 
         <div class="modal-body">
             <ul style="list-style: none">
-                <li><label class="modal-label">Start Date: </label> [[blockDetails.blockDateStart |
+                <li><label class="modal-label">Start Date</label><label class="colon-label">:</label> [[blockDetails.blockDateStart |
                     dateFilter:'longDate']]
                 </li>
-                <li><label class="modal-label">Start Time: </label> [[blockDetails.blockTimeStart]]</li>
-                <li><label class="modal-label">End Date: </label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]
+                <li><label class="modal-label">Start Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeStart]]</li>
+                <li><label class="modal-label">End Date</label><label class="colon-label">:</label> [[blockDetails.blockDateEnd | dateFilter:'longDate']]
                 </li>
-                <li><label class="modal-label">End Time: </label> [[blockDetails.blockTimeEnd]]</li>
-                <li><label class="modal-label">Remarks: </label> [[blockDetails.blockFormRemarks]]</li>
-                <li ng-show="showAffectedAppointmentsWarning"><label class="modal-label">Email Address:</label>
-                    <input type="email" class="form-control" data-ng-model="emailAd" name="emailAddress"
-                           ng-required="showAffectedAppointmentsWarning"
-                           style="display: inline; width: 80%; padding-top: 0"></li>
+                <li><label class="modal-label">End Time</label><label class="colon-label">:</label> [[blockDetails.blockTimeEnd]]</li>
+                <li><label class="modal-label">Remarks</label><label class="colon-label">:</label> [[blockDetails.blockFormRemarks]]</li>
+                <li ng-show="showAffectedAppointmentsWarning"><label class="modal-label">Email Address</label><label class="colon-label">:</label>
+                    <input type="email" class="form-control modal-input" data-ng-model="emailAd" name="emailAddress"
+                           ng-required="showAffectedAppointmentsWarning"></li>
             </ul>
         </div>
 

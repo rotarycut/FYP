@@ -6001,7 +6001,8 @@ button.close {
   opacity: .5;
 }
 .modal-header {
-  min-height: 16.42857143px;
+  /*min-height: 16.42857143px;*/
+  height: 60px;
   padding: 15px;
   border-bottom: 1.5px dotted #70AFC4;
 }
