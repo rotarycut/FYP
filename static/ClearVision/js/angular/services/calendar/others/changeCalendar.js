@@ -95,6 +95,13 @@ angular.module('change.calendar', [])
 
                 } else {
 
+                    // remove the old doctor calendar appointments
+                    self.scope.removeFromDoctorSource(
+                        self.scope.chosenDoctor.doctorAppointmentSource,
+                        self.scope.chosenDoctor.appointmentTypeSourceArray,
+                        true
+                    );
+
                     // change chosen doctor
                     self.scope.chosenDoctor = self.scope.allDoctorsVariables[calendarNumber];
 
