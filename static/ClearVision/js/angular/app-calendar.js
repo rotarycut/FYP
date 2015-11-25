@@ -800,15 +800,6 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
             });
     };
 
-    /* function to format block date */
-    $scope.formatBlockStartDate = function () {
-        $scope.blockFields.blockDateStart = $scope.getFormattedDate($scope.blockFields.blockDateStart);
-    };
-
-    $scope.formatBlockEndDate = function () {
-        $scope.blockFields.blockDateEnd = $scope.getFormattedDate($scope.blockFields.blockDateEnd);
-    };
-
     /* function for checkbox to block full day */
     $scope.blockDay = function (checkBoxIsTick) {
         if (checkBoxIsTick) {
@@ -1315,6 +1306,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
                     } else {
                         $scope.blockFields.doctorIsChanged = false;
                     }
+
                     if ($scope.blockFields.originalBlockForm.blockDateStart.getTime() !== $scope.blockFields.blockDateStart.getTime()) {
                         $scope.blockFields.startDateIsChanged = true;
                     } else {
@@ -1451,9 +1443,13 @@ appCalendar.controller('BlockAppointmentConfirmationModalCtrl',
 
         /* function to get number of appointments affected by blocking doctor appointment time slot */
         $scope.getAppointmentsAffectedByBlock = function () {
+
+            var startDateShort = $filter('date')(blockInfo.blockDateStart, 'yyyy-MM-dd');
+            var endDateShort = $filter('date')(blockInfo.blockDateEnd, 'yyyy-MM-dd');
+
             $http.get('/Clearvision/_api/CheckApptsForBlockedCalendar/?doctorID=' + blockInfo.doctorToBlock.id +
-                '&startDate=' + blockInfo.blockDateStart + '&startTime=' + blockInfo.blockTimeStart +
-                '&endDate=' + blockInfo.blockDateEnd + '&endTime=' + blockInfo.blockTimeEnd)
+                '&startDate=' + startDateShort + '&startTime=' + blockInfo.blockTimeStart +
+                '&endDate=' + endDateShort + '&endTime=' + blockInfo.blockTimeEnd)
                 .success(function (numberOfAffectedAppointments) {
 
                     if (numberOfAffectedAppointments > 0) {
@@ -1478,11 +1474,14 @@ appCalendar.controller('BlockAppointmentConfirmationModalCtrl',
                 remarks = "";
             }
 
+            var startDateShort = $filter('date')(startDate, 'yyyy-MM-dd');
+            var endDateShort = $filter('date')(endDate, 'yyyy-MM-dd');
+
             var postObj = {
                 "remarks": remarks,
-                "startDate": startDate,
+                "startDate": startDateShort,
                 "startTime": startTime,
-                "endDate": endDate,
+                "endDate": endDateShort,
                 "endTime": endTime,
                 "doctor": doctorId
             };
@@ -1502,12 +1501,15 @@ appCalendar.controller('BlockAppointmentConfirmationModalCtrl',
         /* function to send email of list of affected appointments */
         $scope.sendEmailOfAffectedAppointments = function (doctorId, startDate, startTime, endDate, endTime, emailAddress) {
 
+            var startDateShort = $filter('date')(startDate, 'yyyy-MM-dd');
+            var endDateShort = $filter('date')(endDate, 'yyyy-MM-dd');
+
             var postObj = {
                 "emailAddress": emailAddress,
                 "doctorID": doctorId,
-                "startDate": startDate,
+                "startDate": startDateShort,
                 "startTime": startTime,
-                "endDate": endDate,
+                "endDate": endDateShort,
                 "endTime": endTime
             };
 
