@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="col-md-12 center-block">
-            <table class="table waitlist-main-tbl">
+            <table class="table waitlist-main-tbl" ng-init="getMarketingChannels()">
                 <tr>
                     <th>
                         <a href="#/queue"
@@ -32,7 +32,7 @@
                     <th>Action</th>
                 </tr>
 
-                <tr ng-repeat="channel in filteredChannelsSpent | filter:queryArchive"
+                <tr ng-repeat="channel in listOfChannelsSpent | filter:queryArchive"
                     ng-class="getClass(channel.show)" class="animate-repeat">
                     <td>[[channel.name]]</td>
                     <td>[[channel.cost]]</td>
@@ -52,12 +52,13 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-12" style="text-align: center">
+        <!--<div class="col-md-12" style="text-align: center">
             <pagination
-                    ng-model="currentPage"
+                    ng-model="pagination.currentPage"
                     total-items="listOfChannelsSpent.length"
-                    boundary-links="false">
+                    boundary-links="false"
+                    ng-change="pagination.pageChanged()">
             </pagination>
-        </div>
+        </div>-->
     </div>
 </treasure-overlay-spinner>

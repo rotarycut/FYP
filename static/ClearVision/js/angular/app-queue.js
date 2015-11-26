@@ -16,12 +16,12 @@ appPatientQueue.controller('QueueCtrl',
         getTodayAppointmentSvc.getScope($scope);
         getPatientQueueSvc.getScope($scope);
 
-        $scope.totalItems = 24;
+        /*$scope.totalItems = 24;
         $scope.currentPage = 1;
 
         $scope.setPage = function (pageNo) {
             $scope.currentPage = pageNo;
-        };
+        };*/
 
         $scope.orderByField = 'associatedpatientactions__appointment__timeBucket__start';
         $scope.reverseSort = false;
@@ -53,13 +53,6 @@ appPatientQueue.controller('QueueCtrl',
                 .success(function (data) {
                     $scope.archiveList = data;
 
-                    /** function for pagination **/
-                    $scope.$watch("currentPage + numPerPage", function () {
-                        var begin = (($scope.currentPage - 1) * $scope.numPerPage);
-                        var end = begin + $scope.numPerPage;
-
-                        $scope.filteredArchived = $scope.archiveList.slice(begin, end);
-                    });
                 });
         };
 
