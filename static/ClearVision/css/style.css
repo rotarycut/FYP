@@ -878,24 +878,6 @@ li .i-slot-label {
     font-size: small;
 }
 
-.axis {
-    fill: none;
-    stroke: #AAA;
-    stroke-width: 1px;
-}
-
-text {
-    stroke: none;
-    fill: #666666;
-    font-size: .6em;
-    font-family: "Helvetica Neue"
-}
-
-.dot {
-    opacity: .8;
-    cursor: pointer;
-}
-
 .graph-function-col {
     padding-top: 6px;
     padding-right: 0;
