@@ -191,7 +191,7 @@
 }
 
 #login-container-logo {
-    margin-left: 35%;
+    margin-left: 34%;
     padding-bottom: 2%;
     content: url(../img/ClearVision_logo.png);
     clear: both;
@@ -362,8 +362,7 @@
 }*/
 
 .dashboard-submenu li {
-    padding-left: 3%;
-    padding-right: 3%;
+    margin-right: 3%;
 }
 
 .dashboard-submenu li.active {
@@ -767,7 +766,7 @@ li .i-slot-label {
 
 .suggestslots-ul {
     list-style: none;
-    padding-left: 100px;
+    padding-left: 26%;
 }
 
 .warning-badge {
@@ -786,6 +785,15 @@ li .i-slot-label {
     border-radius: 3px;
     text-decoration: none;
     margin-top: 2px;
+}
+
+.suggested-timeslot-listbox {
+    border: solid 1px #70AFC4;
+    border-radius: 4px;
+    overflow-y: auto;
+    margin: 0 auto;
+    height: 196px;
+    padding-top: 5px;
 }
 
 /*form page css ends*/
@@ -1484,11 +1492,6 @@ li.config-sidemenu-row {
     color: #fff;
     font-weight: 200;
     font-size: medium;
-}
-
-.config-main-col {
-    margin-left: 210px;
-    /*border-top: solid 2px #D0E0EB;*/
 }
 
 .operating-hr-td {

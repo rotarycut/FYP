@@ -1,22 +1,17 @@
 var appChannels = angular.module('app.managechannels', []);
 
 appChannels.controller('ManageChannelsCtrl',
-    function ($scope, $http, $rootScope, getMarketingChannelsStatusSvc, showNotificationsSvc) {
+    function ($scope, $http, $timeout, $rootScope, getMarketingChannelsStatusSvc, showNotificationsSvc) {
 
         //$scope.currentPage = 1;
-
+        //$scope.currentPage = 1;
+        //$scope.numPerPage = 10;
+        $scope.filteredChannelsSpent = [];
 
         $scope.pagination = {
-            currentPage :1,
-            numPerPage : 10,
-            pageChanged: function () {
-                    console.log($scope.pagination.currentPage);
-                    console.log($scope.listOfChannelsSpent);
-                }
+            currentPage : 1,
+            numPerPage : 10
         };
-
-
-
         /*******************************************************************************
          get list of marketing channels spent
          *******************************************************************************/
@@ -31,6 +26,14 @@ appChannels.controller('ManageChannelsCtrl',
                     $scope.listOfChannelsSpent = retrievedChannelsStatus;
                     $rootScope.spinner = {active: false};
 
+                    $scope.$watch("currentPage + numPerPage", function () {
+                var begin = (($scope.pagination.currentPage - 1) * $scope.pagination.numPerPage);
+                var end = begin + $scope.pagination.numPerPage;
+
+                $scope.filteredChannelsSpent = $scope.listOfChannelsSpent.slice(begin, end);
+                console.log($scope.listOfChannelsSpent);
+            });
+
                 }, function (data) {
 
                     $log.error("Failed to retrieve promises for channel status");
@@ -41,6 +44,18 @@ appChannels.controller('ManageChannelsCtrl',
 
         };
 
+        $scope.getMarketingChannels();
+
+        $timeout(function () {
+            $scope.$watch("currentPage + numPerPage", function () {
+                var begin = (($scope.currentPage - 1) * $scope.numPerPage);
+                var end = begin + $scope.numPerPage;
+
+                $scope.filteredChannelsSpent = $scope.listOfChannelsSpent.slice(begin, end);
+                console.log($scope.listOfChannelsSpent);
+            });
+
+        }, 10000);
 
         /*******************************************************************************
          edit status of marketing channel

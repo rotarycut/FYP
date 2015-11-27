@@ -1,7 +1,7 @@
 <treasure-overlay-spinner active='spinner.active'>
     <!-- row for entire app content-->
     <div class="row content-row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <div class="row subcontent-row">
                 <div class="col-md-3">
                     <form class="form-search form-inline">
@@ -11,10 +11,9 @@
                 </div>
             </div>
             <div class="row" ng-init="getWaitListAppointments()">
-                <div class="col-sm-8" style="padding-right: 0">
+                <div class="col-md-8" style="padding-right: 0">
                     <table class="table table-striped waitlist-main-tbl">
                         <tr>
-                            <th>#</th>
                             <th>Name</th>
                             <th>Contact</th>
                             <th>Appt Type</th>
@@ -23,7 +22,6 @@
                             <th>SMS Sent Time</th>
                         </tr>
                         <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList" class="animate-repeat">
-                            <td>[[$index + 1]]</td>
                             <td>[[appt.patient__name]]</td>
                             <td>[[appt.patient__contact]]</td>
                             <td>[[appt.scheduledAppt__apptType]]</td>
@@ -36,7 +34,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-sm-2" style="padding-right: 0;padding-left: 0;">
+                <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
                     <table class="table waitlist-action-tbl">
                         <tr>
                             <th>Action</th>
@@ -63,14 +61,14 @@
                         </tr>-->
                     </table>
                 </div>
-                <div class="col-sm-2" style="padding-right: 0; padding-left: 0;">
+                <div class="col-md-2" style="padding-right: 0; padding-left: 0;">
                     <table class="table table-striped waitlist-swap-tbl">
                         <tr>
                             <th>Preferred Time</th>
                         </tr>
                         <tr ng-repeat="appt in listOfWaitingAppointments | filter:queryWaitList" class="animate-repeat">
-                            <td><i class="fa fa-circle"
-                                   ng-class="appt.swappable ? 'canSwap' : 'cannotSwap'"></i>
+                            <td><!--<i class="fa fa-circle"
+                                   ng-class="appt.swappable ? 'canSwap' : 'cannotSwap'"></i>-->
                                 [[appt.tempAppt__timeBucket__date]],
                                 [[appt.tempAppt__timeBucket__start]]
                                 <a class="remove-from-queue"

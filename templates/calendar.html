@@ -319,13 +319,13 @@
 
                     <div class="form-group col-sm-12 form-animation" ng-show="form.suggestedSlotList"
                          style="margin-bottom: 0">
-                        <div class="create-modal-listbox" style="margin-top: 10px">
+                        <div class="suggested-timeslot-listbox" style="margin-top: 10px">
                             <ul class="suggestslots-ul">
-                                <li class="right-block"><a ng-click="hideSuggestedSlots()" class="pointer-cursor"><i
+                                <li class="right-block" style="padding-right: 5px;"><a ng-click="hideSuggestedSlots()" class="pointer-cursor"><i
                                         class="fa fa-times"></i> close</a></li>
                                 <li class="available-slot-item" ng-repeat="appt in listOfSuggestedAppointments">
                                     <label ng-class="{slotSelected: isTimeSlotSelected}">
-                                        <input type="checkbox" ng-model="placeholder"
+                                        <input type="checkbox" ng-model="isTimeSlotSelected"
                                                ng-click="selectSuggestedTimeSlot(appt.date, appt.start)">[[appt.date]],
                                         [[appt.start]]
                                     </label>
