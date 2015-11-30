@@ -75,25 +75,31 @@ app.service('enableIScheduleSvc', function ($rootScope, suggestedAppointmentsSvc
                 // navigate the calendar to current date only if current view is before current date once heat map is enabled
                 this.shiftIfPastDate();
 
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempLowHeatMap);
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempMedHeatMap);
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempHighHeatMap);
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.blockedHeatMap);
+
                 // remove all the appointments in each of the low, medium and high heat map
                 self.scope.tempLowHeatMap.events.splice(0, self.scope.tempLowHeatMap.events.length);
                 self.scope.tempMedHeatMap.events.splice(0, self.scope.tempMedHeatMap.events.length);
                 self.scope.tempHighHeatMap.events.splice(0, self.scope.tempHighHeatMap.events.length);
                 self.scope.blockedHeatMap.events.splice(0, self.scope.blockedHeatMap.events.length);
 
+
                 // remove all the low, medium, high heat map from the source array
-                self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempLowHeatMap);
-                self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempMedHeatMap);
-                self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempHighHeatMap);
-                self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.blockedHeatMap);
-                self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempLowHeatMap);
-                self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempMedHeatMap);
-                self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempHighHeatMap);
-                self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.blockedHeatMap);
-                self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempLowHeatMap);
-                self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempMedHeatMap);
-                self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
-                self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);
+                /*self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempLowHeatMap);
+                 self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempMedHeatMap);
+                 self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempHighHeatMap);
+                 self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.blockedHeatMap);
+                 self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempLowHeatMap);
+                 self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempMedHeatMap);
+                 self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempHighHeatMap);
+                 self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.blockedHeatMap);
+                 self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempLowHeatMap);
+                 self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempMedHeatMap);
+                 self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
+                 self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);*/
 
                 // check if the appointment type chosen and doctor chosen is valid
                 var apptTypeAndDoctorIsValid = this.checkApptTypeAndDoctorMatch(self.scope.fields.appointmentType.name);

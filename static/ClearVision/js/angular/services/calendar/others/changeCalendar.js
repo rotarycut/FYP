@@ -41,6 +41,11 @@ angular.module('change.calendar', [])
                     true
                 );
 
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempLowHeatMap);
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempMedHeatMap);
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempHighHeatMap);
+                self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.blockedHeatMap);
+
                 // new way
                 var idx = 0;
                 var doctorPositionInArray = 0;
