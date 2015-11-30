@@ -32,7 +32,7 @@
                     <th>Action</th>
                 </tr>
 
-                <tr ng-repeat="channel in filteredChannelsSpent | filter:queryArchive"
+                <tr ng-repeat="channel in listOfChannelsSpent | filter:queryArchive"
                     ng-class="getClass(channel.show)" class="animate-repeat">
                     <td>[[channel.name]]</td>
                     <td>[[channel.cost]]</td>
@@ -52,13 +52,13 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-12" style="text-align: center">
+        <!--<div class="col-md-12" style="text-align: center">
             <pagination
                     ng-model="currentPage"
                     total-items="listOfChannelsSpent.length"
                     boundary-links="false"
                     ng-change="pageChanged()">
             </pagination>
-        </div>
+        </div>-->
     </div>
 </treasure-overlay-spinner>

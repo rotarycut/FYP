@@ -323,9 +323,9 @@
                                 <li class="right-block" style="padding-right: 5px;"><a ng-click="hideSuggestedSlots()" class="pointer-cursor"><i
                                         class="fa fa-times"></i> close</a></li>
                                 <li class="available-slot-item" ng-repeat="appt in listOfSuggestedAppointments">
-                                    <label ng-class="{slotSelected: isTimeSlotSelected}">
-                                        <input type="checkbox" ng-model="isTimeSlotSelected"
-                                               ng-click="selectSuggestedTimeSlot(appt.date,  appt.start)">[[appt.date]],
+                                    <label ng-class="highlightSelected" ng-click="selectSuggestedTimeSlot(appt.date,  appt.start)">
+                                        <!--<input type="checkbox" ng-model="isTimeSlotSelected"
+                                               >-->[[appt.date]],
                                         [[appt.start]]
                                     </label>
                                 </li>

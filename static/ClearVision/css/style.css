@@ -886,6 +886,10 @@ li .i-slot-label {
     border: solid 1px #49708A;
     margin-right: 0.5%;
     padding-top: 2.5%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 .scatter-legend-preEval {

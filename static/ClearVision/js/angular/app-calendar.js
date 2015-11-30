@@ -343,7 +343,7 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
      *******************************************************************************/
 
     $scope.selectSuggestedTimeSlot = function (appointmentDate, appointmentTime) {
-
+        //$scope.highlightSelected = 'slotSelected';
         $scope.fields.appointmentDate = new Date(appointmentDate);
         var appointmentTime = appointmentTime.substring(0, appointmentTime.lastIndexOf(":"));
 
