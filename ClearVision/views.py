@@ -340,12 +340,12 @@ class EditDoctorAppointmentTypes(viewsets.ModelViewSet):
         fridayArray = payload.get('friday')
         saturdayArray = payload.get('saturday')
 
-        monday = ",".join(str(eachTimeSlot) for eachTimeSlot in mondayArray)
-        tuesday = ",".join(str(eachTimeSlot) for eachTimeSlot in tuesdayArray)
-        wednesday = ",".join(str(eachTimeSlot) for eachTimeSlot in wednesdayArray)
-        thursday = ",".join(str(eachTimeSlot) for eachTimeSlot in thursdayArray)
-        friday = ",".join(str(eachTimeSlot) for eachTimeSlot in fridayArray)
-        saturday = ",".join(str(eachTimeSlot) for eachTimeSlot in saturdayArray)
+        monday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in mondayArray)
+        tuesday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in tuesdayArray)
+        wednesday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in wednesdayArray)
+        thursday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in thursdayArray)
+        friday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in fridayArray)
+        saturday = ",".join(str(eachTimeSlot + ":00") for eachTimeSlot in saturdayArray)
 
         DoctorDayTimeSlots.objects.create(doctor=hotshotdoctor, apptType=apptObj,
                                           monday=monday, tuesday=tuesday, wednesday=wednesday, thursday=thursday,
