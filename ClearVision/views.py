@@ -4027,12 +4027,12 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
                 prevItem = eachAttendedPreEval.patient
 
         predict = regression[0] * currentMonthPreEvalCount + regression[1]
-        line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
+        #line = 'y = ' + str(regression[0]) + 'x + ' + str(regression[0])
 
         thisMonth = datetime.now().month
         thisYear = datetime.now().year
         conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": currentMonthPreEvalCount, "sequence": 12})
-        conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": predict, "sequence": 12})
+        conversionData.append({"monthLong": datetime.now().strftime('%b'), "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": int(predict), "sequence": 12})
 
         return Response(conversionData)
 
