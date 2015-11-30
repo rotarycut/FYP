@@ -4037,7 +4037,8 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
         return Response(conversionData)
 
 def MonthSurgeryKPI(request):
-    attendedSurgery = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=3,
+    surgeryAppt = AppointmentType.objects.get(id=3)
+    attendedSurgery = AttendedAppointment.objects.filter(apptType=surgeryAppt.name,
                                                          originalAppt__date__month=datetime.now().month,
                                                          attended=True).count()
     KPI = str(attendedSurgery) + '/' + str(settings.KPI)
