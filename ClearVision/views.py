@@ -3662,7 +3662,13 @@ class CalendarBlocker(viewsets.ModelViewSet):
         remarks = payload.get('remarks')
         doctor = payload.get('doctor')
 
-        BlockDates.objects.create(start=start, end=end, remarks=remarks, doctor=Doctor.objects.get(id=doctor))
+        if BlockDates.objects.filter(start__lte=start, end__gte=end, doctor=doctor).exists() or \
+           BlockDates.objects.filter(start__gte=start, end__gte=end, doctor=doctor).exists() or \
+           BlockDates.objects.filter(start__lte=start, end__lte=end, doctor=doctor).exists():
+
+            return Response("Error. Overlapping blocked dates.")
+        else:
+            BlockDates.objects.create(start=start, end=end, remarks=remarks, doctor=Doctor.objects.get(id=doctor))
 
         return Response('Create Success')
 
