@@ -3953,49 +3953,44 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
                 else:
                     prevItem = eachAttendedSurgery.patient
 
-            if totalAttendedPreEvalCount != 0:
-                trueConversionRate = totalAttendedSurgeryCount/totalAttendedPreEvalCount * 100
-            else:
-                trueConversionRate = 0
-
             if thisMonth == 1:
                 conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Jan", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 2:
                 conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Feb", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 3:
                 conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Mar", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 4:
                 conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Apr", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 5:
                 conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "May", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 6:
                 conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Jun", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 7:
                 conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Jul", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 8:
                 conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Aug", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 9:
                 conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Sep", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 10:
                 conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Oct", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 11:
                 conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Nov", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
             elif thisMonth == 12:
                 conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "preEvaluationCount", "count": totalAttendedPreEvalCount, "sequence": sequence})
-                conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": trueConversionRate, "sequence": sequence})
+                conversionData.append({"monthLong": "Dec", "monthShort": thisMonth, "year": thisYear, "type": "conversionCount", "count": totalAttendedSurgeryCount, "sequence": sequence})
 
-            y.insert(0, trueConversionRate)
+            y.insert(0, totalAttendedSurgeryCount)
 
             if thisMonth == 1:
                 thisMonth = 12
