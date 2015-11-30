@@ -713,7 +713,7 @@ input[type=text].date-input-field:disabled {
 
 .form-content-row {
     overflow-y: auto;
-    max-height: 83vh;
+    max-height: 84vh;
 }
 
 #i-slots-date li {
