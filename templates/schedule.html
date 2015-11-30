@@ -126,9 +126,9 @@
             <div class="col-md-11">
                 <div class="row chart-title-row">
                     <div class="col-md-3">
-                        <h5 style="color: #49708A">Scheduled Appointments</h5>
+                        <h5 class="label-white">Scheduled Appointments</h5>
                     </div>
-                    <div class="col-md-2 col-md-offset-6">
+                    <div class="col-md-2 col-md-offset-7">
                         <select class="form-control" data-ng-model="sortSelected" ng-change="changeSortOption()"
                                 name="optionList">
                             <option value="" selected disabled>---Sort By---</option>
@@ -165,7 +165,7 @@
             <div class="col-md-11">
                 <div class="row chart-title-row">
                     <div class="col-md-2">
-                        <h5 style="color: #49708A">In-depth Analysis</h5>
+                        <h5 class="label-white">In-depth Analysis</h5>
                     </div>
                     <div class="col-md-9" style="padding-top: 2.5px; padding-left: 0.5%;">
                         <button class="btn btn-sm switch-chart-btn clicked"
@@ -207,7 +207,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-md-offset-4" ng-show="showNoAppointmentRemark">
-                                <h4 style="color:#49708A; padding-top: 10%;">There are no appointments!</h4>
+                                <h4 class="label-white">There are no appointments!</h4>
                             </div>
                             <div class="col-md-4 chart-animation" ng-repeat="pie in pieDetails | orderBy:'sequence'">
                                 <div id="[[pie.pieName]]"></div>

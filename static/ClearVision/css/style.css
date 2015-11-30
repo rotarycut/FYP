@@ -77,6 +77,10 @@
     color: #49708A;
 }
 
+.label-white {
+    color: #e0e0e0;
+}
+
 .center-block {
     text-align: center;
 }
@@ -856,8 +860,12 @@ li .i-slot-label {
 }
 
 .chart-title-row {
-    background-color: #e0e0e0;
-    border: solid 1px #49708A;
+    background-color: #49708A;
+    border: solid 1px #e0e0e0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     padding-top: 2px;
     padding-bottom: 2px;
     margin-right: 0.5%
@@ -868,6 +876,10 @@ li .i-slot-label {
     padding-left: 8%;
     padding-top: 2.5%;
     margin-right: 0.5%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 .scatterchart-content-row {
@@ -897,7 +909,7 @@ li .i-slot-label {
     height: 50%;
     overflow-y: auto;
     background: #D0E0EB;
-    border-radius: 8px;
+    border-radius: 6px;
     text-align: center;
 }
 
@@ -967,7 +979,7 @@ li .i-slot-label {
 }
 
 .pie-chart-btn.clicked {
-    background: #E7AB3E;
+    background: #E79285;
     color: #FFF;
     outline: 0;
 }
@@ -980,13 +992,13 @@ li .i-slot-label {
 .pie-chart-btn:hover,
 .pie-chart-btn:focus,
 .pie-chart-btn:active {
-    background: #E7AB3E;
+    background: #E79285;
     color: #FFF;
     outline: 0;
 }
 
 .switch-chart-btn.clicked {
-    background: #E7AB3E;
+    background: #E79285;
     color: #FFF;
     outline: 0;
 }
@@ -999,8 +1011,8 @@ li .i-slot-label {
 .switch-chart-btn:hover,
 .switch-chart-btn:focus,
 .switch-chart-btn:active {
-    background: #E7AB3E;
-    color: #FFF;
+    background: #E79285;
+    color: #fff;
     outline: 0;
 }
 
@@ -1337,7 +1349,11 @@ table.all-blockedslots-tbl > tbody > tr > td {
     border: solid 1px #49708A;
     padding-top: 2px;
     padding-bottom: 2px;
-    margin-right: 0.5%
+    margin-right: 0.5%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 form.form-expenditure-amt {

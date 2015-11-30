@@ -325,7 +325,7 @@
                                 <li class="available-slot-item" ng-repeat="appt in listOfSuggestedAppointments">
                                     <label ng-class="{slotSelected: isTimeSlotSelected}">
                                         <input type="checkbox" ng-model="isTimeSlotSelected"
-                                               ng-click="selectSuggestedTimeSlot(appt.date, appt.start)">[[appt.date]],
+                                               ng-click="selectSuggestedTimeSlot(appt.date,  appt.start)">[[appt.date]],
                                         [[appt.start]]
                                     </label>
                                 </li>
