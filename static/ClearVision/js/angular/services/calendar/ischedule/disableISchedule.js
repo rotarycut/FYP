@@ -22,18 +22,23 @@ app.service('disableIScheduleSvc', function ($timeout) {
             self.scope.showHeatMap = false;
             self.scope.iSchedule = false;
 
-            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.blockedHeatMap);
-            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.blockedHeatMap);
-            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempLowHeatMap);
-            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempMedHeatMap);
-            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
-            self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);
+            self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempLowHeatMap);
+            self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempMedHeatMap);
+            self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.tempHighHeatMap);
+            self.scope.removeEventSource(self.scope.chosenDoctor.doctorAppointmentSource, self.scope.blockedHeatMap);
+
+            /*self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempLowHeatMap);
+             self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempMedHeatMap);
+             self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.tempHighHeatMap);
+             self.scope.removeEventSource(self.scope.DrHoappointments, self.scope.blockedHeatMap);
+             self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempLowHeatMap);
+             self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempMedHeatMap);
+             self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.tempHighHeatMap);
+             self.scope.removeEventSource(self.scope.DrGohappointments, self.scope.blockedHeatMap);
+             self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempLowHeatMap);
+             self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempMedHeatMap);
+             self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.tempHighHeatMap);
+             self.scope.removeEventSource(self.scope.Optometristappointments, self.scope.blockedHeatMap);*/
 
             // change the calendar view to week view
             self.scope.changeView('month', self.scope.chosenDoctor.changeCalendar);
