@@ -45,7 +45,17 @@ angular.module('event.click', [])
                 //var appointmentId = self.scope.convertAppointmentNameToId(appointment.apptType);
                 self.scope.fields.appointmentType = self.scope.listOfAppointmentTypes[apptTypeIndex];
                 self.scope.fields.appointmentDate = new Date(appointment.date);
-                self.scope.fields.doctorAssigned = self.scope.listOfDoctors[appointment.doctor.id - 1];
+
+                // find the doctor assigned to the appointment
+                var index = 0;
+                var doctorIndex = 0;
+                angular.forEach(self.scope.listOfDoctors, function (doctor) {
+                    if (doctor.id == appointment.doctor.id) {
+                        doctorIndex = index;
+                    }
+                    index++;
+                });
+                self.scope.fields.doctorAssigned = self.scope.listOfDoctors[doctorIndex];
 
                 try {
                     var appointmentFullDateTime = appointment._start._i;
