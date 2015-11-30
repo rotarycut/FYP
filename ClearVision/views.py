@@ -3916,12 +3916,15 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
         thisMonth = datetime.now().month - 1
         thisYear = datetime.now().year
 
+        preevalAppt = AppointmentType.objects.get(id=2)
+        surgeryAppt = AppointmentType.objects.get(id=3)
+
         y = []
         conversionData = []
         sequence = 11
 
         for months in range(1, 13):
-            totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+            totalAttendedPreEvalPatients = AttendedAppointment.objects.filter(apptType=preevalAppt.name,
                                                                               originalAppt__date__month=thisMonth,
                                                                               originalAppt__date__year=thisYear,
                                                                               attended=True)
@@ -3942,7 +3945,7 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
                     prevItem = eachAttendedPreEval.patient
 
             totalAttendedSurgery = AttendedAppointment.objects.filter(patient__in=patients,
-                                                                      originalAppt__doctor__apptType=3, attended=True).order_by('patient', 'last_modified')
+                                                                      apptType=surgeryAppt.name, attended=True).order_by('patient', 'last_modified')
             totalAttendedSurgeryCount = totalAttendedSurgery.count()
 
             prevItem = None
@@ -4004,7 +4007,7 @@ class ConversionRatePrediction(viewsets.ReadOnlyModelViewSet):
 
         regression = np.polyfit(x, y, 1)
 
-        currentMonthAttendedPreEvalPatients = AttendedAppointment.objects.filter(originalAppt__doctor__apptType=2,
+        currentMonthAttendedPreEvalPatients = AttendedAppointment.objects.filter(apptType=preevalAppt.name,
                                                                                  originalAppt__date__month=datetime.now().month,
                                                                                  attended=True)
         patients = []
