@@ -104,7 +104,7 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
             "bottom": 40
         };
 
-        var width = 1000;
+        var width = 900;
         var height = 500;
 
         // this will be our colour scale. An Ordinal scale.

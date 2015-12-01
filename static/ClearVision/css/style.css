@@ -915,6 +915,7 @@ li .i-slot-label {
     background: #D0E0EB;
     border-radius: 6px;
     text-align: center;
+    padding: 0;
 }
 
 .roi-marketing-listbox {
@@ -955,8 +956,10 @@ li .i-slot-label {
 
 .dashboard-listing-lbl {
     padding-left: 0;
-    font-weight: 400;
+    font-weight: 300;
     text-decoration: underline;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 .dashboard-listbox {
