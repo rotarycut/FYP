@@ -3612,7 +3612,7 @@ class ViewAllMarketingChannels(viewsets.ReadOnlyModelViewSet):
         return Response(allMarketingChannels)
 
 class EditMarketingChannelsStatus(viewsets.ModelViewSet):
-    queryset = MarketingChannels.objects.all()
+    queryset = MarketingChannels.objects.all().order_by('-datePurchased')
     serializer_class = MarketingChannelSerializer
 
 class CalendarBlocker(viewsets.ModelViewSet):
