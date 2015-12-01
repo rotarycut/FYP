@@ -49,7 +49,7 @@
 
                                 <div class="roi-marketing-listbox">
                                     <ul class="dashboard-listbox">
-                                        <li class="center-block"><a class="pointer-cursor">Select All Channels</a></li>
+                                        <!--<li class="center-block"><a class="pointer-cursor">Select All Channels</a></li>-->
                                         <li ng-class="{channelSelected: channel.channelUnselected}"
                                             class="mrkt-list-item"
                                             ng-repeat="channel in channelObjects" ng-model="channelSelected">
@@ -57,9 +57,9 @@
                                                     type="checkbox" ng-model="channel.channelUnselected"
                                                     ng-change="toggleSelection(channel.name, channel.id)">[[channel.name]]
                                             </label>
-                                            <label class="day-of-week">
+                                            <!--<label class="day-of-week">
                                                 Dec 2015
-                                            </label>
+                                            </label>-->
                                         </li>
                                     </ul>
 
