@@ -13,7 +13,7 @@ appKPI.controller('KPICtrl', function ($scope, $http) {
             bindto: '#kpiChart',
             data: {
                 columns: [
-                    ['Current Conversion Count', $scope.conversionCount]
+                    ['Current Surgery Count', $scope.conversionCount]
                 ],
                 type: 'gauge'
             },

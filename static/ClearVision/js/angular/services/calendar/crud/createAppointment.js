@@ -48,7 +48,7 @@ angular.module('post.appointment', [])
                     "clinicID": 1,
                     "contact": self.scope.fields.patientContact,
                     "name": self.scope.fields.patientName,
-                    "gender": "Male",
+                    "gender": "Female",
                     "channelID": self.scope.fields.marketingChannel.id.toString(),
                     "time": self.scope.fields.appointmentTime,
                     "remarks": self.scope.fields.appointmentRemarks,
