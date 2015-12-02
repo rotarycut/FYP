@@ -356,7 +356,7 @@
 }*/
 
 #topmenu li.selected .dashboard-submenu {
-    left: -503px;
+    left: -535px;
     top: 70%;
 }
 
@@ -1137,7 +1137,7 @@ table.waitlist-swap-tbl > tbody > tr > td {
 }
 
 .queuelist-col {
-    margin-top: 3.2%;
+    margin-top: 38px;
 }
 
 .monthfilter-col {
