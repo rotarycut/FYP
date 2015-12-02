@@ -758,7 +758,7 @@ a.fc-more:hover {
 /* View Structure
 --------------------------------------------------------------------------------------------------*/
 .fc-view-container{
-	height: 68vh;
+	height: 76vh;
 	overflow-y: auto;
 }
 
@@ -853,6 +853,7 @@ a.fc-more:hover {
 .fc-agenda-view .fc-day-grid {
 	position: relative;
 	z-index: 2; /* so the "more.." popover will be over the time grid */
+	height: 76vh;
 }
 
 .fc-agenda-view .fc-day-grid .fc-row {
