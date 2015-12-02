@@ -359,8 +359,10 @@ appCalendar.controller('CalendarCtrl', function ($scope, $compile, uiCalendarCon
         $http.get('/Clearvision/_api/ViewCalendarTimeRange/1/')
             .success(function (calendarTimings) {
 
-                $scope.uiConfig.calendar.minTime = calendarTimings.startTime;
-                $scope.uiConfig.calendar.maxTime = calendarTimings.endTime;
+                //$scope.uiConfig.calendar.minTime = calendarTimings.startTime;
+                //$scope.uiConfig.calendar.maxTime = calendarTimings.endTime;
+                $scope.uiConfig.calendar.minTime = "08:00";
+                $scope.uiConfig.calendar.maxTime = "22:00";
             });
     };
 
