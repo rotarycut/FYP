@@ -453,7 +453,7 @@ appConfig.controller('configCtrl',
                             editAppointmentColor: {
                                 isOpen: false,
                                 templateUrl: 'editApptTypeColorTemplate.html',
-                                open: function (index) {
+                                open: function (index, apptTypeId) {
                                     var idx = 0;
                                     // ensure that all appointment type popovers are closed on select
                                     angular.forEach($scope.listOfApptTypes, function () {
@@ -461,7 +461,7 @@ appConfig.controller('configCtrl',
                                         idx++;
                                     });
                                     // set the current index chosen
-                                    $scope.appointmentIndex = index;
+                                    $scope.appointmentIndex = apptTypeId;
                                     $scope.selectedHex = $scope.listOfApptTypes[index].hex;
                                     $scope.appointmentTypesPopover[index].editAppointmentColor.isOpen = true;
                                 },
@@ -668,6 +668,8 @@ appConfig.controller('configCtrl',
 
         /* function to update appointment type color */
         $scope.updateAppointmentTypeColor = function (isValid, index, hexValue) {
+            
+            console.log(index);
 
             // only sends patch if form is valid
             if (isValid) {

@@ -266,7 +266,7 @@
                                             class="edit-opt-hr"
                                             popover-template="appointmentTypesPopover[$index].editAppointmentColor.templateUrl"
                                             popover-title="Edit Appointment Color"
-                                            data-ng-click="appointmentTypesPopover[$index].editAppointmentColor.open($index)"
+                                            data-ng-click="appointmentTypesPopover[$index].editAppointmentColor.open($index, appt.apptType.id)"
                                             popover-placement="bottom"
                                             popover-is-open="appointmentTypesPopover[$index].editAppointmentColor.isOpen">
                                         <i class="fa fa-pencil-square-o"></i> Change Color</a>
@@ -596,17 +596,20 @@
         <div class="form-group">
 
             <div class="row">
-            <div class="col-md-12">
+                <div class="col-md-12">
             <span class="warning-badge pull-right" style="float: left;">
-                                    <i class="fa fa-exclamation-triangle" style="font-size: 13pt;"></i> Warning! Please clear doctor's appointments first</span></div></div>
-<div class="row subcontent-row">
-            <div class="col-md-12">
-            <label>To get list of appointments, enter your email:</label>
+                                    <i class="fa fa-exclamation-triangle" style="font-size: 13pt;"></i> Warning! Please clear doctor's appointments first</span>
+                </div>
+            </div>
+            <div class="row subcontent-row">
+                <div class="col-md-12">
+                    <label>To get list of appointments, enter your email:</label>
 
-            <div ng-class="{'has-error': (sendEmailForm.email.$invalid && (sendEmailForm.email.$touched || sendEmailForm.$submitted))}">
-                <input type="email" class="form-control" data-ng-model="userEmail" name="email"
-                       autocomplete="off"/><br/>
-</div></div>
+                    <div ng-class="{'has-error': (sendEmailForm.email.$invalid && (sendEmailForm.email.$touched || sendEmailForm.$submitted))}">
+                        <input type="email" class="form-control" data-ng-model="userEmail" name="email"
+                               autocomplete="off"/><br/>
+                    </div>
+                </div>
                 <div ng-show="sendEmailForm.email.$invalid && (sendEmailForm.email.$touched || sendEmailForm.$submitted)"
                      class="help-block">
                     Invalid email
@@ -1007,14 +1010,17 @@
         <div class="form-group">
 
 
-<div class="row">
-    <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
             <span class="warning-badge pull-right" style="float: left;">
-                                    <i class="fa fa-exclamation-triangle" style="font-size: 13pt;"></i> Warning! Please clear doctor's appointments first</span></div></div>
+                                    <i class="fa fa-exclamation-triangle" style="font-size: 13pt;"></i> Warning! Please clear doctor's appointments first</span>
+                </div>
+            </div>
             <div class="row subcontent-row">
-    <div class="col-md-12"><label>To get list of appointments, enter your email:</label>
-            <input type="text" class="form-control" data-ng-model="removeDocApptTypeEmail" name="email"
-                   autocomplete="off"/><br/></div></div>
+                <div class="col-md-12"><label>To get list of appointments, enter your email:</label>
+                    <input type="text" class="form-control" data-ng-model="removeDocApptTypeEmail" name="email"
+                           autocomplete="off"/><br/></div>
+            </div>
 
             <div ng-show="sendDocApptTypeEmailForm.apptTypeEmail.$invalid && (sendDocApptTypeEmailForm.apptTypeEmail.$touched || sendDocApptTypeEmailForm.$submitted)"
                  class="help-block">
